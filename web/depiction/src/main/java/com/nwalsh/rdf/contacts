@@ -1,0 +1,45 @@
+
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/home/ndw/nwalsh.com/rdf/contacts.ont-->
+
+
+<rdf:RDF xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <owl:Ontology rdf:about="http://nwalsh.com/rdf/contacts">
+        <rdfs:comment>Norm's ontology for his address book.</rdfs:comment>
+    </owl:Ontology>
+
+    <owl:Class rdf:about="http://nwalsh.com/rdf/contacts#Contact">
+        <rdfs:subClassOf rdf:parseType="Resource">
+            <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            <owl:onProperty rdf:resource="http://nwalsh.com/rdf/contacts#lastModified"/>
+        </rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#associatedName">
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#associatedTitle">
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#category">
+        <rdfs:domain rdf:resource="http://nwalsh.com/rdf/contacts#Contact"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#label">
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#lastModified">
+        <rdfs:domain rdf:resource="http://nwalsh.com/rdf/contacts#Contact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#middleName">
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://nwalsh.com/rdf/contacts#notes">
+    </owl:DatatypeProperty>
+</rdf:RDF>

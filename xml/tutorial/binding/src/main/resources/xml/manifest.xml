@@ -1,0 +1,9 @@
+<manifest
+	xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/toolkit/application/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
+	<destdir explodeJars="true" overwrite="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
+	<schemas>
+		<schema>${basedir}/src/main/resources/xsd/invoice.xsd</schema>
+	</schemas>
+</manifest>

@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>JpegRDF</title>
+</head>
+<body>
+<p>JpegRDF manipulates RDF metadata associated with JPEG images.
+</p>
+
+<h1>Overview</h1>
+
+<p>JpegRDF is a command-line utility to add, extract, update, and query RDF metadata
+stored in the comment section of JPEG images. See the
+<a href="http://nwalsh.com/java/jpegrdf/jpegrdf.html">reference page</a> for
+more details.</p>
+
+<h2>Credits</h2>
+
+<p>This program was inspired by the
+<em>Rdfpic</em> application.
+I hacked the W3C JPEG library to support decoding JPEG EXIF data.
+I relied on the source code for <em>jhead</em>
+to figure out how EXIF data is encoded.
+I couldn't (well, I wouldn't, anyway) have written it
+without the Jena repository.</p>
+
+<dl>
+<dt><span class="term">jena</span></dt>
+<dd><p>HP Labs, <a href="http://www.hpl.hp.com/semweb/jena" target="_top">Jena Semantic
+WebToolkit</a>.
+</p>
+</dd>
+<dt><span class="term">jhead</span></dt>
+<dd><p>Matthias Wandel,
+<a href="http://www.sentex.net/~mwandel/jhead" target="_top">Jhead</a>.
+</p>
+</dd>
+<dt><span class="term">Rdfpic</span></dt>
+<dd><p>Yves Lafon and Bert Bos,
+<a href="http://jigsaw.w3.org/rdfpic/" target="_top">Rdfpic</a>.
+</p>
+</dd>
+</dl>
+
+<p>Danny Ayers ported it to Jena 2 and refactored the code. Thanks, Danny!</p>
+
+<h2>Quick Start</h2>
+
+<p>You must have the jpegrdf.jar and the Jena 1.6.x API jar files on your CLASSPATH.</p>
+
+<p>Use <code>-h</code> for help:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -h</pre>
+
+<p>Start with a JPEG image, <em>myimage.jpg</em>.
+If it includes EXIF data (e.g., if you created it
+with a digital camera), convert that data into RDF:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -exif myimage.jpg</pre>
+
+<p>View the results:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -s myimage.jpg</pre>
+
+<p>Add your own metadata:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -ns dc http://purl.org/dc/elements/1.1/ -al dc:description "A test image" myimage.jpg</pre>
+
+<p>If you use a namespace often, you can simply the command by adding that namespace
+to your configuration file (<em>~/.jpegrdf.rdf</em>). Then you can simply use the
+prefix you declared:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -al dc:creator "John Doe" myimage.jpg</pre>
+
+<p>Find all the images created by John Doe:</p>
+
+<pre>java com.nwalsh.jpegrdf.JpegRDF -ql dc:creator "John Doe" *.jpg</pre>
+
+</body>
+</html>

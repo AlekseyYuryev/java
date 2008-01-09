@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:this="http://java.sun.com/jsp/jstl/core"
+	targetNamespace="http://java.sun.com/jsp/jstl/core">
+	
+	<xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="xhtml1-tags.xsd"/>
+	
+	<xs:attributeGroup name="var">
+		<xs:attribute name="var" type="xs:string"/>
+	</xs:attributeGroup>
+	
+	<xs:attributeGroup name="scope">
+		<xs:attribute name="scope" type="xs:string"/>
+	</xs:attributeGroup>
+	
+	<xs:element name="catch">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="this:var"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="choose" type="xs:string"/>
+	
+	<xs:element name="if">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="xhtml:Inline">
+					<xs:attribute name="test" type="xs:string" use="required"/>
+					<xs:attributeGroup ref="this:var"/>
+					<xs:attributeGroup ref="this:scope"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="import">
+		<xs:complexType mixed="true">
+			<xs:attribute name="url" type="xs:boolean" use="required"/>
+			<xs:attributeGroup ref="this:var"/>
+			<xs:attributeGroup ref="this:scope"/>
+			<xs:attribute name="context" type="xs:string"/>
+			<xs:attribute name="charEncoding" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

@@ -1,0 +1,31 @@
+
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/share/projects/sourceforge/jpegrdf/src/rdf/jpegrdf.n3-->
+
+
+<rdf:RDF xmlns:cvs="http://nwalsh.com/rdf/cvs#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdf:Description rdf:about="http://nwalsh.com/rdf/jpegrdf#">
+        <cvs:date>$Date: 2004/02/17 12:31:07 $</cvs:date>
+        <dc:description>The JpegRDF Namespace defines the configuration properties used by JpegRDF.</dc:description>
+        <dc:language>English</dc:language>
+        <dc:title>JpegRDF Namespace</dc:title>
+        <dcterms:issued>2003-04-12</dcterms:issued>
+        <dcterms:modified>2003-05-29</dcterms:modified>
+    </rdf:Description>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/jpegrdf#decoder">
+        <rdfs:comment>The name of a Java class to be used by JpegRDF to decode a field</rdfs:comment>
+        <rdfs:label>Decoder</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/jpegrdf#exif">
+        <dcterms:references rdf:resource="http://nwalsh.com/rdf/exif#"/>
+        <rdfs:comment>Points to the EXIF properties to be added to the image RDF</rdfs:comment>
+        <rdfs:label>EXIF</rdfs:label>
+    </rdf:Property>
+</rdf:RDF>

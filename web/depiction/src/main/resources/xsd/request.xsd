@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:this="http://jakarta.apache.org/taglibs/request-1.0"
+	targetNamespace="http://jakarta.apache.org/taglibs/request-1.0">
+	
+	<xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="xhtml1-tags.xsd"/>
+	
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="xhtml:Inline">
+					<xs:attribute name="name" type="xs:ID" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

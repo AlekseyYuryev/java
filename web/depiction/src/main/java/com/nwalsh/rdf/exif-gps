@@ -1,0 +1,216 @@
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/share/projects/sourceforge/jpegrdf/src/rdf/exif-gps.n3-->
+
+
+<rdf:RDF xmlns:cvs="http://nwalsh.com/rdf/cvs#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdf:Description rdf:about="http://nwalsh.com/rdf/exif-gps#">
+        <cvs:date>$Date: 2004/05/27 13:34:21 $</cvs:date>
+        <dc:description>The EXIF GPS Namespace defines the GPS-related EXIF properties extracted from JPEG images by JpegRDF.</dc:description>
+        <dc:language>English</dc:language>
+        <dc:source rdf:resource="http://tsc.jeita.or.jp/avs/data/cp3451.pdf"/>
+        <dc:title>JPEG EXIF GPS Namespace</dc:title>
+        <dcterms:issued>2003-04-12</dcterms:issued>
+        <dcterms:modified>2004-05-27</dcterms:modified>
+    </rdf:Description>
+
+    <rdfs:Class rdf:about="http://nwalsh.com/rdf/exif-gps#Property">
+        <rdfs:label>EXIF GPS Property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Property"/>
+    </rdfs:Class>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#altitude">
+        <tagNumber>0x0006</tagNumber>
+        <rdfs:label>Altitude</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#altitudeRef">
+        <tagNumber>0x0005</tagNumber>
+        <rdfs:label>AltitudeRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#arealInformation">
+        <tagNumber>0x001c</tagNumber>
+        <rdfs:label>ArealInformation</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#dateStamp">
+        <tagNumber>0x001d</tagNumber>
+        <rdfs:label>DateStamp</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destBearing">
+        <tagNumber>0x0018</tagNumber>
+        <rdfs:label>DestBearing</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destBearingRef">
+        <tagNumber>0x0017</tagNumber>
+        <rdfs:label>DestBearingRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destDistance">
+        <tagNumber>0x001a</tagNumber>
+        <rdfs:label>DestDistance</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destDistanceRef">
+        <tagNumber>0x0019</tagNumber>
+        <rdfs:label>DestDistanceRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destLatitude">
+        <tagNumber>0x0014</tagNumber>
+        <rdfs:label>DestLatitude</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destLatitudeRef">
+        <tagNumber>0x0013</tagNumber>
+        <rdfs:label>DestLatitudeRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destLongitude">
+        <tagNumber>0x0016</tagNumber>
+        <rdfs:label>DestLongitude</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#destLongitudeRef">
+        <tagNumber>0x0015</tagNumber>
+        <rdfs:label>DestLongitudeRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#differential">
+        <tagNumber>0x001e</tagNumber>
+        <rdfs:label>Differential</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#dop">
+        <tagNumber>0x000b</tagNumber>
+        <rdfs:label>DOP</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#imgDirection">
+        <tagNumber>0x0011</tagNumber>
+        <rdfs:label>ImgDirection</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#imgDirectionRef">
+        <tagNumber>0x0010</tagNumber>
+        <rdfs:label>ImgDirectionRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#latitude">
+        <tagNumber>0x0002</tagNumber>
+        <rdfs:label>Latitude</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#latitudeRef">
+        <tagNumber>0x0001</tagNumber>
+        <rdfs:label>LatitudeRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#longitude">
+        <tagNumber>0x0004</tagNumber>
+        <rdfs:label>Longitude</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#longitudeRef">
+        <tagNumber>0x0003</tagNumber>
+        <rdfs:label>LongitudeRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#mapDatum">
+        <tagNumber>0x0012</tagNumber>
+        <rdfs:label>MapDatum</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#measureMode">
+        <tagNumber>0x000a</tagNumber>
+        <rdfs:label>MeasureMode</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#processingMethod">
+        <tagNumber>0x001b</tagNumber>
+        <rdfs:label>ProcessingMethod</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#satellites">
+        <tagNumber>0x0008</tagNumber>
+        <rdfs:label>Satellites</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#speed">
+        <tagNumber>0x000d</tagNumber>
+        <rdfs:label>Speed</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#speedRef">
+        <tagNumber>0x000c</tagNumber>
+        <rdfs:label>SpeedRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#status">
+        <tagNumber>0x0009</tagNumber>
+        <rdfs:label>Status</rdfs:label>
+    </Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-gps#tagNumber">
+        <dc:description>Identifies the EXIF GPS Tag Id.</dc:description>
+        <rdfs:label>Index</rdfs:label>
+    </rdf:Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#timeStamp">
+        <tagNumber>0x0007</tagNumber>
+        <rdfs:label>TimeStamp</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#track">
+        <tagNumber>0x000f</tagNumber>
+        <rdfs:label>Track</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#trackRef">
+        <tagNumber>0x000e</tagNumber>
+        <rdfs:label>TrackRef</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-gps#"
+        rdf:about="http://nwalsh.com/rdf/exif-gps#versionId">
+        <tagNumber>0x0000</tagNumber>
+        <rdfs:label>VersionId</rdfs:label>
+    </Property>
+</rdf:RDF>

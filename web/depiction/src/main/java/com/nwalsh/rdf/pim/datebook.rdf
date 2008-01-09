@@ -1,0 +1,79 @@
+
+<!-- Processed by Id: cwm.py,v 1.82 2001/11/15 22:11:23 timbl Exp -->
+<!--     using base bogus:-->
+
+
+<rdf:RDF xmlns="http://nwalsh.com/rdf/pim/datebook#"
+    xmlns:log="http://www.w3.org/2000/10/swap/log#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdfs:Class rdf:about="http://nwalsh.com/rdf/pim/datebook#Appointment">
+    </rdfs:Class>
+
+    <rdfs:Class rdf:about="http://nwalsh.com/rdf/pim/datebook#Datebook">
+    </rdfs:Class>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#alarm">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#archived">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#begin">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#busy">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#categoryLabel">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#cateogory">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#datebk4">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#deleted">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#description">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#end">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#event">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#exceptions">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#fieldLabel">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#note">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#palmId">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#private">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#repeat">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#startofweek">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#update">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#user">
+    </rdfs:Property>
+
+    <rdfs:Property rdf:about="http://nwalsh.com/rdf/pim/datebook#version">
+    </rdfs:Property>
+</rdf:RDF>

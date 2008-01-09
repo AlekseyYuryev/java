@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="http://xml.safris.org/toolkit/sample/binding/simple.xsd"
+	xmlns:simple="http://xml.safris.org/toolkit/sample/binding/simple.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="fruitType">
+		<xs:annotation>
+			<xs:documentation>Declaration of complexType that represents a generic "simple fruit", i.e. "A single ripened ovary from a single flower.".</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:NCName" use="required"/>
+		<xs:attribute name="dry" type="xs:boolean" use="optional"/>
+		<xs:attribute name="sweet" type="xs:boolean" default="false"/>
+		<xs:attribute name="sour" type="xs:boolean" default="false"/>
+	</xs:complexType>
+
+	<xs:element name="fruit" type="simple:fruitType">
+		<xs:annotation>
+			<xs:documentation>An instantiable element representing the simpleFruit.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="fruitBasketType">
+		<xs:annotation>
+			<xs:documentation>Declaration of complexType that represents a type of "basket" that may contain "fruit".</xs:documentation>
+		</xs:annotation>
+		<xs:all minOccurs="0">
+			<xs:element name="fruits">
+				<xs:annotation>
+					<xs:documentation>An example of a ref element.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="simple:fruit" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:element name="fruitBasket" type="simple:fruitBasketType">
+		<xs:annotation>
+			<xs:documentation>An instantiable element that represents a generic basket of basketType.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+</xs:schema>

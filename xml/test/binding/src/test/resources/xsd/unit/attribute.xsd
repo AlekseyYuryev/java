@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://xml.safris.org/schema/binding/test/unit/attribute.xsd"
+	xmlns:attr="http://xml.safris.org/schema/binding/test/unit/attribute.xsd"
+	xmlns:st="http://xml.safris.org/schema/binding/test/unit/simpleType.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import
+		namespace="http://xml.safris.org/schema/binding/test/unit/simpleType.xsd"
+		schemaLocation="simpleType.xsd"/>
+
+	<xs:attribute
+		name="test-attribute-type">
+		<xs:simpleType>
+			<xs:restriction
+				base="st:test-simpleType-qname">
+				<xs:enumeration
+					value="st:value1"/>
+				<xs:enumeration
+					value="st:value3"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+
+	<xs:attribute
+		name="test-attribute-simpleType1"
+		type="st:test-simpleType-nested1"/>
+
+	<xs:attribute
+		name="test-attribute-simpleType2"
+		type="st:test-simpleType-nested2"/>
+
+	<xs:attribute
+		name="test-attribute-simpleType3"
+		type="st:test-simpleType-nested3"/>
+
+	<xs:attribute
+		name="test-attribute-simpleType4"
+		type="st:test-simpleType-nested4"/>
+
+	<xs:attribute
+		name="test-attribute-simpleType5"
+		type="st:test-simpleType-nested5"/>
+
+	<xs:attribute
+		name="test-attribute-default"/>
+
+	<xs:attribute
+		name="test-attribute-qname"
+		type="xs:QName"/>
+
+	<xs:attribute
+		name="test-attribute-nested1">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:simpleType>
+					<xs:restriction
+						base="st:test-simpleType-nested1"/>
+				</xs:simpleType>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+
+	<xs:attribute
+		name="test-attribute-nested2">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:restriction
+								base="st:test-simpleType-nested2"/>
+						</xs:simpleType>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+	<xs:attribute
+		name="test-attribute-nested3">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:restriction>
+								<xs:simpleType>
+									<xs:restriction
+										base="st:test-simpleType-nested3"/>
+								</xs:simpleType>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+	<xs:attribute
+		name="test-attribute-nested4">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:restriction>
+								<xs:simpleType>
+									<xs:restriction>
+										<xs:simpleType>
+											<xs:restriction
+												base="st:test-simpleType-nested4">
+												<xs:enumeration value="st:value3"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+	<xs:attribute
+		name="test-attribute-nested5">
+		<xs:simpleType>
+			<xs:restriction>
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:restriction>
+								<xs:simpleType>
+									<xs:restriction>
+										<xs:simpleType>
+											<xs:restriction
+												base="st:test-simpleType-nested5">
+												<xs:enumeration value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	
+</xs:schema>

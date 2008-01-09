@@ -1,0 +1,47 @@
+# -*- N3 -*-
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix c: <http://nwalsh.com/rdf/contacts#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# What about bio: http://vocab.org/bio/0.1/
+# Or contacts: http://www.w3.org/2000/10/swap/pim/contact
+
+<http://nwalsh.com/rdf/contacts> a owl:Ontology;
+    rdfs:comment "Norm's ontology for his address book." .
+
+# ------------------------------------------------------------
+
+# A contact in an address book
+c:Contact a owl:Class;
+    rdfs:subClassOf
+        [
+             a owl:Restriction;
+             owl:cardinality "1"^^xs:nonNegativeInteger;
+             owl:onProperty c:lastModified ] .
+
+# Timestamp of address book entry
+c:lastModified a owl:DatatypeProperty;
+    rdfs:domain c:Contact;
+    rdfs:range xs:dateTime .
+
+# Category in address book
+c:category a owl:DatatypeProperty;
+    rdfs:domain c:Contact .
+
+# A middle name (other name properties come from FOAF)
+c:middleName a owl:DatatypeProperty .
+
+# Company and title
+c:associatedName a owl:DatatypeProperty .
+c:associatedTitle a owl:DatatypeProperty .
+
+# Labels
+c:label a owl:DatatypeProperty .
+
+# Notes
+c:notes a owl:DatatypeProperty .
+

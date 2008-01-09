@@ -1,0 +1,63 @@
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/share/projects/sourceforge/jpegrdf/src/rdf/exif-intrinsic.n3-->
+
+<rdf:RDF xmlns:cvs="http://nwalsh.com/rdf/cvs#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdf:Description rdf:about="http://nwalsh.com/rdf/exif-intrinsic#">
+        <cvs:date>$Date: 2004/05/27 13:33:50 $</cvs:date>
+        <dc:description>The intrinsic properties namespace defines properties (such as the image dimensions) that are intrinsic to the JPEG image. These properties are extracted from the JPEG image by JpegRDF.</dc:description>
+        <dc:language>English</dc:language>
+        <dc:title>JPEG Intrinsic Properties Namespace</dc:title>
+        <dcterms:issued>2003-04-12</dcterms:issued>
+        <dcterms:modified>2004-05-27</dcterms:modified>
+    </rdf:Description>
+
+    <rdfs:Class rdf:about="http://nwalsh.com/rdf/exif-intrinsic#Property">
+        <rdfs:label>EXIF Intrinsic Property</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#Property"/>
+    </rdfs:Class>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-intrinsic#"
+        rdf:about="http://nwalsh.com/rdf/exif-intrinsic#bitsPerPixel">
+        <tagNumber>4</tagNumber>
+        <dc:description>The number of bits used to store the RGB values of each pixel.</dc:description>
+        <rdfs:label>BitsPerPixel</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-intrinsic#"
+        rdf:about="http://nwalsh.com/rdf/exif-intrinsic#compression">
+        <tagNumber>3</tagNumber>
+        <dc:description>The name of the compression algorithm used to store the image.</dc:description>
+        <rdfs:label>Compression</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-intrinsic#"
+        rdf:about="http://nwalsh.com/rdf/exif-intrinsic#height">
+        <tagNumber>1</tagNumber>
+        <dc:description>The height of the image in pixels.</dc:description>
+        <rdfs:label>Height</rdfs:label>
+    </Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-intrinsic#"
+        rdf:about="http://nwalsh.com/rdf/exif-intrinsic#numberOfColorComponents">
+        <tagNumber>5</tagNumber>
+        <dc:description>The number of color components in the image. A value of three identifies a color image (RGB). A value of one identifies a black and white image.</dc:description>
+        <rdfs:label>NumberOfColorComponents</rdfs:label>
+    </Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-intrinsic#tagNumber">
+        <dc:description>An arbitrary tag number. This property makes the intrinsic properties isomorphic to the EXIF-derived properties. The actual numbers have no meaning.</dc:description>
+        <rdfs:label>TagNumber</rdfs:label>
+    </rdf:Property>
+
+    <Property xmlns="http://nwalsh.com/rdf/exif-intrinsic#"
+        rdf:about="http://nwalsh.com/rdf/exif-intrinsic#width">
+        <tagNumber>2</tagNumber>
+        <dc:description>The width of the image in pixels.</dc:description>
+        <rdfs:label>Width</rdfs:label>
+    </Property>
+</rdf:RDF>

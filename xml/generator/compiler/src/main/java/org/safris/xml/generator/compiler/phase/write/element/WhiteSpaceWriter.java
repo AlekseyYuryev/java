@@ -1,0 +1,45 @@
+package org.safris.xml.generator.compiler.phase.write.element;
+
+import java.io.StringWriter;
+import org.safris.xml.generator.compiler.phase.write.Writer;
+import org.safris.xml.generator.compiler.phase.plan.Plan;
+import org.safris.xml.generator.compiler.phase.plan.element.WhiteSpacePlan;
+
+public class WhiteSpaceWriter extends Writer<WhiteSpacePlan>
+{
+	protected void appendDeclaration(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendGetMethod(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendSetMethod(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendMarshal(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendParse(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	public void appendCopy(StringWriter writer, WhiteSpacePlan plan, Plan parent, String variable)
+	{
+	}
+
+	protected void appendEquals(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendHashCode(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+
+	protected void appendClass(StringWriter writer, WhiteSpacePlan plan, Plan parent)
+	{
+	}
+}

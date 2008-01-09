@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test:elemD
+	xmlns:test="http://www.safris.com/schema/test"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.safris.com/schema/test test.xsd">
+	<test:elemC xsi:type="test:complexD" a_attr1="hi" c_attr1="da" a_attr2="gr" d_attr1="fds" c_attr2="qwd" d_attr2="ge"/>
+</test:elemD>

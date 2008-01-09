@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="http://xml.safris.org/toolkit/sample/binding/enums.xsd"
+	xmlns:enums="http://xml.safris.org/toolkit/sample/binding/enums.xsd"
+	xmlns:simple="http://xml.safris.org/toolkit/sample/binding/simple.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://xml.safris.org/toolkit/sample/binding/simple.xsd" schemaLocation="simple.xsd"/>
+
+	<xs:attribute name="color">
+		<xs:annotation>
+			<xs:documentation>An attribute describing a restricted color.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:token">
+				<xs:enumeration value="red"/>
+				<xs:enumeration value="green"/>
+				<xs:enumeration value="blue"/>
+				<xs:enumeration value="yellow"/>
+				<xs:enumeration value="pink"/>
+				<xs:enumeration value="black"/>
+				<xs:enumeration value="white"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+
+	<xs:complexType name="coloredFruitBasketType">
+		<xs:annotation>
+			<xs:documentation>An instantiable basket that extends a simple:basketType, but is also colored.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="simple:fruitBasketType">
+				<xs:attribute ref="enums:color" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="coloredFruitBasket" type="enums:coloredFruitBasketType">
+		<xs:annotation>
+			<xs:documentation>An instantiable element that represents a colored basket of coloredBasketType.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<!-- REDO THIS PROPERLY -->
+	<xs:element name="testElement">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="HI"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+</xs:schema>

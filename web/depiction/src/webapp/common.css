@@ -1,0 +1,126 @@
+a:link.normal, a:visited.normal
+{
+	color: #000084;
+}
+
+a:active.normal, a:hover.normal
+{
+	color: #420084;
+}
+
+a:link, a:visited
+{
+	color: #666666;
+	font-family: verdana, arial, sans-serif;
+	font-size: 10;
+	text-decoration: underline;
+}
+
+a:active, a:hover
+{
+	color: #999999;
+	font-family: verdana, arial, sans-serif;
+	font-size: 10;
+	text-decoration: underline;
+}
+
+a.page:link, a.page:visited
+{
+	color: #00009C;
+	font-family: verdana, arial, sans-serif;
+	font-size: 12;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.page:active, a.page:hover
+{
+	color: #FF0000;
+	font-family: verdana, arial, sans-serif;
+	font-size: 12;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+p
+{
+	color: #999999;
+	font-family: verdana, arial, sans-serif;
+	font-size: 12;
+	text-align: left;
+}
+
+span
+{
+	color: #808080;
+	font-family: verdana, arial, sans-serif;
+	font-size: 12;
+	font-weight: bold;
+	text-align: left;
+}
+
+span.popup
+{
+	color: #9F141A;
+	cursor: help;
+	text-decoration: none
+}
+
+
+table.headlinked
+{
+	width: 320;
+	font-weight: bold;
+	color: 333333;
+	background-color: #000000;
+	font-size: 10;
+	line-height: 2;
+	margin-top: -24;
+	font-family: tahoma, verdana, arial, sans-serif;
+}
+
+img.image-cell
+{
+	border-color: #666666;
+}
+
+img.thumbnail
+{
+	border: 0;
+}
+
+hr
+{
+	width: 100%;
+	size: 1;
+}
+
+td.center-navigator
+{
+	width: 30%;
+	background-color: #E0E0E0;
+}
+
+td.side-navigator
+{
+	width: 35%;
+	background-color: #F0F0F0;
+}
+
+table.thumbnail
+{
+	border-spacing: 10;
+	text-align: center;
+	vertical-align: middle;
+	border-color: #666666;
+}
+
+tr.thumbnail
+{
+	padding: 0;
+}
+
+td.thumbnail
+{
+	padding: 0;
+}

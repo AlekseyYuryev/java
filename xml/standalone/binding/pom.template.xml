@@ -1,0 +1,78 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.safris.xml</groupId>
+		<artifactId>standalone</artifactId>
+		<version>${xmlVersion}</version>
+	</parent>
+	<groupId>org.safris.xml.standalone</groupId>
+	<artifactId>binding</artifactId>
+	<version>${xmlVersion}</version>
+	<name>${groupId}.${artifactId}</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeGroupIds>org.safris</includeGroupIds>
+							<outputDirectory>${project.build.directory}/install/classes</outputDirectory>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<configuration>
+							<tasks>
+								<delete dir="${project.build.directory}/install/classes/META-INF"/>
+								<mkdir dir="${project.build.directory}/install/classes/META-INF"/>
+								<manifest file="${project.build.directory}/install/classes/META-INF/MANIFEST.MF">
+									<attribute name="Main-Class" value="org.safris.xml.toolkit.binding.Generator"/>
+								</manifest>
+								<mkdir dir="${project.build.directory}/install/lib"/>
+								<jar destfile="${project.build.directory}/install/lib/xml-toolkit-binding-${version}.jar" basedir="${project.build.directory}/install/classes" index="true" filesetmanifest="merge"/>
+								<scp file="${project.build.directory}/install/lib/xml-toolkit-binding-${version}.jar" todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase=""/>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>ant</groupId>
+						<artifactId>ant-optional</artifactId>
+						<version>1.5.3-1</version>
+					</dependency>
+					<dependency>
+						<groupId>ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.6.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.safris.xml.toolkit</groupId>
+			<artifactId>binding</artifactId>
+			<version>${xmlVersion}</version>
+		</dependency>
+	</dependencies>
+</project>

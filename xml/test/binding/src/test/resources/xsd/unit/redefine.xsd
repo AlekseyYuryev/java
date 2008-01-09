@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://xml.safris.org/schema/binding/test/unit/everything.xsd"
+	xmlns:ev="http://xml.safris.org/schema/binding/test/unit/everything.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:redefine schemaLocation="everything.xsd">
+		
+		<xs:group name="groupie">
+			<xs:sequence>
+				<xs:group ref="ev:groupie"/>
+				<xs:any namespace="##any"/>
+			</xs:sequence>
+		</xs:group>
+		
+		<xs:attributeGroup name="attrGroupie">
+			<xs:attributeGroup ref="ev:attrGroupie"/>
+			<xs:anyAttribute namespace="##other"/>
+		</xs:attributeGroup>
+		
+		<xs:complexType name="complexTypie">
+			<xs:complexContent>
+				<xs:extension base="ev:complexTypie">
+					<xs:attribute name="redefineTest" type="xs:short"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		
+		<xs:simpleType name="simpleTypie">
+			<xs:restriction base="ev:simpleTypie">
+				<xs:enumeration value="1"/>
+				<xs:enumeration value="3"/>
+			</xs:restriction>
+		</xs:simpleType>
+		
+	</xs:redefine>
+	
+</xs:schema>

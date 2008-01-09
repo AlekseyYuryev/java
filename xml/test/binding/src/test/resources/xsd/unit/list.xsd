@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://xml.safris.org/schema/binding/test/unit/list.xsd"
+	xmlns="http://xml.safris.org/schema/binding/test/unit/list.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:simpleType name="test-list-simpleType-one">
+		<xs:list>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="test1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:list>
+	</xs:simpleType>
+
+	<xs:simpleType name="test-list-simpleType-two">
+		<xs:list>
+			<xs:simpleType>
+				<xs:restriction>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="test2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:list>
+	</xs:simpleType>
+
+	<xs:simpleType name="test-list-simpleType-three">
+		<xs:list itemType="xs:NCName"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="test-list-simpleType-four">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="xs:QName"/>
+			</xs:simpleType>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="test-list-simpleType-five">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="xs:byte"/>
+			</xs:simpleType>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="myNumberType">
+		<xs:restriction base="xs:positiveInteger"/>
+	</xs:simpleType>
+	
+	<xs:simpleType name="mySpecialNumberType">
+		<xs:restriction base="myNumberType"/>
+	</xs:simpleType>
+	
+	<xs:element name="six">
+		<xs:complexType>
+			<xs:attribute name="listAttribute">
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:list itemType="mySpecialNumberType"/>
+						</xs:simpleType>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

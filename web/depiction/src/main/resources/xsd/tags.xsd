@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://web.safris.org/depiction/tags.xsd"
+	xmlns:this="http://web.safris.org/depiction/tags.xsd"
+	xmlns:tags="http://www.w3.org/1999/xhtml"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="xhtml1-tags.xsd"/>
+
+	<xs:element name="find">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="path" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="strictInt">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="value" type="xs:string"/>
+					<xs:attribute name="min" type="xs:string"/>
+					<xs:attribute name="max" type="xs:string"/>
+					<xs:attribute name="var" type="xs:IDREF"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="columns" type="xs:positiveInteger"/>
+					<xs:attribute name="rows" type="xs:positiveInteger"/>
+					<xs:attribute name="tableClass" type="xs:string"/>
+					<xs:attribute name="rowClass" type="xs:string"/>
+					<xs:attribute name="columnClass" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="cache">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="scope" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="key" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="metadata">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="file" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="stripStart">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="path" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="substring">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="path" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="thumbnail">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="imgClass" type="xs:string"/>
+					<xs:attribute name="size" type="xs:string"/>
+					<xs:attribute name="metadata" type="xs:string"/>
+					<xs:attribute name="baseDir" type="xs:string"/>
+					<xs:attribute name="baseUrl" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="path" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="chomp">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tags:taglib">
+					<xs:attribute name="path" type="xs:string"/>
+					<xs:attribute name="name" type="xs:string"/>
+					<xs:attribute name="var" type="xs:ID"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xdb:database xmlns:xdb="http://xml.safris.org/schema/binding/xdb.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/schema/binding/xdb.xsd ../xsd/xdb.xsd"
+	name="test-db">
+	
+	<xdb:table name="test-table">
+		<xdb:column xsi:type="xdb:integer" name="test-column" precision="2"/>
+		<xdb:column xsi:type="xdb:integer" name="test-column2" precision="2"/>
+		<xdb:constraints>
+			<xdb:primaryKey column="test-column"/>
+		</xdb:constraints>
+	</xdb:table>
+	
+	<xdb:table name="test-table2">
+		<xdb:column xsi:type="xdb:integer" name="test-column" precision="2"/>
+		<xdb:column xsi:type="xdb:integer" name="test-column3" precision="2"/>
+		<xdb:constraints>
+			<xdb:primaryKey column="test-column3"/>
+			<xdb:autoIncrement column="test-column3"/>
+			<xdb:unique column="test-column"/>
+			<xdb:index>
+				<xdb:columns>
+					<xdb:column name="test-column3"/>
+					<xdb:column name="test-column"/>
+				</xdb:columns>
+			</xdb:index>
+			<xdb:foreignKey column="test-column3" onDelete="restrict" onUpdate="ignore">
+				<xdb:references table="test-table" column="FIXME"/>
+			</xdb:foreignKey>
+		</xdb:constraints>
+	</xdb:table>
+	
+	<xdb:table name="test-table3">
+		<xdb:column xsi:type="xdb:integer" name="test-column" precision="2"/>
+		<xdb:column xsi:type="xdb:integer" name="test-column3" precision="2"/>
+		<xdb:constraints>
+			<xdb:primaryKey column="test-column3"/>
+			<xdb:autoIncrement column="test-column3"/>
+			<xdb:index>
+				<xdb:columns>
+					<xdb:column name="test-column3"/>
+					<xdb:column name="test-column"/>
+				</xdb:columns>
+			</xdb:index>
+			<xdb:foreignKey column="test-column">
+				<xdb:references table="test-table2" column="FIXME"/>
+			</xdb:foreignKey>
+		</xdb:constraints>
+	</xdb:table>
+	
+</xdb:database>

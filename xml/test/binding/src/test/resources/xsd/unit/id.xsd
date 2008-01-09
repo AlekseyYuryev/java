@@ -1,0 +1,38 @@
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="http://xml.safris.org/schema/binding/test/unit/id.xsd"
+	xmlns:id="http://xml.safris.org/schema/binding/test/unit/id.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:simpleType name="simpleType">
+		<xs:restriction base="xs:ID">
+			<xs:enumeration value="one"/>
+			<xs:enumeration value="two"/>
+			<xs:enumeration value="three"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="simpleElement" type="id:simpleType"/>
+	
+	<xs:complexType name="complexType">
+		<xs:simpleContent>
+			<xs:extension base="xs:ID">
+				<xs:attribute name="attribute" type="id:simpleType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:element name="complexElement" type="id:complexType"/>
+	
+	<xs:element name="root">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="id:simpleElement"/>
+					<xs:element ref="id:complexElement"/>
+					<xs:element name="random" type="xs:ID"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

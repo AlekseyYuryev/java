@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fruitBasket
+	xmlns="http://xml.safris.org/toolkit/binding/sample/simple.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/sample/simple.xsd ../xsd/simple.xsd">
+	<fruits>
+		<fruit name="strawberry" sweet="true"/>
+		<fruit name="jackfruit" sweet="false" dry="false"/>
+	</fruits>
+</fruitBasket>

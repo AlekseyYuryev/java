@@ -1,0 +1,43 @@
+@prefix : <http://nwalsh.com/rdf/pim/contacts#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Contacts a rdfs:Class .
+
+:version a rdfs:Property .
+:sortByCompany a rdfs:Property .
+:country a rdfs:Property .
+:user a rdfs:Property .
+
+:categoryLabel a rdfs:Property .
+:fieldLabel a rdfs:Property .
+:phoneLabel a rdfs:Property .
+
+:Contact a rdfs:Class .
+
+:private a rdfs:Property .
+:archived a rdfs:Property .
+:deleted a rdfs:Property .
+:palmId a rdfs:Property .
+
+:lastname a rdfs:Property .
+:firstname a rdfs:Property .
+:title a rdfs:Property .
+:company a rdfs:Property .
+
+:phoneNumber a rdfs:Property .
+:primary a rdfs:Property .
+
+:phone a rdfs:Property .
+
+:address a rdfs:Property .
+:street a rdfs:Property ; rdfs:subPropertyOf :address .
+:city a rdfs:Property ; rdfs:subPropertyOf :address .
+:state a rdfs:Property ; rdfs:subPropertyOf :address .
+:zip a rdfs:Property ; rdfs:subPropertyOf :address .
+:country a rdfs:Property ; rdfs:subPropertyOf :address .
+
+:custom a rdfs:Property .
+:note a rdfs:Property .
+:category a rdfs:Property .
+
+:label a rdfs:Property .

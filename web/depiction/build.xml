@@ -1,0 +1,63 @@
+<project name="binding" default="all" basedir=".">
+
+	<description>Depiction Web-App</description>
+
+	<property name="build" location="build"/>
+	<property name="build.classes" location="${build}/classes"/>
+	<property name="build.jar" location="${build}/jar"/>
+	<property name="lib" location="lib"/>
+	<property name="work" location="work"/>
+	<property name="conf" location="conf"/>
+	<property name="src" location="src"/>
+	<property name="src.java" location="${src}/java"/>
+	<property name="webapp" location="webapps/depiction"/>
+	<property name="webapp.lib" location="${webapp}/WEB-INF/lib"/>
+
+	<target name="all" depends="init, classes, jar, deploy"/>
+
+	<target name="init">
+		<mkdir dir="${build.classes}"/>
+		<mkdir dir="${build.jar}"/>
+	</target>
+
+	<target name="classes" depends="init">
+		<javac srcdir="${src.java}" destdir="${build.classes}" debug="true">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="init, classes">
+		<jar destfile="${build.jar}/depiction.jar">
+			<fileset dir="${build.classes}"/>
+			<fileset dir="${src.java}">
+				<include name="com/nwalsh/rdf/**/*"/>
+			</fileset>
+			<metainf dir="${conf}">
+				<include name="*.tld"/>
+			</metainf>
+		</jar>
+	</target>
+
+	<target name="deploy" depends="init, classes, jar">
+		<mkdir dir="${webapp.lib}"/>
+		<copy todir="${webapp.lib}">
+			<fileset dir="${build.jar}"/>
+			<fileset dir="${lib}">
+				<exclude name="servlet.jar"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean">
+		<delete includeEmptyDirs="true" failonerror="false">
+			<fileset dir="${build}"/>
+			<fileset dir="${webapp.lib}"/>
+		</delete>
+	</target>
+
+</project>
+

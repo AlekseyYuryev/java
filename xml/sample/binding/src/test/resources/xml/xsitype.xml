@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enums:coloredFruitBasket
+	xmlns:simple="http://xml.safris.org/toolkit/binding/sample/simple.xsd"
+	xmlns:enums="http://xml.safris.org/toolkit/binding/sample/enums.xsd"
+	xmlns:xsitype="http://xml.safris.org/toolkit/binding/sample/xsitype.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/sample/simple.xsd ../xsd/simple.xsd http://xml.safris.org/toolkit/binding/sample/enums.xsd ../xsd/enums.xsd http://xml.safris.org/toolkit/binding/sample/xsitype.xsd ../xsd/xsitype.xsd"
+	enums:color="red">
+	<simple:fruits>
+		<simple:fruit xsi:type="xsitype:fleshyFruitType" name="Berry" pericarp="soft"/>
+		<simple:fruit xsi:type="xsitype:fleshyFruitType" name="Drupe" pericarp="fleshy"/>
+		<simple:fruit xsi:type="xsitype:dehiscentDryFruitType" name="Legume"/>
+		<simple:fruit xsi:type="xsitype:dehiscentDryFruitType" name="Follicle"/>
+		<simple:fruit xsi:type="xsitype:indehiscentDryFruitType" name="Grain"/>
+		<simple:fruit xsi:type="xsitype:indehiscentDryFruitType" name="Nut"/>
+	</simple:fruits>
+</enums:coloredFruitBasket>

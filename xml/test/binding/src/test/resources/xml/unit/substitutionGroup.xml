@@ -1,0 +1,7 @@
+<root
+	xsi:schemaLocation="http://xml.safris.org/schema/binding/test/unit/substitutionGroup.xsd substitutionGroup.xsd"
+	xmlns="http://xml.safris.org/schema/binding/test/unit/substitutionGroup.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<oddTwenty>5</oddTwenty>
+	<evenTen>10</evenTen>
+</root>

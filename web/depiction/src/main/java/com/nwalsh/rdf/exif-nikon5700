@@ -1,0 +1,99 @@
+
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/share/projects/sourceforge/jpegrdf/src/rdf/exif-nikon5700.n3-->
+
+
+<rdf:RDF xmlns:cvs="http://nwalsh.com/rdf/cvs#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:exif="http://nwalsh.com/rdf/exif-nikon5700#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdf:Description rdf:about="http://nwalsh.com/rdf/exif-nikon5700#">
+        <cvs:date>$Date: 2004/02/17 12:31:07 $</cvs:date>
+        <dc:description>The Nikon E5700 MakerNote Namespace defines the properties extracted from the EXIF MakerNote field of Nikon E5700 images by JpegRDF.</dc:description>
+        <dc:language>English</dc:language>
+        <dc:source rdf:resource="http://www.ba.wakwak.com/~tsuruzoh/Computer/Digicams/exif-e.html#APP2"/>
+        <dc:source rdf:resource="http://www.worldatwar.org/photos/exif/"/>
+        <dc:title>Nikon E5700 MakerNote Namespace</dc:title>
+        <dcterms:issued>2003-07-10</dcterms:issued>
+        <dcterms:modified>2003-07-10</dcterms:modified>
+        <dcterms:references rdf:resource="http://nwalsh.com/rdf/exif#makerNote"/>
+    </rdf:Description>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#afFocusPosition">
+        <exif:tagNumber>0x0088</exif:tagNumber>
+        <rdfs:label>AF Focus Position</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#colorMode">
+        <exif:tagNumber>0x0003</exif:tagNumber>
+        <rdfs:label>Color Mode</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#digitalZoom">
+        <exif:tagNumber>0x0086</exif:tagNumber>
+        <rdfs:label>Digital Zoom</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#flash">
+        <exif:tagNumber>0x0008</exif:tagNumber>
+        <rdfs:label>Flash</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#focus">
+        <exif:tagNumber>0x0007</exif:tagNumber>
+        <rdfs:label>Focus</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#imageAdjustment">
+        <exif:tagNumber>0x0080</exif:tagNumber>
+        <rdfs:label>Image Adjustment</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#isoSelection">
+        <exif:tagNumber>0x000F</exif:tagNumber>
+        <rdfs:label>ISO Selection</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#isoSetting">
+        <exif:tagNumber>0x0002</exif:tagNumber>
+        <rdfs:label>ISO Setting</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#lensAdapter">
+        <exif:tagNumber>0x0082</exif:tagNumber>
+        <rdfs:label>Lens Adapter</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#manualFocus">
+        <exif:tagNumber>0x0085</exif:tagNumber>
+        <rdfs:label>Manual Focus</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#noiseReduction">
+        <exif:tagNumber>0x0095</exif:tagNumber>
+        <rdfs:label>Noise Reduction</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#qualityValue">
+        <exif:tagNumber>0x0004</exif:tagNumber>
+        <rdfs:label>Quality Value</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#sharpening">
+        <exif:tagNumber>0x0006</exif:tagNumber>
+        <rdfs:label>Sharpening</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#tagNumber">
+        <dc:description>Identifies the Nikon Tag Number of the property with which it is associated. All MakerNote properties are identified with a unique number in the JPEG image.</dc:description>
+        <rdfs:label>TagNumber</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon5700#whiteBalance">
+        <exif:tagNumber>0x0005</exif:tagNumber>
+        <rdfs:label>White Balance</rdfs:label>
+    </rdf:Property>
+</rdf:RDF>

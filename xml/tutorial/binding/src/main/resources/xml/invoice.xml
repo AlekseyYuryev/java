@@ -1,0 +1,34 @@
+<invoice xmlns="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd ../xsd/invoice.xsd">
+	<number>1458</number>
+	<date>2003-01-07</date>
+	<billingAddress>
+		<name>Ian Barking</name>
+		<address>123 Kennel Street</address>
+		<city>Dachshund City</city>
+		<postalCode>98765</postalCode>
+		<country>US</country>
+	</billingAddress>
+	<shippingAddress>
+		<name>Retail Dept.</name>
+		<address>888 Dogbowl Street</address>
+		<city>Pet City</city>
+		<postalCode>98765</postalCode>
+		<country>US</country>
+	</shippingAddress>
+	<billedItems>
+		<item>
+			<description>Studded Collar</description>
+			<code>45342</code>
+			<quantity>10</quantity>
+			<price>11.95</price>
+		</item>
+		<item>
+			<description>K9 Pet Coat</description>
+			<code>25233</code>
+			<quantity>5</quantity>
+			<price>25.01</price>
+		</item>
+	</billedItems>
+</invoice>

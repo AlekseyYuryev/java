@@ -1,0 +1,68 @@
+
+<!-- Processed by Id: cwm.py,v 1.148 2004/03/21 04:24:32 timbl Exp -->
+<!--     using base file:/share/projects/sourceforge/jpegrdf/src/rdf/exif-nikon950.n3-->
+
+
+<rdf:RDF xmlns:cvs="http://nwalsh.com/rdf/cvs#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:exif="http://nwalsh.com/rdf/exif-nikon950#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <rdf:Description rdf:about="http://nwalsh.com/rdf/exif-nikon950#">
+        <cvs:date>$Date: 2004/02/17 12:31:07 $</cvs:date>
+        <dc:description>The Nikon E950 MakerNote Namespace defines the properties extracted from the EXIF MakerNote field of Nikon E950 images by JpegRDF.</dc:description>
+        <dc:language>English</dc:language>
+        <dc:source rdf:resource="http://www.ba.wakwak.com/~tsuruzoh/Computer/Digicams/exif-e.html#APP2"/>
+        <dc:title>Nikon E950 MakerNote Namespace</dc:title>
+        <dcterms:issued>2003-04-12</dcterms:issued>
+        <dcterms:modified>2003-05-29</dcterms:modified>
+        <dcterms:references rdf:resource="http://nwalsh.com/rdf/exif#makerNote"/>
+    </rdf:Description>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#ccdSensitivity">
+        <exif:tagNumber>0x0006</exif:tagNumber>
+        <rdfs:label>CCDSensitivity</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#colorMode">
+        <exif:tagNumber>0x0004</exif:tagNumber>
+        <rdfs:label>ColorMode</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#converter">
+        <exif:tagNumber>0x000B</exif:tagNumber>
+        <rdfs:label>Converter</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#digitalZoom">
+        <exif:tagNumber>0x000A</exif:tagNumber>
+        <rdfs:label>DigitalZoom</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#focus">
+        <exif:tagNumber>0x0008</exif:tagNumber>
+        <rdfs:label>Focus</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#imageAdjustment">
+        <exif:tagNumber>0x0005</exif:tagNumber>
+        <rdfs:label>ImageAdjustment</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#quality">
+        <exif:tagNumber>0x0003</exif:tagNumber>
+        <rdfs:label>Quality</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#tagNumber">
+        <dc:description>Identifies the Nikon Tag Number of the property with which it is associated. All MakerNote properties are identified with a unique number in the JPEG image.</dc:description>
+        <rdfs:label>TagNumber</rdfs:label>
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://nwalsh.com/rdf/exif-nikon950#whiteBalance">
+        <exif:tagNumber>0x0007</exif:tagNumber>
+        <rdfs:label>WhiteBalance</rdfs:label>
+    </rdf:Property>
+</rdf:RDF>

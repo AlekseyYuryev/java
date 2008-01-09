@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	elementFormDefault="qualified"
+	targetNamespace="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
+	xmlns:mf="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
+
+	<xs:element name="manifest">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="link">
+					<xs:complexType>
+						<xs:attribute ref="xlink:href" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="destdir">
+						<xs:complexType mixed="true">
+							<xs:attribute name="explodeJars" type="xs:boolean" default="false"/>
+							<xs:attribute name="overwrite" type="xs:boolean" default="false"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="schemas" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence minOccurs="0" maxOccurs="unbounded">
+								<xs:element name="schema" type="xs:anyURI"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

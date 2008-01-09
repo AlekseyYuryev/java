@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<id:root xmlns:id="http://xml.safris.org/schema/binding/test/unit/id.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/schema/binding/test/unit/id.xsd ../xsd/unit/id.xsd">
+	<id:simpleElement>one</id:simpleElement>
+	<id:complexElement attribute="two">weeee</id:complexElement>
+	<id:simpleElement>three</id:simpleElement>
+	<id:random>random1</id:random>
+	<id:random>random2</id:random>
+	<id:random>random3</id:random>
+</id:root>

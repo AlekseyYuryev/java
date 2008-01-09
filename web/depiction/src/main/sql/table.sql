@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS depiction.image_info;
+
+CREATE TABLE IF NOT EXISTS depiction.image_info
+(
+	id INTEGER NOT NULL,
+	path VARCHAR(255) NOT NULL,
+	width INTEGER UNSIGNED NOT NULL,
+	height INTEGER UNSIGNED NOT NULL,
+	thumbnail_size TINYINT UNSIGNED NOT NULL,
+	PRIMARY KEY
+	(
+		id
+	)
+);

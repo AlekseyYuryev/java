@@ -1,0 +1,112 @@
+@prefix : <http://nwalsh.com/rdf/pim/datebook#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Datebook a rdfs:Class .
+
+:version a rdfs:Property .
+:user a rdfs:Property .
+:startofweek a rdfs:Property .
+:update a rdfs:Property .
+
+:categoryLabel a rdfs:Property .
+:fieldLabel a rdfs:Property .
+
+:Appointment a rdfs:Class .
+
+:palmId a rdfs:Property .
+:private a rdfs:Property .
+:event a rdfs:Property .
+:cateogory a rdfs:Property .
+:archived a rdfs:Property .
+:deleted a rdfs:Property .
+:busy a rdfs:Property .
+
+:repeat a rdfs:Property .
+:description a rdfs:Property .
+:begin a rdfs:Property .
+:end a rdfs:Property .
+:exceptions a rdfs:Property .
+:alarm a rdfs:Property .
+:note a rdfs:Property .
+:datebk4 a rdfs:Property .
+
+#
+#
+#
+#<!ELEMENT repeat (days?, end?)>
+#<!ATTLIST repeat
+#	weekstart	(0|1|2|3|4|5|6)		#IMPLIED
+#	frequency	CDATA			"1"
+#	type		(Daily|Weekly|Yearly|MonthlyByDate|MonthlyByDay)	#REQUIRED
+#	day		CDATA			#IMPLIED
+#>
+#
+#<!ELEMENT days (#PCDATA)*>
+#
+#<!ELEMENT event (#PCDATA)*>
+#
+#<!ELEMENT category (#PCDATA)*>
+#
+#<!ELEMENT description (#PCDATA)*>
+#
+#<!ELEMENT note (#PCDATA)*>
+#
+#<!ELEMENT begin EMPTY>
+#<!ATTLIST begin
+#	year		CDATA		#REQUIRED
+#	month		CDATA		#REQUIRED
+#	day		CDATA		#REQUIRED
+#	hour		CDATA		#IMPLIED
+#	min		CDATA		#IMPLIED
+#	sec		CDATA		#IMPLIED
+#	untimed		CDATA		#IMPLIED
+#>
+#
+#<!ELEMENT end EMPTY>
+#<!ATTLIST end
+#	year		CDATA		#REQUIRED
+#	month		CDATA		#REQUIRED
+#	day		CDATA		#REQUIRED
+#	hour		CDATA		#IMPLIED
+#	min		CDATA		#IMPLIED
+#	sec		CDATA		#IMPLIED
+#	untimed		CDATA		#IMPLIED
+#>
+#
+#<!ELEMENT exceptions (except+)>
+#
+#<!ELEMENT except EMPTY>
+#<!ATTLIST except
+#	year		CDATA		#REQUIRED
+#	month		CDATA		#REQUIRED
+#	day		CDATA		#REQUIRED
+#	hour		CDATA		#IMPLIED
+#	min		CDATA		#IMPLIED
+#	sec		CDATA		#IMPLIED
+#	untimed		CDATA		#IMPLIED
+#>
+#
+#<!ELEMENT alarm EMPTY>
+#<!ATTLIST alarm
+#	advance		CDATA		#REQUIRED
+#	units		CDATA		#REQUIRED
+#>
+#
+#<!ELEMENT user-field (#PCDATA)*>
+#<!ATTLIST user-field
+#	name		CDATA		#REQUIRED
+#>
+#
+#<!ELEMENT datebk4 EMPTY>
+#<!ATTLIST datebk4
+#	icon		CDATA		#IMPLIED
+#	span		CDATA		#IMPLIED
+#	timezone	CDATA		#IMPLIED
+#	link		CDATA		#IMPLIED
+#	type		CDATA		#IMPLIED
+#	last_advance_date	CDATA		#IMPLIED
+#	advance_days	CDATA		#IMPLIED
+#	alarm		CDATA		#IMPLIED
+#	color		CDATA		#IMPLIED
+#>
+#

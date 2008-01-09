@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+
+mkdir -p src/main/java/org/safris/xml/tutorial/binding/invoice/
+cp ~/Projects/safris/org/xml/trunk/tutorial/binding/src/main/java/org/safris/xml/tutorial/binding/invoice/*.java src/main/java/org/safris/xml/tutorial/binding/invoice/
+cp ~/Projects/safris/org/xml/trunk/tutorial/binding/src/main/resources/xsd/invoice.xsd src/main/resources/xsd/
+cp ~/Projects/safris/org/xml/trunk/standalone/binding/target/install/lib/xml-toolkit-binding-*.jar lib/

@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+
+if [ ! -d target/generated-sources/xmlbinding ]; then
+	mkdir -p target/generated-sources/xmlbinding;
+fi
+
+if [ $? != 0 ]; then
+	exit $?;
+fi
+
+./bindc -d target/generated-sources/xmlbinding src/main/resources/xsd/invoice.xsd
+
+if [ $? != 0 ]; then
+	exit $?;
+fi
+
+if [ ! -e target/classes ]; then
+	mkdir -p target/classes;
+fi
+
+if [ $? != 0 ]; then
+	exit $?;
+fi
+
+javac -d target/classes -cp src/main/java:target/generated-sources/xmlbinding/invoice.jar:lib/xml-toolkit-binding-1.0.3.jar src/main/java/org/safris/xml/tutorial/binding/invoice/*.java

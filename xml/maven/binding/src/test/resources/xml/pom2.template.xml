@@ -1,0 +1,54 @@
+<!-- NOTE: This pom.xml can have errors! It is only used to test the sematics of the generator plugin  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.safris.xml.maven</groupId>
+	<artifactId>binding-test</artifactId>
+	<version>${xmlVersion}</version>
+	<name>${groupId}.${artifactId}</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.safris.xml.maven</groupId>
+				<artifactId>binding</artifactId>
+				<version>${xmlVersion}</version>
+				<executions>
+					<execution>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<manifest xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd">
+						<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="manifest.xml"/>
+					</manifest>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.build.testSourceDirectory}/org/safris/xml/toolkit/builder/maven/test/binding</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>util</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.xml.generator</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${xmlVersion}</version>
+		</dependency>
+	</dependencies>
+</project>
