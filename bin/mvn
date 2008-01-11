@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+
+TEMPLATES="`find * -name 'pom*.template.xml'`"
+for TEMPLATE in $TEMPLATES; do
+		POM="`echo $TEMPLATE | sed 's/template\.//'`"
+	if [ $TEMPLATE -nt $POM ] || [ "`which mvn`" -nt $POM ]; then
+		cat $TEMPLATE |
+		sed 's/\${orgVersion}/1.2.13/' | \
+		sed 's/\${commonsVersion}/0.4.2/' | \
+		sed 's/\${xmlVersion}/1.0.4/' | \
+		sed 's/\${webVersion}/0.5.6/' > $POM
+		echo "Updated: $POM"
+	fi
+done
+
+MVN="`which -a mvn | xargs echo | awk '{print $NF}'`"
+HELP="`echo "$@" | grep '\-\-help'`"
+if [ "$HELP" != "" ]; then
+	$MVN "$@"
+	echo
+	echo "Additional options:"
+	echo " -Dsvn:commit				  Commit deployed artifacts. Only works with"
+	echo "							   deploy goal."
+	exit
+fi
+
+SVN_COMMIT="`echo "$@" | grep 'svn:commit' | grep 'deploy'`"
+if [ "$SVN_COMMIT" != "" ]; then
+		REPO_PATH="`$MVN help:effective-pom | grep url | grep file | uniq | sed s'/\(file:\/\/\)\|\(<url>\)\|\(<\/url>\)//g'`"
+	#echo "Repo path: $REPO_PATH"
+	if [ ! -d $REPO_PATH ]; then
+		mkdir -p $REPO_PATH
+		svn co svn+ssh://repo.safris.org/m2 $REPO_PATH
+	fi
+
+	$MVN "$@"
+		ADD="`svn stat $REPO_PATH | grep ? | awk '{print $2}'`"
+#	echo "Add: $ADD"
+		if [ "$ADD" != "" ]; then
+				svn add $ADD
+				svn up $REPO_PATH
+				svn commit -m "Update to maven repository." $REPO_PATH
+		fi
+
+	exit
+fi
+$MVN "$@"
+

@@ -179,9 +179,9 @@
 		</site>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>repo.safris.org/m2</id>
+			<id>m2.repo.safris.org</id>
 			<name>SAFRIS.org Repository</name>
-			<url>file://${env.HOME}/.m2/remote</url>
+			<url>scp://m2.repo.safris.org/var/lib/m2/org</url>
 		</repository>
 	</distributionManagement>
 </project>
