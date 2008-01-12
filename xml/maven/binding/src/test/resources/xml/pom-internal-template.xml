@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd http://www.w3.org/1999/xlink ../../../../../../toolkit/binding/src/main/resources/xsd/xlink.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.safris.xml.maven</groupId>
-	<artifactId>binding-test</artifactId>
+	<artifactId>pom-internal</artifactId>
 	<version>1</version>
 	<name>${groupId}.${artifactId}</name>
 	<build>
@@ -24,7 +24,7 @@
 				</executions>
 				<configuration>
 					<manifest xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd">
-						<destdir>${project.build.directory}/generated-sources/xmlbinding</destdir>
+						<destdir overwrite="true">${basedir}/../../../../target/generated-sources/xmlbinding</destdir>
 						<schemas>
 							<schema>../xsd/maven.xsd</schema>
 						</schemas>

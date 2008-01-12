@@ -1,10 +1,10 @@
 #!/bin/sh
 #
 
-TEMPLATES="`find * -name 'pom*.template.xml'`"
+TEMPLATES="`find * -name 'pom*-template.xml'`"
 #echo $TEMPLATES
 for TEMPLATE in $TEMPLATES; do
-	POM="`echo $TEMPLATE | sed 's/template\.//'`"
+	POM="`echo $TEMPLATE | sed 's/-template//'`"
 	if [ ! -f $POM ] || [ $TEMPLATE -nt $POM ] || [ `which mvn` -nt $POM ]; then
 		cat $TEMPLATE |
 		sed 's/\${orgVersion}/1.2.13/' | \
@@ -21,8 +21,8 @@ if [ "$HELP" != "" ]; then
 	$MVN "$@"
 	echo
 	echo "Additional options:"
-	echo " -Dsvn:commit				  Commit deployed artifacts. Only works with"
-	echo "							   deploy goal."
+    echo " -Dsvn:commit                  Commit deployed artifacts. Only works with"
+    echo "                               deploy goal."
 	exit
 fi
 

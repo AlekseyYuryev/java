@@ -1,8 +1,10 @@
 package org.safris.commons.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 
 public final class Processes
 {
@@ -33,11 +35,40 @@ public final class Processes
 		return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
 	}
 
-	public static Process forkSync(String ... args) throws IOException, InterruptedException
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException
 	{
-		final Process process = Runtime.getRuntime().exec(args);
+		final Process process = forkAsync(stdin, stdout, stderr, args);
 		process.waitFor();
 		return process;
+	}
+
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	{
+		final Process process = forkAsync(stdin, stdout, stderr, prepArgsForJava(clazz, args));
+		return process;
+	}
+
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	{
+		final Process process = forkAsync(stdin, stdout, stderr, prepArgsForJava(clazz, args));
+		process.waitFor();
+		return process;
+	}
+
+	private static String[] prepArgsForJava(Class clazz, String[] args)
+	{
+		final URL[] classpathURLs = Resources.getClassPath();
+		final StringBuffer classpath = new StringBuffer();
+		for(URL url : classpathURLs)
+			classpath.append(File.pathSeparatorChar).append(url.getFile());
+
+		final String[] ret = new String[args.length + 4];
+		System.arraycopy(args, 0, ret, 4, args.length);
+		ret[0] = "java";
+		ret[1] = "-cp";
+		ret[2] = classpath.substring(1);
+		ret[3] = clazz.getName();
+		return ret;
 	}
 
 	private static final class PipedProcess extends Process

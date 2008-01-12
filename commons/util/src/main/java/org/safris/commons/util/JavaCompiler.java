@@ -124,7 +124,7 @@ public final class JavaCompiler
 		args[i++] = classpath;
 		args[i++] = "@" + tempFile.getAbsolutePath();
 
-		final Process process = Processes.forkSync(args);
+		final Process process = Processes.forkSync(System.in, System.out, System.err, args);
 		Streams.pipe(process.getInputStream(), System.out);
 		Streams.pipe(process.getErrorStream(), System.err);
 		process.waitFor();

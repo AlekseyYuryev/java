@@ -99,7 +99,7 @@ public final class Streams
 				}
 				catch(IOException e)
 				{
-					if("Broken pipe".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()))
+					if("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()))
 						return;
 
 					e.printStackTrace();

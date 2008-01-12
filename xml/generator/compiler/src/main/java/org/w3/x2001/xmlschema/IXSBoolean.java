@@ -13,6 +13,9 @@ public abstract class IXSBoolean<T extends BindingType> extends IXSAnySimpleType
 
 	public static final Boolean parseBoolean(String s)
 	{
+		if(s == null)
+			return false;
+
 		if(s.length() == 1)
 			return "1".equals(s);
 
