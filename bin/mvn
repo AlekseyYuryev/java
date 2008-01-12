@@ -2,9 +2,10 @@
 #
 
 TEMPLATES="`find * -name 'pom*.template.xml'`"
+#echo $TEMPLATES
 for TEMPLATE in $TEMPLATES; do
-		POM="`echo $TEMPLATE | sed 's/template\.//'`"
-	if [ $TEMPLATE -nt $POM ] || [ "`which mvn`" -nt $POM ]; then
+	POM="`echo $TEMPLATE | sed 's/template\.//'`"
+	if [ ! -f $POM ] || [ $TEMPLATE -nt $POM ] || [ `which mvn` -nt $POM ]; then
 		cat $TEMPLATE |
 		sed 's/\${orgVersion}/1.2.13/' | \
 		sed 's/\${commonsVersion}/0.4.2/' | \
