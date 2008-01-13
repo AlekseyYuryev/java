@@ -21,30 +21,31 @@ if [ "$HELP" != "" ]; then
 	$MVN "$@"
 	echo
 	echo "Additional options:"
-    echo " -Dsvn:commit                  Commit deployed artifacts. Only works with"
-    echo "                               deploy goal."
+	echo " -Dsvn:commit                  Commit deployed artifacts. Only works with"
+	echo "                               deploy goal."
 	exit
 fi
 
 SVN_COMMIT="`echo "$@" | grep 'svn:commit' | grep 'deploy'`"
 if [ "$SVN_COMMIT" != "" ]; then
 		REPO_PATH="`$MVN help:effective-pom | grep url | grep file | uniq | sed s'/\(file:\/\/\)\|\(<url>\)\|\(<\/url>\)//g'`"
-	#echo "Repo path: $REPO_PATH"
+#	echo "Repo path: $REPO_PATH"
 	if [ ! -d $REPO_PATH ]; then
 		mkdir -p $REPO_PATH
 		svn co svn+ssh://repo.safris.org/m2 $REPO_PATH
 	fi
 
 	$MVN "$@"
-		ADD="`svn stat $REPO_PATH | grep ? | awk '{print $2}'`"
+	ADD="`svn stat $REPO_PATH | grep ? | awk '{print $2}'`"
 #	echo "Add: $ADD"
-		if [ "$ADD" != "" ]; then
-				svn add $ADD
-				svn up $REPO_PATH
-				svn commit -m "Update to maven repository." $REPO_PATH
-		fi
+	if [ "$ADD" != "" ]; then
+		svn add $ADD
+		svn up $REPO_PATH
+		svn commit -m "Update to maven repository." $REPO_PATH
+	fi
 
 	exit
 fi
+
 $MVN "$@"
 
