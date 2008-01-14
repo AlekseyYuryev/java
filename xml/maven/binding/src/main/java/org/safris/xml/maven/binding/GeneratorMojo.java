@@ -290,8 +290,11 @@ public class GeneratorMojo extends AbstractMojo
 		{
 			for(Bundle bundle : bundles)
 			{
-				Zips.unzip(bundle.getFile(), classesFilter, new File((String)mavenProject.getTestClasspathElements().get(1)));
-				Zips.unzip(bundle.getFile(), classesFilter, new File((String)mavenProject.getCompileClasspathElements().get(0)));
+				for(String element : (List<String>)mavenProject.getTestClasspathElements())
+					Zips.unzip(bundle.getFile(), classesFilter, new File(element));
+
+				for(String element : (List<String>)mavenProject.getCompileClasspathElements())
+					Zips.unzip(bundle.getFile(), classesFilter, new File(element));
 			}
 		}
 		catch(Exception e)
