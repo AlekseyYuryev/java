@@ -1,16 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org</groupId>
-		<artifactId>safris</artifactId>
-		<version>pom-1</version>
-		<relativePath>../../pom.xml</relativePath>
+		<groupId>org.safris</groupId>
+		<artifactId>web</artifactId>
+		<version>${orgVersion}</version>
 	</parent>
 	<groupId>org.safris.web</groupId>
 	<artifactId>depiction</artifactId>
-	<version>pom-1</version>
+	<version>${webVersion}</version>
 	<name>${groupId}.${artifactId}</name>
-	<description>web Depiction service</description>
+	<description>web depiction service</description>
 	<packaging>war</packaging>
 	<build>
 		<plugins>
