@@ -10,6 +10,7 @@
 	<version>${xmlVersion}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
+	<url>http://xml.safris.org/</url>
 	<description>
 		XML projects.
 	</description>
