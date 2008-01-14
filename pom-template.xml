@@ -15,20 +15,20 @@
 	</modules>
 	<url>http://www.safris.org/</url>
 	<organization>
-		<name>SAFRIS.org</name>
+		<name>Safris Technologies</name>
 		<url>http://www.safris.org/</url>
 	</organization>
 	<licenses>
 		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://repo.safris.org/svn/</connection>
-		<developerConnection>scm:svn:http://repo.safris.org/svn/</developerConnection>
-		<url>http://repo.safris.org/svn/</url>
+		<connection>scm:svn:https://svn.repo.safris.org/safris/</connection>
+		<developerConnection>scm:svn:https://svn.repo.safris.org/safris/</developerConnection>
+		<url>https://svn.repo.safris.org/safris/</url>
 	</scm>
 	<build>
 		<pluginManagement>
@@ -124,7 +124,7 @@
 		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
-			<version>4.2</version>
+			<version>4.4</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -175,13 +175,13 @@
 	<distributionManagement>
 		<site>
 			<id>safris.org</id>
-			<url>scp://www.safris.org/var/lib/apache2/org/safris/www</url>
+			<url>scp://safris.org/var/lib/apache2/org/safris/www/</url>
 		</site>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
 			<id>m2.repo.safris.org</id>
-			<name>SAFRIS.org Repository</name>
-			<url>scp://m2.repo.safris.org/var/lib/m2/org</url>
+			<name>safris.org repository</name>
+			<url>scp://m2.repo.safris.org/var/lib/m2/org/</url>
 		</repository>
 	</distributionManagement>
 </project>
