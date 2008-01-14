@@ -56,7 +56,7 @@
 									<attribute name="Main-Class" value="org.safris.xml.toolkit.binding.Generator"/>
 								</manifest>
 								<mkdir dir="${project.build.directory}/lib"/>
-								<jar destfile="${project.build.directory}/lib/xml-toolkit-binding-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
+								<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
 							</tasks>
 						</configuration>
 					</execution>
@@ -64,7 +64,7 @@
 						<id>deploy</id>
 						<configuration>
 							<tasks>
-								<scp file="${project.build.directory}/lib/xml-toolkit-binding-${version}.jar" todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase=""/>
+								<scp file="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-${version}.jar" todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase=""/>
 							</tasks>
 						</configuration>
 					</execution>
