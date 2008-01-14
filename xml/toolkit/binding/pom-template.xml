@@ -22,6 +22,56 @@
 		and "Generator." Please refer to those modules for more details about their roles in making XML Binding
 		a successful framework.
 	</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeGroupIds>org.safris</includeGroupIds>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install</id>
+						<configuration>
+							<tasks>
+								<delete dir="${project.build.directory}/classes/META-INF"/>
+								<mkdir dir="${project.build.directory}/classes/META-INF"/>
+								<manifest file="${project.build.directory}/classes/META-INF/MANIFEST.MF">
+									<attribute name="Main-Class" value="org.safris.xml.toolkit.binding.Generator"/>
+								</manifest>
+								<mkdir dir="${project.build.directory}/lib"/>
+								<jar destfile="${project.build.directory}/lib/xml-toolkit-binding-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
+							</tasks>
+						</configuration>
+					</execution>
+					<execution>
+						<id>deploy</id>
+						<configuration>
+							<tasks>
+								<scp file="${project.build.directory}/lib/xml-toolkit-binding-${version}.jar" todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase=""/>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
