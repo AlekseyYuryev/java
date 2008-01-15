@@ -1,6 +1,27 @@
 #!/bin/sh
 #
 
+# Parse the arguments.
+ARGS=""
+while [ $# != 0 ]; do
+	flag="$1"
+	case "$flag" in
+		-ut) UPDATE_TEMPLATES=true
+			shift;
+			continue;
+			;;
+		--update-templates) UPDATE_TEMPLATES=true
+			shift;
+			continue;
+			;;
+		--help) HELP=true
+			;;
+	esac
+	ARGS="$ARGS $1"
+	shift
+done
+
+# Find all pom*-template.xml files and write them to pom.xml.
 TEMPLATES="`find * -name 'pom*-template.xml'`"
 #echo $TEMPLATES
 for TEMPLATE in $TEMPLATES; do
@@ -15,42 +36,32 @@ for TEMPLATE in $TEMPLATES; do
 	fi
 done
 
-if [ "`echo $@`" = "-Du" ]; then
+# Now do a backwards climb to check and update all parent poms.
+FILE="`ls pom*-template.xml 2> /dev/null`"
+if [ $FILE ]; then
+	RELATIVE_PATH="../"
+	if [ "`cat $FILE | grep relativePath`" ]; then
+		RELATIVE_PATH="`cat $FILE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//' | sed 's/[^\.^\/]//g'`"
+	fi
+	cd $RELATIVE_PATH
+	mvn -ut
+fi
+
+# If we only want to update from the templates, then exit now.
+if [ $UPDATE_TEMPLATES ]; then
 	exit 0;
 fi
 
+# Find the original mvn script.
 MVN="`which -a mvn | xargs echo | awk '{print $NF}'`"
-HELP="`echo "$@" | grep '\-\-help'`"
-if [ "$HELP" != "" ]; then
-	$MVN "$@"
+
+# Get help from the original mvn and then print our additional options.
+if [ $HELP ]; then
+	$MVN $ARGS
 	echo
 	echo "Additional options:"
-	echo " -Dsvn:commit                  Commit deployed artifacts. Only works with"
-	echo "                               deploy goal."
-	echo " -Du                           Update pom files from pom-template files."
+	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE files."
 	exit
 fi
 
-SVN_COMMIT="`echo "$@" | grep 'svn:commit' | grep 'deploy'`"
-if [ "$SVN_COMMIT" != "" ]; then
-		REPO_PATH="`$MVN help:effective-pom | grep url | grep file | uniq | sed s'/\(file:\/\/\)\|\(<url>\)\|\(<\/url>\)//g'`"
-#	echo "Repo path: $REPO_PATH"
-	if [ ! -d $REPO_PATH ]; then
-		mkdir -p $REPO_PATH
-		svn co svn+ssh://repo.safris.org/m2 $REPO_PATH
-	fi
-
-	$MVN "$@"
-	ADD="`svn stat $REPO_PATH | grep ? | awk '{print $2}'`"
-#	echo "Add: $ADD"
-	if [ "$ADD" != "" ]; then
-		svn add $ADD
-		svn up $REPO_PATH
-		svn commit -m "Update to maven repository." $REPO_PATH
-	fi
-
-	exit
-fi
-
-$MVN "$@"
-
+$MVN $ARGS
