@@ -10,14 +10,14 @@ import org.safris.xml.toolkit.sample.binding.simple.SimpleFruitBasket;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeFleshyFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeIndehiscentDryFruitType;
 
-public class AnyTest
+public class AnyExample
 {
 	public static void main(String[] args)
 	{
 		new AnyTest().testExample();
 	}
 
-	public Binding testExample()
+	public Binding runExample()
 	{
 		SimpleFruit strawberry = new SimpleFruit();
 		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));

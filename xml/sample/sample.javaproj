@@ -39,19 +39,19 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AnyTest.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AnyExample.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/EnumsTest.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/EnumsExample.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/SimpleTest.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/SimpleExample.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/XsiTypeTest.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/XsiTypeExample.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

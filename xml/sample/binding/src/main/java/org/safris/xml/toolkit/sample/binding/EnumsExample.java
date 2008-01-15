@@ -5,14 +5,14 @@ import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
 import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
 
-public class EnumsTest
+public class EnumsExample
 {
 	public static void main(String[] args)
 	{
 		new EnumsTest().testExample();
 	}
 
-	public Binding testExample()
+	public Binding runExample()
 	{
 		SimpleFruit strawberry = new SimpleFruit();
 		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));

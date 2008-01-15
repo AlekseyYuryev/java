@@ -1,18 +1,17 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.toolkit.sample.binding.SimpleTest;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruitBasket;
 
-public class SimpleTest
+public class SimpleExample
 {
 	public static void main(String[] args)
 	{
 		new SimpleTest().testExample();
 	}
 
-	public Binding testExample()
+	public Binding runExample()
 	{
 		SimpleFruit strawberry = new SimpleFruit();
 		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));

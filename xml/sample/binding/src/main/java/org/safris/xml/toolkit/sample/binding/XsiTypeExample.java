@@ -9,14 +9,14 @@ import org.safris.xml.toolkit.sample.binding.xsitype.ITypeDehiscentDryFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeFleshyFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeIndehiscentDryFruitType;
 
-public class XsiTypeTest
+public class XsiTypeExample
 {
 	public static void main(String[] args)
 	{
 		new XsiTypeTest().testExample();
 	}
 
-	public Binding testExample()
+	public Binding runExample()
 	{
 		// Since there is no element declaration for the fleshyFruitType,
 		// we need to instantiate a nameless element. Once this element is
