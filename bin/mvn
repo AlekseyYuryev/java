@@ -43,8 +43,10 @@ if [ $FILE ]; then
 	if [ "`cat $FILE | grep relativePath`" ]; then
 		RELATIVE_PATH="`cat $FILE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//' | sed 's/[^\.^\/]//g'`"
 	fi
+	CWD="`pwd`"
 	cd $RELATIVE_PATH
 	mvn -ut
+	cd $CWD
 fi
 
 # If we only want to update from the templates, then exit now.
