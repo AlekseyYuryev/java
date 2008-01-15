@@ -15,6 +15,10 @@ for TEMPLATE in $TEMPLATES; do
 	fi
 done
 
+if [ "`echo $@`" = "-Du" ]; then
+	exit 0;
+fi
+
 MVN="`which -a mvn | xargs echo | awk '{print $NF}'`"
 HELP="`echo "$@" | grep '\-\-help'`"
 if [ "$HELP" != "" ]; then
@@ -23,6 +27,7 @@ if [ "$HELP" != "" ]; then
 	echo "Additional options:"
 	echo " -Dsvn:commit                  Commit deployed artifacts. Only works with"
 	echo "                               deploy goal."
+	echo " -Du                           Update pom files from pom-template files."
 	exit
 fi
 

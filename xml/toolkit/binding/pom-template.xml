@@ -27,46 +27,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeGroupIds>org.safris</includeGroupIds>
-							<outputDirectory>${project.build.directory}/classes</outputDirectory>
-							<overWriteSnapshots>true</overWriteSnapshots>
-							<overWriteReleases>true</overWriteReleases>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>install</id>
-						<configuration>
-							<tasks>
-								<delete dir="${project.build.directory}/classes/META-INF"/>
-								<mkdir dir="${project.build.directory}/classes/META-INF"/>
-								<manifest file="${project.build.directory}/classes/META-INF/MANIFEST.MF">
-									<attribute name="Main-Class" value="org.safris.xml.toolkit.binding.Generator"/>
-								</manifest>
-								<mkdir dir="${project.build.directory}/lib"/>
-								<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
-							</tasks>
-						</configuration>
+						<id>jar</id>
+						<phase>install</phase>
 					</execution>
 					<execution>
 						<id>deploy</id>
-						<configuration>
-							<tasks>
-								<scp file="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-${version}.jar" todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase=""/>
-							</tasks>
-						</configuration>
+						<phase>deploy</phase>
 					</execution>
 				</executions>
 			</plugin>

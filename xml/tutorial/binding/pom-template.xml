@@ -13,19 +13,20 @@
 	<name>${groupId}.${artifactId}</name>
 	<description>TODO</description>
 	<build>
-		<outputDirectory>${basedir}/target/jar</outputDirectory>
-		<resources>
-			<resource>
-				<directory>${basedir}</directory>
-				<includes>
-					<include>**/*.java</include>
-					<include>**/*.xml</include>
-					<include>**/*.xsd</include>
-					<include>**/bin/*</include>
-				</includes>
-			</resource>
-		</resources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>src-jar</id>
+						<phase>install</phase>
+					</execution>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.safris.xml.maven</groupId>
 				<artifactId>binding</artifactId>
@@ -44,15 +45,6 @@
 					</manifest>
 				</configuration>
 			</plugin>
-<!--		<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<classesDirectory>${project.build.directory}/install/classes</classesDirectory>
-					<finalName>tutorial-${artifactId}-${version}</finalName>
-					<outputDirectory>${project.build.directory}/install/lib</outputDirectory>
-				</configuration>
-			</plugin>-->
 		</plugins>
 	</build>
 	<dependencies>
