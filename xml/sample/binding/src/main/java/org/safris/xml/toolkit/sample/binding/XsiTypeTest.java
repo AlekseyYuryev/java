@@ -1,7 +1,6 @@
 package org.safris.xml.toolkit.sample.binding;
 
-import org.safris.xml.toolkit.sample.binding.AbstractTest;
-import org.safris.xml.toolkit.sample.binding.XsiTypeTest;
+import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
 import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
 import org.safris.xml.toolkit.sample.binding.simple.ISimpleFruitType;
@@ -10,14 +9,14 @@ import org.safris.xml.toolkit.sample.binding.xsitype.ITypeDehiscentDryFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeFleshyFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.ITypeIndehiscentDryFruitType;
 
-public class XsiTypeTest extends AbstractTest
+public class XsiTypeTest
 {
 	public static void main(String[] args)
 	{
 		new XsiTypeTest().testExample();
 	}
 
-	public void testExample()
+	public Binding testExample()
 	{
 		// Since there is no element declaration for the fleshyFruitType,
 		// we need to instantiate a nameless element. Once this element is
@@ -98,6 +97,6 @@ public class XsiTypeTest extends AbstractTest
 		coloredBasket.setSimpleFruits(fruits);
 
 		// Now verify the integrity of the code representing this XML structure.
-		assertTrue(verifyBinding(coloredBasket));
+		return coloredBasket;
 	}
 }

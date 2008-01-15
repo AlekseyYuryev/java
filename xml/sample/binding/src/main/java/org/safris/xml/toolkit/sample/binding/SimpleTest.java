@@ -1,18 +1,18 @@
 package org.safris.xml.toolkit.sample.binding;
 
-import org.safris.xml.toolkit.sample.binding.AbstractTest;
+import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.toolkit.sample.binding.SimpleTest;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruitBasket;
 
-public class SimpleTest extends AbstractTest
+public class SimpleTest
 {
 	public static void main(String[] args)
 	{
 		new SimpleTest().testExample();
 	}
 
-	public void testExample()
+	public Binding testExample()
 	{
 		SimpleFruit strawberry = new SimpleFruit();
 		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));
@@ -31,6 +31,6 @@ public class SimpleTest extends AbstractTest
 		genericBasket.setSimpleFruits(fruits);
 
 		// Now verify the integrity of the code representing this XML structure.
-		assertTrue(verifyBinding(genericBasket));
+		return genericBasket;
 	}
 }

@@ -35,7 +35,67 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AbstractTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AnyTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/EnumsTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/SimpleTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/XsiTypeTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xml/enums.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xml/manifest.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xml/simple.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xml/xsitype.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/any.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/enums.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/simple.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/xsitype.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/AbstractTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/AbstractTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/AnyTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -47,7 +107,19 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/EnumsTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/SimpleTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/SimpleTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/XsiTypeTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

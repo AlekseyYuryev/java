@@ -1,19 +1,18 @@
 package org.safris.xml.toolkit.sample.binding;
 
-import org.safris.xml.toolkit.sample.binding.AbstractTest;
-import org.safris.xml.toolkit.sample.binding.EnumsTest;
+import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
 import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
 import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
 
-public class EnumsTest extends AbstractTest
+public class EnumsTest
 {
 	public static void main(String[] args)
 	{
 		new EnumsTest().testExample();
 	}
 
-	public void testExample()
+	public Binding testExample()
 	{
 		SimpleFruit strawberry = new SimpleFruit();
 		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));
@@ -33,6 +32,6 @@ public class EnumsTest extends AbstractTest
 		coloredBasket.setSimpleFruits(simpleFruits);
 
 		// Now verify the integrity of the code representing this XML structure.
-		assertTrue(verifyBinding(coloredBasket));
+		return coloredBasket;
 	}
 }

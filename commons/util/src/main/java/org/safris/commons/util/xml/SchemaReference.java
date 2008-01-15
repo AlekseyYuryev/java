@@ -199,6 +199,10 @@ public class SchemaReference
 				{
 					this.inputStream = connection.getInputStream();
 				}
+				catch(FileNotFoundException e)
+				{
+					throw new ExitSevereError(e.getMessage());
+				}
 				catch(IOException e)
 				{
 					if("Connection refused".equals(e.getMessage()) && tryCount == 10)
