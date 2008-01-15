@@ -41,13 +41,7 @@
 				</executions>
 				<configuration>
 					<manifest xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd">
-						<destdir explodeJars="true" overwrite="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
-						<schemas>
-							<schema>${basedir}/src/test/resources/xsd/simple.xsd</schema>
-							<schema>${basedir}/src/test/resources/xsd/enums.xsd</schema>
-							<schema>${basedir}/src/test/resources/xsd/xsitype.xsd</schema>
-							<schema>${basedir}/src/test/resources/xsd/any.xsd</schema>
-						</schemas>
+						<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/main/resources/xml/manifest.xml"/>
 					</manifest>
 				</configuration>
 			</plugin>
