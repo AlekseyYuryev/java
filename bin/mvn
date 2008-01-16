@@ -1,8 +1,84 @@
 #!/bin/sh
 #
 
+updatePOM() {
+	UP_POM_TEMPLATE="$1"
+	UP_PARENT_POM_TEMPLATE="$2"
+	UP_PARENT_POM_TEMPLATE="`echo $UP_PARENT_POM_TEMPLATE | sed 's/\([\.]\{1,2\}\/\)*//g'`"
+	UP_PARENT_POM="`echo $UP_PARENT_POM_TEMPLATE | sed s'/-template//'`"
+	UP_POM="`echo $UP_POM_TEMPLATE | sed 's/-template//'`"
+	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
+		cat $UP_POM_TEMPLATE |
+		sed \s/$UP_PARENT_POM_TEMPLATE/$UP_PARENT_POM/ | \
+		sed 's/\${orgVersion}/1.2.13/' | \
+		sed 's/\${commonsVersion}/0.4.2/' | \
+		sed 's/\${xmlVersion}/1.0.4/' | \
+		sed 's/\${webVersion}/0.5.6/' > $UP_POM
+		echo "Updated: $UP_POM"
+	fi
+}
+
+updateParentPOMs() {
+	UPP_POM_TEMPLATE="$1"
+	UPP_PARENT_POM_TEMPLATE="pom-template.xml"
+	while [ -f $UPP_POM_TEMPLATE ]; do
+		UPP_PARENT_POM_TEMPLATE="../$UPP_PARENT_POM_TEMPLATE"
+		if [ "`cat $UPP_POM_TEMPLATE | grep relativePath`" ]; then
+			UPP_PARENT_POM_TEMPLATE="`cat $UPP_POM_TEMPLATE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//'`"
+		fi
+		updatePOM $UPP_POM_TEMPLATE $UPP_PARENT_POM_TEMPLATE;
+		UPP_POM_TEMPLATE="$UPP_PARENT_POM_TEMPLATE"
+	done
+}
+
+UCP_ALL_MODULES=""
+UCP_INNER_MODULES=""
+UCP_OUTER_MODULES=""
+updateChildPOMs() {
+	UCP_FILE_NAME="$1"
+	UCP_OUTER_MODULES="./"
+	while [ "$UCP_OUTER_MODULES" != "" ]; do
+		for CHILD in $UCP_OUTER_MODULES; do
+			# Get all module entries and remove <module>, </module> and <!--.*-->
+			CHILDREN="`grep '<module>' ${CHILD}${UCP_FILE_NAME} | sed 's/\(\(\(<\)\|\(<\/\)\)module>\)\|\(<!--.*-->\)//g' | xargs echo`"
+			# If we have modules
+			if [ "$CHILDREN" != "" ]; then
+				# Define the dir that the module is in, and escape the "/"
+				ESCAPED_DIR="`echo "$CHILD/" | sed 's/\//\\\\\//g'`"
+				# Prepend all module names with the appropriate parent module dir
+				CHILDREN="`echo "$CHILDREN" | sed \s/\\\\\(\\\\\(\ \\\\\)\\\\\|\\\\\(\^\\\\\)\\\\\)/\\\\1$ESCAPED_DIR/g`"
+
+				# Append the module names to the INNER list and continue
+				# iterating through the OUTER list
+				UCP_INNER_MODULES="$UCP_INNER_MODULES $CHILDREN"
+			fi
+		done
+		# Overwrite the UCP_FILE_NAME to the default pom-template.xml
+		UCP_FILE_NAME="/pom-template.xml"
+
+		# Append the UCP_INNER_MODULES list to UCP_ALL_MODULES
+		UCP_ALL_MODULES="$UCP_ALL_MODULES $UCP_INNER_MODULES"
+
+		# Replace the UCP_OUTER_MODULES list as the UCP_INNER_MODULES list
+		# so that it we can iterate through it next
+		UCP_OUTER_MODULES="$UCP_INNER_MODULES"
+
+		# Empty out the UCP_INNER_MODULES list
+		UCP_INNER_MODULES=""
+	done
+	# Remove all ".//" substrings.
+	UCP_ALL_MODULES="`echo "$UCP_ALL_MODULES" | sed 's/\.\/\///g'`"
+
+	# Iterate through the UCP_ALL_MODULES list
+	for UCP_POM_TEMPLATE in $UCP_ALL_MODULES; do
+		# Call updatePOM with the default pom-template.xml as the parent pom
+		updatePOM $UCP_POM_TEMPLATE/pom-template.xml pom-template.xml
+	done
+}
+
 # Parse the arguments.
 ARGS=""
+POM_TEMPLATE="pom-template.xml"
 while [ $# != 0 ]; do
 	flag="$1"
 	case "$flag" in
@@ -14,6 +90,15 @@ while [ $# != 0 ]; do
 			shift;
 			continue;
 			;;
+		-ft) if [ $# -gt 1 ]; then
+			POM_TEMPLATE="$2"
+			shift
+			fi
+			shift;
+			continue;
+			;;
+		-f) FILE=true
+			;;
 		--help) HELP=true
 			;;
 	esac
@@ -21,33 +106,11 @@ while [ $# != 0 ]; do
 	shift
 done
 
-# Find all pom*-template.xml files and write them to pom.xml.
-TEMPLATES="`find * -name 'pom*-template.xml'`"
-#echo $TEMPLATES
-for TEMPLATE in $TEMPLATES; do
-	POM="`echo $TEMPLATE | sed 's/-template//'`"
-	if [ ! -f $POM ] || [ $TEMPLATE -nt $POM ] || [ `which mvn` -nt $POM ]; then
-		cat $TEMPLATE |
-		sed 's/\${orgVersion}/1.2.13/' | \
-		sed 's/\${commonsVersion}/0.4.2/' | \
-		sed 's/\${xmlVersion}/1.0.4/' | \
-		sed 's/\${webVersion}/0.5.6/' > $POM
-		echo "Updated: $POM"
-	fi
-done
+# Update all parent POMs.
+updateParentPOMs $POM_TEMPLATE;
+updateChildPOMs $POM_TEMPLATE;
 
 # Now do a backwards climb to check and update all parent poms.
-FILE="`ls pom*-template.xml 2> /dev/null`"
-if [ $FILE ]; then
-	RELATIVE_PATH="../"
-	if [ "`cat $FILE | grep relativePath`" ]; then
-		RELATIVE_PATH="`cat $FILE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//' | sed 's/[^\.^\/]//g'`"
-	fi
-	CWD="`pwd`"
-	cd $RELATIVE_PATH
-	mvn -ut
-	cd $CWD
-fi
 
 # If we only want to update from the templates, then exit now.
 if [ $UPDATE_TEMPLATES ]; then
@@ -62,7 +125,10 @@ if [ $HELP ]; then
 	$MVN $ARGS
 	echo
 	echo "Additional options:"
-	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE files."
+	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE"
+	echo "                               template files."
+	echo " -ft                           Force the use of an alternate POM-TEMPLATE"
+	echo "                               file."
 	exit
 fi
 
