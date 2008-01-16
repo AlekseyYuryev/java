@@ -1,13 +1,32 @@
 #!/bin/sh
 #
 
+POM_TEMPLATE_PROPERTIES=""
+findProperties() {
+	POM_TEMPLATE_PROPERTIES_NAME="pom-template.properties"
+	DOT_DOT="../"
+	if [ ! $POM_TEMPLATE_PROPERTIES ]; then
+		POM_TEMPLATE_PROPERTIES="$POM_TEMPLATE_PROPERTIES_NAME"
+		while [ ! -f "$POM_TEMPLATE_PROPERTIES" ]; do
+			POM_TEMPLATE_PROPERTIES="${DOT_DOT}${POM_TEMPLATE_PROPERTIES}"
+		done
+	fi
+}
+
 updatePOM() {
 	UP_POM_TEMPLATE="$1"
 	UP_PARENT_POM_TEMPLATE="$2"
 	UP_PARENT_POM_TEMPLATE="`echo $UP_PARENT_POM_TEMPLATE | sed 's/\([\.]\{1,2\}\/\)*//g'`"
 	UP_PARENT_POM="`echo $UP_PARENT_POM_TEMPLATE | sed s'/-template//'`"
 	UP_POM="`echo $UP_POM_TEMPLATE | sed 's/-template//'`"
+
 	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
+		findProperties;
+#		UPDATE_CMD="cat $UP_POM_TEMPLATE | sed \s/$UP_PARENT_POM_TEMPLATE/$UP_PARENT_POM/ `cat $POM_TEMPLATE_PROPERTIES | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\}\/\2\/g/g'| sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\| sed \\\\s\/\\\\\\$\\\\{\4/g'`"
+#		echo "UPDATE_CMD:\n$UPDATE_CMD"
+#		`sh -c $UPDATE_CMD`
+#		exit
+
 		cat $UP_POM_TEMPLATE |
 		sed \s/$UP_PARENT_POM_TEMPLATE/$UP_PARENT_POM/ | \
 		sed 's/\${orgVersion}/1.2.13/' | \
