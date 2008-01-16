@@ -6,8 +6,6 @@ import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
-import org.safris.xml.toolkit.tutorial.binding.beginner.invoice.IPvItemType;
-import org.safris.xml.toolkit.tutorial.binding.beginner.invoice.PvInvoice;
 import org.xml.sax.InputSource;
 
 public class ParseHowTo

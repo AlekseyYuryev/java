@@ -94,6 +94,26 @@
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/PvInvoice.java</incPathSpec>
     </javaFile2>
     <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvAddressType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvItemsType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvItemType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvPositiveDecimal.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/PvInvoice.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>LICENSE.txt</incPathSpec>
     </javaFile2>

@@ -14,7 +14,7 @@ public class AnyExample
 {
 	public static void main(String[] args)
 	{
-		new AnyTest().testExample();
+		new AnyExample().runExample();
 	}
 
 	public Binding runExample()

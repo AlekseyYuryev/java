@@ -8,7 +8,7 @@ public class SimpleExample
 {
 	public static void main(String[] args)
 	{
-		new SimpleTest().testExample();
+		new SimpleExample().runExample();
 	}
 
 	public Binding runExample()

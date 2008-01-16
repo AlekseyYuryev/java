@@ -4,7 +4,6 @@ import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
-import org.safris.xml.toolkit.tutorial.binding.beginner.invoice.PvInvoice;
 
 public class MarshalHowTo
 {

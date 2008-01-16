@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema elementFormDefault="qualified"
-	targetNamespace="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd"
-	xmlns:pv="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd"
+	targetNamespace="http://xml.safris.org/tutorial/binding/invoice.xsd"
+	xmlns:pv="http://xml.safris.org/tutorial/binding/invoice.xsd"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<xs:element name="invoice">

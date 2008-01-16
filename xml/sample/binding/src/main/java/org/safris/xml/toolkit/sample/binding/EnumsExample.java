@@ -9,7 +9,7 @@ public class EnumsExample
 {
 	public static void main(String[] args)
 	{
-		new EnumsTest().testExample();
+		new EnumsExample().runExample();
 	}
 
 	public Binding runExample()

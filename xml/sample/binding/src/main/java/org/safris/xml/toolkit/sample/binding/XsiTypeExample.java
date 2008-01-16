@@ -13,7 +13,7 @@ public class XsiTypeExample
 {
 	public static void main(String[] args)
 	{
-		new XsiTypeTest().testExample();
+		new XsiTypeExample().runExample();
 	}
 
 	public Binding runExample()

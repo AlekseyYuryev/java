@@ -62,13 +62,14 @@ public final class Processes
 		for(URL url : classpathURLs)
 			classpath.append(File.pathSeparatorChar).append(url.getFile());
 
-		final String[] ret = new String[args.length + 4];
-		System.arraycopy(args, 0, ret, 4, args.length);
-		ret[0] = "java";
-		ret[1] = "-cp";
-		ret[2] = classpath.substring(1);
-		ret[3] = clazz.getName();
-		return ret;
+		final String[] options = new String[args.length + 4];
+		System.arraycopy(args, 0, options, 4, args.length);
+		options[0] = "java";
+		options[1] = "-cp";
+		options[2] = classpath.substring(1);
+		options[3] = clazz.getName();
+
+		return options;
 	}
 
 	private static final class PipedProcess extends Process
