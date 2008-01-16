@@ -38,21 +38,25 @@ updateChildPOMs() {
 	UCP_FILE_NAME="$1"
 	UCP_OUTER_MODULES="./"
 	while [ "$UCP_OUTER_MODULES" != "" ]; do
-		for CHILD in $UCP_OUTER_MODULES; do
-			# Get all module entries and remove <module>, </module> and <!--.*-->
-			CHILDREN="`grep '<module>' ${CHILD}${UCP_FILE_NAME} | sed 's/\(\(\(<\)\|\(<\/\)\)module>\)\|\(<!--.*-->\)//g' | xargs echo`"
-			# If we have modules
-			if [ "$CHILDREN" != "" ]; then
-				# Define the dir that the module is in, and escape the "/"
-				ESCAPED_DIR="`echo "$CHILD/" | sed 's/\//\\\\\//g'`"
-				# Prepend all module names with the appropriate parent module dir
-				CHILDREN="`echo "$CHILDREN" | sed \s/\\\\\(\\\\\(\ \\\\\)\\\\\|\\\\\(\^\\\\\)\\\\\)/\\\\1$ESCAPED_DIR/g`"
+		for UCP_CHILD_MODULE in $UCP_OUTER_MODULES; do
+			# Make sure that the POM-TEMPLATE file exists
+			if [ -f ${UCP_CHILD_MODULE}${UCP_FILE_NAME} ]; then
+				# Get all module entries and remove <module>, </module> and <!--.*-->
+				UCP_UCP_CHILD_MODULE_MODULES="`grep '<module>' ${UCP_CHILD_MODULE}${UCP_FILE_NAME} | sed 's/\(\(\(<\)\|\(<\/\)\)module>\)\|\(<!--.*-->\)//g' | xargs echo`"
+				# If we have modules
+				if [ "$UCP_UCP_CHILD_MODULE_MODULES" != "" ]; then
+					# Define the dir that the module is in, and escape the "/"
+					ESCAPED_DIR="`echo "$UCP_CHILD_MODULE/" | sed 's/\//\\\\\//g'`"
+					# Prepend all module names with the appropriate parent module dir
+					UCP_UCP_CHILD_MODULE_MODULES="`echo "$UCP_UCP_CHILD_MODULE_MODULES" | sed \s/\\\\\(\\\\\(\ \\\\\)\\\\\|\\\\\(\^\\\\\)\\\\\)/\\\\1$ESCAPED_DIR/g`"
 
-				# Append the module names to the INNER list and continue
-				# iterating through the OUTER list
-				UCP_INNER_MODULES="$UCP_INNER_MODULES $CHILDREN"
+					# Append the module names to the INNER list and continue
+					# iterating through the OUTER list
+					UCP_INNER_MODULES="$UCP_INNER_MODULES $UCP_UCP_CHILD_MODULE_MODULES"
+				fi
 			fi
 		done
+
 		# Overwrite the UCP_FILE_NAME to the default pom-template.xml
 		UCP_FILE_NAME="/pom-template.xml"
 
@@ -66,6 +70,7 @@ updateChildPOMs() {
 		# Empty out the UCP_INNER_MODULES list
 		UCP_INNER_MODULES=""
 	done
+
 	# Remove all ".//" substrings.
 	UCP_ALL_MODULES="`echo "$UCP_ALL_MODULES" | sed 's/\.\/\///g'`"
 
@@ -76,7 +81,7 @@ updateChildPOMs() {
 	done
 }
 
-# Parse the arguments.
+# Parse the arguments
 ARGS=""
 POM_TEMPLATE="pom-template.xml"
 while [ $# != 0 ]; do
@@ -106,21 +111,21 @@ while [ $# != 0 ]; do
 	shift
 done
 
-# Update all parent POMs.
+# Update all parent POMs
 updateParentPOMs $POM_TEMPLATE;
+
+# Update all child POMs
 updateChildPOMs $POM_TEMPLATE;
 
-# Now do a backwards climb to check and update all parent poms.
-
-# If we only want to update from the templates, then exit now.
+# If we only want to update from the template poms, then exit now
 if [ $UPDATE_TEMPLATES ]; then
 	exit 0;
 fi
 
-# Find the original mvn script.
+# Find the original mvn script
 MVN="`which -a mvn | xargs echo | awk '{print $NF}'`"
 
-# Get help from the original mvn and then print our additional options.
+# Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
 	$MVN $ARGS
 	echo
