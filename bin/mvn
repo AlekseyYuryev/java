@@ -1,15 +1,19 @@
 #!/bin/sh
 #
 
-POM_TEMPLATE_PROPERTIES=""
+FP_POM_TEMPLATE_PROPERTIES=""
+FP_CACHE=""
 findProperties() {
-	POM_TEMPLATE_PROPERTIES_NAME="pom-template.properties"
+	FP_POM_TEMPLATE_PROPERTIES_NAME="pom-template.properties"
 	DOT_DOT="../"
-	if [ ! $POM_TEMPLATE_PROPERTIES ]; then
-		POM_TEMPLATE_PROPERTIES="$POM_TEMPLATE_PROPERTIES_NAME"
-		while [ ! -f "$POM_TEMPLATE_PROPERTIES" ]; do
-			POM_TEMPLATE_PROPERTIES="${DOT_DOT}${POM_TEMPLATE_PROPERTIES}"
+	if [ ! $FP_CACHE ]; then
+		FP_POM_TEMPLATE_PROPERTIES="$FP_POM_TEMPLATE_PROPERTIES_NAME"
+		FP_POM_TEMPLATE="pom-template.xml"
+		while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ -f $FP_POM_TEMPLATE ]; do
+			FP_POM_TEMPLATE_PROPERTIES="${DOT_DOT}${FP_POM_TEMPLATE_PROPERTIES}"
+			FP_POM_TEMPLATE="${DOT_DOT}${FP_POM_TEMPLATE}"
 		done
+		FP_CACHE=true
 	fi
 }
 
@@ -22,17 +26,8 @@ updatePOM() {
 
 	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
 		findProperties;
-#		UPDATE_CMD="cat $UP_POM_TEMPLATE | sed \s/$UP_PARENT_POM_TEMPLATE/$UP_PARENT_POM/ `cat $POM_TEMPLATE_PROPERTIES | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\}\/\2\/g/g'| sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\| sed \\\\s\/\\\\\\$\\\\{\4/g'`"
-#		echo "UPDATE_CMD:\n$UPDATE_CMD"
-#		`sh -c $UPDATE_CMD`
-#		exit
-
-		cat $UP_POM_TEMPLATE |
-		sed \s/$UP_PARENT_POM_TEMPLATE/$UP_PARENT_POM/ | \
-		sed 's/\${orgVersion}/1.2.13/' | \
-		sed 's/\${commonsVersion}/0.4.2/' | \
-		sed 's/\${xmlVersion}/1.0.4/' | \
-		sed 's/\${webVersion}/0.5.6/' > $UP_POM
+		UPDATE_CMD="`cat $FP_POM_TEMPLATE_PROPERTIES | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\}\/\2\/g/g'| sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+		echo $UPDATE_CMD | xargs sed > $UP_POM
 		echo "Updated: $UP_POM"
 	fi
 }
