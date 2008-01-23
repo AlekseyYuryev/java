@@ -13,7 +13,6 @@
 	<version>${xmlVersion}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
-	<url>http://xml.safris.org/</url>
 	<description>
 		XML projects.
 	</description>
@@ -22,7 +21,6 @@
 		<module>toolkit</module>
 		<module>ant</module>
 		<module>maven</module>
-		<module>standalone</module>
 		<module>sample</module>
 		<module>tutorial</module>
 	</modules>
@@ -58,8 +56,8 @@
 							</goals>
 							<configuration>
 								<tasks>
-									<mkdir dir="${project.build.directory}/lib"/>
-									<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge">
+									<mkdir dir="${project.build.directory}/solo/${version}"/>
+									<jar destfile="${project.build.directory}/solo/${version}/${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge">
 										<fileset dir="${basedir}/src/main/java"/>
 										<fileset dir="${basedir}/src/main/resources"/>
 									</jar>
@@ -70,7 +68,7 @@
 									</taskdef>
 									<trycatch property="exception">
 										<try>
-											<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge" update="true">
+											<jar destfile="${project.build.directory}/solo/${version}/${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge" update="true">
 												<fileset dir="${basedir}/src/main/java"/>
 												<fileset dir="${basedir}/src/main/resources"/>
 											</jar>
@@ -81,7 +79,7 @@
 									</trycatch>
 									<trycatch property="exception">
 										<try>
-											<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge" update="true">
+											<jar destfile="${project.build.directory}/solo/${version}/${parent.artifactId}-${artifactId}-src-${version}.jar" index="true" filesetmanifest="merge" update="true">
 												<fileset dir="${basedir}/src/test/java"/>
 												<fileset dir="${basedir}/src/test/resources"/>
 											</jar>
@@ -105,8 +103,8 @@
 									<manifest file="${project.build.directory}/classes/META-INF/MANIFEST.MF">
 <!--										<attribute name="Main-Class" value="org.safris.xml.toolkit.binding.Generator"/>-->
 									</manifest>
-									<mkdir dir="${project.build.directory}/lib"/>
-									<jar destfile="${project.build.directory}/lib/xml-${parent.artifactId}-${artifactId}-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
+									<mkdir dir="${project.build.directory}/solo/${version}"/>
+									<jar destfile="${project.build.directory}/solo/${version}/${artifactId}-${parent.artifactId}-${version}.jar" basedir="${project.build.directory}/classes" index="true" filesetmanifest="merge"/>
 								</tasks>
 							</configuration>
 						</execution>
@@ -117,8 +115,8 @@
 							</goals>
 							<configuration>
 								<tasks>
-									<scp todir="${env.USER}@safris.org:/var/lib/apache2/org/safris/www/xml/standalone/binding" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase="">
-										<fileset dir="${project.build.directory}/lib" includes="*.jar"/>
+									<scp todir="${env.USER}@safris.org:/var/lib/mvn/org/solo" trust="true" keyfile="${env.HOME}/.ssh/id_dsa" passphrase="">
+										<fileset dir="${project.build.directory}/solo"/>
 									</scp>
 								</tasks>
 							</configuration>

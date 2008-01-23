@@ -218,13 +218,13 @@
 	<distributionManagement>
 		<site>
 			<id>safris.org</id>
-			<url>scp://safris.org/var/lib/apache2/org/safris/www/</url>
+			<url>scp://safris.org/var/lib/apache2/org/safris/www</url>
 		</site>
 		<repository>
 			<uniqueVersion>false</uniqueVersion>
-			<id>m2.repo.safris.org</id>
+			<id>mvn.repo.safris.org</id>
 			<name>safris.org repository</name>
-			<url>scp://m2.repo.safris.org/var/lib/m2/org/</url>
+			<url>scp://mvn.repo.safris.org/var/lib/mvn/org/m2</url>
 		</repository>
 	</distributionManagement>
 </project>
