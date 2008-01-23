@@ -23,7 +23,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<manifest xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd">
+					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
 						<destdir overwrite="true">${basedir}/../../../../target/generated-sources/xmlbinding</destdir>
 						<schemas>
 							<schema>../xsd/maven.xsd</schema>

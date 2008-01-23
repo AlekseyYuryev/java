@@ -1,7 +1,7 @@
 <manifest
-	xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
+	xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xml.safris.org/toolkit/application/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
+	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
 	<destdir overwrite="true">${basedir}/../../../../target/generated-sources/xmlbinding</destdir>
 	<schemas>
 		<schema>../xsd/maven.xsd</schema>

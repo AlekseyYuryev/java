@@ -27,7 +27,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<manifest xmlns="http://xml.safris.org/toolkit/application/binding/manifest.xsd">
+					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
 						<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/test/resources/xml/manifest.xml"/>
 					</manifest>
 				</configuration>

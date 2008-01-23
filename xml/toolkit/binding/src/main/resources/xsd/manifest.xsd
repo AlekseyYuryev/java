@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
 	elementFormDefault="qualified"
-	targetNamespace="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
-	xmlns:mf="http://xml.safris.org/toolkit/application/binding/manifest.xsd"
+	targetNamespace="http://xml.safris.org/toolkit/binding/manifest.xsd"
+	xmlns:mf="http://xml.safris.org/toolkit/binding/manifest.xsd"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

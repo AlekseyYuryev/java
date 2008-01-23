@@ -74,8 +74,8 @@ public class GeneratorTask extends Task implements DynamicElement
 			if(proxy instanceof UnknownElement)
 			{
 				final UnknownElement unknownElement = (UnknownElement)proxy;
-				if("manifest".equals(unknownElement.getTaskName()) && !"http://xml.safris.org/toolkit/application/binding/manifest.xsd".equals(unknownElement.getNamespace()))
-					throw new BuildException("Expected http://xml.safris.org/toolkit/application/binding/manifest.xsd namespace, but got: " + unknownElement.getNamespace());
+				if("manifest".equals(unknownElement.getTaskName()) && !"http://xml.safris.org/toolkit/binding/manifest.xsd".equals(unknownElement.getNamespace()))
+					throw new BuildException("Expected http://xml.safris.org/toolkit/binding/manifest.xsd namespace, but got: " + unknownElement.getNamespace());
 			}
 		}
 
