@@ -58,10 +58,6 @@
       <incPathSpec>binding/src/test/java/org/safris/xml/maven/binding/InternalTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/test/java/org/safris/xml/maven/binding/StandaloneTest.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>binding/src/test/resources/xml/manifest.xml</incPathSpec>
     </javaFile2>
@@ -72,14 +68,6 @@
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>binding/src/test/resources/xml/pom-internal-template.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/pom1.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/pom2.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

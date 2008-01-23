@@ -182,6 +182,7 @@ public final class Bundle extends Phase<SchemaComposite>
 						return !pathname.getName().endsWith(".jar");
 					}
 				};
+
 				final Collection<File> files = Files.listAll(bindingParameters.getDestDir(), jarFilter);
 				for(File file : files)
 					Files.deleteAllOnExit(file);

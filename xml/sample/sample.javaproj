@@ -35,10 +35,6 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AbstractTest.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/sample/binding/AnyExample.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -126,32 +122,8 @@
       <incPathSpec>binding/src/test/java/org/safris/xml/toolkit/sample/binding/XsiTypeTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/enums.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/simple.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/xsitype.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xsd/any.xsd</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xsd/enums.xsd</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xsd/simple.xsd</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xsd/xsitype.xsd</incPathSpec>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/any/AnyTrash.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -168,6 +140,10 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/any/AnyTrash.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/any/IAnyTrashType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -199,6 +175,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/EnumsColorAttr.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/EnumsColoredFruitBasket.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/EnumsColoredFruitBasket.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -228,6 +212,14 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/EnumsTestElement.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/EnumsTestElement.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/enums/IEnumsColoredFruitBasketType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -259,6 +251,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/ISimpleFruitBasketType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/ISimpleFruitType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/ISimpleFruitType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -280,6 +280,14 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/SimpleFruit.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/SimpleFruit.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/simple/SimpleFruitBasket.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -303,6 +311,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeDehiscentDryFruitType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeDryFruitType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeDryFruitType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -319,11 +335,23 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeFleshyFruitType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeFleshyFruitTypeAbstract.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeFleshyFruitTypeAbstract.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeFleshyFruitTypeAbstract.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/sample/binding/xsitype/ITypeIndehiscentDryFruitType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

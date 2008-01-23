@@ -27,19 +27,11 @@
   <includedFiles>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>toolkit/binding/bindc</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>toolkit/binding/install</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>toolkit/binding/setup</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>toolkit/binding/src/main/resources/xsd/invoice.xsd</incPathSpec>
     </javaFile2>
   </includedFiles>
   <name>sandbox</name>

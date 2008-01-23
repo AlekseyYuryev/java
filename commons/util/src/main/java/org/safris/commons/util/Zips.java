@@ -34,7 +34,7 @@ public final class Zips
 		final Enumeration<? extends ZipEntry> enumeration = zip.entries();
 		while(enumeration.hasMoreElements())
 		{
-			ZipEntry entry = enumeration.nextElement();
+			final ZipEntry entry = enumeration.nextElement();
 			if(entry.isDirectory())
 				continue;
 

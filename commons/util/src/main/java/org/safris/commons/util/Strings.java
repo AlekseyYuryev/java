@@ -3,7 +3,7 @@ package org.safris.commons.util;
 public final class Strings
 {
 	// FIXME: This is not as nice as it could be!
-	private static final String changeCase(String string, boolean upper, int beginIndex, int endIndex)
+	private static String changeCase(String string, boolean upper, int beginIndex, int endIndex)
 	{
 		if(string == null)
 			throw new IllegalArgumentException("string is null");

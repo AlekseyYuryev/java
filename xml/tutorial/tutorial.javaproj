@@ -54,44 +54,20 @@
       <incPathSpec>binding/src/main/resources/xml/manifest.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvAddressType.java</incPathSpec>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/invoice.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/nameworld.xsd</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/main/resources/xsd/numerals.xsd</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvAddressType.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvItemsType.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvItemsType.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvItemType.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvItemType.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvPositiveDecimal.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/IPvPositiveDecimal.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/PvInvoice.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/toolkit/tutorial/binding/beginner/invoice/PvInvoice.java</incPathSpec>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvAddressType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -103,11 +79,27 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvItemsType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvItemType.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvItemType.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvPositiveDecimal.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/IPvPositiveDecimal.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/target/generated-sources/xmlbinding/org/safris/xml/tutorial/binding/invoice/PvInvoice.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
