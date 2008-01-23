@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringWriter;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import org.safris.commons.format.SourceFormat;
 import org.safris.commons.util.Files;
 import org.safris.xml.generator.compiler.lang.CompilerError;
@@ -17,11 +15,11 @@ import org.safris.xml.generator.compiler.phase.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.module.phase.BindingParameters;
 import org.safris.xml.generator.module.phase.Nameable;
 import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public abstract class Writer<T extends Plan> extends Phase<Plan>
 {
-	private static final Collection<String> messages = new HashSet<String>();
-	private static final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>();
+	private static final Collection<String> messages = StaticReferenceManager.manageCollection(new HashSet<String>());
 	private static final Writer instance = new Writer()
 	{
 		protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent)

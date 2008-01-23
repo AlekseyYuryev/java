@@ -9,11 +9,11 @@ import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.GroupModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class GroupNormalizer extends Normalizer<GroupModel>
 {
-	private static final Map<BindingQName,GroupModel> all = new HashMap<BindingQName,GroupModel>();
+	private static final Map<BindingQName,GroupModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,GroupModel>());
 
 	public static GroupModel parseGroup(BindingQName name)
 	{

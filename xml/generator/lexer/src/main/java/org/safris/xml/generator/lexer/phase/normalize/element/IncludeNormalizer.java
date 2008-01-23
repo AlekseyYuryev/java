@@ -7,7 +7,7 @@ import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 
 public class IncludeNormalizer extends Normalizer<IncludeModel>
 {
-	private static final Collection<String> messages = new HashSet<String>();
+	private final Collection<String> messages = new HashSet<String>();
 
 	protected void stage1(IncludeModel model)
 	{

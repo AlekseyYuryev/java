@@ -10,10 +10,11 @@ import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 {
-	private static final Map<BindingQName,AttributeGroupModel> all = new HashMap<BindingQName,AttributeGroupModel>();
+	private static final Map<BindingQName,AttributeGroupModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,AttributeGroupModel>());
 
 	public static AttributeGroupModel parseAttributeGroup(BindingQName name)
 	{

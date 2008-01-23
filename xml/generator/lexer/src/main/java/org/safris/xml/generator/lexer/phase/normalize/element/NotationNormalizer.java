@@ -5,10 +5,11 @@ import java.util.Map;
 import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.element.NotationModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class NotationNormalizer extends Normalizer<NotationModel>
 {
-	private static final Map<BindingQName,NotationModel> all = new HashMap<BindingQName,NotationModel>();
+	private static final Map<BindingQName,NotationModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,NotationModel>());
 
 	public static final NotationModel parseNotation(BindingQName name)
 	{

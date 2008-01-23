@@ -7,10 +7,13 @@ import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 
 public class SchemaNormalizer extends Normalizer<SchemaModel>
 {
-	private static final File CWD = Files.getCwd();
+	private static File CWD = null;
 
 	protected void stage1(SchemaModel model)
 	{
+		if(CWD == null)
+			CWD = Files.getCwd();
+
 		if(model.getURL() == null)
 			return;
 

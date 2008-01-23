@@ -1,5 +1,6 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
+import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.safris.xml.generator.lexer.phase.model.RedefineableModel;
 import org.safris.xml.generator.lexer.phase.model.ReferableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -100,7 +102,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
 
 	public static class Reference extends GroupModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<BindingQName,Reference> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,Reference>());
 
 		protected Reference(Model parent)
 		{

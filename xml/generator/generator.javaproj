@@ -1447,6 +1447,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/StaticReferenceManager.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/TransientStatic.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>phase/src/main/java/org/safris/xml/generator/phase/handler/All.java</incPathSpec>
     </javaFile2>
     <javaFile2>

@@ -17,10 +17,11 @@ import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.AttributeNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.SimpleTypeNormalizer;
 import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class AttributeNormalizer extends Normalizer<AttributeModel>
 {
-	private static final Map<BindingQName,AttributeModel> all = new HashMap<BindingQName,AttributeModel>();
+	private static final Map<BindingQName,AttributeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,AttributeModel>());
 
 	public static final AttributeModel parseAttribute(BindingQName name)
 	{

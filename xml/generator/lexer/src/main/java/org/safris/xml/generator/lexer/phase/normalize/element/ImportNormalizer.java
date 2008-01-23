@@ -7,7 +7,12 @@ import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 
 public class ImportNormalizer extends Normalizer<ImportModel>
 {
-	private static final Collection<String> messages = new HashSet<String>();
+	private final Collection<String> messages = new HashSet<String>();
+
+	protected void destroy()
+	{
+		messages.clear();
+	}
 
 	protected void stage1(ImportModel model)
 	{

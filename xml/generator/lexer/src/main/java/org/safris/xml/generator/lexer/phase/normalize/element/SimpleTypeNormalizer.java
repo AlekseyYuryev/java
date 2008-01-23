@@ -6,10 +6,11 @@ import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 {
-	private static final Map<BindingQName,SimpleTypeModel> all = new HashMap<BindingQName,SimpleTypeModel>();
+	private static final Map<BindingQName,SimpleTypeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,SimpleTypeModel>());
 
 	public static SimpleTypeModel parseSimpleType(BindingQName name)
 	{

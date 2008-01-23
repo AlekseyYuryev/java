@@ -28,6 +28,36 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<developers>
+		<developer>
+			<id>ayuryev</id>
+			<name>Alex Yuryev</name>
+			<email>ayuryev@safris.org</email>
+			<organization>Safris Technologies</organization>
+			<organizationUrl>safris.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>jprice</id>
+			<name>Jeff Price</name>
+			<email>jprice@safris.org</email>
+			<organization>EA</organization>
+			<organizationUrl>ea.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>mpernia</id>
+			<name>Marc Pernia</name>
+			<email>mpernia@safris.org</email>
+			<organization>Exobox Technologies Inc.</organization>
+			<organizationUrl>exobox.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>ssafris</id>
+			<name>Seva Safris</name>
+			<email>ssafris@safris.org</email>
+			<organization>Safris Technologies</organization>
+			<organizationUrl>safris.com</organizationUrl>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:svn:https://svn.repo.safris.org/safris/</connection>
 		<developerConnection>scm:svn:https://svn.repo.safris.org/safris/</developerConnection>

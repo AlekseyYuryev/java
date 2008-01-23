@@ -7,10 +7,11 @@ import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 {
-	protected static final Map<BindingQName,ComplexTypeModel> all = new HashMap<BindingQName,ComplexTypeModel>();
+	protected static final Map<BindingQName,ComplexTypeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,ComplexTypeModel>());
 
 	public static ComplexTypeModel parseComplexType(BindingQName name)
 	{

@@ -22,6 +22,7 @@ import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.module.phase.BindingParameters;
 import org.safris.xml.generator.module.phase.Pipeline;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 import org.w3.x2001.xmlschema.IXSBoolean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -246,6 +247,9 @@ public class Generator extends AbstractGenerator
 
 		// start the pipeline
 		pipeline.begin();
+
+		// FIXME: Intention is obvious, but the implementation is not perfect.
+		StaticReferenceManager.clearAll();
 
 		return bundles;
 	}

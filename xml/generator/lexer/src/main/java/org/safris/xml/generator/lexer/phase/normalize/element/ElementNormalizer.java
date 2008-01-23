@@ -13,10 +13,11 @@ import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.ElementNormalizer;
+import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class ElementNormalizer extends Normalizer<ElementModel>
 {
-	private static final Map<BindingQName,ElementModel> all = new HashMap<BindingQName,ElementModel>();
+	private static final Map<BindingQName,ElementModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,ElementModel>());
 
 	public static final ElementModel parseElement(BindingQName name)
 	{
