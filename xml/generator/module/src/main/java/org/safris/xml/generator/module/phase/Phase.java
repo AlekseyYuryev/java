@@ -10,5 +10,5 @@ public abstract class Phase<T extends Phase>
 		return Logger.getLogger(getClass().getName()).logger();
 	}
 
-	public abstract Collection<? extends Phase> manipulate(Collection<T> documents, BindingParameters share);
+	public abstract Collection<? extends Phase> manipulate(Collection<T> documents, BindingContext share);
 }

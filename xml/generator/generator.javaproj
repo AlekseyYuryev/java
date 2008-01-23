@@ -1427,7 +1427,7 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/BindingParameters.java</incPathSpec>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/BindingContext.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import org.safris.commons.util.xml.SchemaReference;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 
 public class SchemaLocator extends Phase
@@ -23,9 +23,9 @@ public class SchemaLocator extends Phase
 		protected volatile int count = 0;
 	}
 
-	public Collection manipulate(final Collection schemas, final BindingParameters bindingParameters)
+	public Collection manipulate(final Collection schemas, final BindingContext bindingContext)
 	{
-		final File destDir = bindingParameters.getDestDir();
+		final File destDir = bindingContext.getDestDir();
 
 		final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
 		try
@@ -49,7 +49,7 @@ public class SchemaLocator extends Phase
 							try
 							{
 								final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-								if(bindingParameters.getOverwrite() || !directory.exists())
+								if(bindingContext.getOverwrite() || !directory.exists())
 								{
 									selectedSchemas.add(schemaReference);
 								}

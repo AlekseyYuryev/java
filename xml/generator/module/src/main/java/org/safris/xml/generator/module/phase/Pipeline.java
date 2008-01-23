@@ -65,9 +65,9 @@ public class Pipeline
 	}
 
 	private final Collection<Entry> modulePairs = new ArrayList<Entry>();
-	private final BindingParameters share;
+	private final BindingContext share;
 
-	public Pipeline(BindingParameters share)
+	public Pipeline(BindingContext share)
 	{
 		this.share = share;
 	}

@@ -20,7 +20,7 @@ import org.safris.xml.generator.compiler.phase.write.Writer;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Pipeline;
 import org.safris.xml.generator.module.phase.StaticReferenceManager;
 import org.w3.x2001.xmlschema.IXSBoolean;
@@ -69,30 +69,30 @@ public class Generator extends AbstractGenerator
 		if(destDir == null)
 			destDir = Files.getCwd();
 
-		final BindingParameters bindingParameters = new BindingParameters(destDir, explodeJars, overwrite);
-		final Generator generator = new Generator(bindingParameters, schemas);
+		final BindingContext bindingContext = new BindingContext(destDir, explodeJars, overwrite);
+		final Generator generator = new Generator(bindingContext, schemas);
 		generator.generate();
 	}
 
-	private final BindingParameters bindingParameters;
+	private final BindingContext bindingContext;
 	private final Collection<SchemaReference> schemas;
 
-	public Generator(BindingParameters bindingParameters, Collection<SchemaReference> schemas)
+	public Generator(BindingContext bindingContext, Collection<SchemaReference> schemas)
 	{
-		this.bindingParameters = bindingParameters;
+		this.bindingContext = bindingContext;
 		this.schemas = schemas;
 	}
 
-	public Generator(BindingParameters bindingParameters, File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
+	public Generator(BindingContext bindingContext, File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
 	{
-		this.bindingParameters = bindingParameters;
+		this.bindingContext = bindingContext;
 		this.schemas = new HashSet<SchemaReference>();
 		parseConfig(basedir, bindingsElement, lastModified, resolver);
 	}
 
-	public BindingParameters getBindingParameters()
+	public BindingContext getbindingContext()
 	{
-		return bindingParameters;
+		return bindingContext;
 	}
 
 	public Collection<SchemaReference> getSchemas()
@@ -137,7 +137,7 @@ public class Generator extends AbstractGenerator
 					schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
 				}
 			}
-			else if(bindingParameters.getDestDir() == null && "destdir".equals(child.getLocalName()))
+			else if(bindingContext.getDestDir() == null && "destdir".equals(child.getLocalName()))
 			{
 				NodeList text = child.getChildNodes();
 				for(int j = 0; j < text.getLength(); j++)
@@ -146,7 +146,7 @@ public class Generator extends AbstractGenerator
 					if(node.getNodeType() != Node.TEXT_NODE)
 						continue;
 
-					bindingParameters.setDestDir(new File(resolver.resolve(node.getNodeValue())));
+					bindingContext.setDestDir(new File(resolver.resolve(node.getNodeValue())));
 					final NamedNodeMap attributes = child.getAttributes();
 					if(attributes != null)
 					{
@@ -154,9 +154,9 @@ public class Generator extends AbstractGenerator
 						{
 							final Node attribute = attributes.item(k);
 							if("explodeJars".equals(attribute.getLocalName()))
-								bindingParameters.setExplodeJars(IXSBoolean.parseBoolean(attribute.getNodeValue()));
+								bindingContext.setExplodeJars(IXSBoolean.parseBoolean(attribute.getNodeValue()));
 							else if("overwrite".equals(attribute.getLocalName()))
-								bindingParameters.setOverwrite(IXSBoolean.parseBoolean(attribute.getNodeValue()));
+								bindingContext.setOverwrite(IXSBoolean.parseBoolean(attribute.getNodeValue()));
 						}
 					}
 
@@ -189,7 +189,7 @@ public class Generator extends AbstractGenerator
 
 		if(hrefURL != null)
 		{
-			if(bindingParameters.getDestDir() != null || schemas.size() != 0)
+			if(bindingContext.getDestDir() != null || schemas.size() != 0)
 				throw new ExitSevereError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
 
 			long modified = 0;
@@ -212,7 +212,7 @@ public class Generator extends AbstractGenerator
 
 	public Collection<Bundle> generate()
 	{
-		final Pipeline pipeline = new Pipeline(bindingParameters);
+		final Pipeline pipeline = new Pipeline(bindingContext);
 
 		// select the schemas to be generated and exit if no schemas need work
 		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();

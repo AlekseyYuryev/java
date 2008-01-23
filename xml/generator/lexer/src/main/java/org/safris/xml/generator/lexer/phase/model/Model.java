@@ -14,7 +14,7 @@ import org.safris.commons.util.xml.SchemaDocument;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -177,7 +177,7 @@ public abstract class Model extends Phase<SchemaComposite>
 		return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
 	}
 
-	public final Collection<Model> manipulate(Collection<SchemaComposite> schemaComposites, BindingParameters share)
+	public final Collection<Model> manipulate(Collection<SchemaComposite> schemaComposites, BindingContext share)
 	{
 		// Then we parse all of the schemas that have been included and imported
 		final Collection<Model> schemaModels = new ArrayList<Model>();

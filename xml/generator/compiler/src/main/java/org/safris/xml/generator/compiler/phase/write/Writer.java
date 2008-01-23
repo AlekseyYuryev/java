@@ -12,14 +12,14 @@ import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.phase.plan.NestablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.compiler.phase.plan.element.SimpleTypePlan;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Nameable;
 import org.safris.xml.generator.module.phase.Phase;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public abstract class Writer<T extends Plan> extends Phase<Plan>
 {
-	private static final Collection<String> messages = StaticReferenceManager.manageCollection(new HashSet<String>());
+	private final Collection<String> messages = new HashSet<String>();
+
 	private static final Writer instance = new Writer()
 	{
 		protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent)
@@ -64,7 +64,7 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 		return instance;
 	}
 
-	private static void writeFile(Writer writer, Plan plan, File destDir)
+	private void writeFile(Writer writer, Plan plan, File destDir)
 	{
 		if(!(plan instanceof Nameable))
 			return;
@@ -153,7 +153,7 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 		WriterDirectory.instance().lookup(plan).appendClass(writer, plan, parent);
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, BindingParameters share)
+	protected final void tailRecurse(Collection<Plan> models, BindingContext share)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -167,13 +167,13 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 		}
 	}
 
-	public Collection<Writer> manipulate(Collection<Plan> documents, BindingParameters share)
+	public Collection<Writer> manipulate(Collection<Plan> documents, BindingContext share)
 	{
 		tailRecurse(documents, share);
 		return null;
 	}
 
-	protected Collection<Plan> disclose(Plan plan, BindingParameters share)
+	protected Collection<Plan> disclose(Plan plan, BindingContext share)
 	{
 		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;

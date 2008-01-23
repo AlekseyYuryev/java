@@ -13,7 +13,7 @@ import org.safris.xml.generator.lexer.phase.model.EnumerableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 
 public abstract class Plan<T extends Model> extends Phase<Model>
@@ -107,7 +107,7 @@ public abstract class Plan<T extends Model> extends Phase<Model>
 		this.parent = parent;
 	}
 
-	public final Collection<Plan> manipulate(Collection<Model> documents, BindingParameters share)
+	public final Collection<Plan> manipulate(Collection<Model> documents, BindingContext share)
 	{
 		final Collection<Plan> plans = new ArrayList<Plan>();
 		for(Model model : documents)
@@ -125,7 +125,7 @@ public abstract class Plan<T extends Model> extends Phase<Model>
 		return plans;
 	}
 
-	protected final Collection<Model> disclose(Model model, BindingParameters share, Collection<Plan> plans)
+	protected final Collection<Model> disclose(Model model, BindingContext share, Collection<Plan> plans)
 	{
 		Class<? extends Plan<T>> parserClass = PlanDirectory.instance().lookup(model);
 		Plan<T> planInstance = null;

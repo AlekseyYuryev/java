@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 
 public abstract class Normalizer<T extends Model> extends Phase<Model>
@@ -43,7 +43,7 @@ public abstract class Normalizer<T extends Model> extends Phase<Model>
 
 	private int stage = 0;
 
-	protected final void tailRecurse(Collection<Model> models, BindingParameters share)
+	protected final void tailRecurse(Collection<Model> models, BindingContext share)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -57,7 +57,7 @@ public abstract class Normalizer<T extends Model> extends Phase<Model>
 		}
 	}
 
-	public Collection<Normalizer> manipulate(Collection<Model> models, BindingParameters share)
+	public Collection<Normalizer> manipulate(Collection<Model> models, BindingContext share)
 	{
 		synchronized(instance)
 		{
@@ -77,7 +77,7 @@ public abstract class Normalizer<T extends Model> extends Phase<Model>
 		}
 	}
 
-	protected Collection<Model> disclose(Model model, BindingParameters share)
+	protected Collection<Model> disclose(Model model, BindingContext share)
 	{
 		final Normalizer normalizer = NormalizerDirectory.instance().lookup(model);
 		try

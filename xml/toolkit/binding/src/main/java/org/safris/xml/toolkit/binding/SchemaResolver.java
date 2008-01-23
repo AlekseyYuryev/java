@@ -15,7 +15,7 @@ import org.safris.commons.util.xml.BindingQName;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.commons.util.xml.SchemaDocument;
 import org.safris.commons.util.xml.SchemaReference;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -34,7 +34,7 @@ public class SchemaResolver extends Phase
 		return instance;
 	}
 
-	public Collection<SchemaDocument> manipulate(Collection selectedSchemas, BindingParameters share)
+	public Collection<SchemaDocument> manipulate(Collection selectedSchemas, BindingContext share)
 	{
 		final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
 		final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();

@@ -20,7 +20,7 @@ import org.safris.commons.util.URLs;
 import org.safris.commons.util.Zips;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.commons.util.xml.SchemaReference;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.toolkit.binding.Bundle;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
@@ -98,7 +98,7 @@ public class GeneratorMojo extends AbstractMojo
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
 		String href = null;
-		final BindingParameters bindingParameters = new BindingParameters();
+		final BindingContext bindingContext = new BindingContext();
 		if(project != null && project instanceof MavenProject)
 		{
 			final Build build = ((MavenProject)project).getBuild();
@@ -152,10 +152,10 @@ public class GeneratorMojo extends AbstractMojo
 									}
 
 									if(explodeJarsName != null)
-										bindingParameters.setExplodeJars(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
+										bindingContext.setExplodeJars(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
 
 									if(overwriteName != null)
-										bindingParameters.setOverwrite(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
+										bindingContext.setOverwrite(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
 
 									break;
 								}
@@ -209,13 +209,13 @@ public class GeneratorMojo extends AbstractMojo
 					throw new MojoExecutionException(e.getMessage(), e);
 				}
 
-				final Generator generator = new Generator(bindingParameters, new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
-				if(bindingParameters.getOverwrite())
+				final Generator generator = new Generator(bindingContext, new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
+				if(bindingContext.getOverwrite())
 				{
-					if(generator.getBindingParameters().getDestDir().exists())
-						Files.deleteAll(generator.getBindingParameters().getDestDir());
+					if(generator.getbindingContext().getDestDir().exists())
+						Files.deleteAll(generator.getbindingContext().getDestDir());
 				}
-				else if(upToDate(hrefFile.lastModified(), generator.getBindingParameters().getDestDir()))
+				else if(upToDate(hrefFile.lastModified(), generator.getbindingContext().getDestDir()))
 				{
 					System.out.println("Generated sources up-to-date.");
 					return;
@@ -223,9 +223,9 @@ public class GeneratorMojo extends AbstractMojo
 
 				final long start = System.currentTimeMillis();
 				final Collection<Bundle> bundles = generator.generate();
-				addCompileSourceRoot(generator.getBindingParameters().getDestDir().getAbsolutePath(), bundles);
+				addCompileSourceRoot(generator.getbindingContext().getDestDir().getAbsolutePath(), bundles);
 				final long end = System.currentTimeMillis();
-				setLastModified(generator.getBindingParameters().getDestDir(), start - end);
+				setLastModified(generator.getbindingContext().getDestDir(), start - end);
 				return;
 			}
 
@@ -250,19 +250,19 @@ public class GeneratorMojo extends AbstractMojo
 				return;
 
 			final File destDirFile = new File(destDir);
-			final Generator generator = new Generator(new BindingParameters(destDirFile, bindingParameters.getExplodeJars(), bindingParameters.getOverwrite()), generatorBindings);
+			final Generator generator = new Generator(new BindingContext(destDirFile, bindingContext.getExplodeJars(), bindingContext.getOverwrite()), generatorBindings);
 			File pomXml = null;
 			if(basedir != null && basedir.length() != 0)
 				pomXml = new File(basedir, "pom.xml");
 			else
 				pomXml = new File("pom.xml");
 
-			if(bindingParameters.getOverwrite())
+			if(bindingContext.getOverwrite())
 			{
-				if(generator.getBindingParameters().getDestDir().exists())
-					Files.deleteAll(generator.getBindingParameters().getDestDir());
+				if(generator.getbindingContext().getDestDir().exists())
+					Files.deleteAll(generator.getbindingContext().getDestDir());
 			}
-			else if(pomXml.exists() && !bindingParameters.getOverwrite() && upToDate(pomXml.lastModified(), generator.getBindingParameters().getDestDir()))
+			else if(pomXml.exists() && !bindingContext.getOverwrite() && upToDate(pomXml.lastModified(), generator.getbindingContext().getDestDir()))
 			{
 				System.out.println("Generated sources up-to-date.");
 				return;
@@ -270,9 +270,9 @@ public class GeneratorMojo extends AbstractMojo
 
 			final Collection<Bundle> bundles = generator.generate();
 			final long start = System.currentTimeMillis();
-			addCompileSourceRoot(generator.getBindingParameters().getDestDir().getAbsolutePath(), bundles);
+			addCompileSourceRoot(generator.getbindingContext().getDestDir().getAbsolutePath(), bundles);
 			final long end = System.currentTimeMillis();
-			setLastModified(generator.getBindingParameters().getDestDir(), start - end);
+			setLastModified(generator.getbindingContext().getDestDir(), start - end);
 		}
 		catch(IOException e)
 		{

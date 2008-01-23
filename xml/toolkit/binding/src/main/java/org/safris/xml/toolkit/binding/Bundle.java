@@ -20,7 +20,7 @@ import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 
 public final class Bundle extends Phase<SchemaComposite>
@@ -161,19 +161,19 @@ public final class Bundle extends Phase<SchemaComposite>
 		this.file = file;
 	}
 
-	public Collection<Bundle> manipulate(Collection<SchemaComposite> documents, BindingParameters bindingParameters)
+	public Collection<Bundle> manipulate(Collection<SchemaComposite> documents, BindingContext bindingContext)
 	{
 		try
 		{
-			Bundle.compile(bindingParameters.getDestDir());
-			final Collection<File> jarFiles = Bundle.jar(bindingParameters.getDestDir(), documents);
+			Bundle.compile(bindingContext.getDestDir());
+			final Collection<File> jarFiles = Bundle.jar(bindingContext.getDestDir(), documents);
 			final Collection<Bundle> bundles = new ArrayList<Bundle>(jarFiles.size());
 			for(File jarFile : jarFiles)
 				bundles.add(new Bundle(jarFile));
 
 			// If we dont care about the exploded files,
 			// then delete all of the files only leaving the jars.
-			if(!bindingParameters.getExplodeJars())
+			if(!bindingContext.getExplodeJars())
 			{
 				final FileFilter jarFilter = new FileFilter()
 				{
@@ -183,7 +183,7 @@ public final class Bundle extends Phase<SchemaComposite>
 					}
 				};
 
-				final Collection<File> files = Files.listAll(bindingParameters.getDestDir(), jarFilter);
+				final Collection<File> files = Files.listAll(bindingContext.getDestDir(), jarFilter);
 				for(File file : files)
 					Files.deleteAllOnExit(file);
 			}

@@ -12,7 +12,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.commons.util.xml.SchemaReference;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.w3c.dom.Document;
@@ -110,12 +110,12 @@ public class GeneratorTask extends Task implements DynamicElement
 				schemaReferences.add(new SchemaReference(deref));
 		}
 
-		final BindingParameters bindingParameters = new BindingParameters();
-		bindingParameters.setDestDir(destDirFile);
-		bindingParameters.setOverwrite(manifest.getDestdir().getOverwrite());
-		bindingParameters.setExplodeJars(manifest.getDestdir().getExplodeJars());
+		final BindingContext bindingContext = new BindingContext();
+		bindingContext.setDestDir(destDirFile);
+		bindingContext.setOverwrite(manifest.getDestdir().getOverwrite());
+		bindingContext.setExplodeJars(manifest.getDestdir().getExplodeJars());
 
-		final Generator generator = new Generator(bindingParameters, schemaReferences);
+		final Generator generator = new Generator(bindingContext, schemaReferences);
 		generator.generate();
 	}
 

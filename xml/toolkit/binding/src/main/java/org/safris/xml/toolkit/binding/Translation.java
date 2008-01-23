@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.safris.commons.util.xml.SchemaDocument;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
-import org.safris.xml.generator.module.phase.BindingParameters;
+import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Phase;
 
 public final class Translation extends Phase
@@ -16,7 +16,7 @@ public final class Translation extends Phase
 		return instance;
 	}
 
-	public Collection<? extends Phase> manipulate(Collection documents, BindingParameters share)
+	public Collection<? extends Phase> manipulate(Collection documents, BindingContext share)
 	{
 		final Collection<SchemaComposite> selectors = new ArrayList<SchemaComposite>();
 		for(SchemaDocument schemaDocument : (Collection<SchemaDocument>)documents)
