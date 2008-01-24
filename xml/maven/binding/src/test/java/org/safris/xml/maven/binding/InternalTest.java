@@ -20,6 +20,6 @@ public class InternalTest extends TestCase
 		if(process.exitValue() != 0)
 			fail();
 
-		Files.deleteAllOnExit(new File(POM_PATH + "target"));
+//		Files.deleteAllOnExit(new File(POM_PATH + "target"));
 	}
 }

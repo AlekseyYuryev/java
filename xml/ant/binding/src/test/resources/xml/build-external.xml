@@ -1,6 +1,7 @@
 <project name="bind-builder-ant" basedir="../../../..">
 
-	<property name="lib" location="~/.m2/"/>
+	<property environment="env"/>
+	<property name="lib" location="${env.HOME}/.m2/"/>
 	<property name="src" location="src/main/java"/>
 	<property name="test" location="src/test/java"/>
 	<property name="project.build.directory" location="target"/>
@@ -17,19 +18,16 @@
 	<target name="validate" description="validate the project is correct and all necessary information is available"/>
 
 	<target name="generate-sources" depends="validate" description="generate any source code for inclusion in compilation">
-		<taskdef name="binding" classname="org.safris.xml.toolkit.builder.binding.ant.GeneratorTask">
+		<taskdef name="binding" classname="org.safris.xml.ant.binding.GeneratorTask">
 			<classpath>
-				<fileset dir="/home/ssafris/.m2/repository/org/safris/xml/toolkit/">
+				<fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
 		</taskdef>
 		<binding>
 			<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-				<destdir overwrite="true" explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
-				<schemas>
-					<schema>../xsd/ant.xsd</schema>
-				</schemas>
+				<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/test/resources/xml/manifest.xml"/>
 			</manifest>
 		</binding>
 	</target>
@@ -43,7 +41,7 @@
 	<target name="compile" depends="process-resources" description="compile the source code of the project">
 		<javac>
 			<classpath>
-				<fileset dir="/home/ssafris/.m2/repository/org/safris/xml/toolkit/">
+				<fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>

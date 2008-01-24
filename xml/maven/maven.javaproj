@@ -17,7 +17,7 @@
         <backInTimeDebugging>true</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>
@@ -103,13 +103,6 @@
   <references/>
   <startingPoints>
     <startingPoint>
-      <commandLineArguments></commandLineArguments>
-      <name>StandaloneTest</name>
-      <target>org.safris.xml.maven.binding.StandaloneTest</target>
-      <vmOtherOptions></vmOtherOptions>
-      <workingDir>binding\</workingDir>
-    </startingPoint>
-    <startingPoint>
       <commandLineArguments>/home/ssafris/Projects/safris/org/xml/trunk/sample/binding/pom.xml</commandLineArguments>
       <name>GeneratorMojo sample/binding/pom.xml</name>
       <target>org.safris.xml.maven.binding.GeneratorMojo</target>
@@ -122,6 +115,20 @@
       <target>org.safris.xml.maven.binding.GeneratorMojo</target>
       <vmOtherOptions></vmOtherOptions>
       <workingDir>..\test\binding\</workingDir>
+    </startingPoint>
+    <startingPoint>
+      <commandLineArguments></commandLineArguments>
+      <name>ExternalTest</name>
+      <target>org.safris.xml.maven.binding.ExternalTest</target>
+      <vmOtherOptions></vmOtherOptions>
+      <workingDir>binding\</workingDir>
+    </startingPoint>
+    <startingPoint>
+      <commandLineArguments></commandLineArguments>
+      <name>InternalTest</name>
+      <target>org.safris.xml.maven.binding.InternalTest</target>
+      <vmOtherOptions></vmOtherOptions>
+      <workingDir>binding\</workingDir>
     </startingPoint>
   </startingPoints>
 </javaProject3>

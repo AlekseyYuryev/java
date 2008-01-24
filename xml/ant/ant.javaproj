@@ -17,7 +17,7 @@
         <backInTimeDebugging>true</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>
@@ -43,7 +43,11 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/StandaloneTest.java</incPathSpec>
+      <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/ExternalTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/InternalTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
@@ -86,8 +90,23 @@
   </projectReferences>
   <references>
     <classpathReference>
-      <relativePath>binding\target\maven-0.8.9.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\ant\ant-launcher\1.6.5\ant-launcher-1.6.5.jar</relativePath>
     </classpathReference>
   </references>
-  <startingPoints/>
+  <startingPoints>
+    <startingPoint>
+      <commandLineArguments></commandLineArguments>
+      <name>InternalTest</name>
+      <target>org.safris.xml.ant.binding.InternalTest</target>
+      <vmOtherOptions></vmOtherOptions>
+      <workingDir>binding\</workingDir>
+    </startingPoint>
+    <startingPoint>
+      <commandLineArguments></commandLineArguments>
+      <name>ExternalTest</name>
+      <target>org.safris.xml.ant.binding.ExternalTest</target>
+      <vmOtherOptions></vmOtherOptions>
+      <workingDir>binding\</workingDir>
+    </startingPoint>
+  </startingPoints>
 </javaProject3>
