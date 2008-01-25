@@ -17,7 +17,7 @@
         <backInTimeDebugging>true</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>

@@ -51,14 +51,6 @@
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/build1.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/src/test/resources/xml/build2.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>binding/src/test/resources/xml/manifest.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
