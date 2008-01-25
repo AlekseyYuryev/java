@@ -137,7 +137,7 @@ if [ $UPDATE_TEMPLATES ]; then
 fi
 
 # Find the original mvn script
-MVN="`which -a mvn | xargs echo | awk '{print $NF}'`"
+MVN="`which -a mvn | sed -n '2p'`"
 
 # Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
