@@ -17,7 +17,7 @@
         <backInTimeDebugging>true</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>
@@ -25,10 +25,6 @@
   </buildProperties>
   <guid>{781F604D-E0B8-4F34-B6B6-9AA9F13B87F9}</guid>
   <includedFiles>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>LICENSE.txt</incPathSpec>
-    </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>pom-template.xml</incPathSpec>

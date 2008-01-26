@@ -17,7 +17,7 @@
         <backInTimeDebugging>true</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>
@@ -72,10 +72,6 @@
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>binding/src/main/resources/xsd/xlink.xsd</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>LICENSE.txt</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

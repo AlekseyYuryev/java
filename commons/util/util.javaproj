@@ -27,10 +27,6 @@
   <includedFiles>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>LICENSE.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>pom-template.xml</incPathSpec>
     </javaFile2>
     <javaFile2>

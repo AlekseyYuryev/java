@@ -27,10 +27,6 @@
   <includedFiles>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>compiler/LICENSE.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>compiler/pom-template.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -815,10 +811,6 @@
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>lexer/LICENSE.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>lexer/pom-template.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1335,23 +1327,7 @@
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
-      <incPathSpec>LICENSE.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>module/Binding Design.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
       <incPathSpec>module/build.xml</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>module/LICENSE.txt</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>module/notes</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

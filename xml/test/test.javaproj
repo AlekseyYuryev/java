@@ -16,7 +16,7 @@
         <backInTimeDebugging>false</backInTimeDebugging>
         <generateLocalVariableTables>true</generateLocalVariableTables>
         <obfuscateFilePrivateMembers>false</obfuscateFilePrivateMembers>
-        <relativeDestinationPath>build\Debug</relativeDestinationPath>
+        <relativeDestinationPath>build\Debug\</relativeDestinationPath>
         <targetVM>1.5</targetVM>
         <useJavac>false</useJavac>
       </buildProperties>
@@ -24,10 +24,6 @@
   </buildProperties>
   <guid>{9667D3CE-9D4B-45BF-8B55-C3EB33E7469E}</guid>
   <includedFiles>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>binding/LICENSE.txt</incPathSpec>
-    </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>binding/pom-template.xml</incPathSpec>
@@ -231,10 +227,6 @@
     <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>binding/src/test/resources/xsd/xml.xsd</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>NONE</buildAction>
-      <incPathSpec>LICENSE.txt</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
