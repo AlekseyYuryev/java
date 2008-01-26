@@ -15,8 +15,6 @@ Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "util", "../../../trunk/comm
 EndProject
 Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "format", "../../../trunk/commons/format/format.javaproj", "{781F604D-E0B8-4F34-B6B6-9AA9F13B87F9}"
 EndProject
-Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "sandbox", "../../../trunk/sandbox/sandbox.javaproj", "{C1BE0165-77ED-4385-BC09-6C856732697D}"
-EndProject
 Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "test", "../test/test.javaproj", "{9667D3CE-9D4B-45BF-8B55-C3EB33E7469E}"
 EndProject
 Global
