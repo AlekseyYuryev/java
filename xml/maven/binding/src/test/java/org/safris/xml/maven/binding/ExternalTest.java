@@ -7,7 +7,7 @@ import org.safris.commons.util.Processes;
 
 public class ExternalTest extends TestCase
 {
-	private static final String POM_PATH = "src/test/resources/xml" + File.separator;
+	private static final String POM_PATH = "src/test/resources/xml/";
 
 	public static void main(String[] args) throws Exception
 	{
@@ -20,6 +20,6 @@ public class ExternalTest extends TestCase
 		if(process.exitValue() != 0)
 			fail();
 
-//		Files.deleteAllOnExit(new File(POM_PATH + "target"));
+		Files.deleteAllOnExit(new File(POM_PATH + "target"));
 	}
 }

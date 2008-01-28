@@ -6,7 +6,7 @@ import org.safris.commons.util.Processes;
 
 public class InternalTest extends TestCase
 {
-	private static final String BUILD_PATH = "src/test/resources/xml" + File.separator;
+	private static final String BUILD_PATH = "src/test/resources/xml/";
 
 	public static void main(String[] args) throws Exception
 	{
