@@ -6,26 +6,19 @@ import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public class SchemaReferenceDirectory implements ProcessorDirectory<SchemaReference,SchemaReference>
 {
-	private SchemaReferencePhase schemaReferencePhase = null;
-
-	public SchemaReferenceDirectory()
-	{
-		schemaReferencePhase = new SchemaReferencePhase();
-	}
+	private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
 
 	public ElementModule<SchemaReference> lookup(SchemaReference key, SchemaReference parent)
 	{
-		return schemaReferencePhase;
+		return schemaReferenceProcessor;
 	}
 
 	public ModuleProcessor<SchemaReference,SchemaReference> getProcessor()
 	{
-		return schemaReferencePhase;
+		return schemaReferenceProcessor;
 	}
-
 
 	public void clear()
 	{
-		schemaReferencePhase = null;
 	}
 }

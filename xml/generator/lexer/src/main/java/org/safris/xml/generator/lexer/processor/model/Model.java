@@ -8,22 +8,14 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import org.safris.commons.util.logging.ExitSevereError;
 import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
-import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
-import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
-import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.processor.BindingQName;
 import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-public abstract class Model extends ModuleProcessor<SchemaComposite,Model> implements ElementModule<Model>
+public abstract class Model implements ElementModule<Model>
 {
 	protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
 
@@ -90,7 +82,7 @@ public abstract class Model extends ModuleProcessor<SchemaComposite,Model> imple
 		return id;
 	}
 
-	private final void setPrevious(Model previous)
+	protected final void setPrevious(Model previous)
 	{
 		this.previous = previous;
 	}
@@ -100,7 +92,7 @@ public abstract class Model extends ModuleProcessor<SchemaComposite,Model> imple
 		return previous;
 	}
 
-	private final void setNext(Model next)
+	protected final void setNext(Model next)
 	{
 		this.next = next;
 	}
@@ -173,81 +165,6 @@ public abstract class Model extends ModuleProcessor<SchemaComposite,Model> imple
 		final String prefix = nodeValue.substring(0, i);
 		final NamespaceURI namespaceURI = NamespaceURI.getInstance(parent.lookupNamespaceURI(prefix));
 		return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
-	}
-
-	public Collection<Model> process(Collection<SchemaComposite> documents, GeneratorContext generatorContext, ProcessorDirectory<SchemaComposite, Model> directory)
-	{
-		// Then we parse all of the schemas that have been included and imported
-		final Collection<Model> schemaModels = new ArrayList<Model>();
-
-		for(SchemaComposite schemaComposite : documents)
-		{
-			final SchemaModelComposite SchemaModelComposite = (SchemaModelComposite)schemaComposite;
-			final SchemaDocument schemaDocument = SchemaModelComposite.getSchemaDocument();
-			final SchemaModel model = recurse(schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL(), directory);
-			if(model == null)
-				throw new ExitSevereError("We should have found a schema!");
-
-			SchemaModelComposite.setSchemaModel(model);
-			schemaModels.add(model);
-		}
-
-		return schemaModels;
-	}
-
-	private final SchemaModel recurse(NamespaceURI targetNamespace, NodeList children, URL url, ProcessorDirectory<SchemaComposite,Model> directory)
-	{
-		if(children == null || children.getLength() == 0)
-			return null;
-
-		// FIXME: This looks ugly!
-		SchemaModel schema = null;
-		if(this instanceof SchemaModel)
-		{
-			schema = (SchemaModel)this;
-			if(getTargetNamespace() == null)
-			{
-				// This means that this is an included schema
-				schema.setTargetNamespace(targetNamespace);
-				URL schemaReference = lookupSchemaLocation(targetNamespace);
-				if(schemaReference == null)
-					registerSchemaLocation(targetNamespace, schemaReference = url);
-
-				schema.setTargetNamespaceSchemaLocation(schemaReference);
-			}
-			else
-			{
-				registerSchemaLocation(targetNamespace, url);
-				schema.setTargetNamespaceSchemaLocation(url);
-			}
-
-			schema.setURL(url);
-			url = null;
-		}
-
-		Model current = null;
-		for(int i = 0; i < children.getLength(); i++)
-		{
-			final Node child = children.item(i);
-			if(child.getLocalName() == null)
-				continue;
-
-			final SchemaNodeComposite nodeComposite = new SchemaNodeComposite(child);
-			final Model handler = (Model)directory.lookup(nodeComposite, this);
-			if(current != null)
-			{
-				handler.setPrevious(current);
-				current.setNext(handler);
-			}
-
-			current = handler;
-
-			final SchemaModel temp = handler.recurse(targetNamespace, child.getChildNodes(), url, directory);
-			if(temp != null)
-				schema = temp;
-		}
-
-		return schema;
 	}
 
 	public String toString()

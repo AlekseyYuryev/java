@@ -7,25 +7,19 @@ import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocument,SchemaComposite>
 {
-	private SchemaCompositeProcessor phase = null;
-
-	public SchemaCompositeDirectory()
-	{
-		phase = new SchemaCompositeProcessor();
-	}
+	private SchemaCompositeProcessor processor = new SchemaCompositeProcessor();
 
 	public ElementModule<SchemaComposite> lookup(SchemaDocument key, SchemaComposite parent)
 	{
-		return phase;
+		return processor;
 	}
 
 	public ModuleProcessor<SchemaDocument, SchemaComposite> getProcessor()
 	{
-		return phase;
+		return processor;
 	}
 
 	public void clear()
 	{
-		phase = null;
 	}
 }

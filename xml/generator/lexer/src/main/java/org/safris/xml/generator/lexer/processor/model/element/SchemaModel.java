@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
+import org.safris.commons.util.logging.Logger;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.schema.attribute.BlockDefault;
@@ -63,7 +64,8 @@ public class SchemaModel extends Model
 	{
 		this.url = url;
 		final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
-		logger().info("Scanning {" + getTargetNamespace() + "} from " + display);
+		// FIXME: Fix the logging!
+		Logger.getLogger("").logger().info("Scanning {" + getTargetNamespace() + "} from " + display);
 	}
 
 	public final URL getURL()

@@ -99,36 +99,10 @@ public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
 	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
 	private final Collection<Class<? extends Model>> keys;
-	private Normalizer phase;
+	private final NormalizerProcessor processor = new NormalizerProcessor();
 
 	public NormalizerDirectory()
 	{
-		phase = new Normalizer(this)
-		{
-			protected void stage1(Model handler)
-			{
-			}
-
-			protected void stage2(Model handler)
-			{
-			}
-
-			protected void stage3(Model handler)
-			{
-			}
-
-			protected void stage4(Model handler)
-			{
-			}
-
-			protected void stage5(Model handler)
-			{
-			}
-
-			protected void stage6(Model handler)
-			{
-			}
-		};
 		classes.put(AllModel.class, AllNormalizer.class);
 		classes.put(AnnotationModel.class, AnnotationNormalizer.class);
 		classes.put(AnyAttributeModel.class, AnyAttributeNormalizer.class);
@@ -203,12 +177,11 @@ public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 
 	public ModuleProcessor<Model, Normalizer> getProcessor()
 	{
-		return phase;
+		return processor;
 	}
 
 	public void clear()
 	{
-		phase = null;
 		instances.clear();
 	}
 }

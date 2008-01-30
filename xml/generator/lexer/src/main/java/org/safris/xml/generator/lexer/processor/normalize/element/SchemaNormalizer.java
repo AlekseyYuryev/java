@@ -2,6 +2,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.io.File;
 import org.safris.commons.util.Files;
+import org.safris.commons.util.logging.Logger;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
@@ -24,7 +25,8 @@ public class SchemaNormalizer extends Normalizer<SchemaModel>
 			return;
 
 		final String display = Files.relativePath(CWD.getAbsoluteFile(), new File(model.getURL().getFile()).getAbsoluteFile());
-		logger().info("Lexing {" + model.getTargetNamespace() + "} from " + display);
+		// FIXME: Fix the logger.
+		Logger.getLogger("").logger().info("Lexing {" + model.getTargetNamespace() + "} from " + display);
 	}
 
 	protected void stage2(SchemaModel model)

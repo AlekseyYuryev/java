@@ -9,10 +9,9 @@ import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public abstract class Normalizer<T extends Model> extends ModuleProcessor<Model,Normalizer> implements ElementModule<Normalizer>
+public abstract class Normalizer<T extends Model> implements ElementModule<Normalizer>
 {
 	private final NormalizerDirectory directory;
-	private int stage = 0;
 
 	public Normalizer(NormalizerDirectory directory)
 	{
@@ -22,54 +21,6 @@ public abstract class Normalizer<T extends Model> extends ModuleProcessor<Model,
 	public NormalizerDirectory getDirectory()
 	{
 		return directory;
-	}
-
-	protected final void tailRecurse(Collection<Model> models, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
-	{
-		if(models == null || models.size() == 0)
-			return;
-
-		for(Model model : models)
-		{
-			if(model == null)
-				continue;
-
-			tailRecurse(disclose(model, generatorContext, directory), generatorContext, directory);
-		}
-	}
-
-	public Collection<Normalizer> process(Collection<Model> models, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
-	{
-		int stages = 0;
-		Method[] methods = Normalizer.class.getDeclaredMethods();
-		for(Method method : methods)
-			if(method.getName().startsWith("stage"))
-				stages++;
-
-		for(int stage = 0; stage < stages; stage++)
-		{
-			this.stage = stage;
-			tailRecurse(models, generatorContext, directory);
-		}
-
-		return null;
-	}
-
-	protected Collection<Model> disclose(Model model, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
-	{
-		final Normalizer normalizer = (Normalizer)directory.lookup(model, this);
-		try
-		{
-			final Method method = normalizer.getClass().getDeclaredMethod("stage" + (stage + 1), Model.class);
-			method.setAccessible(true);
-			method.invoke(normalizer, model);
-		}
-		catch(Exception e)
-		{
-			throw new LexerError(e);
-		}
-
-		return model.getChildren();
 	}
 
 	// NOTE: This stage used for fixing globally accessible types

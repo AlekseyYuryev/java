@@ -222,34 +222,34 @@ public class Generator extends AbstractGenerator
 
 		// select the schemas to be generated and exit if no schemas need work
 		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
-		pipeline.<SchemaReference,SchemaReference>addPhase(schemas, schemaReferences, new SchemaReferenceDirectory());
+		pipeline.<SchemaReference,SchemaReference>addProcessor(schemas, schemaReferences, new SchemaReferenceDirectory());
 
 		// prepare the schemas to be worked on and build the dependency map
 		final Collection<SchemaDocument> schemaDocuments = new ArrayList<SchemaDocument>();
-		pipeline.<SchemaReference,SchemaDocument>addPhase(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
+		pipeline.<SchemaReference,SchemaDocument>addProcessor(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
 
 		// this translation is necessary to bridge the dependency structure
 		// within the framework
 		final Collection<SchemaComposite> schemaComposites = new ArrayList<SchemaComposite>();
-		pipeline.<SchemaDocument,SchemaComposite>addPhase(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
+		pipeline.<SchemaDocument,SchemaComposite>addProcessor(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
 
 		// model the schema elements using Model objects
 		final Collection<Model> models = new ArrayList<Model>();
-		pipeline.<SchemaComposite,Model>addPhase(schemaComposites, models, new ModelDirectory());
+		pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
 
 		// normalize the models
-		pipeline.<Model,Normalizer>addPhase(models, null, new NormalizerDirectory());
+		pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
 
 		// plan the schema elements using Plan objects, and write to files
 		final Collection<Plan> plans = new ArrayList<Plan>();
-		pipeline.<Model,Plan>addPhase(models, plans, new PlanDirectory());
+		pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
 
 		// write the plans to source
-		pipeline.<Plan,Writer>addPhase(plans, null, new WriterDirectory());
+		pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
 
 		// compile and jar the bindings
 		final Collection<Bundle> bundles = new ArrayList<Bundle>();
-		pipeline.<SchemaComposite,Bundle>addPhase(schemaComposites, bundles, new BundleDirectory());
+		pipeline.<SchemaComposite,Bundle>addProcessor(schemaComposites, bundles, new BundleDirectory());
 
 		// start the pipeline
 		pipeline.begin();

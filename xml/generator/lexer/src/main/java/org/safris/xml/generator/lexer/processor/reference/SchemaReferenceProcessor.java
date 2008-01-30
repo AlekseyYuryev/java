@@ -9,7 +9,7 @@ import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public final class SchemaReferencePhase extends ModuleProcessor<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
+public final class SchemaReferenceProcessor extends ModuleProcessor<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
 {
 	// FIXME: There still exists a deadlock condition!!
 	private static final class Counter
@@ -17,7 +17,7 @@ public final class SchemaReferencePhase extends ModuleProcessor<SchemaReference,
 		protected volatile int count = 0;
 	}
 
-	protected SchemaReferencePhase()
+	protected SchemaReferenceProcessor()
 	{
 	}
 

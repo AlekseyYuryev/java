@@ -96,10 +96,11 @@ import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public class PlanDirectory implements ProcessorDirectory<Model,Plan>
 {
-	private static final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
-	private static final Collection<Class<? extends Model>> keys;
+	private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
+	private final Collection<Class<? extends Model>> keys;
+	private final PlanProcessor processor = new PlanProcessor();
 
-	static
+	public PlanDirectory()
 	{
 		classes.put(AllModel.class, AllPlan.class);
 		classes.put(AnnotationModel.class, AnnotationPlan.class);
@@ -167,7 +168,7 @@ public class PlanDirectory implements ProcessorDirectory<Model,Plan>
 
 	public ModuleProcessor<Model, Plan> getProcessor()
 	{
-		return new Plan(null, null){};
+		return processor;
 	}
 
 	public void clear()

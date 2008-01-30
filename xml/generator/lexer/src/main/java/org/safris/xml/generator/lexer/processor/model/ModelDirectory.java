@@ -59,6 +59,7 @@ public class ModelDirectory implements ProcessorDirectory<SchemaComposite,Model>
 {
 	private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
 	private final Collection<String> keys;
+	private final ModelProcessor processor = new ModelProcessor();
 
 	public ModelDirectory()
 	{
@@ -137,7 +138,7 @@ public class ModelDirectory implements ProcessorDirectory<SchemaComposite,Model>
 
 	public ModuleProcessor<SchemaComposite, Model> getProcessor()
 	{
-		return new Model(null, null){};
+		return processor;
 	}
 
 	public void clear()

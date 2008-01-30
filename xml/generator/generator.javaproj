@@ -275,6 +275,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/PlanProcessor.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/RestrictablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -456,6 +460,10 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/WriterDirectory.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/WriterProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -1047,6 +1055,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/ModelProcessor.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/MultiplicableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1255,6 +1267,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/NormalizerProcessor.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaNamespaceHandler.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1267,7 +1283,7 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaReferencePhase.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaReferenceProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

@@ -1,6 +1,5 @@
 package org.safris.xml.generator.compiler.processor.write;
 
-import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,44 +98,7 @@ public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
 	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
 	private final Collection<Class<? extends Plan>> keys;
-	private final Writer writer = new Writer()
-	{
-		protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendGetMethod(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendSetMethod(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendMarshal(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendParse(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendCopy(StringWriter writer, Plan plan, Plan parent, String variable)
-		{
-		}
-
-		protected void appendEquals(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendHashCode(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendClass(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-	};
+	private final WriterProcessor processor = new WriterProcessor();
 
 	public WriterDirectory()
 	{
@@ -208,7 +170,7 @@ public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 
 	public ModuleProcessor<Plan, Writer> getProcessor()
 	{
-		return writer;
+		return processor;
 	}
 
 	public void clear()

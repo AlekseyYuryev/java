@@ -7,22 +7,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import org.safris.commons.format.SourceFormat;
 import org.safris.commons.util.Files;
+import org.safris.commons.util.logging.Logger;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
-import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public abstract class Writer<T extends Plan> extends ModuleProcessor<Plan,Writer> implements ElementModule<Writer>
+public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 {
 	private final Collection<String> messages = new HashSet<String>();
 
-	private void writeFile(Writer writer, Plan plan, File destDir)
+	protected void writeFile(Writer writer, Plan plan, File destDir)
 	{
 		if(!(plan instanceof Nameable))
 			return;
@@ -31,7 +28,8 @@ public abstract class Writer<T extends Plan> extends ModuleProcessor<Plan,Writer
 		final String message = "Compiling {" + plan.getModel().getTargetNamespace() + "} from " + display;
 		if(!messages.contains(message))
 		{
-			writer.logger().info(message);
+			// FIXME: Fix the logging.
+			Logger.getLogger("").logger().info(message);
 			messages.add(message);
 		}
 
@@ -111,41 +109,7 @@ public abstract class Writer<T extends Plan> extends ModuleProcessor<Plan,Writer
 		((Writer)directory.lookup(plan, null)).appendClass(writer, plan, parent);
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
-	{
-		if(models == null || models.size() == 0)
-			return;
-
-		for(Plan model : models)
-		{
-			if(model == null)
-				continue;
-
-			tailRecurse(disclose(model, generatorContext, directory), generatorContext, directory);
-		}
-	}
-
-	private static ProcessorDirectory<Plan, Writer> directory = null;
-
-	public Collection<Writer> process(Collection<Plan> documents, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
-	{
-		Writer.directory = directory;
-		tailRecurse(documents, generatorContext, directory);
-		return null;
-	}
-
-	protected Collection<Plan> disclose(Plan plan, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
-	{
-		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
-			return null;
-
-		if(((Nameable)plan).getName().getNamespaceURI() == null)
-			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
-
-		writeFile(((Writer)directory.lookup(plan, null)), plan, generatorContext.getDestDir());
-
-		return null;
-	}
+	protected static ProcessorDirectory<Plan,Writer> directory = null;
 
 	protected abstract void appendDeclaration(StringWriter writer, T plan, Plan parent);
 	protected abstract void appendGetMethod(StringWriter writer, T plan, Plan parent);
