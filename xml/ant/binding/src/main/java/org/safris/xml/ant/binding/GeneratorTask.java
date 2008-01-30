@@ -13,7 +13,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
-import org.safris.xml.generator.module.phase.GeneratorContext;
+import org.safris.xml.generator.processor.phase.GeneratorContext;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.w3c.dom.Document;

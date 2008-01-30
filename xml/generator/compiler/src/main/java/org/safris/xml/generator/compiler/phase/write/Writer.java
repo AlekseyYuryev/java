@@ -12,11 +12,11 @@ import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.phase.plan.NestablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.compiler.phase.plan.element.SimpleTypePlan;
-import org.safris.xml.generator.module.phase.GeneratorContext;
-import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.ProcessorDirectory;
-import org.safris.xml.generator.module.phase.Nameable;
-import org.safris.xml.generator.module.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.phase.GeneratorContext;
+import org.safris.xml.generator.processor.phase.ElementModule;
+import org.safris.xml.generator.processor.phase.ProcessorDirectory;
+import org.safris.xml.generator.processor.phase.Nameable;
+import org.safris.xml.generator.processor.phase.ModuleProcessor;
 
 public abstract class Writer<T extends Plan> extends ModuleProcessor<Plan,Writer> implements ElementModule<Writer>
 {

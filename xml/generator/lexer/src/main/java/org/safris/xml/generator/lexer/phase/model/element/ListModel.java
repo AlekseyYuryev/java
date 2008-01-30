@@ -3,7 +3,7 @@ package org.safris.xml.generator.lexer.phase.model.element;
 import java.util.Arrays;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

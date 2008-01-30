@@ -21,10 +21,10 @@ import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.phase.composite.SchemaModelComposite;
-import org.safris.xml.generator.module.phase.GeneratorContext;
-import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.ProcessorDirectory;
-import org.safris.xml.generator.module.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.phase.GeneratorContext;
+import org.safris.xml.generator.processor.phase.ElementModule;
+import org.safris.xml.generator.processor.phase.ProcessorDirectory;
+import org.safris.xml.generator.processor.phase.ModuleProcessor;
 import org.safris.xml.toolkit.binding.Bundle;
 
 public final class BundlePhase extends ModuleProcessor<SchemaComposite, Bundle> implements ElementModule<Bundle>

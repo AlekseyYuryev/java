@@ -3,7 +3,7 @@ package org.safris.xml.generator.lexer.phase.document;
 import java.net.URL;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
-import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.processor.phase.ElementModule;
 import org.w3c.dom.Document;
 
 public class SchemaDocument implements ElementModule

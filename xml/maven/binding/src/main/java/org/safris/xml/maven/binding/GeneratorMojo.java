@@ -20,7 +20,7 @@ import org.safris.commons.util.URLs;
 import org.safris.commons.util.Zips;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
-import org.safris.xml.generator.module.phase.GeneratorContext;
+import org.safris.xml.generator.processor.phase.GeneratorContext;
 import org.safris.xml.toolkit.binding.Bundle;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;

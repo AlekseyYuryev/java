@@ -1,4 +1,4 @@
-package org.safris.xml.generator.module.phase;
+package org.safris.xml.generator.processor.phase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.commons.util.xml.Prefix;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 
 public class BindingQName
 {

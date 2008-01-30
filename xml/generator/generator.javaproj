@@ -1405,6 +1405,42 @@
       <buildAction>NONE</buildAction>
       <incPathSpec>pom.xml</incPathSpec>
     </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>processor/build.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>processor/pom-template.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/BindingQName.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ElementModule.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/GeneratorContext.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ModuleProcessor.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/Nameable.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/Pipeline.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ProcessorDirectory.java</incPathSpec>
+    </javaFile2>
   </includedFiles>
   <name>generator</name>
   <projectReferences>

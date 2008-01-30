@@ -5,8 +5,8 @@ import org.safris.commons.util.xml.Prefix;
 import org.safris.xml.generator.compiler.phase.plan.AnyablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.lexer.phase.model.NamedModel;
-import org.safris.xml.generator.module.phase.BindingQName;
-import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.Nameable;
 
 public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements Nameable<Plan>
 {

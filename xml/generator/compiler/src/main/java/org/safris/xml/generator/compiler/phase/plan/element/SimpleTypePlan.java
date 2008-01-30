@@ -19,7 +19,7 @@ import org.safris.xml.generator.lexer.phase.model.AnyableModel;
 import org.safris.xml.generator.lexer.phase.model.EnumerableModel;
 import org.safris.xml.generator.lexer.phase.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan
 {

@@ -21,7 +21,7 @@ import org.safris.xml.generator.lexer.phase.model.element.ElementModel;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 
 public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
 {

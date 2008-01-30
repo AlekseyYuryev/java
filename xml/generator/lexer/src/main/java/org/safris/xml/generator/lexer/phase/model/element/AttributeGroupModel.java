@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.phase.model.NamedModel;
 import org.safris.xml.generator.lexer.phase.model.RedefineableModel;
 import org.safris.xml.generator.lexer.phase.model.ReferableModel;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeModel;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

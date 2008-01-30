@@ -5,7 +5,7 @@ import org.safris.xml.generator.lexer.phase.model.PatternableModel;
 import org.safris.xml.generator.lexer.phase.model.element.PatternModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.processor.phase.Nameable;
 
 public class PatternNormalizer extends Normalizer<PatternModel>
 {

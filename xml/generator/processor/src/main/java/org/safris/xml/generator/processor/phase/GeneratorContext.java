@@ -1,4 +1,4 @@
-package org.safris.xml.generator.module.phase;
+package org.safris.xml.generator.processor.phase;
 
 import java.io.File;
 import java.io.IOException;

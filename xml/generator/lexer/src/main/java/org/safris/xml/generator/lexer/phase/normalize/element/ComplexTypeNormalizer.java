@@ -6,7 +6,7 @@ import org.safris.xml.generator.lexer.phase.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.processor.phase.BindingQName;
 
 public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 {

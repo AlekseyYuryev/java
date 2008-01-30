@@ -1,4 +1,4 @@
-package org.safris.xml.generator.module.phase;
+package org.safris.xml.generator.processor.phase;
 
 public interface ProcessorDirectory<K extends ElementModule,V extends ElementModule>
 {

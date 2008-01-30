@@ -90,9 +90,9 @@ import org.safris.xml.generator.compiler.phase.write.element.SimpleTypeWriter;
 import org.safris.xml.generator.compiler.phase.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.phase.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.phase.write.element.WhiteSpaceWriter;
-import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.ProcessorDirectory;
-import org.safris.xml.generator.module.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.phase.ElementModule;
+import org.safris.xml.generator.processor.phase.ProcessorDirectory;
+import org.safris.xml.generator.processor.phase.ModuleProcessor;
 
 public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 {

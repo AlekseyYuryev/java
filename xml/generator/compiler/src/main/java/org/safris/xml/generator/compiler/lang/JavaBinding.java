@@ -7,7 +7,7 @@ import org.safris.xml.generator.lexer.phase.model.element.AttributeModel;
 import org.safris.xml.generator.lexer.phase.model.element.ElementModel;
 import org.safris.xml.generator.lexer.phase.model.element.NotationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
-import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.processor.phase.Nameable;
 
 public abstract class JavaBinding
 {
