@@ -2,7 +2,6 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
@@ -18,10 +17,23 @@ import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 {
+	private final ElementNormalizer elementNormalizer = (ElementNormalizer)getDirectory().lookup(ElementModel.class);
+	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
+	private final AttributeNormalizer attributeNormalizer = (AttributeNormalizer)getDirectory().lookup(AttributeModel.class);
+	private final ComplexTypeNormalizer complexTypeNormalizer = (ComplexTypeNormalizer)getDirectory().lookup(ComplexTypeModel.class);
+
+	public RestrictionNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(RestrictionModel model)
 	{
 	}
@@ -35,9 +47,9 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 		SimpleTypeModel base = null;
 		if(model.getBase() instanceof SimpleTypeModel.Reference)
 		{
-			base = SimpleTypeNormalizer.parseSimpleType(model.getBase().getName());
+			base = simpleTypeNormalizer.parseSimpleType(model.getBase().getName());
 			if(base == null)
-				base = ComplexTypeNormalizer.parseComplexType(model.getBase().getName());
+				base = complexTypeNormalizer.parseComplexType(model.getBase().getName());
 
 			if(base == null)
 			{
@@ -49,7 +61,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 		}
 		else if(model.getBase() instanceof ComplexTypeModel.Reference)
 		{
-			base = ComplexTypeNormalizer.parseComplexType(model.getBase().getName());
+			base = complexTypeNormalizer.parseComplexType(model.getBase().getName());
 			if(base == null)
 			{
 				if(!BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
@@ -88,7 +100,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 					// We do not want to dereference nested elements because there are name collisions
 					ElementModel element = (ElementModel)parent;
 					if(element.getParent() instanceof SchemaModel)
-						element = ElementNormalizer.parseElement(((Nameable)parent).getName());
+						element = elementNormalizer.parseElement(((Nameable)parent).getName());
 
 					if(element == null)
 						throw new LexerError("element == null");
@@ -101,7 +113,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 					// We do not want to dereference nested attributes because there are name collisions
 					AttributeModel attribute = (AttributeModel)parent;
 					if(attribute.getParent() instanceof SchemaModel)
-						attribute = AttributeNormalizer.parseAttribute(((Nameable)parent).getName());
+						attribute = attributeNormalizer.parseAttribute(((Nameable)parent).getName());
 
 					if(attribute == null)
 						throw new LexerError("element == null");
@@ -111,9 +123,9 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 				}
 				else
 				{
-					SimpleTypeModel type = SimpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
+					SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
 					if(type == null)
-						type = ComplexTypeNormalizer.parseComplexType(((Nameable)parent).getName());
+						type = complexTypeNormalizer.parseComplexType(((Nameable)parent).getName());
 
 					if(type == null)
 						throw new LexerError("type == null for " + ((Nameable)parent).getName());

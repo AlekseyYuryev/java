@@ -1,16 +1,25 @@
 package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.Collection;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.ListModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 
 public class ListNormalizer extends Normalizer<ListModel>
 {
+	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
+
+	public ListNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(ListModel model)
 	{
 	}
@@ -25,7 +34,7 @@ public class ListNormalizer extends Normalizer<ListModel>
 		SimpleTypeModel type = itemType;
 		if(type instanceof SimpleTypeModel.Reference)
 		{
-			type = SimpleTypeNormalizer.parseSimpleType(type.getName());
+			type = simpleTypeNormalizer.parseSimpleType(type.getName());
 			if(type == null)
 			{
 				if(!BindingQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))

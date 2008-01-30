@@ -1,10 +1,8 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
-import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.Referenceable;
 import org.safris.xml.generator.lexer.phase.Undefineable;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
@@ -13,7 +11,7 @@ import org.safris.xml.generator.lexer.phase.model.MixableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Block;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -86,7 +84,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
 
 	public static class Reference extends ComplexTypeModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,Reference>());
+		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
 
 		protected Reference(Model parent)
 		{
@@ -108,7 +106,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
 
 	public static class Undefined extends ComplexTypeModel implements Undefineable
 	{
-		private static final Map<BindingQName,Undefined> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,Undefined>());
+		private static final Map<BindingQName,Undefined> all = new HashMap<BindingQName,Undefined>();
 
 		protected Undefined(Model parent)
 		{

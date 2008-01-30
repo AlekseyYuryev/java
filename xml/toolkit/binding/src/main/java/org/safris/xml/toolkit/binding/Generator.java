@@ -12,17 +12,23 @@ import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
 import org.safris.commons.util.logging.ExitSevereError;
 import org.safris.commons.util.xml.DOMParsers;
-import org.safris.commons.util.xml.SchemaDocument;
-import org.safris.commons.util.xml.SchemaReference;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
+import org.safris.xml.generator.compiler.phase.plan.PlanDirectory;
 import org.safris.xml.generator.compiler.phase.write.Writer;
+import org.safris.xml.generator.compiler.phase.write.WriterDirectory;
+import org.safris.xml.generator.lexer.document.SchemaDocumentDirectory;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
+import org.safris.xml.generator.lexer.phase.composite.SchemaCompositeDirectory;
+import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
 import org.safris.xml.generator.lexer.phase.model.Model;
+import org.safris.xml.generator.lexer.phase.model.ModelDirectory;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
+import org.safris.xml.generator.lexer.phase.reference.SchemaReferenceDirectory;
 import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.generator.module.phase.Pipeline;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
 import org.w3.x2001.xmlschema.IXSBoolean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -216,40 +222,37 @@ public class Generator extends AbstractGenerator
 
 		// select the schemas to be generated and exit if no schemas need work
 		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
-		pipeline.addPhase(schemas, schemaReferences, SchemaLocator.class);
+		pipeline.<SchemaReference,SchemaReference>addPhase(schemas, schemaReferences, new SchemaReferenceDirectory());
 
 		// prepare the schemas to be worked on and build the dependency map
 		final Collection<SchemaDocument> schemaDocuments = new ArrayList<SchemaDocument>();
-		pipeline.addPhase(schemaReferences, schemaDocuments, SchemaResolver.class);
+		pipeline.<SchemaReference,SchemaDocument>addPhase(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
 
 		// this translation is necessary to bridge the dependency structure
 		// within the framework
 		final Collection<SchemaComposite> schemaComposites = new ArrayList<SchemaComposite>();
-		pipeline.addPhase(schemaDocuments, schemaComposites, Translation.class);
+		pipeline.<SchemaDocument,SchemaComposite>addPhase(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
 
 		// model the schema elements using Model objects
 		final Collection<Model> models = new ArrayList<Model>();
-		pipeline.addPhase(schemaComposites, models, Model.class);
+		pipeline.<SchemaComposite,Model>addPhase(schemaComposites, models, new ModelDirectory());
 
 		// normalize the models
-		pipeline.addPhase(models, null, Normalizer.class);
+		pipeline.<Model,Normalizer>addPhase(models, null, new NormalizerDirectory());
 
 		// plan the schema elements using Plan objects, and write to files
 		final Collection<Plan> plans = new ArrayList<Plan>();
-		pipeline.addPhase(models, plans, Plan.class);
+		pipeline.<Model,Plan>addPhase(models, plans, new PlanDirectory());
 
 		// write the plans to source
-		pipeline.addPhase(plans, null, Writer.class);
+		pipeline.<Plan,Writer>addPhase(plans, null, new WriterDirectory());
 
 		// compile and jar the bindings
 		final Collection<Bundle> bundles = new ArrayList<Bundle>();
-		pipeline.addPhase(schemaComposites, bundles, Bundle.class);
+		pipeline.<SchemaComposite,Bundle>addPhase(schemaComposites, bundles, new BundleDirectory());
 
 		// start the pipeline
 		pipeline.begin();
-
-		// FIXME: Intention is obvious, but the implementation is not perfect.
-		StaticReferenceManager.clearAll();
 
 		return bundles;
 	}

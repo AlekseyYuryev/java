@@ -2,21 +2,26 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.safris.xml.generator.module.phase.Nameable;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 {
-	private static final Map<BindingQName,AttributeGroupModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,AttributeGroupModel>());
+	private final Map<BindingQName,AttributeGroupModel> all = new HashMap<BindingQName,AttributeGroupModel>();
 
-	public static AttributeGroupModel parseAttributeGroup(BindingQName name)
+	public AttributeGroupNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
+	public AttributeGroupModel parseAttributeGroup(BindingQName name)
 	{
 		return all.get(name);
 	}
@@ -26,8 +31,8 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 		if(model.getName() == null || model.getParent() instanceof RedefineModel)
 			return;
 
-		if(AttributeGroupNormalizer.parseAttributeGroup(model.getName()) == null)
-			AttributeGroupNormalizer.all.put(model.getName(), model);
+		if(parseAttributeGroup(model.getName()) == null)
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(AttributeGroupModel model)
@@ -35,7 +40,7 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 		if(!(model.getRef() instanceof AttributeGroupModel.Reference))
 			return;
 
-		final AttributeGroupModel ref = AttributeGroupNormalizer.parseAttributeGroup(model.getRef().getName());
+		final AttributeGroupModel ref = parseAttributeGroup(model.getRef().getName());
 		if(ref == null)
 			throw new LexerError("ref == null for " + model.getRef().getName());
 

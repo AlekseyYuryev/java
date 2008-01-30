@@ -1,5 +1,6 @@
 package org.safris.xml.generator.compiler.phase.write;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,16 +90,55 @@ import org.safris.xml.generator.compiler.phase.write.element.SimpleTypeWriter;
 import org.safris.xml.generator.compiler.phase.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.phase.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.phase.write.element.WhiteSpaceWriter;
+import org.safris.xml.generator.module.phase.ElementModule;
 import org.safris.xml.generator.module.phase.HandlerDirectory;
+import org.safris.xml.generator.module.phase.Phase;
 
-public class WriterDirectory extends HandlerDirectory<Plan,Writer>
+public class WriterDirectory implements HandlerDirectory<Plan,Writer>
 {
-	private static final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
-	private static final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
-	private static final Collection<Class<? extends Plan>> keys;
-	private static final WriterDirectory instance = new WriterDirectory();
+	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
+	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
+	private final Collection<Class<? extends Plan>> keys;
+	private final Writer writer = new Writer()
+	{
+		protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
 
-	static
+		protected void appendGetMethod(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendSetMethod(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendMarshal(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendParse(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendCopy(StringWriter writer, Plan plan, Plan parent, String variable)
+		{
+		}
+
+		protected void appendEquals(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendHashCode(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+
+		protected void appendClass(StringWriter writer, Plan plan, Plan parent)
+		{
+		}
+	};
+
+	public WriterDirectory()
 	{
 		classes.put(AllPlan.class, AllWriter.class);
 		classes.put(AnnotationPlan.class, AnnotationWriter.class);
@@ -145,12 +185,7 @@ public class WriterDirectory extends HandlerDirectory<Plan,Writer>
 		keys = classes.keySet();
 	}
 
-	public static WriterDirectory instance()
-	{
-		return instance;
-	}
-
-	protected Writer lookup(Plan key)
+	public ElementModule<Writer> lookup(Plan key, Writer parent)
 	{
 		if(!keys.contains(key.getClass()))
 			throw new IllegalArgumentException("Unknown key: " + key.getClass().getSimpleName());
@@ -169,5 +204,15 @@ public class WriterDirectory extends HandlerDirectory<Plan,Writer>
 		{
 			throw new CompilerError(e);
 		}
+	}
+
+	public Phase<Plan, Writer> getPhase()
+	{
+		return writer;
+	}
+
+	public void clear()
+	{
+		instances.clear();
 	}
 }

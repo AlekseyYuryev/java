@@ -2,20 +2,25 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.ElementableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.GroupModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class GroupNormalizer extends Normalizer<GroupModel>
 {
-	private static final Map<BindingQName,GroupModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,GroupModel>());
+	private final Map<BindingQName,GroupModel> all = new HashMap<BindingQName,GroupModel>();
 
-	public static GroupModel parseGroup(BindingQName name)
+	public GroupNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
+	public GroupModel parseGroup(BindingQName name)
 	{
 		return all.get(name);
 	}
@@ -25,9 +30,9 @@ public class GroupNormalizer extends Normalizer<GroupModel>
 		if(model.getName() == null)
 			return;
 
-		final GroupModel groupModel = GroupNormalizer.parseGroup(model.getName());
+		final GroupModel groupModel = parseGroup(model.getName());
 		if(groupModel == null)
-			GroupNormalizer.all.put(model.getName(), model);
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(GroupModel model)
@@ -35,9 +40,9 @@ public class GroupNormalizer extends Normalizer<GroupModel>
 		if(model.getRef() == null || !(model.getRef() instanceof GroupModel.Reference))
 			return;
 
-		GroupModel ref = GroupNormalizer.parseGroup(model.getRef().getName());
+		GroupModel ref = parseGroup(model.getRef().getName());
 		if(ref == null)
-			ref = GroupNormalizer.parseGroup(model.getName());
+			ref = parseGroup(model.getName());
 
 		if(ref == null)
 			throw new LexerError("ref == null for " + model.getName());

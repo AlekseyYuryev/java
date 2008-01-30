@@ -1,10 +1,8 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
-import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.Referenceable;
 import org.safris.xml.generator.lexer.phase.model.AliasModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
@@ -13,7 +11,7 @@ import org.safris.xml.generator.lexer.phase.model.RestrictableModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -159,7 +157,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
 
 	public final static class Reference extends AttributeModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,Reference>());
+		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
 
 		protected Reference(Model parent)
 		{

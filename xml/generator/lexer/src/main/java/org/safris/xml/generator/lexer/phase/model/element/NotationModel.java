@@ -1,14 +1,12 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
-import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.Referenceable;
 import org.safris.xml.generator.lexer.phase.model.AliasModel;
 import org.safris.xml.generator.lexer.phase.model.DocumentableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -43,7 +41,7 @@ public class NotationModel extends AliasModel implements DocumentableModel
 
 	public static class Reference extends NotationModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,Reference>());
+		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
 
 		protected Reference(Model parent)
 		{

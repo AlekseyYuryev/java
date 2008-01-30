@@ -1,6 +1,8 @@
 package org.safris.xml.generator.module.phase;
 
-public abstract class HandlerDirectory<K,V>
+public interface HandlerDirectory<K extends ElementModule,V extends ElementModule>
 {
-	protected abstract V lookup(K key);
+	public ElementModule<V> lookup(K key, V parent);
+	public Phase<K,V> getPhase();
+	public void clear();
 }

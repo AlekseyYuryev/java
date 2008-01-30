@@ -12,7 +12,7 @@ import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
 import org.safris.commons.util.xml.DOMParsers;
-import org.safris.commons.util.xml.SchemaReference;
+import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
 import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;

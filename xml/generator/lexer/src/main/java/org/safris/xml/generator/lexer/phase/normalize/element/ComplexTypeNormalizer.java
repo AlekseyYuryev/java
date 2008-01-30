@@ -2,31 +2,24 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
-import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 {
-	protected static final Map<BindingQName,ComplexTypeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,ComplexTypeModel>());
+	protected final Map<BindingQName,ComplexTypeModel> all = new HashMap<BindingQName,ComplexTypeModel>();
 
-	public static ComplexTypeModel parseComplexType(BindingQName name)
+	public ComplexTypeNormalizer(NormalizerDirectory directory)
 	{
-		return all.get(name);
+		super(directory);
 	}
 
-	public static void registerDefaultType(ComplexTypeModel model)
+	public ComplexTypeModel parseComplexType(BindingQName name)
 	{
-		if(model.getName() == null)
-			return;
-
-		if(all.containsKey(model.getName()))
-			throw new LexerError("duplicate entry attempted for: " + model.getName());
-
-		all.put(model.getName(), model);
+		return all.get(name);
 	}
 
 	protected void stage1(ComplexTypeModel model)
@@ -34,9 +27,9 @@ public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 		if(model.getName() == null || model.getParent() instanceof RedefineModel)
 			return;
 
-		ComplexTypeModel complexTypeModel = ComplexTypeNormalizer.parseComplexType(model.getName());
+		ComplexTypeModel complexTypeModel = parseComplexType(model.getName());
 		if(complexTypeModel == null)
-			ComplexTypeNormalizer.all.put(model.getName(), model);
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(ComplexTypeModel model)

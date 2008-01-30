@@ -1,7 +1,6 @@
 package org.safris.xml.generator.compiler.phase.plan.element;
 
 import javax.xml.namespace.QName;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.phase.plan.AliasPlan;
@@ -21,6 +20,7 @@ import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
 {

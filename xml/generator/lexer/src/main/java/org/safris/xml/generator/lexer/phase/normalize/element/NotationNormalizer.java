@@ -2,16 +2,21 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.element.NotationModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class NotationNormalizer extends Normalizer<NotationModel>
 {
-	private static final Map<BindingQName,NotationModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,NotationModel>());
+	private final Map<BindingQName,NotationModel> all = new HashMap<BindingQName,NotationModel>();
 
-	public static final NotationModel parseNotation(BindingQName name)
+	public NotationNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
+	public NotationModel parseNotation(BindingQName name)
 	{
 		return all.get(name);
 	}
@@ -21,9 +26,9 @@ public class NotationNormalizer extends Normalizer<NotationModel>
 		if(model.getName() == null)
 			return;
 
-		final NotationModel notationModel = NotationNormalizer.parseNotation(model.getName());
+		final NotationModel notationModel = parseNotation(model.getName());
 		if(notationModel == null)
-			NotationNormalizer.all.put(model.getName(), model);
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(NotationModel model)

@@ -96,17 +96,21 @@
       <projectGuid>{4BEA63CE-004A-45ED-8229-F89550BF3899}</projectGuid>
     </projectReference>
   </projectReferences>
-  <references/>
+  <references>
+    <classpathReference>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-repository-metadata\2.0.8\maven-repository-metadata-2.0.8.jar</relativePath>
+    </classpathReference>
+  </references>
   <startingPoints>
     <startingPoint>
-      <commandLineArguments>/home/ssafris/Projects/safris/org/xml/trunk/sample/binding/pom.xml</commandLineArguments>
+      <commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/maven/binding/pom.xml</commandLineArguments>
       <name>GeneratorMojo sample/binding/pom.xml</name>
       <target>org.safris.xml.maven.binding.GeneratorMojo</target>
       <vmOtherOptions></vmOtherOptions>
-      <workingDir>..\sample\binding\</workingDir>
+      <workingDir>binding\</workingDir>
     </startingPoint>
     <startingPoint>
-      <commandLineArguments>/home/ssafris/Projects/safris/org/xml/trunk/test/binding/pom.xml</commandLineArguments>
+      <commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/test/binding/pom.xml</commandLineArguments>
       <name>GeneratorMojo test/binding/pom.xml</name>
       <target>org.safris.xml.maven.binding.GeneratorMojo</target>
       <vmOtherOptions></vmOtherOptions>

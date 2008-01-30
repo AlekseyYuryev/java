@@ -2,10 +2,10 @@ package org.w3.x2001.xmlschema;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3.x2001.xmlschema.IXSID;
 import org.w3c.dom.Element;
 

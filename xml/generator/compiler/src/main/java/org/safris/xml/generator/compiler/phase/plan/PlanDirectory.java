@@ -1,8 +1,10 @@
 package org.safris.xml.generator.compiler.phase.plan;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.phase.plan.element.AllPlan;
 import org.safris.xml.generator.compiler.phase.plan.element.AnnotationPlan;
 import org.safris.xml.generator.compiler.phase.plan.element.AnyAttributePlan;
@@ -88,13 +90,14 @@ import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.phase.model.element.WhiteSpaceModel;
+import org.safris.xml.generator.module.phase.ElementModule;
 import org.safris.xml.generator.module.phase.HandlerDirectory;
+import org.safris.xml.generator.module.phase.Phase;
 
-public class PlanDirectory<T> extends HandlerDirectory<Model,Class<? extends Plan>>
+public class PlanDirectory implements HandlerDirectory<Model,Plan>
 {
 	private static final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
 	private static final Collection<Class<? extends Model>> keys;
-	private static final PlanDirectory instance = new PlanDirectory();
 
 	static
 	{
@@ -143,16 +146,31 @@ public class PlanDirectory<T> extends HandlerDirectory<Model,Class<? extends Pla
 		keys = classes.keySet();
 	}
 
-	public static PlanDirectory instance()
-	{
-		return instance;
-	}
-
-	protected Class<? extends Plan> lookup(Model key)
+	public ElementModule<Plan> lookup(Model key, Plan parent)
 	{
 		if(!keys.contains(key.getClass()))
 			throw new IllegalArgumentException("Unknown key: " + key.getClass().getSimpleName());
 
-		return classes.get(key.getClass());
+		final Class<? extends Plan> parserClass = classes.get(key.getClass());
+		Plan planInstance = null;
+		try
+		{
+			final Constructor<? extends Plan> constructor = parserClass.getConstructor(key.getClass(), Plan.class);
+			planInstance = constructor.newInstance(key, parent);
+			return planInstance;
+		}
+		catch(Exception e)
+		{
+			throw new CompilerError(e);
+		}
+	}
+
+	public Phase<Model, Plan> getPhase()
+	{
+		return new Plan(null, null){};
+	}
+
+	public void clear()
+	{
 	}
 }

@@ -2,9 +2,15 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import org.safris.xml.generator.lexer.phase.model.element.SelectorModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 
 public class SelectorNormalizer extends Normalizer<SelectorModel>
 {
+	public SelectorNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(SelectorModel model)
 	{
 	}

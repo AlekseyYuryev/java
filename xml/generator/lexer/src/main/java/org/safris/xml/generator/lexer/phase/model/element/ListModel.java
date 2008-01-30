@@ -2,12 +2,12 @@ package org.safris.xml.generator.lexer.phase.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.Model;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ListModel extends Model
+public class ListModel extends SimpleTypeModel
 {
 	private SimpleTypeModel itemType = null;
 	private UnionModel unionType = null;

@@ -19,7 +19,7 @@ import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
 import org.safris.commons.util.Zips;
 import org.safris.commons.util.xml.DOMParsers;
-import org.safris.commons.util.xml.SchemaReference;
+import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
 import org.safris.xml.generator.module.phase.BindingContext;
 import org.safris.xml.toolkit.binding.Bundle;
 import org.safris.xml.toolkit.binding.Generator;
@@ -75,8 +75,9 @@ public class GeneratorMojo extends AbstractMojo
 
 	/**
 	 * @parameter default-value="${project}"
+	 * @required
 	 */
-	private Object project = null;
+	private MavenProject project = null;
 
 	/**
 	 * @parameter default-value="${maven.test.skip}"
@@ -99,17 +100,20 @@ public class GeneratorMojo extends AbstractMojo
 	{
 		String href = null;
 		final BindingContext bindingContext = new BindingContext();
-		if(project != null && project instanceof MavenProject)
+		if(project != null)
 		{
-			final Build build = ((MavenProject)project).getBuild();
+			final Build build = project.getBuild();
 			if(build != null && build.getPlugins() != null)
 			{
-				resolver = new MavenPropertyResolver(((MavenProject)project));
+				resolver = new MavenPropertyResolver(project);
 				for(Plugin plugin : (List<Plugin>)build.getPlugins())
 				{
 					if(!"binding".equals(plugin.getArtifactId()))
 						continue;
 
+					plugin.flushExecutionMap();
+					// FIXME: When this class is run from an IDE, the GeneratorMojo
+					// FIXME: cannot find the configuration instance.
 					final Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
 					for(int i = 0; i < configuration.getChildCount(); i++)
 					{
@@ -240,7 +244,7 @@ public class GeneratorMojo extends AbstractMojo
 				if(URLs.isAbsolute(schema))
 					generatorBindings.add(new SchemaReference(schema));
 				else
-					generatorBindings.add(new SchemaReference(((MavenProject)project).getFile().getParentFile().getAbsolutePath(), schema));
+					generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema));
 			}
 
 			if(destDir == null || destDir.length() == 0)
@@ -285,19 +289,18 @@ public class GeneratorMojo extends AbstractMojo
 		if(bundles == null || path == null || project == null || !(project instanceof MavenProject))
 			return;
 
-		final MavenProject mavenProject = (MavenProject)project;
 		try
 		{
 			for(Bundle bundle : bundles)
 			{
-				for(String element : (List<String>)mavenProject.getTestClasspathElements())
+				for(String element : (List<String>)project.getTestClasspathElements())
 				{
 					final File elementFile = new File(element);
 					if(!elementFile.isFile())
 						Zips.unzip(bundle.getFile(), classesFilter, elementFile);
 				}
 
-				for(String element : (List<String>)mavenProject.getCompileClasspathElements())
+				for(String element : (List<String>)project.getCompileClasspathElements())
 				{
 					final File elementFile = new File(element);
 					if(!elementFile.isFile())
@@ -312,7 +315,7 @@ public class GeneratorMojo extends AbstractMojo
 
 		// add to both compile and test-compile classpaths so that the generated classes
 		// can be used for the main and test source.
-		mavenProject.addTestCompileSourceRoot(path);
-		mavenProject.addCompileSourceRoot(path);
+		project.addTestCompileSourceRoot(path);
+		project.addCompileSourceRoot(path);
 	}
 }

@@ -3,11 +3,11 @@ package org.safris.xml.generator.compiler.lang;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.phase.model.RedefineableModel;
 import org.safris.xml.generator.lexer.phase.model.element.ElementModel;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class ElementWrapper extends Model

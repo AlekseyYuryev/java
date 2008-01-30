@@ -4,10 +4,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import org.safris.xml.generator.lexer.phase.model.element.IncludeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 
 public class IncludeNormalizer extends Normalizer<IncludeModel>
 {
 	private final Collection<String> messages = new HashSet<String>();
+
+	public IncludeNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
 
 	protected void stage1(IncludeModel model)
 	{

@@ -13,56 +13,14 @@ import org.safris.xml.generator.compiler.phase.plan.NestablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.compiler.phase.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 import org.safris.xml.generator.module.phase.Phase;
 
-public abstract class Writer<T extends Plan> extends Phase<Plan>
+public abstract class Writer<T extends Plan> extends Phase<Plan,Writer> implements ElementModule<Writer>
 {
 	private final Collection<String> messages = new HashSet<String>();
-
-	private static final Writer instance = new Writer()
-	{
-		protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendGetMethod(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendSetMethod(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendMarshal(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendParse(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendCopy(StringWriter writer, Plan plan, Plan parent, String variable)
-		{
-		}
-
-		protected void appendEquals(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendHashCode(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-
-		protected void appendClass(StringWriter writer, Plan plan, Plan parent)
-		{
-		}
-	};
-
-	public static Writer instance()
-	{
-		return instance;
-	}
 
 	private void writeFile(Writer writer, Plan plan, File destDir)
 	{
@@ -110,50 +68,50 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 
 	public static void writeDeclaration(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendDeclaration(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendDeclaration(writer, plan, parent);
 	}
 
 	public static void writeGetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendGetMethod(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendGetMethod(writer, plan, parent);
 	}
 
 	public static void writeSetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendSetMethod(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendSetMethod(writer, plan, parent);
 	}
 
 	public static void writeMarshal(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendMarshal(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendMarshal(writer, plan, parent);
 	}
 
 	public static void writeParse(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendParse(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendParse(writer, plan, parent);
 	}
 
 	public static void writeCopy(StringWriter writer, Plan plan, Plan parent, String variable)
 	{
-		WriterDirectory.instance().lookup(plan).appendCopy(writer, plan, parent, variable);
+		((Writer)directory.lookup(plan, null)).appendCopy(writer, plan, parent, variable);
 	}
 
 	public static void writeEquals(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendEquals(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendEquals(writer, plan, parent);
 	}
 
 	public static void writeHashCode(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendHashCode(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendHashCode(writer, plan, parent);
 	}
 
 	public static void writeClass(StringWriter writer, Plan plan, Plan parent)
 	{
-		WriterDirectory.instance().lookup(plan).appendClass(writer, plan, parent);
+		((Writer)directory.lookup(plan, null)).appendClass(writer, plan, parent);
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, BindingContext share)
+	protected final void tailRecurse(Collection<Plan> models, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -163,17 +121,20 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, share), share);
+			tailRecurse(disclose(model, bindingContext, directory), bindingContext, directory);
 		}
 	}
 
-	public Collection<Writer> manipulate(Collection<Plan> documents, BindingContext share)
+	private static HandlerDirectory<Plan, Writer> directory = null;
+
+	public Collection<Writer> manipulate(Collection<Plan> documents, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
 	{
-		tailRecurse(documents, share);
+		Writer.directory = directory;
+		tailRecurse(documents, bindingContext, directory);
 		return null;
 	}
 
-	protected Collection<Plan> disclose(Plan plan, BindingContext share)
+	protected Collection<Plan> disclose(Plan plan, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
 	{
 		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;
@@ -181,7 +142,7 @@ public abstract class Writer<T extends Plan> extends Phase<Plan>
 		if(((Nameable)plan).getName().getNamespaceURI() == null)
 			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
 
-		writeFile(WriterDirectory.instance().lookup(plan), plan, share.getDestDir());
+		writeFile(((Writer)directory.lookup(plan, null)), plan, bindingContext.getDestDir());
 
 		return null;
 	}

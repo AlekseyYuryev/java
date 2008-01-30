@@ -1,9 +1,12 @@
-package org.safris.commons.util.xml;
+package org.safris.xml.generator.module.phase;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.util.xml.Prefix;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class BindingQName
 {
@@ -120,7 +123,7 @@ public class BindingQName
 		this.localPart = name.getLocalPart();
 	}
 
-	protected static void linkPrefixNamespace(NamespaceURI namespaceURI, Prefix prefix)
+	public static void linkPrefixNamespace(NamespaceURI namespaceURI, Prefix prefix)
 	{
 		if(namespaceURI == null || XMLConstants.NULL_NS_URI.equals(namespaceURI.toString()) || prefix == null || XMLConstants.DEFAULT_NS_PREFIX.equals(prefix.toString()))
 			return;

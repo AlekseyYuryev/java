@@ -4,12 +4,12 @@ import java.io.File;
 import java.net.URL;
 import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.schema.attribute.BlockDefault;
 import org.safris.xml.generator.lexer.schema.attribute.FinalDefault;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

@@ -5,45 +5,26 @@ import java.util.Collection;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Phase;
 
-public abstract class Normalizer<T extends Model> extends Phase<Model>
+public abstract class Normalizer<T extends Model> extends Phase<Model,Normalizer> implements ElementModule<Normalizer>
 {
-	private static final Normalizer instance = new Normalizer()
-	{
-		protected void stage1(Model handler)
-		{
-		}
-
-		protected void stage2(Model handler)
-		{
-		}
-
-		protected void stage3(Model handler)
-		{
-		}
-
-		protected void stage4(Model handler)
-		{
-		}
-
-		protected void stage5(Model handler)
-		{
-		}
-
-		protected void stage6(Model handler)
-		{
-		}
-	};
-
-	public static Normalizer instance()
-	{
-		return instance;
-	}
-
+	private final NormalizerDirectory directory;
 	private int stage = 0;
 
-	protected final void tailRecurse(Collection<Model> models, BindingContext share)
+	public Normalizer(NormalizerDirectory directory)
+	{
+		this.directory = directory;
+	}
+
+	public NormalizerDirectory getDirectory()
+	{
+		return directory;
+	}
+
+	protected final void tailRecurse(Collection<Model> models, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -53,33 +34,30 @@ public abstract class Normalizer<T extends Model> extends Phase<Model>
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, share), share);
+			tailRecurse(disclose(model, bindingContext, directory), bindingContext, directory);
 		}
 	}
 
-	public Collection<Normalizer> manipulate(Collection<Model> models, BindingContext share)
+	public Collection<Normalizer> manipulate(Collection<Model> models, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
 	{
-		synchronized(instance)
+		int stages = 0;
+		Method[] methods = Normalizer.class.getDeclaredMethods();
+		for(Method method : methods)
+			if(method.getName().startsWith("stage"))
+				stages++;
+
+		for(int stage = 0; stage < stages; stage++)
 		{
-			int stages = 0;
-			Method[] methods = Normalizer.class.getDeclaredMethods();
-			for(Method method : methods)
-				if(method.getName().startsWith("stage"))
-					stages++;
-
-			for(int stage = 0; stage < stages; stage++)
-			{
-				this.stage = stage;
-				tailRecurse(models, share);
-			}
-
-			return null;
+			this.stage = stage;
+			tailRecurse(models, bindingContext, directory);
 		}
+
+		return null;
 	}
 
-	protected Collection<Model> disclose(Model model, BindingContext share)
+	protected Collection<Model> disclose(Model model, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
 	{
-		final Normalizer normalizer = NormalizerDirectory.instance().lookup(model);
+		final Normalizer normalizer = (Normalizer)directory.lookup(model, this);
 		try
 		{
 			final Method method = normalizer.getClass().getDeclaredMethod("stage" + (stage + 1), Model.class);

@@ -35,6 +35,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/generator/lexer/document/SchemaDocumentDirectory.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/generator/lexer/document/SchemaDocumentPhase.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/AbstractGenerator.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -43,23 +51,19 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/BundleDirectory.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/BundlePhase.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/Generator.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/PropertyResolver.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/SchemaLocator.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/SchemaResolver.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/Translation.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
@@ -101,16 +105,19 @@
       <relativePath>$TOOLS_JAR$</relativePath>
     </classpathReference>
     <classpathReference>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\classworlds\classworlds\1.1\classworlds-1.1.jar</relativePath>
+    </classpathReference>
+    <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.4\junit-4.4.jar</relativePath>
     </classpathReference>
     <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\ant\ant\1.7.0\ant-1.7.0.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\classworlds\classworlds\1.1\classworlds-1.1.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-artifact\2.0.8\maven-artifact-2.0.8.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\codehaus\plexus\plexus-utils\1.4.9\plexus-utils-1.4.9.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-artifact-manager\2.0.8\maven-artifact-manager-2.0.8.jar</relativePath>
     </classpathReference>
     <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-model\2.0.8\maven-model-2.0.8.jar</relativePath>
@@ -119,25 +126,22 @@
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-plugin-api\2.0.8\maven-plugin-api-2.0.8.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-project\2.0.8\maven-project-2.0.8.jar</relativePath>
-    </classpathReference>
-    <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-9-stable-1\plexus-container-default-1.0-alpha-9-stable-1.jar</relativePath>
-    </classpathReference>
-    <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-artifact\2.0.8\maven-artifact-2.0.8.jar</relativePath>
-    </classpathReference>
-    <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-profile\2.0.8\maven-profile-2.0.8.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-artifact-manager\2.0.8\maven-artifact-manager-2.0.8.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-project\2.0.8\maven-project-2.0.8.jar</relativePath>
+    </classpathReference>
+    <classpathReference>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-settings\2.0.8\maven-settings-2.0.8.jar</relativePath>
     </classpathReference>
     <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\wagon\wagon-provider-api\1.0-beta-2\wagon-provider-api-1.0-beta-2.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\maven\maven-settings\2.0.8\maven-settings-2.0.8.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-9-stable-1\plexus-container-default-1.0-alpha-9-stable-1.jar</relativePath>
+    </classpathReference>
+    <classpathReference>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\codehaus\plexus\plexus-utils\1.4.9\plexus-utils-1.4.9.jar</relativePath>
     </classpathReference>
   </references>
   <startingPoints>

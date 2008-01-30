@@ -1,8 +1,8 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
 import javax.xml.namespace.QName;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.Model;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

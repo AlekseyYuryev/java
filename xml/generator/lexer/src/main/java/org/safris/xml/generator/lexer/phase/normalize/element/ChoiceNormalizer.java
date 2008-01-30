@@ -4,10 +4,16 @@ import org.safris.xml.generator.lexer.phase.model.ElementableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.ChoiceModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class ChoiceNormalizer extends Normalizer<ChoiceModel>
 {
+	public ChoiceNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(ChoiceModel model)
 	{
 	}

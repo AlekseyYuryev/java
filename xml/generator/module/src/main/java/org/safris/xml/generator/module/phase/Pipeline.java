@@ -8,9 +8,9 @@ import org.safris.commons.util.logging.ExitSevereError;
 
 public class Pipeline
 {
-	private static class Entry<T extends Phase>
+	private static class Entry<I extends ElementModule,O extends ElementModule>
 	{
-		private static Method getInstanceMethod(Class<? extends Phase> moduleClass)
+		private static Method getInstanceMethod(Class<? extends ElementModule> moduleClass)
 		{
 			final Method[] methods = moduleClass.getDeclaredMethods();
 			Method instanceMethod = null;
@@ -29,65 +29,67 @@ public class Pipeline
 			return instanceMethod;
 		}
 
-		private final Class<T> moduleClass;
-		private final Collection input;
-		private final Collection<T> output;
+		private final Collection<I> input;
+		private final Collection<O> output;
+		private final HandlerDirectory<I,O> directory;
 
-		public Entry(Class<T> moduleClass, Collection input, Collection<T> output)
+		public Entry(Collection<I> input, Collection<O> output, HandlerDirectory<I,O> directory)
 		{
-			this.moduleClass = moduleClass;
 			this.input = input;
 			this.output = output;
+			this.directory = directory;
 		}
 
-		public Phase<T> getModule()
+		public Phase<I,O> getPhase()
 		{
-			final Method instanceMethod = Entry.getInstanceMethod(moduleClass);
-			try
-			{
-				return (Phase)instanceMethod.invoke(null);
-			}
-			catch(Exception e)
-			{
-				throw new ExitSevereError(e);
-			}
+			return directory.getPhase();
 		}
 
-		public Collection getInput()
+		public Collection<I> getInput()
 		{
 			return input;
 		}
 
-		public Collection<T> getOutput()
+		public Collection<O> getOutput()
 		{
 			return output;
+		}
+
+		public HandlerDirectory<I,O> getDirectory()
+		{
+			return directory;
 		}
 	}
 
 	private final Collection<Entry> modulePairs = new ArrayList<Entry>();
-	private final BindingContext share;
+	private final BindingContext bindingContext;
 
-	public Pipeline(BindingContext share)
+	public Pipeline(BindingContext bindingContext)
 	{
-		this.share = share;
+		this.bindingContext = bindingContext;
 	}
 
-	public void addPhase(Collection input, Collection output, Class moduleClass)
+	public <I extends ElementModule,O extends ElementModule>void addPhase(Collection<I> input, Collection<O> output, HandlerDirectory<I,O> handlerDirectory)
 	{
 		synchronized(modulePairs)
 		{
-			Entry modulePair = new Entry(moduleClass, input, output);
+			final Entry<I,O> modulePair = new Entry<I,O>(input, output, handlerDirectory);
 			modulePairs.add(modulePair);
 		}
 	}
 
 	public void begin()
 	{
-		for(Entry<? extends Phase> modulePair : modulePairs)
+		final Collection<HandlerDirectory> directories = new ArrayList<HandlerDirectory>();
+		for(Entry modulePair : modulePairs)
 		{
-			Collection instanceHandles = modulePair.getModule().manipulate(modulePair.getInput(), share);
+			directories.add(modulePair.getDirectory());
+			final Collection instanceHandles = modulePair.getPhase().manipulate(modulePair.getInput(), bindingContext, modulePair.getDirectory());
 			if(modulePair.getOutput() != null)
 				modulePair.getOutput().addAll(instanceHandles);
 		}
+
+		for(HandlerDirectory directory : directories)
+			directory.clear();
 	}
 }

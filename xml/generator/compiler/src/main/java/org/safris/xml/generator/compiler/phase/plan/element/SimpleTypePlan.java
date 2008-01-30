@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
@@ -20,6 +19,7 @@ import org.safris.xml.generator.lexer.phase.model.AnyableModel;
 import org.safris.xml.generator.lexer.phase.model.EnumerableModel;
 import org.safris.xml.generator.lexer.phase.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan
 {

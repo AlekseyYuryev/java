@@ -5,10 +5,16 @@ import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AnyAttributeModel;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class AnyAttributeNormalizer extends Normalizer<AnyAttributeModel>
 {
+	public AnyAttributeNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(AnyAttributeModel model)
 	{
 	}

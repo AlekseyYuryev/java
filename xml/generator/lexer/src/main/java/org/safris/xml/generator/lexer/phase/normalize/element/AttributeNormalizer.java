@@ -3,8 +3,6 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
-import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
@@ -14,16 +12,23 @@ import org.safris.xml.generator.lexer.phase.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.lexer.phase.normalize.element.AttributeNormalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.lexer.phase.normalize.element.SimpleTypeNormalizer;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
 
 public class AttributeNormalizer extends Normalizer<AttributeModel>
 {
-	private static final Map<BindingQName,AttributeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,AttributeModel>());
+	private final Map<BindingQName,AttributeModel> all = new HashMap<BindingQName,AttributeModel>();
+	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
 
-	public static final AttributeModel parseAttribute(BindingQName name)
+	public AttributeNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
+	public final AttributeModel parseAttribute(BindingQName name)
 	{
 		return all.get(name);
 	}
@@ -33,8 +38,8 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 		if(model.getName() == null || !(model.getParent() instanceof SchemaModel))
 			return;
 
-		if(AttributeNormalizer.parseAttribute(model.getName()) == null)
-			AttributeNormalizer.all.put(model.getName(), model);
+		if(parseAttribute(model.getName()) == null)
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(AttributeModel model)
@@ -49,30 +54,15 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 
 		if(model.getRef() instanceof AttributeModel.Reference)
 		{
-			final AttributeModel ref = AttributeNormalizer.parseAttribute(model.getRef().getName());
-			if(ref == null)
-			{
-				final Map<BindingQName,AttributeModel> all = AttributeNormalizer.all;
-				throw new LexerError("ref == null for " + model.getRef().getName());
-			}
-
+			final AttributeModel ref = parseAttribute(model.getRef().getName());
 			model.setRef(ref);
 		}
 
 		if(model.getSuperType() instanceof SimpleTypeModel.Reference)
 		{
-			SimpleTypeModel type = SimpleTypeNormalizer.parseSimpleType(model.getSuperType().getName());
+			SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(model.getSuperType().getName());
 			if(type == null)
-			{
-				if(!BindingQName.XS.getNamespaceURI().equals(model.getSuperType().getName().getNamespaceURI()))
-				{
-					// FIXME: DEBUG
-					type = SimpleTypeNormalizer.parseSimpleType(model.getSuperType().getName());
-					throw new LexerError("type == null for " + model.getSuperType().getName());
-				}
-
 				type = SimpleTypeModel.Undefined.parseSimpleType(model.getSuperType().getName());
-			}
 
 			model.setSuperType(type);
 		}
@@ -113,7 +103,7 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 
 		if(model.getSuperType() == null)
 		{
-			SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType"));
+			final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType"));
 			model.setSuperType(type);
 			model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
 		}

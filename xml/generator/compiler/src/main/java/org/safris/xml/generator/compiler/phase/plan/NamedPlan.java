@@ -1,11 +1,11 @@
 package org.safris.xml.generator.compiler.phase.plan;
 
 import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.commons.util.xml.Prefix;
 import org.safris.xml.generator.compiler.phase.plan.AnyablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.lexer.phase.model.NamedModel;
+import org.safris.xml.generator.module.phase.BindingQName;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements Nameable<Plan>

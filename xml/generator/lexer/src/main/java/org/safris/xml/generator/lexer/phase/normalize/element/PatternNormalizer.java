@@ -4,10 +4,16 @@ import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.PatternableModel;
 import org.safris.xml.generator.lexer.phase.model.element.PatternModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class PatternNormalizer extends Normalizer<PatternModel>
 {
+	public PatternNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(PatternModel model)
 	{
 	}

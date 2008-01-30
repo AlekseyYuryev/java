@@ -1,29 +1,27 @@
-package org.safris.xml.toolkit.binding;
+package org.safris.xml.generator.lexer.phase.reference;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import org.safris.commons.util.xml.SchemaReference;
-import org.safris.xml.generator.compiler.lang.CompilerError;
+import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Phase;
 
-public class SchemaLocator extends Phase
+public final class SchemaReferencePhase extends Phase<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
 {
-	private static final SchemaLocator instance = new SchemaLocator();
-
-	public static SchemaLocator instance()
-	{
-		return instance;
-	}
-
 	// FIXME: There still exists a deadlock condition!!
 	private static final class Counter
 	{
 		protected volatile int count = 0;
 	}
 
-	public Collection manipulate(final Collection schemas, final BindingContext bindingContext)
+	protected SchemaReferencePhase()
+	{
+	}
+
+	public Collection<SchemaReference> manipulate(final Collection<SchemaReference> schemas, final BindingContext bindingContext, HandlerDirectory<SchemaReference, SchemaReference> directory)
 	{
 		final File destDir = bindingContext.getDestDir();
 
@@ -67,12 +65,12 @@ public class SchemaLocator extends Phase
 										return;
 									}
 
-									AbstractGenerator.warning("No modification detected for " + schemaReference.getURL().toString() + " and its destination directory " + directory.getPath() + " has not been modified either. Skipping compilation!");
+									System.err.println("No modification detected for " + schemaReference.getURL().toString() + " and its destination directory " + directory.getPath() + " has not been modified either. Skipping compilation!");
 								}
 							}
 							catch(Exception e)
 							{
-								throw new CompilerError(e);
+								throw new LexerError(e);
 							}
 							finally
 							{
@@ -98,7 +96,7 @@ public class SchemaLocator extends Phase
 		}
 		catch(Exception e)
 		{
-			throw new CompilerError(e);
+			throw new LexerError(e);
 		}
 
 		return selectedSchemas;

@@ -1,4 +1,4 @@
-package org.safris.commons.util.xml;
+package org.safris.xml.generator.lexer.phase.reference;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,13 +13,15 @@ import org.safris.commons.util.URLs;
 import org.safris.commons.util.logging.ExitSevereError;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.commons.util.xml.Prefix;
-import org.safris.commons.util.xml.SchemaNamespaceHandler;
+import org.safris.xml.generator.lexer.phase.reference.SchemaNamespaceHandler;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.ElementModule;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class SchemaReference
+public class SchemaReference implements ElementModule<SchemaReference>
 {
 	private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
 	private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();

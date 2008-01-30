@@ -14,15 +14,12 @@ import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Phase;
 
-public abstract class Plan<T extends Model> extends Phase<Model>
+public abstract class Plan<T extends Model> extends Phase<Model,Plan> implements ElementModule<Plan>
 {
-	public static Plan instance()
-	{
-		return new Plan(null, null){};
-	}
-
 	public static <A extends Plan>LinkedHashSet analyze(Collection<? extends Model> models, Plan parent)
 	{
 		LinkedHashSet<A> plans = null;
@@ -107,7 +104,7 @@ public abstract class Plan<T extends Model> extends Phase<Model>
 		this.parent = parent;
 	}
 
-	public final Collection<Plan> manipulate(Collection<Model> documents, BindingContext share)
+	public final Collection<Plan> manipulate(Collection<Model> documents, BindingContext bindingContext, HandlerDirectory<Model,Plan> directory)
 	{
 		final Collection<Plan> plans = new ArrayList<Plan>();
 		for(Model model : documents)
@@ -119,26 +116,15 @@ public abstract class Plan<T extends Model> extends Phase<Model>
 			logger().info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
 			for(Model outerModels : model.getChildren())
-				disclose(outerModels, share, plans);
+				disclose(outerModels, bindingContext, plans, directory);
 		}
 
 		return plans;
 	}
 
-	protected final Collection<Model> disclose(Model model, BindingContext share, Collection<Plan> plans)
+	protected final Collection<Model> disclose(Model model, BindingContext bindingContext, Collection<Plan> plans, HandlerDirectory<Model, Plan> directory)
 	{
-		Class<? extends Plan<T>> parserClass = PlanDirectory.instance().lookup(model);
-		Plan<T> planInstance = null;
-		try
-		{
-			final Constructor constructor = parserClass.getConstructor(model.getClass(), Plan.class);
-			planInstance = (Plan<T>)constructor.newInstance(model, this);
-		}
-		catch(Exception e)
-		{
-			throw new CompilerError(e);
-		}
-
+		final Plan planInstance = (Plan)directory.lookup(model, this);
 		plans.add(planInstance);
 		return model.getChildren();
 	}

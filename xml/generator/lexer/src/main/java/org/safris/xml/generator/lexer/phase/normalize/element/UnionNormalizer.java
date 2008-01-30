@@ -2,16 +2,25 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.ListModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 
 public class UnionNormalizer extends Normalizer<UnionModel>
 {
+	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
+
+	public UnionNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(UnionModel model)
 	{
 	}
@@ -27,7 +36,7 @@ public class UnionNormalizer extends Normalizer<UnionModel>
 			{
 				if(memberType instanceof SimpleTypeModel.Reference)
 				{
-					resolvedMemberType = SimpleTypeNormalizer.parseSimpleType(memberType.getName());
+					resolvedMemberType = simpleTypeNormalizer.parseSimpleType(memberType.getName());
 					if(resolvedMemberType == null)
 					{
 						if(!BindingQName.XS.getNamespaceURI().equals(memberType.getName().getNamespaceURI()))

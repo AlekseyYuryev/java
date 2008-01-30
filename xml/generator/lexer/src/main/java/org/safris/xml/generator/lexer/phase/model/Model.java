@@ -1,6 +1,5 @@
 package org.safris.xml.generator.lexer.phase.model;
 
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,26 +7,25 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
 import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.commons.util.xml.SchemaDocument;
-import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
+import org.safris.xml.generator.lexer.phase.composite.SchemaModelComposite;
+import org.safris.xml.generator.lexer.phase.composite.SchemaNodeComposite;
+import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
+import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Phase;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class Model extends Phase<SchemaComposite>
+public abstract class Model extends Phase<SchemaComposite,Model> implements ElementModule<Model>
 {
 	protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
-
-	public static Model instance()
-	{
-		return new Model(null, null){};
-	}
 
 	private final Collection<Model> children = new ArrayList<Model>();
 	private Map<NamespaceURI,URL> schemaReferences = null;
@@ -177,26 +175,27 @@ public abstract class Model extends Phase<SchemaComposite>
 		return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
 	}
 
-	public final Collection<Model> manipulate(Collection<SchemaComposite> schemaComposites, BindingContext share)
+	public Collection<Model> manipulate(Collection<SchemaComposite> documents, BindingContext bindingContext, HandlerDirectory<SchemaComposite, Model> directory)
 	{
 		// Then we parse all of the schemas that have been included and imported
 		final Collection<Model> schemaModels = new ArrayList<Model>();
 
-		for(SchemaComposite schemaComposite : schemaComposites)
+		for(SchemaComposite schemaComposite : documents)
 		{
-			final SchemaDocument schemaDocument = schemaComposite.getSchemaDocument();
-			final SchemaModel model = recurse(schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL());
+			final SchemaModelComposite SchemaModelComposite = (SchemaModelComposite)schemaComposite;
+			final SchemaDocument schemaDocument = SchemaModelComposite.getSchemaDocument();
+			final SchemaModel model = recurse(schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL(), directory);
 			if(model == null)
 				throw new ExitSevereError("We should have found a schema!");
 
-			schemaComposite.setSchemaModel(model);
+			SchemaModelComposite.setSchemaModel(model);
 			schemaModels.add(model);
 		}
 
 		return schemaModels;
 	}
 
-	private final SchemaModel recurse(NamespaceURI targetNamespace, NodeList children, URL url)
+	private final SchemaModel recurse(NamespaceURI targetNamespace, NodeList children, URL url, HandlerDirectory<SchemaComposite,Model> directory)
 	{
 		if(children == null || children.getLength() == 0)
 			return null;
@@ -233,19 +232,8 @@ public abstract class Model extends Phase<SchemaComposite>
 			if(child.getLocalName() == null)
 				continue;
 
-			final Class<? extends Model> modelClass = ModelDirectory.instance().lookup(child);
-			Model handler = null;
-			try
-			{
-				final Constructor<? extends Model> constructor = modelClass.getDeclaredConstructor(Node.class, Model.class);
-				constructor.setAccessible(true);
-				handler = constructor.newInstance(child, this);
-			}
-			catch(Exception e)
-			{
-				throw new LexerError(e);
-			}
-
+			final SchemaNodeComposite nodeComposite = new SchemaNodeComposite(child);
+			final Model handler = (Model)directory.lookup(nodeComposite, this);
 			if(current != null)
 			{
 				handler.setPrevious(current);
@@ -254,7 +242,7 @@ public abstract class Model extends Phase<SchemaComposite>
 
 			current = handler;
 
-			final SchemaModel temp = handler.recurse(targetNamespace, child.getChildNodes(), url);
+			final SchemaModel temp = handler.recurse(targetNamespace, child.getChildNodes(), url, directory);
 			if(temp != null)
 				schema = temp;
 		}

@@ -4,10 +4,15 @@ import org.safris.xml.generator.lexer.phase.model.ElementableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AnyModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.Nameable;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 
 public class AnyNormalizer extends Normalizer<AnyModel>
 {
+	public AnyNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(AnyModel model)
 	{
 	}

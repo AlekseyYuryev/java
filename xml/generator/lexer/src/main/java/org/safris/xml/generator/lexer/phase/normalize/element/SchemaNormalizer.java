@@ -4,10 +4,16 @@ import java.io.File;
 import org.safris.commons.util.Files;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 
 public class SchemaNormalizer extends Normalizer<SchemaModel>
 {
 	private static File CWD = null;
+
+	public SchemaNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
 
 	protected void stage1(SchemaModel model)
 	{

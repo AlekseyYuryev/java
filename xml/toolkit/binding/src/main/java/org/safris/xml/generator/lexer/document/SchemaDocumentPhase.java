@@ -1,4 +1,4 @@
-package org.safris.xml.toolkit.binding;
+package org.safris.xml.generator.lexer.document;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -11,36 +11,33 @@ import java.util.Map;
 import java.util.Stack;
 import org.safris.commons.util.URLs;
 import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.commons.util.xml.SchemaDocument;
-import org.safris.commons.util.xml.SchemaReference;
+import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
+import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
 import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.BindingQName;
+import org.safris.xml.generator.module.phase.ElementModule;
+import org.safris.xml.generator.module.phase.HandlerDirectory;
 import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaResolver extends Phase
+public class SchemaDocumentPhase extends Phase<SchemaReference,SchemaDocument> implements ElementModule<SchemaDocument>
 {
-	private static final SchemaResolver instance = new SchemaResolver();
 	private static final String[] includeStrings = new String[]
 	{
 		"include",
 		"redefine"
 	};
 
-	public static SchemaResolver instance()
-	{
-		return instance;
-	}
-
-	public Collection<SchemaDocument> manipulate(Collection selectedSchemas, BindingContext share)
+	public Collection<SchemaDocument> manipulate(Collection<SchemaReference> selectedSchemas, BindingContext bindingContext, HandlerDirectory<SchemaReference, SchemaDocument> directory)
 	{
 		final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
 		final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();
 		final Map<NamespaceURI,Collection<URL>> includeLoopCheck = new HashMap<NamespaceURI,Collection<URL>>();
 
-		for(SchemaReference schemaReference : (Collection<SchemaReference>)selectedSchemas)
+		for(SchemaReference schemaReference : selectedSchemas)
 		{
 			final Stack<SchemaDocument> schemasToGenerate = new Stack<SchemaDocument>();
 
@@ -64,7 +61,7 @@ public class SchemaResolver extends Phase
 							for(int i = 0; i < includeNodeList.getLength(); i++)
 							{
 								final Element includeElement = (Element)includeNodeList.item(i);
-								final URL schemaLocationURL = SchemaResolver.getSchemaLocation(url, includeElement);
+								final URL schemaLocationURL = SchemaDocumentPhase.getSchemaLocation(url, includeElement);
 
 								// Dont want to get into an infinite loop
 								Collection<URL> duplicates = includeLoopCheck.get(entry.getSchemaReference().getNamespaceURI());
@@ -86,7 +83,7 @@ public class SchemaResolver extends Phase
 						for(int i = 0; i < importNodeList.getLength(); i++)
 						{
 							final Element includeElement = (Element)importNodeList.item(i);
-							final URL schemaLocationURL = SchemaResolver.getSchemaLocation(url, includeElement);
+							final URL schemaLocationURL = SchemaDocumentPhase.getSchemaLocation(url, includeElement);
 
 							// Check if we have two schemaReferences for a single targetNamespace
 							// This should not happen for import, but can happen for include!
@@ -130,16 +127,16 @@ public class SchemaResolver extends Phase
 				schema.setIncludes(externalIncludes);
 		}
 
-/*		System.out.println("DEBUG: Order of work on schemas:");
-		for(SchemaDocument schema : schemas)
-		{
-			System.out.println("--------------------------------");
-			System.out.println("URL: " + schema.getSchemaReference().getURL().getFile());
-			System.out.println("Namespace: " + schema.getSchemaReference().getNamespaceURI());
-			if(schema.getIncludes() != null)
-				for(URL url : schema.getIncludes())
-					System.out.println("\t" + url.getFile());
-		}*/
+		/*		System.out.println("DEBUG: Order of work on schemas:");
+		 for(SchemaDocument schema : schemas)
+		 {
+		 System.out.println("--------------------------------");
+		 System.out.println("URL: " + schema.getSchemaReference().getURL().getFile());
+		 System.out.println("Namespace: " + schema.getSchemaReference().getNamespaceURI());
+		 if(schema.getIncludes() != null)
+		 for(URL url : schema.getIncludes())
+		 System.out.println("\t" + url.getFile());
+		 }*/
 
 		return schemas;
 	}

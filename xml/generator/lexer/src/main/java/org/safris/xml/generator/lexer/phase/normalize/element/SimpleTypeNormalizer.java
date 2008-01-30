@@ -2,17 +2,22 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
-import org.safris.xml.generator.module.phase.StaticReferenceManager;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 {
-	private static final Map<BindingQName,SimpleTypeModel> all = StaticReferenceManager.manageMap(new HashMap<BindingQName,SimpleTypeModel>());
+	private final Map<BindingQName,SimpleTypeModel> all = new HashMap<BindingQName,SimpleTypeModel>();
 
-	public static SimpleTypeModel parseSimpleType(BindingQName name)
+	public SimpleTypeNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
+	public SimpleTypeModel parseSimpleType(BindingQName name)
 	{
 		return all.get(name);
 	}
@@ -22,8 +27,8 @@ public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 		if(model.getName() == null || model.getParent() instanceof RedefineModel)
 			return;
 
-		if(SimpleTypeNormalizer.parseSimpleType(model.getName()) == null)
-			SimpleTypeNormalizer.all.put(model.getName(), model);
+		if(parseSimpleType(model.getName()) == null)
+			all.put(model.getName(), model);
 	}
 
 	protected void stage2(SimpleTypeModel model)

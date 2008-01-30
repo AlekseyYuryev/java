@@ -1,5 +1,6 @@
 package org.safris.xml.generator.lexer.phase.normalize;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,17 +90,45 @@ import org.safris.xml.generator.lexer.phase.normalize.element.SimpleTypeNormaliz
 import org.safris.xml.generator.lexer.phase.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.WhiteSpaceNormalizer;
+import org.safris.xml.generator.module.phase.ElementModule;
 import org.safris.xml.generator.module.phase.HandlerDirectory;
+import org.safris.xml.generator.module.phase.Phase;
 
-public class NormalizerDirectory extends HandlerDirectory<Model,Normalizer>
+public class NormalizerDirectory implements HandlerDirectory<Model,Normalizer>
 {
-	private static final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
-	private static final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
-	private static final Collection<Class<? extends Model>> keys;
-	private static final NormalizerDirectory instance = new NormalizerDirectory();
+	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
+	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
+	private final Collection<Class<? extends Model>> keys;
+	private Normalizer phase;
 
-	static
+	public NormalizerDirectory()
 	{
+		phase = new Normalizer(this)
+		{
+			protected void stage1(Model handler)
+			{
+			}
+
+			protected void stage2(Model handler)
+			{
+			}
+
+			protected void stage3(Model handler)
+			{
+			}
+
+			protected void stage4(Model handler)
+			{
+			}
+
+			protected void stage5(Model handler)
+			{
+			}
+
+			protected void stage6(Model handler)
+			{
+			}
+		};
 		classes.put(AllModel.class, AllNormalizer.class);
 		classes.put(AnnotationModel.class, AnnotationNormalizer.class);
 		classes.put(AnyAttributeModel.class, AnyAttributeNormalizer.class);
@@ -145,29 +174,41 @@ public class NormalizerDirectory extends HandlerDirectory<Model,Normalizer>
 		keys = classes.keySet();
 	}
 
-	public static NormalizerDirectory instance()
+	public ElementModule<Normalizer> lookup(Model key, Normalizer parent)
 	{
-		return instance;
+		return lookup(key.getClass());
 	}
 
-	protected Normalizer lookup(Model key)
+	public ElementModule<Normalizer> lookup(Class<? extends Model> clazz)
 	{
-		if(!keys.contains(key.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + key.getClass().getSimpleName());
+		if(!keys.contains(clazz))
+			throw new IllegalArgumentException("Unknown key: " + clazz.getSimpleName());
 
-		Normalizer normalizerInstance = instances.get(key.getClass());
+		Normalizer normalizerInstance = instances.get(clazz);
 		if(normalizerInstance != null)
 			return normalizerInstance;
 
-		final Class<? extends Normalizer> normalizerClass = classes.get(key.getClass());
+		final Class<? extends Normalizer> normalizerClass = classes.get(clazz);
 		try
 		{
-			instances.put(key.getClass(), normalizerInstance = normalizerClass.newInstance());
+			final Constructor<? extends Normalizer> constructor = normalizerClass.getConstructor(NormalizerDirectory.class);
+			instances.put(clazz, normalizerInstance = constructor.newInstance(this));
 			return normalizerInstance;
 		}
 		catch(Exception e)
 		{
 			throw new LexerError(e);
 		}
+	}
+
+	public Phase<Model, Normalizer> getPhase()
+	{
+		return phase;
+	}
+
+	public void clear()
+	{
+		phase = null;
+		instances.clear();
 	}
 }

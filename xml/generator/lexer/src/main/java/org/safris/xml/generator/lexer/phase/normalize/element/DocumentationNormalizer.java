@@ -4,10 +4,16 @@ import org.safris.xml.generator.lexer.phase.model.DocumentableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.DocumentationModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
 
 public class DocumentationNormalizer extends Normalizer<DocumentationModel>
 {
+	public DocumentationNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(DocumentationModel model)
 	{
 	}

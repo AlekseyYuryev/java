@@ -2,9 +2,15 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
+import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 
 public class RedefineNormalizer extends Normalizer<RedefineModel>
 {
+	public RedefineNormalizer(NormalizerDirectory directory)
+	{
+		super(directory);
+	}
+
 	protected void stage1(RedefineModel model)
 	{
 	}

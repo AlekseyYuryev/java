@@ -1,8 +1,8 @@
 package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
-import org.safris.commons.util.xml.BindingQName;
 import org.safris.xml.generator.compiler.lang.NativeBinding;
+import org.safris.xml.generator.module.phase.BindingQName;
 
 public class NativeBinding
 {

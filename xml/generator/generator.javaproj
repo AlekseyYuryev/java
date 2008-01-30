@@ -823,6 +823,26 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaCompositeDirectory.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaCompositePhase.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaModelComposite.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaNodeComposite.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/document/SchemaDocument.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/AliasModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1231,6 +1251,22 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaNamespaceHandler.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReference.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReferenceDirectory.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReferencePhase.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/Referenceable.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1339,6 +1375,14 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/BindingQName.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/ElementModule.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/HandlerDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1352,10 +1396,6 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/Pipeline.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/StaticReferenceManager.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>
