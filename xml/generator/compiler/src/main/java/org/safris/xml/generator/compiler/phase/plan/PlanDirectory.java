@@ -91,10 +91,10 @@ import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.phase.model.element.WhiteSpaceModel;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public class PlanDirectory implements HandlerDirectory<Model,Plan>
+public class PlanDirectory implements ProcessorDirectory<Model,Plan>
 {
 	private static final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
 	private static final Collection<Class<? extends Model>> keys;
@@ -165,7 +165,7 @@ public class PlanDirectory implements HandlerDirectory<Model,Plan>
 		}
 	}
 
-	public Phase<Model, Plan> getPhase()
+	public ModuleProcessor<Model, Plan> getProcessor()
 	{
 		return new Plan(null, null){};
 	}

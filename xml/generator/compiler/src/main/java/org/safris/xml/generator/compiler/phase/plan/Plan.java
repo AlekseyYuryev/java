@@ -13,12 +13,12 @@ import org.safris.xml.generator.lexer.phase.model.EnumerableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public abstract class Plan<T extends Model> extends Phase<Model,Plan> implements ElementModule<Plan>
+public abstract class Plan<T extends Model> extends ModuleProcessor<Model,Plan> implements ElementModule<Plan>
 {
 	public static <A extends Plan>LinkedHashSet analyze(Collection<? extends Model> models, Plan parent)
 	{
@@ -104,7 +104,7 @@ public abstract class Plan<T extends Model> extends Phase<Model,Plan> implements
 		this.parent = parent;
 	}
 
-	public final Collection<Plan> manipulate(Collection<Model> documents, BindingContext bindingContext, HandlerDirectory<Model,Plan> directory)
+	public final Collection<Plan> process(Collection<Model> documents, GeneratorContext generatorContext, ProcessorDirectory<Model,Plan> directory)
 	{
 		final Collection<Plan> plans = new ArrayList<Plan>();
 		for(Model model : documents)
@@ -116,13 +116,13 @@ public abstract class Plan<T extends Model> extends Phase<Model,Plan> implements
 			logger().info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
 			for(Model outerModels : model.getChildren())
-				disclose(outerModels, bindingContext, plans, directory);
+				disclose(outerModels, generatorContext, plans, directory);
 		}
 
 		return plans;
 	}
 
-	protected final Collection<Model> disclose(Model model, BindingContext bindingContext, Collection<Plan> plans, HandlerDirectory<Model, Plan> directory)
+	protected final Collection<Model> disclose(Model model, GeneratorContext generatorContext, Collection<Plan> plans, ProcessorDirectory<Model, Plan> directory)
 	{
 		final Plan planInstance = (Plan)directory.lookup(model, this);
 		plans.add(planInstance);

@@ -13,7 +13,7 @@ import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
 import org.safris.xml.generator.module.phase.BindingQName;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
 
 public class ElementNormalizer extends Normalizer<ElementModel>
 {

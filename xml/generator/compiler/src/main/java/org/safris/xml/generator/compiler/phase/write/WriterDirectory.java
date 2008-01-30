@@ -91,10 +91,10 @@ import org.safris.xml.generator.compiler.phase.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.phase.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.phase.write.element.WhiteSpaceWriter;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public class WriterDirectory implements HandlerDirectory<Plan,Writer>
+public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 {
 	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
 	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
@@ -206,7 +206,7 @@ public class WriterDirectory implements HandlerDirectory<Plan,Writer>
 		}
 	}
 
-	public Phase<Plan, Writer> getPhase()
+	public ModuleProcessor<Plan, Writer> getProcessor()
 	{
 		return writer;
 	}

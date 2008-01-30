@@ -51,11 +51,11 @@ import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.phase.model.element.WhiteSpaceModel;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 import org.w3c.dom.Node;
 
-public class ModelDirectory implements HandlerDirectory<SchemaComposite,Model>
+public class ModelDirectory implements ProcessorDirectory<SchemaComposite,Model>
 {
 	private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
 	private final Collection<String> keys;
@@ -135,7 +135,7 @@ public class ModelDirectory implements HandlerDirectory<SchemaComposite,Model>
 		}
 	}
 
-	public Phase<SchemaComposite, Model> getPhase()
+	public ModuleProcessor<SchemaComposite, Model> getProcessor()
 	{
 		return new Model(null, null){};
 	}

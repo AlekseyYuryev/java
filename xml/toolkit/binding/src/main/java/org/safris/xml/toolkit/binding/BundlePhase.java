@@ -21,13 +21,13 @@ import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.lexer.phase.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.phase.composite.SchemaModelComposite;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 import org.safris.xml.toolkit.binding.Bundle;
 
-public final class BundlePhase extends Phase<SchemaComposite, Bundle> implements ElementModule<Bundle>
+public final class BundlePhase extends ModuleProcessor<SchemaComposite, Bundle> implements ElementModule<Bundle>
 {
 	protected BundlePhase()
 	{
@@ -156,19 +156,19 @@ public final class BundlePhase extends Phase<SchemaComposite, Bundle> implements
 		return jars;
 	}
 
-	public Collection<Bundle> manipulate(Collection<SchemaComposite> documents, BindingContext bindingContext, HandlerDirectory<SchemaComposite, Bundle> directory)
+	public Collection<Bundle> process(Collection<SchemaComposite> documents, GeneratorContext generatorContext, ProcessorDirectory<SchemaComposite, Bundle> directory)
 	{
 		try
 		{
-			BundlePhase.compile(bindingContext.getDestDir());
-			final Collection<File> jarFiles = BundlePhase.jar(bindingContext.getDestDir(), documents);
+			BundlePhase.compile(generatorContext.getDestDir());
+			final Collection<File> jarFiles = BundlePhase.jar(generatorContext.getDestDir(), documents);
 			final Collection<Bundle> bundles = new ArrayList<Bundle>(jarFiles.size());
 			for(File jarFile : jarFiles)
 				bundles.add(new Bundle(jarFile));
 
 			// If we dont care about the exploded files,
 			// then delete all of the files only leaving the jars.
-			if(!bindingContext.getExplodeJars())
+			if(!generatorContext.getExplodeJars())
 			{
 				final FileFilter jarFilter = new FileFilter()
 				{
@@ -178,7 +178,7 @@ public final class BundlePhase extends Phase<SchemaComposite, Bundle> implements
 					}
 				};
 
-				final Collection<File> files = Files.listAll(bindingContext.getDestDir(), jarFilter);
+				final Collection<File> files = Files.listAll(generatorContext.getDestDir(), jarFilter);
 				for(File file : files)
 					Files.deleteAllOnExit(file);
 			}

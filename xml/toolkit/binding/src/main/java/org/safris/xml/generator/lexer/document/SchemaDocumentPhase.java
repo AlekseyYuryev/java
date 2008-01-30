@@ -14,16 +14,16 @@ import org.safris.commons.util.logging.ExitSevereError;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
 import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.BindingQName;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaDocumentPhase extends Phase<SchemaReference,SchemaDocument> implements ElementModule<SchemaDocument>
+public class SchemaDocumentPhase extends ModuleProcessor<SchemaReference,SchemaDocument> implements ElementModule<SchemaDocument>
 {
 	private static final String[] includeStrings = new String[]
 	{
@@ -31,7 +31,7 @@ public class SchemaDocumentPhase extends Phase<SchemaReference,SchemaDocument> i
 		"redefine"
 	};
 
-	public Collection<SchemaDocument> manipulate(Collection<SchemaReference> selectedSchemas, BindingContext bindingContext, HandlerDirectory<SchemaReference, SchemaDocument> directory)
+	public Collection<SchemaDocument> process(Collection<SchemaReference> selectedSchemas, GeneratorContext generatorContext, ProcessorDirectory<SchemaReference, SchemaDocument> directory)
 	{
 		final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
 		final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();

@@ -31,18 +31,18 @@ public class Pipeline
 
 		private final Collection<I> input;
 		private final Collection<O> output;
-		private final HandlerDirectory<I,O> directory;
+		private final ProcessorDirectory<I,O> directory;
 
-		public Entry(Collection<I> input, Collection<O> output, HandlerDirectory<I,O> directory)
+		public Entry(Collection<I> input, Collection<O> output, ProcessorDirectory<I,O> directory)
 		{
 			this.input = input;
 			this.output = output;
 			this.directory = directory;
 		}
 
-		public Phase<I,O> getPhase()
+		public ModuleProcessor<I,O> getPhase()
 		{
-			return directory.getPhase();
+			return directory.getProcessor();
 		}
 
 		public Collection<I> getInput()
@@ -55,21 +55,21 @@ public class Pipeline
 			return output;
 		}
 
-		public HandlerDirectory<I,O> getDirectory()
+		public ProcessorDirectory<I,O> getDirectory()
 		{
 			return directory;
 		}
 	}
 
 	private final Collection<Entry> modulePairs = new ArrayList<Entry>();
-	private final BindingContext bindingContext;
+	private final GeneratorContext generatorContext;
 
-	public Pipeline(BindingContext bindingContext)
+	public Pipeline(GeneratorContext generatorContext)
 	{
-		this.bindingContext = bindingContext;
+		this.generatorContext = generatorContext;
 	}
 
-	public <I extends ElementModule,O extends ElementModule>void addPhase(Collection<I> input, Collection<O> output, HandlerDirectory<I,O> handlerDirectory)
+	public <I extends ElementModule,O extends ElementModule>void addPhase(Collection<I> input, Collection<O> output, ProcessorDirectory<I,O> handlerDirectory)
 	{
 		synchronized(modulePairs)
 		{
@@ -80,16 +80,16 @@ public class Pipeline
 
 	public void begin()
 	{
-		final Collection<HandlerDirectory> directories = new ArrayList<HandlerDirectory>();
+		final Collection<ProcessorDirectory> directories = new ArrayList<ProcessorDirectory>();
 		for(Entry modulePair : modulePairs)
 		{
 			directories.add(modulePair.getDirectory());
-			final Collection instanceHandles = modulePair.getPhase().manipulate(modulePair.getInput(), bindingContext, modulePair.getDirectory());
+			final Collection instanceHandles = modulePair.getPhase().process(modulePair.getInput(), generatorContext, modulePair.getDirectory());
 			if(modulePair.getOutput() != null)
 				modulePair.getOutput().addAll(instanceHandles);
 		}
 
-		for(HandlerDirectory directory : directories)
+		for(ProcessorDirectory directory : directories)
 			directory.clear();
 	}
 }

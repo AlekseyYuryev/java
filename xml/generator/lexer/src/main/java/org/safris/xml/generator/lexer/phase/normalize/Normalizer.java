@@ -4,12 +4,12 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public abstract class Normalizer<T extends Model> extends Phase<Model,Normalizer> implements ElementModule<Normalizer>
+public abstract class Normalizer<T extends Model> extends ModuleProcessor<Model,Normalizer> implements ElementModule<Normalizer>
 {
 	private final NormalizerDirectory directory;
 	private int stage = 0;
@@ -24,7 +24,7 @@ public abstract class Normalizer<T extends Model> extends Phase<Model,Normalizer
 		return directory;
 	}
 
-	protected final void tailRecurse(Collection<Model> models, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
+	protected final void tailRecurse(Collection<Model> models, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -34,11 +34,11 @@ public abstract class Normalizer<T extends Model> extends Phase<Model,Normalizer
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, bindingContext, directory), bindingContext, directory);
+			tailRecurse(disclose(model, generatorContext, directory), generatorContext, directory);
 		}
 	}
 
-	public Collection<Normalizer> manipulate(Collection<Model> models, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
+	public Collection<Normalizer> process(Collection<Model> models, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
 	{
 		int stages = 0;
 		Method[] methods = Normalizer.class.getDeclaredMethods();
@@ -49,13 +49,13 @@ public abstract class Normalizer<T extends Model> extends Phase<Model,Normalizer
 		for(int stage = 0; stage < stages; stage++)
 		{
 			this.stage = stage;
-			tailRecurse(models, bindingContext, directory);
+			tailRecurse(models, generatorContext, directory);
 		}
 
 		return null;
 	}
 
-	protected Collection<Model> disclose(Model model, BindingContext bindingContext, HandlerDirectory<Model,Normalizer> directory)
+	protected Collection<Model> disclose(Model model, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
 	{
 		final Normalizer normalizer = (Normalizer)directory.lookup(model, this);
 		try

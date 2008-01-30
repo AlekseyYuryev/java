@@ -3,24 +3,20 @@ package org.safris.xml.generator.module.phase;
 import java.io.File;
 import java.io.IOException;
 
-public final class BindingContext
+public final class GeneratorContext
 {
 	private File destDir;
 	private boolean explodeJars;
 	private boolean overwrite;
 
-	public BindingContext(File destDir, boolean explodeJars, boolean overwrite)
+	public GeneratorContext(File destDir, boolean explodeJars, boolean overwrite)
 	{
 		this.destDir = destDir;
 		this.explodeJars = explodeJars;
 		this.overwrite = overwrite;
 	}
 
-	public BindingContext()
-	{
-	}
-
-	public void getStaticReferenceManager()
+	public GeneratorContext()
 	{
 	}
 

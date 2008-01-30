@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import org.safris.xml.generator.lexer.lang.LexerError;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public final class SchemaReferencePhase extends Phase<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
+public final class SchemaReferencePhase extends ModuleProcessor<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
 {
 	// FIXME: There still exists a deadlock condition!!
 	private static final class Counter
@@ -21,9 +21,9 @@ public final class SchemaReferencePhase extends Phase<SchemaReference,SchemaRefe
 	{
 	}
 
-	public Collection<SchemaReference> manipulate(final Collection<SchemaReference> schemas, final BindingContext bindingContext, HandlerDirectory<SchemaReference, SchemaReference> directory)
+	public Collection<SchemaReference> process(final Collection<SchemaReference> schemas, final GeneratorContext generatorContext, ProcessorDirectory<SchemaReference, SchemaReference> directory)
 	{
-		final File destDir = bindingContext.getDestDir();
+		final File destDir = generatorContext.getDestDir();
 
 		final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
 		try
@@ -47,7 +47,7 @@ public final class SchemaReferencePhase extends Phase<SchemaReference,SchemaRefe
 							try
 							{
 								final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-								if(bindingContext.getOverwrite() || !directory.exists())
+								if(generatorContext.getOverwrite() || !directory.exists())
 								{
 									selectedSchemas.add(schemaReference);
 								}

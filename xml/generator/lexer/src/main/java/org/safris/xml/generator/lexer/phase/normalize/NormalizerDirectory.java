@@ -91,10 +91,10 @@ import org.safris.xml.generator.lexer.phase.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.WhiteSpaceNormalizer;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public class NormalizerDirectory implements HandlerDirectory<Model,Normalizer>
+public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 {
 	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
 	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
@@ -201,7 +201,7 @@ public class NormalizerDirectory implements HandlerDirectory<Model,Normalizer>
 		}
 	}
 
-	public Phase<Model, Normalizer> getPhase()
+	public ModuleProcessor<Model, Normalizer> getProcessor()
 	{
 		return phase;
 	}

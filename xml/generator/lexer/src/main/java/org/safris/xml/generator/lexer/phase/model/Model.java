@@ -14,16 +14,16 @@ import org.safris.xml.generator.lexer.phase.composite.SchemaNodeComposite;
 import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.BindingQName;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class Model extends Phase<SchemaComposite,Model> implements ElementModule<Model>
+public abstract class Model extends ModuleProcessor<SchemaComposite,Model> implements ElementModule<Model>
 {
 	protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
 
@@ -175,7 +175,7 @@ public abstract class Model extends Phase<SchemaComposite,Model> implements Elem
 		return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
 	}
 
-	public Collection<Model> manipulate(Collection<SchemaComposite> documents, BindingContext bindingContext, HandlerDirectory<SchemaComposite, Model> directory)
+	public Collection<Model> process(Collection<SchemaComposite> documents, GeneratorContext generatorContext, ProcessorDirectory<SchemaComposite, Model> directory)
 	{
 		// Then we parse all of the schemas that have been included and imported
 		final Collection<Model> schemaModels = new ArrayList<Model>();
@@ -195,7 +195,7 @@ public abstract class Model extends Phase<SchemaComposite,Model> implements Elem
 		return schemaModels;
 	}
 
-	private final SchemaModel recurse(NamespaceURI targetNamespace, NodeList children, URL url, HandlerDirectory<SchemaComposite,Model> directory)
+	private final SchemaModel recurse(NamespaceURI targetNamespace, NodeList children, URL url, ProcessorDirectory<SchemaComposite,Model> directory)
 	{
 		if(children == null || children.getLength() == 0)
 			return null;

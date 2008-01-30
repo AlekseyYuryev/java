@@ -12,13 +12,13 @@ import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.phase.plan.NestablePlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.compiler.phase.plan.element.SimpleTypePlan;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
 import org.safris.xml.generator.module.phase.Nameable;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public abstract class Writer<T extends Plan> extends Phase<Plan,Writer> implements ElementModule<Writer>
+public abstract class Writer<T extends Plan> extends ModuleProcessor<Plan,Writer> implements ElementModule<Writer>
 {
 	private final Collection<String> messages = new HashSet<String>();
 
@@ -111,7 +111,7 @@ public abstract class Writer<T extends Plan> extends Phase<Plan,Writer> implemen
 		((Writer)directory.lookup(plan, null)).appendClass(writer, plan, parent);
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
+	protected final void tailRecurse(Collection<Plan> models, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -121,20 +121,20 @@ public abstract class Writer<T extends Plan> extends Phase<Plan,Writer> implemen
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, bindingContext, directory), bindingContext, directory);
+			tailRecurse(disclose(model, generatorContext, directory), generatorContext, directory);
 		}
 	}
 
-	private static HandlerDirectory<Plan, Writer> directory = null;
+	private static ProcessorDirectory<Plan, Writer> directory = null;
 
-	public Collection<Writer> manipulate(Collection<Plan> documents, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
+	public Collection<Writer> process(Collection<Plan> documents, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
 	{
 		Writer.directory = directory;
-		tailRecurse(documents, bindingContext, directory);
+		tailRecurse(documents, generatorContext, directory);
 		return null;
 	}
 
-	protected Collection<Plan> disclose(Plan plan, BindingContext bindingContext, HandlerDirectory<Plan, Writer> directory)
+	protected Collection<Plan> disclose(Plan plan, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
 	{
 		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;
@@ -142,7 +142,7 @@ public abstract class Writer<T extends Plan> extends Phase<Plan,Writer> implemen
 		if(((Nameable)plan).getName().getNamespaceURI() == null)
 			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
 
-		writeFile(((Writer)directory.lookup(plan, null)), plan, bindingContext.getDestDir());
+		writeFile(((Writer)directory.lookup(plan, null)), plan, generatorContext.getDestDir());
 
 		return null;
 	}

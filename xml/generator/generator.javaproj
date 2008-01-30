@@ -1371,10 +1371,6 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/BindingContext.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
       <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/BindingQName.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1383,7 +1379,11 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/HandlerDirectory.java</incPathSpec>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/GeneratorContext.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/ModuleProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -1391,11 +1391,11 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/Phase.java</incPathSpec>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/Pipeline.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/Pipeline.java</incPathSpec>
+      <incPathSpec>module/src/main/java/org/safris/xml/generator/module/phase/ProcessorDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

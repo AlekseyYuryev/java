@@ -2,10 +2,10 @@ package org.safris.xml.generator.lexer.phase.composite;
 
 import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
 import org.safris.xml.generator.module.phase.ElementModule;
-import org.safris.xml.generator.module.phase.HandlerDirectory;
-import org.safris.xml.generator.module.phase.Phase;
+import org.safris.xml.generator.module.phase.ProcessorDirectory;
+import org.safris.xml.generator.module.phase.ModuleProcessor;
 
-public class SchemaCompositeDirectory implements HandlerDirectory<SchemaDocument,SchemaComposite>
+public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocument,SchemaComposite>
 {
 	private SchemaCompositePhase phase = null;
 
@@ -19,7 +19,7 @@ public class SchemaCompositeDirectory implements HandlerDirectory<SchemaDocument
 		return phase;
 	}
 
-	public Phase<SchemaDocument, SchemaComposite> getPhase()
+	public ModuleProcessor<SchemaDocument, SchemaComposite> getProcessor()
 	{
 		return phase;
 	}

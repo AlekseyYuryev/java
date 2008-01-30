@@ -13,7 +13,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
-import org.safris.xml.generator.module.phase.BindingContext;
+import org.safris.xml.generator.module.phase.GeneratorContext;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.w3c.dom.Document;
@@ -209,8 +209,8 @@ TOP:
 				throw new BuildException(e.getMessage(), e);
 			}
 
-			final BindingContext bindingContext = new BindingContext();
-			generator = new Generator(bindingContext, buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), resolver);
+			final GeneratorContext generatorContext = new GeneratorContext();
+			generator = new Generator(generatorContext, buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), resolver);
 		}
 		else
 		{
@@ -238,12 +238,12 @@ TOP:
 					schemaReferences.add(new SchemaReference(buildFile.getParent(), deref));
 			}
 
-			final BindingContext bindingContext = new BindingContext();
-			bindingContext.setDestDir(destDirFile);
-			bindingContext.setOverwrite(manifest.getDestdir().getOverwrite());
-			bindingContext.setExplodeJars(manifest.getDestdir().getExplodeJars());
+			final GeneratorContext generatorContext = new GeneratorContext();
+			generatorContext.setDestDir(destDirFile);
+			generatorContext.setOverwrite(manifest.getDestdir().getOverwrite());
+			generatorContext.setExplodeJars(manifest.getDestdir().getExplodeJars());
 
-			generator = new Generator(bindingContext, schemaReferences);
+			generator = new Generator(generatorContext, schemaReferences);
 		}
 
 		generator.generate();
