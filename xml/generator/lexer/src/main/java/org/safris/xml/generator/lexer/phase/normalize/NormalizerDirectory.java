@@ -90,9 +90,9 @@ import org.safris.xml.generator.lexer.phase.normalize.element.SimpleTypeNormaliz
 import org.safris.xml.generator.lexer.phase.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.phase.normalize.element.WhiteSpaceNormalizer;
-import org.safris.xml.generator.processor.phase.ElementModule;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 {

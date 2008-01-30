@@ -1,7 +1,7 @@
 package org.safris.xml.toolkit.binding;
 
 import java.io.File;
-import org.safris.xml.generator.processor.phase.ElementModule;
+import org.safris.xml.generator.processor.ElementModule;
 
 public final class Bundle implements ElementModule<Bundle>
 {

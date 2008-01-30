@@ -2,7 +2,7 @@ package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
 import org.safris.xml.generator.compiler.lang.NativeBinding;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 
 public class NativeBinding
 {

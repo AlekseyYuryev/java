@@ -3,14 +3,14 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
 import org.safris.xml.generator.lexer.phase.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.phase.BindingQName;
-import org.safris.xml.generator.processor.phase.Nameable;
+import org.safris.xml.generator.processor.BindingQName;
 
 public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 {

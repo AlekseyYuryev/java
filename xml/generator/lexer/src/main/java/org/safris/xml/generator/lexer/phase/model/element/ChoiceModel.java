@@ -1,10 +1,10 @@
 package org.safris.xml.generator.lexer.phase.model.element;
 
 import java.util.LinkedHashSet;
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
-import org.safris.xml.generator.processor.phase.Nameable;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

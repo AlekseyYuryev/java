@@ -8,7 +8,7 @@
 		<version>${xmlVersion}</version>
 	</parent>
 	<groupId>org.safris.xml.generator</groupId>
-	<artifactId>module</artifactId>
+	<artifactId>processor</artifactId>
 	<version>${xmlVersion}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>

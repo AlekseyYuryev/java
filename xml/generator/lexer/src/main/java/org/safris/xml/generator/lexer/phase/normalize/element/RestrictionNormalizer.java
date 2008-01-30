@@ -3,6 +3,7 @@ package org.safris.xml.generator.lexer.phase.normalize.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.MultiplicableModel;
@@ -18,9 +19,7 @@ import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.phase.BindingQName;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.Nameable;
+import org.safris.xml.generator.processor.BindingQName;
 
 public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 {

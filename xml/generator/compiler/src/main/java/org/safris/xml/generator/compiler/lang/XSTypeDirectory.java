@@ -21,7 +21,7 @@ import org.safris.xml.generator.compiler.runtime.lang.MonthDay;
 import org.safris.xml.generator.compiler.runtime.lang.Time;
 import org.safris.xml.generator.compiler.runtime.lang.Year;
 import org.safris.xml.generator.compiler.runtime.lang.YearMonth;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 import org.w3.x2001.xmlschema.IXSAnySimpleType;
 import org.w3.x2001.xmlschema.IXSAnyURI;
 import org.w3.x2001.xmlschema.IXSBase64Binary;

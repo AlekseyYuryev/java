@@ -1075,6 +1075,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/Nameable.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AllNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -1415,31 +1419,27 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/BindingQName.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/BindingQName.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ElementModule.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/ElementModule.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/GeneratorContext.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/GeneratorContext.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ModuleProcessor.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/ModuleProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/Nameable.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/Pipeline.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/Pipeline.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/phase/ProcessorDirectory.java</incPathSpec>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/ProcessorDirectory.java</incPathSpec>
     </javaFile2>
   </includedFiles>
   <name>generator</name>

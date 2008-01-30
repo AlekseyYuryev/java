@@ -22,7 +22,7 @@
 		tools that will be available shortly. In the meantime, check out the binding application.
 	</description>
 	<modules>
-		<module>module</module>
+		<module>processor</module>
 		<module>lexer</module>
 		<module>compiler</module>
 	</modules>

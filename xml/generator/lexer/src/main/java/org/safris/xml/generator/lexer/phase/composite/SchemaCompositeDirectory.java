@@ -1,9 +1,9 @@
 package org.safris.xml.generator.lexer.phase.composite;
 
 import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
-import org.safris.xml.generator.processor.phase.ElementModule;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocument,SchemaComposite>
 {

@@ -2,7 +2,7 @@ package org.safris.xml.generator.lexer.phase.reference;
 
 import java.net.URL;
 import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

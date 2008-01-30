@@ -1,8 +1,8 @@
 package org.safris.xml.generator.lexer.phase.model;
 
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.ReferableModel;
-import org.safris.xml.generator.processor.phase.Nameable;
 
 	public interface ReferableModel<T extends ReferableModel> extends Nameable<Model>
 	{

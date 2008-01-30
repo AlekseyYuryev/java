@@ -1,12 +1,12 @@
 package org.safris.xml.generator.lexer.phase.normalize.element;
 
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.AttributableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.AnyAttributeModel;
 import org.safris.xml.generator.lexer.phase.model.element.AttributeGroupModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.phase.Nameable;
 
 public class AnyAttributeNormalizer extends Normalizer<AnyAttributeModel>
 {

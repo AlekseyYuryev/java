@@ -5,7 +5,7 @@ import java.util.Map;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 import org.w3.x2001.xmlschema.IXSID;
 import org.w3c.dom.Element;
 

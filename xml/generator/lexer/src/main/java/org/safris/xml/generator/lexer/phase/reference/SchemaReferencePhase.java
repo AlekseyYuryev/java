@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import org.safris.xml.generator.lexer.lang.LexerError;
-import org.safris.xml.generator.processor.phase.GeneratorContext;
-import org.safris.xml.generator.processor.phase.ElementModule;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
+import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public final class SchemaReferencePhase extends ModuleProcessor<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
 {

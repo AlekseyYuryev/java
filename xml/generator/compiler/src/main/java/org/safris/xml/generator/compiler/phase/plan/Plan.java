@@ -13,10 +13,10 @@ import org.safris.xml.generator.lexer.phase.model.EnumerableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
-import org.safris.xml.generator.processor.phase.GeneratorContext;
-import org.safris.xml.generator.processor.phase.ElementModule;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
+import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public abstract class Plan<T extends Model> extends ModuleProcessor<Model,Plan> implements ElementModule<Plan>
 {

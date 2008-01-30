@@ -6,7 +6,7 @@ import org.safris.xml.generator.lexer.phase.Referenceable;
 import org.safris.xml.generator.lexer.phase.model.AliasModel;
 import org.safris.xml.generator.lexer.phase.model.DocumentableModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

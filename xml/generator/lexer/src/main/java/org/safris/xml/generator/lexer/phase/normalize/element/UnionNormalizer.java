@@ -9,8 +9,7 @@ import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.normalize.Normalizer;
 import org.safris.xml.generator.lexer.phase.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.phase.BindingQName;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
+import org.safris.xml.generator.processor.BindingQName;
 
 public class UnionNormalizer extends Normalizer<UnionModel>
 {

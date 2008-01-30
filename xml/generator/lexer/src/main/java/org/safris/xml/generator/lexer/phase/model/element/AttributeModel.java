@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.phase.model.RestrictableModel;
 import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.processor.phase.BindingQName;
+import org.safris.xml.generator.processor.BindingQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

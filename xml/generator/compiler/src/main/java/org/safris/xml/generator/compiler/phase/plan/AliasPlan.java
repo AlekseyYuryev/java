@@ -4,11 +4,11 @@ import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.phase.plan.NamedPlan;
 import org.safris.xml.generator.compiler.phase.plan.Plan;
 import org.safris.xml.generator.compiler.phase.plan.element.DocumentationPlan;
+import org.safris.xml.generator.lexer.phase.Nameable;
 import org.safris.xml.generator.lexer.phase.model.AliasModel;
 import org.safris.xml.generator.lexer.phase.model.Model;
 import org.safris.xml.generator.lexer.phase.model.element.SchemaModel;
-import org.safris.xml.generator.processor.phase.BindingQName;
-import org.safris.xml.generator.processor.phase.Nameable;
+import org.safris.xml.generator.processor.BindingQName;
 
 public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> implements DocumentablePlan, Nameable<Plan>
 {

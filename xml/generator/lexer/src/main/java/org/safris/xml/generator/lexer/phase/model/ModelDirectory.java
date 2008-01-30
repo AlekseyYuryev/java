@@ -50,9 +50,9 @@ import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.phase.model.element.UnionModel;
 import org.safris.xml.generator.lexer.phase.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.phase.model.element.WhiteSpaceModel;
-import org.safris.xml.generator.processor.phase.ElementModule;
-import org.safris.xml.generator.processor.phase.ProcessorDirectory;
-import org.safris.xml.generator.processor.phase.ModuleProcessor;
+import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.w3c.dom.Node;
 
 public class ModelDirectory implements ProcessorDirectory<SchemaComposite,Model>
