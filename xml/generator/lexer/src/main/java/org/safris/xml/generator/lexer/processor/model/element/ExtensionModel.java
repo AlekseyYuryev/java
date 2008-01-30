@@ -1,0 +1,42 @@
+package org.safris.xml.generator.lexer.processor.model.element;
+
+import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.processor.model.Model;
+import org.safris.xml.generator.processor.BindingQName;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+public class ExtensionModel extends Model
+{
+	private SimpleTypeModel base = null;
+
+	protected ExtensionModel(Node node, Model parent)
+	{
+		super(node, parent);
+		final NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i < attributes.getLength(); i++)
+		{
+			final Node attribute = attributes.item(i);
+			if("base".equals(attribute.getLocalName()))
+			{
+				final Node parentNode = node.getParentNode();
+				if(parentNode.getLocalName().contains("complex"))
+					base = ComplexTypeModel.Reference.parseComplexType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+				else if(parentNode.getLocalName().contains("simple"))
+					base = SimpleTypeModel.Reference.parseSimpleType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+				else
+					throw new LexerError("whoa, schema error?");
+			}
+		}
+	}
+
+	public final void setBase(SimpleTypeModel base)
+	{
+		this.base = base;
+	}
+
+	public final SimpleTypeModel getBase()
+	{
+		return base;
+	}
+}

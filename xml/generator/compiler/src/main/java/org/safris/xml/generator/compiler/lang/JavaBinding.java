@@ -2,12 +2,12 @@ package org.safris.xml.generator.compiler.lang;
 
 import org.safris.commons.util.xml.Prefix;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.lexer.phase.Nameable;
-import org.safris.xml.generator.lexer.phase.model.Model;
-import org.safris.xml.generator.lexer.phase.model.element.AttributeModel;
-import org.safris.xml.generator.lexer.phase.model.element.ElementModel;
-import org.safris.xml.generator.lexer.phase.model.element.NotationModel;
-import org.safris.xml.generator.lexer.phase.model.element.SimpleTypeModel;
+import org.safris.xml.generator.lexer.processor.Nameable;
+import org.safris.xml.generator.lexer.processor.model.Model;
+import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
+import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
+import org.safris.xml.generator.lexer.processor.model.element.NotationModel;
+import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public abstract class JavaBinding
 {

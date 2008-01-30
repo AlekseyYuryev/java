@@ -39,7 +39,7 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/generator/lexer/document/SchemaDocumentPhase.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/generator/lexer/document/SchemaDocumentProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -55,7 +55,7 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/BundlePhase.java</incPathSpec>
+      <incPathSpec>binding/src/main/java/org/safris/xml/toolkit/binding/BundleProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

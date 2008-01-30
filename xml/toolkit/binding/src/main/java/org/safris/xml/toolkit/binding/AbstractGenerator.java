@@ -10,8 +10,8 @@ import org.safris.commons.util.logging.ExitSevereError;
 import org.safris.commons.util.logging.Logger;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.lexer.phase.document.SchemaDocument;
-import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
+import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
+import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.w3c.dom.Document;
 
 public abstract class AbstractGenerator

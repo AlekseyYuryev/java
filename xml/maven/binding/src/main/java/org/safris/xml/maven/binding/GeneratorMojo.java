@@ -19,7 +19,7 @@ import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
 import org.safris.commons.util.Zips;
 import org.safris.commons.util.xml.DOMParsers;
-import org.safris.xml.generator.lexer.phase.reference.SchemaReference;
+import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.toolkit.binding.Bundle;
 import org.safris.xml.toolkit.binding.Generator;

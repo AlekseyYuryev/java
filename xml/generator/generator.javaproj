@@ -55,407 +55,407 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/AliasPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/AliasPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/AnyablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/AnyablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/AttributablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/AttributablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/DocumentablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/DocumentablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AllPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AllPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AnnotationPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AnnotationPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AnyAttributePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AnyAttributePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AnyPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AnyPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AppinfoPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AppinfoPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AttributeGroupPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AttributeGroupPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/AttributePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/AttributePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ChoicePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ChoicePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ComplexContentPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ComplexContentPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ComplexTypePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ComplexTypePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/DocumentationPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/DocumentationPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ElementPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ElementPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/EnumerationPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/EnumerationPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ExtensionPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ExtensionPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/FieldPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/FieldPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/FractionDigitsPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/FractionDigitsPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/GroupPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/GroupPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/HasFacetPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/HasFacetPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/HasPropertyPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/HasPropertyPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ImportPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ImportPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/IncludePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/IncludePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/KeyPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/KeyPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/KeyrefPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/KeyrefPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/LengthPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/LengthPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/ListPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/ListPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/MaxInclusivePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/MaxInclusivePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/MaxLengthPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/MaxLengthPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/MinExclusivePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/MinExclusivePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/MinInclusivePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/MinInclusivePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/MinLengthPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/MinLengthPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/NotationPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/NotationPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/PatternPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/PatternPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/RedefinePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/RedefinePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/RestrictionPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/RestrictionPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/SchemaPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/SchemaPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/SelectorPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/SelectorPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/SequencePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/SequencePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/SimpleContentPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/SimpleContentPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/SimpleTypePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/SimpleTypePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/UnionPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/UnionPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/UniquePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/UniquePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/element/WhiteSpacePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/element/WhiteSpacePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/ElementablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/ElementablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/EnumerablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/EnumerablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/ExtensiblePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/ExtensiblePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/MixablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/MixablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/NamedPlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/NamedPlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/NativeablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/NativeablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/NestablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/NestablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/Plan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/Plan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/PlanDirectory.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/PlanDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/plan/RestrictablePlan.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/plan/RestrictablePlan.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/BindingFileFilter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/BindingFileFilter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AllWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AllWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AnnotationWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AnnotationWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AnyAttributeWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AnyAttributeWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AnyWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AnyWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AppinfoWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AppinfoWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AttributeGroupWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AttributeGroupWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/AttributeWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/AttributeWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ChoiceWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ChoiceWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ComplexContentWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ComplexContentWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ComplexTypeWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ComplexTypeWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/DocumentationWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/DocumentationWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ElementWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ElementWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/EnumerationWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/EnumerationWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ExtensionWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ExtensionWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/FieldWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/FieldWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/FractionDigitsWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/FractionDigitsWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/GroupWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/GroupWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/HasFacetWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/HasFacetWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/HasPropertyWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/HasPropertyWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ImportWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ImportWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/IncludeWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/IncludeWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/KeyrefWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/KeyrefWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/KeyWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/KeyWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/LengthWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/LengthWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/ListWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/ListWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/MaxInclusiveWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/MaxInclusiveWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/MaxLengthWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/MaxLengthWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/MinExclusiveWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/MinExclusiveWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/MinInclusiveWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/MinInclusiveWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/MinLengthWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/MinLengthWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/NotationWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/NotationWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/PatternWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/PatternWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/RedefineWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/RedefineWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/RestrictionWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/RestrictionWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/SchemaWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/SchemaWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/SelectorWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/SelectorWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/SequenceWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/SequenceWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/SimpleContentWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/SimpleContentWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/SimpleTypeWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/SimpleTypeWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/UnionWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/UnionWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/UniqueWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/UniqueWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/element/WhiteSpaceWriter.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/element/WhiteSpaceWriter.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/Writer.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/Writer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/phase/write/WriterDirectory.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/processor/write/WriterDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -819,463 +819,463 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaComposite.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/composite/SchemaComposite.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaCompositeDirectory.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/composite/SchemaCompositeDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaCompositePhase.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/composite/SchemaCompositeProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaModelComposite.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/composite/SchemaModelComposite.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/composite/SchemaNodeComposite.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/composite/SchemaNodeComposite.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/document/SchemaDocument.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/document/SchemaDocument.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/AliasModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/AliasModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/AnyableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/AnyableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/AttributableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/AttributableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/DocumentableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/DocumentableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AllModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AllModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AnnotationModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AnnotationModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AnyAttributeModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AnyAttributeModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AnyModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AnyModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AppinfoModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AppinfoModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AttributeGroupModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AttributeGroupModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/AttributeModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/AttributeModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ChoiceModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ChoiceModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ComplexContentModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ComplexContentModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ComplexTypeModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ComplexTypeModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/DocumentationModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/DocumentationModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ElementModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ElementModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/EnumerationModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/EnumerationModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ExtensionModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ExtensionModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/FieldModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/FieldModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/FractionDigitsModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/FractionDigitsModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/GroupModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/GroupModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/HasFacetModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/HasFacetModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/HasPropertyModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/HasPropertyModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ImportModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ImportModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/IncludeModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/IncludeModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/KeyModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/KeyModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/KeyrefModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/KeyrefModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/LengthModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/LengthModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/ListModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/ListModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/MaxInclusiveModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/MaxInclusiveModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/MaxLengthModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/MaxLengthModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/MinExclusiveModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/MinExclusiveModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/MinInclusiveModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/MinInclusiveModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/MinLengthModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/MinLengthModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/NotationModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/NotationModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/PatternModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/PatternModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/RedefineModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/RedefineModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/RestrictionModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/RestrictionModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/SchemaModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/SchemaModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/SelectorModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/SelectorModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/SequenceModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/SequenceModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/SimpleContentModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/SimpleContentModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/SimpleTypeModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/SimpleTypeModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/UnionModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/UnionModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/UniqueModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/UniqueModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/element/WhiteSpaceModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/element/WhiteSpaceModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/ElementableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/ElementableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/EnumerableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/EnumerableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/MixableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/MixableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/Model.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/Model.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/ModelDirectory.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/ModelDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/MultiplicableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/MultiplicableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/NamedModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/NamedModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/PatternableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/PatternableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/RedefineableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/RedefineableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/ReferableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/ReferableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/RestrictableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/RestrictableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/model/TypeableModel.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/model/TypeableModel.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/Nameable.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/Nameable.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AllNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AllNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AnnotationNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AnnotationNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AnyAttributeNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AnyAttributeNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AnyNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AnyNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AppinfoNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AppinfoNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AttributeGroupNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AttributeGroupNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/AttributeNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/AttributeNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ChoiceNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ChoiceNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ComplexContentNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ComplexContentNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ComplexTypeNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ComplexTypeNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/DocumentationNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/DocumentationNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ElementNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ElementNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/EnumerationNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/EnumerationNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ExtensionNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ExtensionNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/FieldNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/FieldNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/FractionDigitsNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/FractionDigitsNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/GroupNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/GroupNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/HasFacetNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/HasFacetNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/HasPropertyNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/HasPropertyNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ImportNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ImportNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/IncludeNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/IncludeNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/KeyNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/KeyNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/KeyrefNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/KeyrefNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/LengthNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/LengthNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/ListNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/ListNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/MaxInclusiveNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/MaxInclusiveNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/MaxLengthNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/MaxLengthNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/MinExclusiveNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/MinExclusiveNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/MinInclusiveNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/MinInclusiveNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/MinLengthNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/MinLengthNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/NotationNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/NotationNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/PatternNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/PatternNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/RedefineNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/RedefineNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/RestrictionNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/RestrictionNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/SchemaNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/SchemaNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/SelectorNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/SelectorNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/SequenceNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/SequenceNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/SimpleContentNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/SimpleContentNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/SimpleTypeNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/SimpleTypeNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/UnionNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/UnionNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/UniqueNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/UniqueNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/element/WhiteSpaceNormalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/element/WhiteSpaceNormalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/Normalizer.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/Normalizer.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/normalize/NormalizerDirectory.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/normalize/NormalizerDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaNamespaceHandler.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaNamespaceHandler.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReference.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaReference.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReferenceDirectory.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaReferenceDirectory.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/reference/SchemaReferencePhase.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/reference/SchemaReferencePhase.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/Referenceable.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/Referenceable.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/phase/Undefineable.java</incPathSpec>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/processor/Undefineable.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
