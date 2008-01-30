@@ -1,16 +1,13 @@
 package org.safris.xml.generator.lexer.processor.normalize;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.commons.util.logging.Logger;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public abstract class Normalizer<T extends Model> implements ElementModule<Normalizer>
 {
+	protected static final Logger logger = Logger.getLogger(LexerLoggerName.NORMALIZE);
 	private final NormalizerDirectory directory;
 
 	public Normalizer(NormalizerDirectory directory)

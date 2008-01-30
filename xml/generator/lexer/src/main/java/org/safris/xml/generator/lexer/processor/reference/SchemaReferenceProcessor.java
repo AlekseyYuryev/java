@@ -3,22 +3,22 @@ package org.safris.xml.generator.lexer.processor.reference;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import org.safris.commons.util.logging.Logger;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.processor.ElementModule;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public final class SchemaReferenceProcessor extends ModuleProcessor<SchemaReference,SchemaReference> implements ElementModule<SchemaReference>
+public final class SchemaReferenceProcessor implements ElementModule<SchemaReference>, ModuleProcessor<SchemaReference,SchemaReference>
 {
+	private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
+
 	// FIXME: There still exists a deadlock condition!!
 	private static final class Counter
 	{
 		protected volatile int count = 0;
-	}
-
-	protected SchemaReferenceProcessor()
-	{
 	}
 
 	public Collection<SchemaReference> process(final Collection<SchemaReference> schemas, final GeneratorContext generatorContext, ProcessorDirectory<SchemaReference, SchemaReference> directory)
@@ -90,7 +90,7 @@ public final class SchemaReferenceProcessor extends ModuleProcessor<SchemaRefere
 
 			if(selectedSchemas.size() == 0)
 			{
-				logger().info("Determined that all bindings are up-to-date!");
+				logger.info("Determined that all bindings are up-to-date!");
 				System.exit(0);
 			}
 		}

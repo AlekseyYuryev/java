@@ -17,7 +17,7 @@ import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ModelProcessor extends ModuleProcessor<SchemaComposite,Model>
+public class ModelProcessor implements ModuleProcessor<SchemaComposite,Model>
 {
 	private Model root;
 
@@ -80,7 +80,7 @@ public class ModelProcessor extends ModuleProcessor<SchemaComposite,Model>
 				continue;
 
 			final SchemaNodeComposite nodeComposite = new SchemaNodeComposite(child);
-			final Model handler = (Model)directory.lookup(nodeComposite, model);
+			final Model handler = (Model)directory.getModule(nodeComposite, model);
 			if(current != null)
 			{
 				handler.setPrevious(current);

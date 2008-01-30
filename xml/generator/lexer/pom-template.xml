@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
-			<artifactId>module</artifactId>
+			<artifactId>processor</artifactId>
 			<version>${xmlVersion}</version>
 		</dependency>
 	</dependencies>

@@ -9,7 +9,7 @@ public class SchemaDocumentDirectory implements ProcessorDirectory<SchemaReferen
 {
 	private final SchemaDocumentProcessor processor = new SchemaDocumentProcessor();
 
-	public SchemaDocumentProcessor lookup(SchemaReference key, SchemaDocument parent)
+	public SchemaDocumentProcessor getModule(SchemaReference module, SchemaDocument parent)
 	{
 		return processor;
 	}

@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
 import org.safris.commons.util.logging.ExitSevereError;
+import org.safris.commons.util.logging.Logger;
 import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.xml.generator.lexer.processor.model.Model;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.processor.BindingQName;
 import org.safris.xml.generator.processor.ElementModule;
@@ -17,6 +18,7 @@ import org.w3c.dom.Node;
 
 public abstract class Model implements ElementModule<Model>
 {
+	protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
 	protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
 
 	private final Collection<Model> children = new ArrayList<Model>();
@@ -44,8 +46,7 @@ public abstract class Model implements ElementModule<Model>
 			}
 		}
 
-		// FIXME: This looks ugly!
-		if(parent == null || (this instanceof SchemaModel && parent instanceof SchemaModel))
+		if(parent == null)
 			return;
 
 		this.parent = parent;
@@ -117,11 +118,11 @@ public abstract class Model implements ElementModule<Model>
 		if(schema != null)
 			return schema;
 
-		Model handler = this;
-		while(!(handler instanceof SchemaModel))
-			handler = handler.getParent();
+		Model model = this;
+		while(!(model instanceof SchemaModel))
+			model = model.getParent();
 
-		return schema = (SchemaModel)handler;
+		return schema = (SchemaModel)model;
 	}
 
 	public NamespaceURI getTargetNamespace()

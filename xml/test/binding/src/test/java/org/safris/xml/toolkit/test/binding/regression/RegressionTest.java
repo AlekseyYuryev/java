@@ -18,7 +18,7 @@ import org.safris.xml.generator.compiler.runtime.lang.Duration;
 import org.safris.xml.generator.compiler.runtime.lang.HexBinary;
 import org.safris.xml.generator.compiler.util.DefaultValidator;
 import org.safris.xml.generator.compiler.util.Validator;
-import org.safris.xml.generator.lexer.phase.model.element.AnyAttributeModel;
+import org.safris.xml.generator.lexer.processor.model.element.AnyAttributeModel;
 import org.w3.x2001.xmlschema.IXSIDREF;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;

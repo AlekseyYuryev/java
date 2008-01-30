@@ -9,6 +9,7 @@ import org.safris.commons.format.SourceFormat;
 import org.safris.commons.util.Files;
 import org.safris.commons.util.logging.Logger;
 import org.safris.xml.generator.compiler.lang.CompilerError;
+import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -17,6 +18,7 @@ import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 {
+	protected static final Logger logger = Logger.getLogger(CompilerLoggerName.WRITE);
 	private final Collection<String> messages = new HashSet<String>();
 
 	protected void writeFile(Writer writer, Plan plan, File destDir)
@@ -28,8 +30,7 @@ public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 		final String message = "Compiling {" + plan.getModel().getTargetNamespace() + "} from " + display;
 		if(!messages.contains(message))
 		{
-			// FIXME: Fix the logging.
-			Logger.getLogger("").logger().info(message);
+			logger.info(message);
 			messages.add(message);
 		}
 
@@ -66,47 +67,47 @@ public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 
 	public static void writeDeclaration(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendDeclaration(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendDeclaration(writer, plan, parent);
 	}
 
 	public static void writeGetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendGetMethod(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendGetMethod(writer, plan, parent);
 	}
 
 	public static void writeSetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendSetMethod(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendSetMethod(writer, plan, parent);
 	}
 
 	public static void writeMarshal(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendMarshal(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendMarshal(writer, plan, parent);
 	}
 
 	public static void writeParse(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendParse(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendParse(writer, plan, parent);
 	}
 
 	public static void writeCopy(StringWriter writer, Plan plan, Plan parent, String variable)
 	{
-		((Writer)directory.lookup(plan, null)).appendCopy(writer, plan, parent, variable);
+		((Writer)directory.getModule(plan, null)).appendCopy(writer, plan, parent, variable);
 	}
 
 	public static void writeEquals(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendEquals(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendEquals(writer, plan, parent);
 	}
 
 	public static void writeHashCode(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendHashCode(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendHashCode(writer, plan, parent);
 	}
 
 	public static void writeClass(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.lookup(plan, null)).appendClass(writer, plan, parent);
+		((Writer)directory.getModule(plan, null)).appendClass(writer, plan, parent);
 	}
 
 	protected static ProcessorDirectory<Plan,Writer> directory = null;

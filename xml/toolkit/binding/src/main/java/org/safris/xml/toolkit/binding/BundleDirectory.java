@@ -9,7 +9,7 @@ public class BundleDirectory implements ProcessorDirectory<SchemaComposite,Bundl
 {
 	private BundleProcessor processor = new BundleProcessor();
 
-	public ElementModule<Bundle> lookup(SchemaComposite key, Bundle parent)
+	public ElementModule<Bundle> getModule(SchemaComposite module, Bundle parent)
 	{
 		return processor;
 	}

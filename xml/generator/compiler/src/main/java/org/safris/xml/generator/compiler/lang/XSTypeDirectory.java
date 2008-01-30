@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.safris.xml.generator.compiler.lang.NativeBinding;
-import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 import org.safris.xml.generator.compiler.runtime.lang.Base64Binary;

@@ -8,7 +8,7 @@ import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class NormalizerProcessor extends ModuleProcessor<Model,Normalizer>
+public class NormalizerProcessor implements ModuleProcessor<Model,Normalizer>
 {
 	private int stage = 0;
 
@@ -28,7 +28,7 @@ public class NormalizerProcessor extends ModuleProcessor<Model,Normalizer>
 
 	private Collection<Model> disclose(Model model, GeneratorContext generatorContext, ProcessorDirectory<Model,Normalizer> directory)
 	{
-		final Normalizer normalizer = (Normalizer)directory.lookup(model, null);
+		final Normalizer normalizer = (Normalizer)directory.getModule(model, null);
 		try
 		{
 			final Method method = normalizer.getClass().getDeclaredMethod("stage" + (stage + 1), Model.class);

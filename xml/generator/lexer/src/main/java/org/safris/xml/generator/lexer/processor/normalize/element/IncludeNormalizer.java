@@ -2,7 +2,6 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.Collection;
 import java.util.HashSet;
-import org.safris.commons.util.logging.Logger;
 import org.safris.xml.generator.lexer.processor.model.element.IncludeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
@@ -27,8 +26,7 @@ public class IncludeNormalizer extends Normalizer<IncludeModel>
 			return;
 
 		messages.add(message);
-		// FIXME: Fix the logger.
-		Logger.getLogger("").logger().info(message);
+		logger.info(message);
 	}
 
 	protected void stage3(IncludeModel model)

@@ -108,12 +108,12 @@ public class ModelDirectory implements ProcessorDirectory<SchemaComposite,Model>
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Model> lookup(SchemaComposite key, Model parent)
+	public ElementModule<Model> getModule(SchemaComposite module, Model parent)
 	{
-		if(!(key instanceof SchemaNodeComposite))
+		if(!(module instanceof SchemaNodeComposite))
 			return null;
 
-		SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)key;
+		SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)module;
 		final String elementName = schemaNodeComposite.getNode().getLocalName();
 		if(elementName == null)
 			throw new IllegalArgumentException("Node key without local name");

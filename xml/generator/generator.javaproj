@@ -31,11 +31,11 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/lang/BindingDirectory.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/lang/CompilerError.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/lang/CompilerError.java</incPathSpec>
+      <incPathSpec>compiler/src/main/java/org/safris/xml/generator/compiler/lang/CompilerLoggerName.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
@@ -824,6 +824,10 @@
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/lang/LexerError.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>lexer/src/main/java/org/safris/xml/generator/lexer/lang/LexerLoggerName.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>

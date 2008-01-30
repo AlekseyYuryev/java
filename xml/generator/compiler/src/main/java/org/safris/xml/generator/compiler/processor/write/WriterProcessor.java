@@ -11,7 +11,7 @@ import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class WriterProcessor extends ModuleProcessor<Plan,Writer>
+public class WriterProcessor implements ModuleProcessor<Plan,Writer>
 {
 	private final Writer root = new Writer()
 	{
@@ -81,7 +81,7 @@ public class WriterProcessor extends ModuleProcessor<Plan,Writer>
 		if(((Nameable)plan).getName().getNamespaceURI() == null)
 			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
 
-		root.writeFile(((Writer)directory.lookup(plan, null)), plan, generatorContext.getDestDir());
+		root.writeFile(((Writer)directory.getModule(plan, null)), plan, generatorContext.getDestDir());
 
 		return null;
 	}

@@ -147,19 +147,19 @@ public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Writer> lookup(Plan key, Writer parent)
+	public ElementModule<Writer> getModule(Plan module, Writer parent)
 	{
-		if(!keys.contains(key.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + key.getClass().getSimpleName());
+		if(!keys.contains(module.getClass()))
+			throw new IllegalArgumentException("Unknown key: " + module.getClass().getSimpleName());
 
-		Writer writerInstance = instances.get(key.getClass());
+		Writer writerInstance = instances.get(module.getClass());
 		if(writerInstance != null)
 			return writerInstance;
 
-		final Class<? extends Writer> writerClass = classes.get(key.getClass());
+		final Class<? extends Writer> writerClass = classes.get(module.getClass());
 		try
 		{
-			instances.put(key.getClass(), writerInstance = writerClass.newInstance());
+			instances.put(module.getClass(), writerInstance = writerClass.newInstance());
 			return writerInstance;
 		}
 		catch(Exception e)

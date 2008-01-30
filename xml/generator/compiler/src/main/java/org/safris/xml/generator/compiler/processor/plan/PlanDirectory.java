@@ -147,17 +147,17 @@ public class PlanDirectory implements ProcessorDirectory<Model,Plan>
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Plan> lookup(Model key, Plan parent)
+	public ElementModule<Plan> getModule(Model module, Plan parent)
 	{
-		if(!keys.contains(key.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + key.getClass().getSimpleName());
+		if(!keys.contains(module.getClass()))
+			throw new IllegalArgumentException("Unknown key: " + module.getClass().getSimpleName());
 
-		final Class<? extends Plan> parserClass = classes.get(key.getClass());
+		final Class<? extends Plan> parserClass = classes.get(module.getClass());
 		Plan planInstance = null;
 		try
 		{
-			final Constructor<? extends Plan> constructor = parserClass.getConstructor(key.getClass(), Plan.class);
-			planInstance = constructor.newInstance(key, parent);
+			final Constructor<? extends Plan> constructor = parserClass.getConstructor(module.getClass(), Plan.class);
+			planInstance = constructor.newInstance(module, parent);
 			return planInstance;
 		}
 		catch(Exception e)

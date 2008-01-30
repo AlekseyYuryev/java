@@ -1,11 +1,8 @@
 package org.safris.commons.util.logging;
 
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.logging.Logger;
-
 public class ExitSevereError extends Error
 {
-	private static final java.util.logging.Logger logger = Logger.getLogger(ExitSevereError.class.getName()).logger();
+	private static final Logger logger = Logger.getAnonymousLogger();
 
 	public ExitSevereError()
 	{

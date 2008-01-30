@@ -8,12 +8,8 @@ import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public final class SchemaCompositeProcessor extends ModuleProcessor<SchemaDocument,SchemaComposite> implements ElementModule<SchemaComposite>
+public final class SchemaCompositeProcessor implements ElementModule<SchemaComposite>, ModuleProcessor<SchemaDocument,SchemaComposite>
 {
-	protected SchemaCompositeProcessor()
-	{
-	}
-
 	public Collection<SchemaComposite> process(Collection<SchemaDocument> documents, GeneratorContext generatorContext, ProcessorDirectory<SchemaDocument, SchemaComposite> directory)
 	{
 		final Collection<SchemaComposite> selectors = new ArrayList<SchemaComposite>();

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import org.safris.commons.util.URLs;
 import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.logging.Logger;
 import org.safris.commons.util.xml.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
@@ -17,11 +16,6 @@ import org.w3c.dom.Document;
 public abstract class AbstractGenerator
 {
 	private static final Map<String,SchemaDocument> parsedDocuments = new HashMap<String,SchemaDocument>();
-
-	protected final java.util.logging.Logger logger()
-	{
-		return Logger.getLogger(getClass().getName()).logger();
-	}
 
 	public static SchemaDocument parse(SchemaReference schemaReference)
 	{
@@ -50,10 +44,5 @@ public abstract class AbstractGenerator
 		parsedDocument = new SchemaDocument(schemaReference, document);
 		parsedDocuments.put(schemaReference.getNamespaceURI() + url.toString(), parsedDocument);
 		return parsedDocument;
-	}
-
-	protected static void warning(String string)
-	{
-		System.err.println("[WARNING] " + string);
 	}
 }

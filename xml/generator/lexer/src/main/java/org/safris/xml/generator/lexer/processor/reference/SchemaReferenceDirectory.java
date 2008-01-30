@@ -8,7 +8,7 @@ public class SchemaReferenceDirectory implements ProcessorDirectory<SchemaRefere
 {
 	private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
 
-	public ElementModule<SchemaReference> lookup(SchemaReference key, SchemaReference parent)
+	public ElementModule<SchemaReference> getModule(SchemaReference module, SchemaReference parent)
 	{
 		return schemaReferenceProcessor;
 	}

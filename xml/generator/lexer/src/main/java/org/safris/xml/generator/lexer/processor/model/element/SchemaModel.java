@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URL;
 import org.safris.commons.util.Files;
 import org.safris.commons.util.URLs;
-import org.safris.commons.util.logging.Logger;
 import org.safris.commons.util.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.schema.attribute.BlockDefault;
@@ -28,7 +27,8 @@ public class SchemaModel extends Model
 
 	protected SchemaModel(Node node, Model parent)
 	{
-		super(node, parent);
+		// NOTE: A SchemaModel does not have a parent.
+		super(node, null);
 		final NamedNodeMap attributes = node.getAttributes();
 		for(int i = 0; i < attributes.getLength(); i++)
 		{
@@ -64,8 +64,7 @@ public class SchemaModel extends Model
 	{
 		this.url = url;
 		final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
-		// FIXME: Fix the logging!
-		Logger.getLogger("").logger().info("Scanning {" + getTargetNamespace() + "} from " + display);
+		logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
 	}
 
 	public final URL getURL()

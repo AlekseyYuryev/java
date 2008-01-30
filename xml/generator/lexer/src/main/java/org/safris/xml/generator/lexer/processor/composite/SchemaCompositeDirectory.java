@@ -9,7 +9,7 @@ public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocume
 {
 	private SchemaCompositeProcessor processor = new SchemaCompositeProcessor();
 
-	public ElementModule<SchemaComposite> lookup(SchemaDocument key, SchemaComposite parent)
+	public ElementModule<SchemaComposite> getModule(SchemaDocument module, SchemaComposite parent)
 	{
 		return processor;
 	}

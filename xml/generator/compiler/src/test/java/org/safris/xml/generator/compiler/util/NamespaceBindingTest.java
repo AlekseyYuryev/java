@@ -8,11 +8,6 @@ import org.safris.commons.util.logging.Logger;
 
 public class NamespaceBindingTest extends TestCase
 {
-	protected static java.util.logging.Logger logger()
-	{
-		return Logger.getLogger(NamespaceBindingTest.class.getName()).logger();
-	}
-
 	public static void main(String[] args)
 	{
 		testNamespaceToPackage();
@@ -72,7 +67,7 @@ public class NamespaceBindingTest extends TestCase
 		for(Map.Entry<String,String> entry : map.entrySet())
 		{
 			final String pkg = NamespaceBinding.getPackageFromNamespace(entry.getKey());
-			logger().info("getPackageFromNamespace(\"" + entry.getKey() + "\") should be \"" + pkg + "\"");
+			Logger.getAnonymousLogger().info("getPackageFromNamespace(\"" + entry.getKey() + "\") should be \"" + pkg + "\"");
 			assertEquals(pkg, entry.getValue());
 		}
 	}

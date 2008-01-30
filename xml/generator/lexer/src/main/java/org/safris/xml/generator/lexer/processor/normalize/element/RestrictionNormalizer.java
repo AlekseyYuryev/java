@@ -252,7 +252,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 
 		if(typeModel instanceof ComplexTypeModel)
 		{
-			Collection<ElementModel> elements = new ArrayList<ElementModel>();
+			final Collection<ElementModel> elements = new ArrayList<ElementModel>();
 			findChildElements(elements, typeModel.getChildren());
 
 			// FIXME: Can I equate on just the localPart of the QName???

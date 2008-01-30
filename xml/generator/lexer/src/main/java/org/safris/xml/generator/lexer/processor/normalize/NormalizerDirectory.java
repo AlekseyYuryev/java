@@ -148,9 +148,9 @@ public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Normalizer> lookup(Model key, Normalizer parent)
+	public ElementModule<Normalizer> getModule(Model module, Normalizer parent)
 	{
-		return lookup(key.getClass());
+		return lookup(module.getClass());
 	}
 
 	public ElementModule<Normalizer> lookup(Class<? extends Model> clazz)

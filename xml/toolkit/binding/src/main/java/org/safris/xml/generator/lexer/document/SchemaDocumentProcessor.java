@@ -23,7 +23,7 @@ import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaDocumentProcessor extends ModuleProcessor<SchemaReference,SchemaDocument> implements ElementModule<SchemaDocument>
+public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, ModuleProcessor<SchemaReference,SchemaDocument>
 {
 	private static final String[] includeStrings = new String[]
 	{

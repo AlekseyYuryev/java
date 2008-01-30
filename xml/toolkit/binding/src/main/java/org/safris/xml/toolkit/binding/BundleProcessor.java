@@ -27,7 +27,7 @@ import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.safris.xml.toolkit.binding.Bundle;
 
-public final class BundleProcessor extends ModuleProcessor<SchemaComposite, Bundle> implements ElementModule<Bundle>
+public final class BundleProcessor implements ElementModule<Bundle>, ModuleProcessor<SchemaComposite, Bundle>
 {
 	protected BundleProcessor()
 	{
