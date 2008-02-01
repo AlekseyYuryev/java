@@ -16,7 +16,7 @@ public class InternalTest extends TestCase
 	@Test
 	public static void testInternal() throws Exception
 	{
-		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, BUILD_PATH + "build-internal.xml");
+		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, new String[]{BUILD_PATH + "build-internal.xml"});
 		if(process.exitValue() != 0)
 			fail();
 	}

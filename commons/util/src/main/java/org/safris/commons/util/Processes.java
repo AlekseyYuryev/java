@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Processes
 {
@@ -35,41 +37,73 @@ public final class Processes
 		return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
 	}
 
-	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] args) throws IOException, InterruptedException
 	{
 		final Process process = forkAsync(stdin, stdout, stderr, args);
 		process.waitFor();
 		return process;
 	}
 
-	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args, Map<String,String> props) throws IOException, InterruptedException
 	{
-		final Process process = forkAsync(stdin, stdout, stderr, prepArgsForJava(clazz, args));
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(clazz, args, getSystemProperties()));
 		return process;
 	}
 
-	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args) throws IOException, InterruptedException
 	{
-		final Process process = forkAsync(stdin, stdout, stderr, prepArgsForJava(clazz, args));
+		return forkAsync(stdin, stdout, stderr, clazz, args, getSystemProperties());
+	}
+
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args, Map<String,String> props) throws IOException, InterruptedException
+	{
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(clazz, args, getSystemProperties()));
 		process.waitFor();
 		return process;
 	}
 
-	private static String[] prepArgsForJava(Class clazz, String[] args)
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args) throws IOException, InterruptedException
+	{
+		return forkSync(stdin, stdout, stderr, clazz, args, getSystemProperties());
+	}
+
+	private static String[] createJavaCommand(Class clazz, String[] args, Map<String,String> props)
 	{
 		final URL[] classpathURLs = Resources.getClassPath();
 		final StringBuffer classpath = new StringBuffer();
 		for(URL url : classpathURLs)
 			classpath.append(File.pathSeparatorChar).append(url.getFile());
 
-		final String[] options = new String[args.length + 4];
-		System.arraycopy(args, 0, options, 4, args.length);
-		options[0] = "java";
-		options[1] = "-cp";
-		options[2] = classpath.substring(1);
-		options[3] = clazz.getName();
+		final String[] options = new String[args.length + props.size() + 4];
+		int i = -1;
+		options[++i] = "java";
+		if(props.size() != 0)
+			for(Map.Entry<String,String> property : props.entrySet())
+				options[++i] = "-D" + property.getKey() + "=" + property.getValue();
+
+		options[++i] = "-cp";
+		options[++i] = classpath.substring(1);
+		options[++i] = clazz.getName();
+		System.arraycopy(args, 0, options, ++i, args.length);
 
 		return options;
+	}
+
+	private static Map<String,String> getSystemProperties()
+	{
+		if(System.getProperties().size() == 0)
+			return new HashMap<String,String>(0);
+
+		final Map<String,String> properties = new HashMap<String,String>(7);
+		for(Map.Entry property : System.getProperties().entrySet())
+		{
+			final String key = (String)property.getKey();
+			final String value = (String)property.getValue();
+			if(value.trim().length() != 0 && !value.contains(" ") && !key.contains(" "))
+				properties.put(key, value.trim());
+		}
+
+		return properties;
 	}
 
 	private static final class PipedProcess extends Process

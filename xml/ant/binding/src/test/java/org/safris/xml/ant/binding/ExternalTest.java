@@ -17,7 +17,7 @@ public class ExternalTest extends TestCase
 	@Test
 	public static void testExternal() throws Exception
 	{
-		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, BUILD_PATH + "build-external.xml");
+		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, new String[]{BUILD_PATH + "build-external.xml"});
 		if(process.exitValue() != 0)
 			fail();
 	}
