@@ -1,6 +1,7 @@
 package org.safris.commons.util;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 public class StringsTest extends TestCase
 {
@@ -12,6 +13,7 @@ public class StringsTest extends TestCase
 		new StringsTest().testStrings();
 	}
 
+	@Test
 	public void testStrings() throws Exception
 	{
 		try

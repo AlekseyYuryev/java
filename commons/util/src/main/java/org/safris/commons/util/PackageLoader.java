@@ -7,9 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -21,7 +19,6 @@ import java.util.jar.JarFile;
  */
 public abstract class PackageLoader extends ClassLoader
 {
-	private static final Collection<String> loadedPackages = new HashSet<String>();
 	private static final PackageLoader instance = new PackageLoader(){};
 	private static final FileFilter classFileFilter = new FileFilter()
 	{
@@ -45,9 +42,6 @@ public abstract class PackageLoader extends ClassLoader
 		if(name == null || name.length() == 0)
 			throw new PackageNotFoundException(name);
 
-		if(loadedPackages.contains(name))
-			return;
-
 		// Translate the package name into an absolute path
 		final String path;
 		final char firstChar = name.charAt(0);
@@ -56,73 +50,81 @@ public abstract class PackageLoader extends ClassLoader
 		else
 			path = name.replace('.', '/');
 
-		final Resource resource = Resources.getResource(path);
-		if(resource == null)
+		Enumeration<Resource> resources = null;
+		try
+		{
+			resources = Resources.getResources(path);
+		}
+		catch(IOException e)
+		{
+			throw new ResourceException(e.getMessage(), e);
+		}
+
+		if(resources == null)
 			throw new PackageNotFoundException(name);
 
-		final URL url = resource.getURL();
-		final ClassLoader classLoader = resource.getClassLoader();
-		synchronized(classLoader)
+		while(resources.hasMoreElements())
 		{
-			if(loadedPackages.contains(name))
-				return;
-
-			String decodedUrl;
-			try
+			final Resource resource = resources.nextElement();
+			final URL url = resource.getURL();
+			final ClassLoader classLoader = resource.getClassLoader();
+			synchronized(classLoader)
 			{
-				decodedUrl = URLDecoder.decode(url.getPath(), "UTF-8");
-			}
-			catch(UnsupportedEncodingException e)
-			{
-				decodedUrl = url.getPath();
-			}
-
-			final File directory = new File(decodedUrl);
-			if(directory.exists())
-			{
-				// Get the list of the files contained in the package
-				final File[] files = directory.listFiles(classFileFilter);
-				String className = null;
-				for(File file : files)
-				{
-					className = file.getName().substring(0, file.getName().length() - 6);
-					Class.forName(name + "." + className, true, classLoader);
-				}
-			}
-			else
-			{
-				final JarURLConnection jarURLConnection;
-				final JarFile jarFile;
+				String decodedUrl;
 				try
 				{
-					jarURLConnection = (JarURLConnection)url.openConnection();
-					jarFile = jarURLConnection.getJarFile();
+					decodedUrl = URLDecoder.decode(url.getPath(), "UTF-8");
 				}
-				catch(IOException e)
+				catch(UnsupportedEncodingException e)
 				{
-					throw new PackageNotFoundException(name, e);
+					decodedUrl = url.getPath();
 				}
 
-				final String entryName = jarURLConnection.getEntryName();
-				final Enumeration<JarEntry> enumeration = jarFile.entries();
-				String zipEntryName;
-				String className;
-				while(enumeration.hasMoreElements())
+				final File directory = new File(decodedUrl);
+				if(directory.exists())
 				{
-					zipEntryName = enumeration.nextElement().getName();
-					if(!zipEntryName.startsWith(entryName) || zipEntryName.lastIndexOf(entryName + "/") > entryName.length() || !zipEntryName.endsWith(".class"))
-						continue;
+					// Get the list of the files contained in the package
+					final File[] files = directory.listFiles(classFileFilter);
+					String className = null;
+					for(File file : files)
+					{
+						className = file.getName().substring(0, file.getName().length() - 6);
+						Class.forName(name + "." + className, true, classLoader);
+					}
+				}
+				else
+				{
+					final JarURLConnection jarURLConnection;
+					final JarFile jarFile;
+					try
+					{
+						jarURLConnection = (JarURLConnection)url.openConnection();
+						jarFile = jarURLConnection.getJarFile();
+					}
+					catch(IOException e)
+					{
+						throw new PackageNotFoundException(name, e);
+					}
 
-					className = zipEntryName.substring(0, zipEntryName.length() - 6);
-					if(className.charAt(0) == '/')
-						className = className.substring(1);
+					final String entryName = jarURLConnection.getEntryName();
+					final Enumeration<JarEntry> enumeration = jarFile.entries();
+					String zipEntryName;
+					String className;
+					while(enumeration.hasMoreElements())
+					{
+						zipEntryName = enumeration.nextElement().getName();
+						if(!zipEntryName.startsWith(entryName) || zipEntryName.lastIndexOf(entryName + "/") > entryName.length() || !zipEntryName.endsWith(".class"))
+							continue;
 
-					className = className.replace('/', '.');
-					Class.forName(className, true, classLoader);
+						className = zipEntryName.substring(0, zipEntryName.length() - 6);
+						if(className.charAt(0) == '/')
+							className = className.substring(1);
+
+						className = className.replace('/', '.');
+						Class.forName(className, true, classLoader);
+					}
 				}
 			}
-
-			loadedPackages.add(name);
 		}
 	}
 }

@@ -13,30 +13,32 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.junit.Test;
 import org.safris.commons.util.reflect.Classes;
 import org.safris.commons.util.reflect.ClassesTest;
 
 public class ClassesTest extends TestCase
-	{
+{
 	private static final Map<Class[],Class> gccs = new HashMap<Class[],Class>();
-	
+
 	static
-		{
+	{
 		gccs.put(new Class[]{String.class, Integer.class}, Object.class);
 		gccs.put(new Class[]{Long.class, Integer.class}, Number.class);
 		gccs.put(new Class[]{ArrayList.class, LinkedList.class}, AbstractList.class);
 		gccs.put(new Class[]{HashSet.class, LinkedHashSet.class}, HashSet.class);
-	gccs.put(new Class[]{FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
+		gccs.put(new Class[]{FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
 	}
-	
+
 	public static void main(String[] args) throws Exception
-		{
-	new ClassesTest().testGreatestCommonClass();
+	{
+		new ClassesTest().testGreatestCommonClass();
 	}
-	
+
+	@Test
 	public void testGreatestCommonClass() throws Exception
-		{
-			for(Map.Entry<Class[],Class> entry : gccs.entrySet())
-	assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
-}
+	{
+		for(Map.Entry<Class[],Class> entry : gccs.entrySet())
+			assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
+	}
 }

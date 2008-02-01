@@ -1,37 +1,63 @@
 package org.safris.commons.util;
 
-import java.util.Collection;
-import java.util.HashSet;
 import junit.framework.TestCase;
-import org.safris.commons.util.loader.PackageLoaderClass1;
-import org.safris.commons.util.loader.PackageLoaderClass2;
-import org.safris.commons.util.loader.PackageLoaderClass3;
+import org.junit.Test;
 import sun.reflect.Reflection;
 
 public class PackageLoaderTest extends TestCase
 {
-	private static final Collection<Class> loadedClasses = new HashSet<Class>();
-
 	public static void main(String[] args) throws Exception
 	{
 		new PackageLoaderTest().testPackageLoader();
 	}
 
+	@Test
 	public void testPackageLoader() throws Exception
 	{
-		PackageLoader.getSystemPackageLoader().loadPackage(getClass().getPackage().getName() + ".loader");
-		assertTrue(loadedClasses.contains(PackageLoaderClass1.class));
-		assertTrue(loadedClasses.contains(PackageLoaderClass2.class));
-		assertTrue(loadedClasses.contains(PackageLoaderClass3.class));
+		assertFalse(isClassLoaded("org.junit.ComparisonFailure"));
+		assertFalse(isClassLoaded("org.junit.experimental.results.ResultMatchers"));
+		assertFalse(isClassLoaded("org.junit.experimental.theories.internal.TheoryMethod"));
+		assertFalse(isClassLoaded("org.junit.experimental.theories.suppliers.TestedOnSupplier"));
+		assertFalse(isClassLoaded("org.junit.internal.ArrayComparisonFailure"));
+		assertFalse(isClassLoaded("org.junit.matchers.Each"));
+		assertFalse(isClassLoaded("org.junit.runner.manipulation.NoTestsRemainException"));
+		assertFalse(isClassLoaded("org.junit.runners.Enclosed"));
+		assertFalse(isClassLoaded("org.junit.runners.Parameterized"));
+		assertFalse(isClassLoaded("org.junit.runners.Suite"));
+		assertFalse(isClassLoaded("org.junit.PackageLoaderClass1"));
+		assertFalse(isClassLoaded("org.junit.PackageLoaderClass2"));
+		assertFalse(isClassLoaded("org.junit.PackageLoaderClass3"));
+		PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
+		assertTrue(isClassLoaded("org.junit.ComparisonFailure"));
+		assertTrue(isClassLoaded("org.junit.experimental.results.ResultMatchers"));
+		assertTrue(isClassLoaded("org.junit.experimental.theories.internal.TheoryMethod"));
+		assertTrue(isClassLoaded("org.junit.experimental.theories.suppliers.TestedOnSupplier"));
+		assertTrue(isClassLoaded("org.junit.internal.ArrayComparisonFailure"));
+		assertTrue(isClassLoaded("org.junit.matchers.Each"));
+		assertTrue(isClassLoaded("org.junit.runner.manipulation.NoTestsRemainException"));
+		assertTrue(isClassLoaded("org.junit.runners.Enclosed"));
+		assertTrue(isClassLoaded("org.junit.runners.Parameterized"));
+		assertTrue(isClassLoaded("org.junit.runners.Suite"));
+		assertTrue(isClassLoaded("org.junit.PackageLoaderClass1"));
+		assertTrue(isClassLoaded("org.junit.PackageLoaderClass2"));
+		assertTrue(isClassLoaded("org.junit.PackageLoaderClass3"));
 	}
 
-	public static void registerLoad()
+	private static boolean isClassLoaded(String name)
 	{
-		// Gets the caller class
-		Class clazz = Reflection.getCallerClass(2);
-		if(loadedClasses.contains(clazz))
-			fail("Loading " + clazz.getSimpleName() + " twice!");
+		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
 
-		loadedClasses.add(clazz);
+		classLoader = Thread.currentThread().getContextClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
+
+		final Class callerClass = Reflection.getCallerClass(2);
+		classLoader = callerClass.getClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
+
+		return false;
 	}
 }

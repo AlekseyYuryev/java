@@ -47,6 +47,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/main/java/org/safris/commons/util/ClassLoaders.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>src/main/java/org/safris/commons/util/Files.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -115,6 +119,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/main/java/org/safris/commons/util/ResourceException.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>src/main/java/org/safris/commons/util/Resources.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -163,6 +171,18 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/test/java/org/junit/PackageLoaderClass1.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/test/java/org/junit/PackageLoaderClass2.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/test/java/org/junit/PackageLoaderClass3.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>src/test/java/org/safris/commons/io/NonBlockingInputStreamTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
@@ -194,8 +214,16 @@
   <projectReferences/>
   <references>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.3\junit-4.3.jar</relativePath>
+      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.4\junit-4.4.jar</relativePath>
     </classpathReference>
   </references>
-  <startingPoints/>
+  <startingPoints>
+    <startingPoint>
+      <commandLineArguments></commandLineArguments>
+      <name>PackageLoaderTest</name>
+      <target>org.safris.commons.util.PackageLoaderTest</target>
+      <vmOtherOptions></vmOtherOptions>
+      <workingDir></workingDir>
+    </startingPoint>
+  </startingPoints>
 </javaProject3>
