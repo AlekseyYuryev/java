@@ -3,7 +3,7 @@ package org.safris.commons.io;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import junit.framework.TestCase;
-import org.safris.commons.io.NonBlockingInputStreamTest;
+import org.junit.Test;
 
 public class NonBlockingInputStreamTest extends TestCase
 {
@@ -12,6 +12,7 @@ public class NonBlockingInputStreamTest extends TestCase
 		new NonBlockingInputStreamTest().testInputStream();
 	}
 
+	@Test
 	public void testInputStream() throws Exception
 	{
 		final PipedOutputStream out = new PipedOutputStream();
@@ -104,7 +105,5 @@ public class NonBlockingInputStreamTest extends TestCase
 		out.close();
 		Thread.sleep(10);
 		assertEquals(in.read(), -1);
-
-		System.out.println("Success");
 	}
 }

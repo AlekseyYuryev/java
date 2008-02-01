@@ -3,7 +3,7 @@ package org.safris.xml.maven.binding;
 import java.io.File;
 import org.codehaus.classworlds.Launcher;
 
-public class MavenLauncher
+public final class MavenLauncher
 {
 	public static void main(String[] args)
 	{
@@ -21,5 +21,9 @@ public class MavenLauncher
 		System.setProperty("classworlds.conf", m2.getAbsolutePath());
 		System.setProperty("maven.home", M2_HOME);
 		Launcher.main(args);
+	}
+
+	private MavenLauncher()
+	{
 	}
 }

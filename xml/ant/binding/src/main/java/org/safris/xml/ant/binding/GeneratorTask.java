@@ -214,7 +214,6 @@ TOP:
 		}
 		else
 		{
-
 			if(manifest.getDestdir() == null || (destDir = manifest.getDestdir().getText()) == null)
 				throw new BuildException("link element not provided, so destdir element must be speficied");
 
@@ -287,18 +286,7 @@ TOP:
 
 		public class Link
 		{
-			private String text = "";
 			private String href = "";
-
-			public void setText(String text)
-			{
-				this.text = text;
-			}
-
-			public String getText()
-			{
-				return text;
-			}
 
 			public void setHref(String href)
 			{

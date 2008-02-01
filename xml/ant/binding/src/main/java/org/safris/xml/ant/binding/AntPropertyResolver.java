@@ -25,6 +25,9 @@ public class AntPropertyResolver implements PropertyResolver
 		if(end == -1)
 			return string;
 
+		if(project == null)
+			return string;
+
 		final String resolved = project.getProperty(string.substring(start + 2, end));
 		if(resolved == null)
 			return string.substring(0, end + 1) + resolve(string.substring(end + 1, string.length()));

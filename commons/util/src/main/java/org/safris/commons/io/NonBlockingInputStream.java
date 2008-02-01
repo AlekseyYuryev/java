@@ -1,4 +1,6 @@
-package org.safris.commons.io;import java.io.IOException;
+package org.safris.commons.io;
+
+import java.io.IOException;
 import java.io.InputStream;
 
 public class NonBlockingInputStream extends InputStream

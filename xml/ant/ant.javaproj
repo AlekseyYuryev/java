@@ -43,11 +43,23 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/AntPropertyResolverTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/ExternalTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
       <incPathSpec>binding/src/test/java/org/safris/xml/ant/binding/InternalTest.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/test/resources/xml/build-external.xml</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>NONE</buildAction>
+      <incPathSpec>binding/src/test/resources/xml/build-internal.xml</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>NONE</buildAction>

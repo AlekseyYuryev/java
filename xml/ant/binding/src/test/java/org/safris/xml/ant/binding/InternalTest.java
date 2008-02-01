@@ -1,7 +1,7 @@
 package org.safris.xml.ant.binding;
 
-import java.io.File;
 import junit.framework.TestCase;
+import org.junit.Test;
 import org.safris.commons.util.Processes;
 
 public class InternalTest extends TestCase
@@ -13,6 +13,7 @@ public class InternalTest extends TestCase
 		testInternal();
 	}
 
+	@Test
 	public static void testInternal() throws Exception
 	{
 		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, BUILD_PATH + "build-internal.xml");

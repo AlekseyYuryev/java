@@ -1,7 +1,7 @@
 package org.safris.xml.ant.binding;
 
-import java.io.File;
 import junit.framework.TestCase;
+import org.junit.Test;
 import org.safris.commons.util.Processes;
 import org.safris.xml.ant.binding.GeneratorTask;
 
@@ -14,6 +14,7 @@ public class ExternalTest extends TestCase
 		testExternal();
 	}
 
+	@Test
 	public static void testExternal() throws Exception
 	{
 		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorTask.class, BUILD_PATH + "build-external.xml");
