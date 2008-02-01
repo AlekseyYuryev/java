@@ -1,8 +1,8 @@
 package org.safris.xml.generator.lexer.lang;
 
-import java.lang.reflect.InvocationTargetException;
+import org.safris.xml.generator.processor.GeneratorError;
 
-public class LexerError extends Error
+public class LexerError extends GeneratorError
 {
 	public LexerError()
 	{
@@ -16,23 +16,11 @@ public class LexerError extends Error
 
 	public LexerError(Throwable cause)
 	{
-		super(cause instanceof InvocationTargetException ? cause.getCause().getMessage() : cause.getMessage());
-		if(cause instanceof InvocationTargetException)
-			initCause(cause.getCause());
-		else
-			initCause(cause);
-
-		setStackTrace(getCause().getStackTrace());
+		super(cause);
 	}
 
 	public LexerError(String message, Throwable cause)
 	{
-		super(message != null ? message : (cause instanceof InvocationTargetException ? cause.getCause().getMessage() : cause.getMessage()));
-		if(cause instanceof InvocationTargetException)
-			initCause(cause.getCause());
-		else
-			initCause(cause);
-
-		setStackTrace(getCause().getStackTrace());
+		super(message, cause);
 	}
 }

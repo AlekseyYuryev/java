@@ -187,18 +187,6 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/test/java/org/safris/commons/util/loader/PackageLoaderClass1.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/test/java/org/safris/commons/util/loader/PackageLoaderClass2.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/test/java/org/safris/commons/util/loader/PackageLoaderClass3.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
       <incPathSpec>src/test/java/org/safris/commons/util/PackageLoaderTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>

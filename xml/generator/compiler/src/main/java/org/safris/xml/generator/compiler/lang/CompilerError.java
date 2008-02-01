@@ -1,12 +1,9 @@
 package org.safris.xml.generator.compiler.lang;
 
-import org.safris.commons.util.logging.Logger;
-import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.processor.GeneratorError;
 
-public class CompilerError extends LexerError
+public class CompilerError extends GeneratorError
 {
-	private static final Logger logger = Logger.getAnonymousLogger();
-
 	public CompilerError()
 	{
 		super();
@@ -15,21 +12,15 @@ public class CompilerError extends LexerError
 	public CompilerError(String message)
 	{
 		super(message);
-		setStackTrace(new StackTraceElement[0]);
-		logger.severe(message);
 	}
 
 	public CompilerError(Throwable cause)
 	{
 		super(cause);
-		setStackTrace(new StackTraceElement[0]);
-		logger.severe(cause.getMessage());
 	}
 
 	public CompilerError(String message, Throwable cause)
 	{
 		super(message, cause);
-		setStackTrace(new StackTraceElement[0]);
-		logger.severe(message + " " + cause.getMessage());
 	}
 }

@@ -92,18 +92,24 @@
 								<phase>test-compile</phase>
 								<configuration>
 									<tasks>
-										<delete dir="${project.build.directory}/cobertura/classes"/>
-										<copy todir="${project.build.directory}/cobertura/classes">
-											<fileset dir="${project.build.directory}/classes"/>
-										</copy>
-										<taskdef name="cobertura-instrument" classname="net.sourceforge.cobertura.ant.InstrumentTask"/>
-										<cobertura-instrument todir="${project.build.directory}/test-classes" datafile="${basedir}/target/cobertura/cobertura.ser">
-											<ignore regex="org.apache.log4j.*"/>
-											<fileset dir="${project.build.directory}/cobertura/classes">
-												<include name="**/*.class"/>
-												<exclude name="**/*Test.class"/>
-											</fileset>
-										</cobertura-instrument>
+										<taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask"/>
+										<trycatch property="exception">
+											<try>
+												<delete dir="${project.build.directory}/cobertura/classes"/>
+												<copy todir="${project.build.directory}/cobertura/classes">
+													<fileset dir="${project.build.directory}/classes"/>
+												</copy>
+												<taskdef name="cobertura-instrument" classname="net.sourceforge.cobertura.ant.InstrumentTask"/>
+												<cobertura-instrument todir="${project.build.directory}/test-classes" datafile="${basedir}/target/cobertura/cobertura.ser">
+													<ignore regex="org.apache.log4j.*"/>
+													<fileset dir="${project.build.directory}/cobertura/classes">
+														<include name="**/*.class"/>
+														<exclude name="**/*Test.class"/>
+													</fileset>
+												</cobertura-instrument>
+											</try>
+											<catch/>
+										</trycatch>
 									</tasks>
 								</configuration>
 								<goals>
@@ -115,10 +121,16 @@
 								<phase>test</phase>
 								<configuration>
 									<tasks>
-										<taskdef name="cobertura-check" classname="net.sourceforge.cobertura.ant.CheckTask"/>
-										<!--<cobertura-check linerate="0" branchrate="0" packagelinerate="0" packagebranchrate="0" totallinerate="0" totalbranchrate="0" datafile="${basedir}/target/cobertura/cobertura.ser"/>-->
-										<taskdef name="cobertura-report" classname="net.sourceforge.cobertura.ant.ReportTask"/>
-										<cobertura-report destdir="${project.build.directory}/cobertura/report" srcdir="${project.build.sourceDirectory}" datafile="${basedir}/target/cobertura/cobertura.ser" format="html"/>
+										<taskdef name="trycatch" classname="net.sf.antcontrib.logic.TryCatchTask"/>
+										<trycatch property="exception">
+											<try>
+												<taskdef name="cobertura-check" classname="net.sourceforge.cobertura.ant.CheckTask"/>
+												<!--<cobertura-check linerate="0" branchrate="0" packagelinerate="0" packagebranchrate="0" totallinerate="0" totalbranchrate="0" datafile="${basedir}/target/cobertura/cobertura.ser"/>-->
+												<taskdef name="cobertura-report" classname="net.sourceforge.cobertura.ant.ReportTask"/>
+												<cobertura-report destdir="${project.build.directory}/cobertura/report" srcdir="${project.build.sourceDirectory}" datafile="${basedir}/target/cobertura/cobertura.ser" format="html"/>
+											</try>
+											<catch/>
+										</trycatch>
 									</tasks>
 								</configuration>
 								<goals>
@@ -127,6 +139,11 @@
 							</execution>
 						</executions>
 						<dependencies>
+							<dependency>
+								<groupId>ant-contrib</groupId>
+								<artifactId>ant-contrib</artifactId>
+								<version>1.0b2</version>
+							</dependency>
 							<dependency>
 								<groupId>cobertura</groupId>
 								<artifactId>cobertura</artifactId>

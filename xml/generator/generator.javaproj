@@ -1415,6 +1415,10 @@
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
+      <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/GeneratorError.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
       <incPathSpec>processor/src/main/java/org/safris/xml/generator/processor/ModuleProcessor.java</incPathSpec>
     </javaFile2>
     <javaFile2>
