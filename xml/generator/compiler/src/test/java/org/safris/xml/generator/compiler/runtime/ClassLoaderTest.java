@@ -3,7 +3,7 @@ package org.safris.xml.generator.compiler.runtime;
 import java.io.File;
 import java.io.IOException;
 import junit.framework.TestCase;
-import org.safris.xml.generator.compiler.runtime.WeakClassLoader;
+import org.junit.Test;
 
 public class ClassLoaderTest extends TestCase
 {
@@ -25,6 +25,7 @@ public class ClassLoaderTest extends TestCase
 		Runtime.getRuntime().gc();
 	}
 
+	@Test
 	public static void testClassLoaders() throws IOException
 	{
 		Runtime.getRuntime().gc();

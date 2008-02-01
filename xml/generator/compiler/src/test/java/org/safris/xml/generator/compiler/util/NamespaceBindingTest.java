@@ -3,8 +3,8 @@ package org.safris.xml.generator.compiler.util;
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
+import org.junit.Test;
 import org.safris.commons.util.NamespaceBinding;
-import org.safris.commons.util.logging.Logger;
 
 public class NamespaceBindingTest extends TestCase
 {
@@ -13,6 +13,7 @@ public class NamespaceBindingTest extends TestCase
 		testNamespaceToPackage();
 	}
 
+	@Test
 	public static void testNamespaceToPackage()
 	{
 		final Map<String,String> map = new HashMap<String,String>();
@@ -67,7 +68,6 @@ public class NamespaceBindingTest extends TestCase
 		for(Map.Entry<String,String> entry : map.entrySet())
 		{
 			final String pkg = NamespaceBinding.getPackageFromNamespace(entry.getKey());
-			Logger.getAnonymousLogger().info("getPackageFromNamespace(\"" + entry.getKey() + "\") should be \"" + pkg + "\"");
 			assertEquals(pkg, entry.getValue());
 		}
 	}

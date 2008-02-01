@@ -108,9 +108,6 @@
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\classworlds\classworlds\1.1\classworlds-1.1.jar</relativePath>
     </classpathReference>
     <classpathReference>
-      <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.4\junit-4.4.jar</relativePath>
-    </classpathReference>
-    <classpathReference>
       <relativePath>..\..\..\..\..\..\.codeguide-8\m2\repository\org\apache\ant\ant\1.7.0\ant-1.7.0.jar</relativePath>
     </classpathReference>
     <classpathReference>

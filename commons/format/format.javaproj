@@ -86,7 +86,7 @@
   <projectReferences/>
   <references>
     <classpathReference>
-      <relativePath>..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.3\junit-4.3.jar</relativePath>
+      <relativePath>..\..\..\..\..\.codeguide-8\m2\repository\junit\junit\4.4\junit-4.4.jar</relativePath>
     </classpathReference>
   </references>
   <startingPoints/>

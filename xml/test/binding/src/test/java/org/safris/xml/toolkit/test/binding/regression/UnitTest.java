@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.toolkit.test.binding.regression.Metadata;
 import org.xml.sax.InputSource;
 
 public class UnitTest extends Metadata

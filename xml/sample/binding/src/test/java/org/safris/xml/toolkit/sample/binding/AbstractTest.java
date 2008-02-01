@@ -14,10 +14,10 @@ public abstract class AbstractTest extends TestCase
 {
 	static
 	{
-		Validator validator = new DefaultValidator();
+		final Validator validator = new DefaultValidator();
 		Validator.setSystemValidator(validator);
 
-		BindingConfig bindingConfig = new BindingConfig();
+		final BindingConfig bindingConfig = new BindingConfig();
 		bindingConfig.setIndent(true);
 		Bindings.bootstrapConfig(bindingConfig);
 	}
