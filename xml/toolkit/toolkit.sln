@@ -11,9 +11,7 @@ Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "tutorial", "../tutorial/tut
 EndProject
 Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "sample", "../sample/sample.javaproj", "{6B6161EF-0032-460B-8DCD-D6DFCB643CD3}"
 EndProject
-Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "util", "../../../trunk/commons/util/util.javaproj", "{781F604D-E0B8-4F34-B6B6-9AA9F13B87FA}"
-EndProject
-Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "format", "../../../trunk/commons/format/format.javaproj", "{781F604D-E0B8-4F34-B6B6-9AA9F13B87F9}"
+Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "util", "../../../trunk/commons/commons.javaproj", "{781F604D-E0B8-4F34-B6B6-9AA9F13B87FA}"
 EndProject
 Project("{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}") = "test", "../test/test.javaproj", "{9667D3CE-9D4B-45BF-8B55-C3EB33E7469E}"
 EndProject

@@ -4,21 +4,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org</groupId>
-		<artifactId>safris</artifactId>
-		<version>${orgVersion}</version>
+		<groupId>org.safris</groupId>
+		<artifactId>commons</artifactId>
+		<version>${commonsVersion}</version>
 	</parent>
-	<groupId>org.safris</groupId>
-	<artifactId>commons</artifactId>
+	<groupId>org.safris.commons</groupId>
+	<artifactId>io</artifactId>
 	<version>${commonsVersion}</version>
-	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		Commons source.
+		Commons IO is a library of utilities to assist with developing IO functionality.
 	</description>
-	<modules>
-		<module>format</module>
-		<module>util</module>
-		<module>io</module>
-	</modules>
 </project>

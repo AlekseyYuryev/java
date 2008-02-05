@@ -128,6 +128,7 @@
 												<!--<cobertura-check linerate="0" branchrate="0" packagelinerate="0" packagebranchrate="0" totallinerate="0" totalbranchrate="0" datafile="${basedir}/target/cobertura/cobertura.ser"/>-->
 												<taskdef name="cobertura-report" classname="net.sourceforge.cobertura.ant.ReportTask"/>
 												<cobertura-report destdir="${project.build.directory}/cobertura/report" srcdir="${project.build.sourceDirectory}" datafile="${basedir}/target/cobertura/cobertura.ser" format="html"/>
+												<echo>file:///${project.build.directory}/cobertura/report/index.html</echo>
 											</try>
 											<catch/>
 										</trycatch>
