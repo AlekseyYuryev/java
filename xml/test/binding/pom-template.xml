@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.safris.xml</groupId>
@@ -12,28 +10,37 @@
 	<version>${xmlVersion}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>This module contains test code of the XML Binding application that may be used by developers as a tutorial.</description>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.safris.xml.maven</groupId>
-				<artifactId>binding</artifactId>
-				<version>${xmlVersion}</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-						<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/test/resources/xml/manifest.xml"/>
-					</manifest>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>!maven.test.skip</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.safris.xml.maven</groupId>
+						<artifactId>binding</artifactId>
+						<version>${xmlVersion}</version>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+								<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/test/resources/xml/manifest.xml"/>
+							</manifest>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.safris.commons</groupId>

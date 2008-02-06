@@ -49,5 +49,10 @@
 			<artifactId>compiler</artifactId>
 			<version>${xmlVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>jci</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
 	</dependencies>
 </project>

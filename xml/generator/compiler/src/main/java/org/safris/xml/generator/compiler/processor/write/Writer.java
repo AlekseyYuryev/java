@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
-import org.safris.commons.format.SourceFormat;
+import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
 import org.safris.xml.generator.compiler.lang.CompilerError;

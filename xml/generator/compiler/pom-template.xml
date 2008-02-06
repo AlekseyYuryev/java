@@ -12,12 +12,12 @@
 	<version>${xmlVersion}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		The compiler module that performs the planning and writing mechanism of the Binding appilcation. 
+		The compiler module that performs the planning and writing mechanism of the Binding appilcation.
 	</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
-			<artifactId>format</artifactId>
+			<artifactId>formatter</artifactId>
 			<version>${commonsVersion}</version>
 		</dependency>
 		<dependency>

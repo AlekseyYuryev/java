@@ -17,7 +17,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
-			<artifactId>util</artifactId>
+			<artifactId>logging</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>xml</artifactId>
 			<version>${commonsVersion}</version>
 		</dependency>
 	</dependencies>

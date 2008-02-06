@@ -18,7 +18,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
-			<artifactId>util</artifactId>
+			<artifactId>io</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>net</artifactId>
 			<version>${commonsVersion}</version>
 		</dependency>
 		<dependency>
