@@ -1,19 +1,8 @@
-package org.safris.commons.format;
+package org.safris.commons.formatter;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
-import org.safris.commons.format.ClassModule;
-import org.safris.commons.format.CloseBracketModule;
-import org.safris.commons.format.DeclarationModule;
-import org.safris.commons.format.FormatError;
-import org.safris.commons.format.FormatModule;
-import org.safris.commons.format.ImportModule;
-import org.safris.commons.format.MethodModule;
-import org.safris.commons.format.OpenBracketModule;
-import org.safris.commons.format.PackageModule;
-import org.safris.commons.format.SourceFormat;
-import org.safris.commons.format.StatementModule;
 
 public class SourceFormat
 {
@@ -21,9 +10,9 @@ public class SourceFormat
 	{
 		return new SourceFormat();
 	}
-	
+
 	private List<FormatModule> modules = new LinkedList<FormatModule>();
-	
+
 	private SourceFormat()
 	{
 		addModule(new PackageModule());
@@ -37,19 +26,19 @@ public class SourceFormat
 		addModule(new DeclarationModule());
 		addModule(new StatementModule());
 	}
-	
+
 	public void addModule(FormatModule module)
 	{
 		modules.add(module);
 	}
-	
+
 	public String format(String unformated)
 	{
 		if(unformated == null)
 			return "";
-		
+
 		FormatModule.restetDepth();
-		
+
 		String formated = "";
 		try
 		{
@@ -65,10 +54,10 @@ public class SourceFormat
 		{
 			throw new FormatError(e);
 		}
-		
+
 		return formated;
 	}
-	
+
 	private String modules(String formated, String token)
 	{
 		String formatedToken = token;
@@ -76,7 +65,7 @@ public class SourceFormat
 		{
 			FormatModule module = modules.get(i);
 			token = module.format(formated, token);
-			
+
 			/*			if(FormatModule.getLastModule() instanceof OpenBracketModule && !formated.endsWith("\n") && !token.startsWith("\n"))
 			 {
 			 for(int j = 0; j < module.getDepth(); j++)
@@ -85,16 +74,16 @@ public class SourceFormat
 			 }
 			 token = "\n" + token;
 			 }*/
-			
+
 			if(!formatedToken.equals(token))
 			{
 				FormatModule.setLastModule(module);
 				break;
 			}
-			
+
 			formatedToken = token;
 		}
-		
+
 		return formated += token;
 	}
 }

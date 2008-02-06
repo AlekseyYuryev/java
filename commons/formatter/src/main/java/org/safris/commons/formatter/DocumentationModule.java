@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.DocumentationModule;
+package org.safris.commons.formatter;
 
 public class DocumentationModule extends FormatModule
 {
@@ -12,16 +10,16 @@ public class DocumentationModule extends FormatModule
 			{
 				token = "\t" + token;
 			}
-			
+
 			if(getLastModule() instanceof CloseBracketModule)
 				token = "\n" + token;
-			
+
 			if(token.trim().indexOf("/") == 0)
 				token = "\n" + token;
-			
+
 			return token + "\n";
 		}
-		
+
 		return token;
 	}
 }

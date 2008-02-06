@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class OpenBracketModule extends FormatModule
 {
@@ -18,7 +16,7 @@ public class OpenBracketModule extends FormatModule
 				token = "\n" + token;
 			}
 		}
-		
+
 		return token;
 	}
 }

@@ -1,8 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.CloseBracketModule;
-import org.safris.commons.format.FormatModule;
-import org.safris.commons.format.StatementModule;
+package org.safris.commons.formatter;
 
 public class DeclarationModule extends FormatModule
 {
@@ -16,7 +12,7 @@ public class DeclarationModule extends FormatModule
 				{
 					token = "\t" + token;
 				}
-				
+
 				if(getLastModule() instanceof CloseBracketModule)
 				{
 					token = "\n\n" + token;

@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class CloseBracketModule extends FormatModule
 {
@@ -13,7 +11,7 @@ public class CloseBracketModule extends FormatModule
 				decreaseDepth();
 				for(int i = 0; i < getDepth(); i++)
 					token = "\t" + token;
-				
+
 				if(!formated.endsWith("\n"))
 					token = "\n" + token;
 			}

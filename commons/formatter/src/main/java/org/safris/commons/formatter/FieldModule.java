@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-
+package org.safris.commons.formatter;
 
 public class FieldModule extends FormatModule
 {
@@ -14,7 +12,7 @@ public class FieldModule extends FormatModule
 				{
 					token = "\t" + token;
 				}
-				
+
 				if(getLastModule() instanceof CloseBracketModule)
 				{
 					token = "\n\n" + token;

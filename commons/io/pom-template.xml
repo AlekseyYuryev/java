@@ -21,5 +21,10 @@
 			<artifactId>lang</artifactId>
 			<version>${commonsVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>util</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
 	</dependencies>
 </project>

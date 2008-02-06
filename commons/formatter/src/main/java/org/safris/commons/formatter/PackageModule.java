@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class PackageModule extends FormatModule
 {

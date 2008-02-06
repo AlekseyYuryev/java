@@ -1,4 +1,4 @@
-package org.safris.commons.format;
+package org.safris.commons.formatter;
 
 public class FormatError extends Error
 {

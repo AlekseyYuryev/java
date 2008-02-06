@@ -1,7 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.CloseBracketModule;
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class MethodModule extends FormatModule
 {
@@ -15,7 +12,7 @@ public class MethodModule extends FormatModule
 				{
 					token = "\t" + token;
 				}
-				
+
 				if(getLastModule() instanceof CloseBracketModule || getLastModule() instanceof FieldModule)
 				{
 					token = "\n\n" + token;

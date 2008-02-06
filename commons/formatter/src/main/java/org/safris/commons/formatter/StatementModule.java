@@ -1,7 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.CloseBracketModule;
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class StatementModule extends FormatModule
 {
@@ -15,7 +12,7 @@ public class StatementModule extends FormatModule
 				{
 					token = "\t" + token;
 				}
-				
+
 				token = "\n" + token;
 			}
 			else if(token.trim().lastIndexOf("try") == token.trim().length() - 1 || token.trim().indexOf("catch") == 0 || token.trim().lastIndexOf("finally") == token.trim().length() - 1 || token.trim().lastIndexOf("do") == token.trim().length() - 1 || token.trim().indexOf("if") == 0 || token.trim().indexOf("for") == 0 || token.trim().indexOf("while") == 0 || token.trim().lastIndexOf(";") == token.trim().length() - 1)
@@ -24,7 +21,7 @@ public class StatementModule extends FormatModule
 				{
 					token = "\t" + token;
 				}
-				
+
 				if(getLastModule() instanceof CloseBracketModule || getLastModule() instanceof FieldModule)
 				{
 					token = "\n\n" + token;

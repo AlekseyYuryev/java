@@ -17,15 +17,15 @@
 		Commons source.
 	</description>
 	<modules>
+		<module>formatter</module>
 		<module>lang</module>
 		<module>bytecode</module>
 		<module>logging</module>
-		<module>format</module>
 		<module>xml</module>
+		<module>util</module>
 		<module>io</module>
 		<module>net</module>
 		<module>exec</module>
-		<module>util</module>
 		<module>jci</module>
 	</modules>
 </project>

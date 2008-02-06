@@ -9,7 +9,7 @@
 		<version>${commonsVersion}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
-	<artifactId>format</artifactId>
+	<artifactId>formatter</artifactId>
 	<version>${commonsVersion}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>

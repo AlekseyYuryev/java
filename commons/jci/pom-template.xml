@@ -15,4 +15,11 @@
 	<description>
 		Java Compiler Interface.
 	</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>exec</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
+	</dependencies>
 </project>

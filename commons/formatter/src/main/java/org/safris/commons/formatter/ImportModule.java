@@ -1,6 +1,4 @@
-package org.safris.commons.format;
-
-import org.safris.commons.format.FormatModule;
+package org.safris.commons.formatter;
 
 public class ImportModule extends FormatModule
 {
@@ -10,7 +8,7 @@ public class ImportModule extends FormatModule
 		{
 			token = "\n" + token;
 		}
-		
+
 		return token;
 	}
 }
