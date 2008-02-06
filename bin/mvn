@@ -124,7 +124,7 @@ while [ $# != 0 ]; do
 			shift;
 			continue;
 			;;
-		-f) FILE=true
+		clean) CLEAN=true
 			;;
 		--help) HELP=true
 			;;
@@ -146,6 +146,12 @@ fi
 
 # Find the original mvn script
 MVN="`which -a mvn | sed -n '2p'`"
+
+# If goal=clean, then set maven.test.skip=true (this should already be the
+# default in maven.
+if [ $CLEAN ]; then
+	ARGS="-Dmaven.test.skip $ARGS"
+fi
 
 # Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
