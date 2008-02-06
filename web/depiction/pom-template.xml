@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.safris.web</groupId>
 	<artifactId>depiction</artifactId>
-	<version>${webVersion}</version>
+	<version>${org.safris.web.depiction}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>web depiction service</description>
 	<packaging>war</packaging>
@@ -88,9 +88,9 @@
 
 
 		<dependency>
-			<groupId>org.safris.xml.bind</groupId>
-			<artifactId>runtime</artifactId>
-			<version>${xmlVersion}</version>
+			<groupId>org.safris.xml.generator</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${org.safris.xml.generator.compiler}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>

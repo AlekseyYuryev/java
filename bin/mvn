@@ -8,10 +8,17 @@ findProperties() {
 	DOT_DOT="../"
 	if [ ! $FP_CACHE ]; then
 		FP_POM_TEMPLATE_PROPERTIES="$FP_POM_TEMPLATE_PROPERTIES_NAME"
-		FP_POM_TEMPLATE="pom-template.xml"
-		while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ -f $FP_POM_TEMPLATE ]; do
+#		FP_POM_TEMPLATE="pom-template.xml"
+		FP_CWD=$DOT_DOT
+		FP_LAST_CWD=""
+		FP_IS_NOT_ROOT="false"
+		while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ "$FP_IS_NOT_ROOT" != "" ]; do
+#		[ -f $FP_POM_TEMPLATE ]
 			FP_POM_TEMPLATE_PROPERTIES="${DOT_DOT}${FP_POM_TEMPLATE_PROPERTIES}"
-			FP_POM_TEMPLATE="${DOT_DOT}${FP_POM_TEMPLATE}"
+#			FP_POM_TEMPLATE="${DOT_DOT}${FP_POM_TEMPLATE}"
+			FP_LAST_CWD=$FP_CWD
+			FP_CWD="${DOT_DOT}${FP_CWD}"
+			FP_IS_NOT_ROOT="`diff $FP_LAST_CWD $FP_CWD`"
 		done
 		FP_CACHE=true
 	fi
@@ -27,7 +34,7 @@ updatePOM() {
 	findProperties;
 	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ $FP_POM_TEMPLATE_PROPERTIES -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
 		PROPERTIES="`awk -F\. '{ print NF " " $0 } ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}'`"
-		UPDATE_CMD="`echo "$PROPERTIES" | grep -v ^$ | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+		UPDATE_CMD="`echo "$PROPERTIES" | grep -v ^$ | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
 		echo $UPDATE_CMD | xargs sed > $UP_POM
 		echo "Updated: $UP_POM"
 	fi

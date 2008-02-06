@@ -10,10 +10,9 @@
 	</parent>
 	<groupId>org.safris</groupId>
 	<artifactId>web</artifactId>
-	<version>${webVersion}</version>
+	<version>${org.safris.web}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
-	<url>http://web.safris.org/</url>
 	<description>
 		Web projects.
 	</description>
