@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${commonsVersion}</version>
+		<version>${org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>bytecode</artifactId>
-	<version>${commonsVersion}</version>
+	<version>${org.safris.commons.bytecode}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Provides classes for the manipulation of bytecode.

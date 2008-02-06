@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org</groupId>
 		<artifactId>safris</artifactId>
-		<version>${orgVersion}</version>
+		<version>${org.safris}</version>
 	</parent>
 	<groupId>org.safris</groupId>
 	<artifactId>xml</artifactId>
-	<version>${xmlVersion}</version>
+	<version>${org.safris.xml}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
 	<description>

@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${commonsVersion}</version>
+		<version>${org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>jci</artifactId>
-	<version>${commonsVersion}</version>
+	<version>${org.safris.commons.jci}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Java Compiler Interface.
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>exec</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.exec}</version>
 		</dependency>
 	</dependencies>
 </project>

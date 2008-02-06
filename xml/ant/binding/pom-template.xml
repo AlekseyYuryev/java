@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>ant</artifactId>
-		<version>${xmlVersion}</version>
+		<version>${org.safris.xml.ant}</version>
 	</parent>
 	<groupId>org.safris.xml.ant</groupId>
 	<artifactId>binding</artifactId>
-	<version>${xmlVersion}</version>
+	<version>${org.safris.xml.ant.binding}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The Ant builder is an Ant task that can be used in a build.xml definition for the
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.safris.xml.toolkit</groupId>
 			<artifactId>binding</artifactId>
-			<version>${xmlVersion}</version>
+			<version>${org.safris.xml.toolkit.binding}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>

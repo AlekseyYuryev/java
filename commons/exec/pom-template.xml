@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${commonsVersion}</version>
+		<version>${org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>exec</artifactId>
-	<version>${commonsVersion}</version>
+	<version>${org.safris.commons.exec}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		API for dealing with external process execution and environment management in Java.
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>io</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.io}</version>
 		</dependency>
 	</dependencies>
 </project>

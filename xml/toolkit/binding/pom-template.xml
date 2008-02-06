@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>toolkit</artifactId>
-		<version>${xmlVersion}</version>
+		<version>${org.safris.xml.toolkit}</version>
 	</parent>
 	<groupId>org.safris.xml.toolkit</groupId>
 	<artifactId>binding</artifactId>
-	<version>${xmlVersion}</version>
+	<version>${org.safris.xml.toolkit.binding}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Binding is an application wrapper for the technology for accessing XML by binding the XSD of the XML to
@@ -47,12 +47,12 @@
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
-			<version>${xmlVersion}</version>
+			<version>${org.safris.xml.generator.compiler}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>jci</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.jci}</version>
 		</dependency>
 	</dependencies>
 </project>

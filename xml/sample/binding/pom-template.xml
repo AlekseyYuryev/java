@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>sample</artifactId>
-		<version>${xmlVersion}</version>
+		<version>${org.safris.xml.sample}</version>
 	</parent>
 	<groupId>org.safris.xml.sample</groupId>
 	<artifactId>binding</artifactId>
-	<version>${xmlVersion}</version>
+	<version>${org.safris.xml.sample.binding}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>This module contains sample code of the XML Binding application that may be used by developers as a tutorial.</description>
 	<build>
@@ -31,7 +31,7 @@
 			<plugin>
 				<groupId>org.safris.xml.maven</groupId>
 				<artifactId>binding</artifactId>
-				<version>${xmlVersion}</version>
+				<version>${org.safris.xml.maven.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -52,12 +52,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>util</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.util}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
-			<version>${xmlVersion}</version>
+			<version>${org.safris.xml.generator.compiler}</version>
 		</dependency>
 	</dependencies>
 </project>

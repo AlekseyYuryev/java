@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>generator</artifactId>
-		<version>${xmlVersion}</version>
+		<version>${org.safris.xml.generator}</version>
 	</parent>
 	<groupId>org.safris.xml.generator</groupId>
 	<artifactId>lexer</artifactId>
-	<version>${xmlVersion}</version>
+	<version>${org.safris.xml.generator.lexer}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The core lexer of the XML Toolkit framework. This is the initial stage in the analysis of XML Schemas
@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>io</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.io}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>net</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.net}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>processor</artifactId>
-			<version>${xmlVersion}</version>
+			<version>${org.safris.xml.generator.processor}</version>
 		</dependency>
 	</dependencies>
 </project>

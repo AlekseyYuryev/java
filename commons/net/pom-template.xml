@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${commonsVersion}</version>
+		<version>${org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>net</artifactId>
-	<version>${commonsVersion}</version>
+	<version>${org.safris.commons.net}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The purpose of the library is to provide fundamental protocol access of many basic Internet protocols.
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>lang</artifactId>
-			<version>${commonsVersion}</version>
+			<version>${org.safris.commons.lang}</version>
 		</dependency>
 	</dependencies>
 </project>
