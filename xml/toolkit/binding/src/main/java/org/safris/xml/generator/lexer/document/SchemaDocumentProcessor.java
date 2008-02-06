@@ -9,9 +9,10 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Stack;
-import org.safris.commons.util.URLs;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.logging.Logger;
+import org.safris.commons.net.URLs;
+import org.safris.commons.xml.NamespaceURI;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.processor.BindingQName;
@@ -25,6 +26,8 @@ import org.w3c.dom.NodeList;
 
 public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, ModuleProcessor<SchemaReference,SchemaDocument>
 {
+	protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
+
 	private static final String[] includeStrings = new String[]
 	{
 		"include",
@@ -97,7 +100,10 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 							}
 
 							if(!duplicate.equals(schemaLocationURL))
-								throw new ExitSevereError("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n" + duplicate + "\n" + schemaLocationURL);
+							{
+								logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n" + duplicate + "\n" + schemaLocationURL);
+								System.exit(1);
+							}
 						}
 					}
 
@@ -106,7 +112,8 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 			}
 			catch(MalformedURLException e)
 			{
-				throw new ExitSevereError("Unknown URL format: " + schemaReference.getURL());
+				logger.severe("Unknown URL format: " + schemaReference.getURL());
+				System.exit(1);
 			}
 
 			schemas.addAll(schemasToGenerate);

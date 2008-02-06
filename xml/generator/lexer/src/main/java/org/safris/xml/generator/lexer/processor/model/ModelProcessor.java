@@ -3,8 +3,8 @@ package org.safris.xml.generator.lexer.processor.model;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.xml.NamespaceURI;
+import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
@@ -33,7 +33,7 @@ public class ModelProcessor implements ModuleProcessor<SchemaComposite,Model>
 			final SchemaDocument schemaDocument = SchemaModelComposite.getSchemaDocument();
 			final SchemaModel model = recurse(root, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL(), directory);
 			if(model == null)
-				throw new ExitSevereError("We should have found a schema!");
+				throw new LexerError("We should have found a schema!");
 
 			SchemaModelComposite.setSchemaModel(model);
 			schemaModels.add(model);

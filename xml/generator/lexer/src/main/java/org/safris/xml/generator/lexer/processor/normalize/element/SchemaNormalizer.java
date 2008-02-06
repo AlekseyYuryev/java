@@ -1,7 +1,7 @@
 package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.io.File;
-import org.safris.commons.util.Files;
+import org.safris.commons.io.Files;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;

@@ -1,6 +1,6 @@
 package org.safris.xml.generator.lexer.processor.normalize;
 
-import org.safris.commons.util.logging.Logger;
+import org.safris.commons.logging.Logger;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.processor.ElementModule;

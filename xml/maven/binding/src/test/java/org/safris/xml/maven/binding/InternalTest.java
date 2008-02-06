@@ -3,8 +3,8 @@ package org.safris.xml.maven.binding;
 import java.io.File;
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.safris.commons.util.Files;
-import org.safris.commons.util.Processes;
+import org.safris.commons.exec.Processes;
+import org.safris.commons.io.Files;
 
 public class InternalTest extends TestCase
 {

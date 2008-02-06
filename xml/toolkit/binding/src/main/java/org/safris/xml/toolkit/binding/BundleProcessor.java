@@ -9,16 +9,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import org.safris.commons.util.Files;
-import org.safris.commons.util.Jar;
-import org.safris.commons.util.JavaCompiler;
-import org.safris.commons.util.Resources;
-import org.safris.commons.util.Streams;
-import org.safris.commons.util.URLs;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.io.Files;
+import org.safris.commons.io.Streams;
+import org.safris.commons.jci.JavaCompiler;
+import org.safris.commons.lang.Resources;
+import org.safris.commons.net.URLs;
+import org.safris.commons.util.jar.Jar;
+import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.compiler.runtime.BindingError;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
 import org.safris.xml.generator.processor.ElementModule;
@@ -111,7 +111,7 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 				final File jarFile = new File(destDir, simpleName + ".jar");
 				if(jarFile.exists())
 					if(!jarFile.delete())
-						throw new ExitSevereError("Unable to delete the existing jar: " + jarFile.getAbsolutePath());
+						throw new BindingError("Unable to delete the existing jar: " + jarFile.getAbsolutePath());
 
 				jars.add(jarFile);
 

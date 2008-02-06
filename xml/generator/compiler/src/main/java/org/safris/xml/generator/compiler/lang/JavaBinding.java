@@ -1,6 +1,6 @@
 package org.safris.xml.generator.compiler.lang;
 
-import org.safris.commons.util.xml.Prefix;
+import org.safris.commons.xml.Prefix;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;

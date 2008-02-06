@@ -1,7 +1,7 @@
 package org.safris.xml.generator.lexer.processor.reference;
 
 import java.net.URL;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.processor.BindingQName;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

@@ -1,6 +1,6 @@
 package org.safris.xml.generator.lexer.lang;
 
-import org.safris.commons.util.logging.LoggerName;
+import org.safris.commons.logging.LoggerName;
 
 public class LexerLoggerName extends LoggerName
 {

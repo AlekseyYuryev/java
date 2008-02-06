@@ -1,6 +1,6 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import org.safris.commons.util.PackageLoader;
+import org.safris.commons.lang.PackageLoader;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -17,17 +17,17 @@ import org.xml.sax.InputSource;
 public abstract class Bindings
 {
 	private static boolean indent = false;
-	
+
 	protected static boolean getIndent()
 	{
 		return indent;
 	}
-	
+
 	public static void bootstrapConfig(BindingConfig config)
 	{
 		Bindings.indent = config.getIndent();
 	}
-	
+
 	static void bootstrapSchemaPackage(String schemaPackage, java.lang.ClassLoader classLoader)
 	{
 		try
@@ -39,7 +39,7 @@ public abstract class Bindings
 			throw new Error(e);
 		}
 	}
-	
+
 	/**
 	 * Converts a DOM document to a XML string.
 	 * It handles all children recursively.
@@ -55,12 +55,12 @@ public abstract class Bindings
 		domToString(buffer, element, 0);
 		return buffer.toString();
 	}
-	
+
 	private static void domToString(StringBuffer stringBuffer, Node node, int depth)
 	{
 		if(node == null)
 			return;
-		
+
 		final int type = node.getNodeType();
 		final String nodeName = node.getNodeName();
 		final String nodeValue = node.getNodeValue();
@@ -74,7 +74,7 @@ public abstract class Bindings
 					stringBuffer.append("\t");
 				}
 			}
-			
+
 			stringBuffer.append("<");
 			stringBuffer.append(nodeName);
 			attributesToString(stringBuffer, node, depth + 1);
@@ -86,7 +86,7 @@ public abstract class Bindings
 				{
 					domToString(stringBuffer, nodeList.item(i), depth + 1);
 				}
-				
+
 				if(Bindings.getIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
 				{
 					stringBuffer.append("\n");
@@ -111,7 +111,7 @@ public abstract class Bindings
 			entityConvert(stringBuffer, nodeValue);
 		}
 	}
-	
+
 	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth)
 	{
 		final NamedNodeMap namedNodeMap;
@@ -133,7 +133,7 @@ public abstract class Bindings
 				{
 					stringBuffer.append(" ");
 				}
-				
+
 				nodeName = node.getNodeName();
 				stringBuffer.append(nodeName);
 				stringBuffer.append("=\"");
@@ -142,7 +142,7 @@ public abstract class Bindings
 			}
 		}
 	}
-	
+
 	/**
 	 * Convert the invalid XML characters in a string to
 	 * character entities.
@@ -154,7 +154,7 @@ public abstract class Bindings
 	{
 		if(entity == null)
 			return;
-		
+
 		entity = entity.trim();
 		for(int i = 0; i < entity.length(); i++)
 		{
@@ -175,20 +175,20 @@ public abstract class Bindings
 			}
 		}
 	}
-	
+
 	public static Element marshal(Binding binding) throws MarshalException, ValidationException
 	{
 		if(binding.inherits() == null)
 			throw new MarshalException("Binding must inherit from an instantiable element or attribute to be marshaled!");
-		
+
 		return binding.marshal();
 	}
-	
+
 	public static Binding parse(Element element) throws ParseException, ValidationException
 	{
 		return Binding.parseElement((Element)element.cloneNode(true), null, null);
 	}
-	
+
 	public static <T extends Binding>T parse(InputSource inputSource) throws ParseException, ValidationException
 	{
 		final Element element;
@@ -200,10 +200,10 @@ public abstract class Bindings
 		{
 			throw new ParseException(e);
 		}
-		
+
 		if(Validator.getSystemValidator() != null)
 			Validator.getSystemValidator().validateParse(element);
-		
+
 		return (T)Binding.parseElement(element, null, null);
 	}
 }

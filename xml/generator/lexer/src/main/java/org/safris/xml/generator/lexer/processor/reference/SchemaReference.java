@@ -9,10 +9,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.URLs;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.NamespaceURI;
-import org.safris.commons.util.xml.Prefix;
+import org.safris.commons.logging.Logger;
+import org.safris.commons.net.URLs;
+import org.safris.commons.xml.NamespaceURI;
+import org.safris.commons.xml.Prefix;
+import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.reference.SchemaNamespaceHandler;
 import org.safris.xml.generator.processor.BindingQName;
 import org.safris.xml.generator.processor.ElementModule;
@@ -23,6 +25,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 public class SchemaReference implements ElementModule<SchemaReference>
 {
+	private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
 	private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
 	private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
 
@@ -137,7 +140,7 @@ public class SchemaReference implements ElementModule<SchemaReference>
 			}
 			catch(IOException e)
 			{
-				throw new ExitSevereError(e);
+				throw new LexerError(e);
 			}
 
 			try
@@ -149,24 +152,24 @@ public class SchemaReference implements ElementModule<SchemaReference>
 			}
 			catch(FileNotFoundException e)
 			{
-				throw new ExitSevereError(e.getMessage());
+				throw new LexerError(e.getMessage());
 			}
 			catch(IOException e)
 			{
-				throw new ExitSevereError(e);
+				throw new LexerError(e);
 			}
 			catch(SAXException e)
 			{
 				final String code = location.hashCode() + "\"";
 				if(e.getMessage() == null)
-					throw new ExitSevereError(location.toString(), e);
+					throw new LexerError(location.toString(), e);
 
 				if(e.getMessage().indexOf(code) != 0)
-					throw new ExitSevereError(location.toString(), e);
+					throw new LexerError(location.toString(), e);
 
 				final int delimiter = e.getMessage().lastIndexOf("\"");
 				if(delimiter == -1)
-					throw new ExitSevereError(location.toString(), e);
+					throw new LexerError(location.toString(), e);
 
 				final String namespace = e.getMessage().substring(code.length(), delimiter);
 				final String prefix = e.getMessage().substring(delimiter + 1);
@@ -174,7 +177,9 @@ public class SchemaReference implements ElementModule<SchemaReference>
 				if(namespaceURI == null)
 					namespaceURI = NamespaceURI.getInstance(namespace);
 				else if(!namespaceURI.toString().equals(namespace))
-					throw new ExitSevereError("This should never happen!!");
+				{
+					throw new LexerError("This should never happen!!");
+				}
 
 				this.prefix = Prefix.getInstance(prefix);
 				BindingQName.linkPrefixNamespace(namespaceURI, this.prefix);
@@ -203,12 +208,12 @@ public class SchemaReference implements ElementModule<SchemaReference>
 				}
 				catch(FileNotFoundException e)
 				{
-					throw new ExitSevereError(e.getMessage());
+					throw new LexerError(e.getMessage());
 				}
 				catch(IOException e)
 				{
 					if("Connection refused".equals(e.getMessage()) && tryCount == 10)
-						throw new ExitSevereError("Connection refused: " + location);
+						throw new LexerError("Connection refused: " + location);
 					else
 						throw e;
 				}

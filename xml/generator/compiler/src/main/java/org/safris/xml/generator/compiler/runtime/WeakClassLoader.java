@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.SecureClassLoader;
-import org.safris.commons.util.Files;
+import org.safris.commons.io.Files;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.WeakClassLoader;
 

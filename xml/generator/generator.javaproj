@@ -814,10 +814,6 @@
       <incPathSpec>compiler/src/test/java/org/safris/xml/generator/compiler/runtime/lang/DateTimeTest.java</incPathSpec>
     </javaFile2>
     <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>compiler/src/test/java/org/safris/xml/generator/compiler/util/NamespaceBindingTest.java</incPathSpec>
-    </javaFile2>
-    <javaFile2>
       <buildAction>NONE</buildAction>
       <incPathSpec>lexer/pom-template.xml</incPathSpec>
     </javaFile2>

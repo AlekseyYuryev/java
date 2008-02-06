@@ -2,8 +2,7 @@ package org.safris.xml.ant.binding;
 
 import junit.framework.TestCase;
 import org.junit.Test;
-import org.safris.commons.util.Processes;
-import org.safris.xml.ant.binding.GeneratorTask;
+import org.safris.commons.exec.Processes;
 
 public class ExternalTest extends TestCase
 {

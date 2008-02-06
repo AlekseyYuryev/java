@@ -1,4 +1,6 @@
-package org.safris.commons.util;import java.util.ArrayList;
+package org.safris.commons.util;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class HashTree<T>

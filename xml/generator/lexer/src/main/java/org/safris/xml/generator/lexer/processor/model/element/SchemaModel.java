@@ -2,9 +2,9 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.io.File;
 import java.net.URL;
-import org.safris.commons.util.Files;
-import org.safris.commons.util.URLs;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.io.Files;
+import org.safris.commons.net.URLs;
+import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.schema.attribute.BlockDefault;
 import org.safris.xml.generator.lexer.schema.attribute.FinalDefault;

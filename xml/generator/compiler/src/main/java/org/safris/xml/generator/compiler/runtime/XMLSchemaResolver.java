@@ -10,8 +10,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.util.NamespaceBinding;
-import org.safris.commons.util.URLs;
+import org.safris.commons.net.URLs;
+import org.safris.commons.xml.NamespaceBinding;
 import org.safris.xml.generator.compiler.runtime.BindingError;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 

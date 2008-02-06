@@ -3,7 +3,7 @@ package org.safris.xml.generator.lexer.processor.reference;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import org.safris.commons.util.logging.Logger;
+import org.safris.commons.logging.Logger;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.processor.ElementModule;

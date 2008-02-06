@@ -15,4 +15,11 @@
 	<description>
 		Commons IO is a library of utilities to assist with developing IO functionality.
 	</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>lang</artifactId>
+			<version>${commonsVersion}</version>
+		</dependency>
+	</dependencies>
 </project>

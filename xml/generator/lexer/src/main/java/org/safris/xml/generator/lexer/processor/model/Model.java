@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.logging.Logger;
-import org.safris.commons.util.xml.NamespaceURI;
+import org.safris.commons.logging.Logger;
+import org.safris.commons.xml.NamespaceURI;
+import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.processor.BindingQName;
@@ -135,7 +135,7 @@ public abstract class Model implements ElementModule<Model>
 			if(handler instanceof SchemaModel)
 				return targetNamespace = handler.getTargetNamespace();
 
-		throw new ExitSevereError("should have found a schema! what's going on?");
+		throw new LexerError("should have found a schema! what's going on?");
 	}
 
 	public final QName parseQNameValue(String nodeValue, Node parent)
@@ -158,7 +158,7 @@ public abstract class Model implements ElementModule<Model>
 			while(parent != null);
 
 			if(xs == null)
-				throw new ExitSevereError("Namespace problem");
+				throw new LexerError("Namespace problem");
 
 			return new QName(xs.getNodeValue(), nodeValue);
 		}

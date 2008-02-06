@@ -1,7 +1,7 @@
 package org.safris.xml.generator.processor;
 
 import java.lang.reflect.InvocationTargetException;
-import org.safris.commons.util.logging.Logger;
+import org.safris.commons.logging.Logger;
 
 public abstract class GeneratorError extends Error
 {

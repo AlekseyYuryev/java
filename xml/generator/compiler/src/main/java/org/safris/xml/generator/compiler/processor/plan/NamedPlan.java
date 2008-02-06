@@ -1,7 +1,7 @@
 package org.safris.xml.generator.compiler.processor.plan;
 
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.Prefix;
+import org.safris.commons.xml.Prefix;
+import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.AnyablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -19,7 +19,7 @@ public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements
 		{
 			final Prefix prefix = model.getName().getPrefix();
 			if(prefix == null)
-				throw new ExitSevereError("[ERROR] No prefix exists for namespace {" + model.getName().getNamespaceURI() + "}. Is the binding for this namespace defined in the bindings configuration?");
+				throw new CompilerError("[ERROR] No prefix exists for namespace {" + model.getName().getNamespaceURI() + "}. Is the binding for this namespace defined in the bindings configuration?");
 
 			name = BindingQName.getInstance(model.getName().getNamespaceURI(), model.getName().getLocalPart(), prefix.toStringLowerCase());
 		}

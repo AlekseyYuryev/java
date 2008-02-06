@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilder;
-import org.safris.commons.util.Files;
-import org.safris.commons.util.URLs;
-import org.safris.commons.util.logging.ExitSevereError;
-import org.safris.commons.util.xml.DOMParsers;
+import org.safris.commons.io.Files;
+import org.safris.commons.net.URLs;
+import org.safris.commons.xml.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.PlanDirectory;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.processor.write.WriterDirectory;
+import org.safris.xml.generator.compiler.runtime.BindingError;
 import org.safris.xml.generator.lexer.document.SchemaDocumentDirectory;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaCompositeDirectory;
@@ -174,7 +174,7 @@ public class Generator extends AbstractGenerator
 				NamedNodeMap attributes = child.getAttributes();
 				Node hrefNode = null;
 				if(attributes == null || (hrefNode = attributes.getNamedItemNS("http://www.w3.org/1999/xlink", "href")) == null || hrefNode.getNodeValue().length() == 0)
-					throw new ExitSevereError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+					throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
 
 				String href = resolver.resolve(hrefNode.getNodeValue());
 				try
@@ -190,13 +190,13 @@ public class Generator extends AbstractGenerator
 				}
 			}
 			else if(child.getNodeType() == Node.ELEMENT_NODE)
-				throw new ExitSevereError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+				throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
 		}
 
 		if(hrefURL != null)
 		{
 			if(generatorContext.getDestDir() != null || schemas.size() != 0)
-				throw new ExitSevereError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+				throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
 
 			long modified = 0;
 			final Document document;
