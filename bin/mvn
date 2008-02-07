@@ -1,40 +1,59 @@
 #!/bin/sh
 #
 
+# Define default values
+DEFAULT_POM_TEMPLATE="pom-template.xml"
+DEFAULT_POM_TEMPLATE_PROPERTIES="pom-template.properties"
+
+#DEBUG="true"
 FP_POM_TEMPLATE_PROPERTIES=""
 FP_CACHE=""
 findProperties() {
+	[ "$DEBUG" ] && echo "\t1\tfindProperties()"
 	FP_POM_TEMPLATE_PROPERTIES_NAME="pom-template.properties"
 	DOT_DOT="../"
-	if [ ! $FP_CACHE ]; then
+	if [ ! "$FP_CACHE" ]; then
+		[ "$DEBUG" ] && echo "\t2\tfindProperties()"
 		FP_POM_TEMPLATE_PROPERTIES="$FP_POM_TEMPLATE_PROPERTIES_NAME"
-#		FP_POM_TEMPLATE="pom-template.xml"
 		FP_CWD=$DOT_DOT
 		FP_LAST_CWD=""
 		FP_IS_NOT_ROOT="false"
 		while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ "$FP_IS_NOT_ROOT" != "" ]; do
-#		[ -f $FP_POM_TEMPLATE ]
+			[ "$DEBUG" ] && echo "\t3\tfindProperties()"
 			FP_POM_TEMPLATE_PROPERTIES="${DOT_DOT}${FP_POM_TEMPLATE_PROPERTIES}"
-#			FP_POM_TEMPLATE="${DOT_DOT}${FP_POM_TEMPLATE}"
 			FP_LAST_CWD=$FP_CWD
 			FP_CWD="${DOT_DOT}${FP_CWD}"
+			# FIXME: This is not the best way to determine if we are at the root.
 			FP_IS_NOT_ROOT="`diff $FP_LAST_CWD $FP_CWD`"
 		done
 		FP_CACHE=true
 	fi
 }
 
+# FIXME: This implementation of newer_than() does not use absolute paths to
+# FIXME: distinguish between the two files being tested.
+newer_than() {
+	FILE_1=$1
+	FILE_2=$2
+	FILE_1_NAME="`basename $FILE_1`"
+	NEWER_THAN="`ls -xt $FILE_1 $FILE_2 | awk '{print $1}' | xargs basename`"
+#	[ "$DEBUG" ] && echo "newer_than($1, $2): $NEWER_THAN"
+	[ "$NEWER_THAN" = "$FILE_1_NAME" ] && return 1 || return 0;
+}
+
 updatePOM() {
 	UP_POM_TEMPLATE="$1"
 	UP_PARENT_POM_TEMPLATE="$2"
+	[ "$DEBUG" ] && echo "\t1\tupdatePOM($UP_POM_TEMPLATE, $UP_PARENT_POM_TEMPLATE)"
 	UP_PARENT_POM_TEMPLATE="`echo $UP_PARENT_POM_TEMPLATE | sed 's/\([\.]\{1,2\}\/\)*//g'`"
 	UP_PARENT_POM="`echo $UP_PARENT_POM_TEMPLATE | sed s'/-template//'`"
 	UP_POM="`echo $UP_POM_TEMPLATE | sed 's/-template//'`"
 
 	findProperties;
-	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ $FP_POM_TEMPLATE_PROPERTIES -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
-		PROPERTIES="`awk -F\. '{ print NF " " $0 } ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v ^$`"
-		UPDATE_CMD="`echo "$PROPERTIES" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+	if [ ! -f "$UP_POM" ] || [ "`newer_than $UP_POM_TEMPLATE $UP_POM; echo $?`" = "1" ] || [ "`newer_than $FP_POM_TEMPLATE_PROPERTIES $UP_POM; echo $?`" = "1" ]; then
+		[ "$DEBUG" ] && echo "\t2\tupdatePOM($UP_POM_TEMPLATE, $UP_PARENT_POM_TEMPLATE)"
+		PROPERTIES=`awk -F\. '{print NF " " $0} ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v '^$'`
+		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
 		echo $UPDATE_CMD | xargs sed > $UP_POM
 		echo "Updated: $UP_POM"
 	fi
@@ -42,7 +61,7 @@ updatePOM() {
 
 updateParentPOMs() {
 	UPP_POM_TEMPLATE="$1"
-	UPP_PARENT_POM_TEMPLATE="pom-template.xml"
+	UPP_PARENT_POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
 	while [ -f $UPP_POM_TEMPLATE ]; do
 		UPP_PARENT_POM_TEMPLATE="../$UPP_PARENT_POM_TEMPLATE"
 		if [ "`cat $UPP_POM_TEMPLATE | grep relativePath`" ]; then
@@ -80,7 +99,7 @@ updateChildPOMs() {
 		done
 
 		# Overwrite the UCP_FILE_NAME to the default pom-template.xml
-		UCP_FILE_NAME="/pom-template.xml"
+		UCP_FILE_NAME="/$DEFAULT_POM_TEMPLATE"
 
 		# Append the UCP_INNER_MODULES list to UCP_ALL_MODULES
 		UCP_ALL_MODULES="$UCP_ALL_MODULES $UCP_INNER_MODULES"
@@ -99,13 +118,13 @@ updateChildPOMs() {
 	# Iterate through the UCP_ALL_MODULES list
 	for UCP_POM_TEMPLATE in $UCP_ALL_MODULES; do
 		# Call updatePOM with the default pom-template.xml as the parent pom
-		updatePOM $UCP_POM_TEMPLATE/pom-template.xml pom-template.xml
+		updatePOM $UCP_POM_TEMPLATE/$DEFAULT_POM_TEMPLATE $DEFAULT_POM_TEMPLATE
 	done
 }
 
 # Parse the arguments
 ARGS=""
-POM_TEMPLATE="pom-template.xml"
+POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
 while [ $# != 0 ]; do
 	flag="$1"
 	case "$flag" in
