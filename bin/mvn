@@ -33,8 +33,8 @@ updatePOM() {
 
 	findProperties;
 	if [ ! -f $UP_POM ] || [ $UP_POM_TEMPLATE -nt $UP_POM ] || [ $FP_POM_TEMPLATE_PROPERTIES -nt $UP_POM ] || [ `which mvn` -nt $UP_POM ]; then
-		PROPERTIES="`awk -F\. '{ print NF " " $0 } ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}'`"
-		UPDATE_CMD="`echo "$PROPERTIES" | grep -v ^$ | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+		PROPERTIES="`awk -F\. '{ print NF " " $0 } ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v ^$`"
+		UPDATE_CMD="`echo "$PROPERTIES" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/^/-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
 		echo $UPDATE_CMD | xargs sed > $UP_POM
 		echo "Updated: $UP_POM"
 	fi

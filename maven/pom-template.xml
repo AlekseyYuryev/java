@@ -9,25 +9,14 @@
 		<version>${org.safris}</version>
 	</parent>
 	<groupId>org.safris</groupId>
-	<artifactId>commons</artifactId>
-	<version>${org.safris.commons}</version>
+	<artifactId>maven</artifactId>
+	<version>${org.safris.maven}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		Commons source.
+		Maven artifacts.
 	</description>
 	<modules>
-		<module>logging</module>
-		<module>formatter</module>
-		<module>lang</module>
-		<module>el</module>
-		<module>cli</module>
-		<module>bytecode</module>
-		<module>xml</module>
-		<module>util</module>
-		<module>io</module>
-		<module>net</module>
-		<module>exec</module>
-		<module>jci</module>
+		<module>plugin</module>
 	</modules>
 </project>
