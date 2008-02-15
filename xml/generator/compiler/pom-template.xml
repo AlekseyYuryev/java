@@ -26,6 +26,12 @@
 			<version>${dev:org.safris.xml.generator.lexer}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>util</artifactId>
+			<version>${dev:org.safris.commons.util}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
 		</dependency>
