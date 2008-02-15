@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${org.safris.commons}</version>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>io</artifactId>
-	<version>${org.safris.commons.io}</version>
+	<version>${dev:org.safris.commons.io}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Commons IO is a library of utilities to assist with developing IO functionality.
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>lang</artifactId>
-			<version>${org.safris.commons.lang}</version>
+			<version>${dev:org.safris.commons.lang}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>util</artifactId>
-			<version>${org.safris.commons.util}</version>
+			<version>${dev:org.safris.commons.util}</version>
 		</dependency>
 	</dependencies>
 </project>

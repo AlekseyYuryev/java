@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>tutorial</artifactId>
-		<version>${org.safris.xml.tutorial}</version>
+		<version>${dev:org.safris.xml.tutorial}</version>
 	</parent>
 	<groupId>org.safris.xml.tutorial</groupId>
 	<artifactId>binding</artifactId>
-	<version>${org.safris.xml.tutorial.binding}</version>
+	<version>${dev:org.safris.xml.tutorial.binding}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>TODO</description>
 	<build>
@@ -30,7 +30,7 @@
 			<plugin>
 				<groupId>org.safris.xml.maven</groupId>
 				<artifactId>binding</artifactId>
-				<version>${org.safris.xml.maven.binding}</version>
+				<version>${dev:org.safris.xml.maven.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
-			<version>${org.safris.xml.generator.compiler}</version>
+			<version>${dev:org.safris.xml.generator.compiler}</version>
 		</dependency>
 	</dependencies>
 </project>

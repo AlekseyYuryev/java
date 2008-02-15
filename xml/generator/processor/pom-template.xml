@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>generator</artifactId>
-		<version>${org.safris.xml.generator}</version>
+		<version>${dev:org.safris.xml.generator}</version>
 	</parent>
 	<groupId>org.safris.xml.generator</groupId>
 	<artifactId>processor</artifactId>
-	<version>${org.safris.xml.generator.processor}</version>
+	<version>${dev:org.safris.xml.generator.processor}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The abstract module of the XML Toolkit framework. This is the abstract definition of what a module is.
@@ -18,12 +18,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>logging</artifactId>
-			<version>${org.safris.commons.logging}</version>
+			<version>${dev:org.safris.commons.logging}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>xml</artifactId>
-			<version>${org.safris.commons.xml}</version>
+			<version>${dev:org.safris.commons.xml}</version>
 		</dependency>
 	</dependencies>
 </project>

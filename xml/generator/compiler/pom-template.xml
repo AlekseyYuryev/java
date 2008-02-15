@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.safris.xml</groupId>
 		<artifactId>generator</artifactId>
-		<version>${org.safris.xml.generator}</version>
+		<version>${dev:org.safris.xml.generator}</version>
 	</parent>
 	<groupId>org.safris.xml.generator</groupId>
 	<artifactId>compiler</artifactId>
-	<version>${org.safris.xml.generator.compiler}</version>
+	<version>${dev:org.safris.xml.generator.compiler}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The compiler module that performs the planning and writing mechanism of the Binding appilcation.
@@ -18,12 +18,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>formatter</artifactId>
-			<version>${org.safris.commons.formatter}</version>
+			<version>${dev:org.safris.commons.formatter}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>lexer</artifactId>
-			<version>${org.safris.xml.generator.lexer}</version>
+			<version>${dev:org.safris.xml.generator.lexer}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>

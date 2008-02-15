@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${org.safris.commons}</version>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>util</artifactId>
-	<version>${org.safris.commons.util}</version>
+	<version>${dev:org.safris.commons.util}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		A utilities component that contains random utilities that are used by numerous modules.

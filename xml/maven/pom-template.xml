@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>xml</artifactId>
-		<version>${org.safris.xml}</version>
+		<version>${dev:org.safris.xml}</version>
 	</parent>
 	<groupId>org.safris.xml</groupId>
 	<artifactId>maven</artifactId>
-	<version>${org.safris.xml.maven}</version>
+	<version>${dev:org.safris.xml.maven}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
 	<description>
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>org.safris.xml.toolkit</groupId>
 			<artifactId>binding</artifactId>
-			<version>${org.safris.xml.toolkit.binding}</version>
+			<version>${dev:org.safris.xml.toolkit.binding}</version>
 		</dependency>
 	</dependencies>
 </project>

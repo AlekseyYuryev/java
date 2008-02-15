@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${org.safris.commons}</version>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>logging</artifactId>
-	<version>${org.safris.commons.logging}</version>
+	<version>${dev:org.safris.commons.logging}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Wrapper around several logging APIs.

@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${org.safris.commons}</version>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>formatter</artifactId>
-	<version>${org.safris.commons.formatter}</version>
+	<version>${dev:org.safris.commons.formatter}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		A source formatting component that formats generated source-code.

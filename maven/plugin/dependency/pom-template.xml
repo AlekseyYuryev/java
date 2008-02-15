@@ -6,12 +6,13 @@
 	<parent>
 		<groupId>org.safris.maven</groupId>
 		<artifactId>plugin</artifactId>
-		<version>${org.safris.maven.plugin}</version>
+		<version>${dev:org.safris.maven.plugin}</version>
 	</parent>
 	<groupId>org.safris.maven.plugin</groupId>
 	<artifactId>dependency</artifactId>
-	<version>${org.safris.maven.plugin.dependency}</version>
+	<version>${dev:org.safris.maven.plugin.dependency}</version>
 	<name>${groupId}.${artifactId}</name>
+	<packaging>maven-plugin</packaging>
 	<description>
 		Provides the capability to introspect on dependencies of artifacts.
 	</description>

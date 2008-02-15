@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.safris</groupId>
 	<artifactId>web</artifactId>
-	<version>${org.safris.web}</version>
+	<version>${dev:org.safris.web}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
 	<description>

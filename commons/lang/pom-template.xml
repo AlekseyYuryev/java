@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>${org.safris.commons}</version>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>lang</artifactId>
-	<version>${org.safris.commons.lang}</version>
+	<version>${dev:org.safris.commons.lang}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Provides extra functionality for classes in the java.lang package.
