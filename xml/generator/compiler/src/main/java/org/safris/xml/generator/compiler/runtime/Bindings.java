@@ -189,7 +189,7 @@ public abstract class Bindings
 		return Binding.parseElement((Element)element.cloneNode(true), null, null);
 	}
 
-	public static <T extends Binding>T parse(InputSource inputSource) throws ParseException, ValidationException
+	public static Binding parse(InputSource inputSource) throws ParseException, ValidationException
 	{
 		final Element element;
 		try
@@ -204,6 +204,6 @@ public abstract class Bindings
 		if(Validator.getSystemValidator() != null)
 			Validator.getSystemValidator().validateParse(element);
 
-		return (T)Binding.parseElement(element, null, null);
+		return Binding.parseElement(element, null, null);
 	}
 }
