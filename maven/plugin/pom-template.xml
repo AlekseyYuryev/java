@@ -18,6 +18,6 @@
 	</description>
 	<modules>
 		<module>dependency</module>
-		<module>codeguide</module>
+<!--		<module>codeguide</module>-->
 	</modules>
 </project>

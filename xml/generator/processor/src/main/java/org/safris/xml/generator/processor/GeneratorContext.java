@@ -5,53 +5,43 @@ import java.io.IOException;
 
 public final class GeneratorContext
 {
-	private File destDir;
-	private boolean explodeJars;
-	private boolean overwrite;
-	
-	public GeneratorContext(File destDir, boolean explodeJars, boolean overwrite)
+	private final long manifestLastModified;
+	private final File destDir;
+	private final boolean explodeJars;
+	private final boolean overwrite;
+
+	public GeneratorContext(long manifestLastModified, File destDir, boolean explodeJars, boolean overwrite)
 	{
-		this.destDir = destDir;
-		this.explodeJars = explodeJars;
-		this.overwrite = overwrite;
-	}
-	
-	public GeneratorContext()
-	{
-	}
-	
-	public void setDestDir(File destDir)
-	{
+		this.manifestLastModified = manifestLastModified;
+		File tempDestDir;
 		try
 		{
-			this.destDir = destDir.getCanonicalFile();
+			tempDestDir = destDir.getCanonicalFile();
 		}
 		catch(IOException e)
 		{
-			this.destDir = destDir;
+			tempDestDir = destDir;
 		}
+		this.destDir = tempDestDir;
+		this.explodeJars = explodeJars;
+		this.overwrite = overwrite;
 	}
-	
+
+	public long getManifestLastModified()
+	{
+		return manifestLastModified;
+	}
+
 	public File getDestDir()
 	{
 		return destDir;
 	}
-	
-	public void setExplodeJars(boolean explodeJars)
-	{
-		this.explodeJars = explodeJars;
-	}
-	
+
 	public boolean getExplodeJars()
 	{
 		return explodeJars;
 	}
-	
-	public void setOverwrite(boolean overwrite)
-	{
-		this.overwrite = overwrite;
-	}
-	
+
 	public boolean getOverwrite()
 	{
 		return overwrite;

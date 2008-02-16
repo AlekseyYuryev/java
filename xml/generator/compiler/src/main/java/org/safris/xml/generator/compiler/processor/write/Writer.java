@@ -56,8 +56,6 @@ public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 			out.write(text.getBytes());
 			out.flush();
 			out.close();
-			// used for the process that determines if the generated code is up-to-date
-			directory.setLastModified(System.currentTimeMillis() - 60000);
 		}
 		catch(Exception e)
 		{

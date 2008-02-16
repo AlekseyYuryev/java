@@ -86,14 +86,14 @@
       <projectGuid>{A08A785D-E8B8-4119-8711-AA894D08AB35}</projectGuid>
     </projectReference>
     <projectReference>
-      <name>util</name>
-      <packageGuid>{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}</packageGuid>
-      <projectGuid>{781F604D-E0B8-4F34-B6B6-9AA9F13B87FA}</projectGuid>
-    </projectReference>
-    <projectReference>
       <name>generator</name>
       <packageGuid>{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}</packageGuid>
       <projectGuid>{4BEA63CE-004A-45ED-8229-F89550BF3899}</projectGuid>
+    </projectReference>
+    <projectReference>
+      <name>commons</name>
+      <packageGuid>{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}</packageGuid>
+      <projectGuid>{A0BA1CAA-35E4-49E0-844A-B54FE4A0814D}</projectGuid>
     </projectReference>
   </projectReferences>
   <references>

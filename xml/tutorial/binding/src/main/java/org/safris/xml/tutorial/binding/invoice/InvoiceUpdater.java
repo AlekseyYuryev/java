@@ -18,7 +18,7 @@ public class InvoiceUpdater
 
 	private static String addItem(File invoiceFile, PvInvoice.PvBilledItems.PvItem item) throws Exception
 	{
-		PvInvoice invoice = Bindings.<PvInvoice>parse(new InputSource(new FileInputStream(invoiceFile)));
+		PvInvoice invoice = (PvInvoice)Bindings.parse(new InputSource(new FileInputStream(invoiceFile)));
 		invoice.getPvBilledItems().addPvItem(item);
 		return invoice.toString();
 	}

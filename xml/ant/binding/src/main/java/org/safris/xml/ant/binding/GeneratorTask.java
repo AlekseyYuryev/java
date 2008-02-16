@@ -209,8 +209,7 @@ TOP:
 				throw new BuildException(e.getMessage(), e);
 			}
 
-			final GeneratorContext generatorContext = new GeneratorContext();
-			generator = new Generator(generatorContext, buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), resolver);
+			generator = new Generator(buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), resolver);
 		}
 		else
 		{
@@ -237,11 +236,7 @@ TOP:
 					schemaReferences.add(new SchemaReference(buildFile.getParent(), deref));
 			}
 
-			final GeneratorContext generatorContext = new GeneratorContext();
-			generatorContext.setDestDir(destDirFile);
-			generatorContext.setOverwrite(manifest.getDestdir().getOverwrite());
-			generatorContext.setExplodeJars(manifest.getDestdir().getExplodeJars());
-
+			final GeneratorContext generatorContext = new GeneratorContext(buildFile.lastModified(), destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());
 			generator = new Generator(generatorContext, schemaReferences);
 		}
 

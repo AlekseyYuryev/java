@@ -39,6 +39,7 @@ public final class Files
 		}
 	}
 
+	// FIXME: Implement this iteratively
 	private static void deleteAll(File pathname, FileFilter filter, boolean onExit) throws IOException
 	{
 		if(pathname == null)

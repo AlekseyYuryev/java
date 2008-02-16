@@ -1431,12 +1431,7 @@
     <projectReference>
       <name>commons</name>
       <packageGuid>{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}</packageGuid>
-      <projectGuid>{781F604D-E0B8-4F34-B6B6-9AA9F13B87F9}</projectGuid>
-    </projectReference>
-    <projectReference>
-      <name>util</name>
-      <packageGuid>{85B0C3CB-4F8C-465B-A944-62ABB0F7F898}</packageGuid>
-      <projectGuid>{781F604D-E0B8-4F34-B6B6-9AA9F13B87FA}</projectGuid>
+      <projectGuid>{A0BA1CAA-35E4-49E0-844A-B54FE4A0814D}</projectGuid>
     </projectReference>
   </projectReferences>
   <references/>

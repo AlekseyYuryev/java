@@ -2,7 +2,6 @@ package org.safris.xml.maven.binding;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,15 +14,14 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
-import org.safris.commons.io.Files;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.DOMParsers;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.toolkit.binding.Bundle;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
+import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.w3.x2001.xmlschema.IXSBoolean;
 import org.w3c.dom.Document;
 
@@ -49,19 +47,6 @@ public class GeneratorMojo extends AbstractMojo
 	{
 		System.err.println("Usage: GeneratorMojo <pom.xml>");
 		System.exit(1);
-	}
-
-	private static boolean upToDate(long lastModified, File destDir)
-	{
-		if(lastModified < destDir.lastModified())
-			return true;
-
-		return false;
-	}
-
-	private static void setLastModified(File destDir, long offset)
-	{
-		destDir.setLastModified(destDir.lastModified() + offset);
 	}
 
 	private static final FileFilter classesFilter = new FileFilter()
@@ -99,189 +84,149 @@ public class GeneratorMojo extends AbstractMojo
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
 		String href = null;
-		final GeneratorContext generatorContext = new GeneratorContext();
-		if(project != null)
-		{
-			final Build build = project.getBuild();
-			if(build != null && build.getPlugins() != null)
-			{
-				resolver = new MavenPropertyResolver(project);
-				for(Plugin plugin : (List<Plugin>)build.getPlugins())
-				{
-					if(!"binding".equals(plugin.getArtifactId()))
-						continue;
+		boolean explodeJars = false;
+		boolean overwrite = false;
+		if(project == null)
+			throw new MojoFailureException("project == null");
 
-					plugin.flushExecutionMap();
-					// FIXME: When this class is run from an IDE, the GeneratorMojo
-					// FIXME: cannot find the configuration instance.
-					final Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
-					for(int i = 0; i < configuration.getChildCount(); i++)
+		final Build build = project.getBuild();
+		if(build != null && build.getPlugins() != null)
+		{
+			resolver = new MavenPropertyResolver(project);
+			for(Plugin plugin : (List<Plugin>)build.getPlugins())
+			{
+				if(!"binding".equals(plugin.getArtifactId()))
+					continue;
+
+				plugin.flushExecutionMap();
+				// FIXME: When this class is run from an IDE, the GeneratorMojo
+				// FIXME: cannot find the configuration instance.
+				final Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
+				for(int i = 0; i < configuration.getChildCount(); i++)
+				{
+					final Xpp3Dom bindings = configuration.getChild(i);
+					if("manifest".equals(bindings.getName()))
 					{
-						final Xpp3Dom bindings = configuration.getChild(i);
-						if("manifest".equals(bindings.getName()))
+						for(int j = 0; j < bindings.getChildCount(); j++)
 						{
-							for(int j = 0; j < bindings.getChildCount(); j++)
+							final Xpp3Dom link = bindings.getChild(j);
+							if("link".equals(link.getName()))
 							{
-								final Xpp3Dom link = bindings.getChild(j);
-								if("link".equals(link.getName()))
+								String attributeName = null;
+								final String[] names = link.getAttributeNames();
+								for(String name : names)
 								{
-									String attributeName = null;
-									final String[] names = link.getAttributeNames();
-									for(String name : names)
+									if(name.endsWith("href"))
 									{
-										if(name.endsWith("href"))
-										{
-											attributeName = name;
-											break;
-										}
+										attributeName = name;
+										break;
 									}
-
-									if(attributeName == null)
-										throw new MojoFailureException("There is an error in your manifest xml. Please consult the manifest.xsd for proper usage.");
-
-									href = link.getAttribute(attributeName);
-									break;
 								}
-								else if("destdir".equals(link.getName()))
-								{
-									String explodeJarsName = null;
-									String overwriteName = null;
-									final String[] names = link.getAttributeNames();
-									for(String name : names)
-									{
-										if(name.endsWith("explodeJars"))
-											explodeJarsName = name;
-										else if(name.endsWith("overwrite"))
-											overwriteName = name;
-									}
 
-									if(explodeJarsName != null)
-										generatorContext.setExplodeJars(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
+								if(attributeName == null)
+									throw new MojoFailureException("There is an error in your manifest xml. Please consult the manifest.xsd for proper usage.");
 
-									if(overwriteName != null)
-										generatorContext.setOverwrite(IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName)));
-
-									break;
-								}
+								href = link.getAttribute(attributeName);
+								break;
 							}
+							else if("destdir".equals(link.getName()))
+							{
+								String explodeJarsName = null;
+								String overwriteName = null;
+								final String[] names = link.getAttributeNames();
+								for(String name : names)
+								{
+									if(name.endsWith("explodeJars"))
+										explodeJarsName = name;
+									else if(name.endsWith("overwrite"))
+										overwriteName = name;
+								}
 
-							break;
+								if(explodeJarsName != null)
+									explodeJars = IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName));
+
+								if(overwriteName != null)
+									overwrite = IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName));
+
+								break;
+							}
 						}
+
+						break;
 					}
-
-					final Object defaultExecution = plugin.getExecutionsAsMap().get("default");
-					if(defaultExecution == null || !(defaultExecution instanceof PluginExecution))
-						break;
-
-					final String phase = ((PluginExecution)defaultExecution).getPhase();
-					if(phase != null && !phase.contains("test"))
-						break;
-
-					if(mavenTestSkip == null || !mavenTestSkip)
-						break;
-
-					return;
 				}
+
+				final Object defaultExecution = plugin.getExecutionsAsMap().get("default");
+				if(defaultExecution == null || !(defaultExecution instanceof PluginExecution))
+					break;
+
+				final String phase = ((PluginExecution)defaultExecution).getPhase();
+				if(phase != null && !phase.contains("test"))
+					break;
+
+				if(mavenTestSkip == null || !mavenTestSkip)
+					break;
+
+				return;
 			}
 		}
 
-		try
+		if(href != null)
 		{
-			if(href != null)
-			{
-				File hrefFile = null;
-				if(href.startsWith(File.separator))
-					hrefFile = new File(href);
-				else if(basedir != null)
-					hrefFile = new File(basedir, href);
-				else
-					hrefFile = new File(href);
-
-				if(!hrefFile.exists())
-					throw new MojoFailureException("href=\"" + href + "\" does not exist.");
-				else if(!hrefFile.isFile())
-					throw new MojoFailureException("href=\"" + href + "\" is not a file.");
-
-				Document document = null;
-				try
-				{
-					final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
-					document = documentBuilder.parse(hrefFile);
-				}
-				catch(Exception e)
-				{
-					throw new MojoExecutionException(e.getMessage(), e);
-				}
-
-				final Generator generator = new Generator(generatorContext, new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
-				if(generatorContext.getOverwrite())
-				{
-					if(generator.getgeneratorContext().getDestDir().exists())
-						Files.deleteAll(generator.getgeneratorContext().getDestDir());
-				}
-				else if(upToDate(hrefFile.lastModified(), generator.getgeneratorContext().getDestDir()))
-				{
-					System.out.println("Generated sources up-to-date.");
-					return;
-				}
-
-				final long start = System.currentTimeMillis();
-				final Collection<Bundle> bundles = generator.generate();
-				addCompileSourceRoot(generator.getgeneratorContext().getDestDir().getAbsolutePath(), bundles);
-				final long end = System.currentTimeMillis();
-				setLastModified(generator.getgeneratorContext().getDestDir(), start - end);
-				return;
-			}
-
-			if(manifest == null || manifest.getDestdir() == null || manifest.getSchemas() == null)
-				return;
-
-			final String destDir = manifest.getDestdir();
-			final Collection<SchemaReference> generatorBindings = new ArrayList<SchemaReference>(7);
-
-			for(String schema : manifest.getSchemas())
-			{
-				if(URLs.isAbsolute(schema))
-					generatorBindings.add(new SchemaReference(schema));
-				else
-					generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema));
-			}
-
-			if(destDir == null || destDir.length() == 0)
-				throw new MojoFailureException("<destdir> is null or empty!");
-
-			if(generatorBindings.size() == 0)
-				return;
-
-			final File destDirFile = new File(destDir);
-			final Generator generator = new Generator(new GeneratorContext(destDirFile, generatorContext.getExplodeJars(), generatorContext.getOverwrite()), generatorBindings);
-			File pomXml = null;
-			if(basedir != null && basedir.length() != 0)
-				pomXml = new File(basedir, "pom.xml");
+			File hrefFile = null;
+			if(href.startsWith(File.separator))
+				hrefFile = new File(href);
+			else if(basedir != null)
+				hrefFile = new File(basedir, href);
 			else
-				pomXml = new File("pom.xml");
+				hrefFile = new File(href);
 
-			if(generatorContext.getOverwrite())
+			if(!hrefFile.exists())
+				throw new MojoFailureException("href=\"" + href + "\" does not exist.");
+			else if(!hrefFile.isFile())
+				throw new MojoFailureException("href=\"" + href + "\" is not a file.");
+
+			Document document = null;
+			try
 			{
-				if(generator.getgeneratorContext().getDestDir().exists())
-					Files.deleteAll(generator.getgeneratorContext().getDestDir());
+				final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
+				document = documentBuilder.parse(hrefFile);
 			}
-			else if(pomXml.exists() && !generatorContext.getOverwrite() && upToDate(pomXml.lastModified(), generator.getgeneratorContext().getDestDir()))
+			catch(Exception e)
 			{
-				System.out.println("Generated sources up-to-date.");
-				return;
+				throw new MojoExecutionException(e.getMessage(), e);
 			}
 
+			final Generator generator = new Generator(new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
 			final Collection<Bundle> bundles = generator.generate();
-			final long start = System.currentTimeMillis();
-			addCompileSourceRoot(generator.getgeneratorContext().getDestDir().getAbsolutePath(), bundles);
-			final long end = System.currentTimeMillis();
-			setLastModified(generator.getgeneratorContext().getDestDir(), start - end);
+			addCompileSourceRoot(generator.getGeneratorContext().getDestDir().getAbsolutePath(), bundles);
+			return;
 		}
-		catch(IOException e)
+
+		if(manifest == null || manifest.getDestdir() == null || manifest.getSchemas() == null)
+			return;
+
+		final String destDir = manifest.getDestdir();
+		final Collection<SchemaReference> generatorBindings = new ArrayList<SchemaReference>(7);
+
+		for(String schema : manifest.getSchemas())
 		{
-			throw new MojoExecutionException(e.getMessage(), e);
+			if(URLs.isAbsolute(schema))
+				generatorBindings.add(new SchemaReference(schema));
+			else
+				generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema));
 		}
+
+		if(destDir == null || destDir.length() == 0)
+			throw new MojoFailureException("<destdir> is null or empty!");
+
+		if(generatorBindings.size() == 0)
+			return;
+
+		final File destDirFile = new File(destDir);
+		final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), destDirFile, explodeJars, overwrite), generatorBindings);
+		final Collection<Bundle> bundles = generator.generate();
+		addCompileSourceRoot(generator.getGeneratorContext().getDestDir().getAbsolutePath(), bundles);
 	}
 
 	private void addCompileSourceRoot(String path, Collection<Bundle> bundles) throws MojoExecutionException

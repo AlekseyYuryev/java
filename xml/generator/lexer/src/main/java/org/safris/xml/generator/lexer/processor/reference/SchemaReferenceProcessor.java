@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.net.URLs;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.processor.ElementModule;
@@ -34,12 +35,10 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 				final Counter counter = new Counter();
 				counter.count = 0;
 
-				final ThreadGroup threadGroup = new ThreadGroup("SchemaLocation");
+				final ThreadGroup threadGroup = new ThreadGroup("SchemaReferenceProcess");
 				// download and cache the schemas into a temporary directory
-				for(Object object : schemas)
+				for(final SchemaReference schemaReference : schemas)
 				{
-					final SchemaReference schemaReference = (SchemaReference)object;
-//					if(schemaReference.getURL() == null
 					new Thread(threadGroup, schemaReference.getURL().toString())
 					{
 						public void run()
@@ -47,7 +46,7 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 							try
 							{
 								final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-								if(generatorContext.getOverwrite() || !directory.exists())
+								if(generatorContext.getOverwrite() || !directory.exists() || directory.lastModified() < generatorContext.getManifestLastModified())
 								{
 									selectedSchemas.add(schemaReference);
 								}
@@ -58,6 +57,7 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 										if(directory.lastModified() < file.lastModified() && schemaReference.getLastModified() < file.lastModified())
 											continue;
 
+										System.out.println("Added: [dir < file: " + (directory.lastModified() < file.lastModified()) + "] [schema < file: " + (schemaReference.getLastModified() < file.lastModified()) + "]");
 										selectedSchemas.add(schemaReference);
 										for(File deleteMe : directory.listFiles())
 											deleteMe.delete();
@@ -65,7 +65,7 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 										return;
 									}
 
-									System.err.println("No modification detected for " + schemaReference.getURL().toString() + " and its destination directory " + directory.getPath() + " has not been modified either. Skipping compilation!");
+									System.err.println("Bindings for " + URLs.getName(schemaReference.getURL()) +  " are up-to-date.");
 								}
 							}
 							catch(Exception e)
@@ -86,12 +86,6 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 
 				while(counter.count != schemas.size())
 					schemas.wait();
-			}
-
-			if(selectedSchemas.size() == 0)
-			{
-				logger.info("Determined that all bindings are up-to-date!");
-				System.exit(0);
 			}
 		}
 		catch(Exception e)

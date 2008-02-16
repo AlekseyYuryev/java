@@ -1,4 +1,4 @@
-package org.safris.xml.toolkit.binding;
+package org.safris.xml.toolkit.processor.bundle;
 
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.processor.ElementModule;
@@ -14,7 +14,7 @@ public class BundleDirectory implements ProcessorDirectory<SchemaComposite,Bundl
 		return processor;
 	}
 
-	public ModuleProcessor<SchemaComposite, Bundle> getProcessor()
+	public ModuleProcessor<SchemaComposite,Bundle> getProcessor()
 	{
 		return processor;
 	}

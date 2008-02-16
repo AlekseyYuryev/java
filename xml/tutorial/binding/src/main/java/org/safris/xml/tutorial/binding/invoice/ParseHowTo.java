@@ -23,7 +23,7 @@ public class ParseHowTo
 		bindingConfig.setIndent(true);
 		Bindings.bootstrapConfig(bindingConfig);
 
-		PvInvoice invoice = Bindings.<PvInvoice>parse(new InputSource(new FileInputStream(file)));
+		PvInvoice invoice = (PvInvoice)Bindings.parse(new InputSource(new FileInputStream(file)));
 
 		Integer number = invoice.getPvNumber().getTEXT();
 		System.out.print("This invoice # " + number + " ");

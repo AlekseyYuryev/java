@@ -5,6 +5,7 @@ import org.safris.commons.logging.LoggerName;
 public class LexerLoggerName extends LoggerName
 {
 	public static final LexerLoggerName COMPOSITE = new LexerLoggerName("COMPOSITE");
+	public static final LexerLoggerName DECISION = new LexerLoggerName("DECISION");
 	public static final LexerLoggerName DOCUMENT = new LexerLoggerName("DOCUMENT");
 	public static final LexerLoggerName MODEL = new LexerLoggerName("MODEL");
 	public static final LexerLoggerName NORMALIZE = new LexerLoggerName("NORMALIZE");

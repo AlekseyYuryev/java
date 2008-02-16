@@ -1,4 +1,4 @@
-package org.safris.xml.toolkit.binding;
+package org.safris.xml.toolkit.processor.bundle;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -25,9 +25,8 @@ import org.safris.xml.generator.processor.ElementModule;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
-import org.safris.xml.toolkit.binding.Bundle;
 
-public final class BundleProcessor implements ElementModule<Bundle>, ModuleProcessor<SchemaComposite, Bundle>
+public final class BundleProcessor implements ElementModule<Bundle>, ModuleProcessor<SchemaComposite,Bundle>
 {
 	protected BundleProcessor()
 	{
@@ -57,7 +56,7 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 	{
 		final Map<String,Jar> packageToJar = new HashMap<String,Jar>();
 		final Map<NamespaceURI,SchemaModelComposite> namespaceToSchemaComposite = new HashMap<NamespaceURI,SchemaModelComposite>();
-		final Map<NamespaceURI,String> namespaceToFileName = new HashMap<NamespaceURI,String>();
+		final Collection<String> packagePaths = new ArrayList<String>();
 
 		for(SchemaComposite schemaComposite : schemaComposites)
 		{
@@ -70,11 +69,18 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 				continue;
 
 			namespaceToSchemaComposite.put(schemaModelComposite.getSchemaDocument().getSchemaReference().getNamespaceURI(), schemaModelComposite);
-			namespaceToFileName.put(schemaModelComposite.getSchemaDocument().getSchemaReference().getNamespaceURI(), schemaModelComposite.getSchemaModel().getTargetNamespaceSchemaLocationName());
+			packagePaths.add(schemaModelComposite.getSchemaDocument().getSchemaReference().getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
+		}
+
+		final Collection<File> files = new ArrayList<File>();
+		for(String packagePath : packagePaths)
+		{
+			final Collection<File> list = Files.listAll(new File(destDir, packagePath));
+			if(list != null)
+				files.addAll(list);
 		}
 
 		final Collection<File> jars = new HashSet<File>();
-		final Collection<File> files = Files.listAll(destDir);
 		for(File file : files)
 		{
 			if(file.isDirectory() || (!file.getName().endsWith(".java") && !file.getName().endsWith(".class")))
@@ -82,7 +88,7 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 
 			String pkgDir = Files.relativePath(destDir.getAbsoluteFile(), file.getAbsoluteFile());
 			pkgDir = pkgDir.substring(0, pkgDir.lastIndexOf(File.separator));
-			String pkg = pkgDir.replace(File.separatorChar, '.');
+			final String pkg = pkgDir.replace(File.separatorChar, '.');
 			Jar jar = packageToJar.get(pkg);
 			if(jar == null)
 			{
@@ -94,6 +100,7 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 					{
 						namespaceURI = entry.getKey();
 						schemaComposite = entry.getValue();
+						break;
 					}
 				}
 
@@ -102,13 +109,11 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 
 				URL url = schemaComposite.getSchemaDocument().getSchemaReference().getURL();
 
-				String fileName = namespaceToFileName.get(namespaceURI);
-				int dot = fileName.lastIndexOf('.');
-				String simpleName = fileName;
-				if(dot != -1)
-					simpleName = fileName.substring(0, dot);
+				final String simpleName = file.getParentFile().getName();
+				final String jarName = simpleName + ".jar";
+				String xsdName = simpleName + ".xsd";
 
-				final File jarFile = new File(destDir, simpleName + ".jar");
+				final File jarFile = new File(destDir, jarName);
 				if(jarFile.exists())
 					if(!jarFile.delete())
 						throw new BindingError("Unable to delete the existing jar: " + jarFile.getAbsolutePath());
@@ -121,25 +126,25 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 				// first we include the schema that was used to create the source
 				byte[] bytes = Streams.getBytes(url.openStream());
 
-				// Write the schema to disk
-//				Files.writeFile(new File(file.getParentFile(), fileName), bytes);
+				xsdName = pkgDir + File.separator + xsdName;
+				jar.addEntry(xsdName, bytes);
 
-				fileName = pkgDir + File.separator + fileName;
-				jar.addEntry(fileName, bytes);
+				// Write the schema to disk
+				Files.writeFile(new File(destDir, xsdName), bytes);
 
 				final Collection<URL> includes = schemaComposite.getSchemaDocument().getIncludes();
 				if(includes != null)
 				{
 					for(URL include : includes)
 					{
-						fileName = URLs.getName(include);
+						xsdName = URLs.getName(include);
 						bytes = Streams.getBytes(include.openStream());
 
-						// Write the schema to disk too
-//						Files.writeFile(new File(file.getParentFile(), fileName), bytes);
+						xsdName = pkgDir + File.separator + xsdName;
+						jar.addEntry(xsdName, bytes);
 
-						fileName = pkgDir + File.separator + fileName;
-						jar.addEntry(fileName, bytes);
+						// Write the schema to disk too
+						Files.writeFile(new File(destDir, xsdName), bytes);
 					}
 				}
 			}

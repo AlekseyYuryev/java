@@ -59,13 +59,10 @@ public class ModelProcessor implements ModuleProcessor<SchemaComposite,Model>
 				URL schemaReference = model.lookupSchemaLocation(targetNamespace);
 				if(schemaReference == null)
 					model.registerSchemaLocation(targetNamespace, schemaReference = url);
-
-				schema.setTargetNamespaceSchemaLocation(schemaReference);
 			}
 			else
 			{
 				model.registerSchemaLocation(targetNamespace, url);
-				schema.setTargetNamespaceSchemaLocation(url);
 			}
 
 			schema.setURL(url);

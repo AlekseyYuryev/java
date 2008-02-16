@@ -1,4 +1,4 @@
-package org.safris.xml.toolkit.binding;
+package org.safris.xml.toolkit.processor.bundle;
 
 import java.io.File;
 import org.safris.xml.generator.processor.ElementModule;

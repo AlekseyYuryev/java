@@ -1,5 +1,7 @@
 package org.safris.xml.generator.compiler.processor.plan;
 
+import java.io.File;
+import org.safris.commons.net.URLs;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.NamedPlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
@@ -55,7 +57,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 			documentation = Plan.<DocumentationPlan>analyze(getModel().getDocumentation(), this);
 
 		schemaReference = model.getSchema().getURL().toString();
-		xsdLocation = model.getSchema().getTargetNamespaceSchemaLocationName();
+		xsdLocation = URLs.getName(model.getSchema().getTargetNamespace().getPackageName().toString().replace('.', File.separatorChar) + ".xsd");
 	}
 
 	public final String getXsdLocation()

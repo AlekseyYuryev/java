@@ -23,7 +23,6 @@ public class SchemaModel extends Model
 	private NamespaceURI targetNamespace = null;
 	private String version = null;
 	private URL url = null;
-	private String targetNamespaceSchemaLocationName = null;
 
 	protected SchemaModel(Node node, Model parent)
 	{
@@ -48,16 +47,6 @@ public class SchemaModel extends Model
 			else if("version".equals(attribute.getLocalName()))
 				version = attribute.getNodeValue();
 		}
-	}
-
-	public final void setTargetNamespaceSchemaLocation(URL targetNamespaceSchemaLocation)
-	{
-		this.targetNamespaceSchemaLocationName = URLs.getName(targetNamespaceSchemaLocation);
-	}
-
-	public final String getTargetNamespaceSchemaLocationName()
-	{
-		return targetNamespaceSchemaLocationName;
 	}
 
 	public final void setURL(URL url)

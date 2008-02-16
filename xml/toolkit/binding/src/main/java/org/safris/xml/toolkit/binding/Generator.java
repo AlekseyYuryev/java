@@ -29,6 +29,9 @@ import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReferenceDirectory;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.Pipeline;
+import org.safris.xml.toolkit.processor.bundle.Bundle;
+import org.safris.xml.toolkit.processor.bundle.BundleDirectory;
+import org.safris.xml.toolkit.processor.timestamp.TimestampDirectory;
 import org.w3.x2001.xmlschema.IXSBoolean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,11 +78,12 @@ public class Generator extends AbstractGenerator
 		if(destDir == null)
 			destDir = Files.getCwd();
 
-		final GeneratorContext generatorContext = new GeneratorContext(destDir, explodeJars, overwrite);
+		final GeneratorContext generatorContext = new GeneratorContext(System.currentTimeMillis(), destDir, explodeJars, overwrite);
 		final Generator generator = new Generator(generatorContext, schemas);
 		generator.generate();
 	}
 
+	private static final String MANIFEST_ERROR = "There is an error in your binding xml. Please consult manifest.xsd for proper usage.";
 	private final GeneratorContext generatorContext;
 	private final Collection<SchemaReference> schemas;
 
@@ -89,14 +93,13 @@ public class Generator extends AbstractGenerator
 		this.schemas = schemas;
 	}
 
-	public Generator(GeneratorContext generatorContext, File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
+	public Generator(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
 	{
-		this.generatorContext = generatorContext;
 		this.schemas = new HashSet<SchemaReference>();
-		parseConfig(basedir, bindingsElement, lastModified, resolver);
+		this.generatorContext = parseConfig(basedir, bindingsElement, lastModified, resolver);
 	}
 
-	public GeneratorContext getgeneratorContext()
+	public GeneratorContext getGeneratorContext()
 	{
 		return generatorContext;
 	}
@@ -106,17 +109,21 @@ public class Generator extends AbstractGenerator
 		return schemas;
 	}
 
-	public void parseConfig(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
+	public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
 	{
 		if(!"manifest".equals(bindingsElement.getNodeName()))
 			throw new IllegalArgumentException("Invalid manifest element!");
 
+		File destDir = null;
+		boolean explodeJars = false;
+		boolean overwrite = false;
+
 		URL hrefURL = null;
-		NodeList list = bindingsElement.getChildNodes();
+		final NodeList list = bindingsElement.getChildNodes();
 		for(int i = 0; i < list.getLength(); i++)
 		{
 			String schemaReference = null;
-			Node child = list.item(i);
+			final Node child = list.item(i);
 			if("schemas".equals(child.getNodeName()))
 			{
 				NodeList schemaNodes = child.getChildNodes();
@@ -143,16 +150,16 @@ public class Generator extends AbstractGenerator
 					schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
 				}
 			}
-			else if(generatorContext.getDestDir() == null && "destdir".equals(child.getLocalName()))
+			else if(destDir == null && "destdir".equals(child.getLocalName()))
 			{
-				NodeList text = child.getChildNodes();
+				final NodeList text = child.getChildNodes();
 				for(int j = 0; j < text.getLength(); j++)
 				{
-					Node node = text.item(j);
+					final Node node = text.item(j);
 					if(node.getNodeType() != Node.TEXT_NODE)
 						continue;
 
-					generatorContext.setDestDir(new File(resolver.resolve(node.getNodeValue())));
+					destDir = new File(resolver.resolve(node.getNodeValue()));
 					final NamedNodeMap attributes = child.getAttributes();
 					if(attributes != null)
 					{
@@ -160,9 +167,9 @@ public class Generator extends AbstractGenerator
 						{
 							final Node attribute = attributes.item(k);
 							if("explodeJars".equals(attribute.getLocalName()))
-								generatorContext.setExplodeJars(IXSBoolean.parseBoolean(attribute.getNodeValue()));
+								explodeJars = IXSBoolean.parseBoolean(attribute.getNodeValue());
 							else if("overwrite".equals(attribute.getLocalName()))
-								generatorContext.setOverwrite(IXSBoolean.parseBoolean(attribute.getNodeValue()));
+								overwrite = IXSBoolean.parseBoolean(attribute.getNodeValue());
 						}
 					}
 
@@ -171,12 +178,12 @@ public class Generator extends AbstractGenerator
 			}
 			else if(hrefURL == null && "link".equals(child.getLocalName()))
 			{
-				NamedNodeMap attributes = child.getAttributes();
+				final NamedNodeMap attributes = child.getAttributes();
 				Node hrefNode = null;
 				if(attributes == null || (hrefNode = attributes.getNamedItemNS("http://www.w3.org/1999/xlink", "href")) == null || hrefNode.getNodeValue().length() == 0)
-					throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+					throw new BindingError(MANIFEST_ERROR);
 
-				String href = resolver.resolve(hrefNode.getNodeValue());
+				final String href = resolver.resolve(hrefNode.getNodeValue());
 				try
 				{
 					if(basedir != null)
@@ -190,13 +197,13 @@ public class Generator extends AbstractGenerator
 				}
 			}
 			else if(child.getNodeType() == Node.ELEMENT_NODE)
-				throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+				throw new BindingError(MANIFEST_ERROR);
 		}
 
 		if(hrefURL != null)
 		{
-			if(generatorContext.getDestDir() != null || schemas.size() != 0)
-				throw new BindingError("There is an error in your binding xml. Please consult manifest.xsd for proper usage.");
+			if(destDir != null || schemas.size() != 0)
+				throw new BindingError(MANIFEST_ERROR);
 
 			long modified = 0;
 			final Document document;
@@ -212,8 +219,10 @@ public class Generator extends AbstractGenerator
 				throw new CompilerError(e);
 			}
 
-			parseConfig(basedir, document.getDocumentElement(), modified, resolver);
+			return parseConfig(basedir, document.getDocumentElement(), modified, resolver);
 		}
+
+		return new GeneratorContext(lastModified, destDir, explodeJars, overwrite);
 	}
 
 	public Collection<Bundle> generate()
@@ -237,19 +246,22 @@ public class Generator extends AbstractGenerator
 		final Collection<Model> models = new ArrayList<Model>();
 		pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
 
-		// normalize the models
+		// normalize the models (mutate)
 		pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
 
 		// plan the schema elements using Plan objects, and write to files
 		final Collection<Plan> plans = new ArrayList<Plan>();
 		pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
 
-		// write the plans to source
+		// write the plans to source (mutate)
 		pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
 
 		// compile and jar the bindings
 		final Collection<Bundle> bundles = new ArrayList<Bundle>();
 		pipeline.<SchemaComposite,Bundle>addProcessor(schemaComposites, bundles, new BundleDirectory());
+
+		// timestamp the binding files and directories (mutate)
+		pipeline.<Bundle,Bundle>addProcessor(bundles, null, new TimestampDirectory());
 
 		// start the pipeline
 		pipeline.begin();
