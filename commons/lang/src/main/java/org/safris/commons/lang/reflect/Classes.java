@@ -4,7 +4,7 @@ public final class Classes
 {
 	public static Class<?> getGreatestCommonSuperclass(Class<?> ... classes)
 	{
-		if(classes.length == 0)
+		if(classes == null || classes.length == 0)
 			return null;
 
 		if(classes.length == 1)

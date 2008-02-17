@@ -11,6 +11,24 @@ public class PackageLoaderTest extends TestCase
 		new PackageLoaderTest().testPackageLoader();
 	}
 
+	private static boolean isClassLoaded(String name)
+	{
+		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
+
+		classLoader = Thread.currentThread().getContextClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
+
+		final Class callerClass = Reflection.getCallerClass(2);
+		classLoader = callerClass.getClassLoader();
+		if(ClassLoaders.isClassLoaded(classLoader, name))
+			return true;
+
+		return false;
+	}
+
 	@Test
 	public void testPackageLoader() throws Exception
 	{
@@ -41,23 +59,14 @@ public class PackageLoaderTest extends TestCase
 		assertTrue(isClassLoaded("org.junit.PackageLoaderClass1"));
 		assertTrue(isClassLoaded("org.junit.PackageLoaderClass2"));
 		assertTrue(isClassLoaded("org.junit.PackageLoaderClass3"));
-	}
 
-	private static boolean isClassLoaded(String name)
-	{
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-		if(ClassLoaders.isClassLoaded(classLoader, name))
-			return true;
-
-		classLoader = Thread.currentThread().getContextClassLoader();
-		if(ClassLoaders.isClassLoaded(classLoader, name))
-			return true;
-
-		final Class callerClass = Reflection.getCallerClass(2);
-		classLoader = callerClass.getClassLoader();
-		if(ClassLoaders.isClassLoaded(classLoader, name))
-			return true;
-
-		return false;
+		try
+		{
+			PackageLoader.getSystemPackageLoader().loadPackage(null);
+			fail("Expected a PackageNotFoundException");
+		}
+		catch(PackageNotFoundException e)
+		{
+		}
 	}
 }

@@ -233,12 +233,11 @@ public class Generator extends AbstractGenerator
 		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
 		pipeline.<SchemaReference,SchemaReference>addProcessor(schemas, schemaReferences, new SchemaReferenceDirectory());
 
-		// prepare the schemas to be worked on and build the dependency map
+		// prepare the schemas to be worked on and build the dependency graph
 		final Collection<SchemaDocument> schemaDocuments = new ArrayList<SchemaDocument>();
 		pipeline.<SchemaReference,SchemaDocument>addProcessor(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
 
-		// this translation is necessary to bridge the dependency structure
-		// within the framework
+		// bridge the dependency structure within the framework
 		final Collection<SchemaComposite> schemaComposites = new ArrayList<SchemaComposite>();
 		pipeline.<SchemaDocument,SchemaComposite>addProcessor(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
 
@@ -246,21 +245,21 @@ public class Generator extends AbstractGenerator
 		final Collection<Model> models = new ArrayList<Model>();
 		pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
 
-		// normalize the models (mutate)
+		// normalize the models
 		pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
 
-		// plan the schema elements using Plan objects, and write to files
+		// plan the schema elements using Plan objects
 		final Collection<Plan> plans = new ArrayList<Plan>();
 		pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
 
-		// write the plans to source (mutate)
+		// write the plans to files
 		pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
 
 		// compile and jar the bindings
 		final Collection<Bundle> bundles = new ArrayList<Bundle>();
 		pipeline.<SchemaComposite,Bundle>addProcessor(schemaComposites, bundles, new BundleDirectory());
 
-		// timestamp the binding files and directories (mutate)
+		// timestamp the generated files and directories
 		pipeline.<Bundle,Bundle>addProcessor(bundles, null, new TimestampDirectory());
 
 		// start the pipeline

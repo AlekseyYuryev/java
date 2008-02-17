@@ -10,11 +10,11 @@ public class StringsTest extends TestCase
 
 	public static void main(String[] args) throws Exception
 	{
-		new StringsTest().testStrings();
+		new StringsTest().testChangeCase();
 	}
 
 	@Test
-	public void testStrings() throws Exception
+	public void testChangeCase() throws Exception
 	{
 		try
 		{
@@ -45,7 +45,25 @@ public class StringsTest extends TestCase
 
 		try
 		{
+			Strings.toLowerCase(UPPER_CASE, 12, 13);
+		}
+		catch(Exception e)
+		{
+			assertSame(StringIndexOutOfBoundsException.class, e.getClass());
+		}
+
+		try
+		{
 			Strings.toLowerCase(UPPER_CASE, -1, 1);
+		}
+		catch(Exception e)
+		{
+			assertSame(StringIndexOutOfBoundsException.class, e.getClass());
+		}
+
+		try
+		{
+			Strings.toLowerCase(UPPER_CASE, -2, -1);
 		}
 		catch(Exception e)
 		{
