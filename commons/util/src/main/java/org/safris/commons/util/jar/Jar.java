@@ -11,7 +11,6 @@ import java.util.jar.Manifest;
 
 public final class Jar
 {
-	public static int BUFFER_SIZE = 65536;
 	private final File jarFile;
 	private final FileOutputStream stream;
 	private final JarOutputStream out;

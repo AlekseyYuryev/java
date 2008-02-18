@@ -10,20 +10,19 @@ import java.io.IOException;
 public class Magic
 {
 	private static final int[] validMagic = new int[]{0xca, 0xfe, 0xba, 0xbe};
-	private static final int targetVersion = 47;
 
 	public static void main(String[] args) throws IOException
 	{
 		for(int i = 0; i < args.length; i++)
-			checkClassVersion(args[i]);
+			changeClassVersion(new File(args[i]), 47);
 	}
 
-	private static void checkClassVersion(String filename) throws IOException
+	private static void changeClassVersion(File file, int version) throws IOException
 	{
-		final File inFile = new File(filename);
-		final File outFile = new File(filename + ".tmp");
+		final File inFile = file;
+		final File tempFile = new File(file + ".tmp");
 		final DataInputStream in = new DataInputStream(new FileInputStream(inFile));
-		final DataOutputStream out = new DataOutputStream(new FileOutputStream(outFile));
+		final DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
 
 		final int[] magic = new int[4];
 		for(int i = 0; i < magic.length; i++)
@@ -33,9 +32,8 @@ public class Magic
 			{
 				in.close();
 				out.close();
-				outFile.deleteOnExit();
-				System.out.println(filename + " is not a valid class!");
-				System.exit(1);
+				tempFile.deleteOnExit();
+				throw new Error(file.getName() + " is not a valid class!");
 			}
 
 			out.write(magic[i]);
@@ -52,17 +50,17 @@ public class Magic
 		for(int i = 0; i < major.length; i++)
 			major[i] = in.read();
 
-		if((major[0] | major[1]) == targetVersion)
+		if((major[0] | major[1]) == version)
 		{
 			in.close();
 			out.close();
-			outFile.deleteOnExit();
-			System.out.println(filename + " is already version " + targetVersion);
+			tempFile.deleteOnExit();
+			System.out.println(file.getName() + " is already version " + version);
 			System.exit(1);
 		}
 
 		out.write(0);
-		out.write(targetVersion);
+		out.write(version);
 
 		int ch = -1;
 		while((ch = in.read()) != -1)
@@ -71,7 +69,6 @@ public class Magic
 		in.close();
 		out.close();
 
-		outFile.renameTo(inFile);
-//		System.out.println(filename + ": " + (major[0] | major[1]) + " . " + (minor[0] | minor[1]));
+		tempFile.renameTo(inFile);
 	}
 }
