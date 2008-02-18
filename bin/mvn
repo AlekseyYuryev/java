@@ -192,7 +192,6 @@ while [ $# != 0 ]; do
 	shift
 done
 
-echo $@
 # Find the original mvn script
 MVN="`which -a mvn | sed -n '2p'`"
 
