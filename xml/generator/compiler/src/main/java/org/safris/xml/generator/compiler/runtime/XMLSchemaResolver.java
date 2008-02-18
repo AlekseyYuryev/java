@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 import org.safris.xml.generator.compiler.runtime.BindingError;
@@ -73,8 +74,8 @@ public class XMLSchemaResolver implements XMLEntityResolver
 			final URL schemaReference;
 			if(((XSDDescription)resourceIdentifier).getContextType() == XSDDescription.CONTEXT_INCLUDE)
 			{
-				final String localName = URLs.getName(resourceIdentifier.getExpandedSystemId());
-				schemaReference = new URL(URLs.getParent(baseId) + "/" + localName);
+				final String localName = Paths.getName(resourceIdentifier.getExpandedSystemId());
+				schemaReference = new URL(Paths.getParent(baseId) + "/" + localName);
 			}
 			else
 				schemaReference = lookupSchemaLocation(namespaceURI);

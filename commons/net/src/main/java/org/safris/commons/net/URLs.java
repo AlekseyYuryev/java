@@ -10,60 +10,66 @@ import org.safris.commons.lang.Paths;
 
 public final class URLs
 {
-	// FIXME: Make sure that this is correct!!!
-	private static final Pattern WINDOWS_PATH = Pattern.compile("[a-zA-Z]*:\\\\");
+	private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
+
+	protected static String formatWindowsPath(String absolutePath)
+	{
+		return "/" + absolutePath.replace('\\', '/').replace(':', '|');
+	}
 
 	public static boolean isAbsolute(String path)
 	{
 		if(path == null)
 			throw new NullPointerException();
 
-		if(path.length() == 0)
-			return false;
-
-		if(path.charAt(0) == '/')
+		if(path.charAt(0) == File.separatorChar || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
 			return true;
 
-		if(WINDOWS_PATH.matcher(path).find())
-			return true;
-
-		return false;
+		return URL_PATTERN.matcher(path).find();
 	}
 
-	public static URL makeUrlFromPath(String path) throws MalformedURLException
+	public static URL makeUrlFromPath(String absolutePath) throws MalformedURLException
 	{
+		if(absolutePath == null)
+			return null;
+
 		URL url;
-		final int protocol = path.indexOf(":/");
-		if(protocol != -1)
-			url = new URL(path);
+		if(absolutePath.contains("://"))
+			url = new URL(absolutePath);
 		else
-			url = new File(path).toURL();
+		{
+			if(System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
+				absolutePath = formatWindowsPath(absolutePath);
+
+			if(absolutePath.charAt(0) != '/')
+				absolutePath = "/" + absolutePath;
+
+			url = new URL("file", "", absolutePath);
+		}
 
 		return URLs.canonicalizeURL(url);
 	}
 
 	public static URL makeUrlFromPath(String basedir, String path) throws MalformedURLException
 	{
-		if(path == null)
+		if(basedir == null || path == null)
 			return null;
 
-		URL url;
-		final int protocol = path.indexOf(":/");
-		if(protocol != -1)
-			url = new URL(path);
-		else if(basedir != null)
-		{
-			if(path.length() == 0)
-				url = new File(basedir).toURL();
-			else if(path.charAt(0) != File.separatorChar)
-				url = new File(basedir, path).toURL();
-			else
-				return null;
-		}
-		else
-			url = new File(path).toURL();
+		if(basedir.length() == 0)
+			return makeUrlFromPath(path);
 
-		return URLs.canonicalizeURL(url);
+		if(path.length() == 0)
+			return makeUrlFromPath(basedir);
+
+		if(basedir.endsWith(File.separator))
+		{
+			if(path.startsWith(File.separator))
+				return makeUrlFromPath(basedir + path.substring(1));
+
+			return makeUrlFromPath(basedir + path);
+		}
+
+		return makeUrlFromPath(basedir + File.separator + path);
 	}
 
 	public static String toExternalForm(URL url) throws MalformedURLException
@@ -110,36 +116,24 @@ public final class URLs
 		return new URL(path);
 	}
 
-	public static String getName(String url)
-	{
-		final int separator = url.lastIndexOf('/');
-		if(separator != -1)
-			return url.substring(separator + 1);
-
-		final int colon = url.lastIndexOf(':');
-		if(separator != -1)
-			return url.substring(colon + 1);
-
-		return url;
-	}
-
 	public static String getName(URL url)
 	{
-		return getName(url.toString());
+		return Paths.getName(url.toString());
 	}
 
-	public static String getParent(String url)
+	public static URL getParent(URL url)
 	{
-		final int separator = url.lastIndexOf('/');
-		if(separator != -1)
-			return url.substring(0, separator);
+		if(url == null)
+			return null;
 
-		return url;
-	}
-
-	public static String getParent(URL url)
-	{
-		return getParent(url.toString());
+		try
+		{
+			return new URL(Paths.getParent(url.toString()));
+		}
+		catch(MalformedURLException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	private URLs()
