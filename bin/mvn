@@ -183,15 +183,16 @@ while [ $# != 0 ]; do
 			shift;
 			continue;
 			;;
-		clean) CLEAN=true
-			;;
 		--help) HELP=true
+			;;
+		clean) CLEAN=true
 			;;
 	esac
 	ARGS="$ARGS $1"
 	shift
 done
 
+echo $@
 # Find the original mvn script
 MVN="`which -a mvn | sed -n '2p'`"
 
@@ -220,7 +221,7 @@ fi
 
 # If goal=clean, then set maven.test.skip=true (this should already be the
 # default in maven.
-if [ $CLEAN ]; then
+if [ $CLEAN ] && [ -z "`echo $ARGS | grep 'clean.*\( [a-zA-Z]\+\)'`" ]; then
 	ARGS="-Dmaven.test.skip $ARGS"
 fi
 
