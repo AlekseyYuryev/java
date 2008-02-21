@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<startingPoints
+	xmlns="http://ide.safris.org/common/starting-points.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
+	<startingPoint>
+		<commandLineArguments>-d /home/ssafris/Projects/safris/org/xml/trunk/test/binding/target/generated-sources/xmlbinding /home/ssafris/Projects/safris/org/xml/trunk/test/binding/src/test/resources/xsd/liberty/xenc-schema.xsd</commandLineArguments>
+		<name>Generator xenc-schema.xsd</name>
+		<target>org.safris.xml.toolkit.binding.Generator</target>
+		<vmOtherOptions/>
+		<workingDir>..\test\binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments>-d /home/ssafris/Projects/safris/org/xml/trunk/test/binding/target/generated-sources/xmlbinding /home/ssafris/Projects/safris/org/xml/trunk/test/binding/src/test/resources/xsd/liberty/lib-arch-metadata.xsd</commandLineArguments>
+		<name>Generator lib-arch-metadata.xsd</name>
+		<target>org.safris.xml.toolkit.binding.Generator</target>
+		<vmOtherOptions/>
+		<workingDir>..\test\binding\</workingDir>
+	</startingPoint>
+</startingPoints>

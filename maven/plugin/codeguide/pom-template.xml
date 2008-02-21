@@ -1,0 +1,68 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.safris.maven</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${dev:org.safris.maven.plugin}</version>
+	</parent>
+	<groupId>org.safris.maven.plugin</groupId>
+	<artifactId>codeguide</artifactId>
+	<version>${dev:org.safris.maven.plugin.codeguide}</version>
+	<name>${groupId}.${artifactId}</name>
+	<packaging>maven-plugin</packaging>
+	<description>
+		Generates javaproj and sln files for the CodeGuide IDE.
+	</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.safris.xml.maven</groupId>
+				<artifactId>binding</artifactId>
+				<version>${dev:org.safris.xml.maven.binding}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+						<destdir explodeJars="true" overwrite="true">
+							${project.build.directory}/generated-sources/xmlbinding
+						</destdir>
+						<schemas>
+							<schema>${basedir}/src/main/resources/xsd/java-project-3.xsd</schema>
+						</schemas>
+					</manifest>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+    <dependencies>
+		<dependency>
+			<groupId>org.safris.xml.generator</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${dev:org.safris.xml.generator.compiler}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.safris.ide</groupId>
+            <artifactId>common</artifactId>
+			<version>${dev:org.safris.ide.common}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.safris.maven.plugin</groupId>
+            <artifactId>dependency</artifactId>
+			<version>${dev:org.safris.maven.plugin.dependency}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.safris.commons</groupId>
+            <artifactId>io</artifactId>
+			<version>${dev:org.safris.commons.io}</version>
+        </dependency>
+    </dependencies>
+</project>

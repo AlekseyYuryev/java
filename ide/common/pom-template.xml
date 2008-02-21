@@ -1,0 +1,52 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.safris</groupId>
+		<artifactId>ide</artifactId>
+		<version>${dev:org.safris.ide}</version>
+	</parent>
+	<groupId>org.safris.ide</groupId>
+	<artifactId>common</artifactId>
+	<version>${dev:org.safris.ide.common}</version>
+	<name>${groupId}.${artifactId}</name>
+	<description>
+		Code that is common to all IDEs.
+	</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.safris.xml.maven</groupId>
+				<artifactId>binding</artifactId>
+				<version>${dev:org.safris.xml.maven.binding}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+						<destdir explodeJars="true" overwrite="true">
+							${project.build.directory}/generated-sources/xmlbinding
+						</destdir>
+						<schemas>
+							<schema>${basedir}/src/main/resources/xsd/starting-points.xsd</schema>
+						</schemas>
+					</manifest>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+    <dependencies>
+		<dependency>
+			<groupId>org.safris.xml.generator</groupId>
+			<artifactId>compiler</artifactId>
+			<version>${dev:org.safris.xml.generator.compiler}</version>
+		</dependency>
+    </dependencies>
+</project>

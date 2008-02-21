@@ -52,19 +52,31 @@ public abstract class Bindings
 	public static String domToString(Element element)
 	{
 		final StringBuffer buffer = new StringBuffer();
-		domToString(buffer, element, 0);
+		domToString(buffer, element, 0, true);
 		return buffer.toString();
 	}
 
-	private static void domToString(StringBuffer stringBuffer, Node node, int depth)
+	public static String domToStringNoNamepsaces(Element element)
+	{
+		final StringBuffer buffer = new StringBuffer();
+		domToString(buffer, element, 0, false);
+		return buffer.toString();
+	}
+
+	private static void domToString(StringBuffer stringBuffer, Node node, int depth, boolean namespaceAware)
 	{
 		if(node == null)
 			return;
 
-		final int type = node.getNodeType();
-		final String nodeName = node.getNodeName();
+		final String nodeName;
+		if(namespaceAware)
+			nodeName = node.getNodeName();
+		else
+			nodeName = node.getLocalName();
+
 		final String nodeValue = node.getNodeValue();
-		if(type == 1)
+		final int type = node.getNodeType();
+		if(Node.ELEMENT_NODE == type)
 		{
 			if(Bindings.getIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
 			{
@@ -77,14 +89,14 @@ public abstract class Bindings
 
 			stringBuffer.append("<");
 			stringBuffer.append(nodeName);
-			attributesToString(stringBuffer, node, depth + 1);
+			attributesToString(stringBuffer, node, depth + 1, namespaceAware);
 			if(node.hasChildNodes())
 			{
 				stringBuffer.append(">");
-				NodeList nodeList = node.getChildNodes();
+				final NodeList nodeList = node.getChildNodes();
 				for(int i = 0; i < nodeList.getLength(); i++)
 				{
-					domToString(stringBuffer, nodeList.item(i), depth + 1);
+					domToString(stringBuffer, nodeList.item(i), depth + 1, namespaceAware);
 				}
 
 				if(Bindings.getIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
@@ -112,34 +124,36 @@ public abstract class Bindings
 		}
 	}
 
-	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth)
+	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth, boolean namespaceAware)
 	{
 		final NamedNodeMap namedNodeMap;
-		if((namedNodeMap = node.getAttributes()) != null)
-		{
-			String nodeName = null;
-			for(int i = 0; i < namedNodeMap.getLength(); i++)
-			{
-				node = namedNodeMap.item(i);
-				if(Bindings.getIndent())
-				{
-					stringBuffer.append("\n");
-					for(int j = 0; j < depth; j++)
-					{
-						stringBuffer.append("\t");
-					}
-				}
-				else
-				{
-					stringBuffer.append(" ");
-				}
+		if((namedNodeMap = node.getAttributes()) == null)
+			return;
 
-				nodeName = node.getNodeName();
-				stringBuffer.append(nodeName);
-				stringBuffer.append("=\"");
-				entityConvert(stringBuffer, node.getNodeValue());
-				stringBuffer.append("\"");
+		for(int i = 0; i < namedNodeMap.getLength(); i++)
+		{
+			node = namedNodeMap.item(i);
+			final String nodeName = node.getNodeName();
+			if(nodeName.startsWith("xmlns") && !namespaceAware)
+				continue;
+
+			if(Bindings.getIndent())
+			{
+				stringBuffer.append("\n");
+				for(int j = 0; j < depth; j++)
+				{
+					stringBuffer.append("\t");
+				}
 			}
+			else
+			{
+				stringBuffer.append(" ");
+			}
+
+			stringBuffer.append(nodeName);
+			stringBuffer.append("=\"");
+			entityConvert(stringBuffer, node.getNodeValue());
+			stringBuffer.append("\"");
 		}
 	}
 

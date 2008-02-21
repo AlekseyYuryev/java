@@ -110,7 +110,7 @@ public final class Files
 		if(!directory.isDirectory())
 			return null;
 
-		FileFilter directoryFilter = new DirectoryFileFilter(fileFilter);
+		final FileFilter directoryFilter = new DirectoryFileFilter(fileFilter);
 		List<File> outer = new ArrayList<File>(Arrays.asList(directory.listFiles(directoryFilter)));
 		final List<File> files = new ArrayList<File>(outer);
 		List<File> inner;
@@ -152,13 +152,19 @@ public final class Files
 
 	public static String relativePath(File dir, File file)
 	{
+		if(dir == null || file == null)
+			return null;
+
 		final String filePath = Paths.canonicalize(file.getPath());
 		final String dirPath = Paths.canonicalize(dir.getPath());
 
-		if(filePath.startsWith(dirPath))
-			return filePath.substring(dirPath.length() + 1);
+		if(!filePath.startsWith(dirPath))
+			return filePath;
 
-		return filePath;
+		if(filePath.length() == dirPath.length())
+			return "";
+
+		return filePath.substring(dirPath.length() + 1);
 	}
 
 	public static byte[] getBytes(File file) throws IOException

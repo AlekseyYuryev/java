@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jp="http://www.omnicore.com/java-project-3.xsd"
+	targetNamespace="http://www.omnicore.com/java-project-3.xsd">
+	
+	<xs:element name="buildProperties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="backInTimeDebugging" type="xs:boolean"/>
+				<xs:element name="generateLocalVariableTables" type="xs:boolean"/>
+				<xs:element name="obfuscateFilePrivateMembers" type="xs:boolean"/>
+				<xs:element name="relativeDestinationPath" type="xs:string" minOccurs="0"/>
+				<xs:element name="targetVM" type="xs:string"/>
+				<xs:element name="useJavac" type="xs:boolean"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="javaProject3">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="buildProperties">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="entry">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="string" type="xs:string"/>
+										<xs:element ref="jp:buildProperties"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="guid" type="xs:string"/>
+				<xs:element name="includedFiles">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="javaFile2">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="buildAction">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="NONE"/>
+													<xs:enumeration value="COMPILE"/>
+													<xs:enumeration value="COPY"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="incPathSpec" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="projectReferences">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="projectReference">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="name" type="xs:string"/>
+										<xs:element name="packageGuid" type="xs:string"/>
+										<xs:element name="projectGuid" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="references">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="classpathReference">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="relativePath" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="startingPoints">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="startingPoint">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="commandLineArguments" type="xs:string"/>
+										<xs:element name="name" type="xs:string"/>
+										<xs:element name="target" type="xs:string"/>
+										<xs:element name="vmOtherOptions" type="xs:string"/>
+										<xs:element name="workingDir" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

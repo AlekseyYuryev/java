@@ -4,20 +4,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.safris</groupId>
-		<artifactId>maven</artifactId>
-		<version>${dev:org.safris.maven}</version>
+		<groupId>org</groupId>
+		<artifactId>safris</artifactId>
+		<version>${dev:org.safris}</version>
 	</parent>
-	<groupId>org.safris.maven</groupId>
-	<artifactId>plugin</artifactId>
-	<version>${dev:org.safris.maven.plugin}</version>
-	<packaging>pom</packaging>
+	<groupId>org.safris</groupId>
+	<artifactId>ide</artifactId>
+	<version>${dev:org.safris.ide}</version>
 	<name>${groupId}.${artifactId}</name>
+	<packaging>pom</packaging>
 	<description>
-		Maven plugins.
+		All code for and related to IDEs.
 	</description>
 	<modules>
-		<module>dependency</module>
-		<module>codeguide</module>
+		<module>common</module>
 	</modules>
 </project>

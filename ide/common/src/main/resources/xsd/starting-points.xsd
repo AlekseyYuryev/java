@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sp="http://ide.safris.org/common/starting-points.xsd"
+	targetNamespace="http://ide.safris.org/common/starting-points.xsd">
+
+	<xs:element name="startingPoints">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="startingPoint">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="commandLineArguments" type="xs:string"/>
+							<xs:element name="name" type="xs:string"/>
+							<xs:element name="target" type="xs:string"/>
+							<xs:element name="vmOtherOptions" type="xs:string"/>
+							<xs:element name="workingDir" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -57,7 +57,6 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 										if(directory.lastModified() < file.lastModified() && schemaReference.getLastModified() < file.lastModified())
 											continue;
 
-										System.out.println("Added: [dir < file: " + (directory.lastModified() < file.lastModified()) + "] [schema < file: " + (schemaReference.getLastModified() < file.lastModified()) + "]");
 										selectedSchemas.add(schemaReference);
 										for(File deleteMe : directory.listFiles())
 											deleteMe.delete();

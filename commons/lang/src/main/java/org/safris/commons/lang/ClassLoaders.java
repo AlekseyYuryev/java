@@ -7,6 +7,9 @@ public final class ClassLoaders
 {
 	public static boolean isClassLoaded(ClassLoader classLoader, String name)
 	{
+		if(classLoader == null)
+			throw new IllegalArgumentException("classLoader == null");
+
 		try
 		{
 			final Method method = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
