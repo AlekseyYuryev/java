@@ -2,7 +2,6 @@ package org.safris.xml.tutorial.binding.invoice;
 
 import java.io.File;
 import java.io.FileInputStream;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
@@ -18,10 +17,6 @@ public class ParseHowTo
 
 		if(!file.canRead())
 			throw new Error("File " + file.getAbsolutePath() + " is not readable.");
-
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
 
 		PvInvoice invoice = (PvInvoice)Bindings.parse(new InputSource(new FileInputStream(file)));
 

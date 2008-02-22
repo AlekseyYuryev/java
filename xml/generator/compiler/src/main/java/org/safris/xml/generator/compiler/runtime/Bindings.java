@@ -2,8 +2,7 @@ package org.safris.xml.generator.compiler.runtime;
 
 import org.safris.commons.lang.PackageLoader;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
-import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.generator.compiler.runtime.BindingsOption;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.compiler.runtime.ValidationException;
@@ -16,18 +15,6 @@ import org.xml.sax.InputSource;
 
 public abstract class Bindings
 {
-	private static boolean indent = false;
-
-	protected static boolean getIndent()
-	{
-		return indent;
-	}
-
-	public static void bootstrapConfig(BindingConfig config)
-	{
-		Bindings.indent = config.getIndent();
-	}
-
 	static void bootstrapSchemaPackage(String schemaPackage, java.lang.ClassLoader classLoader)
 	{
 		try
@@ -49,36 +36,30 @@ public abstract class Bindings
 	 *
 	 * @param element element to convert.
 	 */
-	public static String domToString(Element element)
+	public static String domToString(Element element, BindingsOption ... options)
 	{
+		final BindingsOption option = BindingsOption.consolidate(options);
 		final StringBuffer buffer = new StringBuffer();
-		domToString(buffer, element, 0, true);
+		domToString(buffer, element, 0, option);
 		return buffer.toString();
 	}
 
-	public static String domToStringNoNamepsaces(Element element)
-	{
-		final StringBuffer buffer = new StringBuffer();
-		domToString(buffer, element, 0, false);
-		return buffer.toString();
-	}
-
-	private static void domToString(StringBuffer stringBuffer, Node node, int depth, boolean namespaceAware)
+	private static void domToString(StringBuffer stringBuffer, Node node, int depth, BindingsOption option)
 	{
 		if(node == null)
 			return;
 
 		final String nodeName;
-		if(namespaceAware)
-			nodeName = node.getNodeName();
-		else
+		if(option.isIgnoreNamespaces())
 			nodeName = node.getLocalName();
+		else
+			nodeName = node.getNodeName();
 
 		final String nodeValue = node.getNodeValue();
 		final int type = node.getNodeType();
 		if(Node.ELEMENT_NODE == type)
 		{
-			if(Bindings.getIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
+			if(option.isIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
 			{
 				stringBuffer.append("\n");
 				for(int i = 0; i < depth; i++)
@@ -89,17 +70,17 @@ public abstract class Bindings
 
 			stringBuffer.append("<");
 			stringBuffer.append(nodeName);
-			attributesToString(stringBuffer, node, depth + 1, namespaceAware);
+			attributesToString(stringBuffer, node, depth + 1, option);
 			if(node.hasChildNodes())
 			{
 				stringBuffer.append(">");
 				final NodeList nodeList = node.getChildNodes();
 				for(int i = 0; i < nodeList.getLength(); i++)
 				{
-					domToString(stringBuffer, nodeList.item(i), depth + 1, namespaceAware);
+					domToString(stringBuffer, nodeList.item(i), depth + 1, option);
 				}
 
-				if(Bindings.getIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
+				if(option.isIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>')
 				{
 					stringBuffer.append("\n");
 					for(int i = 0; i < depth; i++)
@@ -124,7 +105,7 @@ public abstract class Bindings
 		}
 	}
 
-	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth, boolean namespaceAware)
+	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth, BindingsOption option)
 	{
 		final NamedNodeMap namedNodeMap;
 		if((namedNodeMap = node.getAttributes()) == null)
@@ -134,10 +115,10 @@ public abstract class Bindings
 		{
 			node = namedNodeMap.item(i);
 			final String nodeName = node.getNodeName();
-			if(nodeName.startsWith("xmlns") && !namespaceAware)
+			if(nodeName.startsWith("xmlns") && option.isIgnoreNamespaces())
 				continue;
 
-			if(Bindings.getIndent())
+			if(option.isIndent())
 			{
 				stringBuffer.append("\n");
 				for(int j = 0; j < depth; j++)

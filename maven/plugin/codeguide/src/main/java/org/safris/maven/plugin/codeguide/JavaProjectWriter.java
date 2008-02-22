@@ -7,23 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import org.safris.commons.io.Files;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.BindingException;
 import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.generator.compiler.runtime.BindingsOption;
 
 public class JavaProjectWriter
 {
-	static
-	{
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
-	}
-
 	public static void write(JavaProject javaProject) throws BindingException, IOException
 	{
 		final JpJavaProject3 javaProject3 = createJavaProject(javaProject);
-		final String xml = Bindings.domToStringNoNamepsaces(javaProject3.marshal());
+		final String xml = Bindings.domToString(javaProject3.marshal(), BindingsOption.INDENT, BindingsOption.IGNORE_NAMESPACES);
 		final FileOutputStream out = new FileOutputStream(new File(javaProject.getDir(), javaProject.getShortName() + ".javaproj"));
 		out.write(xml.getBytes());
 		out.close();

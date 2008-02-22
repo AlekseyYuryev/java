@@ -3,8 +3,8 @@ package org.safris.xml.toolkit.sample.binding;
 import java.io.StringReader;
 import junit.framework.TestCase;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.generator.compiler.runtime.BindingsOption;
 import org.safris.xml.generator.compiler.util.DefaultValidator;
 import org.safris.xml.generator.compiler.util.Validator;
 import org.w3c.dom.Element;
@@ -16,10 +16,6 @@ public abstract class AbstractTest extends TestCase
 	{
 		final Validator validator = new DefaultValidator();
 		Validator.setSystemValidator(validator);
-
-		final BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
 	}
 
 	protected static boolean verifyBinding(Binding binding)
@@ -28,7 +24,7 @@ public abstract class AbstractTest extends TestCase
 		try
 		{
 			Element element = Bindings.marshal(binding);
-			String xml = Bindings.domToString(element);
+			String xml = Bindings.domToString(element, BindingsOption.INDENT);
 			System.out.println(xml + "\n");
 			Binding reparsed = Bindings.parse(new InputSource(new StringReader(xml)));
 			String message = "SUCCESS";
@@ -50,7 +46,7 @@ public abstract class AbstractTest extends TestCase
 
 			message = "SUCCESS";
 			not = "---";
-			String xml2 = Bindings.domToString(Bindings.marshal(reparsed));
+			String xml2 = Bindings.domToString(Bindings.marshal(reparsed), BindingsOption.INDENT);
 			if(!xml.equals(xml2))
 			{
 				System.out.println(xml2);

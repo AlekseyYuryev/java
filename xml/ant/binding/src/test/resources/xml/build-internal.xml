@@ -27,7 +27,7 @@
 		</taskdef>
 		<binding>
 			<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-				<destdir overwrite="true" explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
+				<destdir explodeJars="true" overwrite="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
 				<schemas>
 					<schema>../xsd/ant.xsd</schema>
 				</schemas>

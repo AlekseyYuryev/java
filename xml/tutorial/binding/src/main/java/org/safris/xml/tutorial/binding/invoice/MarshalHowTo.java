@@ -1,7 +1,7 @@
 package org.safris.xml.tutorial.binding.invoice;
 
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.generator.compiler.runtime.BindingsOption;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 
@@ -9,10 +9,6 @@ public class MarshalHowTo
 {
 	public static void main(String[] args) throws Exception
 	{
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
-
 		PvInvoice invoice = new PvInvoice();
 		invoice.setPvDate(new PvInvoice.PvDate(new Date(2003, 1, 7)));
 
@@ -56,6 +52,6 @@ public class MarshalHowTo
 
 		invoice.setPvBilledItems(billedItems);
 
-		System.out.println(Bindings.domToString(invoice.marshal()));
+		System.out.println(Bindings.domToString(invoice.marshal(), BindingsOption.INDENT));
 	}
 }
