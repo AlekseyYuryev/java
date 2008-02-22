@@ -13,7 +13,7 @@ import org.safris.commons.lang.Paths;
 
 /**
  * This goal will output a classpath string of dependencies from the local
- * repository to a file or log.
+ * repository to a System property.
  *
  * @goal get-classpath
  * @requiresDependencyResolution test
@@ -23,14 +23,12 @@ import org.safris.commons.lang.Paths;
 public class DependencyMojo extends PropertiesMojo
 {
 	/**
-	 * Method getPath
+	 * Get dependencies given the <code>DependencyProperties</code> object
+	 * parameter.
 	 *
-	 * @param	artifact			an Artifact
-	 * @param	repositoryPath		a String
-	 * @param	localRepository		a String
-	 * @param	fileSeparator		a char
-	 *
-	 * @return	a String
+	 * @param properties <code>DependencyProperties</code> object with desired
+	 * values injected by the maven runtime.
+	 * @return The set of <code>GroupArtifact</code> dependencies.
 	 */
 	public static Set<GroupArtifact> getDependencies(DependencyProperties properties) throws MojoExecutionException
 	{
@@ -43,7 +41,19 @@ public class DependencyMojo extends PropertiesMojo
 		return dependencies;
 	}
 
-	public static File resolveFile(ArtifactRepository localRepository, String repositoryPath, GroupArtifact dependency)
+	/**
+	 * Get the <code>File</code> object representing the location of the
+	 * dependency, given the localRepository and repositoryPath
+	 * <code>String</code>.
+	 *
+	 * @param dependency The <code>GroupArtifact</code> object representing the dependency.
+	 * @param localRepository The <code>ArtifactRepository</code> object representing the
+	 * location of the local repository.
+	 * @param repositoryPath A path to a repository that should be used instead
+	 * of the <code>localRepository</code> object.
+	 * @return The set of GroupArtifact dependencies.
+	 */
+	public static File getFile(GroupArtifact dependency, ArtifactRepository localRepository, String repositoryPath)
 	{
 		final String relativePath = Paths.relativePath(localRepository.getBasedir(), dependency.getPath());
 		if(!Paths.isAbsolute(relativePath))
@@ -52,12 +62,6 @@ public class DependencyMojo extends PropertiesMojo
 			return new File(relativePath);
 	}
 
-	/**
-	 * Main entry into mojo. Gets the list of dependencies and iterates through
-	 * calling copyArtifact.
-	 *
-	 * @throws	MojoExecutionException	with a message if an error occurs.
-	 */
 	public void execute() throws MojoExecutionException
 	{
 		String pathSeparator = null;
@@ -83,13 +87,15 @@ public class DependencyMojo extends PropertiesMojo
 		for(GroupArtifact dependency : dependencies)
 		{
 			buffer.append(pathSeparator);
-			String path = resolveFile(getLocal(), getRepositoryPath(), dependency).getAbsolutePath();
+			String path = getFile(dependency, getLocal(), getRepositoryPath()).getAbsolutePath();
 			if(File.separatorChar != fileSeparatorChar)
 				path = path.replace(File.separatorChar, fileSeparatorChar);
 
 			buffer.append(path);
 		}
 
+		// FIXME: Here we should distinguish between the different scopes
+		// FIXME: and set the value to the appropriate property name.
 		System.setProperty("maven.classpath.runtime", buffer.substring(1));
 		getLog().info(buffer.substring(1));
 	}

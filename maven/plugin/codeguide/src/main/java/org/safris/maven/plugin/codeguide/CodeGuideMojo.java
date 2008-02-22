@@ -107,15 +107,13 @@ public class CodeGuideMojo extends PropertiesMojo
 		if(excludes != null)
 		{
 			for(GroupArtifact dependency : dependencies)
-			{
 				if(!excludes.contains(dependency))
-					filteredDependencies.add(DependencyMojo.resolveFile(localRepository, repositoryPath, dependency));
-			}
+					filteredDependencies.add(DependencyMojo.getFile(dependency, localRepository, repositoryPath));
 		}
 		else
 		{
 			for(GroupArtifact dependency : dependencies)
-				filteredDependencies.add(DependencyMojo.resolveFile(localRepository, repositoryPath, dependency));
+				filteredDependencies.add(DependencyMojo.getFile(dependency, localRepository, repositoryPath));
 		}
 
 		return filteredDependencies;
