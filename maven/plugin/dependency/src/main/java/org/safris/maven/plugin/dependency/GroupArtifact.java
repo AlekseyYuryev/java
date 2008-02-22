@@ -4,11 +4,6 @@ import org.apache.maven.artifact.Artifact;
 
 public class GroupArtifact extends GroupArtifactVersionType
 {
-	public GroupArtifact(String groupId, String artifactId, String version, String type)
-	{
-		super(groupId, artifactId, version, type);
-	}
-
 	public GroupArtifact(Artifact artifact)
 	{
 		super(artifact);

@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.io.Files;
@@ -97,7 +98,7 @@ public class CodeGuideMojo extends PropertiesMojo
 		return resourceFiles;
 	}
 
-	private static Set<File> filterClasspathReferences(String repositoryPath, Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes)
+	private static Set<File> filterClasspathReferences(ArtifactRepository localRepository, String repositoryPath, Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes)
 	{
 		if(dependencies == null)
 			return null;
@@ -106,13 +107,15 @@ public class CodeGuideMojo extends PropertiesMojo
 		if(excludes != null)
 		{
 			for(GroupArtifact dependency : dependencies)
+			{
 				if(!excludes.contains(dependency))
-					filteredDependencies.add(new File(repositoryPath, dependency.getRelativePath()));
+					filteredDependencies.add(DependencyMojo.resolveFile(localRepository, repositoryPath, dependency));
+			}
 		}
 		else
 		{
 			for(GroupArtifact dependency : dependencies)
-				filteredDependencies.add(new File(repositoryPath, dependency.getRelativePath()));
+				filteredDependencies.add(DependencyMojo.resolveFile(localRepository, repositoryPath, dependency));
 		}
 
 		return filteredDependencies;
@@ -186,7 +189,7 @@ public class CodeGuideMojo extends PropertiesMojo
 			SolutionWriter.write(stateManager.getSolution());
 			for(JavaProject project : stateManager.getJavaProjects())
 			{
-				resolveDependencies(getRepositoryPath(), project, stateManager);
+				resolveDependencies(getLocal(), getRepositoryPath(), project, stateManager);
 				JavaProjectWriter.write(project);
 			}
 		}
@@ -196,10 +199,10 @@ public class CodeGuideMojo extends PropertiesMojo
 		}
 	}
 
-	private static void resolveDependencies(String repositoryPath, JavaProject project, StateManager stateManager)
+	private static void resolveDependencies(ArtifactRepository localRepository, String repositoryPath, JavaProject project, StateManager stateManager)
 	{
 		// Filter the classpath reference by excluding the other projects
-		final Set<File> filteredDependencies = filterClasspathReferences(repositoryPath, project.getDependencies(), stateManager.getGroupArtifacts());
+		final Set<File> filteredDependencies = filterClasspathReferences(localRepository, repositoryPath, project.getDependencies(), stateManager.getGroupArtifacts());
 		project.setClasspathReferences(filteredDependencies);
 
 		final Set<GroupArtifact> excludes = new HashSet<GroupArtifact>();

@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.safris.commons.lang.Paths;
 
 /**
  * This goal will output a classpath string of dependencies from the local
@@ -41,6 +43,15 @@ public class DependencyMojo extends PropertiesMojo
 		return dependencies;
 	}
 
+	public static File resolveFile(ArtifactRepository localRepository, String repositoryPath, GroupArtifact dependency)
+	{
+		final String relativePath = Paths.relativePath(localRepository.getBasedir(), dependency.getPath());
+		if(!Paths.isAbsolute(relativePath))
+			return new File(repositoryPath, relativePath);
+		else
+			return new File(relativePath);
+	}
+
 	/**
 	 * Main entry into mojo. Gets the list of dependencies and iterates through
 	 * calling copyArtifact.
@@ -72,11 +83,11 @@ public class DependencyMojo extends PropertiesMojo
 		for(GroupArtifact dependency : dependencies)
 		{
 			buffer.append(pathSeparator);
-			String relativePath = dependency.getRelativePath();
+			String path = resolveFile(getLocal(), getRepositoryPath(), dependency).getAbsolutePath();
 			if(File.separatorChar != fileSeparatorChar)
-				relativePath.replace(File.separatorChar, fileSeparatorChar);
+				path = path.replace(File.separatorChar, fileSeparatorChar);
 
-			buffer.append(getRepositoryPath() + fileSeparatorChar + relativePath);
+			buffer.append(path);
 		}
 
 		System.setProperty("maven.classpath.runtime", buffer.substring(1));

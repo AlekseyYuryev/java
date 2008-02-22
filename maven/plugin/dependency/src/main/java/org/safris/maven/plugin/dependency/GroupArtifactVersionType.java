@@ -1,6 +1,5 @@
 package org.safris.maven.plugin.dependency;
 
-import java.io.File;
 import org.apache.maven.artifact.Artifact;
 
 public class GroupArtifactVersionType
@@ -9,21 +8,17 @@ public class GroupArtifactVersionType
 	private final String artifactId;
 	private final String version;
 	private final String type;
-
-	public GroupArtifactVersionType(String groupId, String artifactId, String version, String type)
-	{
-		this.groupId = groupId;
-		this.artifactId = artifactId;
-		this.version = version;
-		this.type = type;
-	}
+	private final String scope;
+	private final String path;
 
 	public GroupArtifactVersionType(Artifact artifact)
 	{
 		this.groupId = artifact.getGroupId();
 		this.artifactId = artifact.getArtifactId();
-		this.version = artifact.getVersion();
+		this.version = artifact.getBaseVersion();
 		this.type = artifact.getType();
+		this.scope = artifact.getScope();
+		this.path = artifact.getFile() != null ? artifact.getFile().getAbsolutePath() : null;
 	}
 
 	public final String getGroupId()
@@ -46,10 +41,14 @@ public class GroupArtifactVersionType
 		return type;
 	}
 
-	public final String getRelativePath()
+	public final String getScope()
 	{
-		// FIXME: This is not always a jar file.
-		return getGroupId().replace('.', File.separatorChar) + File.separator + getArtifactId() + File.separator + getVersion() + File.separator + getArtifactId() + "-" + getVersion() + ".jar";
+		return scope;
+	}
+
+	public final String getPath()
+	{
+		return path;
 	}
 
 	public boolean equals(Object obj)

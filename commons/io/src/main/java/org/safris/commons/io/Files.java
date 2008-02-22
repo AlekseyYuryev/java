@@ -155,16 +155,8 @@ public final class Files
 		if(dir == null || file == null)
 			return null;
 
-		final String filePath = Paths.canonicalize(file.getPath());
-		final String dirPath = Paths.canonicalize(dir.getPath());
-
-		if(!filePath.startsWith(dirPath))
-			return filePath;
-
-		if(filePath.length() == dirPath.length())
-			return "";
-
-		return filePath.substring(dirPath.length() + 1);
+		// FIXME: Should this be getAbsolutePath() instead?
+		return Paths.relativePath(dir.getPath(), file.getPath());
 	}
 
 	public static byte[] getBytes(File file) throws IOException

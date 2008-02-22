@@ -2,6 +2,14 @@ package org.safris.commons.lang;
 
 public final class Paths
 {
+	public static boolean isAbsolute(String path)
+	{
+		if(path == null)
+			throw new NullPointerException();
+
+		return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
+	}
+
 	public static String canonicalize(String path)
 	{
 		if(path == null)
@@ -27,6 +35,23 @@ public final class Paths
 		}
 
 		return path;
+	}
+
+	public static String relativePath(String dir, String file)
+	{
+		if(dir == null || file == null)
+			return null;
+
+		final String filePath = Paths.canonicalize(file);
+		final String dirPath = Paths.canonicalize(dir);
+
+		if(!filePath.startsWith(dirPath))
+			return filePath;
+
+		if(filePath.length() == dirPath.length())
+			return "";
+
+		return filePath.substring(dirPath.length() + 1);
 	}
 
 	public static String getParent(String url)
