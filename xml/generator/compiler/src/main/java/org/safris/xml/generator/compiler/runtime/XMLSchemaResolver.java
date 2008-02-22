@@ -10,11 +10,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
-import org.safris.xml.generator.compiler.runtime.BindingError;
-import org.safris.xml.generator.compiler.runtime.Bindings;
 
 public class XMLSchemaResolver implements XMLEntityResolver
 {
@@ -38,12 +37,19 @@ public class XMLSchemaResolver implements XMLEntityResolver
 			// The schemaReference may not have been registered yet
 			synchronized(namespaceURI)
 			{
+				// When loading the classes, the static block of each binding will call the
+				// registerSchemaLocation() function.
+				// FIXME: Look this over. Also make a dedicated RuntimeException for this.
 				if(!schemaReferences.containsKey(namespaceURI))
 				{
-					// When loading the classes, the static block of each binding will call the
-					// registerSchemaLocation() function.
-					String pkg = NamespaceBinding.getPackageFromNamespace(namespaceURI);
-					Bindings.bootstrapSchemaPackage(pkg, ClassLoader.getSystemClassLoader());
+					try
+					{
+						PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+					}
+					catch(Exception e)
+					{
+						throw new RuntimeException(e);
+					}
 				}
 			}
 

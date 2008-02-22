@@ -5,15 +5,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
+import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
-import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingError;
-import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.SimpleType;
-import org.safris.xml.generator.compiler.runtime.XMLSchemaResolver;
 
 public abstract class AbstractBinding implements Cloneable
 {
@@ -49,8 +45,15 @@ public abstract class AbstractBinding implements Cloneable
 
 	private static void loadPackage(String namespaceURI)
 	{
-		final String pkg = NamespaceBinding.getPackageFromNamespace(namespaceURI);
-		Bindings.bootstrapSchemaPackage(pkg, ClassLoader.getSystemClassLoader());
+		// FIXME: Look this over. Also make a dedicated RuntimeException for this.
+		try
+		{
+			PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected static Class<? extends Binding> lookupElement(QName name)

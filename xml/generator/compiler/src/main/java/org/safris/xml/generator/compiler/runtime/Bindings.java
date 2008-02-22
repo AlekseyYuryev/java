@@ -1,11 +1,5 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import org.safris.commons.lang.PackageLoader;
-import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingsOption;
-import org.safris.xml.generator.compiler.runtime.MarshalException;
-import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.compiler.runtime.ValidationException;
 import org.safris.xml.generator.compiler.util.Validator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -15,18 +9,6 @@ import org.xml.sax.InputSource;
 
 public abstract class Bindings
 {
-	static void bootstrapSchemaPackage(String schemaPackage, java.lang.ClassLoader classLoader)
-	{
-		try
-		{
-			PackageLoader.getSystemPackageLoader().loadPackage(schemaPackage);
-		}
-		catch(Exception e)
-		{
-			throw new Error(e);
-		}
-	}
-
 	/**
 	 * Converts a DOM document to a XML string.
 	 * It handles all children recursively.
@@ -142,8 +124,8 @@ public abstract class Bindings
 	 * Convert the invalid XML characters in a string to
 	 * character entities.
 	 *
-	 * @param textToConvert the String containing invalid entities
-	 * @return String with expanded entities
+	 * @param textToConvert the String containing invalid entities.
+	 * @return String with expanded entities.
 	 */
 	private static void entityConvert(StringBuffer stringBuffer, String entity)
 	{
@@ -171,6 +153,12 @@ public abstract class Bindings
 		}
 	}
 
+	/**
+	 * Marshals a Binding instance to an Element object.
+	 *
+	 * @param binding Binding instance to marshal.
+	 * @return Element DOM object.
+	 */
 	public static Element marshal(Binding binding) throws MarshalException, ValidationException
 	{
 		if(binding.inherits() == null)
@@ -179,11 +167,27 @@ public abstract class Bindings
 		return binding.marshal();
 	}
 
+	/**
+	 * Parse an Element object to a Binding instance.
+	 *
+	 * @param element Element object to parse.
+	 * @return Binding instance.
+	 */
 	public static Binding parse(Element element) throws ParseException, ValidationException
 	{
-		return Binding.parseElement((Element)element.cloneNode(true), null, null);
+		final Binding binding = Binding.parseElement((Element)element.cloneNode(true), null, null);
+		if(Validator.getSystemValidator() != null)
+			Validator.getSystemValidator().validateParse(element);
+
+		return binding;
 	}
 
+	/**
+	 * Parse an InputSource pointing to xml into a Binding instance.
+	 *
+	 * @param inputSource InputSource pointing to xml.
+	 * @return Binding instance.
+	 */
 	public static Binding parse(InputSource inputSource) throws ParseException, ValidationException
 	{
 		final Element element;
