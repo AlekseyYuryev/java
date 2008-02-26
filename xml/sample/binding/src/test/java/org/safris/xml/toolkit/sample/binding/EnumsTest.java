@@ -2,6 +2,8 @@ package org.safris.xml.toolkit.sample.binding;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class EnumsTest extends AbstractTest
 {
 	public static void main(String[] args)
@@ -12,6 +14,6 @@ public class EnumsTest extends AbstractTest
 	@Test
 	public void testExample()
 	{
-		verifyBinding(new EnumsExample().runExample());
+		assertTrue(verifyBinding(new EnumsExample().runExample()));
 	}
 }

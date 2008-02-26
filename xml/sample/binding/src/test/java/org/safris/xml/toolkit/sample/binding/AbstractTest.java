@@ -1,7 +1,6 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import java.io.StringReader;
-import junit.framework.TestCase;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.BindingsOption;
@@ -10,7 +9,7 @@ import org.safris.xml.generator.compiler.util.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-public abstract class AbstractTest extends TestCase
+public abstract class AbstractTest
 {
 	static
 	{

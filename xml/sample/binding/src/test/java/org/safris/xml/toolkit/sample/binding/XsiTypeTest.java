@@ -2,6 +2,8 @@ package org.safris.xml.toolkit.sample.binding;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class XsiTypeTest extends AbstractTest
 {
 	public static void main(String[] args)
@@ -12,6 +14,6 @@ public class XsiTypeTest extends AbstractTest
 	@Test
 	public void testExample()
 	{
-		verifyBinding(new XsiTypeExample().runExample());
+		assertTrue(verifyBinding(new XsiTypeExample().runExample()));
 	}
 }

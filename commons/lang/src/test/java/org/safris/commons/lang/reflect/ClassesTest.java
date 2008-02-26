@@ -12,32 +12,37 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
-public class ClassesTest extends TestCase
+import static org.junit.Assert.*;
+
+public class ClassesTest
 {
-	private static final Map<Class[],Class> gccs = new HashMap<Class[],Class>();
-
-	static
-	{
-		gccs.put(new Class[]{String.class}, String.class);
-		gccs.put(new Class[]{String.class, Integer.class}, Object.class);
-		gccs.put(new Class[]{Long.class, Integer.class}, Number.class);
-		gccs.put(new Class[]{ArrayList.class, LinkedList.class}, AbstractList.class);
-		gccs.put(new Class[]{HashSet.class, LinkedHashSet.class}, HashSet.class);
-		gccs.put(new Class[]{FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
-	}
-
 	public static void main(String[] args) throws Exception
 	{
-		new ClassesTest().testGreatestCommonClass();
+		final ClassesTest classesTest = new ClassesTest();
+		classesTest.setUp();
+		classesTest.testGreatestCommonClass();
+	}
+
+	private final Map<Class[],Class> classes = new HashMap<Class[],Class>();
+
+	@Before
+	public void setUp()
+	{
+		classes.put(new Class[]{String.class}, String.class);
+		classes.put(new Class[]{String.class, Integer.class}, Object.class);
+		classes.put(new Class[]{Long.class, Integer.class}, Number.class);
+		classes.put(new Class[]{ArrayList.class, LinkedList.class}, AbstractList.class);
+		classes.put(new Class[]{HashSet.class, LinkedHashSet.class}, HashSet.class);
+		classes.put(new Class[]{FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
 	}
 
 	@Test
 	public void testGreatestCommonClass() throws Exception
 	{
-		for(Map.Entry<Class[],Class> entry : gccs.entrySet())
+		for(Map.Entry<Class[],Class> entry : classes.entrySet())
 			assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
 
 		assertNull(Classes.getGreatestCommonSuperclass(null));

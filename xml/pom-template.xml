@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org</groupId>
 		<artifactId>safris</artifactId>
-		<version>${org.safris}</version>
+		<version>${dev:org.safris}</version>
 	</parent>
 	<groupId>org.safris</groupId>
 	<artifactId>xml</artifactId>

@@ -1,22 +1,18 @@
-package org.safris.commons.io.output;
+package org.safris.commons.io.input;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.safris.commons.math.Functions;
 
 public class NonBlockingInputStream extends InputStream
 {
-	private static int log2(int value)
-	{
-		return (int)Math.round(Math.log(value) / Math.log(2));
-	}
-
 	private final InputStream in;
 	private final byte[] buffer;
 	private final int tempBufferSize;
 	private volatile int writeAhead;
 	private volatile int writeIndex = 0;
 	private volatile int readIndex = 0;
-	private IOException ioException;
+	private volatile IOException ioException;
 	private boolean eof = false;
 	private int lost = 0;
 
@@ -27,7 +23,7 @@ public class NonBlockingInputStream extends InputStream
 
 		this.in = in;
 		this.buffer = new byte[bufferSize];
-		this.tempBufferSize = log2(bufferSize);
+		this.tempBufferSize = (int)Math.round(Functions.log(2, bufferSize));
 		this.writeAhead = bufferSize;
 		new ReaderThread().start();
 	}
@@ -66,6 +62,7 @@ public class NonBlockingInputStream extends InputStream
 	{
 		public ReaderThread()
 		{
+			setName(NonBlockingInputStream.this.getClass().getSimpleName() + "$" + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
 			setPriority(Thread.MAX_PRIORITY);
 		}
 

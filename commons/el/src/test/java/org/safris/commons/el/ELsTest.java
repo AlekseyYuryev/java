@@ -2,10 +2,11 @@ package org.safris.commons.el;
 
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class ELsTest extends TestCase
+import static org.junit.Assert.*;
+
+public class ELsTest
 {
 	public static void main(String[] args)
 	{

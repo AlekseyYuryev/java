@@ -1,9 +1,10 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class BindingsOptionTest extends TestCase
+import static org.junit.Assert.*;
+
+public class BindingsOptionTest
 {
 	public static void main(String[] args) throws Exception
 	{
@@ -11,7 +12,7 @@ public class BindingsOptionTest extends TestCase
 	}
 
 	@Test
-	public static void testConsolidate()
+	public void testConsolidate()
 	{
 		assertNull(BindingsOption.consolidate(null));
 

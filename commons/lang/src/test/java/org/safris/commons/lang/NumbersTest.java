@@ -1,9 +1,10 @@
 package org.safris.commons.lang;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class NumbersTest extends TestCase
+import static org.junit.Assert.*;
+
+public class NumbersTest
 {
 	public static void main(String[] args)
 	{

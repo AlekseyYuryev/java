@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org</groupId>
 		<artifactId>safris</artifactId>
-		<version>${org.safris}</version>
+		<version>${dev:org.safris}</version>
 	</parent>
 	<groupId>org.safris</groupId>
 	<artifactId>commons</artifactId>
@@ -20,6 +20,7 @@
 		<module>logging</module>
 		<module>formatter</module>
 		<module>lang</module>
+		<module>math</module>
 		<module>el</module>
 		<module>cli</module>
 		<module>bytecode</module>

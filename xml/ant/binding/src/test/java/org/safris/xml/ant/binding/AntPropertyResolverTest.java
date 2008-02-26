@@ -1,16 +1,18 @@
 package org.safris.xml.ant.binding;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class AntPropertyResolverTest extends TestCase
+import static org.junit.Assert.*;
+
+public class AntPropertyResolverTest
 {
 	public static void main(String args)
 	{
+		new AntPropertyResolverTest().testAntPropertyResolver();
 	}
 
 	@Test
-	public static void testAntPropertyResolver()
+	public void testAntPropertyResolver()
 	{
 		final AntPropertyResolver antPropertyResolver = new AntPropertyResolver(null);
 		assertNull(antPropertyResolver.resolve(null));

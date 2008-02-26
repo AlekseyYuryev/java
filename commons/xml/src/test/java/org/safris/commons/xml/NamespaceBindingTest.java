@@ -2,21 +2,25 @@ package org.safris.commons.xml;
 
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
-import org.safris.commons.xml.NamespaceBinding;
 
-public class NamespaceBindingTest extends TestCase
+import static org.junit.Assert.*;
+
+public class NamespaceBindingTest
 {
+	private final Map<String,String> map = new HashMap<String,String>();
+
 	public static void main(String[] args)
 	{
-		testNamespaceToPackage();
+		final NamespaceBindingTest namespaceBindingTest = new NamespaceBindingTest();
+		namespaceBindingTest.setUp();
+		namespaceBindingTest.testNamespaceToPackage();
 	}
 
-	@Test
-	public static void testNamespaceToPackage()
+	@Before
+	public void setUp()
 	{
-		final Map<String,String> map = new HashMap<String,String>();
 		map.put("http://www.w3.org/2001/XMLSchema", "org.w3.x2001.xmlschema");
 		map.put("http://java.sun.com/xml/ns/j2ee", "com.sun.java.xml.ns.j2ee");
 		map.put("http://openuri.org/nameworld", "org.openuri.nameworld");
@@ -64,11 +68,12 @@ public class NamespaceBindingTest extends TestCase
 		map.put("urn:oasis:names:tc:SAML:1.0:assertion", "_0_assertion.oasis_names_tc_saml_1");
 		map.put("urn:oasis:names:tc:SAML:1.0:protocol", "_0_protocol.oasis_names_tc_saml_1");
 		map.put("xhttp://www.safris.com/schema/testtwo", "com.safris.schema.testtwo");
+	}
 
+	@Test
+	public void testNamespaceToPackage()
+	{
 		for(Map.Entry<String,String> entry : map.entrySet())
-		{
-			final String pkg = NamespaceBinding.getPackageFromNamespace(entry.getKey());
-			assertEquals(pkg, entry.getValue());
-		}
+			assertEquals(NamespaceBinding.getPackageFromNamespace(entry.getKey()), entry.getValue());
 	}
 }

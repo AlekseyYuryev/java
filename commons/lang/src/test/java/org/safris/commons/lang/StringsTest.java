@@ -1,9 +1,10 @@
 package org.safris.commons.lang;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class StringsTest extends TestCase
+import static org.junit.Assert.*;
+
+public class StringsTest
 {
 	private static final String UPPER_CASE = "HELLO WORLD";
 	private static final String LOWER_CASE = "hello world";

@@ -6,10 +6,12 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
-import junit.framework.TestCase;
 import org.junit.Ignore;
+import org.junit.Test;
 
-public class ClassLoaderLocalTest extends TestCase
+import static org.junit.Assert.*;
+
+public class ClassLoaderLocalTest
 {
 	public static void main(String[] args) throws Exception
 	{
@@ -18,6 +20,7 @@ public class ClassLoaderLocalTest extends TestCase
 
 	private static String className = "com.sun.jmx.snmp.ThreadContext";
 
+	@Test
 	@Ignore
 	public void testClassLoaderLocal() throws Exception
 	{

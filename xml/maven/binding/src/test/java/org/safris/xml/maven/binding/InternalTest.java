@@ -1,22 +1,23 @@
 package org.safris.xml.maven.binding;
 
 import java.io.File;
-import junit.framework.TestCase;
 import org.junit.Test;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
 
-public class InternalTest extends TestCase
+import static org.junit.Assert.*;
+
+public class InternalTest
 {
 	private static final String POM_PATH = "src/test/resources/xml/";
 
 	public static void main(String[] args) throws Exception
 	{
-		testInternal();
+		new InternalTest().testInternal();
 	}
 
 	@Test
-	public static void testInternal() throws Exception
+	public void testInternal() throws Exception
 	{
 		final Process process = Processes.forkSync(System.in, System.out, System.err, GeneratorMojo.class, new String[]{POM_PATH + "pom-internal.xml"});
 		if(process.exitValue() != 0)

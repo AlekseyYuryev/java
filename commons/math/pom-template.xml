@@ -4,19 +4,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org</groupId>
-		<artifactId>safris</artifactId>
-		<version>${dev:org.safris}</version>
+		<groupId>org.safris</groupId>
+		<artifactId>commons</artifactId>
+		<version>${dev:org.safris.commons}</version>
 	</parent>
-	<groupId>org.safris</groupId>
-	<artifactId>web</artifactId>
-	<version>${dev:org.safris.web}</version>
-	<packaging>pom</packaging>
+	<groupId>org.safris.commons</groupId>
+	<artifactId>math</artifactId>
+	<version>${dev:org.safris.commons.math}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		Web projects.
+		Lightweight, self-contained mathematics and statistics components.
 	</description>
-	<modules>
-		<module>depiction</module>
-	</modules>
 </project>

@@ -4,10 +4,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class URLsTest extends TestCase
+import static org.junit.Assert.*;
+
+public class URLsTest
 {
 	public static void main(String[] args) throws Exception
 	{
