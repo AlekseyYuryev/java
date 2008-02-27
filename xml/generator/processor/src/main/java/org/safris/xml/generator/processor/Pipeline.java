@@ -63,7 +63,7 @@ public class Pipeline
 		{
 			directories.add(modulePair.getDirectory());
 			final Collection instanceHandles = modulePair.getProcessor().process(modulePair.getInput(), generatorContext, modulePair.getDirectory());
-			if(modulePair.getOutput() != null)
+			if(instanceHandles != null && modulePair.getOutput() != null)
 				modulePair.getOutput().addAll(instanceHandles);
 		}
 

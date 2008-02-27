@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.commons.io.Streams;
-import org.safris.commons.lang.Resources;
+import org.safris.commons.lang.ClassLoaders;
 
 public final class Processes
 {
@@ -39,52 +39,80 @@ public final class Processes
 		return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
 	}
 
-	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] args) throws IOException, InterruptedException
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException
 	{
 		final Process process = forkAsync(stdin, stdout, stderr, args);
 		process.waitFor();
 		return process;
 	}
 
-	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args, Map<String,String> props) throws IOException, InterruptedException
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException
 	{
-		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(clazz, args, getSystemProperties()));
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
 		return process;
 	}
 
-	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args) throws IOException, InterruptedException
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException
 	{
-		return forkAsync(stdin, stdout, stderr, clazz, args, getSystemProperties());
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
+		return process;
 	}
 
-	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args, Map<String,String> props) throws IOException, InterruptedException
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException
 	{
-		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(clazz, args, getSystemProperties()));
+		return forkAsync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+	}
+
+	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	{
+		return forkAsync(stdin, stdout, stderr, null, getSystemProperties(), clazz, args);
+	}
+
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException
+	{
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
 		process.waitFor();
 		return process;
 	}
 
-	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String[] args) throws IOException, InterruptedException
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException
 	{
-		return forkSync(stdin, stdout, stderr, clazz, args, getSystemProperties());
+		final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
+		process.waitFor();
+		return process;
 	}
 
-	private static String[] createJavaCommand(Class clazz, String[] args, Map<String,String> props)
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException
 	{
-		final URL[] classpathURLs = Resources.getClassPath();
-		final StringBuffer classpath = new StringBuffer();
-		for(URL url : classpathURLs)
-			classpath.append(File.pathSeparatorChar).append(url.getFile());
+		return forkSync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+	}
 
-		final String[] options = new String[args.length + props.size() + 4];
+	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException
+	{
+		return forkSync(stdin, stdout, stderr, getSystemProperties(), clazz, args);
+	}
+
+	private static String[] createJavaCommand(String[] vmArgs, Map<String,String> props, Class clazz, String ... args)
+	{
+		final URL[] classpathURLs = ClassLoaders.getClassPath();
+		final StringBuffer classpath = new StringBuffer();
+		if(classpathURLs != null && classpathURLs.length != 0)
+			for(URL url : classpathURLs)
+				classpath.append(File.pathSeparatorChar).append(url.getFile());
+
+		final String[] options = new String[(args != null ? args.length : 0) + (vmArgs != null ? vmArgs.length : 0) + (props != null ? props.size() : 0) + 4];
 		int i = -1;
 		options[++i] = "java";
-		if(props.size() != 0)
+		if(vmArgs != null && vmArgs.length != 0)
+			for(String vmArg : vmArgs)
+				options[++i] = vmArg;
+
+		if(props != null && props.size() != 0)
 			for(Map.Entry<String,String> property : props.entrySet())
 				options[++i] = "-D" + property.getKey() + "=" + property.getValue();
 
 		options[++i] = "-cp";
-		options[++i] = classpath.substring(1);
+		options[++i] = classpath.length() != 0 ? classpath.substring(1) : "";
 		options[++i] = clazz.getName();
 		System.arraycopy(args, 0, options, ++i, args.length);
 

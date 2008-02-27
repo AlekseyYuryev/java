@@ -40,8 +40,22 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>ResourcesTest</name>
+		<target>org.safris.commons.lang.ResourcesTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>StringsTest</name>
 		<target>org.safris.commons.lang.StringsTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>SystemsTest</name>
+		<target>org.safris.commons.lang.SystemsTest</target>
 		<vmOtherOptions/>
 		<workingDir/>
 	</startingPoint>
