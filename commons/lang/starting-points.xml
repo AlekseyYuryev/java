@@ -5,8 +5,43 @@
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
 		<commandLineArguments/>
+		<name>ClassesTest</name>
+		<target>org.safris.commons.lang.reflect.ClassesTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>ClassLoaderLocalTest</name>
 		<target>org.safris.commons.lang.ClassLoaderLocalTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>NumbersTest</name>
+		<target>org.safris.commons.lang.NumbersTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>PackageLoaderTest</name>
+		<target>org.safris.commons.lang.PackageLoaderTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>PathsTest</name>
+		<target>org.safris.commons.lang.PathsTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>StringsTest</name>
+		<target>org.safris.commons.lang.StringsTest</target>
 		<vmOtherOptions/>
 		<workingDir/>
 	</startingPoint>

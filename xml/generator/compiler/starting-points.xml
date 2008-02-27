@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<startingPoints
+	xmlns="http://ide.safris.org/common/starting-points.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
+	<startingPoint>
+		<commandLineArguments/>
+		<name>DateTimeTest</name>
+		<target>org.safris.xml.generator.compiler.runtime.lang.DateTimeTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>BindingsOptionTest</name>
+		<target>org.safris.xml.generator.compiler.runtime.BindingsOptionTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>ClassLoaderTest</name>
+		<target>org.safris.xml.generator.compiler.runtime.ClassLoaderTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+</startingPoints>

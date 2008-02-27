@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<startingPoints
+	xmlns="http://ide.safris.org/common/starting-points.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
+	<startingPoint>
+		<commandLineArguments/>
+		<name>AnyTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.AnyTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>EnumsTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.EnumsTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>SimpleTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.SimpleTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>XsiTypeTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.XsiTypeTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+</startingPoints>
