@@ -36,12 +36,18 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 
 	public Collection<SchemaDocument> process(Collection<SchemaReference> selectedSchemas, GeneratorContext generatorContext, ProcessorDirectory<SchemaReference, SchemaDocument> directory)
 	{
+		if(selectedSchemas == null || selectedSchemas.size() == 0)
+			return null;
+
 		final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
 		final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();
 		final Map<NamespaceURI,Collection<URL>> includeLoopCheck = new HashMap<NamespaceURI,Collection<URL>>();
 
 		for(SchemaReference schemaReference : selectedSchemas)
 		{
+			if(schemaReference == null)
+				continue;
+
 			final Stack<SchemaDocument> schemasToGenerate = new Stack<SchemaDocument>();
 
 			try
@@ -133,17 +139,6 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 			if(externalIncludes.size() != 0)
 				schema.setIncludes(externalIncludes);
 		}
-
-		/*		System.out.println("DEBUG: Order of work on schemas:");
-		 for(SchemaDocument schema : schemas)
-		 {
-		 System.out.println("--------------------------------");
-		 System.out.println("URL: " + schema.getSchemaReference().getURL().getFile());
-		 System.out.println("Namespace: " + schema.getSchemaReference().getNamespaceURI());
-		 if(schema.getIncludes() != null)
-		 for(URL url : schema.getIncludes())
-		 System.out.println("\t" + url.getFile());
-		 }*/
 
 		return schemas;
 	}
