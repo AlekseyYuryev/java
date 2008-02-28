@@ -15,19 +15,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>src-jar</id>
-						<phase>install</phase>
-					</execution>
-					<execution>
-						<id>deploy</id>
-						<phase>deploy</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.safris.xml.maven</groupId>
 				<artifactId>binding</artifactId>
 				<version>${dev:org.safris.xml.maven.binding}</version>
@@ -43,6 +30,15 @@
 					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
 						<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/main/resources/xml/manifest.xml"/>
 					</manifest>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>src</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -1,7 +1,6 @@
 package org.safris.commons.lang;
 
 import java.io.File;
-import java.net.URL;
 import java.util.Enumeration;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class ResourcesTest
 	{
 		assertNull(Resources.getResource(null));
 		assertNull(Resources.getResource(""));
-		assertEquals(new URL("jar:file:" + RT_JAR.getAbsolutePath() + "!/META-INF"), Resources.getResource("META-INF").getURL());
+		assertTrue(Resources.getResource("META-INF").getURL().toString().endsWith(".jar!/META-INF"));
 	}
 
 	@Test
@@ -42,12 +41,11 @@ public class ResourcesTest
 		assertNull(Resources.getResources(null));
 		assertNull(Resources.getResources(""));
 		final Enumeration<Resource> resources = Resources.getResources("META-INF");
-		final URL RT_JAR_META_INF = new URL("jar:file:" + RT_JAR.getAbsolutePath() + "!/META-INF");
 		boolean found = false;
 		while(resources.hasMoreElements())
 		{
 			final Resource resource = resources.nextElement();
-			if(!RT_JAR_META_INF.equals(resource.getURL()))
+			if(!resource.getURL().toString().endsWith("!/META-INF"))
 				continue;
 
 			found = true;

@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.safris</groupId>
 		<artifactId>commons</artifactId>
-		<version>0.4.4-SNAPSHOT</version>
+		<version>0.4.4</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
 	<artifactId>el</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		Expression Language tools.
