@@ -1,5 +1,6 @@
 package org.safris.xml.generator.compiler.util;
 
+import com.sun.org.apache.xerces.internal.parsers.SAXParser;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,8 +12,6 @@ import org.safris.xml.generator.compiler.runtime.BindingError;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.ValidationException;
 import org.safris.xml.generator.compiler.runtime.XMLSchemaResolver;
-import org.safris.xml.generator.compiler.util.DefaultErrorHandler;
-import org.safris.xml.generator.compiler.util.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -47,11 +46,8 @@ public class DefaultValidator extends Validator
 
 	private static XMLReader createReader() throws SAXException
 	{
-		// NOTE: The following are not able to discern the
-		// NOTE: http://apache.org/xml/features/validation/schema feature.
-		// System.setProperty("org.xml.sax.driver", "org.apache.crimson.model.XMLReaderImpl");
-
-		final XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+		// Create a specific SAXParser so that it works with our XMLSchemaResolver
+		final XMLReader xmlReader = XMLReaderFactory.createXMLReader(SAXParser.class.getName());
 
 		xmlReader.setFeature(NAMESPACES_FEATURE_ID, true);
 		xmlReader.setFeature(VALIDATION, true);
@@ -104,7 +100,7 @@ public class DefaultValidator extends Validator
 		try
 		{
 			xmlReader = createReader();
-			xmlReader.setProperty("http://apache.org/xml/properties/internal/entity-resolver", new XMLSchemaResolver());
+			xmlReader.setProperty(ENTITY_RESOLVER, new XMLSchemaResolver());
 		}
 		catch(Exception e)
 		{
@@ -122,7 +118,7 @@ public class DefaultValidator extends Validator
 		}
 		catch(Exception e)
 		{
-			throw new ValidationException("\n" + output, e);
+			throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
 		}
 	}
 }

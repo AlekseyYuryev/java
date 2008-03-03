@@ -19,8 +19,22 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>BindingDocumentTest</name>
+		<target>org.safris.xml.generator.compiler.runtime.BindingDocumentTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>ClassLoaderTest</name>
 		<target>org.safris.xml.generator.compiler.runtime.ClassLoaderTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>DefaultValidatorTest</name>
+		<target>org.safris.xml.generator.compiler.util.DefaultValidatorTest</target>
 		<vmOtherOptions/>
 		<workingDir/>
 	</startingPoint>

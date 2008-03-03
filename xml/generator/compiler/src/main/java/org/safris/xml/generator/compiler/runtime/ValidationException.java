@@ -8,17 +8,18 @@ public class ValidationException extends BindingException
 	{
 		super();
 	}
-	
+
 	public ValidationException(String message)
 	{
 		super(message);
 	}
-	
+
 	public ValidationException(Throwable cause)
 	{
-		super(cause);
+		super(cause.getMessage());
+		setStackTrace(cause.getStackTrace());
 	}
-	
+
 	public ValidationException(String message, Throwable cause)
 	{
 		super(message, cause);

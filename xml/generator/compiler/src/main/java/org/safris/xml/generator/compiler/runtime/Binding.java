@@ -127,11 +127,16 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 	protected static Binding parseAttr(Element element, Node node) throws ParseException
 	{
-		final String nodeLocalName = node.getLocalName();
+		final String localName = node.getLocalName();
 		final String namespaceURI = node.getNamespaceURI();
-		final Class classBinding = lookupElement(new QName(namespaceURI, nodeLocalName));
+		final Class classBinding = lookupElement(new QName(namespaceURI, localName));
 		if(classBinding == null)
-			throw new ParseException("Unable to find class binding for {" + namespaceURI + "}:" + nodeLocalName);
+		{
+			if(namespaceURI != null)
+				throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
+			else
+				throw new ParseException("Unable to find class binding for <" + localName + "/>");
+		}
 
 		return Binding._parseAttr(classBinding, element, node);
 	}
@@ -164,7 +169,12 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			{
 				classBinding = lookupElement(new QName(namespaceURI, localName));
 				if(classBinding == null)
-					throw new ParseException("Unable to find class binding for {" + namespaceURI + "}:" + localName);
+				{
+					if(namespaceURI != null)
+						throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
+					else
+						throw new ParseException("Unable to find class binding for <" + localName + "/>");
+				}
 			}
 			else
 				classBinding = defaultClass;
@@ -177,7 +187,12 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 				namespaceURI = element.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
 				final Class<? extends Binding> xsiBinding = lookupType(new QName(namespaceURI, xsiTypeName));
 				if(xsiBinding == null)
-					throw new ParseException("Unable to find class binding for xsi:type={" + namespaceURI + "}:" + xsiTypeName);
+				{
+					if(namespaceURI != null)
+						throw new ParseException("Unable to find class binding for xsi:type <" + xsiTypeName + " xmlns=\"" + namespaceURI + "\">");
+					else
+						throw new ParseException("Unable to find class binding for xsi:type <" + xsiTypeName + "/>");
+				}
 
 				Method method = null;
 				final Method[] methods = xsiBinding.getDeclaredMethods();
@@ -288,7 +303,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 	protected Element marshal() throws MarshalException, ValidationException
 	{
-		org.w3c.dom.Element root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());
+		Element root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());
 		return marshal(root, _getName(), _getTypeName());
 	}
 
@@ -321,10 +336,10 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		if(obj == this)
 			return true;
 
-		if(obj instanceof Binding)
-			return true;
+		if(!(obj instanceof Binding))
+			return false;
 
-		return false;
+		return true;
 	}
 
 	public int hashCode()
