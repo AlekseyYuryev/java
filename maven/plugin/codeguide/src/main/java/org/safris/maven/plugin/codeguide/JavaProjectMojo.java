@@ -14,15 +14,12 @@ import org.safris.maven.plugin.dependency.DependencyMojo;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
 /**
- * This goal will output a classpath string of dependencies from the local
- * repository to a file or log.
- *
- * @goal codeguide
+ * @goal javaproj
  * @requiresDependencyResolution test
  * @execute phase="process-test-sources"
  * @phase process-test-sources
  */
-public class CodeGuideMojo extends PropertiesMojo
+public class JavaProjectMojo extends PropertiesMojo
 {
 	private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
 	private static final FileFilter sourceFileFilter = new FileFilter()
@@ -154,49 +151,6 @@ public class CodeGuideMojo extends PropertiesMojo
 		return filteredReferences;
 	}
 
-	public void execute() throws MojoExecutionException
-	{
-		StateManager stateManager;
-		final GroupArtifact self = new GroupArtifact(getProject().getArtifact());
-		if((stateManager = classLoaderLocal.get()) == null)
-		{
-			stateManager = new StateManager(new Solution(self, getProject().getFile().getParentFile()));
-			classLoaderLocal.set(stateManager);
-		}
-
-		// FIXME: If a dependency is listed that points to a
-		// FIXME: <packaging>pom</packaging> artifact, then this code has to
-		// FIXME: properly resolve those dependencies as project references.
-		if("pom".equals(getProject().getPackaging()))
-			return;
-
-		final JavaProject javaProject = new JavaProject(self, getProject().getFile().getParentFile());
-		stateManager.put(self, javaProject);
-
-		// Find the project's sources, resources, and dependencies
-		javaProject.setSourceFiles(findSources());
-		javaProject.setResourceFiles(findResources());
-		javaProject.setDependencies(DependencyMojo.getDependencies(this));
-
-		// Cross reference the java project to the solution, and vice versa
-		stateManager.getSolution().addJavaProject(javaProject);
-		javaProject.setSolution(stateManager.getSolution());
-
-		try
-		{
-			SolutionWriter.write(stateManager.getSolution());
-			for(JavaProject project : stateManager.getJavaProjects())
-			{
-				resolveDependencies(getLocal(), getRepositoryPath(), project, stateManager);
-				JavaProjectWriter.write(project);
-			}
-		}
-		catch(Exception e)
-		{
-			throw new MojoExecutionException(e.getMessage(), e);
-		}
-	}
-
 	private static void resolveDependencies(ArtifactRepository localRepository, String repositoryPath, JavaProject project, StateManager stateManager)
 	{
 		// Filter the classpath reference by excluding the other projects
@@ -212,5 +166,57 @@ public class CodeGuideMojo extends PropertiesMojo
 			references.add(stateManager.getJavaProject(reference));
 
 		project.setProjectReferences(references);
+	}
+
+	protected StateManager getStateManager()
+	{
+		StateManager stateManager;
+		if((stateManager = classLoaderLocal.get()) == null)
+		{
+			final GroupArtifact self = new GroupArtifact(getProject().getArtifact());
+			stateManager = new StateManager(new Solution(self, getProject().getFile().getParentFile()));
+			classLoaderLocal.set(stateManager);
+		}
+
+		return stateManager;
+	}
+
+	public void execute() throws MojoExecutionException
+	{
+		// This has to be done first to initialize the StateManager.
+		final StateManager stateManager = getStateManager();
+
+		// FIXME: If a dependency is listed that points to a
+		// FIXME: <packaging>pom</packaging> artifact, then this code has to
+		// FIXME: properly resolve those dependencies as project references.
+		if("pom".equals(getProject().getPackaging()))
+			return;
+
+		final GroupArtifact self = new GroupArtifact(getProject().getArtifact());
+		final JavaProject javaProject = new JavaProject(self, getProject().getFile().getParentFile());
+		stateManager.put(self, javaProject);
+
+		// Find the project's sources, resources, and dependencies
+		javaProject.setSourceFiles(findSources());
+		javaProject.setResourceFiles(findResources());
+		javaProject.setDependencies(DependencyMojo.getDependencies(this));
+
+		// Cross reference the java project to the solution, and vice versa
+		stateManager.getSolution().addJavaProject(javaProject);
+		javaProject.setSolution(stateManager.getSolution());
+
+		// Write the JavaProject files
+		try
+		{
+			for(JavaProject project : stateManager.getJavaProjects())
+			{
+				resolveDependencies(getLocal(), getRepositoryPath(), project, stateManager);
+				JavaProjectWriter.write(project);
+			}
+		}
+		catch(Exception e)
+		{
+			throw new MojoExecutionException(e.getMessage(), e);
+		}
 	}
 }
