@@ -5,14 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.safris.xml.maven</groupId>
 	<artifactId>pom-external</artifactId>
-	<version>${org.safris.xml.maven.pom-external}</version>
+	<version>${dev:org.safris.xml.maven.pom-external}</version>
 	<name>${groupId}.${artifactId}</name>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.safris.xml.maven</groupId>
 				<artifactId>binding</artifactId>
-				<version>${org.safris.xml.maven.binding}</version>
+				<version>${dev:org.safris.xml.maven.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-test-sources</phase>
@@ -43,12 +43,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>util</artifactId>
-			<version>${org.safris.commons.util}</version>
+			<version>${dev:org.safris.commons.util}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
-			<version>${org.safris.xml.generator.compiler}</version>
+			<version>${dev:org.safris.xml.generator.compiler}</version>
 		</dependency>
 	</dependencies>
 </project>

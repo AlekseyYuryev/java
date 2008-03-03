@@ -57,7 +57,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 			documentation = Plan.<DocumentationPlan>analyze(getModel().getDocumentation(), this);
 
 		schemaReference = model.getSchema().getURL().toString();
-		xsdLocation = Paths.getName(model.getSchema().getTargetNamespace().getPackageName().toString().replace('.', File.separatorChar) + ".xsd");
+		xsdLocation = Paths.getName(model.getSchema().getTargetNamespace().getPackageName().toString().replace('.', '/') + ".xsd");
 	}
 
 	public final String getXsdLocation()

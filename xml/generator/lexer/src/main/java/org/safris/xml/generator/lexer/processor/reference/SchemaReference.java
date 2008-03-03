@@ -15,7 +15,6 @@ import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.Prefix;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
-import org.safris.xml.generator.lexer.processor.reference.SchemaNamespaceHandler;
 import org.safris.xml.generator.processor.BindingQName;
 import org.safris.xml.generator.processor.ElementModule;
 import org.xml.sax.InputSource;

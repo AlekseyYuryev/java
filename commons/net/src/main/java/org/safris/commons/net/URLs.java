@@ -12,9 +12,9 @@ public final class URLs
 {
 	private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
 
-	protected static String formatWindowsPath(String absolutePath)
+	private static String formatWindowsPath(String absolutePath)
 	{
-		return "/" + absolutePath.replace('\\', '/').replace(':', '|');
+		return absolutePath.replace('\\', '/');
 	}
 
 	public static boolean isAbsolute(String path)

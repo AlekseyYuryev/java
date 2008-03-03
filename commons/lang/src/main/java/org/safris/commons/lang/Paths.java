@@ -18,6 +18,12 @@ public final class Paths
 		if(path.endsWith(".."))
 			path = path + "/";
 
+		// This removes all redundant "//" sequences.
+		if(path.contains("://"))
+			path = path.substring(0, 7) + path.substring(7).replace("//", "/");
+		else
+			path = path.replace("//", "/");
+
 		int index;
 		while((index = path.indexOf("/./")) != -1)
 			path = path.substring(0, index) + path.substring(index + 2);
