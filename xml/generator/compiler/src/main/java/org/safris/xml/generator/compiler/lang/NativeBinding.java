@@ -1,7 +1,6 @@
 package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
-import org.safris.xml.generator.compiler.lang.NativeBinding;
 import org.safris.xml.generator.processor.BindingQName;
 
 public class NativeBinding
@@ -13,8 +12,11 @@ public class NativeBinding
 
 	public NativeBinding(BindingQName name, GenericClass baseClass, GenericClass nativeClass, Method factoryMethod)
 	{
-		if(name == null || baseClass == null)
-			throw new IllegalArgumentException("Cannot have name or baseClass be null");
+		if(name == null)
+			throw new NullPointerException("name == null");
+
+		if(baseClass == null)
+			throw new NullPointerException("baseClass == null");
 
 		this.name = name;
 		this.baseClass = baseClass;
@@ -60,7 +62,7 @@ public class NativeBinding
 		if(!(obj instanceof NativeBinding))
 			return false;
 
-		NativeBinding nativeBinding = (NativeBinding)obj;
+		final NativeBinding nativeBinding = (NativeBinding)obj;
 		return name.equals(nativeBinding.name) && baseClass.equals(nativeBinding.baseClass) && nativeClass.equals(nativeBinding.nativeClass);
 	}
 
@@ -82,7 +84,7 @@ public class NativeBinding
 		public GenericClass(Class cls, Class type)
 		{
 			if(cls == null)
-				throw new IllegalArgumentException("Cannot do: new GenericClass(null, ...)");
+				throw new NullPointerException("cls == null");
 
 			this.cls = cls;
 			this.type = type;
@@ -111,7 +113,7 @@ public class NativeBinding
 			if(!(obj instanceof GenericClass))
 				return false;
 
-			GenericClass genericClass = (GenericClass)obj;
+			final GenericClass genericClass = (GenericClass)obj;
 			return cls.equals(genericClass.cls) && (type == null && genericClass.type == null || type != null && type.equals(genericClass.type));
 		}
 

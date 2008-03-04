@@ -1,4 +1,4 @@
-package org.safris.commons.xml.validator;
+package org.safris.xml.generator.compiler.runtime;
 
 import com.sun.org.apache.xerces.internal.impl.xs.XSDDescription;
 import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
@@ -14,8 +14,9 @@ import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
+import org.safris.commons.xml.validator.ValidatorError;
 
-public class XMLSchemaResolver implements XMLEntityResolver
+public class BindingEntityResolver implements XMLEntityResolver
 {
 	public static void registerSchemaLocation(String namespaceURI, URL schemaReference)
 	{

@@ -72,7 +72,7 @@ public abstract class Validator
 			if(namespaceURI == null || namespaceURI.length() == 0 || XSI.getNamespaceURI().equals(namespaceURI))
 				continue;
 
-			namespaceLocations += " " + namespaceURI + " " + XMLSchemaResolver.lookupSchemaLocation(namespaceURI);
+			namespaceLocations += " " + namespaceURI + " " + getSchemaLocation(namespaceURI);
 		}
 
 		element.setAttributeNS(XMLNS.getNamespaceURI(), XSI.getPrefix() + ":" + XSI.getLocalPart(), "http://www.w3.org/2001/XMLSchema-instance");
@@ -86,6 +86,17 @@ public abstract class Validator
 			throw new ValidationException(e);
 		}
 	}
+
+	/**
+	 * This method allows a caller to get the schemaLocation <code>URL</code>
+	 * of the declaring namespaceURI.
+	 *
+	 * @param namespaceURI The namespaceURI that is defined at the
+	 * schemaLocation.
+	 *
+	 * @return The schemaLocation <code>URL</code>.
+	 */
+	protected abstract URL getSchemaLocation(String namespaceURI);
 
 	protected abstract void parse(Element element) throws IOException, ValidationException;
 

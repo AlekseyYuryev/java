@@ -8,7 +8,7 @@ import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.NotationModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
-public abstract class JavaBinding
+public final class JavaBinding
 {
 	private final static String ATTRIBUTE_SUFFIX = "Attr";
 	private final static String NOTATION_SUFFIX = "Notation";
@@ -142,5 +142,9 @@ public abstract class JavaBinding
 		}
 
 		return legalizeForJava(string);
+	}
+
+	private JavaBinding()
+	{
 	}
 }

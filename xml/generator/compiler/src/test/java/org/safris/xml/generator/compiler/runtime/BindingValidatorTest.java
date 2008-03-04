@@ -1,20 +1,21 @@
-package org.safris.commons.xml.validator;
+package org.safris.xml.generator.compiler.runtime;
 
 import java.io.File;
 import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.junit.Test;
 import org.safris.commons.xml.dom.DOMParsers;
+import org.safris.commons.xml.validator.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import static org.junit.Assert.*;
 
-public class DefaultValidatorTest
+public class BindingValidatorTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		new DefaultValidatorTest().testSAXParser();
+		new BindingValidatorTest().testSAXParser();
 	}
 
 	/**
@@ -37,11 +38,11 @@ public class DefaultValidatorTest
 		final Element element = document.getDocumentElement();
 		try
 		{
-			new DefaultValidator().parse(element);
+			new BindingValidator().parse(element);
 		}
 		catch(ValidationException e)
 		{
-			if(e.getMessage().startsWith(XMLSchemaResolver.class.getName() + " cannot be cast to " + XMLEntityResolver.class.getName()))
+			if(e.getMessage().startsWith(BindingEntityResolver.class.getName() + " cannot be cast to " + XMLEntityResolver.class.getName()))
 				fail(e.getMessage());
 			else if(e.getCause() == null || e.getCause().getMessage() == null || !e.getCause().getMessage().startsWith("cvc-elt.1: Cannot find the declaration of element"))
 				throw e;

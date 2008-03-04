@@ -1,11 +1,11 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import java.io.StringReader;
-import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.dom.DOMStyle;
-import org.safris.commons.xml.validator.DefaultValidator;
+import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.validator.Validator;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.compiler.runtime.BindingValidator;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -14,7 +14,7 @@ public abstract class AbstractTest
 {
 	static
 	{
-		final Validator validator = new DefaultValidator();
+		final Validator validator = new BindingValidator();
 		Validator.setSystemValidator(validator);
 	}
 

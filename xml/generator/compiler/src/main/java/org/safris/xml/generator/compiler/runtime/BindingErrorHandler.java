@@ -1,13 +1,19 @@
-package org.safris.commons.xml.validator;
+package org.safris.xml.generator.compiler.runtime;
 
 import org.safris.commons.logging.Logger;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class DefaultErrorHandler implements ErrorHandler
+public final class BindingErrorHandler implements ErrorHandler
 {
-	private final Logger logger = Logger.getAnonymousLogger();
+	private final Logger logger = Logger.getLogger(RuntimeLoggerName.VALIDATOR);
+	private static final BindingErrorHandler instance = new BindingErrorHandler();
+
+	public static BindingErrorHandler getInstance()
+	{
+		return instance;
+	}
 
 	// ignore fatal errors (an exception is guaranteed)
 	public void fatalError(SAXParseException e) throws SAXException
@@ -27,5 +33,9 @@ public class DefaultErrorHandler implements ErrorHandler
 	{
 		final String message = e.getMessage() != null ? " " + e.getMessage() : "";
 		logger.warning("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
+	}
+
+	private BindingErrorHandler()
+	{
 	}
 }

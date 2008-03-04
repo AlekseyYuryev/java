@@ -33,8 +33,8 @@ public class WeakClassLoader extends SecureClassLoader
 
 	public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
 	{
-		WeakReference<Class<?>> ref = new WeakReference<Class<?>>(findClass(name));
-		Class<?> cls = ref.get();
+		final WeakReference<Class<?>> ref = new WeakReference<Class<?>>(findClass(name));
+		final Class<?> cls = ref.get();
 		if(resolve)
 			resolveClass(cls);
 

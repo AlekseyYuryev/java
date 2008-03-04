@@ -1,4 +1,4 @@
-package org.safris.commons.xml.validator;
+package org.safris.xml.generator.compiler.runtime;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -12,10 +12,13 @@ import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParserFeature;
 import org.safris.commons.xml.sax.SAXParserProperty;
 import org.safris.commons.xml.sax.SAXParsers;
+import org.safris.commons.xml.validator.ValidationException;
+import org.safris.commons.xml.validator.Validator;
+import org.safris.commons.xml.validator.ValidatorError;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-public class DefaultValidator extends Validator
+public class BindingValidator extends Validator
 {
 	private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
@@ -37,6 +40,11 @@ public class DefaultValidator extends Validator
 		return schemaReferences.get(namespaceURI);
 	}
 
+	protected URL getSchemaLocation(String namespaceURI)
+	{
+		return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
+	}
+
 	protected void parse(Element element) throws IOException, ValidationException
 	{
 		final SAXParser saxParser;
@@ -50,7 +58,8 @@ public class DefaultValidator extends Validator
 			saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
 			saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
 
-			saxParser.addProptery(SAXParserProperty.ENTITY_RESOLVER, new XMLSchemaResolver());
+			saxParser.addProptery(SAXParserProperty.ENTITY_RESOLVER, new BindingEntityResolver());
+			saxParser.setErrorHandler(BindingErrorHandler.getInstance());
 		}
 		catch(Exception e)
 		{

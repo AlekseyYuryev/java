@@ -2,8 +2,9 @@ package org.safris.xml.generator.processor;
 
 import java.lang.reflect.InvocationTargetException;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.xml.XMLError;
 
-public abstract class GeneratorError extends Error
+public abstract class GeneratorError extends XMLError
 {
 	protected static final Logger logger = Logger.getAnonymousLogger();
 

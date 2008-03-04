@@ -10,7 +10,6 @@ import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
-import org.safris.commons.xml.validator.XMLSchemaResolver;
 
 public abstract class AbstractBinding implements Cloneable
 {
@@ -31,7 +30,7 @@ public abstract class AbstractBinding implements Cloneable
 		final URL parent = URLs.getParent(resource.getURL());
 		try
 		{
-			XMLSchemaResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
+			BindingEntityResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
 		}
 		catch(MalformedURLException e)
 		{
