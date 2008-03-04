@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import javax.xml.namespace.QName;
-import org.safris.commons.xml.validation.ValidationException;
+import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.EnumerablePlan;

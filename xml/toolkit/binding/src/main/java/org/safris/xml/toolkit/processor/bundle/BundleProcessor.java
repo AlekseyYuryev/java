@@ -14,8 +14,8 @@ import org.safris.commons.jci.JavaCompiler;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.jar.Jar;
+import org.safris.commons.xml.NamespaceBinding;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.commons.xml.validation.ValidationException;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingError;
@@ -50,9 +50,9 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 			classpath.add(bindingLocationBase);
 
 		// FIXME: Make this more explicit.
-		final File validatorLocationBase = Resources.getLocationBase(ValidationException.class);
-		if(validatorLocationBase != null)
-			classpath.add(validatorLocationBase);
+		final File namespaceBindingBase = Resources.getLocationBase(NamespaceBinding.class);
+		if(namespaceBindingBase != null)
+			classpath.add(namespaceBindingBase);
 
 		new JavaCompiler(destDir, classpath).compile(javaSources);
 	}

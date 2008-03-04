@@ -1,7 +1,7 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import org.safris.commons.xml.validation.ValidationException;
-import org.safris.commons.xml.validation.Validator;
+import org.safris.commons.xml.validator.ValidationException;
+import org.safris.commons.xml.validator.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 

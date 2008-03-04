@@ -8,13 +8,12 @@ import java.io.IOException;
 import org.safris.commons.io.Files;
 import org.safris.commons.xml.DOMs;
 import org.safris.commons.xml.FormatOption;
-import org.safris.commons.xml.validation.ValidationException;
+import org.safris.commons.xml.XMLException;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
-import org.safris.xml.generator.compiler.runtime.BindingException;
 
 public class JavaProjectWriter
 {
-	public static void write(JavaProject javaProject) throws BindingException, IOException, ValidationException
+	public static void write(JavaProject javaProject) throws XMLException, IOException
 	{
 		final JpJavaProject3 javaProject3 = createJavaProject(javaProject);
 		final String xml = DOMs.domToString(javaProject3.marshal(), FormatOption.INDENT, FormatOption.IGNORE_NAMESPACES);

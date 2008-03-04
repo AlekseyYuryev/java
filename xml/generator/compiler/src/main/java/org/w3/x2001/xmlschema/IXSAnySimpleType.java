@@ -1,7 +1,7 @@
 package org.w3.x2001.xmlschema;
 
 import javax.xml.namespace.QName;
-import org.safris.commons.xml.validation.ValidationException;
+import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;

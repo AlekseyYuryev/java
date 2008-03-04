@@ -1,6 +1,6 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import org.safris.commons.xml.validation.ValidationException;
+import org.safris.commons.xml.validator.ValidationException;
 
 public class InvalidNamespaceException extends ValidationException
 {
