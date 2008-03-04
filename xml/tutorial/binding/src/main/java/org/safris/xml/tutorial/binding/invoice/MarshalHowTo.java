@@ -1,9 +1,9 @@
 package org.safris.xml.tutorial.binding.invoice;
 
-import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.binding.Date;
+import org.safris.commons.xml.binding.Decimal;
 import org.safris.commons.xml.dom.DOMStyle;
-import org.safris.xml.generator.compiler.runtime.lang.Date;
-import org.safris.xml.generator.compiler.runtime.lang.Decimal;
+import org.safris.commons.xml.dom.DOMs;
 
 public class MarshalHowTo
 {

@@ -1,6 +1,4 @@
-package org.safris.xml.generator.compiler.runtime.lang;
-
-import org.safris.xml.generator.compiler.runtime.lang.Duration;
+package org.safris.commons.xml.binding;
 
 public class Duration
 {
@@ -8,7 +6,7 @@ public class Duration
 	{
 		if(string == null)
 			throw new NullPointerException("The duration value must not be null.");
-		
+
 		int len = string.length();
 		int offset = 0;
 		boolean isNegative;
@@ -34,7 +32,7 @@ public class Duration
 		{
 			throw new IllegalArgumentException("Invalid duration: Empty string");
 		}
-		
+
 		if(len == 0  ||  string.charAt(offset) != 'P')
 		{
 			throw new IllegalArgumentException("Invalid duration: " + string + " (must start with P, +P, or -P)");
@@ -43,7 +41,7 @@ public class Duration
 		{
 			++offset;
 		}
-		
+
 		int years = -1, months = -1, daysOfMonth = -1, hours = -1, minutes = -1, seconds = -1;
 		int preDurationPoint = -1;
 		boolean separatorSeen = false;
@@ -227,10 +225,10 @@ public class Duration
 			}
 			++offset;
 		}
-		
+
 		return new Duration(isNegative, years == -1 ? 0 : years, months == -1 ? 0 : months, daysOfMonth == -1 ? 0 : daysOfMonth, hours == -1 ? 0 : hours, minutes == -1 ? 0 : minutes, seconds == -1 ? 0 : seconds);
 	}
-	
+
 	private static final char P = 'P';
 	private static final char Y = 'Y';
 	private static final char M = 'M';
@@ -238,59 +236,59 @@ public class Duration
 	private static final char T = 'T';
 	private static final char H = 'H';
 	private static final char S = 'S';
-	
+
 	private java.util.Date value = null;
 	private boolean isNegative = false;
-	
+
 	public Duration(Duration binding)
 	{
 		if(binding == null)
 			throw new IllegalArgumentException("value cannot be null");
-		
+
 		this.value = binding.value;
 	}
-	
+
 	protected Duration()
 	{
 		this(false, 0, 0, 0, 0, 0, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, 0, 0, 0, 0, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years, int months)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, months, 0, 0, 0, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years, int months, int days)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, months, days, 0, 0, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years, int months, int days, int hours)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, months, days, hours, 0, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years, int months, int days, int hours, int minutes)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, months, days, hours, minutes, 0);
 	}
-	
+
 	public Duration(boolean isNegative, int years, int months, int days, int hours, int minutes, int seconds)
 	{
 		this.isNegative = isNegative;
 		this.value = new java.util.Date(years, months, days, hours, minutes, seconds);
 	}
-	
+
 	public String toString()
 	{
 		StringBuffer stringBuffer = null;
@@ -298,7 +296,7 @@ public class Duration
 			stringBuffer = new StringBuffer("-");
 		else
 			stringBuffer = new StringBuffer();
-		
+
 		stringBuffer.append(java.lang.String.valueOf(P));
 		if(this.value.getYear() != -1)
 		{
@@ -307,20 +305,20 @@ public class Duration
 				stringBuffer.append(this.value.getYear());
 				stringBuffer.append(Y);
 			}
-			
+
 			if(this.value.getMonth() != 0)
 			{
 				stringBuffer.append(this.value.getMonth());
 				stringBuffer.append(M);
 			}
-			
+
 			if(this.value.getDate() != 0)
 			{
 				stringBuffer.append(this.value.getDate());
 				stringBuffer.append(D);
 			}
 		}
-		
+
 		if(this.value.getHours() != 0 || this.value.getMinutes() != 0 || this.value.getSeconds() != 0)
 		{
 			stringBuffer.append(T);
@@ -329,25 +327,25 @@ public class Duration
 				stringBuffer.append(this.value.getHours());
 				stringBuffer.append(H);
 			}
-			
+
 			if(this.value.getMinutes() != 0)
 			{
 				stringBuffer.append(this.value.getMinutes());
 				stringBuffer.append(M);
 			}
-			
+
 			if(this.value.getSeconds() != 0)
 			{
 				stringBuffer.append(this.value.getSeconds());
 				stringBuffer.append(S);
 			}
 		}
-		
+
 		if(stringBuffer.length() == 1)
 		{
 			stringBuffer.append(0).append(D);
 		}
-		
+
 		return stringBuffer.toString();
 	}
 }

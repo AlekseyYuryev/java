@@ -2,10 +2,10 @@ package org.safris.xml.tutorial.binding.invoice;
 
 import java.io.File;
 import java.io.FileInputStream;
-import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.binding.Decimal;
 import org.safris.commons.xml.dom.DOMStyle;
+import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 import org.xml.sax.InputSource;
 
 public class InvoiceUpdater

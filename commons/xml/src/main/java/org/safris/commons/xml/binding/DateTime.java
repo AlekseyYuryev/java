@@ -1,21 +1,20 @@
-package org.safris.xml.generator.compiler.runtime.lang;
+package org.safris.commons.xml.binding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.safris.xml.generator.compiler.runtime.lang.DateTime;
 
 public class DateTime extends Date
 {
 	private static final String formatNoMillis = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final String formatMillis = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-	
+
 	public static DateTime parseDateTime(String string)
 	{
 		final SimpleDateFormat format;
 		final TimeZone timeZone;
-		
+
 		int dot = formatNoMillis.length() - 2;
 		if(dot < string.length() && string.charAt(dot) == '.')
 		{
@@ -24,12 +23,12 @@ public class DateTime extends Date
 		}
 		else
 			format = new SimpleDateFormat(formatNoMillis);
-		
+
 		if(dot < string.length() && (string.charAt(dot) == '+' || string.charAt(dot) == '-'))
 			timeZone = TimeZone.getTimeZone("GMT" + string.substring(dot, dot + 3) + string.substring(dot + 3));
 		else
 			timeZone = TimeZone.getTimeZone("GMT");
-		
+
 		try
 		{
 			format.setTimeZone(timeZone);
@@ -42,69 +41,69 @@ public class DateTime extends Date
 			throw illegalArgumentException;
 		}
 	}
-	
+
 	private static int countMillis(char[] value)
 	{
 		int i;
 		for(i = 0; i < value.length; i++)
 			if('9' < value[i] || value[i] < '0')
 				break;
-		
+
 		return i;
 	}
-	
+
 	private TimeZone timeZone = TimeZone.getTimeZone("GMT");
-	
+
 	public DateTime()
 	{
 		super();
 	}
-	
+
 	public DateTime(TimeZone timeZone)
 	{
 		super();
 		this.timeZone = timeZone;
 	}
-	
+
 	protected DateTime(String s)
 	{
 		super(s);
 	}
-	
+
 	public DateTime(long date, TimeZone timeZone)
 	{
 		super(date);
 		this.timeZone = timeZone;
 	}
-	
+
 	public DateTime(int year, int month, int date, TimeZone timeZone)
 	{
 		super(year - 1900, month - 1, date, 0, 0, 0);
 		this.timeZone = timeZone;
 	}
-	
+
 	public DateTime(int year, int month, int date, int hrs, int min, TimeZone timeZone)
 	{
 		super(year - 1900, month - 1, date, hrs, min, 0);
 		this.timeZone = timeZone;
 	}
-	
+
 	public DateTime(int year, int month, int date, int hrs, int min, int sec, TimeZone timeZone)
 	{
 		super(year - 1900, month - 1, date, hrs, min, sec);
 		this.timeZone = timeZone;
 	}
-	
+
 	public int getYear()
 	{
 		return super.getYear() + 1900;
 	}
-	
+
 	public int getMonth()
 	{
 		return super.getMonth() + 1;
 	}
-	
+
 	public String toString()
 	{
 		String dateFormatString = null;
@@ -112,14 +111,14 @@ public class DateTime extends Date
 			dateFormatString = formatNoMillis;
 		else
 			dateFormatString = formatMillis;
-		
+
 		if(TimeZone.getTimeZone("GMT").equals(timeZone))
 		{
 			SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "'Z'");
 			dateFormat.setTimeZone(timeZone);
 			return dateFormat.format(this);
 		}
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "Z");
 		dateFormat.setTimeZone(timeZone);
 		String format = dateFormat.format(this);

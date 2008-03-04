@@ -1,7 +1,6 @@
-package org.safris.xml.generator.compiler.runtime.lang;
+package org.safris.commons.xml.binding;
 
 import java.io.IOException;
-import org.safris.xml.generator.compiler.runtime.lang.Base64Binary;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -11,7 +10,7 @@ public class Base64Binary
 	{
 		if(string == null)
 			return null;
-		
+
 		byte[] bytes = null;
 		try
 		{
@@ -23,31 +22,31 @@ public class Base64Binary
 			illegalArgumentException.setStackTrace(e.getStackTrace());
 			throw illegalArgumentException;
 		}
-		
+
 		return new Base64Binary(bytes);
 	}
-	
+
 	private final byte[] bytes;
 	private final String encoded;
-	
+
 	public Base64Binary(byte[] bytes)
 	{
 		this.bytes = bytes;
 		this.encoded = new BASE64Encoder().encodeBuffer(bytes);
 	}
-	
+
 	public boolean equals(Object obj)
 	{
 		if(this == obj)
 			return true;
-		
+
 		if(!(obj instanceof Base64Binary))
 			return false;
-		
+
 		Base64Binary equals = (Base64Binary)obj;
 		return encoded.equals(equals.encoded);
 	}
-	
+
 	public String toString()
 	{
 		return encoded;

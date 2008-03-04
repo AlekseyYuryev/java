@@ -1,6 +1,4 @@
-package org.safris.xml.generator.compiler.runtime.lang;
-
-import org.safris.xml.generator.compiler.runtime.lang.Day;
+package org.safris.commons.xml.binding;
 
 public class Day
 {
@@ -8,9 +6,9 @@ public class Day
 	{
 		return new Day(Integer.parseInt(string.substring(3)));
 	}
-	
+
 	private final int day;
-	
+
 	public Day(int day)
 	{
 		this.day = day;

@@ -3,7 +3,7 @@ package org.w3.x2001.xmlschema;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.compiler.runtime.lang.Day;
+import org.safris.commons.xml.binding.Day;
 import org.w3.x2001.xmlschema.IXSGDay;
 import org.w3c.dom.Element;
 

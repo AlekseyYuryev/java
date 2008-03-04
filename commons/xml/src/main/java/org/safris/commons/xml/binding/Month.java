@@ -1,7 +1,6 @@
-package org.safris.xml.generator.compiler.runtime.lang;
+package org.safris.commons.xml.binding;
 
 import java.util.StringTokenizer;
-import org.safris.xml.generator.compiler.runtime.lang.Month;
 
 public class Month
 {
@@ -9,17 +8,17 @@ public class Month
 	{
 		if(string == null || string.length() == 0)
 			return null;
-		
+
 		int month = 1;
 		StringTokenizer tokenizer = new StringTokenizer(string.substring(2), "-");
 		if(tokenizer.hasMoreTokens())
 			month = Integer.parseInt(tokenizer.nextToken());
-		
+
 		return new Month(month);
 	}
-	
+
 	private final int month;
-	
+
 	public Month(int month)
 	{
 		this.month = month;

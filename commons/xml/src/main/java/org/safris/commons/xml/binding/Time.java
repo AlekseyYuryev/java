@@ -1,10 +1,9 @@
-package org.safris.xml.generator.compiler.runtime.lang;
+package org.safris.commons.xml.binding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.safris.xml.generator.compiler.runtime.lang.Time;
 
 public class Time extends Date
 {
@@ -21,29 +20,29 @@ public class Time extends Date
 			throw illegalArgumentException;
 		}
 	}
-	
+
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss'Z'");
-	
+
 	static
 	{
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 	}
-	
+
 	public Time()
 	{
 		super();
     }
-	
+
     public Time(String s)
 	{
 		super(s);
 	}
-	
+
 	public Time(long date)
 	{
 		super(date);
     }
-	
+
 	public Time(int hour, int minute, int second)
 	{
 		super(0, 0, 0, hour, minute, second);

@@ -3,7 +3,7 @@ package org.w3.x2001.xmlschema;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.compiler.runtime.lang.Decimal;
+import org.safris.commons.xml.binding.Decimal;
 import org.w3.x2001.xmlschema.IXSDecimal;
 import org.w3c.dom.Element;
 

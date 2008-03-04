@@ -1,7 +1,6 @@
-package org.safris.xml.generator.compiler.runtime.lang;
+package org.safris.commons.xml.binding;
 
 import java.io.ByteArrayOutputStream;
-import org.safris.xml.generator.compiler.runtime.lang.HexBinary;
 
 public class HexBinary
 {

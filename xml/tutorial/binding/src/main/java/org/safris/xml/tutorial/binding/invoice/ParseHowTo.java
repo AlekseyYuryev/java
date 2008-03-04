@@ -2,9 +2,9 @@ package org.safris.xml.tutorial.binding.invoice;
 
 import java.io.File;
 import java.io.FileInputStream;
+import org.safris.commons.xml.binding.Date;
+import org.safris.commons.xml.binding.Decimal;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.lang.Date;
-import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 import org.xml.sax.InputSource;
 
 public class ParseHowTo

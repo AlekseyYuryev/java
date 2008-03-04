@@ -1,6 +1,4 @@
-package org.safris.xml.generator.compiler.runtime.lang;
-
-import org.safris.xml.generator.compiler.runtime.lang.Decimal;
+package org.safris.commons.xml.binding;
 
 public class Decimal extends Number
 {
@@ -8,14 +6,14 @@ public class Decimal extends Number
 	{
 		return new Decimal(Double.parseDouble(string));
 	}
-	
+
 	private final Number value;
-	
+
 	public Decimal(Number value)
 	{
 		this.value = value;
 	}
-	
+
 	/**
 	 * Returns the value of the specified number as an <code>int</code>.
 	 * This may involve rounding or truncation.
@@ -26,7 +24,7 @@ public class Decimal extends Number
 	{
 		return value.intValue();
 	}
-	
+
 	/**
 	 * Returns the value of the specified number as a <code>long</code>.
 	 * This may involve rounding or truncation.
@@ -37,7 +35,7 @@ public class Decimal extends Number
 	{
 		return value.longValue();
 	}
-	
+
 	/**
 	 * Returns the value of the specified number as a <code>float</code>.
 	 * This may involve rounding.
@@ -48,7 +46,7 @@ public class Decimal extends Number
 	{
 		return value.floatValue();
 	}
-	
+
 	/**
 	 * Returns the value of the specified number as a <code>double</code>.
 	 * This may involve rounding.
@@ -59,12 +57,12 @@ public class Decimal extends Number
 	{
 		return value.doubleValue();
 	}
-	
+
 	public String toString()
 	{
 		if(longValue() == doubleValue())
 			return String.valueOf(longValue());
-		
+
 		return String.valueOf(doubleValue());
 	}
 }
