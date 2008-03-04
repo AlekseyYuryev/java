@@ -40,5 +40,10 @@
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

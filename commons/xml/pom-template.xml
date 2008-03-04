@@ -31,10 +31,5 @@
 			<artifactId>net</artifactId>
 			<version>${dev:org.safris.commons.net}</version>
 		</dependency>
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>
