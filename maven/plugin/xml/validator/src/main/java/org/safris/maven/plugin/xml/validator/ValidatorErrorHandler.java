@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.xml.validate;
+package org.safris.maven.plugin.xml.validator;
 
 import org.safris.commons.logging.Logger;
 import org.xml.sax.ErrorHandler;
@@ -23,8 +23,6 @@ public final class ValidatorErrorHandler implements ErrorHandler
 	// treat validation errors as fatal
 	public void error(SAXParseException e) throws SAXParseException
 	{
-		final String systemId = e.getSystemId() != null ? " systemId=\"" + e.getSystemId() + "\"" : "";
-		logger.severe("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
 		throw e;
 	}
 
