@@ -1,6 +1,5 @@
 package org.safris.commons.xml.dom;
 
-import org.safris.commons.xml.dom.DOMStyle;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

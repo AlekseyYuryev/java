@@ -2,8 +2,6 @@ package org.safris.commons.xml;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.xml.NamespaceBinding;
-import org.safris.commons.xml.PackageName;
 
 public final class NamespaceURI
 {

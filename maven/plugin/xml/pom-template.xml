@@ -17,6 +17,6 @@
 		All xml related plugins.
 	</description>
 	<modules>
-		<module>validate</module>
+		<module>validator</module>
 	</modules>
 </project>

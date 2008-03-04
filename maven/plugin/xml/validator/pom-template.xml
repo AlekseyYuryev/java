@@ -9,8 +9,8 @@
 		<version>${dev:org.safris.maven.plugin.xml}</version>
 	</parent>
 	<groupId>org.safris.maven.plugin.xml</groupId>
-	<artifactId>validate</artifactId>
-	<version>${dev:org.safris.maven.plugin.xml.validate}</version>
+	<artifactId>validator</artifactId>
+	<version>${dev:org.safris.maven.plugin.xml.validator}</version>
 	<name>${groupId}.${artifactId}</name>
 	<packaging>maven-plugin</packaging>
 	<description>

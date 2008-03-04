@@ -3,6 +3,7 @@ package org.safris.maven.plugin.xml.validate;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,6 +65,19 @@ public class ValidateMojo extends AbstractMojo
 		return testResources;
 	}
 
+	protected void validate(File file) throws IOException, SAXException
+	{
+		final SAXParser saxParser = SAXParsers.createParser();
+		saxParser.addFeature(SAXParserFeature.VALIDATION);
+		saxParser.addFeature(SAXParserFeature.NAMESPACE_PREFIXES_FEATURE_ID);
+		saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
+		saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
+
+		saxParser.setErrorHandler(ValidatorErrorHandler.getInstance());
+
+		saxParser.parse(new InputSource(new FileInputStream(file)));
+	}
+
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
 		final Collection<Resource> resources = new ArrayList<Resource>();
@@ -76,49 +90,35 @@ public class ValidateMojo extends AbstractMojo
 		if(resources.size() == 0)
 			return;
 
-		final Collection<File> xmlFiles = new ArrayList<File>();
+		final Collection<File> files = new ArrayList<File>();
 		for(Resource resource : resources)
 		{
-			final Collection<File> files = Files.listAll(new File(resource.getDirectory()), xmlFileFilter);
-			if(files != null)
-				xmlFiles.addAll(files);
+			final Collection<File> xmlFiles = Files.listAll(new File(resource.getDirectory()), xmlFileFilter);
+			if(xmlFiles != null)
+				files.addAll(xmlFiles);
 		}
 
-		if(xmlFiles.size() == 0)
+		if(files.size() == 0)
 			return;
 
 		try
 		{
-			for(File xmlFile : xmlFiles)
+			for(File file : files)
 			{
-				SAXParser saxParser;
 				try
 				{
-					saxParser = SAXParsers.createParser();
-					saxParser.addFeature(SAXParserFeature.VALIDATION);
-					saxParser.addFeature(SAXParserFeature.NAMESPACE_PREFIXES_FEATURE_ID);
-					saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
-					saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
-				}
-				catch(Exception e)
-				{
-					throw new MojoExecutionException(e.getMessage(), e);
-				}
-
-				try
-				{
-					saxParser.parse(new InputSource(new FileInputStream(xmlFile)));
+					validate(file);
 				}
 				catch(SAXException e)
 				{
-					getLog().error(Paths.relativePath(getBasedir(), xmlFile.getPath()));
-					throw e;
+					getLog().error(Paths.relativePath(getBasedir(), file.getPath()));
+					throw new MojoFailureException(e.getMessage());
 				}
 			}
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
-			throw new MojoFailureException(e.getMessage());
+			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
 }

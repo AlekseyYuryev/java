@@ -1,8 +1,6 @@
 package org.safris.commons.xml.sax;
 
 import java.io.IOException;
-import org.safris.commons.xml.sax.SAXParserFeature;
-import org.safris.commons.xml.sax.SAXParserProperty;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DTDHandler;
 import org.xml.sax.EntityResolver;
@@ -13,134 +11,134 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
-	public class SAXParser
-	{
+public class SAXParser
+{
 	private final XMLReader xmlReader;
-	
-		protected SAXParser(XMLReader xmlReader)
+
+	protected SAXParser(XMLReader xmlReader)
 	{
-	this.xmlReader = xmlReader;
+		this.xmlReader = xmlReader;
 	}
-	
-		public void addFeature(SAXParserFeature feature)
+
+	public void addFeature(SAXParserFeature feature)
+	{
+		try
 		{
-			try
+			xmlReader.setFeature(feature.getFeature(), true);
+		}
+		catch(SAXNotRecognizedException e)
 		{
-		xmlReader.setFeature(feature.getFeature(), true);
+			// FIXME: Remove this!
+			throw new Error(e);
 		}
-			catch(SAXNotRecognizedException e)
-			{
-		// FIXME: Remove this!
-		throw new Error(e);
-		}
-			catch(SAXNotSupportedException e)
-			{
-		// FIXME: Remove this!
-	throw new Error(e);
-	}
-	}
-	
-		public boolean getFeature(SAXParserFeature feature)
+		catch(SAXNotSupportedException e)
 		{
-			try
+			// FIXME: Remove this!
+			throw new Error(e);
+		}
+	}
+
+	public boolean getFeature(SAXParserFeature feature)
+	{
+		try
 		{
-		return xmlReader.getFeature(feature.getFeature());
+			return xmlReader.getFeature(feature.getFeature());
 		}
-			catch(SAXNotRecognizedException e)
-			{
-		// FIXME: Remove this!
-		throw new Error(e);
-		}
-			catch(SAXNotSupportedException e)
-			{
-		// FIXME: Remove this!
-	throw new Error(e);
-	}
-	}
-	
-		public void addProptery(SAXParserProperty property, Object value)
+		catch(SAXNotRecognizedException e)
 		{
-			try
+			// FIXME: Remove this!
+			throw new Error(e);
+		}
+		catch(SAXNotSupportedException e)
 		{
-		xmlReader.setProperty(property.getProperty(), value);
+			// FIXME: Remove this!
+			throw new Error(e);
 		}
-			catch(SAXNotRecognizedException e)
-			{
-		// FIXME: Remove this!
-		throw new Error(e);
-		}
-			catch(SAXNotSupportedException e)
-			{
-		// FIXME: Remove this!
-	throw new Error(e);
 	}
-	}
-	
-		public Object getProperty(SAXParserProperty property)
+
+	public void addProptery(SAXParserProperty property, Object value)
+	{
+		try
 		{
-			try
+			xmlReader.setProperty(property.getProperty(), value);
+		}
+		catch(SAXNotRecognizedException e)
 		{
-		return xmlReader.getProperty(property.getProperty());
+			// FIXME: Remove this!
+			throw new Error(e);
 		}
-			catch(SAXNotRecognizedException e)
-			{
-		// FIXME: Remove this!
-		throw new Error(e);
+		catch(SAXNotSupportedException e)
+		{
+			// FIXME: Remove this!
+			throw new Error(e);
 		}
-			catch(SAXNotSupportedException e)
-			{
-		// FIXME: Remove this!
-	throw new Error(e);
 	}
-	}
-	
-		public void setEntityResolver(EntityResolver resolver)
+
+	public Object getProperty(SAXParserProperty property)
 	{
-	xmlReader.setEntityResolver(resolver);
+		try
+		{
+			return xmlReader.getProperty(property.getProperty());
+		}
+		catch(SAXNotRecognizedException e)
+		{
+			// FIXME: Remove this!
+			throw new Error(e);
+		}
+		catch(SAXNotSupportedException e)
+		{
+			// FIXME: Remove this!
+			throw new Error(e);
+		}
 	}
-	
-		public EntityResolver getEntityResolver()
+
+	public void setEntityResolver(EntityResolver resolver)
 	{
-	return xmlReader.getEntityResolver();
+		xmlReader.setEntityResolver(resolver);
 	}
-	
-		public void setDTDHandler(DTDHandler handler)
+
+	public EntityResolver getEntityResolver()
 	{
-	xmlReader.setDTDHandler(handler);
+		return xmlReader.getEntityResolver();
 	}
-	
-		public DTDHandler getDTDHandler()
+
+	public void setDTDHandler(DTDHandler handler)
 	{
-	return xmlReader.getDTDHandler();
+		xmlReader.setDTDHandler(handler);
 	}
-	
-		public void setContentHandler(ContentHandler handler)
+
+	public DTDHandler getDTDHandler()
 	{
-	xmlReader.setContentHandler(handler);
+		return xmlReader.getDTDHandler();
 	}
-	
-		public ContentHandler getContentHandler()
+
+	public void setContentHandler(ContentHandler handler)
 	{
-	return xmlReader.getContentHandler();
+		xmlReader.setContentHandler(handler);
 	}
-	
-		public void setErrorHandler(ErrorHandler handler)
+
+	public ContentHandler getContentHandler()
 	{
-	xmlReader.setErrorHandler(handler);
+		return xmlReader.getContentHandler();
 	}
-	
-		public ErrorHandler getErrorHandler()
+
+	public void setErrorHandler(ErrorHandler handler)
 	{
-	return xmlReader.getErrorHandler();
+		xmlReader.setErrorHandler(handler);
 	}
-	
-		public void parse(InputSource input) throws IOException, SAXException
+
+	public ErrorHandler getErrorHandler()
 	{
-	xmlReader.parse(input);
+		return xmlReader.getErrorHandler();
 	}
-	
-		public void parse(String systemId) throws IOException, SAXException
+
+	public void parse(InputSource input) throws IOException, SAXException
 	{
-xmlReader.parse(systemId);
+		xmlReader.parse(input);
+	}
+
+	public void parse(String systemId) throws IOException, SAXException
+	{
+		xmlReader.parse(systemId);
 	}
 }

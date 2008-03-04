@@ -1,9 +1,7 @@
 package org.safris.commons.xml.sax;
 
-import org.safris.commons.xml.sax.SAXParserFeature;
-
-	public class SAXParserFeature
-	{
+public class SAXParserFeature
+{
 	public static final SAXParserFeature VALIDATION = new SAXParserFeature("http://xml.org/sax/features/validation");
 	public static final SAXParserFeature SCHEMA_VALIDATION = new SAXParserFeature("http://apache.org/xml/features/validation/schema");
 	public static final SAXParserFeature ALLOW_JAVA_ENCODINGS = new SAXParserFeature("http://apache.org/xml/features/allow-java-encodings");
@@ -11,7 +9,7 @@ import org.safris.commons.xml.sax.SAXParserFeature;
 	public static final SAXParserFeature DISALLOW_DOCTYPE = new SAXParserFeature("http://apache.org/xml/features/disallow-doctype-decl");
 	public static final SAXParserFeature GENERATE_SYNTHETIC_ANNOTATIONS = new SAXParserFeature("http://apache.org/xml/features/generate-synthetic-annotations");
 	public static final SAXParserFeature VALIDATE_ANNOTATIONS = new SAXParserFeature("http://apache.org/xml/features/validate-annotations");
-	
+
 	/**
 	 * For some reason, this feature messes up stuff dealing with xsi:type!!!
 	 */
@@ -20,33 +18,33 @@ import org.safris.commons.xml.sax.SAXParserFeature;
 	public static final SAXParserFeature NAMESPACES_FEATURE_ID = new SAXParserFeature("http://xml.org/sax/features/namespaces");
 	public static final SAXParserFeature NAMESPACE_PREFIXES_FEATURE_ID = new SAXParserFeature("http://xml.org/sax/features/namespace-prefixes");
 	public static final SAXParserFeature SCHEMA_FULL_CHECKING_FEATURE_ID = new SAXParserFeature("http://apache.org/xml/features/validation/schema-full-checking");
-	
+
 	private final String feature;
-	
-		public SAXParserFeature(String feature)
+
+	public SAXParserFeature(String feature)
 	{
-	this.feature = feature;
+		this.feature = feature;
 	}
-	
-		protected String getFeature()
+
+	protected String getFeature()
 	{
-	return feature;
+		return feature;
 	}
-	
-		public int hashCode()
+
+	public int hashCode()
 	{
-	return feature.hashCode();
+		return feature.hashCode();
 	}
-	
-		public boolean equals(Object obj)
-			{
+
+	public boolean equals(Object obj)
+	{
 		if(this == obj)
-		return true;
-			
+			return true;
+
 		if(!(obj instanceof SAXParserFeature))
-		return false;
-		
-	final SAXParserFeature saxParserFeature = (SAXParserFeature)obj;
-return feature != null ? feature.equals(saxParserFeature.feature) : saxParserFeature.feature == null;
+			return false;
+
+		final SAXParserFeature saxParserFeature = (SAXParserFeature)obj;
+		return feature != null ? feature.equals(saxParserFeature.feature) : saxParserFeature.feature == null;
 	}
 }

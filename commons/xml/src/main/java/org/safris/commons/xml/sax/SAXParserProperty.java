@@ -1,7 +1,5 @@
 package org.safris.commons.xml.sax;
 
-import org.safris.commons.xml.sax.SAXParserProperty;
-
 public class SAXParserProperty
 {
 	public static final SAXParserProperty ERROR_HANDLER = new SAXParserProperty("http://apache.org/xml/properties/internal/error-handler");
@@ -13,30 +11,30 @@ public class SAXParserProperty
 	public static final SAXParserProperty SYMBOL_TABLE = new SAXParserProperty("http://apache.org/xml/properties/internal/symbol-table");
 	public static final SAXParserProperty SECURITY_MANAGER = new SAXParserProperty("http://apache.org/xml/properties/security-manager");
 	private final String property;
-	
+
 	protected SAXParserProperty(String property)
 	{
 		this.property = property;
 	}
-	
+
 	protected String getProperty()
 	{
 		return property;
 	}
-	
+
 	public int hashCode()
 	{
 		return property.hashCode();
 	}
-	
+
 	public boolean equals(Object obj)
 	{
 		if(this == obj)
 			return true;
-		
+
 		if(!(obj instanceof SAXParserProperty))
 			return false;
-		
+
 		final SAXParserProperty saxParserProperty = (SAXParserProperty)obj;
 		return property != null ? property.equals(saxParserProperty.property) : saxParserProperty.property == null;
 	}
