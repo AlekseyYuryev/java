@@ -4,7 +4,6 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.commons.xml.binding.Language;
-import org.w3.x2001.xmlschema.IXSLanguage;
 import org.w3c.dom.Element;
 
 public abstract class IXSLanguage<T extends BindingType> extends IXSToken<T>

@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.w3.x2001.xmlschema.IXSNMTOKENS;
 import org.w3c.dom.Element;
 
 public abstract class IXSNMTOKENS<T extends BindingType> extends IXSAnySimpleType<T>

@@ -1,6 +1,8 @@
 package org.safris.commons.xml.validator;
 
-public class ValidatorError extends Error
+import org.safris.commons.xml.XMLError;
+
+public class ValidatorError extends XMLError
 {
 	public ValidatorError()
 	{

@@ -3,7 +3,6 @@ package org.w3.x2001.xmlschema;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.w3.x2001.xmlschema.IXSPositiveInteger;
 import org.w3c.dom.Element;
 
 public abstract class IXSPositiveInteger<T extends BindingType> extends IXSInteger<T>
