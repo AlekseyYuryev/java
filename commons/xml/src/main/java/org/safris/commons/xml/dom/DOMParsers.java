@@ -1,4 +1,4 @@
-package org.safris.commons.xml;
+package org.safris.commons.xml.dom;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,7 +15,7 @@ public final class DOMParsers
 		public void fatalError(SAXParseException exception) throws SAXException
 		{
 		}
-
+		
 		// treat validation errors as fatal
 		public void error(SAXParseException e) throws SAXParseException
 		{
@@ -23,7 +23,7 @@ public final class DOMParsers
 			System.err.println("ERROR [" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
 			throw e;
 		}
-
+		
 		// dump warnings too
 		public void warning(SAXParseException e) throws SAXParseException
 		{
@@ -31,7 +31,7 @@ public final class DOMParsers
 			System.err.println("WARNING [" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
 		}
 	};
-
+	
 	public static DocumentBuilder newDocumentBuilder() throws ParserConfigurationException
 	{
 		final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -39,13 +39,13 @@ public final class DOMParsers
 		documentBuilderFactory.setIgnoringComments(true);
 		documentBuilderFactory.setIgnoringElementContentWhitespace(true);
 		documentBuilderFactory.setValidating(false);
-
+		
 		final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		documentBuilder.setErrorHandler(defaultErrorHandler);
-
+		
 		return documentBuilder;
 	}
-
+	
 	private DOMParsers()
 	{
 	}

@@ -2,7 +2,6 @@ package org.safris.xml.maven.binding;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +16,7 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.zip.Zips;
-import org.safris.commons.xml.DOMParsers;
+import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.toolkit.binding.Generator;

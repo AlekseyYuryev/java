@@ -10,7 +10,7 @@ import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilder;
 import org.safris.commons.io.Files;
 import org.safris.commons.net.URLs;
-import org.safris.commons.xml.DOMParsers;
+import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.PlanDirectory;

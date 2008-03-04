@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import org.safris.commons.io.Files;
-import org.safris.commons.xml.DOMs;
-import org.safris.commons.xml.FormatOption;
 import org.safris.commons.xml.XMLException;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.dom.FormatOption;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
 
 public class JavaProjectWriter

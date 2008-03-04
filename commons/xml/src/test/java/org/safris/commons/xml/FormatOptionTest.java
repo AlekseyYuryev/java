@@ -1,6 +1,7 @@
 package org.safris.commons.xml;
 
 import org.junit.Test;
+import org.safris.commons.xml.dom.FormatOption;
 
 import static org.junit.Assert.*;
 

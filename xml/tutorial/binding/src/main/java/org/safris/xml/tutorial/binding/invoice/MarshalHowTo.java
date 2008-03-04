@@ -1,7 +1,7 @@
 package org.safris.xml.tutorial.binding.invoice;
 
-import org.safris.commons.xml.DOMs;
-import org.safris.commons.xml.FormatOption;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.dom.FormatOption;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 

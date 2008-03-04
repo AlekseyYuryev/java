@@ -1,8 +1,8 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import java.io.StringReader;
-import org.safris.commons.xml.DOMs;
-import org.safris.commons.xml.FormatOption;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.dom.FormatOption;
 import org.safris.commons.xml.validator.DefaultValidator;
 import org.safris.commons.xml.validator.Validator;
 import org.safris.xml.generator.compiler.runtime.Binding;

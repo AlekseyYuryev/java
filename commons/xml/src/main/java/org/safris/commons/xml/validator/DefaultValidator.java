@@ -7,11 +7,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.commons.net.URLs;
-import org.safris.commons.xml.DOMs;
-import org.safris.commons.xml.SAXParser;
-import org.safris.commons.xml.SAXParserFeature;
-import org.safris.commons.xml.SAXParserProperty;
-import org.safris.commons.xml.SAXParsers;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.sax.SAXParser;
+import org.safris.commons.xml.sax.SAXParserFeature;
+import org.safris.commons.xml.sax.SAXParserProperty;
+import org.safris.commons.xml.sax.SAXParsers;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 

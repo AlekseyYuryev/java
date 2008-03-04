@@ -12,9 +12,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
-import org.safris.commons.xml.SAXParser;
-import org.safris.commons.xml.SAXParserFeature;
-import org.safris.commons.xml.SAXParsers;
+import org.safris.commons.xml.sax.SAXParser;
+import org.safris.commons.xml.sax.SAXParserFeature;
+import org.safris.commons.xml.sax.SAXParsers;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 

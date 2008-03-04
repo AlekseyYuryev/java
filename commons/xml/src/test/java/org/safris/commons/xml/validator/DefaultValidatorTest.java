@@ -4,7 +4,7 @@ import java.io.File;
 import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.junit.Test;
-import org.safris.commons.xml.DOMParsers;
+import org.safris.commons.xml.dom.DOMParsers;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

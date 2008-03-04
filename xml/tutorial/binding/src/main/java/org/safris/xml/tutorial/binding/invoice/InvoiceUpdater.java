@@ -2,8 +2,8 @@ package org.safris.xml.tutorial.binding.invoice;
 
 import java.io.File;
 import java.io.FileInputStream;
-import org.safris.commons.xml.DOMs;
-import org.safris.commons.xml.FormatOption;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.dom.FormatOption;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 import org.xml.sax.InputSource;

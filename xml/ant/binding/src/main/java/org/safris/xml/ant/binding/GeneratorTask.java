@@ -11,7 +11,7 @@ import org.apache.tools.ant.DynamicElement;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
-import org.safris.commons.xml.DOMParsers;
+import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.toolkit.binding.Generator;
