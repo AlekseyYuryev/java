@@ -1,14 +1,13 @@
-package org.safris.xml.generator.compiler.util;
+package org.safris.commons.xml.validation;
 
 import org.safris.commons.logging.Logger;
-import org.safris.xml.generator.compiler.runtime.RuntimeLoggerName;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class DefaultErrorHandler implements ErrorHandler
 {
-	private final Logger logger = Logger.getLogger(RuntimeLoggerName.VALIDATOR);
+	private final Logger logger = Logger.getAnonymousLogger();
 
 	// ignore fatal errors (an exception is guaranteed)
 	public void fatalError(SAXParseException e) throws SAXException

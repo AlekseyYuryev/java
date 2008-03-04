@@ -1,8 +1,6 @@
-package org.safris.xml.generator.compiler.runtime;
+package org.safris.commons.xml.validation;
 
-import org.safris.xml.generator.compiler.runtime.BindingException;
-
-public class ValidationException extends BindingException
+public class ValidationException extends Exception
 {
 	public ValidationException()
 	{

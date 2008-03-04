@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +15,7 @@ import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.jar.Jar;
 import org.safris.commons.xml.NamespaceURI;
+import org.safris.commons.xml.validation.ValidationException;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingError;
@@ -44,10 +44,15 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 			javaSources.add(javaFile);
 		}
 
-		Collection<File> classpath = null;
-		final File locationBase = Resources.getLocationBase(Binding.class);
-		if(locationBase != null)
-			classpath = Arrays.<File>asList(new File[]{locationBase});
+		Collection<File> classpath = new ArrayList<File>(2);
+		final File bindingLocationBase = Resources.getLocationBase(Binding.class);
+		if(bindingLocationBase != null)
+			classpath.add(bindingLocationBase);
+
+		// FIXME: Make this more explicit.
+		final File validatorLocationBase = Resources.getLocationBase(ValidationException.class);
+		if(validatorLocationBase != null)
+			classpath.add(validatorLocationBase);
 
 		new JavaCompiler(destDir, classpath).compile(javaSources);
 	}

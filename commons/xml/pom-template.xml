@@ -21,5 +21,20 @@
 			<artifactId>logging</artifactId>
 			<version>${dev:org.safris.commons.logging}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>lang</artifactId>
+			<version>${dev:org.safris.commons.lang}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>net</artifactId>
+			<version>${dev:org.safris.commons.net}</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

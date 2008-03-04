@@ -6,17 +6,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import org.safris.commons.io.Files;
+import org.safris.commons.xml.DOMs;
+import org.safris.commons.xml.FormatOption;
+import org.safris.commons.xml.validation.ValidationException;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
 import org.safris.xml.generator.compiler.runtime.BindingException;
-import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.BindingsOption;
 
 public class JavaProjectWriter
 {
-	public static void write(JavaProject javaProject) throws BindingException, IOException
+	public static void write(JavaProject javaProject) throws BindingException, IOException, ValidationException
 	{
 		final JpJavaProject3 javaProject3 = createJavaProject(javaProject);
-		final String xml = Bindings.domToString(javaProject3.marshal(), BindingsOption.INDENT, BindingsOption.IGNORE_NAMESPACES);
+		final String xml = DOMs.domToString(javaProject3.marshal(), FormatOption.INDENT, FormatOption.IGNORE_NAMESPACES);
 		final FileOutputStream out = new FileOutputStream(new File(javaProject.getDir(), javaProject.getShortName() + ".javaproj"));
 		out.write(xml.getBytes());
 		out.close();

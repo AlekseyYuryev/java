@@ -1,4 +1,4 @@
-package org.safris.xml.generator.compiler.runtime;
+package org.safris.commons.xml.validation;
 
 import com.sun.org.apache.xerces.internal.impl.xs.XSDDescription;
 import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
@@ -21,7 +21,7 @@ public class XMLSchemaResolver implements XMLEntityResolver
 	{
 		final URL present = schemaReferences.get(namespaceURI);
 		if(present != null && !present.equals(schemaReference))
-			throw new BindingError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
+			throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
 
 		schemaReferences.put(namespaceURI, schemaReference);
 	}
@@ -87,7 +87,7 @@ public class XMLSchemaResolver implements XMLEntityResolver
 				schemaReference = lookupSchemaLocation(namespaceURI);
 
 			if(schemaReference == null)
-				throw new BindingError("The schemaReference for " + resourceIdentifier + " is null!");
+				throw new ValidatorError("The schemaReference for " + resourceIdentifier + " is null!");
 
 			final String expandedSystemId;
 			try
@@ -114,7 +114,7 @@ public class XMLSchemaResolver implements XMLEntityResolver
 		}
 		catch(Exception e)
 		{
-			throw new BindingError(resourceIdentifier.toString(), e);
+			throw new ValidatorError(resourceIdentifier.toString(), e);
 		}
 	}
 }

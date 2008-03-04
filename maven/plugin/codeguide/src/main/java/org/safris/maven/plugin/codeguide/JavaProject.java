@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
+import org.safris.commons.xml.validation.ValidationException;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.BindingException;
@@ -105,6 +106,7 @@ public class JavaProject
 		return projectReferences;
 	}
 
+	// FIXME: Fix all this here...
 	public Collection<SpStartingPoints.SpStartingPoint> getStartingPoints()
 	{
 		if(startingPointsSearched)
@@ -126,6 +128,10 @@ public class JavaProject
 				}
 			}
 			catch(BindingException e)
+			{
+				System.err.println(e.getMessage());
+			}
+			catch(ValidationException e)
 			{
 				System.err.println(e.getMessage());
 			}

@@ -2,6 +2,7 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.io.IOException;
 import java.net.URL;
+import org.safris.commons.xml.validation.ValidationException;
 import org.xml.sax.InputSource;
 
 public class BindingDocument

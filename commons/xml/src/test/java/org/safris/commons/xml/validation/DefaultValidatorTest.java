@@ -1,12 +1,10 @@
-package org.safris.xml.generator.compiler.util;
+package org.safris.commons.xml.validation;
 
 import java.io.File;
 import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.junit.Test;
 import org.safris.commons.xml.DOMParsers;
-import org.safris.xml.generator.compiler.runtime.ValidationException;
-import org.safris.xml.generator.compiler.runtime.XMLSchemaResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

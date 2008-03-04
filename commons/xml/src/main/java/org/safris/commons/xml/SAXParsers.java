@@ -1,22 +1,14 @@
 package org.safris.commons.xml;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 public final class SAXParsers
 {
-	private static final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-
-	static
+	public static SAXParser createParser() throws SAXException
 	{
-		saxParserFactory.setNamespaceAware(true);
-	}
-
-	public static SAXParser newSAXParser() throws ParserConfigurationException, SAXException
-	{
-		return saxParserFactory.newSAXParser();
+		// Create a specific SAXParser so that it works with our XMLSchemaResolver
+		return new SAXParser(XMLReaderFactory.createXMLReader(com.sun.org.apache.xerces.internal.parsers.SAXParser.class.getName()));
 	}
 
 	private SAXParsers()

@@ -1,11 +1,11 @@
 package org.w3.x2001.xmlschema;
 
 import javax.xml.namespace.QName;
+import org.safris.commons.xml.validation.ValidationException;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.compiler.runtime.ValidationException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

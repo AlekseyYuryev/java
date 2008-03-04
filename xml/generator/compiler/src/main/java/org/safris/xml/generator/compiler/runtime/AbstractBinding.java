@@ -10,6 +10,7 @@ import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
+import org.safris.commons.xml.validation.XMLSchemaResolver;
 
 public abstract class AbstractBinding implements Cloneable
 {

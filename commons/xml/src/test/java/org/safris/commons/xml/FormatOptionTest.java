@@ -1,38 +1,38 @@
-package org.safris.xml.generator.compiler.runtime;
+package org.safris.commons.xml;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class BindingsOptionTest
+public class FormatOptionTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		new BindingsOptionTest().testConsolidate();
+		new FormatOptionTest().testConsolidate();
 	}
 
 	@Test
 	public void testConsolidate()
 	{
-		assertNull(BindingsOption.consolidate(null));
+		assertNull(FormatOption.consolidate(null));
 
 		// Condition: default
-		BindingsOption option = BindingsOption.consolidate();
+		FormatOption option = FormatOption.consolidate();
 		assertFalse(option.isIndent());
 		assertFalse(option.isIgnoreNamespaces());
 
 		// Condition: indent
-		option = BindingsOption.consolidate(BindingsOption.INDENT);
+		option = FormatOption.consolidate(FormatOption.INDENT);
 		assertTrue(option.isIndent());
 		assertFalse(option.isIgnoreNamespaces());
 
 		// Condition: ignoreNamespases
-		option = BindingsOption.consolidate(BindingsOption.IGNORE_NAMESPACES);
+		option = FormatOption.consolidate(FormatOption.IGNORE_NAMESPACES);
 		assertTrue(option.isIgnoreNamespaces());
 		assertFalse(option.isIndent());
 
 		// Condition: indent & ignoreNamespases
-		option = BindingsOption.consolidate(BindingsOption.INDENT, BindingsOption.IGNORE_NAMESPACES);
+		option = FormatOption.consolidate(FormatOption.INDENT, FormatOption.IGNORE_NAMESPACES);
 		assertTrue(option.isIgnoreNamespaces());
 		assertTrue(option.isIndent());
 	}

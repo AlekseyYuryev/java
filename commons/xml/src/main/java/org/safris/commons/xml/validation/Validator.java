@@ -1,12 +1,10 @@
-package org.safris.xml.generator.compiler.util;
+package org.safris.commons.xml.validation;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.namespace.QName;
-import org.safris.xml.generator.compiler.runtime.ValidationException;
-import org.safris.xml.generator.compiler.runtime.XMLSchemaResolver;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

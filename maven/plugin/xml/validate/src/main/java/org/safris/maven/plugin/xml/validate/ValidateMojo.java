@@ -6,17 +6,17 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.xml.parsers.SAXParser;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
+import org.safris.commons.xml.SAXParser;
+import org.safris.commons.xml.SAXParserFeature;
 import org.safris.commons.xml.SAXParsers;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * @goal validate
@@ -91,10 +91,14 @@ public class ValidateMojo extends AbstractMojo
 		{
 			for(File xmlFile : xmlFiles)
 			{
-				SAXParser xmlReader;
+				SAXParser saxParser;
 				try
 				{
-					xmlReader = SAXParsers.newSAXParser();
+					saxParser = SAXParsers.createParser();
+					saxParser.addFeature(SAXParserFeature.VALIDATION);
+					saxParser.addFeature(SAXParserFeature.NAMESPACE_PREFIXES_FEATURE_ID);
+					saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
+					saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
 				}
 				catch(Exception e)
 				{
@@ -103,7 +107,7 @@ public class ValidateMojo extends AbstractMojo
 
 				try
 				{
-					xmlReader.parse(new InputSource(new FileInputStream(xmlFile)), new DefaultHandler());
+					saxParser.parse(new InputSource(new FileInputStream(xmlFile)));
 				}
 				catch(SAXException e)
 				{

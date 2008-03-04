@@ -1,8 +1,8 @@
-package org.safris.xml.generator.compiler.runtime;
+package org.safris.commons.xml;
 
-public class BindingsOption
+public class FormatOption
 {
-	protected static BindingsOption consolidate(BindingsOption ... options)
+	protected static FormatOption consolidate(FormatOption ... options)
 	{
 		if(options == null)
 			return null;
@@ -13,8 +13,8 @@ public class BindingsOption
 		if(options.length == 1)
 			return options[0];
 
-		final BindingsOption consolidated = new BindingsOption(DEFAULT_MASK);
-		for(BindingsOption option : options)
+		final FormatOption consolidated = new FormatOption(DEFAULT_MASK);
+		for(FormatOption option : options)
 			consolidated.mask = consolidated.mask | option.mask;
 
 		return consolidated;
@@ -24,13 +24,13 @@ public class BindingsOption
 	private static final int INDENT_MASK = 0x01;
 	private static final int IGNORE_NAMESPACES_MASK = 0x10;
 
-	private static final BindingsOption DEFAULT = new BindingsOption(DEFAULT_MASK);
-	public static final BindingsOption INDENT = new BindingsOption(INDENT_MASK);
-	public static final BindingsOption IGNORE_NAMESPACES = new BindingsOption(IGNORE_NAMESPACES_MASK);
+	private static final FormatOption DEFAULT = new FormatOption(DEFAULT_MASK);
+	public static final FormatOption INDENT = new FormatOption(INDENT_MASK);
+	public static final FormatOption IGNORE_NAMESPACES = new FormatOption(IGNORE_NAMESPACES_MASK);
 
 	private int mask = 0;
 
-	public BindingsOption(int mask)
+	public FormatOption(int mask)
 	{
 		this.mask = mask;
 	}
@@ -55,9 +55,9 @@ public class BindingsOption
 		if(this == obj)
 			return true;
 
-		if(!(obj instanceof BindingsOption))
+		if(!(obj instanceof FormatOption))
 			return false;
 
-		return ((BindingsOption)obj).mask == mask;
+		return ((FormatOption)obj).mask == mask;
 	}
 }

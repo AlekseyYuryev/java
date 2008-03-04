@@ -1,11 +1,12 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import java.io.StringReader;
+import org.safris.commons.xml.DOMs;
+import org.safris.commons.xml.FormatOption;
+import org.safris.commons.xml.validation.DefaultValidator;
+import org.safris.commons.xml.validation.Validator;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.BindingsOption;
-import org.safris.xml.generator.compiler.util.DefaultValidator;
-import org.safris.xml.generator.compiler.util.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
@@ -23,7 +24,7 @@ public abstract class AbstractTest
 		try
 		{
 			Element element = Bindings.marshal(binding);
-			String xml = Bindings.domToString(element, BindingsOption.INDENT);
+			String xml = DOMs.domToString(element, FormatOption.INDENT);
 			System.out.println(xml + "\n");
 			Binding reparsed = Bindings.parse(new InputSource(new StringReader(xml)));
 			String message = "SUCCESS";
@@ -45,7 +46,7 @@ public abstract class AbstractTest
 
 			message = "SUCCESS";
 			not = "---";
-			String xml2 = Bindings.domToString(Bindings.marshal(reparsed), BindingsOption.INDENT);
+			String xml2 = DOMs.domToString(Bindings.marshal(reparsed), FormatOption.INDENT);
 			if(!xml.equals(xml2))
 			{
 				System.out.println(xml2);
