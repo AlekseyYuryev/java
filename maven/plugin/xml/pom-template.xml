@@ -4,21 +4,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.safris</groupId>
-		<artifactId>maven</artifactId>
-		<version>${dev:org.safris.maven}</version>
+		<groupId>org.safris.maven</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${dev:org.safris.maven.plugin}</version>
 	</parent>
-	<groupId>org.safris.maven</groupId>
-	<artifactId>plugin</artifactId>
-	<version>${dev:org.safris.maven.plugin}</version>
-	<packaging>pom</packaging>
+	<groupId>org.safris.maven.plugin</groupId>
+	<artifactId>xml</artifactId>
+	<version>${dev:org.safris.maven.plugin.xml}</version>
 	<name>${groupId}.${artifactId}</name>
+	<packaging>pom</packaging>
 	<description>
-		Maven plugins.
+		All xml related plugins.
 	</description>
 	<modules>
-		<module>dependency</module>
-		<module>codeguide</module>
-		<module>xml</module>
+		<module>validate</module>
 	</modules>
 </project>

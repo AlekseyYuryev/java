@@ -1,0 +1,39 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.safris.maven.plugin</groupId>
+		<artifactId>xml</artifactId>
+		<version>${dev:org.safris.maven.plugin.xml}</version>
+	</parent>
+	<groupId>org.safris.maven.plugin.xml</groupId>
+	<artifactId>validate</artifactId>
+	<version>${dev:org.safris.maven.plugin.xml.validate}</version>
+	<name>${groupId}.${artifactId}</name>
+	<packaging>maven-plugin</packaging>
+	<description>
+		A simple plugin that validates xml files.
+	</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.safris.commons</groupId>
+            <artifactId>xml</artifactId>
+			<version>${dev:org.safris.commons.xml}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.safris.commons</groupId>
+            <artifactId>io</artifactId>
+			<version>${dev:org.safris.commons.io}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+		</dependency>
+    </dependencies>
+</project>

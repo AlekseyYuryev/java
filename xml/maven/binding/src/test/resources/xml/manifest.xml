@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
 	<destdir overwrite="true">${basedir}/../../../../target/generated-sources/xmlbinding</destdir>
+	<hi></hi>
 	<schemas>
 		<schema>../xsd/maven.xsd</schema>
 	</schemas>
