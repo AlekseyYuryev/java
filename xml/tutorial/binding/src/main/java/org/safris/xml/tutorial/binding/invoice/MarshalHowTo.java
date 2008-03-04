@@ -1,7 +1,7 @@
 package org.safris.xml.tutorial.binding.invoice;
 
 import org.safris.commons.xml.dom.DOMs;
-import org.safris.commons.xml.dom.FormatOption;
+import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.xml.generator.compiler.runtime.lang.Date;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 
@@ -52,6 +52,6 @@ public class MarshalHowTo
 
 		invoice.setPvBilledItems(billedItems);
 
-		System.out.println(DOMs.domToString(invoice.marshal(), FormatOption.INDENT));
+		System.out.println(DOMs.domToString(invoice.marshal(), DOMStyle.INDENT));
 	}
 }

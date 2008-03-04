@@ -1,39 +1,38 @@
-package org.safris.commons.xml;
+package org.safris.commons.xml.dom;
 
 import org.junit.Test;
-import org.safris.commons.xml.dom.FormatOption;
 
 import static org.junit.Assert.*;
 
-public class FormatOptionTest
+public class DOMStyleTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		new FormatOptionTest().testConsolidate();
+		new DOMStyleTest().testConsolidate();
 	}
 
 	@Test
 	public void testConsolidate()
 	{
-		assertNull(FormatOption.consolidate(null));
+		assertNull(DOMStyle.consolidate(null));
 
 		// Condition: default
-		FormatOption option = FormatOption.consolidate();
+		DOMStyle option = DOMStyle.consolidate();
 		assertFalse(option.isIndent());
 		assertFalse(option.isIgnoreNamespaces());
 
 		// Condition: indent
-		option = FormatOption.consolidate(FormatOption.INDENT);
+		option = DOMStyle.consolidate(DOMStyle.INDENT);
 		assertTrue(option.isIndent());
 		assertFalse(option.isIgnoreNamespaces());
 
 		// Condition: ignoreNamespases
-		option = FormatOption.consolidate(FormatOption.IGNORE_NAMESPACES);
+		option = DOMStyle.consolidate(DOMStyle.IGNORE_NAMESPACES);
 		assertTrue(option.isIgnoreNamespaces());
 		assertFalse(option.isIndent());
 
 		// Condition: indent & ignoreNamespases
-		option = FormatOption.consolidate(FormatOption.INDENT, FormatOption.IGNORE_NAMESPACES);
+		option = DOMStyle.consolidate(DOMStyle.INDENT, DOMStyle.IGNORE_NAMESPACES);
 		assertTrue(option.isIgnoreNamespaces());
 		assertTrue(option.isIndent());
 	}

@@ -3,7 +3,7 @@ package org.safris.xml.tutorial.binding.invoice;
 import java.io.File;
 import java.io.FileInputStream;
 import org.safris.commons.xml.dom.DOMs;
-import org.safris.commons.xml.dom.FormatOption;
+import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.lang.Decimal;
 import org.xml.sax.InputSource;
@@ -31,7 +31,7 @@ public class InvoiceUpdater
 		item.setPvPrice(new PvInvoice.PvBilledItems.PvItem.PvPrice(new Decimal(Float.parseFloat(args[4]))));
 
 		final PvInvoice invoice = addItem(file, item);
-		DOMs.domToString(invoice.marshal(), FormatOption.INDENT);
+		DOMs.domToString(invoice.marshal(), DOMStyle.INDENT);
 	}
 
 	private static void usage()

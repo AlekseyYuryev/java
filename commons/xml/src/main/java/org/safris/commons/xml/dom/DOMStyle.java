@@ -1,10 +1,10 @@
 package org.safris.commons.xml.dom;
 
-import org.safris.commons.xml.dom.FormatOption;
+import org.safris.commons.xml.dom.DOMStyle;
 
-	public class FormatOption
+	public class DOMStyle
 	{
-		protected static FormatOption consolidate(FormatOption ... options)
+		protected static DOMStyle consolidate(DOMStyle ... options)
 			{
 		if(options == null)
 		return null;
@@ -15,8 +15,8 @@ import org.safris.commons.xml.dom.FormatOption;
 		if(options.length == 1)
 		return options[0];
 		
-			final FormatOption consolidated = new FormatOption(DEFAULT_MASK);
-		for(FormatOption option : options)
+			final DOMStyle consolidated = new DOMStyle(DEFAULT_MASK);
+		for(DOMStyle option : options)
 		consolidated.mask = consolidated.mask | option.mask;
 	
 	return consolidated;
@@ -26,13 +26,13 @@ import org.safris.commons.xml.dom.FormatOption;
 	private static final int INDENT_MASK = 0x01;
 	private static final int IGNORE_NAMESPACES_MASK = 0x10;
 	
-	private static final FormatOption DEFAULT = new FormatOption(DEFAULT_MASK);
-	public static final FormatOption INDENT = new FormatOption(INDENT_MASK);
-	public static final FormatOption IGNORE_NAMESPACES = new FormatOption(IGNORE_NAMESPACES_MASK);
+	private static final DOMStyle DEFAULT = new DOMStyle(DEFAULT_MASK);
+	public static final DOMStyle INDENT = new DOMStyle(INDENT_MASK);
+	public static final DOMStyle IGNORE_NAMESPACES = new DOMStyle(IGNORE_NAMESPACES_MASK);
 	
 	private int mask = 0;
 	
-		public FormatOption(int mask)
+		public DOMStyle(int mask)
 	{
 	this.mask = mask;
 	}
@@ -57,9 +57,9 @@ import org.safris.commons.xml.dom.FormatOption;
 		if(this == obj)
 		return true;
 			
-		if(!(obj instanceof FormatOption))
+		if(!(obj instanceof DOMStyle))
 		return false;
 	
-return ((FormatOption)obj).mask == mask;
+return ((DOMStyle)obj).mask == mask;
 	}
 }
