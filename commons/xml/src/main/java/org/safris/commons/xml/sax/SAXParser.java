@@ -20,11 +20,11 @@ public class SAXParser
 		this.xmlReader = xmlReader;
 	}
 
-	public void addFeature(SAXParserFeature feature)
+	public void setFeature(SAXFeature feature, boolean value)
 	{
 		try
 		{
-			xmlReader.setFeature(feature.getFeature(), true);
+			xmlReader.setFeature(feature.getFeature(), value);
 		}
 		catch(SAXNotRecognizedException e)
 		{
@@ -38,7 +38,7 @@ public class SAXParser
 		}
 	}
 
-	public boolean getFeature(SAXParserFeature feature)
+	public boolean getFeature(SAXFeature feature)
 	{
 		try
 		{
@@ -56,7 +56,7 @@ public class SAXParser
 		}
 	}
 
-	public void addProptery(SAXParserProperty property, Object value)
+	public void setProptery(SAXProperty property, Object value)
 	{
 		try
 		{
@@ -74,7 +74,7 @@ public class SAXParser
 		}
 	}
 
-	public Object getProperty(SAXParserProperty property)
+	public Object getProperty(SAXProperty property)
 	{
 		try
 		{

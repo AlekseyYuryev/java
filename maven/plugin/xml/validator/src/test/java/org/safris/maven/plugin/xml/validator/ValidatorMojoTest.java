@@ -26,5 +26,7 @@ public class ValidatorMojoTest
 			if(!"cvc-datatype-valid.1.2.1: 'a' is not a valid value for 'integer'.".equals(e.getMessage()))
 				fail(e.getMessage());
 		}
+
+		ValidatorMojo.validate(new File("src/test/resources/xsd/test.xsd"));
 	}
 }

@@ -13,10 +13,10 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
+import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
-import org.safris.commons.xml.sax.SAXParserFeature;
-import org.safris.commons.xml.sax.SAXParserProperty;
 import org.safris.commons.xml.sax.SAXParsers;
+import org.safris.commons.xml.sax.SAXProperty;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -32,7 +32,7 @@ public class ValidatorMojo extends AbstractMojo
 	{
 		public boolean accept(File pathname)
 		{
-			return pathname.isFile() && pathname.getName().endsWith(".xml");
+			return pathname.isFile() && (pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd"));
 		}
 	};
 
@@ -79,14 +79,25 @@ public class ValidatorMojo extends AbstractMojo
 	protected static void validate(File file) throws IOException, SAXException
 	{
 		final SAXParser saxParser = SAXParsers.createParser();
-		saxParser.addFeature(SAXParserFeature.VALIDATION);
-		saxParser.addFeature(SAXParserFeature.NAMESPACE_PREFIXES_FEATURE_ID);
-		saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
-		saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
+		// Set the features.
+		saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
+		saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
+		saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES_FEATURE_ID, true);
+		saxParser.setFeature(SAXFeature.NAMESPACES_FEATURE_ID, true);
+		saxParser.setFeature(SAXFeature.SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
+		saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ATTDEF, true);
+		saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ENTITYDEF, true);
+		saxParser.setFeature(SAXFeature.VALIDATION, true);
 
+		// Set the properties.
+		saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
+		saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile()));
+
+		// Set the ErrorHandler.
 		saxParser.setErrorHandler(ValidatorErrorHandler.getInstance());
-		saxParser.addProptery(SAXParserProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile()));
 
+		// Parse.
 		saxParser.parse(new InputSource(new FileInputStream(file)));
 	}
 

@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
-import org.safris.commons.xml.sax.SAXParserFeature;
-import org.safris.commons.xml.sax.SAXParserProperty;
 import org.safris.commons.xml.sax.SAXParsers;
+import org.safris.commons.xml.sax.SAXProperty;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
 import org.safris.commons.xml.validator.ValidatorError;
@@ -52,13 +52,16 @@ public class BindingValidator extends Validator
 		{
 			saxParser = SAXParsers.createParser();
 
-			saxParser.addFeature(SAXParserFeature.CONTINUE_AFTER_FATAL_ERROR);
-			saxParser.addFeature(SAXParserFeature.VALIDATION);
-			saxParser.addFeature(SAXParserFeature.NAMESPACE_PREFIXES_FEATURE_ID);
-			saxParser.addFeature(SAXParserFeature.NAMESPACES_FEATURE_ID);
-			saxParser.addFeature(SAXParserFeature.SCHEMA_VALIDATION);
+			saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
+			saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
+			saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES_FEATURE_ID, true);
+			saxParser.setFeature(SAXFeature.NAMESPACES_FEATURE_ID, true);
+			saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
+			saxParser.setFeature(SAXFeature.VALIDATION, true);
 
-			saxParser.addProptery(SAXParserProperty.ENTITY_RESOLVER, new BindingEntityResolver());
+			saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
+			saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new BindingEntityResolver());
+
 			saxParser.setErrorHandler(BindingErrorHandler.getInstance());
 		}
 		catch(Exception e)

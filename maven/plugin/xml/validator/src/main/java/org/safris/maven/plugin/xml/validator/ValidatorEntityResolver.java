@@ -7,6 +7,7 @@ import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 
 public class ValidatorEntityResolver implements XMLEntityResolver
@@ -20,10 +21,21 @@ public class ValidatorEntityResolver implements XMLEntityResolver
 
 	public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException
 	{
-		final String systemId = resourceIdentifier.getLiteralSystemId();
+		String systemId = resourceIdentifier.getLiteralSystemId();
+		if(systemId == null)
+			return null;
+
 		final URL url;
 		if(!URLs.isAbsolute(systemId))
-			url = URLs.makeUrlFromPath(basedir.getAbsolutePath(), systemId);
+		{
+			final String parentBaseId;
+			if(resourceIdentifier.getBaseSystemId() != null)
+				parentBaseId = Paths.getParent(resourceIdentifier.getBaseSystemId());
+			else
+				parentBaseId = basedir.getAbsolutePath();
+
+			url = URLs.makeUrlFromPath(parentBaseId, systemId);
+		}
 		else
 			url = URLs.makeUrlFromPath(systemId);
 
