@@ -3,6 +3,8 @@ package org.safris.maven.plugin.codeguide;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
+import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
 public class StateManager

@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.javaproj;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -10,6 +10,9 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.ClassLoaderLocal;
+import org.safris.maven.plugin.codeguide.PropertiesMojo;
+import org.safris.maven.plugin.codeguide.StateManager;
+import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.DependencyMojo;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 

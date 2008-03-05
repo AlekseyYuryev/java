@@ -1,9 +1,10 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.sln;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import org.safris.commons.io.Files;
+import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
 
 public class SolutionWriter
 {

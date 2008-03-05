@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.javaproj;
 
 import com.omnicore.javaproject3.JpBuildProperties;
 import com.omnicore.javaproject3.JpJavaProject3;
@@ -7,8 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
-import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.dom.DOMStyle;
+import org.safris.commons.xml.dom.DOMs;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
 
 public class JavaProjectWriter

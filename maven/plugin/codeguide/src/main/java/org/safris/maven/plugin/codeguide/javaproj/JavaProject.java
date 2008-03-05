@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.javaproj;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.safris.commons.xml.XMLException;
 import org.safris.ide.common.startingpoints.SpStartingPoints;
+import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;

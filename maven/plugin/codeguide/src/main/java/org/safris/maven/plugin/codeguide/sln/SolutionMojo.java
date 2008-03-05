@@ -1,7 +1,8 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.sln;
 
 import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.safris.maven.plugin.codeguide.javaproj.JavaProjectMojo;
 
 /**
  * @goal sln

@@ -1,8 +1,9 @@
-package org.safris.maven.plugin.codeguide;
+package org.safris.maven.plugin.codeguide.sln;
 
 import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
 public class Solution
