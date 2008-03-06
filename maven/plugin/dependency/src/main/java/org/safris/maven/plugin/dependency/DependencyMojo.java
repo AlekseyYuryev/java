@@ -56,6 +56,9 @@ public class DependencyMojo extends PropertiesMojo
 	public static File getFile(GroupArtifact dependency, ArtifactRepository localRepository, String repositoryPath)
 	{
 		final String relativePath = Paths.relativePath(localRepository.getBasedir(), dependency.getPath());
+		if(relativePath == null)
+			return null;
+
 		if(!Paths.isAbsolute(relativePath))
 			return new File(repositoryPath, relativePath);
 		else
@@ -87,11 +90,15 @@ public class DependencyMojo extends PropertiesMojo
 		for(GroupArtifact dependency : dependencies)
 		{
 			buffer.append(pathSeparator);
-			String path = getFile(dependency, getLocal(), getRepositoryPath()).getAbsolutePath();
-			if(File.separatorChar != fileSeparatorChar)
-				path = path.replace(File.separatorChar, fileSeparatorChar);
+			final File file = getFile(dependency, getLocal(), getRepositoryPath());
+			if(file == null)
+				continue;
 
-			buffer.append(path);
+			String absolutePath = file.getAbsolutePath();
+			if(File.separatorChar != fileSeparatorChar)
+				absolutePath = absolutePath.replace(File.separatorChar, fileSeparatorChar);
+
+			buffer.append(absolutePath);
 		}
 
 		// FIXME: Here we should distinguish between the different scopes

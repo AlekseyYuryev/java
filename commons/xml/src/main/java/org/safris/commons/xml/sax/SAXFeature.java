@@ -9,8 +9,8 @@ public class SAXFeature
 	public static final SAXFeature ALLOW_JAVA_ENCODINGS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.ALLOW_JAVA_ENCODINGS_FEATURE);
 	public static final SAXFeature CONTINUE_AFTER_FATAL_ERROR = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.CONTINUE_AFTER_FATAL_ERROR_FEATURE);
 	public static final SAXFeature DISALLOW_DOCTYPE = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.DISALLOW_DOCTYPE_DECL_FEATURE);
-	public static final SAXFeature GENERATE_SYNTHETIC_ANNOTATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.GENERATE_SYNTHETIC_ANNOTATIONS_FEATURE);
-	public static final SAXFeature VALIDATE_ANNOTATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.VALIDATE_ANNOTATIONS_FEATURE);
+//	public static final SAXFeature GENERATE_SYNTHETIC_ANNOTATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.GENERATE_SYNTHETIC_ANNOTATIONS_FEATURE);
+//	public static final SAXFeature VALIDATE_ANNOTATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.VALIDATE_ANNOTATIONS_FEATURE);
 	public static final SAXFeature DYNAMIC_VALIDATION = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.DYNAMIC_VALIDATION_FEATURE);
 	public static final SAXFeature DISALLOW_DOCTYPE_DECL = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.DISALLOW_DOCTYPE_DECL_FEATURE);
 	public static final SAXFeature VALIDATE_CONTENT_MODELS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.VALIDATE_CONTENT_MODELS_FEATURE);
@@ -20,7 +20,7 @@ public class SAXFeature
 	/**
 	 * For some reason, this feature messes up stuff dealing with xsi:type!!!
 	 */
-	public static final SAXFeature HONOUR_ALL_SCHEMALOCATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.HONOUR_ALL_SCHEMALOCATIONS_FEATURE);
+//	public static final SAXFeature HONOUR_ALL_SCHEMALOCATIONS = new SAXFeature(Constants.XERCES_FEATURE_PREFIX + Constants.HONOUR_ALL_SCHEMALOCATIONS_FEATURE);
 	public static final SAXFeature STRING_INTERNING = new SAXFeature(Constants.SAX_FEATURE_PREFIX + Constants.STRING_INTERNING_FEATURE);
 	// FIXME: DOM!
 	public static final SAXFeature NAMESPACES_FEATURE_ID = new SAXFeature(Constants.SAX_FEATURE_PREFIX + Constants.DOM_NAMESPACES);

@@ -17,6 +17,7 @@
 		Maven plugins.
 	</description>
 	<modules>
+		<module>goal</module>
 		<module>dependency</module>
 		<module>codeguide</module>
 		<module>xml</module>
