@@ -165,7 +165,7 @@
 			<id>maven-assembly-plugin</id>
 			<activation>
 				<property>
-					<name>task-segment:install</name>
+					<name>task-segment:deploy</name>
 				</property>
 			</activation>
 			<build>
@@ -190,20 +190,6 @@
 		</profile>
 	</profiles>
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.safris.maven.plugin</groupId>
-				<artifactId>task</artifactId>
-				<version>${stable:org.safris.maven.plugin.task}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>task-segment</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>

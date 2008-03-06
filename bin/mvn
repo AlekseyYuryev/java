@@ -219,9 +219,15 @@ if [ $UPDATE_TEMPLATES ]; then
 fi
 
 # If goal=clean, then set maven.test.skip=true (this should already be the
-# default in maven.
+# default in maven. Do not set this if other tasks are listed.
 if [ $CLEAN ] && [ -z "`echo $ARGS | grep 'clean.*\( [a-zA-Z]\+\)'`" ]; then
 	ARGS="-Dmaven.test.skip $ARGS"
 fi
+
+# For each task listed on the command line, set a property like:
+# -Dtask-segment:${task}=true
+TASKS="`echo $ARGS | sed 's/-[\.a-zA-Z]\+//g' | sed 's/ \([:a-zA-Z]\+\)/ -Dtask-segment:\1=true/g'`"
+
+ARGS="$ARGS $TASKS"
 
 $MVN $ARGS
