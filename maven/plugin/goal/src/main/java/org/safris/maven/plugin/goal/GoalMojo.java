@@ -1,47 +1,62 @@
 package org.safris.maven.plugin.goal;
 
+import java.util.Arrays;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.PlexusConstants;
-import org.codehaus.plexus.PlexusContainer;
-import org.codehaus.plexus.context.Context;
-import org.codehaus.plexus.context.ContextException;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 
 /**
- * @goal validate
- * @requiresDependencyResolution test
- * @execute phase="compile"
- * @phase compile
+ * @goal task-segment
+ * @execute phase="validate"
+ * @phase validate
  */
-public class GoalMojo extends AbstractMojo implements Contextualizable
+public class GoalMojo extends AbstractMojo implements Initializable
 {
-	public void contextualize(Context context) throws ContextException
+	private final String[] goals = new String[]
 	{
-		PlexusContainer container = (PlexusContainer)context.get(PlexusConstants.PLEXUS_KEY);
-		int i = 0;
-		// TODO: Implement this method
+		"validate",
+		"generate-sources",
+		"process-sources",
+		"generate-resources",
+		"process-resources",
+		"compile",
+		"process-classes",
+		"generate-test-sources",
+		"process-test-sources",
+		"generate-test-resources",
+		"process-test-resources",
+		"test-compile",
+		"test",
+		"package",
+		"integration-test",
+		"verify",
+		"install",
+		"deploy"
+	};
+
+	public void initialize() throws InitializationException
+	{
+		// Sort the goals so we can binarySearch() on it.
+		Arrays.sort(goals);
 	}
 
 	/**
-	 * @parameter expression="${project}"
+	 * @parameter expression="${session}"
 	 * @readonly
 	 * @required
 	 */
-	private MavenProject project;
-
-	/**
-	 * POM
-	 */
-	public MavenProject getProject()
-	{
-		return project;
-	}
+	private MavenSession session;
 
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
-		int i = 0;
+		for(Object goal : session.getGoals())
+			if(Arrays.binarySearch(goals, goal) != -1)
+				System.setProperty("task-segment:" + goal, "true");
+
+		for(Object goal : session.getGoals())
+			System.out.println("task-segment:" + goal + "=" + System.getProperty("task-segment:" + goal));
 	}
 }
