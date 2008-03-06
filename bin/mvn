@@ -226,8 +226,9 @@ fi
 
 # For each task listed on the command line, set a property like:
 # -Dtask-segment:${task}=true
-TASKS="`echo $ARGS | sed 's/-[\.a-zA-Z]\+//g' | sed 's/ \([:a-zA-Z]\+\)/ -Dtask-segment:\1=true/g'`"
+# FIXME: When a single plugin is executed, this is all wrong!
+TASKS="`echo $ARGS | sed 's/-[\.a-zA-Z]\+//g' | sed 's/\(\(^\)\|\( \)\)\([:a-zA-Z]\+\)/ -Dtask-segment:\4=true/g'`"
 
-ARGS="$ARGS $TASKS"
+ARGS="$TASKS $ARGS"
 
 $MVN $ARGS

@@ -82,9 +82,9 @@ public class ValidatorMojo extends AbstractMojo
 		// Set the features.
 		saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
 		saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
-		saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES_FEATURE_ID, true);
-		saxParser.setFeature(SAXFeature.NAMESPACES_FEATURE_ID, true);
-		saxParser.setFeature(SAXFeature.SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
+		saxParser.setFeature(SAXFeature.NAMESPACES, true);
+		saxParser.setFeature(SAXFeature.SCHEMA_FULL_CHECKING, true);
 		saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
 		saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ATTDEF, true);
 		saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ENTITYDEF, true);
