@@ -162,7 +162,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>release</id>
+			<id>maven-assembly-plugin</id>
 			<activation>
 				<property>
 					<name>task-segment:install</name>
@@ -193,8 +193,8 @@
 		<plugins>
 			<plugin>
 				<groupId>org.safris.maven.plugin</groupId>
-				<artifactId>goal</artifactId>
-				<version>${stable:org.safris.maven.plugin.goal}</version>
+				<artifactId>task</artifactId>
+				<version>${stable:org.safris.maven.plugin.task}</version>
 				<executions>
 					<execution>
 						<goals>

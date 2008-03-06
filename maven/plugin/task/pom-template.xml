@@ -9,12 +9,12 @@
 		<version>${dev:org.safris.maven.plugin}</version>
 	</parent>
 	<groupId>org.safris.maven.plugin</groupId>
-	<artifactId>goal</artifactId>
-	<version>${dev:org.safris.maven.plugin.goal}</version>
+	<artifactId>task</artifactId>
+	<version>${dev:org.safris.maven.plugin.task}</version>
 	<name>${groupId}.${artifactId}</name>
 	<packaging>maven-plugin</packaging>
 	<description>
-		Maven plugin that will report the goal being run.
+		Maven plugin that will report the task-segment being run.
 	</description>
     <dependencies>
 		<dependency>

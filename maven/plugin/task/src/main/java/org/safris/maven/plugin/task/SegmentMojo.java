@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.goal;
+package org.safris.maven.plugin.task;
 
 import java.util.Arrays;
 import org.apache.maven.execution.MavenSession;
@@ -13,7 +13,7 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationExce
  * @execute phase="validate"
  * @phase validate
  */
-public class GoalMojo extends AbstractMojo implements Initializable
+public class SegmentMojo extends AbstractMojo implements Initializable
 {
 	private final String[] goals = new String[]
 	{
