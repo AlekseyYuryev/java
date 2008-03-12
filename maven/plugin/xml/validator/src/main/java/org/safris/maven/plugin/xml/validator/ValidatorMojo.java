@@ -11,8 +11,8 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.safris.commons.io.Files;
-import org.safris.commons.lang.Paths;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
@@ -37,23 +37,13 @@ public class ValidatorMojo extends AbstractMojo
 	};
 
 	/**
-	 * @parameter default-value="" expression="${mdep.httpProxy}"
+	 * @parameter default-value="" expression="${httpProxy}"
 	 */
 	private String httpProxy;
 
 	public String getHttpProxy()
 	{
 		return httpProxy;
-	}
-
-	/**
-	 * @parameter default-value="${basedir}"
-	 */
-	private String basedir = null;
-
-	public String getBasedir()
-	{
-		return basedir;
 	}
 
 	/**
@@ -76,7 +66,7 @@ public class ValidatorMojo extends AbstractMojo
 		return testResources;
 	}
 
-	protected static void validate(File file) throws IOException, SAXException
+	protected static void validate(File file, Log log) throws IOException, SAXException
 	{
 		final SAXParser saxParser = SAXParsers.createParser();
 		// Set the features.
@@ -95,7 +85,7 @@ public class ValidatorMojo extends AbstractMojo
 		saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile()));
 
 		// Set the ErrorHandler.
-		saxParser.setErrorHandler(ValidatorErrorHandler.getInstance());
+		saxParser.setErrorHandler(ValidatorErrorHandler.getInstance(log));
 
 		// Parse.
 		saxParser.parse(new InputSource(new FileInputStream(file)));
@@ -103,15 +93,19 @@ public class ValidatorMojo extends AbstractMojo
 
 	protected void setHttpProxy() throws MojoExecutionException
 	{
-		String httpProxy = getHttpProxy();
-		if(!httpProxy.startsWith("http://"))
-			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no http://");
+		final String httpProxy = getHttpProxy();
+		if(httpProxy == null)
+			return;
 
-		int portIndex = httpProxy.indexOf(":");
+		final String httpScheme = "http://";
+		if(!httpProxy.startsWith(httpScheme))
+			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no " + httpScheme);
+
+		final int portIndex = httpProxy.indexOf(":", httpScheme.length());
 		if(portIndex == -1)
 			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no port specified.");
 
-		System.setProperty("http.proxyHost", httpProxy.substring(7, portIndex));
+		System.setProperty("http.proxyHost", httpProxy.substring(httpScheme.length(), portIndex));
 		System.setProperty("http.proxyPort", httpProxy.substring(portIndex + 1));
 	}
 
@@ -147,12 +141,11 @@ public class ValidatorMojo extends AbstractMojo
 			{
 				try
 				{
-					validate(file);
+					validate(file, getLog());
 				}
 				catch(SAXException e)
 				{
-					getLog().error(Paths.relativePath(getBasedir(), file.getPath()));
-					throw new MojoFailureException(e.getMessage());
+					throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
 				}
 			}
 		}

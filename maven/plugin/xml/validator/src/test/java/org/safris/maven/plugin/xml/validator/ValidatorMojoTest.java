@@ -16,10 +16,10 @@ public class ValidatorMojoTest
 	@Test
 	public void testValidate() throws Exception
 	{
-		ValidatorMojo.validate(new File("src/test/resources/xml/valid.xml"));
+		ValidatorMojo.validate(new File("src/test/resources/xml/valid.xml"), null);
 		try
 		{
-			ValidatorMojo.validate(new File("src/test/resources/xml/invalid.xml"));
+			ValidatorMojo.validate(new File("src/test/resources/xml/invalid.xml"), null);
 		}
 		catch(SAXException e)
 		{
@@ -27,6 +27,16 @@ public class ValidatorMojoTest
 				fail(e.getMessage());
 		}
 
-		ValidatorMojo.validate(new File("src/test/resources/xsd/test.xsd"));
+		try
+		{
+			ValidatorMojo.validate(new File("src/test/resources/xsd/test.xsd"), null);
+		}
+		catch(SAXException e)
+		{
+			if(e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/XMLSchema.xsd'"))
+				System.err.println(e.getMessage());
+			else
+				fail(e.getMessage());
+		}
 	}
 }

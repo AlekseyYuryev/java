@@ -21,7 +21,7 @@ public class ValidatorEntityResolver implements XMLEntityResolver
 
 	public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException
 	{
-		String systemId = resourceIdentifier.getLiteralSystemId();
+		final String systemId = resourceIdentifier.getLiteralSystemId();
 		if(systemId == null)
 			return null;
 
@@ -39,6 +39,7 @@ public class ValidatorEntityResolver implements XMLEntityResolver
 		else
 			url = URLs.makeUrlFromPath(systemId);
 
+		resourceIdentifier.setLiteralSystemId(url.getPath());
 		final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
 		inputSource.setByteStream(url.openStream());
 		return inputSource;
