@@ -1,6 +1,7 @@
 package org.safris.xml.maven.binding;
 
 import java.io.File;
+import java.util.StringTokenizer;
 import org.codehaus.classworlds.Launcher;
 
 public final class MavenLauncher
@@ -18,8 +19,21 @@ public final class MavenLauncher
 			System.exit(1);
 		}
 
-		System.setProperty("classworlds.conf", m2.getAbsolutePath());
+		final String MAVEN_OPTS = System.getenv("MAVEN_OPTS");
+		final StringTokenizer tokenizer = new StringTokenizer(MAVEN_OPTS, "-D");
+		while(tokenizer.hasMoreTokens())
+		{
+			final String token = tokenizer.nextToken();
+			if(token == null)
+				continue;
+
+			final String[] values = token.split("=");
+			if(values.length == 2)
+				System.setProperty(values[0], values[1]);
+		}
+
 		System.setProperty("maven.home", M2_HOME);
+		System.setProperty("classworlds.conf", m2.getAbsolutePath());
 		Launcher.main(args);
 	}
 
