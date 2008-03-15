@@ -14,17 +14,17 @@ findProperties() {
 
 	# Return if we have already done the work to find pom-template.properties
 	[ "$FP_POM_TEMPLATE_PROPERTIES" ] && return;
-	FP_POM_TEMPLATE_PROPERTIES="$FP_POM_TEMPLATE_PROPERTIES_NAME"
-	FP_CWD=$DOT_DOT
+	FP_CWD="`dirname $POM_TEMPLATE`/"
+	FP_POM_TEMPLATE_PROPERTIES="$FP_CWD$FP_POM_TEMPLATE_PROPERTIES_NAME"
 	FP_LAST_CWD=""
 	FP_IS_NOT_ROOT="false"
 
 	# While we have not found pom-template.properties, and we haven't hit the root
-	while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ "$FP_IS_NOT_ROOT" != "" ]; do
+	while [ ! -f "$FP_POM_TEMPLATE_PROPERTIES" ] && [ -n "$FP_IS_NOT_ROOT" ]; do
 		[ "$DEBUG" ] && echo "\t2\tfindProperties::while(! -f $FP_POM_TEMPLATE_PROPERTIES && \$FP_IS_NOT_ROOT)"
-		FP_POM_TEMPLATE_PROPERTIES="${DOT_DOT}${FP_POM_TEMPLATE_PROPERTIES}"
 		FP_LAST_CWD=$FP_CWD
-		FP_CWD="${DOT_DOT}${FP_CWD}"
+		FP_CWD="${FP_CWD}${DOT_DOT}"
+		FP_POM_TEMPLATE_PROPERTIES="$FP_CWD$FP_POM_TEMPLATE_PROPERTIES_NAME"
 		# FIXME: This is not the best way to determine if we are at the root.
 		FP_IS_NOT_ROOT="`diff $FP_LAST_CWD $FP_CWD`"
 	done
