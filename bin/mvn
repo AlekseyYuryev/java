@@ -195,6 +195,13 @@ done
 # Find the original mvn script
 MVN="`which -a mvn | sed -n '2p'`"
 
+[ -z "$MVN" ] && [ -n "$M2_HOME" ] && MVN="$M2_HOME/bin/mvn"
+
+if [ -z "$MVN" ]; then
+	echo "Cannot find real mvn script. Either add it to the \$PATH, or define a \$M2_HOME."
+	exit 1
+fi
+
 # Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
 	$MVN $ARGS
