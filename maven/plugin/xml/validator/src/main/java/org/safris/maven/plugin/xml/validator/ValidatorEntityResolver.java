@@ -39,7 +39,9 @@ public class ValidatorEntityResolver implements XMLEntityResolver
 		else
 			url = URLs.makeUrlFromPath(systemId);
 
-		resourceIdentifier.setLiteralSystemId(url.getPath());
+		if(resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
+			resourceIdentifier.setLiteralSystemId(url.getPath());
+
 		final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
 		inputSource.setByteStream(url.openStream());
 		return inputSource;
