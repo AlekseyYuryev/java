@@ -20,16 +20,19 @@ public final class MavenLauncher
 		}
 
 		final String MAVEN_OPTS = System.getenv("MAVEN_OPTS");
-		final StringTokenizer tokenizer = new StringTokenizer(MAVEN_OPTS, "-D");
-		while(tokenizer.hasMoreTokens())
+		if(MAVEN_OPTS != null)
 		{
-			final String token = tokenizer.nextToken();
-			if(token == null)
-				continue;
+			final StringTokenizer tokenizer = new StringTokenizer(MAVEN_OPTS, "-D");
+			while(tokenizer.hasMoreTokens())
+			{
+				final String token = tokenizer.nextToken();
+				if(token == null)
+					continue;
 
-			final String[] values = token.split("=");
-			if(values.length == 2)
-				System.setProperty(values[0], values[1]);
+				final String[] values = token.split("=");
+				if(values.length == 2)
+					System.setProperty(values[0], values[1]);
+			}
 		}
 
 		System.setProperty("maven.home", M2_HOME);
