@@ -19,12 +19,13 @@ import org.safris.xml.generator.processor.BindingQName;
 import org.safris.xml.generator.processor.ElementModule;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessContext;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, ModuleProcessor<SchemaReference,SchemaDocument>
+public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, ModuleProcessor<GeneratorContext,SchemaReference,SchemaDocument>
 {
 	protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
 
@@ -34,7 +35,7 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 		"redefine"
 	};
 
-	public Collection<SchemaDocument> process(Collection<SchemaReference> selectedSchemas, GeneratorContext generatorContext, ProcessorDirectory<SchemaReference, SchemaDocument> directory)
+	public Collection<SchemaDocument> process(Collection<SchemaReference> selectedSchemas, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory)
 	{
 		if(selectedSchemas == null || selectedSchemas.size() == 0)
 			return null;

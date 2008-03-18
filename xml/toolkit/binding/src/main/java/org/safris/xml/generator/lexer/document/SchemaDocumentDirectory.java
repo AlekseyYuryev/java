@@ -2,10 +2,11 @@ package org.safris.xml.generator.lexer.document;
 
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class SchemaDocumentDirectory implements ProcessorDirectory<SchemaReference,SchemaDocument>
+public class SchemaDocumentDirectory implements ProcessorDirectory<GeneratorContext,SchemaReference,SchemaDocument>
 {
 	private final SchemaDocumentProcessor processor = new SchemaDocumentProcessor();
 
@@ -14,7 +15,7 @@ public class SchemaDocumentDirectory implements ProcessorDirectory<SchemaReferen
 		return processor;
 	}
 
-	public ModuleProcessor<SchemaReference, SchemaDocument> getProcessor()
+	public ModuleProcessor<GeneratorContext,SchemaReference, SchemaDocument> getProcessor()
 	{
 		return processor;
 	}

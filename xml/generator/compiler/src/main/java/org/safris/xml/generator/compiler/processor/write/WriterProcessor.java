@@ -6,12 +6,14 @@ import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
+import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessContext;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class WriterProcessor implements ModuleProcessor<Plan,Writer>
+public class WriterProcessor implements ModuleProcessor<GeneratorContext,Plan,Writer>
 {
 	private final Writer root = new Writer()
 	{
@@ -52,14 +54,14 @@ public class WriterProcessor implements ModuleProcessor<Plan,Writer>
 		}
 	};
 
-	public Collection<Writer> process(Collection<Plan> documents, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
+	public Collection<Writer> process(Collection<Plan> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		Writer.directory = directory;
-		tailRecurse(documents, generatorContext, directory);
+		tailRecurse(documents, processContext, directory);
 		return null;
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
+	protected final void tailRecurse(Collection<Plan> models, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -69,11 +71,11 @@ public class WriterProcessor implements ModuleProcessor<Plan,Writer>
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, generatorContext, directory), generatorContext, directory);
+			tailRecurse(disclose(model, processContext, directory), processContext, directory);
 		}
 	}
 
-	protected Collection<Plan> disclose(Plan plan, GeneratorContext generatorContext, ProcessorDirectory<Plan, Writer> directory)
+	protected Collection<Plan> disclose(Plan plan, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;
@@ -81,7 +83,7 @@ public class WriterProcessor implements ModuleProcessor<Plan,Writer>
 		if(((Nameable)plan).getName().getNamespaceURI() == null)
 			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
 
-		root.writeFile(((Writer)directory.getModule(plan, null)), plan, generatorContext.getDestDir());
+		root.writeFile(((Writer)directory.getModule(plan, null)), plan, processContext.getDestDir());
 
 		return null;
 	}

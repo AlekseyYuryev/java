@@ -12,8 +12,10 @@ import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
+import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
 public abstract class Writer<T extends Plan> implements ElementModule<Writer>
@@ -108,7 +110,7 @@ public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 		((Writer)directory.getModule(plan, null)).appendClass(writer, plan, parent);
 	}
 
-	protected static ProcessorDirectory<Plan,Writer> directory = null;
+	protected static ProcessorDirectory<GeneratorContext,Plan,Writer> directory = null;
 
 	protected abstract void appendDeclaration(StringWriter writer, T plan, Plan parent);
 	protected abstract void appendGetMethod(StringWriter writer, T plan, Plan parent);

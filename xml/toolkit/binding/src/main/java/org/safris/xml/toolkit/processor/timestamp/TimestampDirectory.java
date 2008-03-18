@@ -1,13 +1,12 @@
 package org.safris.xml.toolkit.processor.timestamp;
 
-import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
-import org.safris.xml.toolkit.processor.bundle.BundleProcessor;
 
-public class TimestampDirectory implements ProcessorDirectory<Bundle,Bundle>
+public class TimestampDirectory implements ProcessorDirectory<GeneratorContext,Bundle,Bundle>
 {
 	private TimestampProcessor processor = new TimestampProcessor();
 
@@ -16,7 +15,7 @@ public class TimestampDirectory implements ProcessorDirectory<Bundle,Bundle>
 		return processor;
 	}
 
-	public ModuleProcessor<Bundle,Bundle> getProcessor()
+	public ModuleProcessor<GeneratorContext,Bundle,Bundle> getProcessor()
 	{
 		return processor;
 	}

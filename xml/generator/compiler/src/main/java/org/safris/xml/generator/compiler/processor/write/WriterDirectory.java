@@ -47,6 +47,7 @@ import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UnionPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UniquePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
+import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.processor.write.element.AllWriter;
 import org.safris.xml.generator.compiler.processor.write.element.AnnotationWriter;
 import org.safris.xml.generator.compiler.processor.write.element.AnyAttributeWriter;
@@ -90,10 +91,11 @@ import org.safris.xml.generator.compiler.processor.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.processor.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.processor.write.element.WhiteSpaceWriter;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
+public class WriterDirectory implements ProcessorDirectory<GeneratorContext,Plan,Writer>
 {
 	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
 	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
@@ -168,7 +170,7 @@ public class WriterDirectory implements ProcessorDirectory<Plan,Writer>
 		}
 	}
 
-	public ModuleProcessor<Plan, Writer> getProcessor()
+	public ModuleProcessor<GeneratorContext,Plan,Writer> getProcessor()
 	{
 		return processor;
 	}

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.compiler.lang.CompilerError;
+import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AllPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnnotationPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
@@ -91,10 +92,11 @@ import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class PlanDirectory implements ProcessorDirectory<Model,Plan>
+public class PlanDirectory implements ProcessorDirectory<GeneratorContext,Model,Plan>
 {
 	private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
 	private final Collection<Class<? extends Model>> keys;
@@ -166,7 +168,7 @@ public class PlanDirectory implements ProcessorDirectory<Model,Plan>
 		}
 	}
 
-	public ModuleProcessor<Model, Plan> getProcessor()
+	public ModuleProcessor<GeneratorContext,Model,Plan> getProcessor()
 	{
 		return processor;
 	}

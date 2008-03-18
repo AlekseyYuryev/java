@@ -48,6 +48,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
+import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AllNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AnnotationNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AnyAttributeNormalizer;
@@ -91,10 +92,11 @@ import org.safris.xml.generator.lexer.processor.normalize.element.UnionNormalize
 import org.safris.xml.generator.lexer.processor.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.WhiteSpaceNormalizer;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
+public class NormalizerDirectory implements ProcessorDirectory<GeneratorContext,Model,Normalizer>
 {
 	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
 	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
@@ -175,7 +177,7 @@ public class NormalizerDirectory implements ProcessorDirectory<Model,Normalizer>
 		}
 	}
 
-	public ModuleProcessor<Model, Normalizer> getProcessor()
+	public ModuleProcessor<GeneratorContext,Model,Normalizer> getProcessor()
 	{
 		return processor;
 	}

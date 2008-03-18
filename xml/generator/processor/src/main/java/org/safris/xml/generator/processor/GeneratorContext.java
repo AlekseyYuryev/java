@@ -3,7 +3,7 @@ package org.safris.xml.generator.processor;
 import java.io.File;
 import java.io.IOException;
 
-public final class GeneratorContext
+public final class GeneratorContext implements ProcessContext
 {
 	private final long manifestLastModified;
 	private final File destDir;

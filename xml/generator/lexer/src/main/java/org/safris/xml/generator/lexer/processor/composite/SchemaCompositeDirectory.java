@@ -1,11 +1,13 @@
 package org.safris.xml.generator.lexer.processor.composite;
 
+import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 
-public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocument,SchemaComposite>
+public class SchemaCompositeDirectory implements ProcessorDirectory<GeneratorContext,SchemaDocument,SchemaComposite>
 {
 	private SchemaCompositeProcessor processor = new SchemaCompositeProcessor();
 
@@ -14,7 +16,7 @@ public class SchemaCompositeDirectory implements ProcessorDirectory<SchemaDocume
 		return processor;
 	}
 
-	public ModuleProcessor<SchemaDocument, SchemaComposite> getProcessor()
+	public ModuleProcessor<GeneratorContext,SchemaDocument,SchemaComposite> getProcessor()
 	{
 		return processor;
 	}

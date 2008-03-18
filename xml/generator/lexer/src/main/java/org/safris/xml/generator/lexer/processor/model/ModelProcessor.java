@@ -13,15 +13,16 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.processor.GeneratorContext;
 import org.safris.xml.generator.processor.ModuleProcessor;
+import org.safris.xml.generator.processor.ProcessContext;
 import org.safris.xml.generator.processor.ProcessorDirectory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ModelProcessor implements ModuleProcessor<SchemaComposite,Model>
+public class ModelProcessor implements ModuleProcessor<GeneratorContext,SchemaComposite,Model>
 {
 	private Model root;
 
-	public Collection<Model> process(Collection<SchemaComposite> documents, GeneratorContext generatorContext, ProcessorDirectory<SchemaComposite, Model> directory)
+	public Collection<Model> process(Collection<SchemaComposite> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaComposite, Model> directory)
 	{
 		root = new Model(null, null){};
 		// Then we parse all of the schemas that have been included and imported
@@ -42,7 +43,7 @@ public class ModelProcessor implements ModuleProcessor<SchemaComposite,Model>
 		return schemaModels;
 	}
 
-	private final SchemaModel recurse(Model model, NamespaceURI targetNamespace, NodeList children, URL url, ProcessorDirectory<SchemaComposite,Model> directory)
+	private final SchemaModel recurse(Model model, NamespaceURI targetNamespace, NodeList children, URL url, ProcessorDirectory<GeneratorContext,SchemaComposite,Model> directory)
 	{
 		if(children == null || children.getLength() == 0)
 			return null;

@@ -227,7 +227,7 @@ public class Generator extends AbstractGenerator
 
 	public Collection<Bundle> generate()
 	{
-		final Pipeline pipeline = new Pipeline(generatorContext);
+		final Pipeline<GeneratorContext> pipeline = new Pipeline<GeneratorContext>(generatorContext);
 
 		// select the schemas to be generated and exit if no schemas need work
 		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
