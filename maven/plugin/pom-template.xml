@@ -20,5 +20,6 @@
 		<module>dependency</module>
 		<module>codeguide</module>
 		<module>xml</module>
+		<module>cobertura</module>
 	</modules>
 </project>
