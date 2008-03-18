@@ -7,7 +7,6 @@ import org.safris.maven.plugin.codeguide.javaproj.JavaProjectMojo;
 /**
  * @goal sln
  * @requiresDependencyResolution test
- * @execute phase="process-test-sources"
  * @phase process-test-sources
  */
 public class SolutionMojo extends JavaProjectMojo

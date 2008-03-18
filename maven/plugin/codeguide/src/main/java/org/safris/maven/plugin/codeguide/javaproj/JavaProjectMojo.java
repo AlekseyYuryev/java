@@ -19,7 +19,6 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 /**
  * @goal javaproj
  * @requiresDependencyResolution test
- * @execute phase="process-test-sources"
  * @phase process-test-sources
  */
 public class JavaProjectMojo extends PropertiesMojo

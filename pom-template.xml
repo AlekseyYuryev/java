@@ -95,6 +95,7 @@
 		</profile>
 	</profiles>
 	<build>
+		<!--
 		<plugins>
 			<plugin>
 				<groupId>org.safris.maven.plugin</groupId>
@@ -110,6 +111,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		-->
 		<pluginManagement>
 			<plugins>
 				<plugin>

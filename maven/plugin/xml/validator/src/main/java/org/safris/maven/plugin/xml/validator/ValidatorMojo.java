@@ -23,7 +23,6 @@ import org.xml.sax.SAXException;
 /**
  * @goal validate
  * @requiresDependencyResolution test
- * @execute phase="compile"
  * @phase compile
  */
 public class ValidatorMojo extends AbstractMojo

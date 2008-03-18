@@ -17,7 +17,6 @@ import org.safris.commons.lang.Paths;
  *
  * @goal get-classpath
  * @requiresDependencyResolution test
- * @execute phase="generate-sources"
  * @phase generate-sources
  */
 public class DependencyMojo extends PropertiesMojo
