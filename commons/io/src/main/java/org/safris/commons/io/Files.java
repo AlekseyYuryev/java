@@ -134,14 +134,48 @@ public final class Files
 	}
 
 	/**
-	 * Copy a file from <code>from</code> to <code>to</code>.
+	 * Copy a file or directory from <code>from</code> to <code>to</code>.
 	 *
-	 * @param		from			File to copy from.
-	 * @param		to				File to copy to.
+	 * @param from <code>File</code> to copy from.
+	 * @param to <code>File</code> to copy to.
 	 *
-	 * @exception	IOException		If there is an error handling either the from file, or the to file.
+	 * @exception IOException If there is an error handling either the from file, or the to file.
 	 */
-	public static void copy(File from, File to) throws Exception
+	public static void copy(File from, File to) throws IOException
+	{
+		if(from == null)
+			throw new NullPointerException("from == null");
+
+		if(to == null)
+			throw new NullPointerException("to == null");
+
+		if(from.isFile())
+			copyFile(from, to);
+		else if(from.isDirectory())
+		{
+			if(to.isFile())
+				throw new IllegalArgumentException("trying to copy a directory to a file");
+			else if(!to.exists())
+				to.mkdir();
+
+			final List<File> files = Files.listAll(from.getAbsoluteFile());
+			for(File file : files)
+			{
+				final String relativePath = Paths.relativePath(from.getAbsolutePath(), file.getAbsolutePath());
+				final File toFile = new File(to, relativePath);
+				if(file.isFile())
+					copyFile(file, toFile);
+				else if(file.isDirectory())
+					toFile.mkdir();
+				else
+					throw new IllegalArgumentException(file.getAbsolutePath() + " does not exist");
+			}
+		}
+		else
+			throw new IllegalArgumentException("from does not exist");
+	}
+
+	private static void copyFile(File from, File to) throws IOException
 	{
 		final FileChannel sourceChannel = new FileInputStream(from).getChannel();
 		final FileChannel destinationChannel = new FileOutputStream(to).getChannel();
