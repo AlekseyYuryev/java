@@ -9,7 +9,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
 import org.safris.maven.plugin.dependency.DependencyProperties;
 
-public abstract class PropertiesMojo extends AbstractMojo implements DependencyProperties
+public abstract class CodeGuideMojo extends AbstractMojo implements DependencyProperties
 {
 	/**
 	 * @parameter expression="${project.build.sourceDirectory}"

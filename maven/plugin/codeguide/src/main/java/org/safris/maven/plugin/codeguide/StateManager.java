@@ -9,9 +9,9 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 
 public class StateManager
 {
-	private Solution solution;
-	private Map<GroupArtifact,JavaProject> artifactToProject = new HashMap<GroupArtifact,JavaProject>();
-	private Map<JavaProject,GroupArtifact> projectToArtifact = new HashMap<JavaProject,GroupArtifact>();
+	private final Solution solution;
+	private final Map<GroupArtifact,JavaProject> artifactToProject = new HashMap<GroupArtifact,JavaProject>();
+	private final Map<JavaProject,GroupArtifact> projectToArtifact = new HashMap<JavaProject,GroupArtifact>();
 
 	public StateManager(Solution solution)
 	{

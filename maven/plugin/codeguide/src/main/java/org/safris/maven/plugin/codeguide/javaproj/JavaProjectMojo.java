@@ -10,7 +10,7 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.ClassLoaderLocal;
-import org.safris.maven.plugin.codeguide.PropertiesMojo;
+import org.safris.maven.plugin.codeguide.CodeGuideMojo;
 import org.safris.maven.plugin.codeguide.StateManager;
 import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.DependencyMojo;
@@ -21,7 +21,7 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
  * @requiresDependencyResolution test
  * @phase process-test-sources
  */
-public class JavaProjectMojo extends PropertiesMojo
+public class JavaProjectMojo extends CodeGuideMojo
 {
 	private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
 	private static final FileFilter sourceFileFilter = new FileFilter()
