@@ -82,10 +82,10 @@
 							<version>2.1</version>
 							<executions>
 								<execution>
-									<goals>
-										<goal>assembly</goal>
-									</goals>
 									<phase>package</phase>
+									<goals>
+										<goal>attached</goal>
+									</goals>
 								</execution>
 							</executions>
 						</plugin>

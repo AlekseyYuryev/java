@@ -31,6 +31,9 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<descriptors>
+						<descriptor>src/main/assembly/scripts.xml</descriptor>
+					</descriptors>
 				</configuration>
 			</plugin>
 		</plugins>
