@@ -18,7 +18,7 @@
 	<target name="validate" description="validate the project is correct and all necessary information is available"/>
 
 	<target name="generate-sources" depends="validate" description="generate any source code for inclusion in compilation">
-		<taskdef name="binding" classname="org.safris.xml.ant.binding.GeneratorTask">
+		<taskdef name="binding" classname="org.safris.ant.task.xml.binding.GeneratorTask">
 			<classpath>
 				<fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
 					<include name="**/*.jar"/>

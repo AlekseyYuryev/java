@@ -1,7 +1,7 @@
 <manifest
 	xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
+	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/manifest.xsd ../../../../../../../../xml/toolkit/binding/src/main/resources/xsd/manifest.xsd">
 	<destdir>${project.build.directory}/generated-sources/xmlbinding</destdir>
 	<schemas>
 		<schema>../xsd/ant.xsd</schema>

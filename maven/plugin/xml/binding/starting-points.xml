@@ -2,39 +2,39 @@
 <startingPoints
 	xmlns="http://ide.safris.org/common/starting-points.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
+	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
 		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/sample/binding/pom.xml</commandLineArguments>
 		<name>GeneratorMojo sample/binding/pom.xml</name>
-		<target>org.safris.xml.maven.binding.GeneratorMojo</target>
+		<target>org.safris.maven.plugin.xml.binding.GeneratorMojo</target>
 		<vmOtherOptions/>
 		<workingDir>..\sample\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/sample/binding/pom.xml</commandLineArguments>
 		<name>GeneratorMojo tutorial/binding/pom.xml</name>
-		<target>org.safris.xml.maven.binding.GeneratorMojo</target>
+		<target>org.safris.maven.plugin.xml.binding.GeneratorMojo</target>
 		<vmOtherOptions/>
 		<workingDir>..\tutorial\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/test/binding/pom.xml</commandLineArguments>
 		<name>GeneratorMojo test/binding/pom.xml</name>
-		<target>org.safris.xml.maven.binding.GeneratorMojo</target>
+		<target>org.safris.maven.plugin.xml.binding.GeneratorMojo</target>
 		<vmOtherOptions/>
 		<workingDir>..\test\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
 		<name>ExternalTest</name>
-		<target>org.safris.xml.maven.binding.ExternalTest</target>
+		<target>org.safris.maven.plugin.xml.binding.ExternalTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
 		<name>InternalTest</name>
-		<target>org.safris.xml.maven.binding.InternalTest</target>
+		<target>org.safris.maven.plugin.xml.binding.InternalTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
