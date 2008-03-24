@@ -1,4 +1,4 @@
-package org.safris.ant.task.xml.binding;
+package org.safris.xml.ant.binding;
 
 import org.junit.Test;
 
