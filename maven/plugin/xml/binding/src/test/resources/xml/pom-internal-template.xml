@@ -4,16 +4,16 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd http://www.w3.org/1999/xlink ../../../../../../toolkit/binding/src/main/resources/xsd/xlink.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.safris.xml.maven</groupId>
+	<groupId>org.safris.maven.plugin.xml.binding</groupId>
 	<artifactId>pom-internal</artifactId>
-	<version>${dev:org.safris.xml.maven.pom-internal}</version>
+	<version>${dev:org.safris.maven.plugin.xml.binding.pom-internal}</version>
 	<name>${groupId}.${artifactId}</name>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.safris.xml.maven</groupId>
+				<groupId>org.safris.maven.plugin.xml</groupId>
 				<artifactId>binding</artifactId>
-				<version>${dev:org.safris.xml.maven.binding}</version>
+				<version>${dev:org.safris.maven.plugin.xml.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-test-sources</phase>

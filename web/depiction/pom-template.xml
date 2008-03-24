@@ -17,9 +17,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.safris.xml.maven</groupId>
+				<groupId>org.safris.maven.plugin.xml</groupId>
 				<artifactId>binding</artifactId>
-				<version>${dev:org.safris.xml.maven.binding}</version>
+				<version>${dev:org.safris.maven.plugin.xml.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -47,22 +47,6 @@
 							<package>org.safris.web.depiction.schema.tags</package>
 						</binding>
 					</bindings>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${project.build.sourceDirectory}/org/safris/web/depiction/schema</directory>
-							<excludes>
-								<exclude>.svn</exclude>
-							</excludes>
-							<includes>
-								<include>*</include>
-							</includes>
-						</fileset>
-					</filesets>
 				</configuration>
 			</plugin>
 		</plugins>

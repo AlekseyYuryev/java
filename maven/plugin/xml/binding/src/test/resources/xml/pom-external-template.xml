@@ -3,16 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.safris.xml.maven</groupId>
+	<groupId>org.safris.maven.plugin.xml.binding</groupId>
 	<artifactId>pom-external</artifactId>
-	<version>${dev:org.safris.xml.maven.pom-external}</version>
+	<version>${dev:org.safris.maven.plugin.xml.binding.pom-external}</version>
 	<name>${groupId}.${artifactId}</name>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.safris.xml.maven</groupId>
+				<groupId>org.safris.maven.plugin.xml</groupId>
 				<artifactId>binding</artifactId>
-				<version>${dev:org.safris.xml.maven.binding}</version>
+				<version>${dev:org.safris.maven.plugin.xml.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-test-sources</phase>
