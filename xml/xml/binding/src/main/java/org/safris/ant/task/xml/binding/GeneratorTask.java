@@ -1,4 +1,4 @@
-package org.safris.xml.ant.binding;
+package org.safris.ant.task.xml.binding;
 
 import java.io.File;
 import java.util.ArrayList;

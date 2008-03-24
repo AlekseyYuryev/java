@@ -16,8 +16,6 @@
 	<modules>
 		<module>generator</module>
 		<module>toolkit</module>
-		<module>ant</module>
-		<module>maven</module>
 		<module>sample</module>
 		<module>tutorial</module>
 	</modules>
