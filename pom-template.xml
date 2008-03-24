@@ -15,6 +15,7 @@
 		<module>commons</module>
 		<module>xml</module>
 		<module>ide</module>
+		<module>ant</module>
 		<module>maven</module>
 		<!--<module>web</module>-->
 	</modules>

@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.safris.xml</groupId>
-		<artifactId>ant</artifactId>
-		<version>${dev:org.safris.xml.ant}</version>
+		<groupId>org.safris.ant.task</groupId>
+		<artifactId>xml</artifactId>
+		<version>${dev:org.safris.ant.task.xml}</version>
 	</parent>
-	<groupId>org.safris.xml.ant</groupId>
+	<groupId>org.safris.ant.task.xml</groupId>
 	<artifactId>binding</artifactId>
-	<version>${dev:org.safris.xml.ant.binding}</version>
+	<version>${dev:org.safris.ant.task.xml.binding}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
 		The Ant builder is an Ant task that can be used in a build.xml definition for the
