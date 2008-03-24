@@ -176,7 +176,22 @@ while [ $# != 0 ]; do
 			shift;
 			continue;
 			;;
+		-sut) SCAN_UPDATE_TEMPLATES=true
+			shift;
+			continue;
+			;;
+		--scan-update-templates) SCAN_UPDATE_TEMPLATES=true
+			shift;
+			continue;
+			;;
 		-ft) if [ $# -gt 1 ]; then
+			POM_TEMPLATE="$2"
+			shift
+			fi
+			shift;
+			continue;
+			;;
+		--file-template) if [ $# -gt 1 ]; then
 			POM_TEMPLATE="$2"
 			shift
 			fi
@@ -208,10 +223,18 @@ if [ $HELP ]; then
 	echo
 	echo "Additional options:"
 	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE"
-	echo "                               template files."
-	echo " -ft                           Force the use of an alternate POM-TEMPLATE"
+	echo "                               files in project."
+	echo " -sut,--scan-update-templates  Scan child directories and update"
+	echo "                               POM files from POM-TEMPLATE files"
+	echo "                               of the pattern: pom-*-template.xml"
+	echo " -ft,--file-template           Force the use of an alternate POM-TEMPLATE"
 	echo "                               file."
 	exit
+fi
+
+if [ $SCAN_UPDATE_TEMPLATES ]; then
+	find $PWD -name 'pom-*-template.xml' -exec mvn -ut -ft '{}' \;
+	exit 0
 fi
 
 # Update all parent POMs
@@ -221,9 +244,7 @@ updateParentPOMs $POM_TEMPLATE;
 updateChildPOMs $POM_TEMPLATE;
 
 # If we only want to update from the template poms, then exit now
-if [ $UPDATE_TEMPLATES ]; then
-	exit 0;
-fi
+[ $UPDATE_TEMPLATES ] && exit 0
 
 # If goal=clean, then set maven.test.skip=true (this should already be the
 # default in maven. Do not set this if other tasks are listed.
