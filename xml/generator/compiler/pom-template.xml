@@ -21,11 +21,6 @@
 			<version>${dev:org.safris.commons.formatter}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>xml</artifactId>
-			<version>${dev:org.safris.commons.xml}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>lexer</artifactId>
 			<version>${dev:org.safris.xml.generator.lexer}</version>

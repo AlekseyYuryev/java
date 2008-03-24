@@ -1,9 +1,9 @@
 package org.safris.xml.generator.lexer.processor;
 
-import org.safris.xml.generator.processor.BindingQName;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.commons.pipeline.PipelineEntity;
 
-public interface Nameable<T extends ElementModule>
+public interface Nameable<T extends PipelineEntity>
 {
-	public BindingQName getName();
+	public UniqueQName getName();
 }

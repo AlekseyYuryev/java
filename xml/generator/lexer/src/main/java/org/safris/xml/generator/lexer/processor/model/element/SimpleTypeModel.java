@@ -14,7 +14,7 @@ import org.safris.xml.generator.lexer.processor.model.PatternableModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.TypeableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Final;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -126,14 +126,14 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
 
 	public final static class Reference extends SimpleTypeModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseSimpleType(BindingQName name)
+		public static Reference parseSimpleType(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)
@@ -148,14 +148,14 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
 
 	public final static class Undefined extends SimpleTypeModel implements Undefineable
 	{
-		private static final Map<BindingQName,Undefined> all = new HashMap<BindingQName,Undefined>();
+		private static final Map<UniqueQName,Undefined> all = new HashMap<UniqueQName,Undefined>();
 
 		protected Undefined(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Undefined parseSimpleType(BindingQName name)
+		public static Undefined parseSimpleType(UniqueQName name)
 		{
 			Undefined type = all.get(name);
 			if(type != null)

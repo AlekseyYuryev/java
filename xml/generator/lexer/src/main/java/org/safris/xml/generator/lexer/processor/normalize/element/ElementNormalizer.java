@@ -12,11 +12,11 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ElementNormalizer extends Normalizer<ElementModel>
 {
-	private final Map<BindingQName,ElementModel> all = new HashMap<BindingQName,ElementModel>();
+	private final Map<UniqueQName,ElementModel> all = new HashMap<UniqueQName,ElementModel>();
 	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
 	private final ComplexTypeNormalizer complexTypeNormalizer = (ComplexTypeNormalizer)getDirectory().lookup(ComplexTypeModel.class);
 
@@ -25,7 +25,7 @@ public class ElementNormalizer extends Normalizer<ElementModel>
 		super(directory);
 	}
 
-	public final ElementModel parseElement(BindingQName name)
+	public final ElementModel parseElement(UniqueQName name)
 	{
 		return all.get(name);
 	}
@@ -67,7 +67,7 @@ public class ElementNormalizer extends Normalizer<ElementModel>
 
 				if(type == null)
 				{
-					if(!BindingQName.XS.getNamespaceURI().equals(model.getSuperType().getName().getNamespaceURI()))
+					if(!UniqueQName.XS.getNamespaceURI().equals(model.getSuperType().getName().getNamespaceURI()))
 						throw new LexerError("type == null for " + model.getSuperType().getName());
 
 					type = SimpleTypeModel.Undefined.parseSimpleType(model.getSuperType().getName());
@@ -125,10 +125,10 @@ public class ElementNormalizer extends Normalizer<ElementModel>
 			}
 
 			if(def)
-				model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType")));
+				model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
 			else
 			{
-				final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anyType"));
+				final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anyType"));
 				model.setSuperType(type);
 				model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
 			}

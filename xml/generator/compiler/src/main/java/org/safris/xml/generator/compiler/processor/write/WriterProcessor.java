@@ -7,13 +7,12 @@ import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public class WriterProcessor implements ModuleProcessor<GeneratorContext,Plan,Writer>
+public class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan,Writer>
 {
 	private final Writer root = new Writer()
 	{
@@ -54,14 +53,14 @@ public class WriterProcessor implements ModuleProcessor<GeneratorContext,Plan,Wr
 		}
 	};
 
-	public Collection<Writer> process(Collection<Plan> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
+	public Collection<Writer> process(GeneratorContext pipelineContext, Collection<Plan> documents, PipelineDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		Writer.directory = directory;
-		tailRecurse(documents, processContext, directory);
+		tailRecurse(pipelineContext, documents, directory);
 		return null;
 	}
 
-	protected final void tailRecurse(Collection<Plan> models, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
+	protected final void tailRecurse(GeneratorContext pipelineContext, Collection<Plan> models, PipelineDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		if(models == null || models.size() == 0)
 			return;
@@ -71,11 +70,11 @@ public class WriterProcessor implements ModuleProcessor<GeneratorContext,Plan,Wr
 			if(model == null)
 				continue;
 
-			tailRecurse(disclose(model, processContext, directory), processContext, directory);
+			tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
 		}
 	}
 
-	protected Collection<Plan> disclose(Plan plan, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Plan,Writer> directory)
+	protected Collection<Plan> disclose(GeneratorContext pipelineContext, Plan plan, PipelineDirectory<GeneratorContext,Plan,Writer> directory)
 	{
 		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;
@@ -83,7 +82,7 @@ public class WriterProcessor implements ModuleProcessor<GeneratorContext,Plan,Wr
 		if(((Nameable)plan).getName().getNamespaceURI() == null)
 			throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
 
-		root.writeFile(((Writer)directory.getModule(plan, null)), plan, processContext.getDestDir());
+		root.writeFile(((Writer)directory.getEntity(plan, null)), plan, pipelineContext.getDestDir());
 
 		return null;
 	}

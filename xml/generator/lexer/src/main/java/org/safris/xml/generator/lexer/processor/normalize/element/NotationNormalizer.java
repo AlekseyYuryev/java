@@ -5,18 +5,18 @@ import java.util.Map;
 import org.safris.xml.generator.lexer.processor.model.element.NotationModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class NotationNormalizer extends Normalizer<NotationModel>
 {
-	private final Map<BindingQName,NotationModel> all = new HashMap<BindingQName,NotationModel>();
+	private final Map<UniqueQName,NotationModel> all = new HashMap<UniqueQName,NotationModel>();
 
 	public NotationNormalizer(NormalizerDirectory directory)
 	{
 		super(directory);
 	}
 
-	public NotationModel parseNotation(BindingQName name)
+	public NotationModel parseNotation(UniqueQName name)
 	{
 		return all.get(name);
 	}

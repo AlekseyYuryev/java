@@ -3,7 +3,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 import java.util.Arrays;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -20,7 +20,7 @@ public class ListModel extends SimpleTypeModel
 		{
 			final Node attribute = attributes.item(i);
 			if("itemType".equals(attribute.getLocalName()))
-				setItemType(SimpleTypeModel.Reference.parseSimpleType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
+				setItemType(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
 		}
 	}
 

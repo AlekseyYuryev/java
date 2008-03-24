@@ -3,10 +3,10 @@ package org.safris.xml.generator.lexer.processor.document;
 import java.net.URL;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.w3c.dom.Document;
 
-public class SchemaDocument implements ElementModule
+public class SchemaDocument implements PipelineEntity
 {
 	private final SchemaReference schemaReference;
 	private final Document document;

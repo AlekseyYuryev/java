@@ -2,7 +2,7 @@ package org.safris.xml.generator.lexer.processor.reference;
 
 import java.net.URL;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -18,7 +18,7 @@ public class SchemaNamespaceHandler extends DefaultHandler
 
 	public void startElement(String uri, String localName, String qName, Attributes attributes)	throws SAXException
 	{
-		if(!BindingQName.XS.getNamespaceURI().toString().equals(uri) || !"schema".equals(localName))
+		if(!UniqueQName.XS.getNamespaceURI().toString().equals(uri) || !"schema".equals(localName))
 			return;
 
 		int index = attributes.getIndex("targetNamespace");

@@ -6,11 +6,11 @@ import org.safris.xml.generator.compiler.processor.plan.AnyablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.NamedModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements Nameable<Plan>
 {
-	private final BindingQName name;
+	private final UniqueQName name;
 
 	public NamedPlan(T model, Plan parent)
 	{
@@ -21,7 +21,7 @@ public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements
 			if(prefix == null)
 				throw new CompilerError("[ERROR] No prefix exists for namespace {" + model.getName().getNamespaceURI() + "}. Is the binding for this namespace defined in the bindings configuration?");
 
-			name = BindingQName.getInstance(model.getName().getNamespaceURI(), model.getName().getLocalPart(), prefix.toStringLowerCase());
+			name = UniqueQName.getInstance(model.getName().getNamespaceURI(), model.getName().getLocalPart(), prefix.toStringLowerCase());
 		}
 		else
 			name = null;
@@ -33,7 +33,7 @@ public abstract class NamedPlan<T extends NamedModel> extends Plan<T> implements
 			throw new IllegalArgumentException(getClass().getSimpleName() + " with no name? what's going on?");
 	}
 
-	public final BindingQName getName()
+	public final UniqueQName getName()
 	{
 		return name;
 	}

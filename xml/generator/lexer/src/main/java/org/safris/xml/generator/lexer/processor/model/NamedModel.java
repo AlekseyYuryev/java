@@ -3,13 +3,13 @@ package org.safris.xml.generator.lexer.processor.model;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.NamedModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class NamedModel extends Model implements Nameable<Model>
 {
-	private BindingQName name = null;
+	private UniqueQName name = null;
 
 	protected NamedModel(Node node, Model parent)
 	{
@@ -22,16 +22,16 @@ public abstract class NamedModel extends Model implements Nameable<Model>
 		{
 			final Node attribute = attributes.item(i);
 			if("name".equals(attribute.getLocalName()))
-				name = BindingQName.getInstance(getTargetNamespace(), attribute.getNodeValue());
+				name = UniqueQName.getInstance(getTargetNamespace(), attribute.getNodeValue());
 		}
 	}
 
-	protected final void setName(BindingQName name)
+	protected final void setName(UniqueQName name)
 	{
 		this.name = name;
 	}
 
-	public BindingQName getName()
+	public UniqueQName getName()
 	{
 		return name;
 	}

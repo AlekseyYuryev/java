@@ -1,8 +1,8 @@
 package org.safris.xml.generator.compiler.lang;
 
-import org.safris.xml.generator.processor.GeneratorError;
+import org.safris.commons.xml.XMLError;
 
-public class CompilerError extends GeneratorError
+public class CompilerError extends XMLError
 {
 	public CompilerError()
 	{

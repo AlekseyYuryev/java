@@ -20,7 +20,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
 {
@@ -146,7 +146,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 		if(thisClassNameWithType != null)
 			return thisClassNameWithType;
 
-		if(!BindingQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
 			return AliasPlan.getClassName(getModel().getSuperType(), parent.getModel());
 		else
 			return AliasPlan.getClassName(getModel(), parent.getModel());

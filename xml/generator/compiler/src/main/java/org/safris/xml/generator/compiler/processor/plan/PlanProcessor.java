@@ -6,19 +6,17 @@ import java.util.Collection;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
 import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
-import org.safris.xml.generator.compiler.processor.plan.Plan;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public final class PlanProcessor implements ModuleProcessor<GeneratorContext,Model,Plan>
+public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan>
 {
 	private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
 	private Plan root;
 
-	public final Collection<Plan> process(Collection<Model> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Model,Plan> directory)
+	public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory)
 	{
 		root = new Plan(null, null){};
 		final Collection<Plan> plans = new ArrayList<Plan>();
@@ -31,15 +29,15 @@ public final class PlanProcessor implements ModuleProcessor<GeneratorContext,Mod
 			logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
 			for(Model outerModels : model.getChildren())
-				disclose(outerModels, root, plans, processContext, directory);
+				disclose(outerModels, root, plans, pipelineContext, directory);
 		}
 
 		return plans;
 	}
 
-	protected final Collection<Model> disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Model,Plan> directory)
+	protected final Collection<Model> disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory)
 	{
-		final Plan planInstance = (Plan)directory.getModule(model, parent);
+		final Plan planInstance = (Plan)directory.getEntity(model, parent);
 		plans.add(planInstance);
 		return model.getChildren();
 	}

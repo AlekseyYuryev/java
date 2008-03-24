@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -32,7 +32,7 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
 		{
 			final Node attribute = attributes.item(i);
 			if("ref".equals(attribute.getLocalName()))
-				ref = AttributeGroupModel.Reference.parseAttributeGroup(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+				ref = AttributeGroupModel.Reference.parseAttributeGroup(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
 		}
 	}
 
@@ -78,14 +78,14 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
 
 	public static class Reference extends AttributeGroupModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseAttributeGroup(BindingQName name)
+		public static Reference parseAttributeGroup(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)

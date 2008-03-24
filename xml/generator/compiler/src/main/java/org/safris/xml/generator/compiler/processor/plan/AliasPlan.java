@@ -10,7 +10,7 @@ import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> implements DocumentablePlan, Nameable<Plan>
 {
@@ -19,7 +19,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 		if(model == null || model.getName() == null)
 			return null;
 
-		if(model.getParent() instanceof SchemaModel || BindingQName.XS.getNamespaceURI().equals(model.getName().getNamespaceURI()))
+		if(model.getParent() instanceof SchemaModel || UniqueQName.XS.getNamespaceURI().equals(model.getName().getNamespaceURI()))
 			return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model);
 
 		Model check = model;

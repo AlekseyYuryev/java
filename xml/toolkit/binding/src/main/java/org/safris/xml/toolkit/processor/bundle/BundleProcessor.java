@@ -19,16 +19,15 @@ import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingError;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public final class BundleProcessor implements ElementModule<Bundle>, ModuleProcessor<GeneratorContext,SchemaComposite,Bundle>
+public final class BundleProcessor implements PipelineEntity<Bundle>, PipelineProcessor<GeneratorContext,SchemaComposite,Bundle>
 {
 	protected BundleProcessor()
 	{
@@ -168,19 +167,19 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 		return jars;
 	}
 
-	public Collection<Bundle> process(Collection<SchemaComposite> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaComposite,Bundle> directory)
+	public Collection<Bundle> process(GeneratorContext pipelineContext, Collection<SchemaComposite> documents, PipelineDirectory<GeneratorContext,SchemaComposite,Bundle> directory)
 	{
 		try
 		{
-			BundleProcessor.compile(processContext.getDestDir());
-			final Collection<File> jarFiles = BundleProcessor.jar(processContext.getDestDir(), documents);
+			BundleProcessor.compile(pipelineContext.getDestDir());
+			final Collection<File> jarFiles = BundleProcessor.jar(pipelineContext.getDestDir(), documents);
 			final Collection<Bundle> bundles = new ArrayList<Bundle>(jarFiles.size());
 			for(File jarFile : jarFiles)
 				bundles.add(new Bundle(jarFile));
 
 			// If we dont care about the exploded files,
 			// then delete all of the files only leaving the jars.
-			if(!processContext.getExplodeJars())
+			if(!pipelineContext.getExplodeJars())
 			{
 				final FileFilter jarFilter = new FileFilter()
 				{
@@ -190,7 +189,7 @@ public final class BundleProcessor implements ElementModule<Bundle>, ModuleProce
 					}
 				};
 
-				final Collection<File> files = Files.listAll(processContext.getDestDir(), jarFilter);
+				final Collection<File> files = Files.listAll(pipelineContext.getDestDir(), jarFilter);
 				for(File file : files)
 					Files.deleteAllOnExit(file);
 			}

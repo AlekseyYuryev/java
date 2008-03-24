@@ -3,9 +3,9 @@ package org.safris.xml.generator.lexer.processor.normalize;
 import org.safris.commons.logging.Logger;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.commons.pipeline.PipelineEntity;
 
-public abstract class Normalizer<T extends Model> implements ElementModule<Normalizer>
+public abstract class Normalizer<T extends Model> implements PipelineEntity<Normalizer>
 {
 	protected static final Logger logger = Logger.getLogger(LexerLoggerName.NORMALIZE);
 	private final NormalizerDirectory directory;

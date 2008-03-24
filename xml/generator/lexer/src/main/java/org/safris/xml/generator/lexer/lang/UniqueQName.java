@@ -1,4 +1,4 @@
-package org.safris.xml.generator.processor;
+package org.safris.xml.generator.lexer.lang;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,72 +6,71 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.Prefix;
-import org.safris.xml.generator.processor.BindingQName;
 
-public class BindingQName
+public class UniqueQName
 {
 	private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
-	private static final Map<QName,BindingQName> instances = new HashMap<QName,BindingQName>();
+	private static final Map<QName,UniqueQName> instances = new HashMap<QName,UniqueQName>();
 
 	// subjectively chosen
 	private static final String W3C_XML_SCHEMA_PREFIX = "XS";
 	private static final String W3C_XML_SCHEMA_INSTANCE_PREFIX = "xsi";
 
-	public static final BindingQName XS = BindingQName.getInstance(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "", W3C_XML_SCHEMA_PREFIX));
-	public static final BindingQName XSI = BindingQName.getInstance(new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "", W3C_XML_SCHEMA_INSTANCE_PREFIX));
+	public static final UniqueQName XS = UniqueQName.getInstance(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "", W3C_XML_SCHEMA_PREFIX));
+	public static final UniqueQName XSI = UniqueQName.getInstance(new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "", W3C_XML_SCHEMA_INSTANCE_PREFIX));
 
 	// staticly defined
-	public static final BindingQName XML = BindingQName.getInstance(new QName(XMLConstants.XML_NS_URI, "", XMLConstants.XML_NS_PREFIX));
-	public static final BindingQName XMLNS = BindingQName.getInstance(new QName(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "", XMLConstants.XMLNS_ATTRIBUTE));
+	public static final UniqueQName XML = UniqueQName.getInstance(new QName(XMLConstants.XML_NS_URI, "", XMLConstants.XML_NS_PREFIX));
+	public static final UniqueQName XMLNS = UniqueQName.getInstance(new QName(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "", XMLConstants.XMLNS_ATTRIBUTE));
 
-	public static BindingQName getInstance(QName name)
+	public static UniqueQName getInstance(QName name)
 	{
-		final BindingQName bindingQName = new BindingQName(name);
-		BindingQName instance = instances.get(name);
+		final UniqueQName bindingQName = new UniqueQName(name);
+		UniqueQName instance = instances.get(name);
 		if(instance == null)
 			instances.put(name, instance = bindingQName);
 
 		return instance;
     }
 
-	public static BindingQName getInstance(String namespaceURI, String localPart)
+	public static UniqueQName getInstance(String namespaceURI, String localPart)
 	{
 		final QName name = new QName(namespaceURI, localPart);
-        final BindingQName bindingQName = new BindingQName(name);
-		BindingQName instance = instances.get(name);
+        final UniqueQName bindingQName = new UniqueQName(name);
+		UniqueQName instance = instances.get(name);
 		if(instance == null)
 			instances.put(name, instance = bindingQName);
 
 		return instance;
     }
 
-	public static BindingQName getInstance(NamespaceURI namespaceURI, String localPart)
+	public static UniqueQName getInstance(NamespaceURI namespaceURI, String localPart)
 	{
 		final QName name = new QName(namespaceURI.toString(), localPart);
-        final BindingQName bindingQName = new BindingQName(new QName(namespaceURI.toString(), localPart));
-		BindingQName instance = instances.get(name);
+        final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString(), localPart));
+		UniqueQName instance = instances.get(name);
 		if(instance == null)
 			instances.put(name, instance = bindingQName);
 
 		return instance;
     }
 
-	public static BindingQName getInstance(String namespaceURI, String localPart, String prefix)
+	public static UniqueQName getInstance(String namespaceURI, String localPart, String prefix)
 	{
 		final QName name = new QName(namespaceURI, localPart);
-        final BindingQName bindingQName = new BindingQName(new QName(namespaceURI, localPart, prefix));
-		BindingQName instance = instances.get(name);
+        final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI, localPart, prefix));
+		UniqueQName instance = instances.get(name);
 		if(instance == null)
 			instances.put(name, instance = bindingQName);
 
 		return instance;
 	}
 
-	public static BindingQName getInstance(NamespaceURI namespaceURI, String localPart, String prefix)
+	public static UniqueQName getInstance(NamespaceURI namespaceURI, String localPart, String prefix)
 	{
 		final QName name = new QName(namespaceURI.toString(), localPart);
-        final BindingQName bindingQName = new BindingQName(new QName(namespaceURI.toString(), localPart, prefix));
-		BindingQName instance = instances.get(name);
+        final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString(), localPart, prefix));
+		UniqueQName instance = instances.get(name);
 		if(instance == null)
 			instances.put(name, instance = bindingQName);
 
@@ -82,7 +81,7 @@ public class BindingQName
 	private final NamespaceURI namespaceURI;
 	private Prefix prefix = null;
 
-	private BindingQName(QName name)
+	private UniqueQName(QName name)
 	{
 		if(name.getNamespaceURI() != null && !XMLConstants.NULL_NS_URI.equals(name.getNamespaceURI()))
 		{
@@ -162,10 +161,10 @@ public class BindingQName
 		if(this == obj)
 			return true;
 
-		if(!(obj instanceof BindingQName))
+		if(!(obj instanceof UniqueQName))
 			return false;
 
-		final BindingQName bindingQName = (BindingQName)obj;
+		final UniqueQName bindingQName = (UniqueQName)obj;
 		return (namespaceURI != null ? namespaceURI.equals(bindingQName.namespaceURI) : bindingQName.namespaceURI == null) && localPart.equals(bindingQName.localPart);
 	}
 

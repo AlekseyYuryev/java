@@ -1,21 +1,21 @@
 package org.safris.xml.toolkit.processor.timestamp;
 
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public class TimestampDirectory implements ProcessorDirectory<GeneratorContext,Bundle,Bundle>
+public class TimestampDirectory implements PipelineDirectory<GeneratorContext,Bundle,Bundle>
 {
 	private TimestampProcessor processor = new TimestampProcessor();
 
-	public ElementModule<Bundle> getModule(Bundle module, Bundle parent)
+	public PipelineEntity<Bundle> getEntity(Bundle entity, Bundle parent)
 	{
 		return processor;
 	}
 
-	public ModuleProcessor<GeneratorContext,Bundle,Bundle> getProcessor()
+	public PipelineProcessor<GeneratorContext,Bundle,Bundle> getProcessor()
 	{
 		return processor;
 	}

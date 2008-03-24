@@ -19,7 +19,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 {
@@ -52,7 +52,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 
 			if(base == null)
 			{
-				if(!BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
+				if(!UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 					throw new LexerError("base == null for " + model.getBase().getName());
 
 				base = SimpleTypeModel.Undefined.parseSimpleType(model.getBase().getName());
@@ -63,7 +63,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 			base = complexTypeNormalizer.parseComplexType(model.getBase().getName());
 			if(base == null)
 			{
-				if(!BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
+				if(!UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 					throw new LexerError("base == null for " + model.getBase().getName());
 
 				base = ComplexTypeModel.Undefined.parseComplexType(model.getBase().getName());
@@ -170,7 +170,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 
 	protected void stage5(RestrictionModel model)
 	{
-		if(model.getBase() == null || BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
+		if(model.getBase() == null || UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 			return;
 
 		// handle all attributes
@@ -216,9 +216,9 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 		return attributes;
 	}
 
-	private static RestrictionPair<AttributeModel> findBaseAttribute(BindingQName name, SimpleTypeModel typeModel)
+	private static RestrictionPair<AttributeModel> findBaseAttribute(UniqueQName name, SimpleTypeModel typeModel)
 	{
-		if(name == null || typeModel == null || BindingQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
+		if(name == null || typeModel == null || UniqueQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
 			return null;
 
 		// FIXME: Can I equate on just the localPart of the QName???
@@ -245,9 +245,9 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 		}
 	}
 
-	private static RestrictionPair<ElementModel> findBaseElement(BindingQName name, SimpleTypeModel typeModel)
+	private static RestrictionPair<ElementModel> findBaseElement(UniqueQName name, SimpleTypeModel typeModel)
 	{
-		if(name == null || typeModel == null || BindingQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
+		if(name == null || typeModel == null || UniqueQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
 			return null;
 
 		if(typeModel instanceof ComplexTypeModel)

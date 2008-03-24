@@ -13,19 +13,18 @@ import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.generator.processor.BindingQName;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, ModuleProcessor<GeneratorContext,SchemaReference,SchemaDocument>
+public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument>
 {
 	protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
 
@@ -35,7 +34,7 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 		"redefine"
 	};
 
-	public Collection<SchemaDocument> process(Collection<SchemaReference> selectedSchemas, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory)
+	public Collection<SchemaDocument> process(GeneratorContext pipelineContext, Collection<SchemaReference> selectedSchemas, PipelineDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory)
 	{
 		if(selectedSchemas == null || selectedSchemas.size() == 0)
 			return null;
@@ -67,7 +66,7 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 						NodeList includeNodeList = null;
 						for(String includeString : includeStrings)
 						{
-							includeNodeList = entry.getDocument().getElementsByTagNameNS(BindingQName.XS.getNamespaceURI().toString(), includeString);
+							includeNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
 							for(int i = 0; i < includeNodeList.getLength(); i++)
 							{
 								final Element includeElement = (Element)includeNodeList.item(i);
@@ -89,7 +88,7 @@ public class SchemaDocumentProcessor implements ElementModule<SchemaDocument>, M
 							}
 						}
 
-						final NodeList importNodeList = entry.getDocument().getElementsByTagNameNS(BindingQName.XS.getNamespaceURI().toString(), "import");
+						final NodeList importNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), "import");
 						for(int i = 0; i < importNodeList.getLength(); i++)
 						{
 							final Element includeElement = (Element)importNodeList.item(i);

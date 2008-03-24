@@ -15,11 +15,11 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 import org.safris.xml.generator.lexer.processor.normalize.element.SimpleTypeNormalizer;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class AttributeNormalizer extends Normalizer<AttributeModel>
 {
-	private final Map<BindingQName,AttributeModel> all = new HashMap<BindingQName,AttributeModel>();
+	private final Map<UniqueQName,AttributeModel> all = new HashMap<UniqueQName,AttributeModel>();
 	private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
 
 	public AttributeNormalizer(NormalizerDirectory directory)
@@ -27,7 +27,7 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 		super(directory);
 	}
 
-	public final AttributeModel parseAttribute(BindingQName name)
+	public final AttributeModel parseAttribute(UniqueQName name)
 	{
 		return all.get(name);
 	}
@@ -102,7 +102,7 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 
 		if(model.getSuperType() == null)
 		{
-			final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType"));
+			final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType"));
 			model.setSuperType(type);
 			model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
 		}

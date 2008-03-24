@@ -6,18 +6,18 @@ import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 {
-	private final Map<BindingQName,SimpleTypeModel> all = new HashMap<BindingQName,SimpleTypeModel>();
+	private final Map<UniqueQName,SimpleTypeModel> all = new HashMap<UniqueQName,SimpleTypeModel>();
 
 	public SimpleTypeNormalizer(NormalizerDirectory directory)
 	{
 		super(directory);
 	}
 
-	public SimpleTypeModel parseSimpleType(BindingQName name)
+	public SimpleTypeModel parseSimpleType(UniqueQName name)
 	{
 		return all.get(name);
 	}

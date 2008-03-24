@@ -5,7 +5,7 @@ import java.util.Map;
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.Element;
 
 public abstract class IXSID<T extends BindingType> extends IXSNCName<T>
@@ -33,7 +33,7 @@ public abstract class IXSID<T extends BindingType> extends IXSNCName<T>
 	public static IXSID lookupId(String id)
 	{
 		Map<Object,IXSID> ids;
-		if((ids = namespaceIds.get(BindingQName.XS.getNamespaceURI().toString())) == null)
+		if((ids = namespaceIds.get(UniqueQName.XS.getNamespaceURI().toString())) == null)
 			return null;
 
 		return ids.get(id);

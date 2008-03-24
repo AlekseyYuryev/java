@@ -9,7 +9,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class UnionNormalizer extends Normalizer<UnionModel>
 {
@@ -38,7 +38,7 @@ public class UnionNormalizer extends Normalizer<UnionModel>
 					resolvedMemberType = simpleTypeNormalizer.parseSimpleType(memberType.getName());
 					if(resolvedMemberType == null)
 					{
-						if(!BindingQName.XS.getNamespaceURI().equals(memberType.getName().getNamespaceURI()))
+						if(!UniqueQName.XS.getNamespaceURI().equals(memberType.getName().getNamespaceURI()))
 							throw new LexerError("type == null for " + memberType.getName());
 
 						resolvedMemberType = SimpleTypeModel.Undefined.parseSimpleType(memberType.getName());
@@ -101,7 +101,7 @@ public class UnionNormalizer extends Normalizer<UnionModel>
 			if(parent instanceof SimpleTypeModel && ((SimpleTypeModel)parent).getName() != null)
 			{
 				final SimpleTypeModel simpleTypeModel = (SimpleTypeModel)parent;
-				simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType")));
+				simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
 				simpleTypeModel.setItemTypes(model.getNormalizedMemberTypes());
 				break;
 			}

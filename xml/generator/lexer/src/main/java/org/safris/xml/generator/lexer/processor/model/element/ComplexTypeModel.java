@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.processor.model.MixableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Block;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -84,14 +84,14 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
 
 	public static class Reference extends ComplexTypeModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseComplexType(BindingQName name)
+		public static Reference parseComplexType(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)
@@ -106,14 +106,14 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
 
 	public static class Undefined extends ComplexTypeModel implements Undefineable
 	{
-		private static final Map<BindingQName,Undefined> all = new HashMap<BindingQName,Undefined>();
+		private static final Map<UniqueQName,Undefined> all = new HashMap<UniqueQName,Undefined>();
 
 		protected Undefined(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Undefined parseComplexType(BindingQName name)
+		public static Undefined parseComplexType(UniqueQName name)
 		{
 			if(name == null)
 				return null;

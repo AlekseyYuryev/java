@@ -48,6 +48,7 @@ import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UnionPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UniquePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.AllModel;
 import org.safris.xml.generator.lexer.processor.model.element.AnnotationModel;
@@ -91,12 +92,11 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public class PlanDirectory implements ProcessorDirectory<GeneratorContext,Model,Plan>
+public class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,Plan>
 {
 	private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
 	private final Collection<Class<? extends Model>> keys;
@@ -149,17 +149,17 @@ public class PlanDirectory implements ProcessorDirectory<GeneratorContext,Model,
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Plan> getModule(Model module, Plan parent)
+	public PipelineEntity<Plan> getEntity(Model entity, Plan parent)
 	{
-		if(!keys.contains(module.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + module.getClass().getSimpleName());
+		if(!keys.contains(entity.getClass()))
+			throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
-		final Class<? extends Plan> parserClass = classes.get(module.getClass());
+		final Class<? extends Plan> parserClass = classes.get(entity.getClass());
 		Plan planInstance = null;
 		try
 		{
-			final Constructor<? extends Plan> constructor = parserClass.getConstructor(module.getClass(), Plan.class);
-			planInstance = constructor.newInstance(module, parent);
+			final Constructor<? extends Plan> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
+			planInstance = constructor.newInstance(entity, parent);
 			return planInstance;
 		}
 		catch(Exception e)
@@ -168,7 +168,7 @@ public class PlanDirectory implements ProcessorDirectory<GeneratorContext,Model,
 		}
 	}
 
-	public ModuleProcessor<GeneratorContext,Model,Plan> getProcessor()
+	public PipelineProcessor<GeneratorContext,Model,Plan> getProcessor()
 	{
 		return processor;
 	}

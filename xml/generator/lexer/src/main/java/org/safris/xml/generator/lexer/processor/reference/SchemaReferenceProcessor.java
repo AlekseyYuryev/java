@@ -7,14 +7,13 @@ import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public final class SchemaReferenceProcessor implements ElementModule<SchemaReference>, ModuleProcessor<GeneratorContext,SchemaReference,SchemaReference>
+public final class SchemaReferenceProcessor implements PipelineEntity<SchemaReference>, PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference>
 {
 	private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
 
@@ -24,9 +23,9 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 		protected volatile int count = 0;
 	}
 
-	public Collection<SchemaReference> process(final Collection<SchemaReference> schemas, final GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaReference,SchemaReference> directory)
+	public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory)
 	{
-		final File destDir = processContext.getDestDir();
+		final File destDir = pipelineContext.getDestDir();
 
 		final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
 		try
@@ -48,7 +47,7 @@ public final class SchemaReferenceProcessor implements ElementModule<SchemaRefer
 							try
 							{
 								final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-								if(processContext.getOverwrite() || !directory.exists() || directory.lastModified() < processContext.getManifestLastModified())
+								if(pipelineContext.getOverwrite() || !directory.exists() || directory.lastModified() < pipelineContext.getManifestLastModified())
 								{
 									selectedSchemas.add(schemaReference);
 								}

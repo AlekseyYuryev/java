@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -43,9 +43,9 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
 			else if("form".equals(attribute.getLocalName()))
 				form = Form.parseForm(attribute.getNodeValue());
 			else if("ref".equals(attribute.getLocalName()))
-				setRef(AttributeModel.Reference.parseAttribute(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
+				setRef(AttributeModel.Reference.parseAttribute(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
 			else if("type".equals(attribute.getLocalName()))
-				setSuperType(SimpleTypeModel.Reference.parseSimpleType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
+				setSuperType(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
 			else if("use".equals(attribute.getLocalName()))
 				use = Use.parseUse(attribute.getLocalName());
 		}
@@ -81,7 +81,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
 		this.ref = ref;
 	}
 
-	public final BindingQName getName()
+	public final UniqueQName getName()
 	{
 		if(ref != null)
 			return ref.getName();
@@ -157,14 +157,14 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
 
 	public final static class Reference extends AttributeModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseAttribute(BindingQName name)
+		public static Reference parseAttribute(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)

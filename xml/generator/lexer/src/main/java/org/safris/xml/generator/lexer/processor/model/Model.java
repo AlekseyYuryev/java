@@ -11,12 +11,12 @@ import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
-import org.safris.xml.generator.processor.BindingQName;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public abstract class Model implements ElementModule<Model>
+public abstract class Model implements PipelineEntity<Model>
 {
 	protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
 	protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
@@ -149,7 +149,7 @@ public abstract class Model implements ElementModule<Model>
 				if(parent.getAttributes() == null)
 					return new QName(getTargetNamespace().toString(), nodeValue);
 
-				xs = parent.getAttributes().getNamedItem(BindingQName.XMLNS.getPrefix().toString());
+				xs = parent.getAttributes().getNamedItem(UniqueQName.XMLNS.getPrefix().toString());
 				if(xs == null)
 					parent = parent.getParentNode();
 				else

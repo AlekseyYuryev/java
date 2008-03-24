@@ -2,7 +2,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import javax.xml.namespace.QName;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

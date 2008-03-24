@@ -1,16 +1,16 @@
 package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class NativeBinding
 {
-	private final BindingQName name;
+	private final UniqueQName name;
 	private final GenericClass baseClass;
 	private final GenericClass nativeClass;
 	private final Method factoryMethod;
 
-	public NativeBinding(BindingQName name, GenericClass baseClass, GenericClass nativeClass, Method factoryMethod)
+	public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass, Method factoryMethod)
 	{
 		if(name == null)
 			throw new NullPointerException("name == null");
@@ -24,17 +24,17 @@ public class NativeBinding
 		this.factoryMethod = factoryMethod;
 	}
 
-	public NativeBinding(BindingQName name, GenericClass baseClass, GenericClass nativeClass)
+	public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass)
 	{
 		this(name, baseClass, nativeClass, null);
 	}
 
-	public NativeBinding(BindingQName name, GenericClass baseClass)
+	public NativeBinding(UniqueQName name, GenericClass baseClass)
 	{
 		this(name, baseClass, null, null);
 	}
 
-	public BindingQName getName()
+	public UniqueQName getName()
 	{
 		return name;
 	}

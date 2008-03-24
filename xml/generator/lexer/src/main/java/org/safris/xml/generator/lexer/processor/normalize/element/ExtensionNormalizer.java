@@ -12,7 +12,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 {
@@ -41,7 +41,7 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 
 			if(base == null)
 			{
-				if(!BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
+				if(!UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 					throw new LexerError("base == null for " + model.getBase().getName());
 
 				base = SimpleTypeModel.Undefined.parseSimpleType(model.getBase().getName());
@@ -52,7 +52,7 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 			base = complexTypeNormalizer.parseComplexType(model.getBase().getName());
 			if(base == null)
 			{
-				if(!BindingQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
+				if(!UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 					throw new LexerError("base == null for " + model.getBase().getName());
 
 				base = ComplexTypeModel.Undefined.parseComplexType(model.getBase().getName());

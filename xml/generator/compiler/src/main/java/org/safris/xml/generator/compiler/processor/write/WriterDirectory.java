@@ -90,12 +90,12 @@ import org.safris.xml.generator.compiler.processor.write.element.SimpleTypeWrite
 import org.safris.xml.generator.compiler.processor.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.processor.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.processor.write.element.WhiteSpaceWriter;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public class WriterDirectory implements ProcessorDirectory<GeneratorContext,Plan,Writer>
+public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,Writer>
 {
 	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
 	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
@@ -149,19 +149,19 @@ public class WriterDirectory implements ProcessorDirectory<GeneratorContext,Plan
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Writer> getModule(Plan module, Writer parent)
+	public PipelineEntity<Writer> getEntity(Plan entity, Writer parent)
 	{
-		if(!keys.contains(module.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + module.getClass().getSimpleName());
+		if(!keys.contains(entity.getClass()))
+			throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
-		Writer writerInstance = instances.get(module.getClass());
+		Writer writerInstance = instances.get(entity.getClass());
 		if(writerInstance != null)
 			return writerInstance;
 
-		final Class<? extends Writer> writerClass = classes.get(module.getClass());
+		final Class<? extends Writer> writerClass = classes.get(entity.getClass());
 		try
 		{
-			instances.put(module.getClass(), writerInstance = writerClass.newInstance());
+			instances.put(entity.getClass(), writerInstance = writerClass.newInstance());
 			return writerInstance;
 		}
 		catch(Exception e)
@@ -170,7 +170,7 @@ public class WriterDirectory implements ProcessorDirectory<GeneratorContext,Plan
 		}
 	}
 
-	public ModuleProcessor<GeneratorContext,Plan,Writer> getProcessor()
+	public PipelineProcessor<GeneratorContext,Plan,Writer> getProcessor()
 	{
 		return processor;
 	}

@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
 import org.safris.commons.io.Files;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public class TimestampProcessor implements ElementModule<Bundle>, ModuleProcessor<GeneratorContext,Bundle,Bundle>
+public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProcessor<GeneratorContext,Bundle,Bundle>
 {
 	private static final FileFilter fileFilter = new FileFilter()
 	{
@@ -33,16 +32,16 @@ public class TimestampProcessor implements ElementModule<Bundle>, ModuleProcesso
 	{
 	}
 
-	public Collection<Bundle> process(Collection<Bundle> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,Bundle,Bundle> directory)
+	public Collection<Bundle> process(GeneratorContext pipelineContext, Collection<Bundle> documents, PipelineDirectory<GeneratorContext,Bundle,Bundle> directory)
 	{
 		// Get the earliest lastModified time of all the files
 		long lastModified = Long.MAX_VALUE;
-		for(File file : Files.listAll(processContext.getDestDir(), fileFilter))
+		for(File file : Files.listAll(pipelineContext.getDestDir(), fileFilter))
 			if(file.lastModified() < lastModified)
 				lastModified = file.lastModified();
 
 		// Set the lastModified time of all directories to just before the value from above
-		for(File dir : Files.listAll(processContext.getDestDir(), dirFileFilter))
+		for(File dir : Files.listAll(pipelineContext.getDestDir(), dirFileFilter))
 			dir.setLastModified(lastModified - 100);
 
 		return null;

@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -38,7 +38,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
 			else if("minOccurs".equals(attribute.getLocalName()))
 				minOccurs = Occurs.parseOccurs(attribute.getNodeValue());
 			else if("ref".equals(attribute.getLocalName()))
-				ref = GroupModel.Reference.parseGroup(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+				ref = GroupModel.Reference.parseGroup(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
 		}
 	}
 
@@ -100,14 +100,14 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
 
 	public static class Reference extends GroupModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseGroup(BindingQName name)
+		public static Reference parseGroup(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)

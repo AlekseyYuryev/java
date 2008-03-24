@@ -1,9 +1,10 @@
-package org.safris.xml.generator.processor;
+package org.safris.xml.generator.lexer.processor;
 
 import java.io.File;
 import java.io.IOException;
+import org.safris.commons.pipeline.PipelineContext;
 
-public final class GeneratorContext implements ProcessContext
+public final class GeneratorContext implements PipelineContext
 {
 	private final long manifestLastModified;
 	private final File destDir;

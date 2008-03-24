@@ -1,21 +1,21 @@
 package org.safris.xml.generator.lexer.processor.reference;
 
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public class SchemaReferenceDirectory implements ProcessorDirectory<GeneratorContext,SchemaReference,SchemaReference>
+public class SchemaReferenceDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference>
 {
 	private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
 
-	public ElementModule<SchemaReference> getModule(SchemaReference module, SchemaReference parent)
+	public PipelineEntity<SchemaReference> getEntity(SchemaReference entity, SchemaReference parent)
 	{
 		return schemaReferenceProcessor;
 	}
 
-	public ModuleProcessor<GeneratorContext,SchemaReference,SchemaReference> getProcessor()
+	public PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> getProcessor()
 	{
 		return schemaReferenceProcessor;
 	}

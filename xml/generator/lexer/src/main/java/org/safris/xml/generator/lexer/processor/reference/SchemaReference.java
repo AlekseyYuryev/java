@@ -15,14 +15,14 @@ import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.Prefix;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
-import org.safris.xml.generator.processor.BindingQName;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class SchemaReference implements ElementModule<SchemaReference>
+public class SchemaReference implements PipelineEntity<SchemaReference>
 {
 	private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
 	private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
@@ -181,7 +181,7 @@ public class SchemaReference implements ElementModule<SchemaReference>
 				}
 
 				this.prefix = Prefix.getInstance(prefix);
-				BindingQName.linkPrefixNamespace(namespaceURI, this.prefix);
+				UniqueQName.linkPrefixNamespace(namespaceURI, this.prefix);
 				isResolved = true;
 			}
 		}

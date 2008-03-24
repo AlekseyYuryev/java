@@ -13,12 +13,12 @@ import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public abstract class Writer<T extends Plan> implements ElementModule<Writer>
+public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 {
 	protected static final Logger logger = Logger.getLogger(CompilerLoggerName.WRITE);
 	private final Collection<String> messages = new HashSet<String>();
@@ -67,50 +67,50 @@ public abstract class Writer<T extends Plan> implements ElementModule<Writer>
 
 	public static void writeDeclaration(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendDeclaration(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendDeclaration(writer, plan, parent);
 	}
 
 	public static void writeGetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendGetMethod(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendGetMethod(writer, plan, parent);
 	}
 
 	public static void writeSetMethod(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendSetMethod(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendSetMethod(writer, plan, parent);
 	}
 
 	public static void writeMarshal(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendMarshal(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendMarshal(writer, plan, parent);
 	}
 
 	public static void writeParse(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendParse(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendParse(writer, plan, parent);
 	}
 
 	public static void writeCopy(StringWriter writer, Plan plan, Plan parent, String variable)
 	{
-		((Writer)directory.getModule(plan, null)).appendCopy(writer, plan, parent, variable);
+		((Writer)directory.getEntity(plan, null)).appendCopy(writer, plan, parent, variable);
 	}
 
 	public static void writeEquals(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendEquals(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendEquals(writer, plan, parent);
 	}
 
 	public static void writeHashCode(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendHashCode(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendHashCode(writer, plan, parent);
 	}
 
 	public static void writeClass(StringWriter writer, Plan plan, Plan parent)
 	{
-		((Writer)directory.getModule(plan, null)).appendClass(writer, plan, parent);
+		((Writer)directory.getEntity(plan, null)).appendClass(writer, plan, parent);
 	}
 
-	protected static ProcessorDirectory<GeneratorContext,Plan,Writer> directory = null;
+	protected static PipelineDirectory<GeneratorContext,Plan,Writer> directory = null;
 
 	protected abstract void appendDeclaration(StringWriter writer, T plan, Plan parent);
 	protected abstract void appendGetMethod(StringWriter writer, T plan, Plan parent);

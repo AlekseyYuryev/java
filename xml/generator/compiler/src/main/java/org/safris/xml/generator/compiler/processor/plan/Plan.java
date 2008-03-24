@@ -10,9 +10,9 @@ import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.commons.pipeline.PipelineEntity;
 
-public abstract class Plan<T extends Model> implements ElementModule<Plan>
+public abstract class Plan<T extends Model> implements PipelineEntity<Plan>
 {
 	public static <A extends Plan>LinkedHashSet analyze(Collection<? extends Model> models, Plan parent)
 	{

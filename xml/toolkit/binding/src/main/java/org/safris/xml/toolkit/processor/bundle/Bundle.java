@@ -1,9 +1,9 @@
 package org.safris.xml.toolkit.processor.bundle;
 
 import java.io.File;
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.commons.pipeline.PipelineEntity;
 
-public final class Bundle implements ElementModule<Bundle>
+public final class Bundle implements PipelineEntity<Bundle>
 {
 	private final File file;
 

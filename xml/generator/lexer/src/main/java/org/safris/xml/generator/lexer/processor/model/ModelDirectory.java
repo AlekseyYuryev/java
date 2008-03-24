@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -50,13 +51,12 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.w3c.dom.Node;
 
-public class ModelDirectory implements ProcessorDirectory<GeneratorContext,SchemaComposite,Model>
+public class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model>
 {
 	private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
 	private final Collection<String> keys;
@@ -109,12 +109,12 @@ public class ModelDirectory implements ProcessorDirectory<GeneratorContext,Schem
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Model> getModule(SchemaComposite module, Model parent)
+	public PipelineEntity<Model> getEntity(SchemaComposite entity, Model parent)
 	{
-		if(!(module instanceof SchemaNodeComposite))
+		if(!(entity instanceof SchemaNodeComposite))
 			return null;
 
-		SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)module;
+		SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)entity;
 		final String elementName = schemaNodeComposite.getNode().getLocalName();
 		if(elementName == null)
 			throw new IllegalArgumentException("Node key without local name");
@@ -137,7 +137,7 @@ public class ModelDirectory implements ProcessorDirectory<GeneratorContext,Schem
 		}
 	}
 
-	public ModuleProcessor<GeneratorContext,SchemaComposite,Model> getProcessor()
+	public PipelineProcessor<GeneratorContext,SchemaComposite,Model> getProcessor()
 	{
 		return processor;
 	}

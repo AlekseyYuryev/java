@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.AllModel;
 import org.safris.xml.generator.lexer.processor.model.element.AnnotationModel;
@@ -91,12 +92,11 @@ import org.safris.xml.generator.lexer.processor.normalize.element.SimpleTypeNorm
 import org.safris.xml.generator.lexer.processor.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.WhiteSpaceNormalizer;
-import org.safris.xml.generator.processor.ElementModule;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 
-public class NormalizerDirectory implements ProcessorDirectory<GeneratorContext,Model,Normalizer>
+public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer>
 {
 	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
 	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
@@ -150,12 +150,12 @@ public class NormalizerDirectory implements ProcessorDirectory<GeneratorContext,
 		keys = classes.keySet();
 	}
 
-	public ElementModule<Normalizer> getModule(Model module, Normalizer parent)
+	public PipelineEntity<Normalizer> getEntity(Model entity, Normalizer parent)
 	{
-		return lookup(module.getClass());
+		return lookup(entity.getClass());
 	}
 
-	public ElementModule<Normalizer> lookup(Class<? extends Model> clazz)
+	public PipelineEntity<Normalizer> lookup(Class<? extends Model> clazz)
 	{
 		if(!keys.contains(clazz))
 			throw new IllegalArgumentException("Unknown key: " + clazz.getSimpleName());
@@ -177,7 +177,7 @@ public class NormalizerDirectory implements ProcessorDirectory<GeneratorContext,
 		}
 	}
 
-	public ModuleProcessor<GeneratorContext,Model,Normalizer> getProcessor()
+	public PipelineProcessor<GeneratorContext,Model,Normalizer> getProcessor()
 	{
 		return processor;
 	}

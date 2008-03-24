@@ -27,9 +27,14 @@
 			<version>${dev:org.safris.commons.net}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.safris.xml.generator</groupId>
-			<artifactId>processor</artifactId>
-			<version>${dev:org.safris.xml.generator.processor}</version>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>pipeline</artifactId>
+			<version>${dev:org.safris.commons.pipeline}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>xml</artifactId>
+			<version>${dev:org.safris.commons.xml}</version>
 		</dependency>
 	</dependencies>
 </project>

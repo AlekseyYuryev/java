@@ -1,8 +1,8 @@
 package org.safris.xml.generator.lexer.lang;
 
-import org.safris.xml.generator.processor.GeneratorError;
+import org.safris.commons.xml.XMLError;
 
-public class LexerError extends GeneratorError
+public class LexerError extends XMLError
 {
 	public LexerError()
 	{

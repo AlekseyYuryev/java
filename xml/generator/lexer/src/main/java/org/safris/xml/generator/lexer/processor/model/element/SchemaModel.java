@@ -9,7 +9,7 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.schema.attribute.BlockDefault;
 import org.safris.xml.generator.lexer.schema.attribute.FinalDefault;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -106,6 +106,6 @@ public class SchemaModel extends Model
 
 	public String toString()
 	{
-		return BindingQName.XS.getNamespaceURI() + " " + targetNamespace;
+		return UniqueQName.XS.getNamespaceURI() + " " + targetNamespace;
 	}
 }

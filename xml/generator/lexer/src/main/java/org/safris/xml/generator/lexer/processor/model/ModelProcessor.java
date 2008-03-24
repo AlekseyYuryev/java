@@ -5,24 +5,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
-import org.safris.xml.generator.processor.GeneratorContext;
-import org.safris.xml.generator.processor.ModuleProcessor;
-import org.safris.xml.generator.processor.ProcessContext;
-import org.safris.xml.generator.processor.ProcessorDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ModelProcessor implements ModuleProcessor<GeneratorContext,SchemaComposite,Model>
+public class ModelProcessor implements PipelineProcessor<GeneratorContext,SchemaComposite,Model>
 {
 	private Model root;
 
-	public Collection<Model> process(Collection<SchemaComposite> documents, GeneratorContext processContext, ProcessorDirectory<GeneratorContext,SchemaComposite, Model> directory)
+	public Collection<Model> process(GeneratorContext pipelineContext, Collection<SchemaComposite> documents, PipelineDirectory<GeneratorContext,SchemaComposite, Model> directory)
 	{
 		root = new Model(null, null){};
 		// Then we parse all of the schemas that have been included and imported
@@ -43,7 +42,7 @@ public class ModelProcessor implements ModuleProcessor<GeneratorContext,SchemaCo
 		return schemaModels;
 	}
 
-	private final SchemaModel recurse(Model model, NamespaceURI targetNamespace, NodeList children, URL url, ProcessorDirectory<GeneratorContext,SchemaComposite,Model> directory)
+	private final SchemaModel recurse(Model model, NamespaceURI targetNamespace, NodeList children, URL url, PipelineDirectory<GeneratorContext,SchemaComposite,Model> directory)
 	{
 		if(children == null || children.getLength() == 0)
 			return null;
@@ -78,7 +77,7 @@ public class ModelProcessor implements ModuleProcessor<GeneratorContext,SchemaCo
 				continue;
 
 			final SchemaNodeComposite nodeComposite = new SchemaNodeComposite(child);
-			final Model handler = (Model)directory.getModule(nodeComposite, model);
+			final Model handler = (Model)directory.getEntity(nodeComposite, model);
 			if(current != null)
 			{
 				handler.setPrevious(current);

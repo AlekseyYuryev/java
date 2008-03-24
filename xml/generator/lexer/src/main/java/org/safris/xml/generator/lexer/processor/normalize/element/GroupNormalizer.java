@@ -9,18 +9,18 @@ import org.safris.xml.generator.lexer.processor.model.element.GroupModel;
 import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class GroupNormalizer extends Normalizer<GroupModel>
 {
-	private final Map<BindingQName,GroupModel> all = new HashMap<BindingQName,GroupModel>();
+	private final Map<UniqueQName,GroupModel> all = new HashMap<UniqueQName,GroupModel>();
 
 	public GroupNormalizer(NormalizerDirectory directory)
 	{
 		super(directory);
 	}
 
-	public GroupModel parseGroup(BindingQName name)
+	public GroupModel parseGroup(UniqueQName name)
 	{
 		return all.get(name);
 	}

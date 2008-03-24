@@ -21,7 +21,7 @@ import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
 {
@@ -32,9 +32,9 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 	private final boolean fixed;
 	private final QName _default;
 	private final boolean nillable;
-	private final BindingQName substitutionGroup;
+	private final UniqueQName substitutionGroup;
 
-	private BindingQName typeName;
+	private UniqueQName typeName;
 
 	private String superClassNameWithType;
 	private String superClassNameWithoutType;
@@ -99,7 +99,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 			formDefault = Form.QUALIFIED;
 	}
 
-	public final BindingQName getSubstitutionGroup()
+	public final UniqueQName getSubstitutionGroup()
 	{
 		return substitutionGroup;
 	}
@@ -200,7 +200,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 			return getMixed();
 	}
 
-	public final BindingQName getTypeName()
+	public final UniqueQName getTypeName()
 	{
 		return typeName;
 	}
@@ -210,7 +210,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		if(declarationGeneric != null)
 			return declarationGeneric;
 
-		if(!BindingQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
 			return AliasPlan.getClassName(getModel().getSuperType(), parent.getModel());
 		else
 			return AliasPlan.getClassName(getModel(), parent.getModel());

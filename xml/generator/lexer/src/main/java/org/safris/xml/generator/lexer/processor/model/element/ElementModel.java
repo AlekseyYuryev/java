@@ -11,7 +11,7 @@ import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -24,7 +24,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 	private Occurs minOccurs = Occurs.parseOccurs("1");
 	private Boolean nillable = false;
 	private ElementModel ref = null;
-	private BindingQName substitutionGroup = null;
+	private UniqueQName substitutionGroup = null;
 	private Form elementFormDefault = null;
 	private AliasModel restrictionOwner = null;
 	private ElementModel restriction = null;
@@ -55,11 +55,11 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 			else if("nillable".equals(attribute.getLocalName()))
 				nillable = Boolean.parseBoolean(attribute.getNodeValue());
 			else if("ref".equals(attribute.getLocalName()))
-				setRef(ElementModel.Reference.parseElement(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
+				setRef(ElementModel.Reference.parseElement(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
 			else if("substitutionGroup".equals(attribute.getLocalName()))
-				substitutionGroup = BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node));
+				substitutionGroup = UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node));
 			else if("type".equals(attribute.getLocalName()))
-				setSuperType(ComplexTypeModel.Reference.parseComplexType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
+				setSuperType(ComplexTypeModel.Reference.parseComplexType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node))));
 		}
 	}
 
@@ -98,7 +98,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 		this.ref = ref;
 	}
 
-	public final BindingQName getName()
+	public final UniqueQName getName()
 	{
 		if(ref != null)
 			return ref.getName();
@@ -149,7 +149,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 		return nillable;
 	}
 
-	public final BindingQName getSubstitutionGroup()
+	public final UniqueQName getSubstitutionGroup()
 	{
 		return substitutionGroup;
 	}
@@ -178,19 +178,19 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 
 	public String toString()
 	{
-		return BindingQName.XS.getNamespaceURI() + " " + getName();
+		return UniqueQName.XS.getNamespaceURI() + " " + getName();
 	}
 
 	public static class Reference extends ElementModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseElement(BindingQName name)
+		public static Reference parseElement(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)

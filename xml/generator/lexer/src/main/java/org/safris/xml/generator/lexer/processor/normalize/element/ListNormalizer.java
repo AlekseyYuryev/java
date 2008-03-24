@@ -8,7 +8,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ListNormalizer extends Normalizer<ListModel>
 {
@@ -36,7 +36,7 @@ public class ListNormalizer extends Normalizer<ListModel>
 			type = simpleTypeNormalizer.parseSimpleType(type.getName());
 			if(type == null)
 			{
-				if(!BindingQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
+				if(!UniqueQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
 					throw new LexerError("type == null for " + type.getName());
 
 				type = SimpleTypeModel.Undefined.parseSimpleType(itemType.getName());
@@ -83,7 +83,7 @@ public class ListNormalizer extends Normalizer<ListModel>
 			if(parent instanceof SimpleTypeModel && ((SimpleTypeModel)parent).getName() != null)
 			{
 				final SimpleTypeModel simpleTypeModel = (SimpleTypeModel)parent;
-				simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType")));
+				simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
 				simpleTypeModel.setItemTypes(model.getItemType());
 				simpleTypeModel.setList(true);
 				break;

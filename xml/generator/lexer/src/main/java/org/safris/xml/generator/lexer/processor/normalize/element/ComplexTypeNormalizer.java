@@ -6,18 +6,18 @@ import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 {
-	protected final Map<BindingQName,ComplexTypeModel> all = new HashMap<BindingQName,ComplexTypeModel>();
+	protected final Map<UniqueQName,ComplexTypeModel> all = new HashMap<UniqueQName,ComplexTypeModel>();
 
 	public ComplexTypeNormalizer(NormalizerDirectory directory)
 	{
 		super(directory);
 	}
 
-	public ComplexTypeModel parseComplexType(BindingQName name)
+	public ComplexTypeModel parseComplexType(UniqueQName name)
 	{
 		return all.get(name);
 	}
@@ -54,6 +54,6 @@ public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel>
 			return;
 
 		if(model.getSuperType() == null)
-			model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(BindingQName.getInstance(BindingQName.XS.getNamespaceURI(), "anySimpleType")));
+			model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
 	}
 }

@@ -10,18 +10,18 @@ import org.safris.xml.generator.lexer.processor.model.element.AttributeGroupMode
 import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel>
 {
-	private final Map<BindingQName,AttributeGroupModel> all = new HashMap<BindingQName,AttributeGroupModel>();
+	private final Map<UniqueQName,AttributeGroupModel> all = new HashMap<UniqueQName,AttributeGroupModel>();
 
 	public AttributeGroupNormalizer(NormalizerDirectory directory)
 	{
 		super(directory);
 	}
 
-	public AttributeGroupModel parseAttributeGroup(BindingQName name)
+	public AttributeGroupModel parseAttributeGroup(UniqueQName name)
 	{
 		return all.get(name);
 	}

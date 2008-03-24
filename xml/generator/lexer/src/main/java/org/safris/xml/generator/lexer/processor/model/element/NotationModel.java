@@ -6,7 +6,7 @@ import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.DocumentableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -41,14 +41,14 @@ public class NotationModel extends AliasModel implements DocumentableModel
 
 	public static class Reference extends NotationModel implements Referenceable
 	{
-		private static final Map<BindingQName,Reference> all = new HashMap<BindingQName,Reference>();
+		private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
 		protected Reference(Model parent)
 		{
 			super(null, parent);
 		}
 
-		public static Reference parseGroup(BindingQName name)
+		public static Reference parseGroup(UniqueQName name)
 		{
 			Reference type = all.get(name);
 			if(type != null)

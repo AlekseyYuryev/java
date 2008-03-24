@@ -19,7 +19,7 @@ import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan
 {
@@ -44,8 +44,8 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		if(model1 == null || model2 == null)
 			return null;
 
-		BindingQName name1;
-		BindingQName name2;
+		UniqueQName name1;
+		UniqueQName name2;
 
 		// First try to see if we can match using the knowledge of type inheritance
 		SimpleTypeModel type1 = model1;
@@ -90,7 +90,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 			if(itemType == null)
 				continue;
 
-			if(BindingQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
+			if(UniqueQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
 				return itemType;
 		}
 		while((type = type.getSuperType()) != null);
@@ -104,7 +104,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		SimpleTypeModel retval = null;
 		do
 		{
-			if(type.getName() != null && BindingQName.XS.getNamespaceURI().equals(type.getName().getNamespaceURI()))
+			if(type.getName() != null && UniqueQName.XS.getNamespaceURI().equals(type.getName().getNamespaceURI()))
 				break;
 
 			retval = type;
@@ -129,9 +129,9 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	private boolean list;
 	private String baseNonXSTypeClassName = null;
 
-	private BindingQName baseNonXSTypeName = null;
-	private BindingQName baseXSTypeName = null;
-	private BindingQName baseXSItemTypeName = null;
+	private UniqueQName baseNonXSTypeName = null;
+	private UniqueQName baseXSTypeName = null;
+	private UniqueQName baseXSItemTypeName = null;
 
 	public SimpleTypePlan(T model, Plan parent)
 	{
@@ -180,12 +180,12 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		return baseNonXSTypeClassName;
 	}
 
-	public final BindingQName getBaseXSTypeName()
+	public final UniqueQName getBaseXSTypeName()
 	{
 		return baseXSTypeName;
 	}
 
-	public final BindingQName getBaseXSItemTypeName()
+	public final UniqueQName getBaseXSItemTypeName()
 	{
 		return baseXSItemTypeName;
 	}

@@ -8,18 +8,18 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ElementWrapper extends Model
 {
 	public static LinkedHashSet<ElementWrapper> asSet(LinkedHashSet<MultiplicableModel> multiplicableModels)
 	{
 		final LinkedHashSet<ElementWrapper> elementWrappers = new LinkedHashSet<ElementWrapper>();
-		asSet(multiplicableModels, elementWrappers, 1, 1, new HashSet<BindingQName>());
+		asSet(multiplicableModels, elementWrappers, 1, 1, new HashSet<UniqueQName>());
 		return elementWrappers;
 	}
 
-	private static void asSet(LinkedHashSet<MultiplicableModel> multiplicableModels, LinkedHashSet<ElementWrapper> elementWrappers, int min, int max, Collection<BindingQName> redefines)
+	private static void asSet(LinkedHashSet<MultiplicableModel> multiplicableModels, LinkedHashSet<ElementWrapper> elementWrappers, int min, int max, Collection<UniqueQName> redefines)
 	{
 		for(MultiplicableModel multiplicableModel : multiplicableModels)
 		{

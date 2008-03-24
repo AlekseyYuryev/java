@@ -2,7 +2,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -21,9 +21,9 @@ public class ExtensionModel extends Model
 			{
 				final Node parentNode = node.getParentNode();
 				if(parentNode.getLocalName().contains("complex"))
-					base = ComplexTypeModel.Reference.parseComplexType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+					base = ComplexTypeModel.Reference.parseComplexType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
 				else if(parentNode.getLocalName().contains("simple"))
-					base = SimpleTypeModel.Reference.parseSimpleType(BindingQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+					base = SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
 				else
 					throw new LexerError("whoa, schema error?");
 			}

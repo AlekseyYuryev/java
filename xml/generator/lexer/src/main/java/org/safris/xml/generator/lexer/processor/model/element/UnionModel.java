@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.processor.BindingQName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -30,7 +30,7 @@ public class UnionModel extends Model
 	{
 		final StringTokenizer tokenizer = new StringTokenizer(memberTypes);
 		while(tokenizer.hasMoreTokens())
-			this.memberTypes.add(SimpleTypeModel.Reference.parseSimpleType(BindingQName.getInstance(parseQNameValue(tokenizer.nextToken(), node))));
+			this.memberTypes.add(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(tokenizer.nextToken(), node))));
 	}
 
 	public final Collection<SimpleTypeModel> getMemberTypes()

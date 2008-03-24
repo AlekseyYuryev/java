@@ -1,7 +1,7 @@
 package org.safris.xml.generator.lexer.processor.composite;
 
-import org.safris.xml.generator.processor.ElementModule;
+import org.safris.commons.pipeline.PipelineEntity;
 
-public interface SchemaComposite extends ElementModule
+public interface SchemaComposite extends PipelineEntity
 {
 }
