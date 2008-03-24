@@ -5,7 +5,6 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
@@ -26,7 +25,6 @@ import org.w3.x2001.xmlschema.IXSBoolean;
 import org.w3c.dom.Document;
 
 /**
- * @version $Id
  * @goal generate
  */
 public class GeneratorMojo extends AbstractMojo
@@ -99,9 +97,13 @@ public class GeneratorMojo extends AbstractMojo
 					continue;
 
 				plugin.flushExecutionMap();
-				// FIXME: When this class is run from an IDE, the GeneratorMojo
-				// FIXME: cannot find the configuration instance.
 				final Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
+				if(configuration == null)
+				{
+					getLog().info("No configuration specified.");
+					continue;
+				}
+
 				for(int i = 0; i < configuration.getChildCount(); i++)
 				{
 					final Xpp3Dom bindings = configuration.getChild(i);
@@ -173,7 +175,7 @@ public class GeneratorMojo extends AbstractMojo
 
 		if(href != null)
 		{
-			File hrefFile = null;
+			final File hrefFile;
 			if(href.startsWith(File.separator))
 				hrefFile = new File(href);
 			else if(basedir != null)
@@ -189,8 +191,7 @@ public class GeneratorMojo extends AbstractMojo
 			Document document = null;
 			try
 			{
-				final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
-				document = documentBuilder.parse(hrefFile);
+				document = DOMParsers.newDocumentBuilder().parse(hrefFile);
 			}
 			catch(Exception e)
 			{

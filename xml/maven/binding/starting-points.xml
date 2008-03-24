@@ -4,11 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
-		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/maven/binding/pom.xml</commandLineArguments>
+		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/sample/binding/pom.xml</commandLineArguments>
 		<name>GeneratorMojo sample/binding/pom.xml</name>
 		<target>org.safris.xml.maven.binding.GeneratorMojo</target>
 		<vmOtherOptions/>
-		<workingDir>binding\</workingDir>
+		<workingDir>..\sample\binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/sample/binding/pom.xml</commandLineArguments>
+		<name>GeneratorMojo tutorial/binding/pom.xml</name>
+		<target>org.safris.xml.maven.binding.GeneratorMojo</target>
+		<vmOtherOptions/>
+		<workingDir>..\tutorial\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/test/binding/pom.xml</commandLineArguments>
