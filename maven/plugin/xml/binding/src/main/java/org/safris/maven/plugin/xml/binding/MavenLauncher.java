@@ -1,4 +1,4 @@
-package org.safris.xml.maven.binding;
+package org.safris.maven.plugin.xml.binding;
 
 import java.io.File;
 import java.util.StringTokenizer;

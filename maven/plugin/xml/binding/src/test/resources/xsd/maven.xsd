@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
 	elementFormDefault="qualified"
-	targetNamespace="http://xml.safris.org/toolkit/binding/test/maven.xsd"
+	targetNamespace="http://maven.safris.org/plugin/xml/binding/maven.xsd"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<xs:attribute name="attribute"/>

@@ -1,4 +1,4 @@
-package org.safris.xml.maven.binding;
+package org.safris.maven.plugin.xml.binding;
 
 import org.apache.maven.project.MavenProject;
 import org.safris.xml.toolkit.binding.PropertyResolver;
