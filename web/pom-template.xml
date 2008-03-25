@@ -16,6 +16,23 @@
 	<description>
 		Web projects.
 	</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.safris.maven.plugin</groupId>
+				<artifactId>cobertura</artifactId>
+				<version>${dev:org.safris.maven.plugin.cobertura}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<modules>
 		<module>depiction</module>
 	</modules>

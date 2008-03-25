@@ -24,7 +24,8 @@ public class InstrumentMojo extends CoberturaMojo
 		if(getProject() == null)
 			throw new NullPointerException("project == null");
 
-		if("pom".equals(getProject().getPackaging()))
+		final File classesDir = new File(getDirectory(), "classes");
+		if("pom".equals(getProject().getPackaging()) || !classesDir.exists())
 			return;
 
 		if(getBasedir() == null)
@@ -38,7 +39,7 @@ public class InstrumentMojo extends CoberturaMojo
 		getCoberturaDir().mkdir();
 		try
 		{
-			Files.copy(new File(getDirectory(), "classes"), coberturaClassesDir);
+			Files.copy(classesDir, coberturaClassesDir);
 		}
 		catch(IOException e)
 		{

@@ -16,33 +16,50 @@
 	<description>
 		Provides the capability to introspect on dependencies of artifacts.
 	</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-archiver</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.plexus</groupId>
-                    <artifactId>plexus-container-default</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.codehaus.plexus</groupId>
-                    <artifactId>plexus-component-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.safris.commons</groupId>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.safris.maven.plugin</groupId>
+				<artifactId>cobertura</artifactId>
+				<version>${dev:org.safris.maven.plugin.cobertura}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-archiver</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-container-default</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.plexus</groupId>
+					<artifactId>plexus-component-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
 			<artifactId>lang</artifactId>
 			<version>${dev:org.safris.commons.lang}</version>
-        </dependency>
-    </dependencies>
+		</dependency>
+	</dependencies>
 </project>

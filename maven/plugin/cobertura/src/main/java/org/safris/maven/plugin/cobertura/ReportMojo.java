@@ -21,7 +21,8 @@ public class ReportMojo extends CoberturaMojo
 		if(getProject() == null)
 			throw new NullPointerException("project == null");
 
-		if("pom".equals(getProject().getPackaging()))
+
+		if("pom".equals(getProject().getPackaging()) || !new File(getSourceDirectory()).exists())
 			return;
 
 		if(getBasedir() == null)
@@ -44,6 +45,6 @@ public class ReportMojo extends CoberturaMojo
 		reportTask.setFormat("html");
 		reportTask.execute();
 
-		getLog().info("Writing Report: file:///" + getDirectory() + "/cobertura/report/index.html");
+		getLog().info("Cobertura report url: file:///" + getDirectory() + "/cobertura/report/index.html");
 	}
 }
