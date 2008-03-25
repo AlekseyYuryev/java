@@ -53,6 +53,6 @@ public class ReportMojo extends CoberturaMojo
 			return;
 		}
 
-		getLog().info("Cobertura report url: file:///" + getDirectory() + "/cobertura/report/index.html");
+		getLog().info("Cobertura report url: file:///" + getCoberturaDir().getAbsolutePath() + "/report/index.html");
 	}
 }
