@@ -7,14 +7,28 @@ DEFAULT_POM_TEMPLATE_PROPERTIES="pom-template.properties"
 
 #DEBUG="true"
 FP_POM_TEMPLATE_PROPERTIES=""
+POM_TEMPLATE_DIR=""
+
+getBaseDir() {
+	[ -z $1 ] && [ $BASE_DIR_CACHE ] && return
+
+	# Find out the dir of the POM_TEMPLATE for future reference
+	POM_TEMPLATE_DIR="`dirname $POM_TEMPLATE`/"
+	[ $POM_TEMPLATE_DIR = "/" ] && POM_TEMPLATE_DIR="./"
+	BASE_DIR_CACHE="true"
+}
+
 findProperties() {
 	[ "$DEBUG" ] && echo "\t1\tfindProperties()"
 	FP_POM_TEMPLATE_PROPERTIES_NAME="pom-template.properties"
 	DOT_DOT="../"
 
 	# Return if we have already done the work to find pom-template.properties
-	[ "$FP_POM_TEMPLATE_PROPERTIES" ] && return;
-	FP_CWD="`dirname $POM_TEMPLATE`/"
+	[ "$FP_POM_TEMPLATE_PROPERTIES" ] && return
+
+	getBaseDir
+
+	FP_CWD=$POM_TEMPLATE_DIR
 	FP_POM_TEMPLATE_PROPERTIES="$FP_CWD$FP_POM_TEMPLATE_PROPERTIES_NAME"
 	FP_LAST_CWD=""
 	FP_IS_NOT_ROOT="false"
@@ -47,7 +61,7 @@ newer_than() {
 	# Use ls to list and sort the 2 files by their update time
 	NEWER_THAN="`ls -xt $FILE_1 $FILE_2 | awk '{print $1}' | xargs basename`"
 #	[ "$DEBUG" ] && echo "newer_than($1, $2): $NEWER_THAN"
-	[ "$NEWER_THAN" = "$FILE_1_NAME" ] && return 1 || return 0;
+	[ "$NEWER_THAN" = "$FILE_1_NAME" ] && return 1 || return 0
 }
 
 updatePOM() {
@@ -58,13 +72,14 @@ updatePOM() {
 	UP_PARENT_POM="`echo $UP_PARENT_POM_TEMPLATE | sed s'/-template//'`"
 	UP_POM="`echo $UP_POM_TEMPLATE | sed 's/-template//'`"
 
-	findProperties;
+	findProperties
 
 	# Determine if the pom.xml file needs to be created by checking if:
 	# 1) POM-TEMPLATE_PROPERTIES is newer than POM
 	# 2) POM-TEMPLATE is newer than POM
 	if [ ! -f "$UP_POM" ] || [ "`newer_than $UP_POM_TEMPLATE $UP_POM; echo $?`" = "1" ] || [ "`newer_than $FP_POM_TEMPLATE_PROPERTIES $UP_POM; echo $?`" = "1" ]; then
-		[ "$DEBUG" ] && echo "\t2\tupdatePOM::if(newer_than(...))"
+		[ "$DEBUG" ] && echo "\t2\tupdatePOM::if(newer_than($UP_POM_TEMPLATE $UP_POM))"
+		[ "$DEBUG" ] && echo "\t2\tupdatePOM::if(newer_than($FP_POM_TEMPLATE_PROPERTIES $UP_POM))"
 
 		# Read pom-template.properties and sort the contents by the number of "."
 		# characters in the name of each name=value pair (in descending order).
@@ -79,10 +94,33 @@ updatePOM() {
 	fi
 }
 
+scanUpdatePOMs() {
+	SUPOM_TEMPLATE=$1
+	[ "$DEBUG" ] && echo "\t1\tscanUpdatePOMs($SUPOM_TEMPLATE)"
+
+	SUPOM_ROOT=*
+	[ "$SUPOM_TEMPLATE" != "$DEFAULT_POM_TEMPLATE" ] && SUPOM_ROOT="`dirname $SUPOM_TEMPLATE`"
+
+	# Find all pom*-template.xml files and write them to pom.xml.
+	SUP_TEMPLATES="`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\+ //'`"
+	for POM_TEMPLATE in $SUP_TEMPLATES; do
+		[ "$DEBUG" ] && echo "\t2\tscanUpdatePOMs()::for($POM_TEMPLATE)"
+
+		getBaseDir true
+
+		# Update all parent POMs
+		updateParentPOMs $POM_TEMPLATE
+
+		# Update all child POMs
+		updateChildPOMs $POM_TEMPLATE
+	done
+}
+
 updateParentPOMs() {
 	UPP_POM_TEMPLATE="$1"
 	[ "$DEBUG" ] && echo "\t1\tupdateParentPOMs($UPP_POM_TEMPLATE)"
 	UPP_PARENT_POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
+	UPP_RELATIVE_DIR="`dirname $UPP_POM_TEMPLATE`"
 
 	# While there exists a parent POM-TEMPLATE
 	while [ -f $UPP_POM_TEMPLATE ]; do
@@ -95,21 +133,21 @@ updateParentPOMs() {
 		if [ "`cat $UPP_POM_TEMPLATE | grep relativePath`" ]; then
 			UPP_PARENT_POM_TEMPLATE="`cat $UPP_POM_TEMPLATE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//'`"
 		fi
-		updatePOM $UPP_POM_TEMPLATE $UPP_PARENT_POM_TEMPLATE;
-		UPP_POM_TEMPLATE="$UPP_PARENT_POM_TEMPLATE"
+		updatePOM $UPP_POM_TEMPLATE $UPP_PARENT_POM_TEMPLATE
+		UPP_POM_TEMPLATE="$UPP_RELATIVE_DIR/$UPP_PARENT_POM_TEMPLATE"
 	done
 }
 
-UCP_ALL_MODULES=""
-UCP_INNER_MODULES=""
-UCP_OUTER_MODULES=""
 updateChildPOMs() {
 	UCP_FILE_NAME="$1"
-	UCP_OUTER_MODULES="./"
-	[ "$DEBUG" ] && echo "\t1\tupdateChildPOMs($UCP_FILE_NAME)"
+	UCP_OUTER_MODULES=$POM_TEMPLATE_DIR
+	[ $POM_TEMPLATE_DIR = "./" ] && POM_TEMPLATE_DIR=""
+	UCP_ALL_MODULES=""
+	UCP_INNER_MODULES=""
 
+	[ "$DEBUG" ] && echo "\t1\tupdateChildPOMs($UCP_FILE_NAME)"
 	# While there are modules to process
-	while [ "$UCP_OUTER_MODULES" != "" ]; do
+	while [ -n "$UCP_OUTER_MODULES" ]; do
 		[ "$DEBUG" ] && echo "\t2\tupdateChildPOMs::while($UCP_OUTER_MODULES)"
 
 		# For each module in the OUTER modules list
@@ -158,7 +196,7 @@ updateChildPOMs() {
 		[ "$DEBUG" ] && echo "\t5\tupdateChildPOMs::for($UCP_POM_TEMPLATE)"
 
 		# Call updatePOM with the default POM-TEMPLATE as the parent pom
-		updatePOM $UCP_POM_TEMPLATE/$DEFAULT_POM_TEMPLATE $DEFAULT_POM_TEMPLATE
+		updatePOM $POM_TEMPLATE_DIR$UCP_POM_TEMPLATE/$DEFAULT_POM_TEMPLATE $DEFAULT_POM_TEMPLATE
 	done
 }
 
@@ -233,15 +271,15 @@ if [ $HELP ]; then
 fi
 
 if [ $SCAN_UPDATE_TEMPLATES ]; then
-	find $PWD -name 'pom-*-template.xml' -exec mvn -ut -ft '{}' \;
+	scanUpdatePOMs $POM_TEMPLATE
 	exit 0
 fi
 
 # Update all parent POMs
-updateParentPOMs $POM_TEMPLATE;
+updateParentPOMs $POM_TEMPLATE
 
 # Update all child POMs
-updateChildPOMs $POM_TEMPLATE;
+updateChildPOMs $POM_TEMPLATE
 
 # If we only want to update from the template poms, then exit now
 [ $UPDATE_TEMPLATES ] && exit 0
