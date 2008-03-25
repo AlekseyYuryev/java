@@ -16,6 +16,32 @@
 	<description>
 		Generates javaproj and sln files for the CodeGuide IDE.
 	</description>
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>!task-segment:site</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.safris.maven.plugin</groupId>
+						<artifactId>cobertura</artifactId>
+						<version>${dev:org.safris.maven.plugin.cobertura}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>instrument</goal>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -31,8 +57,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-						<destdir explodeJars="true">
+					<manifest
+						xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+						<destdir
+							explodeJars="true">
 							${project.build.directory}/generated-sources/xmlbinding
 						</destdir>
 						<schemas>
@@ -41,41 +69,28 @@
 					</manifest>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.safris.maven.plugin</groupId>
-				<artifactId>cobertura</artifactId>
-				<version>${dev:org.safris.maven.plugin.cobertura}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>instrument</goal>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-    <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
 			<version>${dev:org.safris.xml.generator.compiler}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.safris.ide</groupId>
-            <artifactId>common</artifactId>
+		<dependency>
+			<groupId>org.safris.ide</groupId>
+			<artifactId>common</artifactId>
 			<version>${dev:org.safris.ide.common}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>dependency</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.maven.plugin</groupId>
+			<artifactId>dependency</artifactId>
 			<version>${dev:org.safris.maven.plugin.dependency}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.safris.commons</groupId>
-            <artifactId>io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.safris.commons</groupId>
+			<artifactId>io</artifactId>
 			<version>${dev:org.safris.commons.io}</version>
-        </dependency>
-    </dependencies>
+		</dependency>
+	</dependencies>
 </project>

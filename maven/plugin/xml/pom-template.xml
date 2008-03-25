@@ -16,23 +16,32 @@
 	<description>
 		All xml related plugins.
 	</description>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.safris.maven.plugin</groupId>
-				<artifactId>cobertura</artifactId>
-				<version>${dev:org.safris.maven.plugin.cobertura}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>instrument</goal>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>!task-segment:site</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.safris.maven.plugin</groupId>
+						<artifactId>cobertura</artifactId>
+						<version>${dev:org.safris.maven.plugin.cobertura}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>instrument</goal>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<modules>
 		<module>validator</module>
 		<module>binding</module>

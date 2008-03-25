@@ -4,6 +4,7 @@ import java.io.File;
 import net.sourceforge.cobertura.ant.ReportTask;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Java;
 
@@ -20,7 +21,6 @@ public class ReportMojo extends CoberturaMojo
 
 		if(getProject() == null)
 			throw new NullPointerException("project == null");
-
 
 		if("pom".equals(getProject().getPackaging()) || !new File(getSourceDirectory()).exists())
 			return;
@@ -43,7 +43,15 @@ public class ReportMojo extends CoberturaMojo
 		reportTask.setSrcDir(getSourceDirectory());
 		reportTask.setDataFile(getDataFile().getAbsolutePath());
 		reportTask.setFormat("html");
-		reportTask.execute();
+		try
+		{
+			reportTask.execute();
+		}
+		catch(BuildException e)
+		{
+			e.printStackTrace();
+			return;
+		}
 
 		getLog().info("Cobertura report url: file:///" + getDirectory() + "/cobertura/report/index.html");
 	}
