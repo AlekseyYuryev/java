@@ -98,7 +98,7 @@ public final class Processes
 		final StringBuffer classpath = new StringBuffer();
 		if(classpathURLs != null && classpathURLs.length != 0)
 			for(URL url : classpathURLs)
-				classpath.append(File.pathSeparatorChar).append(url.getFile());
+				classpath.append(File.pathSeparatorChar).append(url.getPath());
 
 		final String[] options = new String[(args != null ? args.length : 0) + (vmArgs != null ? vmArgs.length : 0) + (props != null ? props.size() : 0) + 4];
 		int i = -1;
