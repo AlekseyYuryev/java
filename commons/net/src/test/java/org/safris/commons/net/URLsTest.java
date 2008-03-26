@@ -51,15 +51,15 @@ public class URLsTest
 		final Map<URL,String[]> relative = new HashMap<URL,String[]>();
 		if(System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
 		{
-			absolute.put(new URL("file", "", "/c|/Windows"), "c:\\Windows");
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"c:\\Windows", "system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"c:\\Windows", "\\system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"c:\\Windows\\", "system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"c:\\Windows\\", "\\system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"\\c:\\Windows", "system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"\\c:\\Windows", "\\system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"\\c:\\Windows\\", "system32"});
-			relative.put(new URL("file", "", "/c|/Windows/system32"), new String[]{"\\c:\\Windows\\", "\\system32"});
+			absolute.put(new URL("file", "", "/c:/Windows"), "c:\\Windows");
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows", "system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows", "\\system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows\\", "system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows\\", "\\system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows", "system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows", "\\system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows\\", "system32"});
+			relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows\\", "\\system32"});
 		}
 		else
 		{
@@ -114,7 +114,7 @@ public class URLsTest
 	public void testExists() throws Exception
 	{
 		if(System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
-			assertTrue(URLs.exists(new URL("file", "", "/C|/")));
+			assertTrue(URLs.exists(new URL("file", "", "/c:/")));
 		else
 			assertTrue(URLs.exists(new URL("file", "", "/usr")));
 

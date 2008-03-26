@@ -1,5 +1,6 @@
 package org.safris.commons.lang;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,6 +16,7 @@ public class SystemsTest
 	}
 
 	@Test
+	@Ignore
 	public void testSetenv()
 	{
 		assertNull(System.getenv(NAME));

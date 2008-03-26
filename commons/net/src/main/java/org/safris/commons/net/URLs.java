@@ -22,7 +22,7 @@ public final class URLs
 		if(path == null)
 			throw new NullPointerException();
 
-		if(path.charAt(0) == File.separatorChar || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
+		if(path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
 			return true;
 
 		return URL_PATTERN.matcher(path).find();
@@ -61,7 +61,7 @@ public final class URLs
 		if(path.length() == 0)
 			return makeUrlFromPath(basedir);
 
-		if(basedir.endsWith(File.separator))
+		if(basedir.endsWith("/") || basedir.endsWith("\\"))
 		{
 			if(path.startsWith(File.separator))
 				return makeUrlFromPath(basedir + path.substring(1));

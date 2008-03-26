@@ -13,6 +13,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.dom.DOMParsers;
@@ -176,7 +177,7 @@ public class GeneratorMojo extends AbstractMojo
 		if(href != null)
 		{
 			final File hrefFile;
-			if(href.startsWith(File.separator))
+			if(Paths.isAbsolute(href))
 				hrefFile = new File(href);
 			else if(basedir != null)
 				hrefFile = new File(basedir, href);
@@ -184,9 +185,9 @@ public class GeneratorMojo extends AbstractMojo
 				hrefFile = new File(href);
 
 			if(!hrefFile.exists())
-				throw new MojoFailureException("href=\"" + href + "\" does not exist.");
+				throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" does not exist.");
 			else if(!hrefFile.isFile())
-				throw new MojoFailureException("href=\"" + href + "\" is not a file.");
+				throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" is not a file.");
 
 			Document document = null;
 			try

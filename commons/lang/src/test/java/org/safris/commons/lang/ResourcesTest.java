@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class ResourcesTest
 {
-	private static final File JAVA_HOME = new File(System.getProperty("java.home"));
+	private static final File JAVA_HOME = new File(System.getProperty("java.home").replace(" ", "%20"));
 	private static final File RT_JAR = new File(JAVA_HOME, "lib/rt.jar");
 
 	public static void main(String[] args) throws Exception
