@@ -9,7 +9,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilder;
 import org.safris.commons.io.Files;
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
+import org.safris.commons.pipeline.Pipeline;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
@@ -28,7 +30,6 @@ import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReferenceDirectory;
-import org.safris.commons.pipeline.Pipeline;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.safris.xml.toolkit.processor.bundle.BundleDirectory;
 import org.safris.xml.toolkit.processor.timestamp.TimestampDirectory;
@@ -144,7 +145,7 @@ public class Generator extends AbstractGenerator
 						break;
 					}
 
-					if(schemaReference.length() != 0 && schemaReference.charAt(0) != File.separatorChar)
+					if(schemaReference.length() != 0 && !Paths.isAbsolute(schemaReference))
 						schemaReference = basedir.getAbsolutePath() + File.separator + schemaReference;
 
 					schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
