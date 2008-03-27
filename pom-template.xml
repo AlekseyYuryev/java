@@ -307,10 +307,12 @@
 					<minimumTokens>100</minimumTokens>
 				</configuration>
 			</plugin>
+<!-- Removing because there are permission issues with svn
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changelog-maven-plugin</artifactId>
 			</plugin>
+-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
