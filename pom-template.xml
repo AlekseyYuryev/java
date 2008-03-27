@@ -106,7 +106,7 @@
 			<id>maven-site-plugin</id>
 			<activation>
 				<property>
-					<name>task-segment:site-deploy</name>
+					<name>task-segment:site</name>
 				</property>
 			</activation>
 			<distributionManagement>
