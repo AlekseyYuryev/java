@@ -83,13 +83,13 @@ public class AnyWriter extends ElementWriter<AnyPlan>
 
 	protected void appendEquals(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		writer.write("if((this.any == null && binding.any != null) || (this.any != null && !this.any.equals(binding.any)))\n");
+		writer.write("if(any != null ? !any.equals(that.any) : that.any != null)\n");
 		writer.write("return _failEquals();\n");
 	}
 
 	protected void appendHashCode(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		writer.write("stringBuffer.append(any != null ? any.hashCode() : 0).append(\"-\");\n");
+		writer.write("hashCode += any != null ? any.hashCode() : -1;\n");
 	}
 
 	protected void appendClass(StringWriter writer, AnyPlan plan, Plan parent)

@@ -1,10 +1,10 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
-import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.NotationPlan;
+import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 
 public class NotationWriter extends Writer<NotationPlan>
@@ -65,9 +65,9 @@ public class NotationWriter extends Writer<NotationPlan>
 		writer.write("_registerSchemaLocation(\"" + plan.getName().getNamespaceURI() + "\", " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
 		writer.write("}\n");
 
-		writer.write("private final " + String.class.getName() + " _name = \"" + plan.getName().getLocalPart() + "\";\n");
-		writer.write("private final " + String.class.getName() + " _public = \"" + plan.getPublic() + "\";\n");
-		writer.write("private final " + String.class.getName() + " _system = \"" + plan.getSystem() + "\";\n");
+		writer.write("private final " + String.class.getName() + " _name = " + "\"" + plan.getName().getLocalPart() + "\";\n");
+		writer.write("private final " + String.class.getName() + " _public = " + (plan.getPublic() != null ? "\"" + plan.getPublic() + "\"" : "null") + ";\n");
+		writer.write("private final " + String.class.getName() + " _system = " + (plan.getSystem() != null ? "\"" + plan.getSystem() + "\"" : "null") + ";\n");
 
 		writer.write("protected " + plan.getClassSimpleName() + "()\n");
 		writer.write("{\n");
@@ -105,18 +105,20 @@ public class NotationWriter extends Writer<NotationPlan>
 		writer.write("return true;\n");
 		writer.write("if(!(obj instanceof " + plan.getClassSimpleName() + "))\n");
 		writer.write("return _failEquals();\n");
-		writer.write(plan.getClassSimpleName() + " equals = (" + plan.getClassSimpleName() + ")obj;\n");
-		writer.write("return ((_name == null && equals._name == null) || (_name != null && _name.equals(equals._name))) && ((_public == null && equals._public == null) || (_public != null && _public.equals(equals._public))) && ((_system == null && equals._system == null) || (_system != null && _system.equals(equals._system)));\n");
+		writer.write("final " + plan.getClassSimpleName() + " that = (" + plan.getClassSimpleName() + ")obj;\n");
+		writer.write("return (_name != null ? _name.equals(that._name) : that._name == null) && ");
+		writer.write("(_public != null ? _public.equals(that._public) : that._public == null) && ");
+		writer.write("(_system != null ? _system.equals(that._system) : that._system == null);\n");
 		writer.write("}\n");
 
 		// HASHCODE
 		writer.write("public int hashCode()\n");
 		writer.write("{\n");
-		writer.write(StringBuffer.class.getName() + " stringBuffer = new " + StringBuffer.class.getName() + "(" + String.class.getName() + ".valueOf(super.hashCode())).append(\"-\");\n");
-		writer.write("stringBuffer.append(_name != null ? _name.hashCode() : 0).append(\"-\");\n");
-		writer.write("stringBuffer.append(_public != null ? _public.hashCode() : 0).append(\"-\");\n");
-		writer.write("stringBuffer.append(_system != null ? _system.hashCode() : 0).append(\"-\");\n");
-		writer.write("return stringBuffer.toString().hashCode();\n");
+		writer.write("int hashCode = super.hashCode();\n");
+		writer.write("hashCode += _name != null ? _name.hashCode() : -1;\n");
+		writer.write("hashCode += _public != null ? _public.hashCode() : -1;\n");
+		writer.write("hashCode += _system != null ? _system.hashCode() : -1;\n");
+		writer.write("return hashCode;\n");
 		writer.write("}\n");
 
 		writer.write("}\n");

@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 
 public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 {
-	protected void getIdLookup(StringWriter writer, SimpleTypePlan plan, Plan parent)
+	protected static void getIdLookup(StringWriter writer, SimpleTypePlan plan, Plan parent)
 	{
 		if(!IXSID.class.getName().equals(plan.getSuperClassNameWithoutType()))
 			return;
@@ -42,7 +42,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("}\n");
 	}
 
-	protected void getNativeConstructors(StringWriter writer, SimpleTypePlan plan, Plan parent)
+	protected static void getNativeConstructors(StringWriter writer, SimpleTypePlan plan, Plan parent)
 	{
 		if(plan.getNativeItemClassNameInterface() == null || (plan.isList() && plan.hasEnumerations()))
 			return;
@@ -401,14 +401,18 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		// EQUALS
 		writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
 		writer.write("{\n");
+		// NOTE: This is not checking whether getTEXT() is equal between this and obj
+		// NOTE: because this class does not contain the text field.
 		writer.write("return super.equals(obj);\n");
 		writer.write("}\n");
 
 		// HASHCODE
 		writer.write("public int hashCode()\n");
 		writer.write("{\n");
-		writer.write(StringBuffer.class.getName() + " stringBuffer = new " + StringBuffer.class.getName() + "(" + String.class.getName() + ".valueOf(super.hashCode())).append(\"-\");\n");
-		writer.write("return stringBuffer.toString().hashCode();\n");
+		writer.write("int hashCode = super.hashCode();\n");
+		writer.write("hashCode += NAME.hashCode();\n");
+//		writer.write("hashCode += getTEXT() != null ? getTEXT().hashCode() : -1;\n");
+		writer.write("return hashCode;\n");
 		writer.write("}\n");
 
 		writer.write("}\n");

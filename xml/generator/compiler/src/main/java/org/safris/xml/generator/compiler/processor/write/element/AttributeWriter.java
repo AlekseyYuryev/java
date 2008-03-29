@@ -2,13 +2,13 @@ package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
 import javax.xml.namespace.QName;
-import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.lexer.schema.attribute.Use;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.lexer.schema.attribute.Form;
+import org.safris.xml.generator.lexer.schema.attribute.Use;
 
 public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 {
@@ -119,7 +119,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		if(plan.isRestriction())
 			return;
 
-		writer.write("if((this." + plan.getInstanceName() + " == null && binding." + plan.getInstanceName() + " != null) || (this." + plan.getInstanceName() + " != null && !this." + plan.getInstanceName() + ".equals(binding." + plan.getInstanceName() + ")))\n");
+		writer.write("if(" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
 		writer.write("return _failEquals();\n");
 	}
 
@@ -128,7 +128,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		if(plan.isRestriction())
 			return;
 
-		writer.write("stringBuffer.append(" + plan.getInstanceName() + " != null ? " + plan.getInstanceName() + ".hashCode() : 0).append(\"-\");\n");
+		writer.write("hashCode += " + plan.getInstanceName() + " != null ? " + plan.getInstanceName() + ".hashCode() : -1;\n");
 	}
 
 	protected void appendClass(StringWriter writer, AttributePlan plan, Plan parent)
@@ -223,8 +223,6 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			writer.write("{\n");
 			if(plan.isRestriction())
 				writer.write("super.setValue(value);\n");
-			//			else if(plan.isList())
-			//				writer.write("this.text = value;\n");
 			else
 				writer.write("super.setTEXT(value);\n");
 			writer.write("}\n");
@@ -239,14 +237,18 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		// EQUALS
 		writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
 		writer.write("{\n");
+		// NOTE: This is not checking whether getValue() is equal between this and obj
+		// NOTE: because this class does not contain the value field.
 		writer.write("return super.equals(obj);\n");
 		writer.write("}\n");
 
 		// HASHCODE
 		writer.write("public int hashCode()\n");
 		writer.write("{\n");
-		writer.write(StringBuffer.class.getName() + " stringBuffer = new " + StringBuffer.class.getName() + "(" + String.class.getName() + ".valueOf(super.hashCode())).append(\"-\");\n");
-		writer.write("return stringBuffer.toString().hashCode();\n");
+		writer.write("int hashCode = super.hashCode();\n");
+		writer.write("hashCode += NAME.hashCode();\n");
+//		writer.write("hashCode += getValue() != null ? getValue().hashCode() : -1;\n");
+		writer.write("return hashCode;\n");
 		writer.write("}\n");
 
 		writer.write("}\n");

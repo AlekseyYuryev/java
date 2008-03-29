@@ -59,13 +59,13 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 
 	protected void appendEquals(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
-		writer.write("if((this.anyAttribute == null && binding.anyAttribute != null) || (this.anyAttribute != null && !this.anyAttribute.equals(binding.anyAttribute)))\n");
+		writer.write("if(anyAttribute != null ? !anyAttribute.equals(that.anyAttribute) : that.anyAttribute != null)\n");
 		writer.write("return _failEquals();\n");
 	}
 
 	protected void appendHashCode(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
-		writer.write("stringBuffer.append(anyAttribute != null ? anyAttribute.hashCode() : 0).append(\"-\");\n");
+		writer.write("hashCode += anyAttribute != null ? anyAttribute.hashCode() : -1;\n");
 	}
 
 	protected void appendClass(StringWriter writer, AnyAttributePlan plan, Plan parent)

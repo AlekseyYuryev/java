@@ -367,13 +367,18 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		// EQUALS
 		writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
 		writer.write("{\n");
-		if(plan.getAttributes() != null || plan.getElements() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed()))
+		writer.write("if(this == obj)\n");
+		writer.write("return true;\n");
+		writer.write("if(!(obj instanceof " + plan.getClassName(parent) + "))\n");
+		writer.write("return _failEquals();\n");
+		if((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getElements() != null && plan.getElements().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
 		{
-			writer.write("if(this == obj)\n");
-			writer.write("return true;\n");
-			writer.write("if(!(obj instanceof " + plan.getClassName(parent) + "))\n");
-			writer.write("return _failEquals();\n");
-			writer.write(plan.getClassName(parent) + " binding = (" + plan.getClassName(parent) + ")obj;\n");
+			writer.write("final " + plan.getClassName(parent) + " that = (" + plan.getClassName(parent) + ")obj;\n");
+			if(plan.getMixed() != null && plan.getMixed())
+			{
+				writer.write("if(text != null ? !text.equals(that.text) : that.text != null)\n");
+				writer.write("return _failEquals();\n");
+			}
 			for(Object attribute : plan.getAttributes())
 				Writer.writeEquals(writer, (AttributePlan)attribute, plan);
 			for(Object element : plan.getElements())
@@ -385,12 +390,15 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		// HASHCODE
 		writer.write("public int hashCode()\n");
 		writer.write("{\n");
-		writer.write(StringBuffer.class.getName() + " stringBuffer = new " + StringBuffer.class.getName() + "(" + String.class.getName() + ".valueOf(super.hashCode())).append(\"-\");\n");
+		writer.write("int hashCode = super.hashCode();\n");
+		writer.write("hashCode += NAME.hashCode();\n");
+//		if(plan.getMixed() != null && plan.getMixed())
+//			writer.write("hashCode += text != null ? text.hashCode() : -1;\n");
 		for(Object attribute : plan.getAttributes())
 			Writer.writeHashCode(writer, (AttributePlan)attribute, plan);
 		for(Object element : plan.getElements())
 			Writer.writeHashCode(writer, (ElementPlan)element, plan);
-		writer.write("return stringBuffer.toString().hashCode();\n");
+		writer.write("return hashCode;\n");
 		writer.write("}\n");
 
 		// ATTRIBUTES

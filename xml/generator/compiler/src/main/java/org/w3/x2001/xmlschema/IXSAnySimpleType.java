@@ -108,27 +108,6 @@ public abstract class IXSAnySimpleType<T extends BindingType> extends Binding<T>
 		return null;
 	}
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
-
-		if(!(obj instanceof IXSAnySimpleType))
-			return false;
-
-		final IXSAnySimpleType xsType = (IXSAnySimpleType)obj;
-		try
-		{
-			final String encoded = _encode(parent);
-			final String objEncoded = xsType._encode(parent);
-			return encoded == null ? objEncoded == null : encoded.equals(objEncoded);
-		}
-		catch(MarshalException e)
-		{
-			return false;
-		}
-	}
-
 	public IXSAnySimpleType clone()
 	{
 		return new IXSAnySimpleType(this)
@@ -138,6 +117,27 @@ public abstract class IXSAnySimpleType<T extends BindingType> extends Binding<T>
 				return this;
 			}
 		};
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof IXSAnySimpleType))
+			return false;
+
+		final IXSAnySimpleType that = (IXSAnySimpleType)obj;
+		try
+		{
+			final String thisEncoded = _encode(parent);
+			final String thatEncoded = that._encode(parent);
+			return thisEncoded != null ? thisEncoded.equals(thatEncoded) : thatEncoded == null;
+		}
+		catch(MarshalException e)
+		{
+			return false;
+		}
 	}
 
 	public int hashCode()

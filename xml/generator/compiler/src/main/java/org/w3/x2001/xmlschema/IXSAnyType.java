@@ -68,4 +68,44 @@ public abstract class IXSAnyType<T extends ComplexType> extends IXSAnySimpleType
 			}
 		};
 	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof IXSAnyType))
+			return false;
+
+		final IXSAnyType that = (IXSAnyType)obj;
+		if(anys != null)
+		{
+			if(that.anys != null && anys.size() == that.anys.size())
+			{
+				for(int i = 0; i < anys.size(); i++)
+					if(!anys.get(i).equals(that.anys.get(i)))
+						return false;
+			}
+			else
+				return false;
+		}
+		else if(that.anys != null)
+			return false;
+
+		if(anyAttrs != null)
+		{
+			if(that.anyAttrs != null && anyAttrs.size() == that.anyAttrs.size())
+			{
+				for(int i = 0; i < anyAttrs.size(); i++)
+					if(!anyAttrs.get(i).equals(that.anyAttrs.get(i)))
+						return false;
+			}
+			else
+				return false;
+		}
+		else if(that.anyAttrs != null)
+			return false;
+
+		return true;
+	}
 }
