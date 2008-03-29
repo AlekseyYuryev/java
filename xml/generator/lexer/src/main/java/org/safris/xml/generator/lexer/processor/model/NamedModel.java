@@ -48,7 +48,7 @@ public abstract class NamedModel extends Model implements Nameable<Model>
 
 	public int hashCode()
 	{
-		return 3 * name.hashCode();
+		return 3 * (name != null ? name.hashCode() : -1);
 	}
 
 	public String toString()
