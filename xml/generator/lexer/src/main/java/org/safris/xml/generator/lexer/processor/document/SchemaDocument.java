@@ -2,8 +2,8 @@ package org.safris.xml.generator.lexer.processor.document;
 
 import java.net.URL;
 import java.util.Collection;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.w3c.dom.Document;
 
 public class SchemaDocument implements PipelineEntity
@@ -46,12 +46,12 @@ public class SchemaDocument implements PipelineEntity
 		if(!(obj instanceof SchemaDocument))
 			return false;
 
-		final SchemaDocument schemaDocument = (SchemaDocument)obj;
-		return schemaReference.equals(schemaDocument.schemaReference);
+		final SchemaDocument that = (SchemaDocument)obj;
+		return schemaReference.equals(that.schemaReference);
 	}
 
 	public int hashCode()
 	{
-		return ("schemaDocument" + schemaReference.toString()).hashCode();
+		return (schemaReference != null ? schemaReference.hashCode() : -1) + (document != null ? document.hashCode() : -1);
 	}
 }

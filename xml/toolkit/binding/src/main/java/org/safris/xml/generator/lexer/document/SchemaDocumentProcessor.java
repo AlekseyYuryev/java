@@ -11,15 +11,15 @@ import java.util.Map;
 import java.util.Stack;
 import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
-import org.safris.commons.pipeline.PipelineEntity;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -83,7 +83,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
 									duplicates = new ArrayList<URL>();
 
 								duplicates.add(schemaLocationURL);
-								System.out.println("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + entry.getSchemaReference().getNamespaceURI() + "}");
+								logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + entry.getSchemaReference().getNamespaceURI() + "}");
 								includeLoopCheck.put(entry.getSchemaReference().getNamespaceURI(), duplicates);
 							}
 						}

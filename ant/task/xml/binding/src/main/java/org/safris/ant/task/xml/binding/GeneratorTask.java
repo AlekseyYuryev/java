@@ -224,7 +224,7 @@ TOP:
 			final Collection<Manifest.Schemas.Schema> schemas;
 			if((schemas = manifest.getSchemas().getSchemas()) == null || manifest.getSchemas().getSchemas().size() == 0)
 			{
-				System.out.println("No schemas defined for binding.");
+				getProject().log(this, "No schemas defined for binding.", getProject().MSG_ERR);
 				return;
 			}
 

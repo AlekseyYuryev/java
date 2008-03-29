@@ -1,9 +1,7 @@
 package org.safris.xml.generator.lexer.processor.model;
 
-import org.safris.xml.generator.lexer.processor.Nameable;
-import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Nameable;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -44,13 +42,13 @@ public abstract class NamedModel extends Model implements Nameable<Model>
 		if(!(getClass().isInstance(obj)))
 			return false;
 
-		final NamedModel namedModel = (NamedModel)obj;
-		return (name == null && namedModel.getName() == null) || (name != null && name.equals(namedModel.getName()));
+		final NamedModel that = (NamedModel)obj;
+		return name != null ? name.equals(that.name) : that.name == null;
 	}
 
 	public int hashCode()
 	{
-		return (getClass().getName() + toString()).hashCode();
+		return 3 * name.hashCode();
 	}
 
 	public String toString()

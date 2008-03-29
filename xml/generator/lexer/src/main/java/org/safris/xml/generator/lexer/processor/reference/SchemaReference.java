@@ -11,16 +11,17 @@ import java.util.HashMap;
 import java.util.Map;
 import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.Prefix;
+import org.safris.commons.xml.sax.SAXFeature;
+import org.safris.commons.xml.sax.SAXParser;
+import org.safris.commons.xml.sax.SAXParsers;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
-import org.safris.commons.pipeline.PipelineEntity;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 public class SchemaReference implements PipelineEntity<SchemaReference>
 {
@@ -68,11 +69,14 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 				throw new IllegalArgumentException("Unknown URL format: " + location);
 			}
 		}
+
+		logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
 	}
 
 	public SchemaReference(URL location)
 	{
 		this.location = location;
+		logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
 	}
 
 	public SchemaReference(URL location, NamespaceURI namespaceURI, Prefix prefix)
@@ -80,12 +84,14 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 		this.location = location;
 		this.namespaceURI = namespaceURI;
 		this.prefix = prefix;
+		logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\", \"" + prefix + "\")");
 	}
 
 	public SchemaReference(URL location, NamespaceURI namespaceURI)
 	{
 		this.location = location;
 		this.namespaceURI = namespaceURI;
+		logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\")");
 	}
 
 	public NamespaceURI getNamespaceURI()
@@ -144,10 +150,10 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 
 			try
 			{
-				final XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-				xmlReader.setFeature("http://xml.org/sax/features/namespace-prefixes", true);
-				xmlReader.setContentHandler(new SchemaNamespaceHandler(getURL()));
-				xmlReader.parse(new InputSource(inputStream));
+				final SAXParser saxParser = SAXParsers.createParser();
+				saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
+				saxParser.setContentHandler(new SchemaNamespaceHandler(getURL()));
+				saxParser.parse(new InputSource(inputStream));
 			}
 			catch(FileNotFoundException e)
 			{
@@ -159,10 +165,10 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 			}
 			catch(SAXException e)
 			{
-				final String code = location.hashCode() + "\"";
 				if(e.getMessage() == null)
 					throw new LexerError(location.toString(), e);
 
+				final String code = location.hashCode() + "\"";
 				if(e.getMessage().indexOf(code) != 0)
 					throw new LexerError(location.toString(), e);
 
@@ -176,11 +182,10 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 				if(namespaceURI == null)
 					namespaceURI = NamespaceURI.getInstance(namespace);
 				else if(!namespaceURI.toString().equals(namespace))
-				{
 					throw new LexerError("This should never happen!!");
-				}
 
 				this.prefix = Prefix.getInstance(prefix);
+				logger.fine("linking \"" + namespaceURI + "\" to \"" + this.prefix + "\"");
 				UniqueQName.linkPrefixNamespace(namespaceURI, this.prefix);
 				isResolved = true;
 			}
@@ -204,6 +209,7 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 				try
 				{
 					this.inputStream = connection.getInputStream();
+					logger.fine("opened connection to: " + location.toExternalForm());
 				}
 				catch(FileNotFoundException e)
 				{
@@ -244,8 +250,8 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 		if(!(obj instanceof SchemaReference))
 			return false;
 
-		final SchemaReference schemaReference = (SchemaReference)obj;
-		return location.equals(schemaReference.location) && namespaceURI.equals(schemaReference.namespaceURI);
+		final SchemaReference that = (SchemaReference)obj;
+		return location.equals(that.location) && namespaceURI.equals(that.namespaceURI);
 	}
 
 	public int hashCode()

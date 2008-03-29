@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
-import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
-import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -57,6 +57,7 @@ public abstract class Model implements PipelineEntity<Model>
 	{
 		if(getParent() != null)
 		{
+			logger.fine("registering schema location \"" + namespaceURI + "\" to \"" + schemaReference.toExternalForm() + "\"");
 			getParent().registerSchemaLocation(namespaceURI, schemaReference);
 			return;
 		}

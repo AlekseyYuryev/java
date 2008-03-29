@@ -1,7 +1,9 @@
 package org.safris.xml.generator.lexer.processor.reference;
 
 import java.net.URL;
+import org.safris.commons.logging.Logger;
 import org.safris.commons.xml.NamespaceURI;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -9,6 +11,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SchemaNamespaceHandler extends DefaultHandler
 {
+	private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
 	private final URL schemaUrl;
 
 	public SchemaNamespaceHandler(URL schemaUrl)
@@ -24,7 +27,7 @@ public class SchemaNamespaceHandler extends DefaultHandler
 		int index = attributes.getIndex("targetNamespace");
 		if(index == -1)
 		{
-			System.err.println("Schema in file " + schemaUrl + " must define a targetNamespace.");
+			logger.severe("Schema in file " + schemaUrl + " does not define a targetNamespace.");
 			System.exit(1);
 		}
 

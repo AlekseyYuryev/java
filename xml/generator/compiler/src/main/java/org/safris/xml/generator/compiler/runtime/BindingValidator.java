@@ -2,11 +2,9 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.commons.net.URLs;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
@@ -14,26 +12,12 @@ import org.safris.commons.xml.sax.SAXParsers;
 import org.safris.commons.xml.sax.SAXProperty;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
-import org.safris.commons.xml.validator.ValidatorError;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public class BindingValidator extends Validator
 {
 	private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
-
-	// FIXME: Does this have to be public?
-	public void registerSchemaLocation(String namespaceURI, String schemaLocation)
-	{
-		try
-		{
-			schemaReferences.put(namespaceURI, URLs.makeUrlFromPath(schemaLocation));
-		}
-		catch(MalformedURLException e)
-		{
-			throw new ValidatorError("Unknown URL format: " + schemaLocation);
-		}
-	}
 
 	protected URL lookupSchemaLocation(String namespaceURI)
 	{
