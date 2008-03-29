@@ -12,7 +12,7 @@
 			<plugin>
 				<groupId>org.safris.maven.plugin.xml</groupId>
 				<artifactId>binding</artifactId>
-				<version>${dev:org.safris.maven.plugin.xml.binding}</version>
+				<version>${stable:org.safris.maven.plugin.xml.binding}</version>
 				<executions>
 					<execution>
 						<phase>generate-test-sources</phase>
@@ -43,12 +43,12 @@
 		<dependency>
 			<groupId>org.safris.commons</groupId>
 			<artifactId>util</artifactId>
-			<version>${dev:org.safris.commons.util}</version>
+			<version>${stable:org.safris.commons.util}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.safris.xml.generator</groupId>
 			<artifactId>compiler</artifactId>
-			<version>${dev:org.safris.xml.generator.compiler}</version>
+			<version>${stable:org.safris.xml.generator.compiler}</version>
 		</dependency>
 	</dependencies>
 </project>
