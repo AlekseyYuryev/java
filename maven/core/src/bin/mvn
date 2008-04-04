@@ -26,7 +26,7 @@ findProperties() {
 	# Return if we have already done the work to find pom-template.properties
 	[ "$FP_POM_TEMPLATE_PROPERTIES" ] && return
 
-	getBaseDir
+	getBaseDir void
 
 	FP_CWD=$POM_TEMPLATE_DIR
 	FP_POM_TEMPLATE_PROPERTIES="$FP_CWD$FP_POM_TEMPLATE_PROPERTIES_NAME"
@@ -102,7 +102,7 @@ scanUpdatePOMs() {
 	[ "$SUPOM_TEMPLATE" != "$DEFAULT_POM_TEMPLATE" ] && SUPOM_ROOT="`dirname $SUPOM_TEMPLATE`"
 
 	# Find all pom*-template.xml files and write them to pom.xml.
-	SUP_TEMPLATES="`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\+ //'`"
+	SUP_TEMPLATES=`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\+ //'`
 	for POM_TEMPLATE in $SUP_TEMPLATES; do
 		[ "$DEBUG" ] && echo "\t2\tscanUpdatePOMs()::for($POM_TEMPLATE)"
 
@@ -141,7 +141,7 @@ updateParentPOMs() {
 updateChildPOMs() {
 	UCP_FILE_NAME="$1"
 	UCP_OUTER_MODULES=$POM_TEMPLATE_DIR
-	[ $POM_TEMPLATE_DIR = "./" ] && POM_TEMPLATE_DIR=""
+	[ "$POM_TEMPLATE_DIR" = "./" ] && POM_TEMPLATE_DIR=""
 	UCP_ALL_MODULES=""
 	UCP_INNER_MODULES=""
 
