@@ -203,9 +203,8 @@ updateChildPOMs() {
 # Parse the arguments
 ARGS=""
 POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
-while [ $# != 0 ]; do
-	flag="$1"
-	case "$flag" in
+while [ -n "$1" ]; do
+	case "$1" in
 		-ut) UPDATE_TEMPLATES=true
 			shift;
 			continue;
@@ -222,16 +221,18 @@ while [ $# != 0 ]; do
 			shift;
 			continue;
 			;;
-		-ft) if [ $# -gt 1 ]; then
-			POM_TEMPLATE="$2"
-			shift
+		-ft)
+			if [ $# -gt 1 ]; then
+				POM_TEMPLATE="$2"
+				shift
 			fi
 			shift;
 			continue;
 			;;
-		--file-template) if [ $# -gt 1 ]; then
-			POM_TEMPLATE="$2"
-			shift
+		--file-template)
+			if [ $# -gt 1 ]; then
+				POM_TEMPLATE="$2"
+				shift
 			fi
 			shift;
 			continue;
@@ -241,7 +242,7 @@ while [ $# != 0 ]; do
 		clean) CLEAN=true
 			;;
 	esac
-	ARGS="$ARGS $1"
+	ARGS="$ARGS \"$1\""
 	shift
 done
 
@@ -291,10 +292,7 @@ if [ $CLEAN ] && [ -z "`echo $ARGS | grep 'clean.*\( [a-zA-Z]\+\)'`" ]; then
 fi
 
 # For each task listed on the command line, set a property like:
-# -Dtask-segment:${task}=true
-# FIXME: When a single plugin is executed, this is all wrong!
-TASKS="`echo $ARGS | sed 's/\(-f [^ ]\+\)\|\(-[\.:a-zA-Z0-9]\+\(\=\(\S\)\+\)\?\)//g' | sed 's/\(\(^\)\|\( \)\)\([\.:a-zA-Z0-9]\+\)/ -Dtask-segment:\4=true/g'`"
+# -Dtask-segment:${task-segment}=true
+TASK_SEGMENTS="`echo $ARGS | sed 's/\(\"\)\|\(-f [^ ]\+\)\|\(-[\.:a-zA-Z0-9]\+\(\=\(\S\)\+\)\?\)//g' | sed 's/\(\(^\)\|\( \)\)\([\"]\?[\.:a-zA-Z0-9]\+\)/ -Dtask-segment:\4=true/g'`"
 
-ARGS="$TASKS $ARGS"
-
-$MVN $ARGS
+sh -c "$MVN $TASK_SEGMENTS $ARGS"
