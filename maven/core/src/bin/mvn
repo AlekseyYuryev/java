@@ -285,12 +285,6 @@ updateChildPOMs $POM_TEMPLATE
 # If we only want to update from the template poms, then exit now
 [ $UPDATE_TEMPLATES ] && exit 0
 
-# If goal=clean, then set maven.test.skip=true (this should already be the
-# default in maven. Do not set this if other tasks are listed.
-if [ $CLEAN ] && [ -z "`echo $ARGS | grep 'clean.*\( [a-zA-Z]\+\)'`" ]; then
-	ARGS="-Dmaven.test.skip $ARGS"
-fi
-
 # For each task listed on the command line, set a property like:
 # -Dtask-segment:${task-segment}=true
 TASK_SEGMENTS="`echo $ARGS | sed 's/\(\"\)\|\(-f [^ ]\+\)\|\(-[\.:a-zA-Z0-9]\+\(\=\(\S\)\+\)\?\)//g' | sed 's/\(\(^\)\|\( \)\)\([\"]\?[\.:a-zA-Z0-9]\+\)/ -Dtask-segment:\4=true/g'`"
