@@ -1,7 +1,9 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
@@ -14,13 +16,12 @@ import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ComplexTypePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
+import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWriter<T>
 {
@@ -74,8 +75,8 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 
 		writer.write("static\n");
 		writer.write("{\n");
-		writer.write("_registerType(NAME, " + plan.getClassName(parent) + ".class);\n");
-		writer.write("_registerSchemaLocation(\"" + plan.getName().getNamespaceURI() + "\", " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+		writer.write("_$$registerType(NAME, " + plan.getClassName(parent) + ".class);\n");
+		writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
 		writer.write("}\n");
 
 		// FACTORY METHOD
@@ -91,7 +92,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writer.write("}\n");
 
 		// ID LOOKUP
-		getIdLookup(writer, plan, parent);
+		writeIdLookup(writer, plan, parent);
 
 		// MIXED
 		if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
@@ -169,57 +170,57 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 
 		if(plan.getNativeItemClassNameInterface() != null)
 		{
-			writer.write("public " + plan.getNativeItemClassNameInterface() + " getTEXT()\n");
+			writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
 			writer.write("{\n");
 			if(!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
-				writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getTEXT();\n");
+				writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getText();\n");
 			else
-				writer.write("return super.getTEXT();\n");
+				writer.write("return super.getText();\n");
 			writer.write("}\n");
 
 			if(!plan.hasEnumerations())
 			{
-				writer.write("public void setTEXT(" + plan.getNativeItemClassNameInterface() + " text)\n");
+				writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
 				writer.write("{\n");
-				writer.write("super.setTEXT(text);\n");
+				writer.write("super.setText(text);\n");
 				writer.write("}\n");
 
 				if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 				{
-					writer.write("public void setTEXT(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+					writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
 					writer.write("{\n");
-					writer.write("super.setTEXT(text);\n");
+					writer.write("super.setText(text);\n");
 					writer.write("}\n");
 				}
 			}
 			else
 			{
-				writer.write("public void setTEXT(RESTRICTION restriction)\n");
+				writer.write("public void setText(RESTRICTION restriction)\n");
 				writer.write("{\n");
-				writer.write("super.setTEXT(restriction.getValue());\n");
+				writer.write("super.setText(restriction.getText());\n");
 				writer.write("}\n");
 			}
 		}
 		else if(plan.getMixed() != null && plan.getMixed())
 		{
-			writer.write("public " + String.class.getName() + " getTEXT()\n");
+			writer.write("public " + String.class.getName() + " getText()\n");
 			writer.write("{\n");
 			writer.write("return text;\n");
 			writer.write("}\n");
-			writer.write("public void setTEXT(" + String.class.getName() + " text)\n");
+			writer.write("public void setText(" + String.class.getName() + " text)\n");
 			writer.write("{\n");
 			writer.write("this.text = text;\n");
 			writer.write("}\n");
 		}
 		else if(plan.getMixedType())
 		{
-			writer.write("public " + String.class.getName() + " getTEXT()\n");
+			writer.write("public " + String.class.getName() + " getText()\n");
 			writer.write("{\n");
-			writer.write("return (" + String.class.getName() + ")super.getTEXT();\n");
+			writer.write("return (" + String.class.getName() + ")super.getText();\n");
 			writer.write("}\n");
-			writer.write("public void setTEXT(" + String.class.getName() + " text)\n");
+			writer.write("public void setText(" + String.class.getName() + " text)\n");
 			writer.write("{\n");
-			writer.write("super.setTEXT(text);\n");
+			writer.write("super.setText(text);\n");
 			writer.write("}\n");
 		}
 
@@ -239,124 +240,148 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writer.write("protected abstract " + plan.getBaseNonXSTypeClassName() + " inherits();\n");
 
 		// GETNAME
-		writer.write("protected " + QName.class.getName() + " _getName()\n");
+		writer.write("protected " + QName.class.getName() + " _$$getName()\n");
 		writer.write("{\n");
-		writer.write("return _getName(inheritsInstance());\n");
+		writer.write("return _$$getName(_$$inheritsInstance());\n");
 		writer.write("}\n");
 
 		// GETTYPE
-		writer.write("protected " + QName.class.getName() + " _getTypeName()\n");
+		writer.write("protected " + QName.class.getName() + " _$$getTypeName()\n");
 		writer.write("{\n");
 		writer.write("return NAME;\n");
 		writer.write("}\n");
 
+		// ELEMENT ITERATORS
+		if(plan.getElements() != null && plan.getElements().size() != 0)
+		{
+			writer.write("public " + Iterator.class.getName() + "<" + Binding.class.getName() + "> elementIterator()\n");
+			writer.write("{\n");
+			writer.write("return super.elementIterator();\n");
+			writer.write("}\n");
+
+//			writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator()\n");
+//			writer.write("{\n");
+//			writer.write("return super.elementListIterator();\n");
+//			writer.write("}\n");
+
+//			writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator(int index)\n");
+//			writer.write("{\n");
+//			writer.write("return super.elementListIterator(index);\n");
+//			writer.write("}\n");
+		}
+
 		// MARSHAL
 		writer.write("protected " + Element.class.getName() + " marshal() throws " + MarshalException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 		writer.write("{\n");
-		writer.write(Element.class.getName() + " root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());\n");
-		writer.write(Element.class.getName() + " element = marshal(root, _getName(), _getTypeName(inheritsInstance()));\n");
+		writer.write(Element.class.getName() + " root = createElementNS(_$$getName().getNamespaceURI(), _$$getName().getLocalPart());\n");
+		writer.write(Element.class.getName() + " node = marshal(root, _$$getName(), _$$getTypeName(_$$inheritsInstance()));\n");
+		if(plan.getElements().size() != 0)
+			writer.write("_$$marshalElements(node);\n");
 		writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
-		writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(element);\n");
-		writer.write("return element;\n");
+		writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
+		writer.write("return node;\n");
 		writer.write("}\n");
 
 		writer.write("protected " + Element.class.getName() + " marshal(" + Element.class.getName() + " parent, " + QName.class.getName() + " name, " + QName.class.getName() + " typeName) throws " + MarshalException.class.getName() + "\n");
 		writer.write("{\n");
 		if(plan.getElements() != null || plan.getAttributes() != null || plan.getMixed())
 		{
-			writer.write(Element.class.getName() + " element = super.marshal(parent, name, typeName);\n");
+			writer.write(Element.class.getName() + " node = super.marshal(parent, name, typeName);\n");
 			if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
 			{
 				writer.write("if(text != null)\n");
-				writer.write("element.appendChild(element.getOwnerDocument().createTextNode(text.toString()));\n");
+				writer.write("node.appendChild(node.getOwnerDocument().createTextNode(text.toString()));\n");
 			}
 			for(Object attribute : plan.getAttributes())
 				Writer.writeMarshal(writer, (AttributePlan)attribute, plan);
-			for(Object element : plan.getElements())
-				Writer.writeMarshal(writer, (ElementPlan)element, plan);
 
-			writer.write("return element;\n");
+//			if(plan.getElements().size() != 0)
+//				writer.write("_marshalElements(element);\n");
+//			for(Object element : plan.getElements())
+//				Writer.writeMarshal(writer, (ElementPlan)element, plan);
+
+			writer.write("return node;\n");
 		}
 		else
 			writer.write("return super.marshal(parent, name, typeName);\n");
 
 		writer.write("}\n");
 
-		// PARSE
-		writer.write("protected void parse(" + org.w3c.dom.Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
-		writer.write("{\n");
-		if(plan.getElements() != null || plan.getAttributes() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed()))
+		// PARSE ATTRIBUTE
+		if(plan.getAttributes() != null)
 		{
-			if(plan.getAttributes() != null)
+			writer.write("protected void parseAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("{\n");
+			writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
+			writer.write("{\n");
+			writer.write("return;\n");
+			writer.write("}\n");
+			AttributePlan any = null;
+			for(Object attribute : plan.getAttributes())
 			{
-				writer.write(NamedNodeMap.class.getName() + " namedNodeMap = element.getAttributes();\n");
-				writer.write(Node.class.getName() + " attribute = null;\n");
-				writer.write("for(int i = 0; i < namedNodeMap.getLength(); i++)\n");
+				if(attribute instanceof AnyAttributePlan)
+					any = (AttributePlan)attribute;
+				else
+					Writer.writeParse(writer, (AttributePlan)attribute, plan);
+			}
+
+			if(any != null)
+				Writer.writeParse(writer, any, plan);
+
+			writer.write("else\n");
+			writer.write("{\n");
+			writer.write("super.parseAttribute(attribute);\n");
+			writer.write("}\n");
+			writer.write("}\n");
+		}
+
+		// PARSE ELEMENT
+		if(plan.getElements() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
+		{
+			writer.write("protected boolean parseElement(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("{\n");
+			if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
+			{
+				writer.write("if(element.getNodeType() == " + Node.class.getName() + ".TEXT_NODE)\n");
 				writer.write("{\n");
-				writer.write("attribute = namedNodeMap.item(i);\n");
-				writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()) || XSI_TYPE.getNamespaceURI().equals(attribute.getNamespaceURI()))\n");
+				writer.write("if(element.getNodeValue().length() != 0)\n");
 				writer.write("{\n");
-				writer.write("continue;\n");
+				writer.write(String.class.getName() + " value = element.getNodeValue().trim();\n");
+				writer.write("if(text == null && value.length() != 0)\n");
+				writer.write("text = new " + String.class.getName() + "(value);\n");
 				writer.write("}\n");
-				AttributePlan any = null;
-				for(Object attribute : plan.getAttributes())
-				{
-					if(attribute instanceof AnyAttributePlan)
-						any = (AttributePlan)attribute;
-					else
-						Writer.writeParse(writer, (AttributePlan)attribute, plan);
-				}
-
-				if(any != null)
-					Writer.writeParse(writer, any, plan);
-
+				writer.write("}\n");
+			}
+			else
+			{
+				writer.write("if(false)\n");
+				writer.write("{\n");
+				writer.write("return false;\n");
 				writer.write("}\n");
 			}
 
-			if(plan.getElements() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed()))
+			ElementPlan any = null;
+			for(Object element : plan.getElements())
 			{
-				writer.write(NodeList.class.getName() + " nodeList = element.getChildNodes();\n");
-				writer.write(Node.class.getName() + " childNode = null;\n");
-				writer.write("for(int i = 0; i < nodeList.getLength(); i++)\n");
-				writer.write("{\n");
-				writer.write("childNode = nodeList.item(i);\n");
-				if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
-				{
-					writer.write("if(childNode.getNodeType() == " + Node.class.getName() + ".TEXT_NODE)\n");
-					writer.write("{\n");
-					writer.write("if(childNode.getNodeValue().length() != 0)\n");
-					writer.write("{\n");
-					writer.write(String.class.getName() + " value = childNode.getNodeValue().trim();\n");
-					writer.write("if(text == null && value.length() != 0)\n");
-					writer.write("text = new " + String.class.getName() + "(value);\n");
-					writer.write("}\n");
-					writer.write("}\n");
-				}
+				if(element instanceof AnyPlan)
+					any = (ElementPlan)element;
 				else
-				{
-					writer.write("if(childNode == null || childNode.getNodeType() == " + Node.class.getName() + ".TEXT_NODE)\n");
-					writer.write("{\n");
-					writer.write("continue;\n");
-					writer.write("}\n");
-				}
+					Writer.writeParse(writer, (ElementPlan)element, plan);
+			}
 
-				ElementPlan any = null;
-				for(Object element : plan.getElements())
-				{
-					if(element instanceof AnyPlan)
-						any = (ElementPlan)element;
-					else
-						Writer.writeParse(writer, (ElementPlan)element, plan);
-				}
+			writer.write("else\n{\n");
+			writer.write("return super.parseElement(element);\n");
+			writer.write("}\n");
+			writer.write("}\n");
 
-				if(any != null)
-					Writer.writeParse(writer, any, plan);
-
+			if(any != null)
+			{
+				writer.write("protected void parseAny(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("{\n");
+				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");
 			}
 		}
-		writer.write("super.parse(element);\n");
-		writer.write("}\n");
 
 		// CLONE
 		writer.write("public " + plan.getClassName(parent) + " clone()\n");
@@ -370,14 +395,14 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writer.write("if(this == obj)\n");
 		writer.write("return true;\n");
 		writer.write("if(!(obj instanceof " + plan.getClassName(parent) + "))\n");
-		writer.write("return _failEquals();\n");
+		writer.write("return _$$failEquals();\n");
 		if((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getElements() != null && plan.getElements().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
 		{
 			writer.write("final " + plan.getClassName(parent) + " that = (" + plan.getClassName(parent) + ")obj;\n");
 			if(plan.getMixed() != null && plan.getMixed())
 			{
 				writer.write("if(text != null ? !text.equals(that.text) : that.text != null)\n");
-				writer.write("return _failEquals();\n");
+				writer.write("return _$$failEquals();\n");
 			}
 			for(Object attribute : plan.getAttributes())
 				Writer.writeEquals(writer, (AttributePlan)attribute, plan);

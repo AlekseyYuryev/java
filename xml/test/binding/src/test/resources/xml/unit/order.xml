@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root
+	xmlns="http://xml.safris.org/schema/binding/test/unit/order.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xml.safris.org/schema/binding/test/unit/order.xsd ../../xsd/unit/order.xsd">
+	<A>
+		<innerA>hello first time</innerA>
+		<innerB>1</innerB>
+		<innerC>48</innerC>
+	</A>
+	<B>
+		<innerA>hi!!</innerA>
+		<innerB>2</innerB>
+		<innerC>57</innerC>
+		<A>
+			<innerA>hello first time</innerA>
+			<innerB>1</innerB>
+			<innerC>48</innerC>
+		</A>
+		<innerE>true</innerE>
+		<innerF>5.3</innerF>
+	</B>
+	<C>
+		<innerA>yo, what's up!?</innerA>
+		<innerB>3</innerB>
+		<innerC>52</innerC>
+		<A>
+			<innerA>hello first time</innerA>
+			<innerB>1</innerB>
+			<innerC>48</innerC>
+		</A>
+		<innerE>false</innerE>
+		<innerF>4</innerF>
+		<B>
+			<innerA>hi!!</innerA>
+			<innerB>2</innerB>
+			<innerC>57</innerC>
+			<A>
+				<innerA>hello first time</innerA>
+				<innerB>1</innerB>
+				<innerC>48</innerC>
+			</A>
+			<innerE>true</innerE>
+			<innerF>5.3</innerF>
+		</B>
+		<innerG>-99</innerG>
+		<innerA>again</innerA>
+		<innerF>54</innerF>
+		<innerF>55</innerF>
+		<innerF>56</innerF>
+		<innerG>99</innerG>
+	</C>
+</root>

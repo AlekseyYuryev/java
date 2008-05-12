@@ -41,8 +41,8 @@ public class EnumerationModel extends Model
 		if(!(obj instanceof EnumerationModel))
 			return false;
 
-		EnumerationModel equals = (EnumerationModel)obj;
-		return (getValue() == null && equals.getValue() == null) || (getValue() != null && getValue().equals(equals.getValue()));
+		final EnumerationModel that = (EnumerationModel)obj;
+		return (getValue() == null && that.getValue() == null) || (getValue() != null && getValue().equals(that.getValue()));
 	}
 
 	public int hashCode()

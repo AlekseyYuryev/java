@@ -49,7 +49,7 @@ public class AttributeNormalizer extends Normalizer<AttributeModel>
 			while(!((schema = schema.getParent()) instanceof SchemaModel) && schema != null);
 
 		if(schema != null)
-			model.setAttributeFormDefault(((SchemaModel)schema).getAttributeFormDefault());
+			model.setFormDefault(((SchemaModel)schema).getAttributeFormDefault());
 
 		if(model.getRef() instanceof AttributeModel.Reference)
 		{

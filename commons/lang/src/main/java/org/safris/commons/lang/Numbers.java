@@ -49,6 +49,22 @@ public final class Numbers
 		return true;
 	}
 
+	public static String roundInsignificant(String value)
+	{
+		if(value == null)
+			return null;
+
+		if(value.length() == 0)
+			return value;
+
+		int i = value.length();
+		while(i-- > 0)
+			if(value.charAt(i) != '0' && value.charAt(i) != '.')
+				break;
+
+		return value.substring(0, i + 1);
+	}
+
 	private Numbers()
 	{
 	}

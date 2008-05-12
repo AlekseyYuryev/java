@@ -1,13 +1,13 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
-import org.safris.xml.toolkit.sample.binding.simple.ISimpleFruitType;
-import org.safris.xml.toolkit.sample.binding.simple.SimpleFruitBasket;
-import org.safris.xml.toolkit.sample.binding.xsitype.ITypeDehiscentDryFruitType;
-import org.safris.xml.toolkit.sample.binding.xsitype.ITypeFleshyFruitType;
-import org.safris.xml.toolkit.sample.binding.xsitype.ITypeIndehiscentDryFruitType;
+import org.safris.xml.toolkit.sample.binding.enums.enums_color$;
+import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
+import org.safris.xml.toolkit.sample.binding.simple.$simple_fruitType;
+import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
+import org.safris.xml.toolkit.sample.binding.xsitype.$type_dehiscentDryFruitType;
+import org.safris.xml.toolkit.sample.binding.xsitype.$type_fleshyFruitType;
+import org.safris.xml.toolkit.sample.binding.xsitype.$type_indehiscentDryFruitType;
 
 public class XsiTypeExample
 {
@@ -21,80 +21,80 @@ public class XsiTypeExample
 		// Since there is no element declaration for the fleshyFruitType,
 		// we need to instantiate a nameless element. Once this element is
 		// put into the basket, the element will obtain the needed name.
-		ITypeFleshyFruitType berry = new ITypeFleshyFruitType()
+		$type_fleshyFruitType berry = new $type_fleshyFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		berry.setTypeNameAttr(new ITypeFleshyFruitType.TypeNameAttr(ITypeFleshyFruitType.TypeNameAttr.BERRY));
-		berry.setTypePericarpAttr(new ITypeFleshyFruitType.TypePericarpAttr(ITypeFleshyFruitType.TypePericarpAttr.SOFT));
+		berry.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
+		berry.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
 
 		// Again, instantiate a nameless element.
-		ITypeFleshyFruitType drupe = new ITypeFleshyFruitType()
+		$type_fleshyFruitType drupe = new $type_fleshyFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		drupe.setTypeNameAttr(new ITypeFleshyFruitType.TypeNameAttr(ITypeFleshyFruitType.TypeNameAttr.DRUPE));
-		drupe.setTypePericarpAttr(new ITypeFleshyFruitType.TypePericarpAttr(ITypeFleshyFruitType.TypePericarpAttr.FLESHY));
+		drupe.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.DRUPE));
+		drupe.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.FLESHY));
 
 		// Again, instantiate a nameless element.
-		ITypeDehiscentDryFruitType legume = new ITypeDehiscentDryFruitType()
+		$type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		legume.setTypeNameAttr(new ITypeDehiscentDryFruitType.TypeNameAttr(ITypeDehiscentDryFruitType.TypeNameAttr.LEGUME));
+		legume.add_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.LEGUME));
 
 		// Again, instantiate a nameless element.
-		ITypeDehiscentDryFruitType follicle = new ITypeDehiscentDryFruitType()
+		$type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		follicle.setTypeNameAttr(new ITypeDehiscentDryFruitType.TypeNameAttr(ITypeDehiscentDryFruitType.TypeNameAttr.FOLLICLE));
+		follicle.add_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.FOLLICLE));
 
 		// Again, instantiate a nameless element.GenericBasket
-		ITypeIndehiscentDryFruitType grain = new ITypeIndehiscentDryFruitType()
+		$type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		grain.setTypeNameAttr(new ITypeIndehiscentDryFruitType.TypeNameAttr(ITypeIndehiscentDryFruitType.TypeNameAttr.GRAIN));
+		grain.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
 
 		// Again, instantiate a nameless element.
-		ITypeIndehiscentDryFruitType nut = new ITypeIndehiscentDryFruitType()
+		$type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
 				return null;
 			}
 		};
-		nut.setTypeNameAttr(new ITypeIndehiscentDryFruitType.TypeNameAttr(ITypeIndehiscentDryFruitType.TypeNameAttr.NUT));
-		nut.setTypeDryAttr(new ITypeIndehiscentDryFruitType.TypeDryAttr(ITypeIndehiscentDryFruitType.TypeDryAttr.TRUE));
-//		nut.setDryAttr(new ITypeSimpleFruitType.DryAttr(false));
+		nut.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
+		nut.add_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+//		nut.addDry$(new ITypesimple_fruitType.Dry$(false));
 
-		SimpleFruitBasket.SimpleFruits fruits = new SimpleFruitBasket.SimpleFruits();
-		fruits.addSimpleFruit(berry);
-		fruits.addSimpleFruit(drupe);
-		fruits.addSimpleFruit(legume);
-		fruits.addSimpleFruit(follicle);
-		fruits.addSimpleFruit(grain);
-		fruits.addSimpleFruit(nut);
+		simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
+		fruits.addsimple_fruit(berry);
+		fruits.addsimple_fruit(drupe);
+		fruits.addsimple_fruit(legume);
+		fruits.addsimple_fruit(follicle);
+		fruits.addsimple_fruit(grain);
+		fruits.addsimple_fruit(nut);
 
-		EnumsColoredFruitBasket coloredBasket = new EnumsColoredFruitBasket();
-		coloredBasket.setEnumsColorAttr(new EnumsColorAttr(EnumsColorAttr.RED));
-		coloredBasket.setSimpleFruits(fruits);
+		enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+		coloredBasket.addenums_color$(new enums_color$(enums_color$.RED));
+		coloredBasket.add_fruits(fruits);
 
 		// Now verify the integrity of the code representing this XML structure.
 		return coloredBasket;

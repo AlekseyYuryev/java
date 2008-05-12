@@ -2,6 +2,8 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.ListIterator;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,15 +16,6 @@ import org.w3c.dom.Node;
 
 public abstract class Binding<T extends BindingType> extends AbstractBinding
 {
-	private static final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	private Binding inherits;
-
-	static
-	{
-		documentBuilderFactory.setNamespaceAware(true);
-		documentBuilderFactory.setValidating(false);
-	}
-
 	protected static DocumentBuilder newDocumentBuilder()
 	{
 		final DocumentBuilder documentBuilder;
@@ -43,7 +36,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return newDocumentBuilder().getDOMImplementation().createDocument(namespaceURI, localName, null).getDocumentElement();
 	}
 
-	protected static String _getPrefix(Element parent, QName name)
+	protected static String _$$getPrefix(Element parent, QName name)
 	{
 		String prefix = name.getPrefix();
 		if(prefix == null || prefix.length() == 0)
@@ -65,7 +58,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return prefix;
 	}
 
-	protected static Binding _parseAttr(Class xmlClass, Element parent, Node node)
+	protected static Binding _$$parseAttr(Class xmlClass, Element parent, Node node)
 	{
 		final Binding binding;
 		try
@@ -73,7 +66,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			final Constructor constructor = xmlClass.getDeclaredConstructor();
 			constructor.setAccessible(true);
 			binding = (Binding)constructor.newInstance();
-			binding._decode(parent, node.getNodeValue());
+			binding._$$decode(parent, node.getNodeValue());
 		}
 		catch(Exception e)
 		{
@@ -83,40 +76,42 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return binding;
 	}
 
-	protected final boolean _failEquals()
+	protected static void _$$decode(Binding binding, Element element, String value) throws ParseException
 	{
-		return false;
+		binding._$$decode(element, value);
 	}
 
-	protected static void _decode(Binding binding, Element element, String value) throws ParseException
+	protected static String _$$encode(Binding binding, Element parent) throws MarshalException
 	{
-		binding._decode(element, value);
+		return binding._$$encode(parent);
 	}
 
-	protected static String _encode(Binding binding, Element parent) throws MarshalException
+	protected static void parse(Binding binding, Element node) throws ParseException, ValidationException
 	{
-		return binding._encode(parent);
+		org.w3c.dom.NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i < attributes.getLength(); i++)
+			binding.parseAttribute(attributes.item(i));
+
+		org.w3c.dom.NodeList elements = node.getChildNodes();
+		for(int i = 0; i < elements.getLength(); i++)
+			if(!binding.parseElement(elements.item(i)))
+				binding.parseAny(elements.item(i));
 	}
 
-	protected static void parse(Binding binding, Element element) throws ParseException, ValidationException
-	{
-		binding.parse(element);
-	}
-
-	protected static QName _getName(Binding binding)
+	protected static QName _$$getName(Binding binding)
 	{
 		if(binding == null)
 			return null;
 
-		return binding._getName();
+		return binding._$$getName();
 	}
 
-	protected static QName _getTypeName(Binding binding)
+	protected static QName _$$getTypeName(Binding binding)
 	{
-		return binding._getTypeName();
+		return binding._$$getTypeName();
 	}
 
-	protected static Binding inherits(Binding binding)
+	protected static Binding _$$inherits(Binding binding)
 	{
 		return binding.inherits();
 	}
@@ -139,18 +134,18 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 				throw new ParseException("Unable to find class binding for <" + localName + "/>");
 		}
 
-		return Binding._parseAttr(classBinding, element, node);
+		return Binding._$$parseAttr(classBinding, element, node);
 	}
 
-	protected static Binding parseElement(Element element, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
+	protected static Binding parseElement(Element node, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
 	{
-		final String localName = element.getLocalName();
-		String namespaceURI = element.getNamespaceURI();
+		final String localName = node.getLocalName();
+		String namespaceURI = node.getNamespaceURI();
 
 		String xsiTypeName = null;
 		String xsiPrefix = null;
 
-		NamedNodeMap rootAttributes = element.getAttributes();
+		NamedNodeMap rootAttributes = node.getAttributes();
 		for(int i = 0; i < rootAttributes.getLength(); i++)
 		{
 			Node attribute = rootAttributes.item(i);
@@ -185,7 +180,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			Binding binding = (Binding)constructor.newInstance();
 			if(xsiTypeName != null)
 			{
-				namespaceURI = element.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
+				namespaceURI = node.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
 				final Class<? extends Binding> xsiBinding = lookupType(new QName(namespaceURI, xsiTypeName));
 				if(xsiBinding == null)
 				{
@@ -210,7 +205,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 				binding = (Binding)method.invoke(null, binding);
 			}
 
-			binding.parse(element);
+			Binding.parse(binding, node);
 			return binding;
 		}
 		catch(ParseException e)
@@ -223,6 +218,18 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		}
 	}
 
+	private static final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+
+	static
+	{
+		documentBuilderFactory.setNamespaceAware(true);
+		documentBuilderFactory.setValidating(false);
+	}
+
+	private final Object elementsLock = new Object();
+	private CompositeElementStore elementDirectory = null;
+	private Binding inherits;
+
 	protected Binding(Binding binding)
 	{
 		this();
@@ -233,8 +240,11 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		if((inherits = inherits()) == null)
 			return;
 
+		if(this instanceof NotationType)
+			return;
+
 		boolean legalInheritance = false;
-		final Constructor[] constructors = inheritsInstance().getClass().getDeclaredConstructors();
+		final Constructor[] constructors = _$$inheritsInstance().getClass().getDeclaredConstructors();
 		for(int i = 0; i < constructors.length; i++)
 		{
 			if(constructors[i].getParameterTypes().length > 0 && constructors[i].getParameterTypes()[0].isAssignableFrom(getClass()))
@@ -245,12 +255,106 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		}
 
 		if(!legalInheritance)
-			throw new IllegalArgumentException("Inheritance structure is not valid.");
+			throw new IllegalArgumentException("Invalid inheritance hierarchy.");
+	}
+
+	protected final boolean _$$hasElements()
+	{
+		return elementDirectory != null && elementDirectory.size() != 0;
+	}
+
+	protected final void _$$marshalElements(Element parent) throws MarshalException
+	{
+		if(elementDirectory == null || elementDirectory.size() == 0)
+			return;
+
+		synchronized(elementsLock)
+		{
+			for(int i = 0; i < elementDirectory.size(); i++)
+			{
+				final Binding element = elementDirectory.getElement(i);
+				final ElementAudit elementAudit = elementDirectory.getElementAudits(i);
+				elementAudit.marshal(parent, element);
+			}
+		}
+	}
+
+	protected final void _$$replaceElement(Binding original, ElementAudit elementAudit, Binding element)
+	{
+		if(elementDirectory != null)
+			elementDirectory.replace(original, element, elementAudit);
+	}
+
+	protected final void _$$addElementBefore(Binding before, ElementAudit elementAudit, Binding element)
+	{
+		if(elementDirectory != null)
+			elementDirectory.addBefore(before, element, elementAudit);
+	}
+
+	protected final boolean _$$addElement(ElementAudit elementAudit, Binding element)
+	{
+		return _$$addElement(elementAudit, element, true);
+	}
+
+	protected final boolean _$$addElementNoAudit(ElementAudit elementAudit, Binding element)
+	{
+		return _$$addElement(elementAudit, element, false);
+	}
+
+	private boolean _$$addElement(ElementAudit elementAudit, Binding element, boolean addToAudit)
+	{
+		if(elementDirectory == null)
+		{
+			synchronized(elementsLock)
+			{
+				if(elementDirectory == null)
+				{
+					elementDirectory = new CompositeElementStore(2);
+					if(!elementDirectory.add(element, elementAudit, addToAudit))
+						throw new RuntimeBindingException("Elements list should have changed here.");
+				}
+				else
+				{
+					if(!elementDirectory.add(element, elementAudit, addToAudit))
+						throw new RuntimeBindingException("Elements list should have changed here.");
+				}
+			}
+		}
+		else
+		{
+			if(!elementDirectory.add(element, elementAudit, addToAudit))
+				throw new RuntimeBindingException("Elements list should have changed here.");
+		}
+
+		return true;
+	}
+
+	protected Iterator<Binding> elementIterator()
+	{
+		return elementDirectory.getElements().iterator();
+	}
+
+	protected ListIterator<Binding> elementListIterator()
+	{
+		return elementDirectory.getElements().listIterator();
+	}
+
+	protected ListIterator<Binding> elementListIterator(int index)
+	{
+		return elementDirectory.getElements().listIterator(index);
+	}
+
+	protected final boolean _$$removeElement(Binding element)
+	{
+		synchronized(elementsLock)
+		{
+			return elementDirectory.remove(element);
+		}
 	}
 
 	protected abstract Binding inherits();
 
-	protected final Binding inheritsInstance()
+	protected final Binding _$$inheritsInstance()
 	{
 		if(inherits != null)
 			return inherits;
@@ -258,9 +362,9 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return inherits = inherits();
 	}
 
-	protected abstract QName _getName();
+	protected abstract QName _$$getName();
 
-	protected QName _getTypeName()
+	protected QName _$$getTypeName()
 	{
 		return null;
 	}
@@ -272,62 +376,76 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 	protected Element marshal(Element parent, QName name, QName typeName) throws MarshalException
 	{
-		boolean substitutionGroup = _isSubstitutionGroup(name) || _isSubstitutionGroup(_getName(inherits()));
+		boolean substitutionGroup = _$$isSubstitutionGroup(name) || _$$isSubstitutionGroup(_$$getName(inherits()));
 		if(substitutionGroup)
-			name = _getName();
+			name = _$$getName();
 
 		Element element = parent;
 		if(parent.getPrefix() != null)
 			element = parent.getOwnerDocument().createElementNS(name.getNamespaceURI(), name.getLocalPart());
 
-		element.setPrefix(_getPrefix(parent, name));
+		element.setPrefix(_$$getPrefix(parent, name));
 
 		// There is 1 way to exclude an xsi:type attribute:
 		// 1. The element being marshaled is a substitutionGroup for the expected element
 		// There are 2 ways to require an xsi:type attribute:
 		// 1. The element being marshaled is not global, and its typeName comes from its containing complexType
 		// 2. The complexType being marshaled is global, and its name comes from the element it inherits from
-		if(!substitutionGroup && _getTypeName() != null && ((typeName != null && !_getTypeName().equals(typeName)) || !_getTypeName().equals(_getTypeName(inherits()))))
+		if(!substitutionGroup && _$$getTypeName() != null && ((typeName != null && !_$$getTypeName().equals(typeName)) || !_$$getTypeName().equals(_$$getTypeName(inherits()))))
 		{
-			final String prefix = _getPrefix(parent, _getTypeName());
+			final String prefix = _$$getPrefix(parent, _$$getTypeName());
 			parent.getOwnerDocument().getDocumentElement().setAttributeNS(XMLNS.getNamespaceURI(), XMLNS.getLocalPart() + ":" + XSI_TYPE.getPrefix(), XSI_TYPE.getNamespaceURI());
-			element.setAttributeNS(XML.getNamespaceURI(), XSI_TYPE.getPrefix() + ":" + XSI_TYPE.getLocalPart(), prefix + ":" + _getTypeName().getLocalPart());
+			element.setAttributeNS(XML.getNamespaceURI(), XSI_TYPE.getPrefix() + ":" + XSI_TYPE.getLocalPart(), prefix + ":" + _$$getTypeName().getLocalPart());
 		}
 
 		return element;
 	}
 
-	protected boolean _isSubstitutionGroup(QName name)
+	protected boolean _$$isSubstitutionGroup(QName name)
 	{
 		return false;
 	}
 
 	protected Element marshal() throws MarshalException, ValidationException
 	{
-		Element root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());
-		return marshal(root, _getName(), _getTypeName());
+		final Element root = createElementNS(_$$getName().getNamespaceURI(), _$$getName().getLocalPart());
+		return marshal(root, _$$getName(), _$$getTypeName());
 	}
 
-	protected void parse(Element element) throws ParseException, ValidationException
+	protected void parseAttribute(Node attribute) throws ParseException, ValidationException
 	{
 	}
 
-	protected void _decode(Element element, String value) throws ParseException
+	protected boolean parseElement(Node element) throws ParseException, ValidationException
 	{
-		throw new BindingError("This is a template that must be overridden");
+		return false;
 	}
 
-	protected String _encode(Element parent) throws MarshalException
+	protected void parseAny(Node element) throws ParseException, ValidationException
 	{
-		throw new BindingError("This is a template that must be overridden");
 	}
 
-	protected String[] _getPattern()
+	protected void _$$decode(Element parent, String value) throws ParseException
+	{
+		throw new BindingError("This is a template that must be overridden, otherwise it shouldn't be called");
+	}
+
+	protected String _$$encode(Element parent) throws MarshalException
+	{
+		throw new BindingError("This is a template that must be overridden, otherwise it shouldn't be called");
+	}
+
+	protected String[] _$$getPattern()
 	{
 		return null;
 	}
 
-	protected Object getTEXT()
+	protected final boolean _$$failEquals()
+	{
+		return false;
+	}
+
+	protected Object getText()
 	{
 		return null;
 	}

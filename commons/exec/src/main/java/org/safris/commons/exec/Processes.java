@@ -43,6 +43,9 @@ public final class Processes
 	{
 		final Process process = forkAsync(stdin, stdout, stderr, args);
 		process.waitFor();
+		process.getErrorStream().close();
+		process.getInputStream().close();
+		process.getOutputStream().close();
 		return process;
 	}
 

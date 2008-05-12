@@ -1,10 +1,6 @@
 package org.safris.xml.generator.compiler.processor.plan.element;
 
 import java.util.LinkedHashSet;
-import org.safris.xml.generator.lexer.processor.model.MixableModel;
-import org.safris.xml.generator.lexer.processor.model.TypeableModel;
-import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
-import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.compiler.lang.ElementWrapper;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.AttributablePlan;
@@ -17,6 +13,11 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.model.MixableModel;
+import org.safris.xml.generator.lexer.processor.model.TypeableModel;
+import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
+import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan
 {
@@ -26,6 +27,20 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
 
 	private LinkedHashSet<AttributePlan> attributes;
 	private LinkedHashSet<ElementPlan> elements;
+
+	public ElementPlan elementRefExistsInParent(UniqueQName name)
+	{
+		// FIXME: This is slow!
+		if(getElements() != null)
+			for(ElementPlan element : getElements())
+				if(element.getName().equals(name))
+					return element;
+
+		if(getSuperType() == null)
+			return null;
+
+		return getSuperType().elementRefExistsInParent(name);
+	}
 
 	public ComplexTypePlan(T model, Plan parent)
 	{

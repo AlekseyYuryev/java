@@ -23,23 +23,23 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 	{
 		writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<" + Attribute.class.getName() + ">> getANYATTR()\n");
 		writer.write("{\n");
-		writer.write("return anyAttribute.getValue();\n");
+		writer.write("return anyAttribute.getText();\n");
 		writer.write("}\n");
 	}
 
 	protected void appendSetMethod(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
-		writer.write("public void addANYATTR(" + Binding.class.getName() + "<" + Attribute.class.getName() + "> anyAttribute)\n");
+		writer.write("public void addAny$(" + Binding.class.getName() + "<" + Attribute.class.getName() + "> anyAttribute)\n");
 		writer.write("{\n");
 		writer.write("if(this.anyAttribute == null)\n");
-		writer.write("this.anyAttribute.setValue(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
-		writer.write("this.anyAttribute.getValue().add(anyAttribute);\n");
+		writer.write("this.anyAttribute.setText(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
+		writer.write("this.anyAttribute.getText().add(anyAttribute);\n");
 		writer.write("}\n");
 	}
 
 	protected void appendMarshal(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
-		writer.write("anyAttribute.marshal(element);\n");
+		writer.write("anyAttribute.marshal(node);\n");
 	}
 
 	protected void appendParse(StringWriter writer, AnyAttributePlan plan, Plan parent)
@@ -47,8 +47,8 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 		writer.write("else\n");
 		writer.write("{\n");
 		writer.write("if(this.anyAttribute == null)\n");
-		writer.write("this.anyAttribute.setValue(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
-		writer.write("this.anyAttribute.getValue().add(" + Binding.class.getName() + ".parseAttr(element, attribute));\n");
+		writer.write("this.anyAttribute.setText(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
+		writer.write("this.anyAttribute.getText().add(" + Binding.class.getName() + ".parseAttr(node, attribute));\n");
 		writer.write("}\n");
 	}
 
@@ -60,7 +60,7 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 	protected void appendEquals(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
 		writer.write("if(anyAttribute != null ? !anyAttribute.equals(that.anyAttribute) : that.anyAttribute != null)\n");
-		writer.write("return _failEquals();\n");
+		writer.write("return _$$failEquals();\n");
 	}
 
 	protected void appendHashCode(StringWriter writer, AnyAttributePlan plan, Plan parent)

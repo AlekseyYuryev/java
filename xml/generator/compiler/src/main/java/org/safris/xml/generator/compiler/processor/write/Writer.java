@@ -8,15 +8,17 @@ import java.util.HashSet;
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
+import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
+import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
-import org.safris.commons.pipeline.PipelineEntity;
-import org.safris.commons.pipeline.PipelineDirectory;
 
 public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 {
@@ -25,7 +27,7 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 
 	protected void writeFile(Writer writer, Plan plan, File destDir)
 	{
-		if(!(plan instanceof Nameable))
+		if(!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return;
 
 		final String display = Files.relativePath(Files.getCwd(), new File(plan.getModel().getSchema().getURL().getFile()).getAbsoluteFile());

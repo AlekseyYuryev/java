@@ -2,15 +2,15 @@ package org.safris.xml.generator.compiler.processor.write;
 
 import java.io.StringWriter;
 import java.util.Collection;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.compiler.lang.CompilerError;
+import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 
 public class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan,Writer>
 {
@@ -76,7 +76,7 @@ public class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan,
 
 	protected Collection<Plan> disclose(GeneratorContext pipelineContext, Plan plan, PipelineDirectory<GeneratorContext,Plan,Writer> directory)
 	{
-		if(!(plan instanceof SimpleTypePlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
+		if(!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
 			return null;
 
 		if(((Nameable)plan).getName().getNamespaceURI() == null)

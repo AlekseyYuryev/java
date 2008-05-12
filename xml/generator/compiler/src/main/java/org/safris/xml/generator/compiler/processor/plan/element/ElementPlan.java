@@ -13,6 +13,8 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.RestrictablePlan;
 import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
@@ -21,9 +23,8 @@ import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
-public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
+public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan
 {
 	private final ElementModel element;
 	private final boolean ref;
@@ -43,6 +44,8 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 
 	private boolean nested;
 	private boolean isComplexType = false;
+	private boolean repeatedExtensionRun = false;
+	private ElementPlan repeatedExtension = null;
 	private Form formDefault;
 
 	private int minOccurs = 1;
@@ -56,7 +59,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		restriction = model.getRestrictionOwner() != null;
 		fixed = model.getFixed() != null;
 		_default = fixed ? model.getFixed() : model.getDefault();
-		nillable = model.getNillable();
+		nillable = getModel().getNillable() != null && getModel().getNillable();
 		substitutionGroup = model.getSubstitutionGroup();
 		if(model instanceof AnyableModel)
 			return;
@@ -94,9 +97,28 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		nested = ref || !(element.getParent() instanceof SchemaModel);
 
 		if(!ref)
-			formDefault = element.getElementFormDefault();
+			formDefault = element.getFormDefault();
 		else
 			formDefault = Form.QUALIFIED;
+	}
+
+	/**
+	 * States whether this element is a duplicate of an element in the
+	 * inheritance hierarchy of the owning parent element or complexType. This
+	 * information means that since the element is being repeated twice its
+	 * methods will mask those of the first occurance in the parent type.
+	 *
+	 * @return <code>true</code> if the name of this element exists in the
+	 * hierarchy of the parent element or complexType.
+	 */
+	public final ElementPlan getRepeatedExtension()
+	{
+		if(repeatedExtensionRun)
+			return repeatedExtension;
+
+		repeatedExtension = getParent().getSuperType() != null ? getParent().getSuperType().elementRefExistsInParent(getName()) : null;
+		repeatedExtensionRun = true;
+		return repeatedExtension;
 	}
 
 	public final UniqueQName getSubstitutionGroup()

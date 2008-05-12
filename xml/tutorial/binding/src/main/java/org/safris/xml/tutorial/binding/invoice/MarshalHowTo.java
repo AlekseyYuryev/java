@@ -9,48 +9,48 @@ public class MarshalHowTo
 {
 	public static void main(String[] args) throws Exception
 	{
-		PvInvoice invoice = new PvInvoice();
-		invoice.setPvDate(new PvInvoice.PvDate(new Date(2003, 1, 7)));
+		pv_invoice invoice = new pv_invoice();
+		invoice.add_date(new pv_invoice._date(new Date(2003, 1, 7)));
 
-		invoice.setPvNumber(new PvInvoice.PvNumber(1458));
+		invoice.add_number(new pv_invoice._number(1458));
 
-		PvInvoice.PvBillingAddress billingAddress = new PvInvoice.PvBillingAddress();
-		billingAddress.setPvName(new PvInvoice.PvBillingAddress.PvName("Ian Barking"));
-		billingAddress.setPvAddress(new PvInvoice.PvBillingAddress.PvAddress("123 Kennel Street"));
-		billingAddress.setPvCity(new PvInvoice.PvBillingAddress.PvCity("Dachshund City"));
-		billingAddress.setPvPostalCode(new PvInvoice.PvBillingAddress.PvPostalCode(98765));
-		billingAddress.setPvCountry(new PvInvoice.PvBillingAddress.PvCountry("US"));
+		pv_invoice._billingAddress billingAddress = new pv_invoice._billingAddress();
+		billingAddress.add_name(new pv_invoice._billingAddress._name("Ian Barking"));
+		billingAddress.add_address(new pv_invoice._billingAddress._address("123 Kennel Street"));
+		billingAddress.add_city(new pv_invoice._billingAddress._city("Dachshund City"));
+		billingAddress.add_postalCode(new pv_invoice._billingAddress._postalCode(98765));
+		billingAddress.add_country(new pv_invoice._billingAddress._country("US"));
 
-		invoice.setPvBillingAddress(billingAddress);
+		invoice.add_billingAddress(billingAddress);
 
-		PvInvoice.PvShippingAddress shippingAddress = new PvInvoice.PvShippingAddress();
-		shippingAddress.setPvName(new PvInvoice.PvBillingAddress.PvName("Retail Dept."));
-		shippingAddress.setPvAddress(new PvInvoice.PvBillingAddress.PvAddress("888 Dogbowl Street"));
-		shippingAddress.setPvCity(new PvInvoice.PvBillingAddress.PvCity("Pet City"));
-		shippingAddress.setPvPostalCode(new PvInvoice.PvBillingAddress.PvPostalCode(98765));
-		shippingAddress.setPvCountry(new PvInvoice.PvBillingAddress.PvCountry("US"));
+		pv_invoice._shippingAddress shippingAddress = new pv_invoice._shippingAddress();
+		shippingAddress.add_name(new pv_invoice._billingAddress._name("Retail Dept."));
+		shippingAddress.add_address(new pv_invoice._billingAddress._address("888 Dogbowl Street"));
+		shippingAddress.add_city(new pv_invoice._billingAddress._city("Pet City"));
+		shippingAddress.add_postalCode(new pv_invoice._billingAddress._postalCode(98765));
+		shippingAddress.add_country(new pv_invoice._billingAddress._country("US"));
 
-		invoice.setPvShippingAddress(shippingAddress);
+		invoice.add_shippingAddress(shippingAddress);
 
-		PvInvoice.PvBilledItems billedItems = new PvInvoice.PvBilledItems();
+		pv_invoice._billedItems billedItems = new pv_invoice._billedItems();
 
-		PvInvoice.PvBilledItems.PvItem item = new PvInvoice.PvBilledItems.PvItem();
-		item.setPvDescription(new PvInvoice.PvBilledItems.PvItem.PvDescription("Studded Collar"));
-		item.setPvCode(new PvInvoice.PvBilledItems.PvItem.PvCode(45342));
-		item.setPvQuantity(new PvInvoice.PvBilledItems.PvItem.PvQuantity(10));
-		item.setPvPrice(new PvInvoice.PvBilledItems.PvItem.PvPrice(new Decimal(11.95)));
+		pv_invoice._billedItems._item item = new pv_invoice._billedItems._item();
+		item.add_description(new pv_invoice._billedItems._item._description("Studded Collar"));
+		item.add_code(new pv_invoice._billedItems._item._code(45342));
+		item.add_quantity(new pv_invoice._billedItems._item._quantity(10));
+		item.add_price(new pv_invoice._billedItems._item._price(new Decimal(11.95)));
 
-		billedItems.addPvItem(item);
+		billedItems.add_item(item);
 
-		item = new PvInvoice.PvBilledItems.PvItem();
-		item.setPvDescription(new PvInvoice.PvBilledItems.PvItem.PvDescription("K9 Pet Coat"));
-		item.setPvCode(new PvInvoice.PvBilledItems.PvItem.PvCode(25233));
-		item.setPvQuantity(new PvInvoice.PvBilledItems.PvItem.PvQuantity(5));
-		item.setPvPrice(new PvInvoice.PvBilledItems.PvItem.PvPrice(new Decimal(25.01)));
+		item = new pv_invoice._billedItems._item();
+		item.add_description(new pv_invoice._billedItems._item._description("K9 Pet Coat"));
+		item.add_code(new pv_invoice._billedItems._item._code(25233));
+		item.add_quantity(new pv_invoice._billedItems._item._quantity(5));
+		item.add_price(new pv_invoice._billedItems._item._price(new Decimal(25.01)));
 
-		billedItems.addPvItem(item);
+		billedItems.add_item(item);
 
-		invoice.setPvBilledItems(billedItems);
+		invoice.add_billedItems(billedItems);
 
 		System.out.println(DOMs.domToString(invoice.marshal(), DOMStyle.INDENT));
 	}

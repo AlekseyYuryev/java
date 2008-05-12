@@ -78,7 +78,7 @@ public final class Streams
 		}
 
 		final int BUFFER_SIZE = 1024;
-		new Thread("pipe")
+		new Thread(tee ? "tee" : "pipe")
 		{
 			public void run()
 			{
@@ -93,13 +93,14 @@ public final class Streams
 							pipedOut.write(bytes, 0, length);
 							pipedOut.flush();
 						}
+
 						snk.write(bytes, 0, length);
 						snk.flush();
 					}
 				}
 				catch(IOException e)
 				{
-					if("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()))
+					if("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()))
 						return;
 
 					e.printStackTrace();

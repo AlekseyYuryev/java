@@ -3,6 +3,8 @@ package org.safris.xml.generator.lexer.processor.model.element;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -11,17 +13,16 @@ import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements ReferableModel<AttributeModel>, RestrictableModel<AttributeModel>
+public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements Formable<Model>, ReferableModel<AttributeModel>, RestrictableModel<AttributeModel>
 {
 	private QName _default = null;
 	private QName fixed = null;
 	private Form form = null;
 	private Use use = Use.OPTIONAL;
-	private Form attributeFormDefault = null;
+	private Form formDefault = null;
 	private AttributeModel ref = null;
 	private AliasModel restrictionOwner = null;
 	private AttributeModel restriction = null;
@@ -117,24 +118,24 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
 		return use;
 	}
 
-	public final void setAttributeFormDefault(Form attributeFormDefault)
+	public final void setFormDefault(Form formDefault)
 	{
-		this.attributeFormDefault = attributeFormDefault;
+		this.formDefault = formDefault;
 	}
 
-	public final Form getAttributeFormDefault()
+	public final Form getFormDefault()
 	{
-		return attributeFormDefault;
+		return formDefault;
 	}
 
 	public boolean equals(Object obj)
 	{
-		boolean equals = super.equals(obj);
+		final boolean equals = super.equals(obj);
 		if(!equals)
 			return false;
 
-		AttributeModel attributeModel = (AttributeModel)obj;
-		return (getRef() == null && attributeModel.getRef() == null) || (getRef() != null && getRef().equals(attributeModel.getRef()));
+		final AttributeModel that = (AttributeModel)obj;
+		return (getRef() == null && that.getRef() == null) || (getRef() != null && getRef().equals(that.getRef()));
 	}
 
 	public int hashCode()

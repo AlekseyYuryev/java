@@ -8,7 +8,7 @@
 		<name>ParseHowTo</name>
 		<target>org.safris.xml.tutorial.binding.invoice.ParseHowTo</target>
 		<vmOtherOptions/>
-		<workingDir>binding\</workingDir>
+		<workingDir/>
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>

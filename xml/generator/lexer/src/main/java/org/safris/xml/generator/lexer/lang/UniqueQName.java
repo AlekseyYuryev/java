@@ -13,7 +13,7 @@ public class UniqueQName
 	private static final Map<QName,UniqueQName> instances = new HashMap<QName,UniqueQName>();
 
 	// subjectively chosen
-	private static final String W3C_XML_SCHEMA_PREFIX = "XS";
+	private static final String W3C_XML_SCHEMA_PREFIX = "xs";
 	private static final String W3C_XML_SCHEMA_INSTANCE_PREFIX = "xsi";
 
 	public static final UniqueQName XS = UniqueQName.getInstance(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "", W3C_XML_SCHEMA_PREFIX));

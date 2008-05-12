@@ -3,14 +3,14 @@ package org.safris.xml.generator.compiler.lang;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
-public class ElementWrapper extends Model
+public class ElementWrapper extends Model implements Nameable
 {
 	public static LinkedHashSet<ElementWrapper> asSet(LinkedHashSet<MultiplicableModel> multiplicableModels)
 	{
@@ -69,6 +69,11 @@ public class ElementWrapper extends Model
 	public final int getMaxOccurs()
 	{
 		return maxOccurs;
+	}
+
+	public UniqueQName getName()
+	{
+		return elementModel.getName();
 	}
 
 	public boolean equals(Object obj)

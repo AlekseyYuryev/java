@@ -10,70 +10,67 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.ElementAudit;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class AnyWriter extends ElementWriter<AnyPlan>
 {
 	protected void appendDeclaration(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		if(plan.getMaxOccurs() > 1)
-			writer.write("private " + ElementAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>> any = new " + ElementAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>>(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
-		else
-			writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
+//		if(plan.getMaxOccurs() > 1)
+			writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(this, " + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
+//		else
+//			writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
 	}
 
 	protected void appendGetMethod(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		if(plan.getMaxOccurs() > 1)
-			writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> getANY()\n");
-		else
-			writer.write("public " + Binding.class.getName() + " getANY()\n");
+//		if(plan.getMaxOccurs() > 1)
+			writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> getAny()\n");
+//		else
+//			writer.write("public " + Binding.class.getName() + " getANY()\n");
 
 		writer.write("{\n");
-		writer.write("return any.getValue();\n");
+		writer.write("return any.getElements();\n");
 		writer.write("}\n");
 	}
 
 	protected void appendSetMethod(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		if(plan.getMaxOccurs() > 1)
-			writer.write("public void addANY(" +  Binding.class.getName() + " any)\n");
-		else
-			writer.write("public void setANY(" +  Binding.class.getName() + " any)\n");
+//		if(plan.getMaxOccurs() > 1)
+			writer.write("public void addAny(" +  Binding.class.getName() + " any)\n");
+//		else
+//			writer.write("public void setANY(" +  Binding.class.getName() + " any)\n");
 
 		writer.write("{\n");
-		if(plan.getMaxOccurs() > 1)
-		{
-			writer.write("if(this.any.getValue() == null)\n");
-			writer.write("this.any.setValue(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(" + (plan.getMaxOccurs() != Integer.MAX_VALUE ? String.valueOf(plan.getMaxOccurs()) : "") + "));\n");
-			writer.write("this.any.getValue().add(any);\n");
-		}
-		else
-			writer.write("this.any.setValue(any);\n");
+//		if(plan.getMaxOccurs() > 1)
+//		{
+			writer.write("_$$addElement(this.any, any);\n");
+//		}
+//		else
+//		{
+//			writer.write("if(this." + plan.getInstanceName() + ".$value() != null)\n");
+//			writer.write("_$$dequeueElement(this." + plan.getInstanceName() + ");\n");
+//			writer.write("this.any.$value(any);\n");
+//		}
 
 		writer.write("}\n");
 	}
 
 	protected void appendMarshal(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		writer.write("any.marshal(element);\n");
+//		writer.write("any.marshal(element);\n");
 	}
 
 	protected void appendParse(StringWriter writer, AnyPlan plan, Plan parent)
 	{
-		writer.write("else\n");
-		writer.write("{\n");
-		if(plan.getMaxOccurs() > 1)
-		{
-			writer.write("if(this.any.getValue() == null)\n");
-			writer.write("this.any.setValue(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(" + (plan.getMaxOccurs() != Integer.MAX_VALUE ? String.valueOf(plan.getMaxOccurs()) : "") + "));\n");
-			writer.write("this.any.getValue().add(" + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")childNode));\n");
-		}
-		else
-			writer.write("this.any.setValue(" + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")childNode));\n");
-
-		writer.write("element.removeChild(childNode);\n");
-		writer.write("i--;\n");
-		writer.write("}\n");
+//		if(plan.getMaxOccurs() > 1)
+//		{
+			writer.write("if(element.getNodeType() != " + Node.class.getName() + ".ELEMENT_NODE)\n");
+			writer.write("return;\n");
+			writer.write("_$$addElement(this.any, " + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")element));\n");
+//		}
+//		else
+//			writer.write("this.any.$value(" + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")childNode));\n");
 	}
 
 	public void appendCopy(StringWriter writer, AnyPlan plan, Plan parent, String variable)
@@ -84,7 +81,7 @@ public class AnyWriter extends ElementWriter<AnyPlan>
 	protected void appendEquals(StringWriter writer, AnyPlan plan, Plan parent)
 	{
 		writer.write("if(any != null ? !any.equals(that.any) : that.any != null)\n");
-		writer.write("return _failEquals();\n");
+		writer.write("return _$$failEquals();\n");
 	}
 
 	protected void appendHashCode(StringWriter writer, AnyPlan plan, Plan parent)

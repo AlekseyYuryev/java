@@ -11,7 +11,7 @@
 		<workingDir>..\sample\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
-		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/sample/binding/pom.xml</commandLineArguments>
+		<commandLineArguments>/home/safrsev/Projects/org/safris/trunk/xml/tutorial/binding/pom.xml</commandLineArguments>
 		<name>GeneratorMojo tutorial/binding/pom.xml</name>
 		<target>org.safris.maven.plugin.xml.binding.GeneratorMojo</target>
 		<vmOtherOptions/>

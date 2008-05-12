@@ -1,6 +1,7 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+import javax.xml.namespace.QName;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.NotationPlan;
@@ -59,10 +60,12 @@ public class NotationWriter extends Writer<NotationPlan>
 		writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
 		writer.write("{\n");
 
+		writer.write("private static final " + QName.class.getName() + " NAME = new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\");\n");
+
 		writer.write("static\n");
 		writer.write("{\n");
-		writer.write("_registerNotation(new " + plan.getClassSimpleName() + "());\n");
-		writer.write("_registerSchemaLocation(\"" + plan.getName().getNamespaceURI() + "\", " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+		writer.write("_$$registerNotation(new " + plan.getClassSimpleName() + "());\n");
+		writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
 		writer.write("}\n");
 
 		writer.write("private final " + String.class.getName() + " _name = " + "\"" + plan.getName().getLocalPart() + "\";\n");
@@ -72,6 +75,12 @@ public class NotationWriter extends Writer<NotationPlan>
 		writer.write("protected " + plan.getClassSimpleName() + "()\n");
 		writer.write("{\n");
 		writer.write("super();\n");
+		writer.write("}\n");
+
+		// GETNAME
+		writer.write("protected " + QName.class.getName() + " _$$getName()\n");
+		writer.write("{\n");
+		writer.write("return NAME;\n");
 		writer.write("}\n");
 
 		// NAME
@@ -104,7 +113,7 @@ public class NotationWriter extends Writer<NotationPlan>
 		writer.write("if(this == obj)\n");
 		writer.write("return true;\n");
 		writer.write("if(!(obj instanceof " + plan.getClassSimpleName() + "))\n");
-		writer.write("return _failEquals();\n");
+		writer.write("return _$$failEquals();\n");
 		writer.write("final " + plan.getClassSimpleName() + " that = (" + plan.getClassSimpleName() + ")obj;\n");
 		writer.write("return (_name != null ? _name.equals(that._name) : that._name == null) && ");
 		writer.write("(_public != null ? _public.equals(that._public) : that._public == null) && ");

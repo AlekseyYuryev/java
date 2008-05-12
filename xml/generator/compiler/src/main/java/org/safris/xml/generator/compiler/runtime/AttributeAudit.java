@@ -40,19 +40,19 @@ public class AttributeAudit<T>
 		return required;
 	}
 
-	public void setValue(T value)
+	public void setAttribute(T value)
 	{
 		this.value = value;
 	}
 
-	public T getValue()
+	public T getAttribute()
 	{
 		return value;
 	}
 
 	public void marshal(Element parent) throws MarshalException
 	{
-		Object value = getValue();
+		Object value = getAttribute();
 		if(value == null)
 		{
 			if(getDefault() == null)
@@ -70,7 +70,7 @@ public class AttributeAudit<T>
 			if(getName() != null)
 			{
 				if(isQualified())
-					name = Binding._getPrefix(parent, getName()) + ":" + getName().getLocalPart();
+					name = Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart();
 				else
 					name = getName().getLocalPart();
 			}
@@ -80,9 +80,9 @@ public class AttributeAudit<T>
 				Binding binding = (Binding)object;
 				if(name == null)
 				{
-					QName actualName = Binding._getName(binding);
+					QName actualName = Binding._$$getName(binding);
 					if(isQualified())
-						name = Binding._getPrefix(parent, getName()) + ":" + getName().getLocalPart();
+						name = Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart();
 					else
 						name = actualName.getLocalPart();
 				}
@@ -94,11 +94,11 @@ public class AttributeAudit<T>
 		{
 			QName name = getName();
 			if(name == null)
-				name = ((Binding)value)._getName();
+				name = ((Binding)value)._$$getName();
 
 			String marshalName = null;
 			if(isQualified())
-				marshalName = Binding._getPrefix(parent, name) + ":" + name.getLocalPart();
+				marshalName = Binding._$$getPrefix(parent, name) + ":" + name.getLocalPart();
 			else
 				marshalName = name.getLocalPart();
 
@@ -108,15 +108,13 @@ public class AttributeAudit<T>
 
 	public boolean equals(Object obj)
 	{
-		if(obj == null)
-		{
-			if(value == null)
-				return true;
+		if(obj != null)
+			return obj.equals(value);
 
-			return false;
-		}
+		if(value == null)
+			return true;
 
-		return obj.equals(value);
+		return false;
 	}
 
 	public int hashCode()

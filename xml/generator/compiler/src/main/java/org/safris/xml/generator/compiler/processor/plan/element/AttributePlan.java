@@ -12,6 +12,8 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.RestrictablePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
@@ -20,9 +22,8 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
-public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, NativeablePlan, NestablePlan, RestrictablePlan
+public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan
 {
 	private final AttributeModel attribute;
 	private final boolean ref;
@@ -69,7 +70,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 
 		nested = ref || !(attribute.getParent() instanceof SchemaModel);
 		if(!ref)
-			formDefault = attribute.getAttributeFormDefault();
+			formDefault = attribute.getFormDefault();
 		else
 			formDefault = Form.QUALIFIED;
 	}
@@ -111,9 +112,9 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 
 		String defaultInstance = getDefaultInstance(parent);
 		if(isRestriction())
-			return "super.set" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
+			return "super.add" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
 		else
-			return getInstanceName() + ".setValue(" + defaultInstance + ");\n";
+			return getInstanceName() + ".setText(" + defaultInstance + ");\n";
 	}
 
 	public final QName getDefault()

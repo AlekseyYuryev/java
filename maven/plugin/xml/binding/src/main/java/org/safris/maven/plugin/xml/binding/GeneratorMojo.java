@@ -22,7 +22,7 @@ import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
-import org.w3.x2001.xmlschema.IXSBoolean;
+import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Document;
 
 /**
@@ -146,10 +146,10 @@ public class GeneratorMojo extends AbstractMojo
 								}
 
 								if(explodeJarsName != null)
-									explodeJars = IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName));
+									explodeJars = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
 
 								if(overwriteName != null)
-									overwrite = IXSBoolean.parseBoolean(link.getAttribute(explodeJarsName));
+									overwrite = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
 
 								break;
 							}

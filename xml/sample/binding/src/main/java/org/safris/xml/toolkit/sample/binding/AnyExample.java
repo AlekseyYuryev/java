@@ -1,14 +1,14 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.toolkit.sample.binding.any.AnyTrash;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
-import org.safris.xml.toolkit.sample.binding.simple.ISimpleFruitType;
-import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
-import org.safris.xml.toolkit.sample.binding.simple.SimpleFruitBasket;
-import org.safris.xml.toolkit.sample.binding.xsitype.ITypeFleshyFruitType;
-import org.safris.xml.toolkit.sample.binding.xsitype.ITypeIndehiscentDryFruitType;
+import org.safris.xml.toolkit.sample.binding.any.any_trash;
+import org.safris.xml.toolkit.sample.binding.enums.enums_color$;
+import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
+import org.safris.xml.toolkit.sample.binding.simple.$simple_fruitType;
+import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
+import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
+import org.safris.xml.toolkit.sample.binding.xsitype.$type_fleshyFruitType;
+import org.safris.xml.toolkit.sample.binding.xsitype.$type_indehiscentDryFruitType;
 
 public class AnyExample
 {
@@ -19,61 +19,61 @@ public class AnyExample
 
 	public Binding runExample()
 	{
-		SimpleFruit strawberry = new SimpleFruit();
-		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));
-		strawberry.setSimpleSweetAttr(new SimpleFruit.SimpleSweetAttr(true));
+		simple_fruit strawberry = new simple_fruit();
+		strawberry.add_name$(new simple_fruit._name$("strawberry"));
+		strawberry.add_sweet$(new simple_fruit._sweet$(true));
 
-		SimpleFruit jackfruit = new SimpleFruit();
-		jackfruit.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("jackfruit"));
-		jackfruit.setSimpleSweetAttr(new SimpleFruit.SimpleSweetAttr(false));
-		jackfruit.setSimpleDryAttr(new SimpleFruit.SimpleDryAttr(false));
+		simple_fruit jackfruit = new simple_fruit();
+		jackfruit.add_name$(new simple_fruit._name$("jackfruit"));
+		jackfruit.add_sweet$(new simple_fruit._sweet$(false));
+		jackfruit.add_dry$(new simple_fruit._dry$(false));
 
-		SimpleFruitBasket.SimpleFruits SimpleFruits = new SimpleFruitBasket.SimpleFruits();
-		SimpleFruits.addSimpleFruit(strawberry);
-		SimpleFruits.addSimpleFruit(jackfruit);
+		simple_fruitBasket._fruits simple_fruits = new simple_fruitBasket._fruits();
+		simple_fruits.addsimple_fruit(strawberry);
+		simple_fruits.addsimple_fruit(jackfruit);
 
-		EnumsColoredFruitBasket coloredBasket = new EnumsColoredFruitBasket();
-		coloredBasket.setEnumsColorAttr(new EnumsColorAttr(EnumsColorAttr.BLUE));
-		coloredBasket.setSimpleFruits(SimpleFruits);
+		enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+		coloredBasket.addenums_color$(new enums_color$(enums_color$.BLUE));
+		coloredBasket.add_fruits(simple_fruits);
 
-		ITypeFleshyFruitType berry = new ITypeFleshyFruitType()
+		$type_fleshyFruitType berry = new $type_fleshyFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
-				return new SimpleFruit();
+				return new simple_fruit();
 			}
 		};
-		berry.setTypeNameAttr(new ITypeFleshyFruitType.TypeNameAttr(ITypeFleshyFruitType.TypeNameAttr.BERRY));
-		berry.setTypePericarpAttr(new ITypeFleshyFruitType.TypePericarpAttr(ITypeFleshyFruitType.TypePericarpAttr.SOFT));
+		berry.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
+		berry.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
 
 		// Again, instantiate a nameless element.GenericBasket
-		ITypeIndehiscentDryFruitType grain = new ITypeIndehiscentDryFruitType()
+		$type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
-				return new SimpleFruit();
+				return new simple_fruit();
 //				return new SimpleSpecialFruit();
 			}
 		};
-		grain.setTypeNameAttr(new ITypeIndehiscentDryFruitType.TypeNameAttr(ITypeIndehiscentDryFruitType.TypeNameAttr.GRAIN));
+		grain.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
 
 		// Again, instantiate a nameless element.
-		ITypeIndehiscentDryFruitType nut = new ITypeIndehiscentDryFruitType()
+		$type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType()
 		{
-			protected ISimpleFruitType inherits()
+			protected $simple_fruitType inherits()
 			{
-				return new SimpleFruit();
+				return new simple_fruit();
 			}
 		};
-		nut.setTypeNameAttr(new ITypeIndehiscentDryFruitType.TypeNameAttr(ITypeIndehiscentDryFruitType.TypeNameAttr.NUT));
-		nut.setTypeDryAttr(new ITypeIndehiscentDryFruitType.TypeDryAttr(ITypeIndehiscentDryFruitType.TypeDryAttr.TRUE));
-//		nut.setDryAttr(new ITypeSimpleFruitType.DryAttr(false));
+		nut.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
+		nut.add_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+//		nut.setDryAttr(new ITypesimple_fruitType.DryAttr(false));
 
-		AnyTrash trash = new AnyTrash();
-		trash.addANY(coloredBasket);
-		trash.addANY(berry);
-		trash.addANY(grain);
-		trash.addANY(nut);
+		any_trash trash = new any_trash();
+		trash.addAny(coloredBasket);
+		trash.addAny(berry);
+		trash.addAny(grain);
+		trash.addAny(nut);
 
 		// Now verify the integrity of the code representing this XML structure.
 		return trash;

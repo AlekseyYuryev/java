@@ -14,13 +14,14 @@ import org.safris.commons.xml.NamespaceBinding;
 public abstract class AbstractBinding implements Cloneable
 {
 	protected static final QName XSI_TYPE = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
+	protected static final QName XSI_NIL = new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "xsi");
 	protected static final QName XMLNS = new QName("http://www.w3.org/2000/xmlns/", "xmlns");
 	protected static final QName XML = new QName("http://www.w3.org/XML/1998/namespace", "xml");
 
 	private static final Map<QName,Class<? extends Binding>> elementBindings = new HashMap<QName,Class<? extends Binding>>();
 	private static final Map<QName,Class<? extends Binding>> typeBindings = new HashMap<QName,Class<? extends Binding>>();
 
-	protected static void _registerSchemaLocation(String namespaceURI, Class className, String schemaReference)
+	protected static void _$$registerSchemaLocation(String namespaceURI, Class className, String schemaReference)
 	{
 		final String simpleName = className.getName().replace('.', '/') + ".class";
 		final Resource resource = Resources.getResource(simpleName);
@@ -38,7 +39,7 @@ public abstract class AbstractBinding implements Cloneable
 		}
 	}
 
-	protected static void _registerElement(QName name, Class<? extends Binding> cls)
+	protected static void _$$registerElement(QName name, Class<? extends Binding> cls)
 	{
 		elementBindings.put(name, cls);
 	}
@@ -66,7 +67,7 @@ public abstract class AbstractBinding implements Cloneable
 		return elementBindings.get(name);
 	}
 
-	protected static void _registerType(QName name, Class<? extends Binding> cls)
+	protected static void _$$registerType(QName name, Class<? extends Binding> cls)
 	{
 		typeBindings.put(name, cls);
 	}
@@ -81,9 +82,9 @@ public abstract class AbstractBinding implements Cloneable
 		return typeBindings.get(name);
 	}
 
-	protected static Object _getTEXT(Binding<SimpleType> binding)
+	protected static Object _$$getTEXT(Binding<SimpleType> binding)
 	{
-		return binding.getTEXT();
+		return binding.getText();
 	}
 
 	protected static QName stringToQName(java.lang.String name)

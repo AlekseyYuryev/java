@@ -8,6 +8,7 @@
 			<schema>${basedir}/src/test/resources/xsd/XMLSchema.xsd</schema>
 		-->
 		<schema>${basedir}/src/test/resources/xsd/unit/id.xsd</schema>
+		<schema>${basedir}/src/test/resources/xsd/unit/order.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/union.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/substitutionGroup.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/list.xsd</schema>

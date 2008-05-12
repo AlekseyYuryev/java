@@ -1,24 +1,24 @@
 package org.safris.xml.generator.compiler.runtime;
 
-import java.util.Collection;
+import java.util.List;
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
 
-public class ElementAudit<T>
+public final class ElementAudit<T extends Binding>
 {
-	protected static final QName XSI_NIL = new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "xsi");
-
-	private final T _default;
+	private final Binding parent;
+	private final List<T> _default;
 	private final QName name;
 	private final QName typeName;
-	private final boolean nillable;
 	private final boolean qualified;
+	private final boolean nillable;
 	private final int minOccurs;
 	private final int maxOccurs;
-	private T value = null;
+	private SpecificElementList<T> value = null;
 
-	public ElementAudit(T _default, QName name, QName typeName, boolean qualified, boolean nillable, int minOccurs, int maxOccurs)
+	public ElementAudit(Binding parent, List<T> _default, QName name, QName typeName, boolean qualified, boolean nillable, int minOccurs, int maxOccurs)
 	{
+		this.parent = parent;
 		this._default = _default;
 		this.name = name;
 		this.typeName = typeName;
@@ -28,12 +28,17 @@ public class ElementAudit<T>
 		this.maxOccurs = maxOccurs;
 	}
 
+	protected Binding getParent()
+	{
+		return parent;
+	}
+
 	public boolean isQualified()
 	{
 		return qualified;
 	}
 
-	public T getDefault()
+	public List<T> getDefault()
 	{
 		return _default;
 	}
@@ -63,76 +68,60 @@ public class ElementAudit<T>
 		return maxOccurs;
 	}
 
-	public void setValue(T value)
+	public boolean addElement(T element)
 	{
-		this.value = value;
+		if(this.value == null)
+			this.value = new SpecificElementList<T>(this, 2);
+
+		return this.value.add(element, false);
 	}
 
-	public T getValue()
+	public SpecificElementList<T> getElements()
 	{
 		return value;
 	}
 
-	public void marshal(Element parent) throws MarshalException
+	private void marshalNil(Element element, Element parent)
 	{
-		Object value = getValue();
+		// NOTE: This makes the assumption that the xmlns:xsi will be present if
+		// NOTE: xsi:nil is present, saving us a hasAttributeNS() call.
+		if(!element.hasAttributeNS(Binding.XSI_NIL.getNamespaceURI(), Binding.XSI_NIL.getLocalPart()))
+		{
+			element.setAttributeNS(Binding.XSI_NIL.getNamespaceURI(), Binding.XSI_NIL.getPrefix() + ":" + Binding.XSI_NIL.getLocalPart(), "true");
+			if(!parent.getOwnerDocument().getDocumentElement().hasAttributeNS(Binding.XMLNS.getNamespaceURI(), Binding.XSI_NIL.getPrefix()))
+				parent.getOwnerDocument().getDocumentElement().setAttributeNS(Binding.XMLNS.getNamespaceURI(), Binding.XMLNS.getLocalPart() + ":" + Binding.XSI_NIL.getPrefix(), Binding.XSI_NIL.getNamespaceURI());
+		}
+	}
+
+	protected void marshal(Element parent, T element) throws MarshalException
+	{
 		if(value == null)
-		{
-			if(getDefault() == null)
-				return;
+			return;
 
-			if(getMinOccurs() == 0)
-				return;
+		QName name = getName();
+		if(name == null)
+			name = element._$$getName();
 
-			value = getDefault();
-		}
+		final Element node = element.marshal(parent, name, getTypeName());
+		if(!element._$$hasElements() && isNillable())
+			marshalNil(node, parent);
 
-		if(value == null && getName() != null && isNillable())
-		{
-			Element element = parent.getOwnerDocument().createElementNS(getName().getNamespaceURI(), getName().getLocalPart());
-			element.setAttributeNS(Binding.XML.getNamespaceURI(), XSI_NIL.getPrefix() + ":" + XSI_NIL.getLocalPart(), "true");
-			if(isQualified())
-				element.setPrefix(Binding._getPrefix(parent, getName()));
+		element._$$marshalElements(node);
+		if(!isQualified())
+			node.setPrefix(null);
 
-			parent.appendChild(element);
-		}
-		else if(value instanceof Collection)
-		{
-			for(Object object : (Collection)value)
-			{
-				Binding binding = (Binding)object;
-				QName name = getName();
-				if(name == null)
-					name = binding._getName();
-
-				Element element = binding.marshal(parent, name, getTypeName());
-				if(!isQualified())
-					element.setPrefix(null);
-
-				parent.appendChild(element);
-			}
-		}
-		else
-		{
-			Element element = ((Binding)value).marshal(parent, getName(), getTypeName());
-			if(!isQualified())
-				element.setPrefix(null);
-
-			parent.appendChild(element);
-		}
+		parent.appendChild(node);
 	}
 
 	public boolean equals(Object obj)
 	{
-		if(obj == null)
-		{
-			if(value == null)
-				return true;
+		if(obj == this)
+			return true;
 
+		if(!(obj instanceof ElementAudit))
 			return false;
-		}
 
-		return obj.equals(value);
+		return value != null ? value.equals(((ElementAudit)obj).value) : ((ElementAudit)obj).value == null;
 	}
 
 	public int hashCode()

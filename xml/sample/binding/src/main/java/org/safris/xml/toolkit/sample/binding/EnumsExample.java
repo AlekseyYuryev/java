@@ -1,9 +1,9 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColorAttr;
-import org.safris.xml.toolkit.sample.binding.enums.EnumsColoredFruitBasket;
-import org.safris.xml.toolkit.sample.binding.simple.SimpleFruit;
+import org.safris.xml.toolkit.sample.binding.enums.enums_color$;
+import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
+import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
 
 public class EnumsExample
 {
@@ -14,22 +14,22 @@ public class EnumsExample
 
 	public Binding runExample()
 	{
-		SimpleFruit strawberry = new SimpleFruit();
-		strawberry.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("strawberry"));
-		strawberry.setSimpleSweetAttr(new SimpleFruit.SimpleSweetAttr(true));
+		simple_fruit strawberry = new simple_fruit();
+		strawberry.add_name$(new simple_fruit._name$("strawberry"));
+		strawberry.add_sweet$(new simple_fruit._sweet$(true));
 
-		SimpleFruit jackfruit = new SimpleFruit();
-		jackfruit.setSimpleNameAttr(new SimpleFruit.SimpleNameAttr("jackfruit"));
-		jackfruit.setSimpleSweetAttr(new SimpleFruit.SimpleSweetAttr(false));
-		jackfruit.setSimpleDryAttr(new SimpleFruit.SimpleDryAttr(false));
+		simple_fruit jackfruit = new simple_fruit();
+		jackfruit.add_name$(new simple_fruit._name$("jackfruit"));
+		jackfruit.add_sweet$(new simple_fruit._sweet$(false));
+		jackfruit.add_dry$(new simple_fruit._dry$(false));
 
-		EnumsColoredFruitBasket.SimpleFruits simpleFruits = new EnumsColoredFruitBasket.SimpleFruits();
-		simpleFruits.addSimpleFruit(strawberry);
-		simpleFruits.addSimpleFruit(jackfruit);
+		enums_coloredFruitBasket._fruits simple_fruits = new enums_coloredFruitBasket._fruits();
+		simple_fruits.addsimple_fruit(strawberry);
+		simple_fruits.addsimple_fruit(jackfruit);
 
-		EnumsColoredFruitBasket coloredBasket = new EnumsColoredFruitBasket();
-		coloredBasket.setEnumsColorAttr(new EnumsColorAttr(EnumsColorAttr.BLUE));
-		coloredBasket.setSimpleFruits(simpleFruits);
+		enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+		coloredBasket.addenums_color$(new enums_color$(enums_color$.BLUE));
+		coloredBasket.add_fruits(simple_fruits);
 
 		// Now verify the integrity of the code representing this XML structure.
 		return coloredBasket;

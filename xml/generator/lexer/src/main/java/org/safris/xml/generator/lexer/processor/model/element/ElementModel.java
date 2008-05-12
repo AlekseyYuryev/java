@@ -3,6 +3,9 @@ package org.safris.xml.generator.lexer.processor.model.element;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.namespace.QName;
+import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -11,11 +14,10 @@ import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements MultiplicableModel, ReferableModel<ElementModel>, RestrictableModel<ElementModel>
+public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements Formable<Model>, MultiplicableModel, ReferableModel<ElementModel>, RestrictableModel<ElementModel>
 {
 	private Boolean _abstract = false;
 	private QName _default = null;
@@ -25,7 +27,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 	private Boolean nillable = false;
 	private ElementModel ref = null;
 	private UniqueQName substitutionGroup = null;
-	private Form elementFormDefault = null;
+	private Form formDefault = null;
 	private AliasModel restrictionOwner = null;
 	private ElementModel restriction = null;
 
@@ -114,14 +116,14 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements M
 		return super.getSuperType();
 	}
 
-	public final void setElementFormDefault(Form elementFormDefault)
+	public final void setFormDefault(Form formDefault)
 	{
-		this.elementFormDefault = elementFormDefault;
+		this.formDefault = formDefault;
 	}
 
-	public final Form getElementFormDefault()
+	public final Form getFormDefault()
 	{
-		return elementFormDefault;
+		return formDefault;
 	}
 
 	public final QName getDefault()

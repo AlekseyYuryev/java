@@ -213,7 +213,8 @@ public class SchemaReference implements PipelineEntity<SchemaReference>
 				}
 				catch(FileNotFoundException e)
 				{
-					throw new LexerError(e.getMessage());
+					logger.info("File not found: " + location.toExternalForm());
+					System.exit(1);
 				}
 				catch(IOException e)
 				{

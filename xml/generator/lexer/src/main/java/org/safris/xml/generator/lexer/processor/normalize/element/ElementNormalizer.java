@@ -47,7 +47,7 @@ public class ElementNormalizer extends Normalizer<ElementModel>
 			while(!((schema = schema.getParent()) instanceof SchemaModel) && schema != null);
 
 		if(schema != null)
-			model.setElementFormDefault(((SchemaModel)schema).getElementFormDefault());
+			model.setFormDefault(((SchemaModel)schema).getElementFormDefault());
 
 		if(model.getRef() instanceof ElementModel.Reference)
 		{

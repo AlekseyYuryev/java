@@ -11,15 +11,16 @@ import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.EnumerablePlan;
 import org.safris.xml.generator.compiler.processor.plan.ExtensiblePlan;
+import org.safris.xml.generator.compiler.processor.plan.NamedPlan;
 import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.EnumerationPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.PatternPlan;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan
 {
@@ -129,9 +130,13 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	private boolean list;
 	private String baseNonXSTypeClassName = null;
 
+	private UniqueQName superTypeName = null;
 	private UniqueQName baseNonXSTypeName = null;
 	private UniqueQName baseXSTypeName = null;
 	private UniqueQName baseXSItemTypeName = null;
+
+	private boolean parsedSuperType = false;
+	private NamedPlan superType = null;
 
 	public SimpleTypePlan(T model, Plan parent)
 	{
@@ -154,6 +159,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 
 		baseNonXSTypeClassName = JavaBinding.getClassName(baseNonXSType);
 
+		superTypeName = model.getSuperType().getName();
 		superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);
 		superClassNameWithType = superClassNameWithoutType + "<T>";
 
@@ -255,5 +261,18 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	public String getSuperClassNameWithType()
 	{
 		return superClassNameWithType;
+	}
+
+	public Plan getSuperType()
+	{
+		if(parsedSuperType)
+			return superType;
+
+		superType = parseNamedPlan(superTypeName);
+		if(superType == this)
+			return superType = null;
+
+		parsedSuperType = true;
+		return superType;
 	}
 }

@@ -10,10 +10,10 @@ import org.xml.sax.InputSource;
 
 public class InvoiceUpdater
 {
-	private static PvInvoice addItem(File invoiceFile, PvInvoice.PvBilledItems.PvItem item) throws Exception
+	private static pv_invoice addItem(File invoiceFile, pv_invoice._billedItems._item item) throws Exception
 	{
-		final PvInvoice invoice = (PvInvoice)Bindings.parse(new InputSource(new FileInputStream(invoiceFile)));
-		invoice.getPvBilledItems().addPvItem(item);
+		final pv_invoice invoice = (pv_invoice)Bindings.parse(new InputSource(new FileInputStream(invoiceFile)));
+		invoice.get_billedItems().get(0).add_item(item);
 		return invoice;
 	}
 
@@ -24,13 +24,13 @@ public class InvoiceUpdater
 
 		final File file = new File(args[0]);
 
-		final PvInvoice.PvBilledItems.PvItem item = new PvInvoice.PvBilledItems.PvItem();
-		item.setPvDescription(new PvInvoice.PvBilledItems.PvItem.PvDescription(args[1]));
-		item.setPvCode(new PvInvoice.PvBilledItems.PvItem.PvCode(Integer.parseInt(args[2])));
-		item.setPvQuantity(new PvInvoice.PvBilledItems.PvItem.PvQuantity(Integer.parseInt(args[3])));
-		item.setPvPrice(new PvInvoice.PvBilledItems.PvItem.PvPrice(new Decimal(Float.parseFloat(args[4]))));
+		final pv_invoice._billedItems._item item = new pv_invoice._billedItems._item();
+		item.add_description(new pv_invoice._billedItems._item._description(args[1]));
+		item.add_code(new pv_invoice._billedItems._item._code(Integer.parseInt(args[2])));
+		item.add_quantity(new pv_invoice._billedItems._item._quantity(Integer.parseInt(args[3])));
+		item.add_price(new pv_invoice._billedItems._item._price(new Decimal(Float.parseFloat(args[4]))));
 
-		final PvInvoice invoice = addItem(file, item);
+		final pv_invoice invoice = addItem(file, item);
 		DOMs.domToString(invoice.marshal(), DOMStyle.INDENT);
 	}
 

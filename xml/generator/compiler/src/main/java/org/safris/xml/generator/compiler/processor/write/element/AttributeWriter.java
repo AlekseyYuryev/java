@@ -9,6 +9,7 @@ import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
+import org.w3c.dom.Element;
 
 public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 {
@@ -27,7 +28,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		if(plan.isRestriction())
 			writer.write("return super.get" + plan.getDeclarationRestrictionSimpleName() + "();\n");
 		else
-			writer.write("return " + plan.getInstanceName() + ".getValue();\n");
+			writer.write("return " + plan.getInstanceName() + ".getAttribute();\n");
 		writer.write("}\n");
 	}
 
@@ -40,18 +41,18 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			writer.write(" * Use of this method WILL CAUSE an IllegalArgumentException!\n");
 			writer.write(" * Please correct your argument to use the alternate method signature.\n");
 			writer.write(" */\n");
-			writer.write("public void set" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getInstanceName() + ")\n");
+			writer.write("public void add" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getInstanceName() + ")\n");
 			writer.write("{\n");
 			writer.write("throw new " + IllegalArgumentException.class.getName() + "(\"This method has been restricted by a more specific signature. Please correct your argument to use the alternate method signature.\");\n");
 			writer.write("}\n");
 		}
 
-		writer.write("public void set" + plan.getClassSimpleName() + "(" + plan.getThisClassNameWithType(parent) + " " + plan.getInstanceName() + ")\n");
+		writer.write("public void add" + plan.getClassSimpleName() + "(" + plan.getThisClassNameWithType(parent) + " " + plan.getInstanceName() + ")\n");
 		writer.write("{\n");
 		if(plan.isRestriction())
-			writer.write("super.set" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getInstanceName() + ");\n");
+			writer.write("super.add" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getInstanceName() + ");\n");
 		else
-			writer.write("this." + plan.getInstanceName() + ".setValue(" + plan.getInstanceName() + ");\n");
+			writer.write("this." + plan.getInstanceName() + ".setAttribute(" + plan.getInstanceName() + ");\n");
 		writer.write("}\n");
 	}
 
@@ -64,31 +65,31 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 
 			if(Form.QUALIFIED.equals(plan.getFormDefault()))
 			{
-				writer.write("if(!element.hasAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
+				writer.write("if(!node.hasAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
 				writer.write("{\n");
 				if(XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
-					writer.write("element.setAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getPrefix() + "\" + \":" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
+					writer.write("node.setAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getPrefix() + "\" + \":" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
 				else
-					writer.write("element.setAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getPrefix() + "\" + \":\" + \"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
+					writer.write("node.setAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getPrefix() + "\" + \":\" + \"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
 				writer.write("}\n");
 			}
 			else
 			{
-				writer.write("if(!element.hasAttribute(\"" + plan.getName().getLocalPart() + "\"))\n");
+				writer.write("if(!node.hasAttribute(\"" + plan.getName().getLocalPart() + "\"))\n");
 				if(XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 				{
 					writer.write("{\n");
-					writer.write("element.setAttribute(\"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getPrefix() + "\" + \":" + plan.getDefault().getLocalPart() + "\");\n");
+					writer.write("node.setAttribute(\"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getPrefix() + "\" + \":" + plan.getDefault().getLocalPart() + "\");\n");
 					writer.write("}\n");
 				}
 				else
-					writer.write("element.setAttribute(\"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
+					writer.write("node.setAttribute(\"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
 			}
 
 			return;
 		}
 
-		writer.write(plan.getInstanceName() + ".marshal(element);\n");
+		writer.write(plan.getInstanceName() + ".marshal(node);\n");
 	}
 
 	protected void appendParse(StringWriter writer, AttributePlan plan, Plan parent)
@@ -99,10 +100,10 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		if(Form.QUALIFIED.equals(plan.getFormDefault()))
 			writer.write("else if(\"" + plan.getName().getNamespaceURI() + "\".equals(attribute.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 		else
-			writer.write("else if(\"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
+			writer.write("else if(attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 
 		writer.write("{\n");
-		writer.write("this." + plan.getInstanceName() + ".setValue((" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._parseAttr(" + plan.getClassName(parent) + ".class, element, attribute));\n");
+		writer.write("this." + plan.getInstanceName() + ".setAttribute((" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getParentNode(), attribute));\n");
 		writer.write("}\n");
 	}
 
@@ -120,7 +121,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			return;
 
 		writer.write("if(" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
-		writer.write("return _failEquals();\n");
+		writer.write("return _$$failEquals();\n");
 	}
 
 	protected void appendHashCode(StringWriter writer, AttributePlan plan, Plan parent)
@@ -152,12 +153,12 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		{
 			writer.write("static\n");
 			writer.write("{\n");
-			writer.write("_registerSchemaLocation(\"" + plan.getName().getNamespaceURI() + "\", " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+			writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
 			writer.write("}\n");
 		}
 
 		// ID LOOKUP
-		getIdLookup(writer, plan, parent);
+		writeIdLookup(writer, plan, parent);
 
 		// ENUMERATIONS CONSTRUCTOR
 		if(plan.hasEnumerations())
@@ -197,7 +198,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		writer.write("}\n");
 
 		// GETNAME
-		writer.write("protected " + QName.class.getName() + " _getName()\n");
+		writer.write("protected " + QName.class.getName() + " _$$getName()\n");
 		writer.write("{\n");
 		writer.write("return NAME;\n");
 		writer.write("}\n");
@@ -206,25 +207,22 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		appendPattern(writer, plan.getPatterns());
 
 		// GETVALUE
-		writer.write("public " + plan.getNativeItemClassNameInterface() + " getValue()\n");
+		writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
 		writer.write("{\n");
 		if(plan.isRestriction())
-			writer.write("return super.getValue();\n");
+			writer.write("return super.getText();\n");
 		else if(!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
-			writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getTEXT();\n");
+			writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getText();\n");
 		else
-			writer.write("return super.getTEXT();\n");
+			writer.write("return super.getText();\n");
 		writer.write("}\n");
 
 		// SETVALUE
 		if(!plan.hasEnumerations())
 		{
-			writer.write("public void setValue(" + plan.getNativeItemClassNameInterface() + " value)\n");
+			writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
 			writer.write("{\n");
-			if(plan.isRestriction())
-				writer.write("super.setValue(value);\n");
-			else
-				writer.write("super.setTEXT(value);\n");
+			writer.write("super.setText(text);\n");
 			writer.write("}\n");
 		}
 

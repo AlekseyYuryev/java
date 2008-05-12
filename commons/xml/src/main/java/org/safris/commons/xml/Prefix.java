@@ -16,6 +16,8 @@ public final class Prefix
 		return value;
 	}
 
+	public static final Prefix EMPTY = new Prefix("");
+
 	private final String prefix;
 	private final String title;
 	private final String lower;
@@ -58,13 +60,13 @@ public final class Prefix
 		return prefix;
 	}
 
-	public String toStringTitleCase()
-	{
-		return title;
-	}
-
-	public String toStringLowerCase()
-	{
-		return lower;
-	}
+//	public String toStringTitleCase()
+//	{
+//		return title;
+//	}
+//
+//	public String toStringLowerCase()
+//	{
+//		return lower;
+//	}
 }

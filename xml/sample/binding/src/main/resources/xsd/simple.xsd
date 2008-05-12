@@ -24,7 +24,7 @@
 		<xs:annotation>
 			<xs:documentation>Declaration of complexType that represents a type of "basket" that may contain "fruit".</xs:documentation>
 		</xs:annotation>
-		<xs:all minOccurs="0">
+		<xs:sequence minOccurs="0">
 			<xs:element name="fruits">
 				<xs:annotation>
 					<xs:documentation>An example of a ref element.</xs:documentation>
@@ -35,7 +35,7 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-		</xs:all>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:element name="fruitBasket" type="simple:fruitBasketType">

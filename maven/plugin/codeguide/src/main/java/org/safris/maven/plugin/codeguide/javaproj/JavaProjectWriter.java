@@ -1,7 +1,7 @@
 package org.safris.maven.plugin.codeguide.javaproj;
 
-import com.omnicore.javaproject3.JpBuildProperties;
-import com.omnicore.javaproject3.JpJavaProject3;
+import com.omnicore.javaproject3.jp_buildProperties;
+import com.omnicore.javaproject3.jp_javaProject3;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,139 +9,139 @@ import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
-import org.safris.ide.common.startingpoints.SpStartingPoints;
+import org.safris.ide.common.startingpoints.sp_startingPoints;
 
 public class JavaProjectWriter
 {
 	public static void write(JavaProject javaProject) throws XMLException, IOException
 	{
-		final JpJavaProject3 javaProject3 = createJavaProject(javaProject);
+		final jp_javaProject3 javaProject3 = createJavaProject(javaProject);
 		final String xml = DOMs.domToString(javaProject3.marshal(), DOMStyle.INDENT, DOMStyle.IGNORE_NAMESPACES);
 		final FileOutputStream out = new FileOutputStream(new File(javaProject.getDir(), javaProject.getShortName() + ".javaproj"));
 		out.write(xml.getBytes());
 		out.close();
 	}
 
-	private static JpJavaProject3 createJavaProject(JavaProject javaProject)
+	private static jp_javaProject3 createJavaProject(JavaProject javaProject)
 	{
-		final JpJavaProject3 javaProject3 = new JpJavaProject3();
-		javaProject3.setJpBuildProperties(createBuildProperties());
-		javaProject3.setJpGuid(new JpJavaProject3.JpGuid("{" + javaProject.getUUID() + "}"));
-		javaProject3.setJpIncludedFiles(createIncludedFiles(javaProject));
-		javaProject3.setJpName(new JpJavaProject3.JpName(javaProject.getName()));
-		javaProject3.setJpProjectReferences(createProjectReferences(javaProject));
-		javaProject3.setJpReferences(createReferences(javaProject));
-		javaProject3.setJpStartingPoints(createStartingPoints(javaProject));
+		final jp_javaProject3 javaProject3 = new jp_javaProject3();
+		javaProject3.add_buildProperties(createBuildProperties());
+		javaProject3.add_guid(new jp_javaProject3._guid("{" + javaProject.getUUID() + "}"));
+		javaProject3.add_includedFiles(createIncludedFiles(javaProject));
+		javaProject3.add_name(new jp_javaProject3._name(javaProject.getName()));
+		javaProject3.add_projectReferences(createProjectReferences(javaProject));
+		javaProject3.add_references(createReferences(javaProject));
+		javaProject3.add_startingPoints(createStartingPoints(javaProject));
 
 		return javaProject3;
 	}
 
-	private static JpJavaProject3.JpBuildProperties createBuildProperties()
+	private static jp_javaProject3._buildProperties createBuildProperties()
 	{
-		final JpJavaProject3.JpBuildProperties buildProperties = new JpJavaProject3.JpBuildProperties();
-		buildProperties.addJpEntry(createBuildPropertiesEntry("Release", false));
-		buildProperties.addJpEntry(createBuildPropertiesEntry("Debug", true));
+		final jp_javaProject3._buildProperties buildProperties = new jp_javaProject3._buildProperties();
+		buildProperties.add_entry(createBuildPropertiesEntry("Release", false));
+		buildProperties.add_entry(createBuildPropertiesEntry("Debug", true));
 
 		return buildProperties;
 	}
 
-	private static JpJavaProject3.JpBuildProperties.JpEntry createBuildPropertiesEntry(String name, boolean backInTimeDebugging)
+	private static jp_javaProject3._buildProperties._entry createBuildPropertiesEntry(String name, boolean backInTimeDebugging)
 	{
-		final JpBuildProperties buildProperties = new JpBuildProperties();
-		buildProperties.setJpBackInTimeDebugging(new JpBuildProperties.JpBackInTimeDebugging(backInTimeDebugging));
-		buildProperties.setJpGenerateLocalVariableTables(new JpBuildProperties.JpGenerateLocalVariableTables(true));
-		buildProperties.setJpObfuscateFilePrivateMembers(new JpBuildProperties.JpObfuscateFilePrivateMembers(false));
-		buildProperties.setJpRelativeDestinationPath(new JpBuildProperties.JpRelativeDestinationPath("build\\" + name));
-		buildProperties.setJpTargetVM(new JpBuildProperties.JpTargetVM("1.5"));
-		buildProperties.setJpUseJavac(new JpBuildProperties.JpUseJavac(false));
+		final jp_buildProperties buildProperties = new jp_buildProperties();
+		buildProperties.add_backInTimeDebugging(new jp_buildProperties._backInTimeDebugging(backInTimeDebugging));
+		buildProperties.add_generateLocalVariableTables(new jp_buildProperties._generateLocalVariableTables(true));
+		buildProperties.add_obfuscateFilePrivateMembers(new jp_buildProperties._obfuscateFilePrivateMembers(false));
+		buildProperties.add_relativeDestinationPath(new jp_buildProperties._relativeDestinationPath("build\\" + name));
+		buildProperties.add_targetVM(new jp_buildProperties._targetVM("1.5"));
+		buildProperties.add_useJavac(new jp_buildProperties._useJavac(false));
 
-		final JpJavaProject3.JpBuildProperties.JpEntry entry = new JpJavaProject3.JpBuildProperties.JpEntry();
-		entry.setJpString(new JpJavaProject3.JpBuildProperties.JpEntry.JpString(name));
-		entry.setJpBuildProperties(buildProperties);
+		final jp_javaProject3._buildProperties._entry entry = new jp_javaProject3._buildProperties._entry();
+		entry.add_string(new jp_javaProject3._buildProperties._entry._string(name));
+		entry.addjp_buildProperties(buildProperties);
 
 		return entry;
 	}
 
-	private static JpJavaProject3.JpIncludedFiles createIncludedFiles(JavaProject javaProject)
+	private static jp_javaProject3._includedFiles createIncludedFiles(JavaProject javaProject)
 	{
 		// Add the source files
-		final JpJavaProject3.JpIncludedFiles includedFiles = new JpJavaProject3.JpIncludedFiles();
-		final JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction compileAction = new JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction(JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction.COMPILE);
+		final jp_javaProject3._includedFiles includedFiles = new jp_javaProject3._includedFiles();
+		final jp_javaProject3._includedFiles._javaFile2._buildAction compileAction = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.COMPILE);
 		for(File sourceFile : javaProject.getSourceFiles())
-			includedFiles.addJpJavaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), sourceFile), compileAction));
+			includedFiles.add_javaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), sourceFile), compileAction));
 
 		// Add the resource files
-		final JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction noneAction = new JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction(JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction.NONE);
+		final jp_javaProject3._includedFiles._javaFile2._buildAction noneAction = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.NONE);
 		for(File resourceFile : javaProject.getResourceFiles())
-			includedFiles.addJpJavaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), resourceFile), noneAction));
+			includedFiles.add_javaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), resourceFile), noneAction));
 
 		return includedFiles;
 	}
 
-	private static JpJavaProject3.JpIncludedFiles.JpJavaFile2 createJavaFile2(String file, JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpBuildAction buildAction)
+	private static jp_javaProject3._includedFiles._javaFile2 createJavaFile2(String file, jp_javaProject3._includedFiles._javaFile2._buildAction buildAction)
 	{
-		final JpJavaProject3.JpIncludedFiles.JpJavaFile2 javaFile2 = new JpJavaProject3.JpIncludedFiles.JpJavaFile2();
-		javaFile2.setJpBuildAction(buildAction);
-		javaFile2.setJpIncPathSpec(new JpJavaProject3.JpIncludedFiles.JpJavaFile2.JpIncPathSpec(file));
+		final jp_javaProject3._includedFiles._javaFile2 javaFile2 = new jp_javaProject3._includedFiles._javaFile2();
+		javaFile2.add_buildAction(buildAction);
+		javaFile2.add_incPathSpec(new jp_javaProject3._includedFiles._javaFile2._incPathSpec(file));
 
 		return javaFile2;
 	}
 
-	private static JpJavaProject3.JpProjectReferences createProjectReferences(JavaProject javaProject)
+	private static jp_javaProject3._projectReferences createProjectReferences(JavaProject javaProject)
 	{
-		final JpJavaProject3.JpProjectReferences projectReferences = new JpJavaProject3.JpProjectReferences();
+		final jp_javaProject3._projectReferences projectReferences = new jp_javaProject3._projectReferences();
 		if(javaProject.getProjectReferences() != null && javaProject.getProjectReferences().size() != 0)
 			for(JavaProject projectReference : javaProject.getProjectReferences())
-				projectReferences.addJpProjectReference(createProjectReference(projectReference));
+				projectReferences.add_projectReference(createProjectReference(projectReference));
 
 		return projectReferences;
 	}
 
-	private static JpJavaProject3.JpProjectReferences.JpProjectReference createProjectReference(JavaProject javaProject)
+	private static jp_javaProject3._projectReferences._projectReference createProjectReference(JavaProject javaProject)
 	{
-		final JpJavaProject3.JpProjectReferences.JpProjectReference projectReference = new JpJavaProject3.JpProjectReferences.JpProjectReference();
-		projectReference.setJpName(new JpJavaProject3.JpProjectReferences.JpProjectReference.JpName(javaProject.getName()));
-		projectReference.setJpPackageGuid(new JpJavaProject3.JpProjectReferences.JpProjectReference.JpPackageGuid("{" + javaProject.getSolution().getUUID() + "}"));
-		projectReference.setJpProjectGuid(new JpJavaProject3.JpProjectReferences.JpProjectReference.JpProjectGuid("{" + javaProject.getUUID() + "}"));
+		final jp_javaProject3._projectReferences._projectReference projectReference = new jp_javaProject3._projectReferences._projectReference();
+		projectReference.add_name(new jp_javaProject3._projectReferences._projectReference._name(javaProject.getName()));
+		projectReference.add_packageGuid(new jp_javaProject3._projectReferences._projectReference._packageGuid("{" + javaProject.getSolution().getUUID() + "}"));
+		projectReference.add_projectGuid(new jp_javaProject3._projectReferences._projectReference._projectGuid("{" + javaProject.getUUID() + "}"));
 
 		return projectReference;
 	}
 
-	private static JpJavaProject3.JpReferences createReferences(JavaProject javaProject)
+	private static jp_javaProject3._references createReferences(JavaProject javaProject)
 	{
-		final JpJavaProject3.JpReferences references = new JpJavaProject3.JpReferences();
+		final jp_javaProject3._references references = new jp_javaProject3._references();
 		for(File dependency : javaProject.getClasspathReferences())
-			references.addJpClasspathReference(createClasspathReference(dependency));
+			references.add_classpathReference(createClasspathReference(dependency));
 
 		return references;
 	}
 
-	private static JpJavaProject3.JpReferences.JpClasspathReference createClasspathReference(File dependency)
+	private static jp_javaProject3._references._classpathReference createClasspathReference(File dependency)
 	{
-		final JpJavaProject3.JpReferences.JpClasspathReference reference = new JpJavaProject3.JpReferences.JpClasspathReference();
-		reference.setJpRelativePath(new JpJavaProject3.JpReferences.JpClasspathReference.JpRelativePath(dependency.getAbsolutePath()));
+		final jp_javaProject3._references._classpathReference reference = new jp_javaProject3._references._classpathReference();
+		reference.add_relativePath(new jp_javaProject3._references._classpathReference._relativePath(dependency.getAbsolutePath()));
 
 		return reference;
 	}
 
-	private static JpJavaProject3.JpStartingPoints createStartingPoints(JavaProject javaProject)
+	private static jp_javaProject3._startingPoints createStartingPoints(JavaProject javaProject)
 	{
-		final JpJavaProject3.JpStartingPoints startingPoints = new JpJavaProject3.JpStartingPoints();
+		final jp_javaProject3._startingPoints startingPoints = new jp_javaProject3._startingPoints();
 		if(javaProject.getStartingPoints() != null)
-			for(SpStartingPoints.SpStartingPoint startingPoint : javaProject.getStartingPoints())
-				startingPoints.addJpStartingPoint(createStartingPoint(startingPoint));
+			for(sp_startingPoints._startingPoint startingPoint : javaProject.getStartingPoints())
+				startingPoints.add_startingPoint(createStartingPoint(startingPoint));
 
 		return startingPoints;
 	}
 
-	private static JpJavaProject3.JpStartingPoints.JpStartingPoint createStartingPoint(SpStartingPoints.SpStartingPoint startingPoint)
+	private static jp_javaProject3._startingPoints._startingPoint createStartingPoint(sp_startingPoints._startingPoint startingPoint)
 	{
-		final JpJavaProject3.JpStartingPoints.JpStartingPoint point = new JpJavaProject3.JpStartingPoints.JpStartingPoint();
-		point.setJpCommandLineArguments(new JpJavaProject3.JpStartingPoints.JpStartingPoint.JpCommandLineArguments(startingPoint.getSpCommandLineArguments().getTEXT()));
-		point.setJpName(new JpJavaProject3.JpStartingPoints.JpStartingPoint.JpName(startingPoint.getSpName().getTEXT()));
-		point.setJpTarget(new JpJavaProject3.JpStartingPoints.JpStartingPoint.JpTarget(startingPoint.getSpTarget().getTEXT()));
-		point.setJpVmOtherOptions(new JpJavaProject3.JpStartingPoints.JpStartingPoint.JpVmOtherOptions(startingPoint.getSpVmOtherOptions().getTEXT()));
-		point.setJpWorkingDir(new JpJavaProject3.JpStartingPoints.JpStartingPoint.JpWorkingDir(startingPoint.getSpWorkingDir().getTEXT()));
+		final jp_javaProject3._startingPoints._startingPoint point = new jp_javaProject3._startingPoints._startingPoint();
+		point.add_commandLineArguments(new jp_javaProject3._startingPoints._startingPoint._commandLineArguments(startingPoint.get_commandLineArguments().get(0).getText()));
+		point.add_name(new jp_javaProject3._startingPoints._startingPoint._name(startingPoint.get_name().get(0).getText()));
+		point.add_target(new jp_javaProject3._startingPoints._startingPoint._target(startingPoint.get_target().get(0).getText()));
+		point.add_vmOtherOptions(new jp_javaProject3._startingPoints._startingPoint._vmOtherOptions(startingPoint.get_vmOtherOptions().get(0).getText()));
+		point.add_workingDir(new jp_javaProject3._startingPoints._startingPoint._workingDir(startingPoint.get_workingDir().get(0).getText()));
 
 		return point;
 	}

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 
 public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan>
 {
@@ -28,17 +28,16 @@ public final class PlanProcessor implements PipelineProcessor<GeneratorContext,M
 			final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
 			logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
-			for(Model outerModels : model.getChildren())
-				disclose(outerModels, root, plans, pipelineContext, directory);
+			for(Model child : model.getChildren())
+				disclose(child, root, plans, pipelineContext, directory);
 		}
 
 		return plans;
 	}
 
-	protected final Collection<Model> disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory)
+	protected final void disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory)
 	{
-		final Plan planInstance = (Plan)directory.getEntity(model, parent);
-		plans.add(planInstance);
-		return model.getChildren();
+		final Plan plan = (Plan)directory.getEntity(model, parent);
+		plans.add(plan);
 	}
 }

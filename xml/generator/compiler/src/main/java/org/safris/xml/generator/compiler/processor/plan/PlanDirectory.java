@@ -155,12 +155,12 @@ public class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,P
 			throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
 		final Class<? extends Plan> parserClass = classes.get(entity.getClass());
-		Plan planInstance = null;
+		Plan plan = null;
 		try
 		{
 			final Constructor<? extends Plan> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
-			planInstance = constructor.newInstance(entity, parent);
-			return planInstance;
+			plan = constructor.newInstance(entity, parent);
+			return plan;
 		}
 		catch(Exception e)
 		{

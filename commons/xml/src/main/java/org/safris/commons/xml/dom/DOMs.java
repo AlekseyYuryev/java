@@ -87,14 +87,14 @@ public final class DOMs
 
 	private static void attributesToString(StringBuffer stringBuffer, Node node, int depth, DOMStyle style)
 	{
-		final NamedNodeMap namedNodeMap;
-		if((namedNodeMap = node.getAttributes()) == null)
+		final NamedNodeMap attributes;
+		if((attributes = node.getAttributes()) == null)
 			return;
 
-		for(int i = 0; i < namedNodeMap.getLength(); i++)
+		for(int i = 0; i < attributes.getLength(); i++)
 		{
-			node = namedNodeMap.item(i);
-			final String nodeName = node.getNodeName();
+			final Node attribute = attributes.item(i);
+			final String nodeName = attribute.getNodeName();
 			if(nodeName.startsWith("xmlns") && style.isIgnoreNamespaces())
 				continue;
 
@@ -113,7 +113,7 @@ public final class DOMs
 
 			stringBuffer.append(nodeName);
 			stringBuffer.append("=\"");
-			entityConvert(stringBuffer, node.getNodeValue());
+			entityConvert(stringBuffer, attribute.getNodeValue());
 			stringBuffer.append("\"");
 		}
 	}

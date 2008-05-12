@@ -33,7 +33,7 @@ import org.safris.xml.generator.lexer.processor.reference.SchemaReferenceDirecto
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.safris.xml.toolkit.processor.bundle.BundleDirectory;
 import org.safris.xml.toolkit.processor.timestamp.TimestampDirectory;
-import org.w3.x2001.xmlschema.IXSBoolean;
+import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -71,7 +71,7 @@ public class Generator extends AbstractGenerator
 			else if("--overwrite".equals(args[i]))
 				overwrite = true;
 			else if("-d".equals(args[i]) && i < args.length)
-				destDir = new File(args[++i]);
+				destDir = new File(args[++i]).getAbsoluteFile();
 			else
 				schemas.add(new SchemaReference(args[i]));
 		}
@@ -168,9 +168,9 @@ public class Generator extends AbstractGenerator
 						{
 							final Node attribute = attributes.item(k);
 							if("explodeJars".equals(attribute.getLocalName()))
-								explodeJars = IXSBoolean.parseBoolean(attribute.getNodeValue());
+								explodeJars = $xs_boolean.parseBoolean(attribute.getNodeValue());
 							else if("overwrite".equals(attribute.getLocalName()))
-								overwrite = IXSBoolean.parseBoolean(attribute.getNodeValue());
+								overwrite = $xs_boolean.parseBoolean(attribute.getNodeValue());
 						}
 					}
 

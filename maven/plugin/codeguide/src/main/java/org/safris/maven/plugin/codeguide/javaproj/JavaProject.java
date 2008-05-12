@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 import org.safris.commons.xml.XMLException;
-import org.safris.ide.common.startingpoints.SpStartingPoints;
+import org.safris.ide.common.startingpoints.sp_startingPoints;
 import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -24,7 +24,7 @@ public class JavaProject
 	private Set<GroupArtifact> dependencies = null;
 	private Set<File> classpathReferences = null;
 	private Set<JavaProject> projectReferences = null;
-	private Collection<SpStartingPoints.SpStartingPoint> startingPoints = null;
+	private Collection<sp_startingPoints._startingPoint> startingPoints = null;
 	private boolean startingPointsSearched = false;
 	private Solution solution = null;
 
@@ -107,7 +107,7 @@ public class JavaProject
 	}
 
 	// FIXME: Fix all this here...
-	public Collection<SpStartingPoints.SpStartingPoint> getStartingPoints()
+	public Collection<sp_startingPoints._startingPoint> getStartingPoints()
 	{
 		if(startingPointsSearched)
 			return startingPoints;
@@ -122,9 +122,9 @@ public class JavaProject
 			{
 				if(startingPointsXML.exists())
 				{
-					final SpStartingPoints startingPoints = (SpStartingPoints)Bindings.parse(new InputSource(new FileInputStream(startingPointsXML)));
+					final sp_startingPoints startingPoints = (sp_startingPoints)Bindings.parse(new InputSource(new FileInputStream(startingPointsXML)));
 					if(startingPoints != null)
-						this.startingPoints = startingPoints.getSpStartingPoint();
+						this.startingPoints = startingPoints.get_startingPoint();
 				}
 			}
 			catch(XMLException e)
