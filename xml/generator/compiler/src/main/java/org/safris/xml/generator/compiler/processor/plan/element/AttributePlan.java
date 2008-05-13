@@ -114,7 +114,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 		if(isRestriction())
 			return "super.add" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
 		else
-			return getInstanceName() + ".setText(" + defaultInstance + ");\n";
+			return getInstanceName() + ".setAttribute(" + defaultInstance + ");\n";
 	}
 
 	public final QName getDefault()

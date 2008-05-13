@@ -1,5 +1,6 @@
 package org.safris.xml.generator.compiler.runtime;
 
+import java.util.Collections;
 import java.util.List;
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
@@ -16,10 +17,10 @@ public final class ElementAudit<T extends Binding>
 	private final int maxOccurs;
 	private SpecificElementList<T> value = null;
 
-	public ElementAudit(Binding parent, List<T> _default, QName name, QName typeName, boolean qualified, boolean nillable, int minOccurs, int maxOccurs)
+	public ElementAudit(Binding parent, T _default, QName name, QName typeName, boolean qualified, boolean nillable, int minOccurs, int maxOccurs)
 	{
 		this.parent = parent;
-		this._default = _default;
+		this._default = Collections.<T>singletonList(_default);
 		this.name = name;
 		this.typeName = typeName;
 		this.qualified = qualified;

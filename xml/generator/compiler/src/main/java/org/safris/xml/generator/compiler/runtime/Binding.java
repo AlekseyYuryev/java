@@ -90,7 +90,8 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 	{
 		org.w3c.dom.NamedNodeMap attributes = node.getAttributes();
 		for(int i = 0; i < attributes.getLength(); i++)
-			binding.parseAttribute(attributes.item(i));
+			if(!binding.parseAttribute(attributes.item(i)))
+				binding.parseAnyAttribute(attributes.item(i));
 
 		org.w3c.dom.NodeList elements = node.getChildNodes();
 		for(int i = 0; i < elements.getLength(); i++)
@@ -412,8 +413,9 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return marshal(root, _$$getName(), _$$getTypeName());
 	}
 
-	protected void parseAttribute(Node attribute) throws ParseException, ValidationException
+	protected boolean parseAttribute(Node attribute) throws ParseException, ValidationException
 	{
+		return false;
 	}
 
 	protected boolean parseElement(Node element) throws ParseException, ValidationException
@@ -422,6 +424,10 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 	}
 
 	protected void parseAny(Node element) throws ParseException, ValidationException
+	{
+	}
+
+	protected void parseAnyAttribute(Node attribute) throws ParseException, ValidationException
 	{
 	}
 

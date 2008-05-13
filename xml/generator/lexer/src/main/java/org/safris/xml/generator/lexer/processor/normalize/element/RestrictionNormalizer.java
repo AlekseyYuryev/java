@@ -120,7 +120,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 					attribute.setSuperType(base);
 					attribute.setRestriction(true);
 				}
-				else
+				else if(parent instanceof SimpleTypeModel)
 				{
 					SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
 					if(type == null)
@@ -134,7 +134,12 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 
 					type.setSuperType(base);
 					type.setRestriction(true);
+
+					((SimpleTypeModel)parent).setSuperType(base);
+					((SimpleTypeModel)parent).setRestriction(true);
 				}
+				else
+					throw new LexerError(((Nameable)parent).getName().toString());
 
 				break;
 			}
@@ -173,32 +178,32 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 		if(model.getBase() == null || UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
 			return;
 
+		if(!(model.getBase() instanceof ComplexTypeModel))
+			return;
+
 		// handle all attributes
-		if(model.getBase() instanceof ComplexTypeModel)
+		final Collection<AttributeModel> restrictionAttributes = findChildAttributes(model.getChildren());
+		for(AttributeModel restrictionAttribute : restrictionAttributes)
 		{
-			Collection<AttributeModel> restrictionAttributes = findChildAttributes(model.getChildren());
-			for(AttributeModel restrictionAttribute : restrictionAttributes)
-			{
-				RestrictionPair<AttributeModel> baseAttributePair = findBaseAttribute(restrictionAttribute.getName(), model.getBase());
-				if(baseAttributePair == null)
-					throw new LexerError("we should have found an attribute we're restricting! what's goin on?");
+			final RestrictionPair<AttributeModel> baseAttributePair = findBaseAttribute(restrictionAttribute.getName(), model.getBase());
+			if(baseAttributePair == null)
+				throw new LexerError("we should have found an attribute we're restricting! what's goin on?");
 
-				restrictionAttribute.setRestriction(baseAttributePair.getModel());
-				restrictionAttribute.setRestrictionOwner(baseAttributePair.getParent());
-			}
+			restrictionAttribute.setRestriction(baseAttributePair.getModel());
+			restrictionAttribute.setRestrictionOwner(baseAttributePair.getParent());
+		}
 
-			// find all elements declared in this restriction
-			Collection<ElementModel> restrictionElements = new ArrayList<ElementModel>();
-			findChildElements(restrictionElements, model.getChildren());
-			for(ElementModel restrictionElement : restrictionElements)
-			{
-				RestrictionPair<ElementModel> baseElementPair = findBaseElement(restrictionElement.getName(), model.getBase());
-				if(baseElementPair == null)
-					throw new LexerError("we should have found an element we're restricting! what's goin on?");
+		// find all elements declared in this restriction
+		final Collection<ElementModel> restrictionElements = new ArrayList<ElementModel>();
+		findChildElements(restrictionElements, model.getChildren());
+		for(ElementModel restrictionElement : restrictionElements)
+		{
+			final RestrictionPair<ElementModel> baseElementPair = findBaseElement(restrictionElement.getName(), model.getBase());
+			if(baseElementPair == null)
+				throw new LexerError("we should have found an element we're restricting! what's goin on?");
 
-				restrictionElement.setRestriction(baseElementPair.getModel());
-				restrictionElement.setRestrictionOwner(baseElementPair.getParent());
-			}
+			restrictionElement.setRestriction(baseElementPair.getModel());
+			restrictionElement.setRestrictionOwner(baseElementPair.getParent());
 		}
 	}
 

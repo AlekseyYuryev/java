@@ -103,7 +103,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			writer.write("else if(attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 
 		writer.write("{\n");
-		writer.write("this." + plan.getInstanceName() + ".setAttribute((" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getParentNode(), attribute));\n");
+		writer.write("return this." + plan.getInstanceName() + ".setAttribute((" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getParentNode(), attribute));\n");
 		writer.write("}\n");
 	}
 

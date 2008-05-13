@@ -2,6 +2,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.LinkedHashSet;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
@@ -12,7 +13,6 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 {
@@ -80,7 +80,7 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 
 					element.setSuperType(base);
 				}
-				else
+				else if(parent instanceof SimpleTypeModel)
 				{
 					SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
 					if(type == null)
@@ -94,7 +94,10 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 						break;
 
 					type.setSuperType(base);
+					((SimpleTypeModel)parent).setSuperType(base);
 				}
+				else
+					throw new LexerError(((Nameable)parent).getName().toString());
 
 				break;
 			}

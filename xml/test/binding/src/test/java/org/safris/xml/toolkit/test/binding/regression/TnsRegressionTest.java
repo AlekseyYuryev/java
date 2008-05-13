@@ -1,12 +1,12 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import org.safris.xml.toolkit.test.binding.regression.DscRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.xmlsoap.schemas.soap.envelope.TnsBody;
-import org.xmlsoap.schemas.soap.envelope.TnsEnvelope;
-import org.xmlsoap.schemas.soap.envelope.TnsFault;
-import org.xmlsoap.schemas.soap.envelope.TnsHeader;
+import org.junit.Ignore;
+import org.xmlsoap.schemas.soap.envelope.tns_Body;
+import org.xmlsoap.schemas.soap.envelope.tns_Envelope;
+import org.xmlsoap.schemas.soap.envelope.tns_Fault;
+import org.xmlsoap.schemas.soap.envelope.tns_Header;
 
+@Ignore("Make this a real test!")
 public class TnsRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "http://schemas.xmlsoap.org/soap/envelope/";
@@ -24,20 +24,20 @@ public class TnsRegressionTest extends RegressionTest
 		getFault();
 	}
 
-	public static TnsEnvelope getEnvelope()
+	public static tns_Envelope getEnvelope()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		TnsEnvelope binding = new TnsEnvelope();
+		tns_Envelope binding = new tns_Envelope();
 		while(Math.random() < ADD_SEED)
-			binding.setTnsHeader(getHeader());
-		binding.setTnsBody(getBody());
+			binding.addtns_Header(getHeader());
+		binding.addtns_Body(getBody());
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 //			while(Math.random() < ADD_SEED)
-//				binding.addANYATTR(instance.getAnyAttribute(getRandomString()));
+//				binding.addAnyATTR(instance.getAny$ibute(getRandomString()));
 
 		if(verifiable)
 		{
@@ -47,17 +47,17 @@ public class TnsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static TnsHeader getHeader()
+	public static tns_Header getHeader()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		TnsHeader binding = new TnsHeader();
+		tns_Header binding = new tns_Header();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 //			do
-//				binding.addANYATTR(instance.getAnyAttribute(getRandomString()));
+//				binding.addAnyATTR(instance.getAny$ibute(getRandomString()));
 //			while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -68,17 +68,17 @@ public class TnsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static TnsBody getBody()
+	public static tns_Body getBody()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		TnsBody binding = new TnsBody();
+		tns_Body binding = new tns_Body();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 //		do
-//			binding.addANYATTR(instance.getAnyAttribute(getRandomString()));
+//			binding.addAnyATTR(instance.getAny$ibute(getRandomString()));
 //		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -89,22 +89,22 @@ public class TnsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static TnsFault getFault()
+	public static tns_Fault getFault()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		TnsFault binding = new TnsFault();
-		binding.setTnsFaultcode(new TnsFault.TnsFaultcode(getRandomQName()));
-		binding.setTnsFaultstring(new TnsFault.TnsFaultstring(getRandomString()));
-		binding.setTnsFaultactor(new TnsFault.TnsFaultactor(getRandomString()));
-		TnsFault.TnsDetail detail = new TnsFault.TnsDetail();
+		tns_Fault binding = new tns_Fault();
+		binding.add_faultcode(new tns_Fault._faultcode(getRandomQName()));
+		binding.add_faultstring(new tns_Fault._faultstring(getRandomString()));
+		binding.add_faultactor(new tns_Fault._faultactor(getRandomString()));
+		tns_Fault._detail detail = new tns_Fault._detail();
 		while(Math.random() < ADD_SEED)
-			detail.addANY(instance.getAny());
+			detail.addAny(instance.getAny());
 //		while(Math.random() < ADD_SEED)
-//			detail.addANYATTR(instance.getAnyAttribute(getRandomString()));
-		binding.setTnsDetail(detail);
+//			detail.addAnyATTR(instance.getAny$ibute(getRandomString()));
+		binding.add_detail(detail);
 
 		if(verifiable)
 		{

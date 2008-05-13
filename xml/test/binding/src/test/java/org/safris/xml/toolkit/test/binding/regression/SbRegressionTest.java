@@ -1,13 +1,13 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import liberty_sb_2003_08.SbConsent;
-import liberty_sb_2003_08.SbCorrelation;
-import liberty_sb_2003_08.SbUsageDirective;
-import org.safris.xml.toolkit.test.binding.regression.DscRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.xmlsoap.schemas.soap.envelope.TnsActorAttr;
-import org.xmlsoap.schemas.soap.envelope.TnsMustUnderstandAttr;
+import liberty_sb_2003_08.sb_Consent;
+import liberty_sb_2003_08.sb_Correlation;
+import liberty_sb_2003_08.sb_UsageDirective;
+import org.junit.Ignore;
+import org.xmlsoap.schemas.soap.envelope.tns_actor$;
+import org.xmlsoap.schemas.soap.envelope.tns_mustUnderstand$;
 
+@Ignore("Make this a real test!")
 public class SbRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:liberty:sb:2003-08";
@@ -17,7 +17,7 @@ public class SbRegressionTest extends RegressionTest
 		return namespaceURI;
 	}
 
-	private static RegressionTest instance = new DscRegressionTest();
+	private static RegressionTest instance = new SbRegressionTest();
 
 	public static void main(String[] args)
 	{
@@ -26,19 +26,19 @@ public class SbRegressionTest extends RegressionTest
 		getUsageDirective();
 	}
 
-	public static SbCorrelation getCorrelation()
+	public static sb_Correlation getCorrelation()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SbCorrelation binding = new SbCorrelation();
-		binding.setSbMessageIDAttr(new SbCorrelation.SbMessageIDAttr(getRandomString()));
-		binding.setSbRefToMessageIDAttr(new SbCorrelation.SbRefToMessageIDAttr(getRandomString()));
-		binding.setSbTimestampAttr(new SbCorrelation.SbTimestampAttr(getRandomDateTime()));
-		binding.setSbIdAttr(new SbCorrelation.SbIdAttr(getRandomString()));
-		binding.setTnsMustUnderstandAttr(new TnsMustUnderstandAttr(getRandomBoolean()));
-		binding.setTnsActorAttr(new TnsActorAttr(getRandomString()));
+		sb_Correlation binding = new sb_Correlation();
+		binding.add_messageID$(new sb_Correlation._messageID$(getRandomString()));
+		binding.add_refToMessageID$(new sb_Correlation._refToMessageID$(getRandomString()));
+		binding.add_timestamp$(new sb_Correlation._timestamp$(getRandomDateTime()));
+		binding.add_id$(new sb_Correlation._id$(getRandomString()));
+		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.addtns_actor$(new tns_actor$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -48,18 +48,18 @@ public class SbRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SbConsent getConsent()
+	public static sb_Consent getConsent()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SbConsent binding = new SbConsent();
-		binding.setSbUriAttr(new SbConsent.SbUriAttr(getRandomString()));
-		binding.setSbTimestampAttr(new SbConsent.SbTimestampAttr(getRandomDateTime()));
-		binding.setSbIdAttr(new SbConsent.SbIdAttr(getRandomString()));
-		binding.setTnsMustUnderstandAttr(new TnsMustUnderstandAttr(getRandomBoolean()));
-		binding.setTnsActorAttr(new TnsActorAttr(getRandomString()));
+		sb_Consent binding = new sb_Consent();
+		binding.add_uri$(new sb_Consent._uri$(getRandomString()));
+		binding.add_timestamp$(new sb_Consent._timestamp$(getRandomDateTime()));
+		binding.add_id$(new sb_Consent._id$(getRandomString()));
+		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.addtns_actor$(new tns_actor$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -69,19 +69,19 @@ public class SbRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SbUsageDirective getUsageDirective()
+	public static sb_UsageDirective getUsageDirective()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SbUsageDirective binding = new SbUsageDirective();
-		binding.setSbIdAttr(new SbUsageDirective.SbIdAttr(getRandomString()));
-		binding.setTnsMustUnderstandAttr(new TnsMustUnderstandAttr(getRandomBoolean()));
-		binding.setTnsActorAttr(new TnsActorAttr(getRandomString()));
-		binding.setSbRefAttr(new SbUsageDirective.SbRefAttr(getRandomString()));
+		sb_UsageDirective binding = new sb_UsageDirective();
+		binding.add_id$(new sb_UsageDirective._id$(getRandomString()));
+		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.addtns_actor$(new tns_actor$(getRandomString()));
+		binding.add_ref$(new sb_UsageDirective._ref$(getRandomString()));
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)

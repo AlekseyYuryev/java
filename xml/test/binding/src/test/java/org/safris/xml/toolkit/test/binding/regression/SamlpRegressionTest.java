@@ -1,23 +1,21 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import _0_protocol.oasis_names_tc_saml_1.ISamlpQueryAbstractType;
-import _0_protocol.oasis_names_tc_saml_1.ISamlpSubjectQueryAbstractType;
-import _0_protocol.oasis_names_tc_saml_1.SamlpAssertionArtifact;
-import _0_protocol.oasis_names_tc_saml_1.SamlpAttributeQuery;
-import _0_protocol.oasis_names_tc_saml_1.SamlpAuthenticationQuery;
-import _0_protocol.oasis_names_tc_saml_1.SamlpAuthorizationDecisionQuery;
-import _0_protocol.oasis_names_tc_saml_1.SamlpRequest;
-import _0_protocol.oasis_names_tc_saml_1.SamlpRespondWith;
-import _0_protocol.oasis_names_tc_saml_1.SamlpResponse;
-import _0_protocol.oasis_names_tc_saml_1.SamlpStatus;
-import _0_protocol.oasis_names_tc_saml_1.SamlpStatusCode;
-import _0_protocol.oasis_names_tc_saml_1.SamlpStatusDetail;
-import _0_protocol.oasis_names_tc_saml_1.SamlpStatusMessage;
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlpRegressionTest;
+import _0_protocol.oasis_names_tc_saml_1.$samlp_QueryAbstractType;
+import _0_protocol.oasis_names_tc_saml_1.$samlp_SubjectQueryAbstractType;
+import _0_protocol.oasis_names_tc_saml_1.samlp_AssertionArtifact;
+import _0_protocol.oasis_names_tc_saml_1.samlp_AttributeQuery;
+import _0_protocol.oasis_names_tc_saml_1.samlp_AuthenticationQuery;
+import _0_protocol.oasis_names_tc_saml_1.samlp_AuthorizationDecisionQuery;
+import _0_protocol.oasis_names_tc_saml_1.samlp_Request;
+import _0_protocol.oasis_names_tc_saml_1.samlp_RespondWith;
+import _0_protocol.oasis_names_tc_saml_1.samlp_Response;
+import _0_protocol.oasis_names_tc_saml_1.samlp_Status;
+import _0_protocol.oasis_names_tc_saml_1.samlp_StatusCode;
+import _0_protocol.oasis_names_tc_saml_1.samlp_StatusDetail;
+import _0_protocol.oasis_names_tc_saml_1.samlp_StatusMessage;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class SamlpRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:oasis:names:tc:Saml:1.0:protocol";
@@ -35,14 +33,14 @@ public class SamlpRegressionTest extends RegressionTest
 		getResponse();
 	}
 
-	public static SamlpRespondWith getRespondWith()
+	public static samlp_RespondWith getRespondWith()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpRespondWith binding = new SamlpRespondWith();
-		binding.setTEXT(getRandomQName());
+		samlp_RespondWith binding = new samlp_RespondWith();
+		binding.setText(getRandomQName());
 
 		if(verifiable)
 		{
@@ -52,40 +50,40 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpRequest getRequest()
+	public static samlp_Request getRequest()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpRequest binding = new SamlpRequest();
+		samlp_Request binding = new samlp_Request();
 		double random = Math.random();
 		do
-		binding.addSamlpRespondWith(getRespondWith());
+		binding.addsamlp_RespondWith(getRespondWith());
 		while(Math.random() < ADD_SEED);
-		binding.setSamlpIssueInstantAttr(new SamlpRequest.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new SamlpRequest.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new SamlpRequest.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRequestIDAttr(new SamlpRequest.SamlpRequestIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+		binding.add_IssueInstant$(new samlp_Request._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new samlp_Request._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new samlp_Request._MinorVersion$(getRandomInteger()));
+		binding.add_RequestID$(new samlp_Request._RequestID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 		if(random < 1 / 7)
 			do
-			binding.addSamlpAssertionArtifact(getAssertionArtifact());
+			binding.addsamlp_AssertionArtifact(getAssertionArtifact());
 			while(Math.random() < ADD_SEED);
 		else if(random < 2 / 7)
 			do
-			binding.addSamlAssertionIDReference(SamlRegressionTest.getAssertionIDReference());
+			binding.addsaml_AssertionIDReference(SamlRegressionTest.getAssertionIDReference());
 			while(Math.random() < ADD_SEED);
 		else if(random < 3 / 7)
-			binding.setSamlpAttributeQuery(getAttributeQuery());
+			binding.addsamlp_AttributeQuery(getAttributeQuery());
 		else if(random < 4 / 7)
-			binding.setSamlpAuthenticationQuery(getAuthenticationQuery());
+			binding.addsamlp_AuthenticationQuery(getAuthenticationQuery());
 		else if(random < 5 / 7)
-			binding.setSamlpAuthorizationDecisionQuery(getAuthorizationDecisionQuery());
+			binding.addsamlp_AuthorizationDecisionQuery(getAuthorizationDecisionQuery());
 		else if(random < 6 / 7)
-			binding.setSamlpQuery(getQuery());
+			binding.addsamlp_Query(getQuery());
 		else
-			binding.setSamlpSubjectQuery(getSubjectQuery());
+			binding.addsamlp_SubjectQuery(getSubjectQuery());
 
 		if(verifiable)
 		{
@@ -95,14 +93,14 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpAssertionArtifact getAssertionArtifact()
+	public static samlp_AssertionArtifact getAssertionArtifact()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpAssertionArtifact binding = new SamlpAssertionArtifact();
-		binding.setTEXT(getRandomString());
+		samlp_AssertionArtifact binding = new samlp_AssertionArtifact();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -113,26 +111,26 @@ public class SamlpRegressionTest extends RegressionTest
 	}
 
 	// FIXME: Query is a direct element of an abstract complexType.
-	public static ISamlpQueryAbstractType getQuery()
+	public static $samlp_QueryAbstractType getQuery()
 	{
 		return getAttributeQuery();
 	}
 
 	// FIXME: SubjectQuery is a direct element of an abstract complexType.
-	public static ISamlpSubjectQueryAbstractType getSubjectQuery()
+	public static $samlp_SubjectQueryAbstractType getSubjectQuery()
 	{
 		return getAttributeQuery();
 	}
 
-	public static SamlpAuthenticationQuery getAuthenticationQuery()
+	public static samlp_AuthenticationQuery getAuthenticationQuery()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpAuthenticationQuery binding = new SamlpAuthenticationQuery();
-		binding.setSamlpAuthenticationMethodAttr(new SamlpAuthenticationQuery.SamlpAuthenticationMethodAttr(getRandomString()));
-		binding.setSamlSubject(SamlRegressionTest.getSubject());
+		samlp_AuthenticationQuery binding = new samlp_AuthenticationQuery();
+		binding.add_AuthenticationMethod$(new samlp_AuthenticationQuery._AuthenticationMethod$(getRandomString()));
+		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
 		{
@@ -142,18 +140,18 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpAttributeQuery getAttributeQuery()
+	public static samlp_AttributeQuery getAttributeQuery()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpAttributeQuery binding = new SamlpAttributeQuery();
+		samlp_AttributeQuery binding = new samlp_AttributeQuery();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAttributeDesignator(SamlRegressionTest.getAttributeDesignator());
+			binding.addsaml_AttributeDesignator(SamlRegressionTest.getAttributeDesignator());
 
-		binding.setSamlpResourceAttr(new SamlpAttributeQuery.SamlpResourceAttr(getRandomString()));
-		binding.setSamlSubject(SamlRegressionTest.getSubject());
+		binding.add_Resource$(new samlp_AttributeQuery._Resource$(getRandomString()));
+		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
 		{
@@ -163,18 +161,18 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpAuthorizationDecisionQuery getAuthorizationDecisionQuery()
+	public static samlp_AuthorizationDecisionQuery getAuthorizationDecisionQuery()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpAuthorizationDecisionQuery binding = new SamlpAuthorizationDecisionQuery();
+		samlp_AuthorizationDecisionQuery binding = new samlp_AuthorizationDecisionQuery();
 		do
-		binding.addSamlAction(SamlRegressionTest.getAction());
+		binding.addsaml_Action(SamlRegressionTest.getAction());
 		while(Math.random() < ADD_SEED);
-		binding.setSamlpResourceAttr(new SamlpAuthorizationDecisionQuery.SamlpResourceAttr(getRandomString()));
-		binding.setSamlSubject(SamlRegressionTest.getSubject());
+		binding.add_Resource$(new samlp_AuthorizationDecisionQuery._Resource$(getRandomString()));
+		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
 		{
@@ -184,23 +182,23 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpResponse getResponse()
+	public static samlp_Response getResponse()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpResponse binding = new SamlpResponse();
+		samlp_Response binding = new samlp_Response();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAssertion(SamlRegressionTest.getAssertion());
-		binding.setSamlpInResponseToAttr(new SamlpResponse.SamlpInResponseToAttr(getRandomString()));
-		binding.setSamlpIssueInstantAttr(new SamlpResponse.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new SamlpResponse.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new SamlpResponse.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRecipientAttr(new SamlpResponse.SamlpRecipientAttr(getRandomString()));
-		binding.setSamlpResponseIDAttr(new SamlpResponse.SamlpResponseIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
-		binding.setSamlpStatus(getStatus());
+			binding.addsaml_Assertion(SamlRegressionTest.getAssertion());
+		binding.add_InResponseTo$(new samlp_Response._InResponseTo$(getRandomString()));
+		binding.add_IssueInstant$(new samlp_Response._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new samlp_Response._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new samlp_Response._MinorVersion$(getRandomInteger()));
+		binding.add_Recipient$(new samlp_Response._Recipient$(getRandomString()));
+		binding.add_ResponseID$(new samlp_Response._ResponseID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
+		binding.addsamlp_Status(getStatus());
 
 		if(verifiable)
 		{
@@ -210,16 +208,16 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpStatus getStatus()
+	public static samlp_Status getStatus()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpStatus binding = new SamlpStatus();
-		binding.setSamlpStatusCode(getStatusCode());
-		binding.setSamlpStatusDetail(getStatusDetail());
-		binding.setSamlpStatusMessage(getStatusMessage());
+		samlp_Status binding = new samlp_Status();
+		binding.addsamlp_StatusCode(getStatusCode());
+		binding.addsamlp_StatusDetail(getStatusDetail());
+		binding.addsamlp_StatusMessage(getStatusMessage());
 
 		if(verifiable)
 		{
@@ -229,18 +227,18 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpStatusCode getStatusCode()
+	public static samlp_StatusCode getStatusCode()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpStatusCode binding = new SamlpStatusCode();
+		samlp_StatusCode binding = new samlp_StatusCode();
 
 		// NOTE: We do not want a continuous recursion.
 		if(Math.random() < RECURSION_SEED)
-			binding.setSamlpStatusCode(getStatusCode());
-		binding.setSamlpValueAttr(new SamlpStatusCode.SamlpValueAttr(getRandomQName()));
+			binding.addsamlp_StatusCode(getStatusCode());
+		binding.add_Value$(new samlp_StatusCode._Value$(getRandomQName()));
 
 		if(verifiable)
 		{
@@ -250,14 +248,14 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpStatusMessage getStatusMessage()
+	public static samlp_StatusMessage getStatusMessage()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpStatusMessage binding = new SamlpStatusMessage();
-		binding.setTEXT(getRandomString());
+		samlp_StatusMessage binding = new samlp_StatusMessage();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -267,15 +265,15 @@ public class SamlpRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlpStatusDetail getStatusDetail()
+	public static samlp_StatusDetail getStatusDetail()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlpStatusDetail binding = new SamlpStatusDetail();
+		samlp_StatusDetail binding = new samlp_StatusDetail();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 
 		if(verifiable)
 		{

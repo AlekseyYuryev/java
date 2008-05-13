@@ -164,13 +164,13 @@ public class UniqueQName
 		if(!(obj instanceof UniqueQName))
 			return false;
 
-		final UniqueQName bindingQName = (UniqueQName)obj;
-		return (namespaceURI != null ? namespaceURI.equals(bindingQName.namespaceURI) : bindingQName.namespaceURI == null) && localPart.equals(bindingQName.localPart);
+		final UniqueQName that = (UniqueQName)obj;
+		return (namespaceURI != null ? namespaceURI.equals(that.namespaceURI) : that.namespaceURI == null) && localPart.equals(that.localPart);
 	}
 
 	public int hashCode()
 	{
-		return namespaceURI != null ? namespaceURI.hashCode() : XMLConstants.NULL_NS_URI.hashCode() ^ localPart.hashCode();
+		return (namespaceURI != null ? namespaceURI.hashCode() : XMLConstants.NULL_NS_URI.hashCode()) * localPart.hashCode();
 	}
 
 	public String toString()

@@ -2,38 +2,39 @@ package org.safris.xml.toolkit.test.binding.regression;
 
 import java.io.File;
 import java.io.FileInputStream;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
+import org.junit.Test;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.schema.binding.test.unit.id.IIdComplexType;
-import org.safris.xml.schema.binding.test.unit.id.IIdSimpleType;
-import org.safris.xml.schema.binding.test.unit.id.IdRoot;
+import org.safris.xml.schema.binding.test.unit.id.$id_complexType;
+import org.safris.xml.schema.binding.test.unit.id.$id_simpleType;
+import org.safris.xml.schema.binding.test.unit.id.id_root;
 import org.xml.sax.InputSource;
 
 public class IdTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		File file = new File("src/test/resources/xml/id.xml");
+		new IdTest().testId();
+	}
+
+	@Test
+	public void testId() throws Exception
+	{
+		File file = new File("src/test/resources/xml/unit/id.xml");
 		if(!file.exists())
 			throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 
 		if(!file.canRead())
 			throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
+		id_root parsed = (id_root)Bindings.parse(new InputSource(new FileInputStream(file)));
 
-		IdRoot parsed = Bindings.<IdRoot>parse(new InputSource(new FileInputStream(file)));
+		id_root._random random = new id_root._random("foo");
+		random.setText("bar");
+		id_root marshalled = new id_root();
+		marshalled.add_random(random);
 
-		IdRoot.IdRandom random = new IdRoot.IdRandom("foo");
-		random.setTEXT("bar");
-		IdRoot marshalled = new IdRoot();
-		marshalled.addIdRandom(random);
-
-		IdRoot.IdRandom bar = IdRoot.IdRandom.lookupId("bar");
-		IdRoot.IdRandom foo = IdRoot.IdRandom.lookupId("foo");
-		IIdSimpleType two = IIdComplexType.IdAttributeAttr.lookupId("two");
-		int i = 0;
+		id_root._random bar = id_root._random.lookupId("bar");
+		id_root._random foo = id_root._random.lookupId("foo");
+		$id_simpleType two = $id_complexType._attribute$.lookupId("two");
 	}
 }

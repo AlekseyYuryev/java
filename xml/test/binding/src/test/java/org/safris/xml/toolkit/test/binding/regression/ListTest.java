@@ -2,33 +2,60 @@ package org.safris.xml.toolkit.test.binding.regression;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Test;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.schema.binding.test.unit.list.ITestListSimpleTypeFive;
-import org.safris.xml.schema.binding.test.unit.list.ITestListSimpleTypeFour;
-import org.safris.xml.schema.binding.test.unit.list.ITestListSimpleTypeOne;
-import org.safris.xml.schema.binding.test.unit.list.ITestListSimpleTypeThree;
-import org.safris.xml.schema.binding.test.unit.list.ITestListSimpleTypeTwo;
-import org.w3.x2001.xmlschema.IXSByte;
-import org.w3.x2001.xmlschema.IXSNCName;
-import org.w3.x2001.xmlschema.IXSQName;
+import org.safris.xml.schema.binding.test.unit.list.$_test_list_simpleType_five;
+import org.safris.xml.schema.binding.test.unit.list.$_test_list_simpleType_four;
+import org.safris.xml.schema.binding.test.unit.list.$_test_list_simpleType_one;
+import org.safris.xml.schema.binding.test.unit.list.$_test_list_simpleType_three;
+import org.safris.xml.schema.binding.test.unit.list.$_test_list_simpleType_two;
+import org.w3.x2001.xmlschema.$xs_NCName;
+import org.w3.x2001.xmlschema.$xs_byte;
 
 public class ListTest
 {
 	public static void main(String[] args)
 	{
-		ITestListSimpleTypeOne one = null;
-		List<ITestListSimpleTypeOne.RESTRICTION> restrictions1 = new ArrayList<ITestListSimpleTypeOne.RESTRICTION>();
-		restrictions1.add(ITestListSimpleTypeOne.TEST1);
-		one.setTEXT(restrictions1);
+		new ListTest().testList();
+	}
 
-		ITestListSimpleTypeTwo two = null;
-		List<ITestListSimpleTypeTwo.RESTRICTION> restrictions2 = new ArrayList<ITestListSimpleTypeTwo.RESTRICTION>();
-		restrictions2.add(ITestListSimpleTypeTwo.TEST2);
-		two.setTEXT(restrictions2);
+	@Test
+	public void testList()
+	{
+		$_test_list_simpleType_one one = new $_test_list_simpleType_one()
+		{
+			protected $_test_list_simpleType_one inherits()
+			{
+				// TODO: Implement this method
+				return null;
+			}
+		};
+		List<$_test_list_simpleType_one.RESTRICTION> restrictions1 = new ArrayList<$_test_list_simpleType_one.RESTRICTION>();
+		restrictions1.add($_test_list_simpleType_one.TEST1);
+		one.setText(restrictions1);
 
-		ITestListSimpleTypeThree three = null;
-		List<IXSNCName> threes = new ArrayList<IXSNCName>();
-		threes.add(new IXSNCName()
+		$_test_list_simpleType_two two = new $_test_list_simpleType_two()
+		{
+			protected $_test_list_simpleType_two inherits()
+			{
+				// TODO: Implement this method
+				return null;
+			}
+		};
+		List<$_test_list_simpleType_two.RESTRICTION> restrictions2 = new ArrayList<$_test_list_simpleType_two.RESTRICTION>();
+		restrictions2.add($_test_list_simpleType_two.TEST2);
+		two.setText(restrictions2);
+
+		$_test_list_simpleType_three three = new $_test_list_simpleType_three()
+		{
+			protected $_test_list_simpleType_three inherits()
+			{
+				// TODO: Implement this method
+				return null;
+			}
+		};
+		List<$xs_NCName> threes = new ArrayList<$xs_NCName>();
+		threes.add(new $xs_NCName()
 		{
 			protected Binding inherits()
 			{
@@ -36,11 +63,18 @@ public class ListTest
 				return null;
 			}
 		});
-		three.setTEXT(threes);
+		three.setText(threes);
 
-		ITestListSimpleTypeFour four = null;
-		List<IXSQName> fours = new ArrayList<IXSQName>();
-		fours.add(new IXSQName()
+		$_test_list_simpleType_four four = new $_test_list_simpleType_four()
+		{
+			protected $_test_list_simpleType_four inherits()
+			{
+				// TODO: Implement this method
+				return null;
+			}
+		};
+		List<$xs_NCName> fours = new ArrayList<$xs_NCName>();
+		fours.add(new $xs_NCName()
 		{
 			protected Binding inherits()
 			{
@@ -48,18 +82,25 @@ public class ListTest
 				return null;
 			}
 		});
-		four.setTEXT(fours);
+		four.setText(fours);
 
-		ITestListSimpleTypeFive five = null;
-		List<IXSByte> fives = new ArrayList<IXSByte>();
-		fives.add(new IXSByte()
+		$_test_list_simpleType_five five = new $_test_list_simpleType_five()
 		{
-			protected Binding inherits()
+			protected $_test_list_simpleType_five inherits()
 			{
 				// TODO: Implement this method
 				return null;
 			}
+		};
+		List<$xs_byte> fives = new ArrayList<$xs_byte>();
+		fives.add(new $xs_byte()
+		{
+			protected Binding inherits()
+			{
+				// TODO: $mplement this method
+				return null;
+			}
 		});
-		five.setTEXT(fives);
+		five.setText(fives);
 	}
 }

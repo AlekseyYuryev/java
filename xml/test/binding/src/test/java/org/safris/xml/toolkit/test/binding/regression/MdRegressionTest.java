@@ -1,18 +1,15 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import liberty_metadata_2003_08.MdCacheDurationAttr;
-import liberty_metadata_2003_08.MdEntitiesDescriptor;
-import liberty_metadata_2003_08.MdEntityDescriptor;
-import liberty_metadata_2003_08.MdExtension;
-import liberty_metadata_2003_08.MdStatus;
-import liberty_metadata_2003_08.MdValidUntilAttr;
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.IdentityProviderMetadata;
-import org.safris.xml.toolkit.test.binding.regression.MdRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.ServiceProviderMetadata;
-import org.w3.x2000.x09.xmldsig.DsKeyInfo;
+import liberty_metadata_2003_08.md_EntitiesDescriptor;
+import liberty_metadata_2003_08.md_EntityDescriptor;
+import liberty_metadata_2003_08.md_Extension;
+import liberty_metadata_2003_08.md_Status;
+import liberty_metadata_2003_08.md_cacheDuration$;
+import liberty_metadata_2003_08.md_validUntil$;
+import org.junit.Ignore;
+import org.w3.x2000.x09.xmldsig.ds_KeyInfo;
 
+@Ignore("Make this a real test!")
 public class MdRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:liberty:metadata:2003-08";
@@ -29,16 +26,16 @@ public class MdRegressionTest extends RegressionTest
 		getEntitiesDescriptor();
 	}
 
-	public static MdStatus getStatus()
+	public static md_Status getStatus()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		MdStatus binding = new MdStatus();
+		md_Status binding = new md_Status();
 		if(Math.random() < RECURSION_SEED)
-			binding.setMdStatus(getStatus());
-		binding.setMdCodeAttr(new MdStatus.MdCodeAttr(getRandomQName()));
+			binding.addmd_Status(getStatus());
+		binding.add_code$(new md_Status._code$(getRandomQName()));
 
 		if(verifiable)
 		{
@@ -48,15 +45,15 @@ public class MdRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static MdExtension getExtension()
+	public static md_Extension getExtension()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		MdExtension binding = new MdExtension();
+		md_Extension binding = new md_Extension();
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -67,21 +64,21 @@ public class MdRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static MdEntityDescriptor getEntityDescriptor()
+	public static md_EntityDescriptor getEntityDescriptor()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		MdEntityDescriptor binding = new MdEntityDescriptor();
-		// FIXME: This HAS to be ratified!!!! (It's in a sequence)
+		md_EntityDescriptor binding = new md_EntityDescriptor();
+		// FIXME: This HAS to be ratified!!!! ($t's in a sequence)
 		while(Math.random() < ADD_SEED)
-			binding.addMdSPDescriptor(ServiceProviderMetadata.getSPDescriptor());
+			binding.add_SPDescriptor(ServiceProviderMetadata.getSPDescriptor());
 		while(Math.random() < ADD_SEED)
-			binding.addMdIDPDescriptor(IdentityProviderMetadata.getIDPDescriptor());
-		binding.setMdIdAttr(new MdEntityDescriptor.MdIdAttr(getRandomString()));
-		binding.setMdValidUntilAttr(new MdValidUntilAttr(getRandomDateTime()));
-		binding.setMdCacheDurationAttr(new MdCacheDurationAttr(getRandomDuration()));
+			binding.add_IDPDescriptor(IdentityProviderMetadata.getIDPDescriptor());
+		binding.add_id$(new md_EntityDescriptor._id$(getRandomString()));
+		binding.addmd_validUntil$(new md_validUntil$(getRandomDateTime()));
+		binding.addmd_cacheDuration$(new md_cacheDuration$(getRandomDuration()));
 
 		if(verifiable)
 		{
@@ -91,15 +88,15 @@ public class MdRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static MdEntitiesDescriptor getEntitiesDescriptor()
+	public static md_EntitiesDescriptor getEntitiesDescriptor()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		MdEntitiesDescriptor binding = new MdEntitiesDescriptor();
+		md_EntitiesDescriptor binding = new md_EntitiesDescriptor();
 		for(int i = 0; i < 2 || Math.random() < ADD_SEED; i++)
-			binding.addMdEntityDescriptor(getEntityDescriptor());
+			binding.addmd_EntityDescriptor(getEntityDescriptor());
 
 		if(verifiable)
 		{
@@ -109,35 +106,35 @@ public class MdRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsKeyInfo getKeyInfo()
+	public static ds_KeyInfo getKeyInfo()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsKeyInfo binding = new DsKeyInfo();
+		ds_KeyInfo binding = new ds_KeyInfo();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 		do
-		binding.addDsKeyName(DsRegressionTest.getKeyName());
+		binding.addds_KeyName(DsRegressionTest.getKeyName());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsKeyValue(DsRegressionTest.getKeyValue());
+		binding.addds_KeyValue(DsRegressionTest.getKeyValue());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsMgmtData(DsRegressionTest.getMgmtData());
+		binding.addds_MgmtData(DsRegressionTest.getMgmtData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsPGPData(DsRegressionTest.getPGPData());
+		binding.addds_PGPData(DsRegressionTest.getPGPData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsRetrievalMethod(DsRegressionTest.getRetrievalMethod());
+		binding.addds_RetrievalMethod(DsRegressionTest.getRetrievalMethod());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsSPKIData(DsRegressionTest.getSPKIData());
+		binding.addds_SPKIData(DsRegressionTest.getSPKIData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509Data(DsRegressionTest.getX509Data());
+		binding.addds_X509Data(DsRegressionTest.getX509Data());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)

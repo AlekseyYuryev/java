@@ -4,21 +4,20 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
-public abstract class $xs_name<T extends BindingType> extends $xs_token<T>
+public abstract class $xs_Name<T extends BindingType> extends $xs_token<T>
 {
-	public $xs_name($xs_name<T> binding)
+	public $xs_Name($xs_Name<T> binding)
 	{
 		super(binding);
 	}
 
-	public $xs_name(String value)
+	public $xs_Name(String value)
 	{
 		super(value);
 	}
 
-	protected $xs_name()
+	protected $xs_Name()
 	{
 		super();
 	}
@@ -46,11 +45,11 @@ public abstract class $xs_name<T extends BindingType> extends $xs_token<T>
 		return super.getText().toString();
 	}
 
-	public $xs_name clone()
+	public $xs_Name clone()
 	{
-		return new $xs_name(this)
+		return new $xs_Name(this)
 		{
-			protected $xs_name inherits()
+			protected $xs_Name inherits()
 			{
 				return this;
 			}

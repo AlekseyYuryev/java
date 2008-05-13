@@ -8,9 +8,9 @@ import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.NotationModel;
+import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
-import org.safris.xml.generator.lexer.schema.attribute.Form;
 
 public final class JavaBinding
 {
@@ -45,17 +45,8 @@ public final class JavaBinding
 			throw new CompilerError("Method being called on a model with no name");
 
 		final String pkg = ((Nameable)model).getName().getNamespaceURI().getPackageName() + ".";
-		final Prefix prefix = JavaBinding.getPrefix(model);
-		if(model instanceof AttributeModel)
-			return pkg + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart()) + ATTRIBUTE_SUFFIX;
-		else if(model instanceof ElementModel)
-			return pkg + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
-		else if(model instanceof NotationModel)
-			return pkg + prefix.toString() + "_" + NOTATION_MIDFIX + legalizeForJava(((NotationModel)model).getName().getLocalPart());
-		else if(model instanceof SimpleTypeModel)
-			return pkg + COMPLEXTYPE_PREFIX + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
-
-		throw new CompilerError("model is not instanceof {AttributeModel,ElementModel,NotationModel,SimpleTypeModel}");
+		final String simpleName = getClassSimpleName(model);
+		return pkg + simpleName;
 	}
 
 	private static boolean isRef(Model model)
@@ -65,7 +56,7 @@ public final class JavaBinding
 
 	private static boolean isNested(Model model)
 	{
-		return !(model.getParent() instanceof SchemaModel || (model instanceof Nameable && UniqueQName.XS.getNamespaceURI().equals(((Nameable)model).getName().getNamespaceURI())));
+		return !(model.getParent() instanceof SchemaModel || (model.getParent() instanceof RedefineModel && model.getParent().getParent() instanceof SchemaModel) || (model instanceof Nameable && UniqueQName.XS.getNamespaceURI().equals(((Nameable)model).getName().getNamespaceURI())));
 	}
 
 	private static Prefix getPrefix(Model model)
@@ -131,9 +122,10 @@ public final class JavaBinding
 //		return string.substring(0, 1).toUpperCase() + string.substring(1, string.length());
 //	}
 
+	// FIXME: This means that there can be name collisions!
 	private static String legalizeForJava(String string)
 	{
-		return string.replace('-', '_').replace("#", "");
+		return string.replace('-', '_').replace('.', '_').replace("#", "");
 	}
 
 //	private static String javaCase(String string)

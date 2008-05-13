@@ -1,20 +1,18 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import liberty_disco_2003_08.IIsfServiceInstanceType;
-import liberty_disco_2003_08.IsfAuthenticateSessionContext;
-import liberty_disco_2003_08.IsfAuthorizeRequester;
-import liberty_disco_2003_08.IsfEncryptedResourceID;
-import liberty_disco_2003_08.IsfExtension;
-import liberty_disco_2003_08.IsfOptions;
-import liberty_disco_2003_08.IsfResourceID;
-import liberty_disco_2003_08.IsfResourceOffering;
-import liberty_disco_2003_08.IsfServiceType;
-import liberty_disco_2003_08.IsfStatus;
-import org.safris.xml.toolkit.test.binding.regression.DscRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.LibRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.XencRegressionTest;
+import liberty_disco_2003_08.$isf_ServiceInstanceType;
+import liberty_disco_2003_08.isf_AuthenticateSessionContext;
+import liberty_disco_2003_08.isf_AuthorizeRequester;
+import liberty_disco_2003_08.isf_EncryptedResourceID;
+import liberty_disco_2003_08.isf_Extension;
+import liberty_disco_2003_08.isf_Options;
+import liberty_disco_2003_08.isf_ResourceID;
+import liberty_disco_2003_08.isf_ResourceOffering;
+import liberty_disco_2003_08.isf_ServiceType;
+import liberty_disco_2003_08.isf_Status;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class DscRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:liberty:disco:2003-08";
@@ -33,16 +31,16 @@ public class DscRegressionTest extends RegressionTest
 		getAuthenticateSessionContext();
 	}
 
-	public static IsfStatus getStatus()
+	public static isf_Status getStatus()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfStatus binding = new IsfStatus();
+		isf_Status binding = new isf_Status();
 		if(Math.random() < RECURSION_SEED)
-			binding.setIsfStatus(getStatus());
-		binding.setIsfCodeAttr(new IsfStatus.IsfCodeAttr(getRandomQName()));
+			binding.addisf_Status(getStatus());
+		binding.add_code$(new isf_Status._code$(getRandomQName()));
 
 		if(verifiable)
 		{
@@ -52,15 +50,15 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfExtension getExtension()
+	public static isf_Extension getExtension()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfExtension binding = new IsfExtension();
+		isf_Extension binding = new isf_Extension();
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -71,13 +69,13 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfServiceType getServiceType()
+	public static isf_ServiceType getServiceType()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfServiceType binding = new IsfServiceType(getRandomString());
+		isf_ServiceType binding = new isf_ServiceType(getRandomString());
 
 		if(verifiable)
 		{
@@ -87,15 +85,15 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfOptions getOptions()
+	public static isf_Options getOptions()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfOptions binding = new IsfOptions();
+		isf_Options binding = new isf_Options();
 		while(Math.random() < ADD_SEED)
-			binding.addIsfOption(new IsfOptions.IsfOption(getRandomString()));
+			binding.add_Option(new isf_Options._Option(getRandomString()));
 
 		if(verifiable)
 		{
@@ -105,24 +103,24 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfResourceOffering getResourceOffering()
+	public static isf_ResourceOffering getResourceOffering()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfResourceOffering binding = new IsfResourceOffering();
+		isf_ResourceOffering binding = new isf_ResourceOffering();
 		double random = Math.random();
 		if(random < 1 / 2)
-			binding.setIsfResourceID(getResourceID());
+			binding.addisf_ResourceID(getResourceID());
 		else
-			binding.setIsfEncryptedResourceID(getEncryptedResourceID());
-		binding.setIsfEntryIDAttr(new IsfResourceOffering.IsfEntryIDAttr(getRandomString()));
-		binding.setIsfServiceInstance(getServiceInstance());
+			binding.addisf_EncryptedResourceID(getEncryptedResourceID());
+		binding.add_entryID$(new isf_ResourceOffering._entryID$(getRandomString()));
+		binding.add_ServiceInstance(getServiceInstance());
 		if(Math.random() < RECURSION_SEED)
-			binding.setIsfOptions(getOptions());
+			binding.addisf_Options(getOptions());
 		if(Math.random() < RECURSION_SEED)
-			binding.setIsfAbstract(new IsfResourceOffering.IsfAbstract(getRandomString()));
+			binding.add_Abstract(new isf_ResourceOffering._Abstract(getRandomString()));
 
 		if(verifiable)
 		{
@@ -132,15 +130,15 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfResourceID getResourceID()
+	public static isf_ResourceID getResourceID()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfResourceID binding = new IsfResourceID();
-		binding.setIsfIdAttr(new IsfResourceID.IsfIdAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		isf_ResourceID binding = new isf_ResourceID();
+		binding.add_id$(new isf_ResourceID._id$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -150,15 +148,15 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfEncryptedResourceID getEncryptedResourceID()
+	public static isf_EncryptedResourceID getEncryptedResourceID()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfEncryptedResourceID binding = new IsfEncryptedResourceID();
-		binding.setXencEncryptedData(XencRegressionTest.getEncryptedData());
-		binding.setXencEncryptedKey(XencRegressionTest.getEncryptedKey());
+		isf_EncryptedResourceID binding = new isf_EncryptedResourceID();
+		binding.addxenc_EncryptedData(XencRegressionTest.getEncryptedData());
+		binding.addxenc_EncryptedKey(XencRegressionTest.getEncryptedKey());
 
 		if(verifiable)
 		{
@@ -168,46 +166,46 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static final IIsfServiceInstanceType getServiceInstance()
+	public static final $isf_ServiceInstanceType getServiceInstance()
 	{
-		IIsfServiceInstanceType binding = new IIsfServiceInstanceType()
+		$isf_ServiceInstanceType binding = new $isf_ServiceInstanceType()
 		{
-			protected IIsfServiceInstanceType inherits()
+			protected $isf_ServiceInstanceType inherits()
 			{
 				return null;
 			}
 		};
-		IIsfServiceInstanceType.IsfDescription description = new IIsfServiceInstanceType.IsfDescription();
+		$isf_ServiceInstanceType._Description description = new $isf_ServiceInstanceType._Description();
 
 		do
 		{
 			do
-			description.addIsfCredentialRef(new IIsfServiceInstanceType.IsfDescription.IsfCredentialRef(getRandomString()));
+			description.add_CredentialRef(new $isf_ServiceInstanceType._Description._CredentialRef(getRandomString()));
 			while(Math.random() < ADD_SEED);
 			do
-			description.addIsfSecurityMechID(new IIsfServiceInstanceType.IsfDescription.IsfSecurityMechID(getRandomString()));
+			description.add_SecurityMechID(new $isf_ServiceInstanceType._Description._SecurityMechID(getRandomString()));
 			while(Math.random() < ADD_SEED);
-			description.setIsfEndpoint(new IIsfServiceInstanceType.IsfDescription.IsfEndpoint(getRandomString()));
-			description.setIsfServiceNameRef(new IIsfServiceInstanceType.IsfDescription.IsfServiceNameRef(getRandomQName()));
-			description.setIsfSoapAction(new IIsfServiceInstanceType.IsfDescription.IsfSoapAction(getRandomString()));
-			description.setIsfWsdlURI(new IIsfServiceInstanceType.IsfDescription.IsfWsdlURI(getRandomString()));
-			binding.addIsfDescription(description);
+			description.add_Endpoint(new $isf_ServiceInstanceType._Description._Endpoint(getRandomString()));
+			description.add_ServiceNameRef(new $isf_ServiceInstanceType._Description._ServiceNameRef(getRandomQName()));
+			description.add_SoapAction(new $isf_ServiceInstanceType._Description._SoapAction(getRandomString()));
+			description.add_WsdlURI(new $isf_ServiceInstanceType._Description._WsdlURI(getRandomString()));
+			binding.add_Description(description);
 		}
 		while(Math.random() < ADD_SEED);
-		binding.setIsfProviderID(new IIsfServiceInstanceType.IsfProviderID(LibRegressionTest.getProviderID().getTEXT()));
-		binding.setIsfServiceType(getServiceType());
+		binding.add_ProviderID(new $isf_ServiceInstanceType._ProviderID(LibRegressionTest.getProviderID().getText()));
+		binding.addisf_ServiceType(getServiceType());
 		return binding;
 	}
 
-	public static IsfAuthorizeRequester getAuthorizeRequester()
+	public static isf_AuthorizeRequester getAuthorizeRequester()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfAuthorizeRequester binding = new IsfAuthorizeRequester();
+		isf_AuthorizeRequester binding = new isf_AuthorizeRequester();
 		while(Math.random() < ADD_SEED)
-			binding.setIsfDescriptionIDRefsAttr(new IsfAuthorizeRequester.IsfDescriptionIDRefsAttr(getRandomStrings()));
+			binding.add_descriptionIDRefs$(new isf_AuthorizeRequester._descriptionIDRefs$(getRandomStrings()));
 
 		if(verifiable)
 		{
@@ -217,15 +215,15 @@ public class DscRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IsfAuthenticateSessionContext getAuthenticateSessionContext()
+	public static isf_AuthenticateSessionContext getAuthenticateSessionContext()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		IsfAuthenticateSessionContext binding = new IsfAuthenticateSessionContext();
+		isf_AuthenticateSessionContext binding = new isf_AuthenticateSessionContext();
 		while(Math.random() < ADD_SEED)
-			binding.setIsfDescriptionIDRefsAttr(new IsfAuthenticateSessionContext.IsfDescriptionIDRefsAttr(getRandomStrings()));
+			binding.add_descriptionIDRefs$(new isf_AuthenticateSessionContext._descriptionIDRefs$(getRandomStrings()));
 
 		if(verifiable)
 		{

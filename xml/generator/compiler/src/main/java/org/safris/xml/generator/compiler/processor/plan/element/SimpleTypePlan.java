@@ -145,6 +145,10 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		if(model instanceof AnyableModel)
 			return;
 
+		if("http://www.safris.com/schema/testtwo".equals(model.getName().getNamespaceURI().toString()) && "in_complexC".equals(model.getName().getLocalPart()))
+		{
+			int ii = 0;
+		}
 		// Gets the XS pre-simpleType name of the type
 		final SimpleTypeModel baseNonXSType = digBaseNonXSType(model);
 		if(baseNonXSType != null)

@@ -1,34 +1,33 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import _0_assertion.oasis_names_tc_saml_1.ISamlSubjectStatementAbstractType;
-import _0_assertion.oasis_names_tc_saml_1.SamlAction;
-import _0_assertion.oasis_names_tc_saml_1.SamlAdvice;
-import _0_assertion.oasis_names_tc_saml_1.SamlAssertion;
-import _0_assertion.oasis_names_tc_saml_1.SamlAssertionIDReference;
-import _0_assertion.oasis_names_tc_saml_1.SamlAttribute;
-import _0_assertion.oasis_names_tc_saml_1.SamlAttributeDesignator;
-import _0_assertion.oasis_names_tc_saml_1.SamlAttributeStatement;
-import _0_assertion.oasis_names_tc_saml_1.SamlAttributeValue;
-import _0_assertion.oasis_names_tc_saml_1.SamlAudience;
-import _0_assertion.oasis_names_tc_saml_1.SamlAudienceRestrictionCondition;
-import _0_assertion.oasis_names_tc_saml_1.SamlAuthenticationStatement;
-import _0_assertion.oasis_names_tc_saml_1.SamlAuthorityBinding;
-import _0_assertion.oasis_names_tc_saml_1.SamlAuthorizationDecisionStatement;
-import _0_assertion.oasis_names_tc_saml_1.SamlConditions;
-import _0_assertion.oasis_names_tc_saml_1.SamlConfirmationMethod;
-import _0_assertion.oasis_names_tc_saml_1.SamlEvidence;
-import _0_assertion.oasis_names_tc_saml_1.SamlNameIdentifier;
-import _0_assertion.oasis_names_tc_saml_1.SamlSubject;
-import _0_assertion.oasis_names_tc_saml_1.SamlSubjectConfirmation;
-import _0_assertion.oasis_names_tc_saml_1.SamlSubjectConfirmationData;
-import _0_assertion.oasis_names_tc_saml_1.SamlSubjectLocality;
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlRegressionTest;
+import _0_assertion.oasis_names_tc_saml_1.$saml_SubjectStatementAbstractType;
+import _0_assertion.oasis_names_tc_saml_1.saml_Action;
+import _0_assertion.oasis_names_tc_saml_1.saml_Advice;
+import _0_assertion.oasis_names_tc_saml_1.saml_Assertion;
+import _0_assertion.oasis_names_tc_saml_1.saml_AssertionIDReference;
+import _0_assertion.oasis_names_tc_saml_1.saml_Attribute;
+import _0_assertion.oasis_names_tc_saml_1.saml_AttributeDesignator;
+import _0_assertion.oasis_names_tc_saml_1.saml_AttributeStatement;
+import _0_assertion.oasis_names_tc_saml_1.saml_AttributeValue;
+import _0_assertion.oasis_names_tc_saml_1.saml_Audience;
+import _0_assertion.oasis_names_tc_saml_1.saml_AudienceRestrictionCondition;
+import _0_assertion.oasis_names_tc_saml_1.saml_AuthenticationStatement;
+import _0_assertion.oasis_names_tc_saml_1.saml_AuthorityBinding;
+import _0_assertion.oasis_names_tc_saml_1.saml_AuthorizationDecisionStatement;
+import _0_assertion.oasis_names_tc_saml_1.saml_Conditions;
+import _0_assertion.oasis_names_tc_saml_1.saml_ConfirmationMethod;
+import _0_assertion.oasis_names_tc_saml_1.saml_Evidence;
+import _0_assertion.oasis_names_tc_saml_1.saml_NameIdentifier;
+import _0_assertion.oasis_names_tc_saml_1.saml_Subject;
+import _0_assertion.oasis_names_tc_saml_1.saml_SubjectConfirmation;
+import _0_assertion.oasis_names_tc_saml_1.saml_SubjectConfirmationData;
+import _0_assertion.oasis_names_tc_saml_1.saml_SubjectLocality;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class SamlRegressionTest extends RegressionTest
 {
-	private static final String namespaceURI = "urn:oasis:names:tc:Saml:1.0:assertion";
+	private static final String namespaceURI = "urn:oasis:names:tc:saml_:1.0:assertion";
 
 	public static String getNamespaceURI()
 	{
@@ -43,14 +42,14 @@ public class SamlRegressionTest extends RegressionTest
 		getAttributeDesignator();
 	}
 
-	public static SamlAssertionIDReference getAssertionIDReference()
+	public static saml_AssertionIDReference getAssertionIDReference()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAssertionIDReference binding = new SamlAssertionIDReference();
-		binding.setTEXT(getRandomString());
+		saml_AssertionIDReference binding = new saml_AssertionIDReference();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -60,32 +59,32 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAssertion getAssertion()
+	public static saml_Assertion getAssertion()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAssertion binding = new SamlAssertion();
-		binding.setSamlAdvice(getAdvice());
-		binding.setSamlAssertionIDAttr(new SamlAssertion.SamlAssertionIDAttr(getRandomString()));
+		saml_Assertion binding = new saml_Assertion();
+		binding.addsaml_Advice(getAdvice());
+		binding.add_AssertionID$(new saml_Assertion._AssertionID$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAttributeStatement(getAttributeStatement());
+			binding.addsaml_AttributeStatement(getAttributeStatement());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthenticationStatement(getAuthenticationStatement());
+			binding.addsaml_AuthenticationStatement(getAuthenticationStatement());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthorizationDecisionStatement(getAuthorizationDecisionStatement());
-		binding.setSamlConditions(getConditions());
+			binding.addsaml_AuthorizationDecisionStatement(getAuthorizationDecisionStatement());
+		binding.addsaml_Conditions(getConditions());
 		do
-		binding.addSamlStatement(getStatement());
+		binding.addsaml_Statement(getStatement());
 		while(Math.random() < ADD_SEED);
 		while(Math.random() < ADD_SEED)
-			binding.addSamlSubjectStatement(getSubjectStatement());
-		binding.setSamlIssueInstantAttr(new SamlAssertion.SamlIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlIssuerAttr(new SamlAssertion.SamlIssuerAttr(getRandomString()));
-		binding.setSamlMajorVersionAttr(new SamlAssertion.SamlMajorVersionAttr(getRandomInteger()));
-		binding.setSamlMinorVersionAttr(new SamlAssertion.SamlMinorVersionAttr(getRandomInteger()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addsaml_SubjectStatement(getSubjectStatement());
+		binding.add_IssueInstant$(new saml_Assertion._IssueInstant$(getRandomDateTime()));
+		binding.add_Issuer$(new saml_Assertion._Issuer$(getRandomString()));
+		binding.add_MajorVersion$(new saml_Assertion._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new saml_Assertion._MinorVersion$(getRandomInteger()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		if(verifiable)
 		{
@@ -95,19 +94,19 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlConditions getConditions()
+	public static saml_Conditions getConditions()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlConditions binding = new SamlConditions();
+		saml_Conditions binding = new saml_Conditions();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAudienceRestrictionCondition(getAudienceRestrictionCondition());
+			binding.addsaml_AudienceRestrictionCondition(getAudienceRestrictionCondition());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlCondition(getCondition());
-		binding.setSamlNotBeforeAttr(new SamlConditions.SamlNotBeforeAttr(getRandomDateTime()));
-		binding.setSamlNotOnOrAfterAttr(new SamlConditions.SamlNotOnOrAfterAttr(getRandomDateTime()));
+			binding.addsaml_Condition(getCondition());
+		binding.add_NotBefore$(new saml_Conditions._NotBefore$(getRandomDateTime()));
+		binding.add_NotOnOrAfter$(new saml_Conditions._NotOnOrAfter$(getRandomDateTime()));
 
 		if(verifiable)
 		{
@@ -118,20 +117,20 @@ public class SamlRegressionTest extends RegressionTest
 	}
 
 	// FIXME: Condition is a direct element of an abstract complexType.
-	public static SamlAudienceRestrictionCondition getCondition()
+	public static saml_AudienceRestrictionCondition getCondition()
 	{
 		return getAudienceRestrictionCondition();
 	}
 
-	public static SamlAudienceRestrictionCondition getAudienceRestrictionCondition()
+	public static saml_AudienceRestrictionCondition getAudienceRestrictionCondition()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAudienceRestrictionCondition binding = new SamlAudienceRestrictionCondition();
+		saml_AudienceRestrictionCondition binding = new saml_AudienceRestrictionCondition();
 		do
-		binding.addSamlAudience(getAudience());
+		binding.addsaml_Audience(getAudience());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -142,14 +141,14 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAudience getAudience()
+	public static saml_Audience getAudience()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAudience binding = new SamlAudience();
-		binding.setTEXT(getRandomString());
+		saml_Audience binding = new saml_Audience();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -159,17 +158,17 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAdvice getAdvice()
+	public static saml_Advice getAdvice()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAdvice binding = new SamlAdvice();
+		saml_Advice binding = new saml_Advice();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAssertion(getAssertion());
+			binding.addsaml_Assertion(getAssertion());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAssertionIDReference(getAssertionIDReference());
+			binding.addsaml_AssertionIDReference(getAssertionIDReference());
 
 		if(verifiable)
 		{
@@ -180,26 +179,26 @@ public class SamlRegressionTest extends RegressionTest
 	}
 
 	// FIXME: Statement is a direct element of an abstract complexType.
-	public static ISamlSubjectStatementAbstractType getStatement()
+	public static $saml_SubjectStatementAbstractType getStatement()
 	{
 		return getAuthenticationStatement();
 	}
 
 	// FIXME: SubjectStatement is a direct element of an abstract complexType.
-	public static ISamlSubjectStatementAbstractType getSubjectStatement()
+	public static $saml_SubjectStatementAbstractType getSubjectStatement()
 	{
 		return getAttributeStatement();
 	}
 
-	public static SamlSubject getSubject()
+	public static saml_Subject getSubject()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlSubject binding = new SamlSubject();
-		binding.setSamlNameIdentifier(getNameIdentifier());
-		binding.setSamlSubjectConfirmation(getSubjectConfirmation());
+		saml_Subject binding = new saml_Subject();
+		binding.addsaml_NameIdentifier(getNameIdentifier());
+		binding.addsaml_SubjectConfirmation(getSubjectConfirmation());
 
 		if(verifiable)
 		{
@@ -209,16 +208,16 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlNameIdentifier getNameIdentifier()
+	public static saml_NameIdentifier getNameIdentifier()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlNameIdentifier binding = new SamlNameIdentifier();
-		binding.setSamlFormatAttr(new SamlNameIdentifier.SamlFormatAttr(getRandomString()));
-		binding.setSamlNameQualifierAttr(new SamlNameIdentifier.SamlNameQualifierAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		saml_NameIdentifier binding = new saml_NameIdentifier();
+		binding.add_Format$(new saml_NameIdentifier._Format$(getRandomString()));
+		binding.add_NameQualifier$(new saml_NameIdentifier._NameQualifier$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -228,18 +227,18 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlSubjectConfirmation getSubjectConfirmation()
+	public static saml_SubjectConfirmation getSubjectConfirmation()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlSubjectConfirmation binding = new SamlSubjectConfirmation();
+		saml_SubjectConfirmation binding = new saml_SubjectConfirmation();
 		do
-		binding.addSamlConfirmationMethod(getConfirmationMethod());
+		binding.addsaml_ConfirmationMethod(getConfirmationMethod());
 		while(Math.random() < ADD_SEED);
-		binding.setDsKeyInfo(DsRegressionTest.getKeyInfo());
-		binding.setSamlSubjectConfirmationData(getSubjectConfirmationData());
+		binding.addds_KeyInfo(DsRegressionTest.getKeyInfo());
+		binding.addsaml_SubjectConfirmationData(getSubjectConfirmationData());
 
 		if(verifiable)
 		{
@@ -249,14 +248,14 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlSubjectConfirmationData getSubjectConfirmationData()
+	public static saml_SubjectConfirmationData getSubjectConfirmationData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlSubjectConfirmationData binding = new SamlSubjectConfirmationData();
-//		binding.setTEXT(getRandomString());
+		saml_SubjectConfirmationData binding = new saml_SubjectConfirmationData();
+//		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -266,14 +265,14 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlConfirmationMethod getConfirmationMethod()
+	public static saml_ConfirmationMethod getConfirmationMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlConfirmationMethod binding = new SamlConfirmationMethod();
-		binding.setTEXT(getRandomString());
+		saml_ConfirmationMethod binding = new saml_ConfirmationMethod();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -283,19 +282,19 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAuthenticationStatement getAuthenticationStatement()
+	public static saml_AuthenticationStatement getAuthenticationStatement()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAuthenticationStatement binding = new SamlAuthenticationStatement();
-		binding.setSamlAuthenticationInstantAttr(new SamlAuthenticationStatement.SamlAuthenticationInstantAttr(getRandomDateTime()));
-		binding.setSamlAuthenticationMethodAttr(new SamlAuthenticationStatement.SamlAuthenticationMethodAttr(getRandomString()));
+		saml_AuthenticationStatement binding = new saml_AuthenticationStatement();
+		binding.add_AuthenticationInstant$(new saml_AuthenticationStatement._AuthenticationInstant$(getRandomDateTime()));
+		binding.add_AuthenticationMethod$(new saml_AuthenticationStatement._AuthenticationMethod$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthorityBinding(getAuthorityBinding());
-		binding.setSamlSubject(getSubject());
-		binding.setSamlSubjectLocality(getSubjectLocality());
+			binding.addsaml_AuthorityBinding(getAuthorityBinding());
+		binding.addsaml_Subject(getSubject());
+		binding.addsaml_SubjectLocality(getSubjectLocality());
 
 		if(verifiable)
 		{
@@ -305,15 +304,15 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlSubjectLocality getSubjectLocality()
+	public static saml_SubjectLocality getSubjectLocality()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlSubjectLocality binding = new SamlSubjectLocality();
-		binding.setSamlDNSAddressAttr(new SamlSubjectLocality.SamlDNSAddressAttr(getRandomString()));
-		binding.setSamlIPAddressAttr(new SamlSubjectLocality.SamlIPAddressAttr(getRandomString()));
+		saml_SubjectLocality binding = new saml_SubjectLocality();
+		binding.add_DNSAddress$(new saml_SubjectLocality._DNSAddress$(getRandomString()));
+		binding.add_IPAddress$(new saml_SubjectLocality._IPAddress$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -323,16 +322,16 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAuthorityBinding getAuthorityBinding()
+	public static saml_AuthorityBinding getAuthorityBinding()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAuthorityBinding binding = new SamlAuthorityBinding();
-		binding.setSamlAuthorityKindAttr(new SamlAuthorityBinding.SamlAuthorityKindAttr(getRandomQName()));
-		binding.setSamlBindingAttr(new SamlAuthorityBinding.SamlBindingAttr(getRandomString()));
-		binding.setSamlLocationAttr(new SamlAuthorityBinding.SamlLocationAttr(getRandomString()));
+		saml_AuthorityBinding binding = new saml_AuthorityBinding();
+		binding.add_AuthorityKind$(new saml_AuthorityBinding._AuthorityKind$(getRandomQName()));
+		binding.add_Binding$(new saml_AuthorityBinding._Binding$(getRandomString()));
+		binding.add_Location$(new saml_AuthorityBinding._Location$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -342,27 +341,27 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAuthorizationDecisionStatement getAuthorizationDecisionStatement()
+	public static saml_AuthorizationDecisionStatement getAuthorizationDecisionStatement()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAuthorizationDecisionStatement binding = new SamlAuthorizationDecisionStatement();
+		saml_AuthorizationDecisionStatement binding = new saml_AuthorizationDecisionStatement();
 		do
-		binding.addSamlAction(getAction());
+		binding.addsaml_Action(getAction());
 		while(Math.random() < ADD_SEED);
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.setSamlDecisionAttr(new SamlAuthorizationDecisionStatement.SamlDecisionAttr(SamlAuthorizationDecisionStatement.SamlDecisionAttr.INDETERMINATE));
+			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.INDETERMINATE));
 		else if(random < 2 / 3)
-			binding.setSamlDecisionAttr(new SamlAuthorizationDecisionStatement.SamlDecisionAttr(SamlAuthorizationDecisionStatement.SamlDecisionAttr.DENY));
+			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.DENY));
 		else
-			binding.setSamlDecisionAttr(new SamlAuthorizationDecisionStatement.SamlDecisionAttr(SamlAuthorizationDecisionStatement.SamlDecisionAttr.PERMIT));
+			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.PERMIT));
 		if(Math.random() < ADD_SEED)
-			binding.setSamlEvidence(getEvidence());
-		binding.setSamlResourceAttr(new SamlAuthorizationDecisionStatement.SamlResourceAttr(getRandomString()));
-		binding.setSamlSubject(getSubject());
+			binding.addsaml_Evidence(getEvidence());
+		binding.add_Resource$(new saml_AuthorizationDecisionStatement._Resource$(getRandomString()));
+		binding.addsaml_Subject(getSubject());
 
 		if(verifiable)
 		{
@@ -372,15 +371,15 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAction getAction()
+	public static saml_Action getAction()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAction binding = new SamlAction();
-		binding.setSamlNamespaceAttr(new SamlAction.SamlNamespaceAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		saml_Action binding = new saml_Action();
+		binding.add_Namespace$(new saml_Action._Namespace$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -390,77 +389,18 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlEvidence getEvidence()
+	public static saml_Evidence getEvidence()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlEvidence binding = new SamlEvidence();
+		saml_Evidence binding = new saml_Evidence();
 		do
-		binding.addSamlAssertion(getAssertion());
+		binding.addsaml_Assertion(getAssertion());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addSamlAssertionIDReference(getAssertionIDReference());
-		while(Math.random() < ADD_SEED);
-
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
-
-	public static SamlAttributeStatement getAttributeStatement()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
-
-		SamlAttributeStatement binding = new SamlAttributeStatement();
-		do
-		binding.addSamlAttribute(getAttribute());
-		while(Math.random() < ADD_SEED);
-		binding.setSamlSubject(getSubject());
-
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
-
-	public static SamlAttributeDesignator getAttributeDesignator()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
-
-		SamlAttributeDesignator binding = new SamlAttributeDesignator();
-		binding.setSamlAttributeNameAttr(new SamlAttributeDesignator.SamlAttributeNameAttr(getRandomString()));
-		binding.setSamlAttributeNamespaceAttr(new SamlAttributeDesignator.SamlAttributeNamespaceAttr(getRandomString()));
-
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
-
-	public static SamlAttribute getAttribute()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
-
-		SamlAttribute binding = new SamlAttribute();
-		binding.setSamlAttributeNameAttr(new SamlAttribute.SamlAttributeNameAttr(getRandomString()));
-		binding.setSamlAttributeNamespaceAttr(new SamlAttribute.SamlAttributeNamespaceAttr(getRandomString()));
-		do
-		binding.addSamlAttributeValue(getAttributeValue());
+		binding.addsaml_AssertionIDReference(getAssertionIDReference());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -471,14 +411,73 @@ public class SamlRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static SamlAttributeValue getAttributeValue()
+	public static saml_AttributeStatement getAttributeStatement()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		SamlAttributeValue binding = new SamlAttributeValue();
-//		binding.setTEXT(getRandomString());
+		saml_AttributeStatement binding = new saml_AttributeStatement();
+		do
+		binding.addsaml_Attribute(getAttribute());
+		while(Math.random() < ADD_SEED);
+		binding.addsaml_Subject(getSubject());
+
+		if(verifiable)
+		{
+			verify(binding);
+			setVerifiable(true);
+		}
+		return binding;
+	}
+
+	public static saml_AttributeDesignator getAttributeDesignator()
+	{
+		boolean verifiable = isVerifiable();
+		if(verifiable)
+			setVerifiable(false);
+
+		saml_AttributeDesignator binding = new saml_AttributeDesignator();
+		binding.add_AttributeName$(new saml_AttributeDesignator._AttributeName$(getRandomString()));
+		binding.add_AttributeNamespace$(new saml_AttributeDesignator._AttributeNamespace$(getRandomString()));
+
+		if(verifiable)
+		{
+			verify(binding);
+			setVerifiable(true);
+		}
+		return binding;
+	}
+
+	public static saml_Attribute getAttribute()
+	{
+		boolean verifiable = isVerifiable();
+		if(verifiable)
+			setVerifiable(false);
+
+		saml_Attribute binding = new saml_Attribute();
+		binding.add_AttributeName$(new saml_Attribute._AttributeName$(getRandomString()));
+		binding.add_AttributeNamespace$(new saml_Attribute._AttributeNamespace$(getRandomString()));
+		do
+		binding.addsaml_AttributeValue(getAttributeValue());
+		while(Math.random() < ADD_SEED);
+
+		if(verifiable)
+		{
+			verify(binding);
+			setVerifiable(true);
+		}
+		return binding;
+	}
+
+	public static saml_AttributeValue getAttributeValue()
+	{
+		boolean verifiable = isVerifiable();
+		if(verifiable)
+			setVerifiable(false);
+
+		saml_AttributeValue binding = new saml_AttributeValue();
+//		binding.setText(getRandomString());
 
 		if(verifiable)
 		{

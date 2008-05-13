@@ -33,7 +33,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
 		// FIXME: This is slow!
 		if(getElements() != null)
 			for(ElementPlan element : getElements())
-				if(element.getName().equals(name))
+				if(element.getName() != null && element.getName().equals(name))
 					return element;
 
 		if(getSuperType() == null)

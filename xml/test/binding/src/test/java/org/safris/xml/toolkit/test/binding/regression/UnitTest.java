@@ -1,19 +1,16 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
 import java.io.FileInputStream;
+import org.junit.Ignore;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
+@Ignore("Make this a real test!")
 public class UnitTest extends Metadata
 {
 	public static void main(String[] args)
 	{
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-
-		Bindings.bootstrapConfig(bindingConfig);
 		try
 		{
 			Binding marchalledBinding = Bindings.parse(new InputSource(new FileInputStream("marshalledOut.txt")));

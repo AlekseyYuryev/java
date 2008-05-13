@@ -1,8 +1,10 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import liberty_metadata_2003_08.IMdAffiliationDescriptorType;
-import liberty_metadata_2003_08.IMdEntityDescriptorType;
+import liberty_metadata_2003_08.$md_affiliationDescriptorType;
+import liberty_metadata_2003_08.$md_entityDescriptorType;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class AffiliationMetadata extends Metadata
 {
 	private static String DEFAULT_HOST = "aol-4";
@@ -21,13 +23,13 @@ public class AffiliationMetadata extends Metadata
 		System.out.println(getAffiliationDescriptor());
 	}
 
-	public static IMdAffiliationDescriptorType getAffiliationDescriptor()
+	public static $md_affiliationDescriptorType getAffiliationDescriptor()
 	{
-		IMdAffiliationDescriptorType affiliationDescriptor = new IMdEntityDescriptorType.MdAffiliationDescriptor();
-		affiliationDescriptor.addMdAffiliateMember(new IMdAffiliationDescriptorType.MdAffiliateMember("https://aol-3." + domain + "/metadata.xml"));
-		affiliationDescriptor.addMdAffiliateMember(new IMdAffiliationDescriptorType.MdAffiliateMember("https://aol-4." + domain + "/metadata.xml"));
-		affiliationDescriptor.setMdAffiliationIDAttr(new IMdAffiliationDescriptorType.MdAffiliationIDAttr("https://aol-3." + domain + "/affiliation.xml"));
-		affiliationDescriptor.setMdAffiliationOwnerIDAttr(new IMdAffiliationDescriptorType.MdAffiliationOwnerIDAttr("https://aol-3." + domain + "/metadata.xml"));
+		$md_affiliationDescriptorType affiliationDescriptor = new $md_entityDescriptorType._AffiliationDescriptor();
+		affiliationDescriptor.add_AffiliateMember(new $md_affiliationDescriptorType._AffiliateMember("https://aol-3." + domain + "/metadata.xml"));
+		affiliationDescriptor.add_AffiliateMember(new $md_affiliationDescriptorType._AffiliateMember("https://aol-4." + domain + "/metadata.xml"));
+		affiliationDescriptor.add_affiliationID$(new $md_affiliationDescriptorType._affiliationID$("https://aol-3." + domain + "/affiliation.xml"));
+		affiliationDescriptor.add_affiliationOwnerID$(new $md_affiliationDescriptorType._affiliationOwnerID$("https://aol-3." + domain + "/metadata.xml"));
 		return affiliationDescriptor;
 	}
 }

@@ -40,9 +40,10 @@ public class AttributeAudit<T>
 		return required;
 	}
 
-	public void setAttribute(T value)
+	public boolean setAttribute(T value)
 	{
 		this.value = value;
+		return true;
 	}
 
 	public T getAttribute()

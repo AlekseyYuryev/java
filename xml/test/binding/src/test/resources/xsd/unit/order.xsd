@@ -34,10 +34,12 @@
 		<xs:complexContent>
 			<xs:extension base="or:BType">
 				<xs:sequence>
-					<xs:element name="B" type="or:BType"/>
-					<xs:element name="innerA" type="xs:string"/>
-					<xs:element name="innerF" type="xs:float"/>
-					<xs:element name="innerG" type="xs:double"/>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="B" type="or:BType"/>
+						<xs:element name="innerA" type="xs:string"/>
+						<xs:element name="innerF" type="xs:float"/>
+						<xs:element name="innerG" type="xs:double"/>
+					</xs:choice>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

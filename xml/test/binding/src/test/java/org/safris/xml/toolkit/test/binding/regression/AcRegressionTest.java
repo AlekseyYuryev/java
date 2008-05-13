@@ -1,55 +1,55 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import liberty_ac_2003_08.AcActivationLimit;
-import liberty_ac_2003_08.AcActivationLimitDuration;
-import liberty_ac_2003_08.AcActivationLimitSession;
-import liberty_ac_2003_08.AcActivationLimitUsages;
-import liberty_ac_2003_08.AcActivationPin;
-import liberty_ac_2003_08.AcAsymmetricDecryption;
-import liberty_ac_2003_08.AcAsymmetricKeyAgreement;
-import liberty_ac_2003_08.AcAuthenticationContextStatement;
-import liberty_ac_2003_08.AcAuthenticationMethod;
-import liberty_ac_2003_08.AcAuthenticator;
-import liberty_ac_2003_08.AcAuthenticatorTransportProtocol;
-import liberty_ac_2003_08.AcDeactivationCallCenter;
-import liberty_ac_2003_08.AcDigSig;
-import liberty_ac_2003_08.AcExtension;
-import liberty_ac_2003_08.AcGeneration;
-import liberty_ac_2003_08.AcGoverningAgreementRef;
-import liberty_ac_2003_08.AcGoverningAgreements;
-import liberty_ac_2003_08.AcHTTP;
-import liberty_ac_2003_08.AcIPAddress;
-import liberty_ac_2003_08.AcIPSec;
-import liberty_ac_2003_08.AcIdentification;
-import liberty_ac_2003_08.AcKeyActivation;
-import liberty_ac_2003_08.AcKeySharing;
-import liberty_ac_2003_08.AcKeyStorage;
-import liberty_ac_2003_08.AcLength;
-import liberty_ac_2003_08.AcMobileNetworkEndToEndEncryption;
-import liberty_ac_2003_08.AcMobileNetworkNoEncryption;
-import liberty_ac_2003_08.AcMobileNetworkRadioEncryption;
-import liberty_ac_2003_08.AcOperationalProtection;
-import liberty_ac_2003_08.AcPassword;
-import liberty_ac_2003_08.AcPhysicalVerification;
-import liberty_ac_2003_08.AcPreviousSession;
-import liberty_ac_2003_08.AcPrincipalAuthenticationMechanism;
-import liberty_ac_2003_08.AcPrivateKeyProtection;
-import liberty_ac_2003_08.AcResumeSession;
-import liberty_ac_2003_08.AcSSL;
-import liberty_ac_2003_08.AcSecurityAudit;
-import liberty_ac_2003_08.AcSharedSecretChallengeResponse;
-import liberty_ac_2003_08.AcSharedSecretDynamicPlaintext;
-import liberty_ac_2003_08.AcSmartcard;
-import liberty_ac_2003_08.AcSwitchAudit;
-import liberty_ac_2003_08.AcTechnicalProtection;
-import liberty_ac_2003_08.AcTimeSyncToken;
-import liberty_ac_2003_08.AcToken;
-import liberty_ac_2003_08.AcWTLS;
-import liberty_ac_2003_08.AcWrittenConsent;
-import liberty_ac_2003_08.AcZeroKnowledge;
-import org.safris.xml.toolkit.test.binding.regression.AcRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
+import liberty_ac_2003_08.ac_ActivationLimit;
+import liberty_ac_2003_08.ac_ActivationLimitDuration;
+import liberty_ac_2003_08.ac_ActivationLimitSession;
+import liberty_ac_2003_08.ac_ActivationLimitUsages;
+import liberty_ac_2003_08.ac_ActivationPin;
+import liberty_ac_2003_08.ac_AsymmetricDecryption;
+import liberty_ac_2003_08.ac_AsymmetricKeyAgreement;
+import liberty_ac_2003_08.ac_AuthenticationContextStatement;
+import liberty_ac_2003_08.ac_AuthenticationMethod;
+import liberty_ac_2003_08.ac_Authenticator;
+import liberty_ac_2003_08.ac_AuthenticatorTransportProtocol;
+import liberty_ac_2003_08.ac_DeactivationCallCenter;
+import liberty_ac_2003_08.ac_DigSig;
+import liberty_ac_2003_08.ac_Extension;
+import liberty_ac_2003_08.ac_Generation;
+import liberty_ac_2003_08.ac_GoverningAgreementRef;
+import liberty_ac_2003_08.ac_GoverningAgreements;
+import liberty_ac_2003_08.ac_HTTP;
+import liberty_ac_2003_08.ac_IPAddress;
+import liberty_ac_2003_08.ac_IPSec;
+import liberty_ac_2003_08.ac_Identification;
+import liberty_ac_2003_08.ac_KeyActivation;
+import liberty_ac_2003_08.ac_KeySharing;
+import liberty_ac_2003_08.ac_KeyStorage;
+import liberty_ac_2003_08.ac_Length;
+import liberty_ac_2003_08.ac_MobileNetworkEndToEndEncryption;
+import liberty_ac_2003_08.ac_MobileNetworkNoEncryption;
+import liberty_ac_2003_08.ac_MobileNetworkRadioEncryption;
+import liberty_ac_2003_08.ac_OperationalProtection;
+import liberty_ac_2003_08.ac_Password;
+import liberty_ac_2003_08.ac_PhysicalVerification;
+import liberty_ac_2003_08.ac_PreviousSession;
+import liberty_ac_2003_08.ac_PrincipalAuthenticationMechanism;
+import liberty_ac_2003_08.ac_PrivateKeyProtection;
+import liberty_ac_2003_08.ac_ResumeSession;
+import liberty_ac_2003_08.ac_SSL;
+import liberty_ac_2003_08.ac_SecurityAudit;
+import liberty_ac_2003_08.ac_SharedSecretChallengeResponse;
+import liberty_ac_2003_08.ac_SharedSecretDynamicPlaintext;
+import liberty_ac_2003_08.ac_Smartcard;
+import liberty_ac_2003_08.ac_SwitchAudit;
+import liberty_ac_2003_08.ac_TechnicalProtection;
+import liberty_ac_2003_08.ac_TimeSyncToken;
+import liberty_ac_2003_08.ac_Token;
+import liberty_ac_2003_08.ac_WTLS;
+import liberty_ac_2003_08.ac_WrittenConsent;
+import liberty_ac_2003_08.ac_ZeroKnowledge;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class AcRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:liberty:ac:2003-08";
@@ -66,20 +66,20 @@ public class AcRegressionTest extends RegressionTest
 		getAuthenticationContextStatement();
 	}
 
-	public static AcAuthenticationContextStatement getAuthenticationContextStatement()
+	public static ac_AuthenticationContextStatement getAuthenticationContextStatement()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAuthenticationContextStatement binding = new AcAuthenticationContextStatement();
-		binding.setAcIdentification(getIdentification());
-		binding.setAcTechnicalProtection(getTechnicalProtection());
-		binding.setAcOperationalProtection(getOperationalProtection());
-		binding.setAcAuthenticationMethod(getAuthenticationMethod());
-		binding.setAcGoverningAgreements(getGoverningAgreements());
-		binding.addAcExtension(getExtension());
-		binding.setAcIDAttr(new AcAuthenticationContextStatement.AcIDAttr(getRandomString()));
+		ac_AuthenticationContextStatement binding = new ac_AuthenticationContextStatement();
+		binding.addac_Identification(getIdentification());
+		binding.addac_TechnicalProtection(getTechnicalProtection());
+		binding.addac_OperationalProtection(getOperationalProtection());
+		binding.addac_AuthenticationMethod(getAuthenticationMethod());
+		binding.addac_GoverningAgreements(getGoverningAgreements());
+		binding.addac_Extension(getExtension());
+		binding.add_ID$(new ac_AuthenticationContextStatement._ID$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -89,24 +89,24 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcIdentification getIdentification()
+	public static ac_Identification getIdentification()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcIdentification binding = new AcIdentification();
-		binding.setAcPhysicalVerification(getPhysicalVerification());
-		binding.setAcWrittenConsent(getWrittenConsent());
+		ac_Identification binding = new ac_Identification();
+		binding.addac_PhysicalVerification(getPhysicalVerification());
+		binding.addac_WrittenConsent(getWrittenConsent());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.setAcNymAttr(new AcIdentification.AcNymAttr(AcIdentification.AcNymAttr.ANONYMITY));
+			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.ANONYMITY));
 		else if(random < 2 / 3)
-			binding.setAcNymAttr(new AcIdentification.AcNymAttr(AcIdentification.AcNymAttr.PSEUDONYMITY));
+			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.PSEUDONYMITY));
 		else
-			binding.setAcNymAttr(new AcIdentification.AcNymAttr(AcIdentification.AcNymAttr.VERINYMITY));
+			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.VERINYMITY));
 
 		if(verifiable)
 		{
@@ -116,17 +116,17 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcPhysicalVerification getPhysicalVerification()
+	public static ac_PhysicalVerification getPhysicalVerification()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcPhysicalVerification binding = new AcPhysicalVerification();
+		ac_PhysicalVerification binding = new ac_PhysicalVerification();
 		if(Math.random() < 0.5)
-			binding.setAcCredentialLevelAttr(new AcPhysicalVerification.AcCredentialLevelAttr(AcPhysicalVerification.AcCredentialLevelAttr.PRIMARY));
+			binding.add_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.PRIMARY));
 		else
-			binding.setAcCredentialLevelAttr(new AcPhysicalVerification.AcCredentialLevelAttr(AcPhysicalVerification.AcCredentialLevelAttr.SECONDARY));
+			binding.add_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.SECONDARY));
 
 		if(verifiable)
 		{
@@ -136,15 +136,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcWrittenConsent getWrittenConsent()
+	public static ac_WrittenConsent getWrittenConsent()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcWrittenConsent binding = new AcWrittenConsent();
+		ac_WrittenConsent binding = new ac_WrittenConsent();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -154,16 +154,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcTechnicalProtection getTechnicalProtection()
+	public static ac_TechnicalProtection getTechnicalProtection()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcTechnicalProtection binding = new AcTechnicalProtection();
-		binding.setAcPrivateKeyProtection(getPrivateKeyProtection());
+		ac_TechnicalProtection binding = new ac_TechnicalProtection();
+		binding.addac_PrivateKeyProtection(getPrivateKeyProtection());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -173,18 +173,18 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcPrivateKeyProtection getPrivateKeyProtection()
+	public static ac_PrivateKeyProtection getPrivateKeyProtection()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcPrivateKeyProtection binding = new AcPrivateKeyProtection();
-		binding.setAcKeyActivation(getKeyActivation());
-		binding.setAcKeyStorage(getKeyStorage());
-		binding.setAcKeySharing(getKeySharing());
+		ac_PrivateKeyProtection binding = new ac_PrivateKeyProtection();
+		binding.addac_KeyActivation(getKeyActivation());
+		binding.addac_KeyStorage(getKeyStorage());
+		binding.addac_KeySharing(getKeySharing());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -194,14 +194,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcKeyActivation getKeyActivation()
+	public static ac_KeyActivation getKeyActivation()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcKeyActivation binding = new AcKeyActivation();
-		binding.setAcActivationPin(getActivationPin());
+		ac_KeyActivation binding = new ac_KeyActivation();
+		binding.addac_ActivationPin(getac_tivationPin());
 
 		if(verifiable)
 		{
@@ -211,14 +211,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcActivationPin getActivationPin()
+	public static ac_ActivationPin getac_tivationPin()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcActivationPin binding = new AcActivationPin();
-		binding.setAcActivationLimit(getActivationLimit());
+		ac_ActivationPin binding = new ac_ActivationPin();
+		binding.addac_ActivationLimit(getac_tivationLimit());
 
 		if(verifiable)
 		{
@@ -228,20 +228,20 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcActivationLimit getActivationLimit()
+	public static ac_ActivationLimit getac_tivationLimit()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcActivationLimit binding = new AcActivationLimit();
+		ac_ActivationLimit binding = new ac_ActivationLimit();
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.setAcActivationLimitDuration(getActivationLimitDuration());
+			binding.addac_ActivationLimitDuration(getac_tivationLimitDuration());
 		else if(random < 2 / 3)
-			binding.setAcActivationLimitSession(new AcActivationLimitSession());
+			binding.addac_ActivationLimitSession(new ac_ActivationLimitSession());
 		else
-			binding.setAcActivationLimitUsages(getActivationLimitUsages());
+			binding.addac_ActivationLimitUsages(getac_tivationLimitUsages());
 
 		if(verifiable)
 		{
@@ -251,14 +251,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcActivationLimitUsages getActivationLimitUsages()
+	public static ac_ActivationLimitUsages getac_tivationLimitUsages()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcActivationLimitUsages binding = new AcActivationLimitUsages();
-		binding.setAcNumberAttr(new AcActivationLimitUsages.AcNumberAttr(getRandomInteger()));
+		ac_ActivationLimitUsages binding = new ac_ActivationLimitUsages();
+		binding.add_number$(new ac_ActivationLimitUsages._number$(getRandomInteger()));
 
 		if(verifiable)
 		{
@@ -268,14 +268,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcActivationLimitDuration getActivationLimitDuration()
+	public static ac_ActivationLimitDuration getac_tivationLimitDuration()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcActivationLimitDuration binding = new AcActivationLimitDuration();
-		binding.setAcDurationAttr(new AcActivationLimitDuration.AcDurationAttr(getRandomDuration()));
+		ac_ActivationLimitDuration binding = new ac_ActivationLimitDuration();
+		binding.add_duration$(new ac_ActivationLimitDuration._duration$(getRandomDuration()));
 
 		if(verifiable)
 		{
@@ -285,24 +285,24 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcKeyStorage getKeyStorage()
+	public static ac_KeyStorage getKeyStorage()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcKeyStorage binding = new AcKeyStorage();
+		ac_KeyStorage binding = new ac_KeyStorage();
 		double random = Math.random();
 		if(random < 1 / 5)
-			binding.setAcMediumAttr(new AcKeyStorage.AcMediumAttr(AcKeyStorage.AcMediumAttr.MEMORY));
+			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MEMORY));
 		else if(random < 2 / 5)
-			binding.setAcMediumAttr(new AcKeyStorage.AcMediumAttr(AcKeyStorage.AcMediumAttr.MOBILEAUTHCARD));
+			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEAUTHCARD));
 		else if(random < 3 / 5)
-			binding.setAcMediumAttr(new AcKeyStorage.AcMediumAttr(AcKeyStorage.AcMediumAttr.MOBILEDEVICE));
+			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEDEVICE));
 		else if(random < 4 / 5)
-			binding.setAcMediumAttr(new AcKeyStorage.AcMediumAttr(AcKeyStorage.AcMediumAttr.SMARTCARD));
+			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.SMARTCARD));
 		else
-			binding.setAcMediumAttr(new AcKeyStorage.AcMediumAttr(AcKeyStorage.AcMediumAttr.TOKEN));
+			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.TOKEN));
 
 		if(verifiable)
 		{
@@ -312,14 +312,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcKeySharing getKeySharing()
+	public static ac_KeySharing getKeySharing()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcKeySharing binding = new AcKeySharing();
-		binding.setAcSharingAttr(new AcKeySharing.AcSharingAttr(getRandomBoolean()));
+		ac_KeySharing binding = new ac_KeySharing();
+		binding.add_sharing$(new ac_KeySharing._sharing$(getRandomBoolean()));
 
 		if(verifiable)
 		{
@@ -329,17 +329,17 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcPassword getPassword()
+	public static ac_Password getPassword()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcPassword binding = new AcPassword();
-		binding.setAcLength(getLength());
-		binding.setAcGeneration(getGeneration());
+		ac_Password binding = new ac_Password();
+		binding.addac_Length(getLength());
+		binding.addac_Generation(getGeneration());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -349,16 +349,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcToken getToken()
+	public static ac_Token getToken()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcToken binding = new AcToken();
-		binding.setAcTimeSyncToken(getTimeSyncToken());
+		ac_Token binding = new ac_Token();
+		binding.addac_TimeSyncToken(getTimeSyncToken());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -368,22 +368,22 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcTimeSyncToken getTimeSyncToken()
+	public static ac_TimeSyncToken getTimeSyncToken()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcTimeSyncToken binding = new AcTimeSyncToken();
+		ac_TimeSyncToken binding = new ac_TimeSyncToken();
 		if(Math.random() < 0.5)
-			binding.setAcDeviceTypeAttr(new AcTimeSyncToken.AcDeviceTypeAttr(AcTimeSyncToken.AcDeviceTypeAttr.HARDWARE));
+			binding.add_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.HARDWARE));
 		else
-			binding.setAcDeviceTypeAttr(new AcTimeSyncToken.AcDeviceTypeAttr(AcTimeSyncToken.AcDeviceTypeAttr.SOFTWARE));
-		binding.setAcSeedLengthAttr(new AcTimeSyncToken.AcSeedLengthAttr(getRandomInteger()));
+			binding.add_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.SOFTWARE));
+		binding.add_SeedLength$(new ac_TimeSyncToken._SeedLength$(getRandomInteger()));
 		if(Math.random() < 0.5)
-			binding.setAcDeviceInHandAttr(new AcTimeSyncToken.AcDeviceInHandAttr(AcTimeSyncToken.AcDeviceInHandAttr.FALSE));
+			binding.add_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.FALSE));
 		else
-			binding.setAcDeviceInHandAttr(new AcTimeSyncToken.AcDeviceInHandAttr(AcTimeSyncToken.AcDeviceInHandAttr.TRUE));
+			binding.add_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.TRUE));
 
 		if(verifiable)
 		{
@@ -393,15 +393,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSmartcard getSmartcard()
+	public static ac_Smartcard getSmartcard()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSmartcard binding = new AcSmartcard();
+		ac_Smartcard binding = new ac_Smartcard();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -411,15 +411,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcLength getLength()
+	public static ac_Length getLength()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcLength binding = new AcLength();
-		binding.setAcMaxAttr(new AcLength.AcMaxAttr(getRandomInteger()));
-		binding.setAcMinAttr(new AcLength.AcMinAttr(getRandomInteger()));
+		ac_Length binding = new ac_Length();
+		binding.add_max$(new ac_Length._max$(getRandomInteger()));
+		binding.add_min$(new ac_Length._min$(getRandomInteger()));
 
 		if(verifiable)
 		{
@@ -429,17 +429,17 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcGeneration getGeneration()
+	public static ac_Generation getGeneration()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcGeneration binding = new AcGeneration();
+		ac_Generation binding = new ac_Generation();
 		if(Math.random() < 0.5)
-			binding.setAcMechanismAttr(new AcGeneration.AcMechanismAttr(AcGeneration.AcMechanismAttr.AUTOMATIC));
+			binding.add_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.AUTOMATIC));
 		else
-			binding.setAcMechanismAttr(new AcGeneration.AcMechanismAttr(AcGeneration.AcMechanismAttr.PRINCIPALCHOSEN));
+			binding.add_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.PRINCIPALCHOSEN));
 
 		if(verifiable)
 		{
@@ -449,18 +449,18 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcAuthenticationMethod getAuthenticationMethod()
+	public static ac_AuthenticationMethod getAuthenticationMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAuthenticationMethod binding = new AcAuthenticationMethod();
-		binding.setAcPrincipalAuthenticationMechanism(getPrincipalAuthenticationMechanism());
-		binding.setAcAuthenticator(getAuthenticator());
-		binding.setAcAuthenticatorTransportProtocol(getAuthenticatorTransportProtocol());
+		ac_AuthenticationMethod binding = new ac_AuthenticationMethod();
+		binding.addac_PrincipalAuthenticationMechanism(getPrincipalAuthenticationMechanism());
+		binding.addac_Authenticator(getAuthenticator());
+		binding.addac_AuthenticatorTransportProtocol(getAuthenticatorTransportProtocol());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -470,20 +470,20 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcPrincipalAuthenticationMechanism getPrincipalAuthenticationMechanism()
+	public static ac_PrincipalAuthenticationMechanism getPrincipalAuthenticationMechanism()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcPrincipalAuthenticationMechanism binding = new AcPrincipalAuthenticationMechanism();
+		ac_PrincipalAuthenticationMechanism binding = new ac_PrincipalAuthenticationMechanism();
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.setAcPassword(getPassword());
+			binding.addac_Password(getPassword());
 		else if(random < 2 / 3)
-			binding.setAcToken(getToken());
+			binding.addac_Token(getToken());
 		else
-			binding.setAcSmartcard(getSmartcard());
+			binding.addac_Smartcard(getSmartcard());
 
 		if(verifiable)
 		{
@@ -493,37 +493,37 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcAuthenticator getAuthenticator()
+	public static ac_Authenticator getAuthenticator()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAuthenticator binding = new AcAuthenticator();
+		ac_Authenticator binding = new ac_Authenticator();
 		double random = Math.random();
 		if(random < 1 / 11)
-			binding.setAcPreviousSession(getPreviousSession());
+			binding.addac_PreviousSession(getPreviousSession());
 		else if(random < 2 / 11)
-			binding.setAcResumeSession(getResumeSession());
+			binding.addac_ResumeSession(getResumeSession());
 		else if(random < 3 / 11)
-			binding.setAcDigSig(getDigSig());
+			binding.addac_DigSig(getDigSig());
 		else if(random < 4 / 11)
-			binding.setAcPassword(getPassword());
+			binding.addac_Password(getPassword());
 		else if(random < 5 / 11)
-			binding.setAcZeroKnowledge(getZeroKnowledge());
+			binding.addac_ZeroKnowledge(getZeroKnowledge());
 		else if(random < 6 / 11)
-			binding.setAcSharedSecretChallengeResponse(getSharedSecretChallengeResponse());
+			binding.addac_SharedSecretChallengeResponse(getSharedSecretChallengeResponse());
 		else if(random < 7 / 11)
-			binding.setAcSharedSecretDynamicPlaintext(getSharedSecretDynamicPlaintext());
+			binding.addac_SharedSecretDynamicPlaintext(getSharedSecretDynamicPlaintext());
 		else if(random < 8 / 11)
-			binding.setAcIPAddress(getIPAddress());
+			binding.addac_IPAddress(getIPAddress());
 		else if(random < 9 / 11)
-			binding.setAcAsymmetricDecryption(getAsymmetricDecryption());
+			binding.addac_AsymmetricDecryption(getAsymmetricDecryption());
 		else if(random < 10 / 11)
-			binding.setAcAsymmetricKeyAgreement(getAsymmetricKeyAgreement());
+			binding.addac_AsymmetricKeyAgreement(getAsymmetricKeyAgreement());
 		else
 			do
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 			while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -534,15 +534,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcResumeSession getResumeSession()
+	public static ac_ResumeSession getResumeSession()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcResumeSession binding = new AcResumeSession();
+		ac_ResumeSession binding = new ac_ResumeSession();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -552,15 +552,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcPreviousSession getPreviousSession()
+	public static ac_PreviousSession getPreviousSession()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcPreviousSession binding = new AcPreviousSession();
+		ac_PreviousSession binding = new ac_PreviousSession();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -570,15 +570,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcZeroKnowledge getZeroKnowledge()
+	public static ac_ZeroKnowledge getZeroKnowledge()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcZeroKnowledge binding = new AcZeroKnowledge();
+		ac_ZeroKnowledge binding = new ac_ZeroKnowledge();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -588,15 +588,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSharedSecretDynamicPlaintext getSharedSecretDynamicPlaintext()
+	public static ac_SharedSecretDynamicPlaintext getSharedSecretDynamicPlaintext()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSharedSecretDynamicPlaintext binding = new AcSharedSecretDynamicPlaintext();
+		ac_SharedSecretDynamicPlaintext binding = new ac_SharedSecretDynamicPlaintext();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -606,15 +606,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSharedSecretChallengeResponse getSharedSecretChallengeResponse()
+	public static ac_SharedSecretChallengeResponse getSharedSecretChallengeResponse()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSharedSecretChallengeResponse binding = new AcSharedSecretChallengeResponse();
+		ac_SharedSecretChallengeResponse binding = new ac_SharedSecretChallengeResponse();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -624,15 +624,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcDigSig getDigSig()
+	public static ac_DigSig getDigSig()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcDigSig binding = new AcDigSig();
+		ac_DigSig binding = new ac_DigSig();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -642,15 +642,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcIPAddress getIPAddress()
+	public static ac_IPAddress getIPAddress()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcIPAddress binding = new AcIPAddress();
+		ac_IPAddress binding = new ac_IPAddress();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -660,15 +660,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcAsymmetricDecryption getAsymmetricDecryption()
+	public static ac_AsymmetricDecryption getAsymmetricDecryption()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAsymmetricDecryption binding = new AcAsymmetricDecryption();
+		ac_AsymmetricDecryption binding = new ac_AsymmetricDecryption();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -678,15 +678,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcAsymmetricKeyAgreement getAsymmetricKeyAgreement()
+	public static ac_AsymmetricKeyAgreement getAsymmetricKeyAgreement()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAsymmetricKeyAgreement binding = new AcAsymmetricKeyAgreement();
+		ac_AsymmetricKeyAgreement binding = new ac_AsymmetricKeyAgreement();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -696,31 +696,31 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcAuthenticatorTransportProtocol getAuthenticatorTransportProtocol()
+	public static ac_AuthenticatorTransportProtocol getAuthenticatorTransportProtocol()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcAuthenticatorTransportProtocol binding = new AcAuthenticatorTransportProtocol();
+		ac_AuthenticatorTransportProtocol binding = new ac_AuthenticatorTransportProtocol();
 		double random = Math.random();
 		if(random < 1 / 8)
-			binding.setAcHTTP(getHTTP());
+			binding.addac_HTTP(getHTTP());
 		else if(random < 2 / 8)
-			binding.setAcSSL(getSSL());
+			binding.addac_SSL(getSSL());
 		else if(random < 3 / 8)
-			binding.setAcMobileNetworkEndToEndEncryption(getMobileNetworkEndToEndEncryption());
+			binding.addac_MobileNetworkEndToEndEncryption(getMobileNetworkEndToEndEncryption());
 		else if(random < 4 / 8)
-			binding.setAcMobileNetworkNoEncryption(getMobileNetworkNoEncryption());
+			binding.addac_MobileNetworkNoEncryption(getMobileNetworkNoEncryption());
 		else if(random < 5 / 8)
-			binding.setAcMobileNetworkRadioEncryption(getMobileNetworkRadioEncryption());
+			binding.addac_MobileNetworkRadioEncryption(getMobileNetworkRadioEncryption());
 		else if(random < 6 / 8)
-			binding.setAcWTLS(getWTLS());
+			binding.addac_WTLS(getWTLS());
 		else if(random < 7 / 8)
-			binding.setAcIPSec(getIPSec());
+			binding.addac_IPSec(getIPSec());
 		else
 			do
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 			while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -731,16 +731,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcMobileNetworkEndToEndEncryption getMobileNetworkEndToEndEncryption()
+	public static ac_MobileNetworkEndToEndEncryption getMobileNetworkEndToEndEncryption()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcMobileNetworkEndToEndEncryption binding = new AcMobileNetworkEndToEndEncryption();
+		ac_MobileNetworkEndToEndEncryption binding = new ac_MobileNetworkEndToEndEncryption();
 		while(Math.random() < ADD_SEED)
 		{
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 		}
 
 		if(verifiable)
@@ -751,16 +751,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcMobileNetworkNoEncryption getMobileNetworkNoEncryption()
+	public static ac_MobileNetworkNoEncryption getMobileNetworkNoEncryption()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcMobileNetworkNoEncryption binding = new AcMobileNetworkNoEncryption();
+		ac_MobileNetworkNoEncryption binding = new ac_MobileNetworkNoEncryption();
 		while(Math.random() < ADD_SEED)
 		{
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 		}
 
 		if(verifiable)
@@ -771,16 +771,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcMobileNetworkRadioEncryption getMobileNetworkRadioEncryption()
+	public static ac_MobileNetworkRadioEncryption getMobileNetworkRadioEncryption()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcMobileNetworkRadioEncryption binding = new AcMobileNetworkRadioEncryption();
+		ac_MobileNetworkRadioEncryption binding = new ac_MobileNetworkRadioEncryption();
 		while(Math.random() < ADD_SEED)
 		{
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 		}
 
 		if(verifiable)
@@ -791,15 +791,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcHTTP getHTTP()
+	public static ac_HTTP getHTTP()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcHTTP binding = new AcHTTP();
+		ac_HTTP binding = new ac_HTTP();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -809,15 +809,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcIPSec getIPSec()
+	public static ac_IPSec getIPSec()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcIPSec binding = new AcIPSec();
+		ac_IPSec binding = new ac_IPSec();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -827,15 +827,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcWTLS getWTLS()
+	public static ac_WTLS getWTLS()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcWTLS binding = new AcWTLS();
+		ac_WTLS binding = new ac_WTLS();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -845,15 +845,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSSL getSSL()
+	public static ac_SSL getSSL()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSSL binding = new AcSSL();
+		ac_SSL binding = new ac_SSL();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -863,17 +863,17 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcOperationalProtection getOperationalProtection()
+	public static ac_OperationalProtection getOperationalProtection()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcOperationalProtection binding = new AcOperationalProtection();
-		binding.setAcSecurityAudit(getSecurityAudit());
-		binding.setAcDeactivationCallCenter(getDeactivationCallCenter());
+		ac_OperationalProtection binding = new ac_OperationalProtection();
+		binding.addac_SecurityAudit(getSecurityAudit());
+		binding.addac_DeactivationCallCenter(getDeactivationCallCenter());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -883,16 +883,16 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSecurityAudit getSecurityAudit()
+	public static ac_SecurityAudit getSecurityAudit()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSecurityAudit binding = new AcSecurityAudit();
-		binding.setAcSwitchAudit(getSwitchAudit());
+		ac_SecurityAudit binding = new ac_SecurityAudit();
+		binding.addac_SwitchAudit(getSwitchAudit());
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -902,15 +902,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcSwitchAudit getSwitchAudit()
+	public static ac_SwitchAudit getSwitchAudit()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcSwitchAudit binding = new AcSwitchAudit();
+		ac_SwitchAudit binding = new ac_SwitchAudit();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -920,15 +920,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcDeactivationCallCenter getDeactivationCallCenter()
+	public static ac_DeactivationCallCenter getDeactivationCallCenter()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcDeactivationCallCenter binding = new AcDeactivationCallCenter();
+		ac_DeactivationCallCenter binding = new ac_DeactivationCallCenter();
 		while(Math.random() < ADD_SEED)
-			binding.addAcExtension(getExtension());
+			binding.addac_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -938,15 +938,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcGoverningAgreements getGoverningAgreements()
+	public static ac_GoverningAgreements getGoverningAgreements()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcGoverningAgreements binding = new AcGoverningAgreements();
+		ac_GoverningAgreements binding = new ac_GoverningAgreements();
 		do
-		binding.addAcGoverningAgreementRef(getGoverningAgreementRef());
+		binding.addac_GoverningAgreementRef(getGoverningAgreementRef());
 		while(Math.random() < ADD_SEED);
 
 
@@ -958,14 +958,14 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcGoverningAgreementRef getGoverningAgreementRef()
+	public static ac_GoverningAgreementRef getGoverningAgreementRef()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcGoverningAgreementRef binding = new AcGoverningAgreementRef();
-		binding.setAcGoverningAgreementRefAttr(new AcGoverningAgreementRef.AcGoverningAgreementRefAttr(getRandomString()));
+		ac_GoverningAgreementRef binding = new ac_GoverningAgreementRef();
+		binding.add_governingAgreementRef$(new ac_GoverningAgreementRef._governingAgreementRef$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -975,15 +975,15 @@ public class AcRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static AcExtension getExtension()
+	public static ac_Extension getExtension()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		AcExtension binding = new AcExtension();
+		ac_Extension binding = new ac_Extension();
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)

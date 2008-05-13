@@ -1,23 +1,21 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.XencRegressionTest;
-import org.w3.x2001.x04.xmlenc.IXencEncryptedDataType;
-import org.w3.x2001.x04.xmlenc.IXencEncryptedKeyType;
-import org.w3.x2001.x04.xmlenc.IXencEncryptedType;
-import org.w3.x2001.x04.xmlenc.IXencEncryptionMethodType;
-import org.w3.x2001.x04.xmlenc.IXencReferenceType;
-import org.w3.x2001.x04.xmlenc.IXencTransformsType;
-import org.w3.x2001.x04.xmlenc.XencAgreementMethod;
-import org.w3.x2001.x04.xmlenc.XencCipherData;
-import org.w3.x2001.x04.xmlenc.XencCipherReference;
-import org.w3.x2001.x04.xmlenc.XencEncryptedData;
-import org.w3.x2001.x04.xmlenc.XencEncryptedKey;
-import org.w3.x2001.x04.xmlenc.XencEncryptionProperties;
-import org.w3.x2001.x04.xmlenc.XencEncryptionProperty;
-import org.w3.x2001.x04.xmlenc.XencReferenceList;
+import org.junit.Ignore;
+import org.w3.x2001.x04.xmlenc.$xenc_EncryptedDataType;
+import org.w3.x2001.x04.xmlenc.$xenc_EncryptedKeyType;
+import org.w3.x2001.x04.xmlenc.$xenc_EncryptionMethodType;
+import org.w3.x2001.x04.xmlenc.$xenc_ReferenceType;
+import org.w3.x2001.x04.xmlenc.$xenc_TransformsType;
+import org.w3.x2001.x04.xmlenc.xenc_AgreementMethod;
+import org.w3.x2001.x04.xmlenc.xenc_CipherData;
+import org.w3.x2001.x04.xmlenc.xenc_CipherReference;
+import org.w3.x2001.x04.xmlenc.xenc_EncryptedData;
+import org.w3.x2001.x04.xmlenc.xenc_EncryptedKey;
+import org.w3.x2001.x04.xmlenc.xenc_EncryptionProperties;
+import org.w3.x2001.x04.xmlenc.xenc_EncryptionProperty;
+import org.w3.x2001.x04.xmlenc.xenc_ReferenceList;
 
+@Ignore("Make this a real test!")
 public class XencRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "http://www.w3.org/2001/04/xmlenc#";
@@ -38,17 +36,17 @@ public class XencRegressionTest extends RegressionTest
 		getEncryptionProperties();
 	}
 
-	public static XencCipherData getCipherData()
+	public static xenc_CipherData getCipherData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencCipherData binding = new XencCipherData();
+		xenc_CipherData binding = new xenc_CipherData();
 		if(Math.random() < CHOICE_SEED)
-			binding.setXencCipherValue(new XencCipherData.XencCipherValue(getBase64Binary()));
+			binding.add_CipherValue(new xenc_CipherData._CipherValue(getBase64Binary()));
 		else
-			binding.setXencCipherReference(getCipherReference());
+			binding.addxenc_CipherReference(getCipherReference());
 
 		if(verifiable)
 		{
@@ -58,24 +56,24 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static XencCipherReference getCipherReference()
+	public static xenc_CipherReference getCipherReference()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencCipherReference binding = new XencCipherReference();
-		IXencTransformsType transforms = new IXencTransformsType()
+		xenc_CipherReference binding = new xenc_CipherReference();
+		$xenc_TransformsType transforms = new $xenc_TransformsType()
 		{
-			protected IXencTransformsType inherits()
+			protected $xenc_TransformsType inherits()
 			{
 				return null;
 			}
 		};
 		do
-		transforms.addDsTransform(DsRegressionTest.getTransform());
+		transforms.addds_Transform(DsRegressionTest.getTransform());
 		while(Math.random() < ADD_SEED);
-		binding.setXencURIAttr(new XencCipherReference.XencURIAttr(getRandomString()));
+		binding.add_URI$(new xenc_CipherReference._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -85,13 +83,13 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static IXencEncryptedDataType getEncryptedData()
+	public static $xenc_EncryptedDataType getEncryptedData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencEncryptedData binding = new XencEncryptedData(getEncryptedDataType());
+		xenc_EncryptedData binding = new xenc_EncryptedData(getEncryptedDataType());
 
 		if(verifiable)
 		{
@@ -101,16 +99,16 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static XencEncryptedKey getEncryptedKey()
+	public static xenc_EncryptedKey getEncryptedKey()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencEncryptedKey binding = new XencEncryptedKey(getEncryptedKeyType());
-		binding.setXencReferenceList(getReferenceList());
-		binding.setXencCarriedKeyName(new XencEncryptedKey.XencCarriedKeyName(getRandomString()));
-		binding.setXencRecipientAttr(new XencEncryptedKey.XencRecipientAttr(getRandomString()));
+		xenc_EncryptedKey binding = new xenc_EncryptedKey(getEncryptedKeyType());
+		binding.addxenc_ReferenceList(getReferenceList());
+		binding.add_CarriedKeyName(new xenc_EncryptedKey._CarriedKeyName(getRandomString()));
+		binding.add_Recipient$(new xenc_EncryptedKey._Recipient$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -120,17 +118,17 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static XencAgreementMethod getAgreementMethod()
+	public static xenc_AgreementMethod getAgreementMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencAgreementMethod binding = new XencAgreementMethod();
-		binding.setXencKANonce(new XencAgreementMethod.XencKANonce(getBase64Binary()));
-		binding.setXencOriginatorKeyInfo(new XencAgreementMethod.XencOriginatorKeyInfo(DsRegressionTest.getKeyInfo()));
-		binding.setXencRecipientKeyInfo(DsRegressionTest.getKeyInfo());
-		binding.setXencAlgorithmAttr(new XencAgreementMethod.XencAlgorithmAttr(getRandomString()));
+		xenc_AgreementMethod binding = new xenc_AgreementMethod();
+		binding.add_KA_Nonce(new xenc_AgreementMethod._KA_Nonce(getBase64Binary()));
+		binding.add_OriginatorKeyInfo(new xenc_AgreementMethod._OriginatorKeyInfo(DsRegressionTest.getKeyInfo()));
+		binding.add_RecipientKeyInfo(DsRegressionTest.getKeyInfo());
+		binding.add_Algorithm$(new xenc_AgreementMethod._Algorithm$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -140,17 +138,17 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static XencReferenceList getReferenceList()
+	public static xenc_ReferenceList getReferenceList()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencReferenceList binding = new XencReferenceList();
+		xenc_ReferenceList binding = new xenc_ReferenceList();
 		if(Math.random() < CHOICE_SEED)
-			binding.addXencDataReference(getReferenceType());
+			binding.add_DataReference(getReferenceType());
 		else
-			binding.addXencKeyReference(getReferenceType());
+			binding.add_KeyReference(getReferenceType());
 
 		if(verifiable)
 		{
@@ -160,32 +158,32 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static final IXencReferenceType getReferenceType()
+	public static final $xenc_ReferenceType getReferenceType()
 	{
-		IXencReferenceType binding = new IXencReferenceType()
+		$xenc_ReferenceType binding = new $xenc_ReferenceType()
 		{
-			protected IXencReferenceType inherits()
+			protected $xenc_ReferenceType inherits()
 			{
 				return null;
 			}
 		};
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setXencURIAttr(new IXencReferenceType.XencURIAttr(getRandomString()));
+			binding.addAny(instance.getAny());
+		binding.add_URI$(new $xenc_ReferenceType._URI$(getRandomString()));
 		return binding;
 	}
 
-	public static XencEncryptionProperties getEncryptionProperties()
+	public static xenc_EncryptionProperties getEncryptionProperties()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencEncryptionProperties binding = new XencEncryptionProperties();
+		xenc_EncryptionProperties binding = new xenc_EncryptionProperties();
 		do
-		binding.addXencEncryptionProperty(getEncryptionProperty());
+			binding.addxenc_EncryptionProperty(getEncryptionProperty());
 		while(Math.random() < ADD_SEED);
-		binding.setXencIdAttr(new XencEncryptionProperties.XencIdAttr(getRandomString()));
+		binding.add_Id$(new xenc_EncryptionProperties._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -195,25 +193,25 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static XencEncryptionProperty getEncryptionProperty()
+	public static xenc_EncryptionProperty getEncryptionProperty()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		XencEncryptionProperty binding = new XencEncryptionProperty(getRandomString());
+		xenc_EncryptionProperty binding = new xenc_EncryptionProperty(getRandomString());
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
-		binding.setXencTargetAttr(new XencEncryptionProperty.XencTargetAttr(getRandomString()));
-		binding.setXencIdAttr(new XencEncryptionProperty.XencIdAttr(getRandomString()));
-		// FIXME: I cannot figure out how this works... What am I missing?
+		binding.add_Target$(new xenc_EncryptionProperty._Target$(getRandomString()));
+		binding.add_Id$(new xenc_EncryptionProperty._Id$(getRandomString()));
+		// FIXME: $ cannot figure out how this works... What am $ missing?
 		/*		do
-		 binding.addAnyAttribute(new Attribute("http://www.w3.org/XML/1998/namespace", "lang", new QName(getRandomString() + ":" + getRandomString(), getRandomString()), getRandomString().substring(0, 2)));
+		 binding.addAny$ibute(new $ibute("http://www.w3.org/XML/1998/namespace", "lang", new QName(getRandomString() + ":" + getRandomString(), getRandomString()), getRandomString().substring(0, 2)));
 		 while(Math.random() < ADD_SEED);
 
 		 do
-		 binding.addAnyAttribute(new Attribute("http://www.w3.org/XML/1998/namespace", "space", new QName(getRandomString() + ":" + getRandomString(), getRandomString()), getRandomString().substring(0, 2)));
+		 binding.addAny$ibute(new $ibute("http://www.w3.org/XML/1998/namespace", "space", new QName(getRandomString() + ":" + getRandomString(), getRandomString()), getRandomString().substring(0, 2)));
 		 while(Math.random() < ADD_SEED);*/
 
 		if(verifiable)
@@ -224,65 +222,65 @@ public class XencRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static final IXencEncryptedKeyType getEncryptedKeyType()
+	public static final $xenc_EncryptedKeyType getEncryptedKeyType()
 	{
-		IXencEncryptedKeyType binding = new IXencEncryptedKeyType()
+		$xenc_EncryptedKeyType binding = new $xenc_EncryptedKeyType()
 		{
-			protected IXencEncryptedType inherits()
+			protected $xenc_EncryptedKeyType inherits()
 			{
 				return null;
 			}
 		};
 
-		binding.setXencEncryptionMethod(new IXencEncryptedDataType.XencEncryptionMethod(getEncryptionMethodType()));
-		binding.setDsKeyInfo(DsRegressionTest.getKeyInfo());
-		binding.setXencCipherData(getCipherData());
-		binding.setXencEncryptionProperties(getEncryptionProperties());
-		binding.setXencIdAttr(new IXencEncryptedDataType.XencIdAttr(getRandomString()));
-		binding.setXencTypeAttr(new IXencEncryptedDataType.XencTypeAttr(getRandomString()));
-		binding.setXencMimeTypeAttr(new IXencEncryptedDataType.XencMimeTypeAttr(getRandomString()));
-		binding.setXencEncodingAttr(new IXencEncryptedDataType.XencEncodingAttr(getRandomString()));
-		binding.setXencReferenceList(getReferenceList());
-		binding.setXencCarriedKeyName(new IXencEncryptedKeyType.XencCarriedKeyName(getRandomString()));
+		binding.add_EncryptionMethod(new $xenc_EncryptedDataType._EncryptionMethod(getEncryptionMethodType()));
+		binding.addds_KeyInfo(DsRegressionTest.getKeyInfo());
+		binding.addxenc_CipherData(getCipherData());
+		binding.addxenc_EncryptionProperties(getEncryptionProperties());
+		binding.add_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
+		binding.add_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
+		binding.add_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
+		binding.add_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
+		binding.addxenc_ReferenceList(getReferenceList());
+		binding.add_CarriedKeyName(new $xenc_EncryptedKeyType._CarriedKeyName(getRandomString()));
 		return binding;
 	}
 
-	public static final IXencEncryptedDataType getEncryptedDataType()
+	public static final $xenc_EncryptedDataType getEncryptedDataType()
 	{
-		IXencEncryptedDataType binding = new IXencEncryptedDataType()
+		$xenc_EncryptedDataType binding = new $xenc_EncryptedDataType()
 		{
-			protected IXencEncryptedType inherits()
+			protected $xenc_EncryptedDataType inherits()
 			{
 				return null;
 			}
 		};
 
-		binding.setXencEncryptionMethod(new IXencEncryptedDataType.XencEncryptionMethod(getEncryptionMethodType()));
-		binding.setDsKeyInfo(DsRegressionTest.getKeyInfo());
-		binding.setXencCipherData(getCipherData());
-		binding.setXencEncryptionProperties(getEncryptionProperties());
-		binding.setXencIdAttr(new IXencEncryptedDataType.XencIdAttr(getRandomString()));
-		binding.setXencTypeAttr(new IXencEncryptedDataType.XencTypeAttr(getRandomString()));
-		binding.setXencMimeTypeAttr(new IXencEncryptedDataType.XencMimeTypeAttr(getRandomString()));
-		binding.setXencEncodingAttr(new IXencEncryptedDataType.XencEncodingAttr(getRandomString()));
+		binding.add_EncryptionMethod(new $xenc_EncryptedDataType._EncryptionMethod(getEncryptionMethodType()));
+		binding.addds_KeyInfo(DsRegressionTest.getKeyInfo());
+		binding.addxenc_CipherData(getCipherData());
+		binding.addxenc_EncryptionProperties(getEncryptionProperties());
+		binding.add_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
+		binding.add_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
+		binding.add_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
+		binding.add_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
 		return binding;
 	}
 
-	public static final IXencEncryptionMethodType getEncryptionMethodType()
+	public static final $xenc_EncryptionMethodType getEncryptionMethodType()
 	{
-		IXencEncryptionMethodType binding = new IXencEncryptionMethodType()
+		$xenc_EncryptionMethodType binding = new $xenc_EncryptionMethodType()
 		{
-			protected IXencEncryptionMethodType inherits()
+			protected $xenc_EncryptionMethodType inherits()
 			{
 				return null;
 			}
 		};
 
-		binding.setXencKeySize(new IXencEncryptionMethodType.XencKeySize(getRandomInteger()));
-		binding.setXencOAEPparams(new IXencEncryptionMethodType.XencOAEPparams(getBase64Binary()));
+		binding.add_KeySize(new $xenc_EncryptionMethodType._KeySize(getRandomInteger()));
+		binding.add_OAEPparams(new $xenc_EncryptionMethodType._OAEPparams(getBase64Binary()));
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setXencAlgorithmAttr(new IXencEncryptionMethodType.XencAlgorithmAttr(getRandomString()));
+			binding.addAny(instance.getAny());
+		binding.add_Algorithm$(new $xenc_EncryptionMethodType._Algorithm$(getRandomString()));
 		return binding;
 	}
 }

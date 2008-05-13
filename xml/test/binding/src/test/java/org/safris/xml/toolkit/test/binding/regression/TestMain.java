@@ -3,19 +3,11 @@ package org.safris.xml.toolkit.test.binding.regression;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
-import org.safris.commons.util.Files;
-import org.safris.xml.toolkit.test.binding.regression.AcRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.DscRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.LibRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.MdRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTestMetrics;
-import org.safris.xml.toolkit.test.binding.regression.SamlRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlpRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.TnsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.XencRegressionTest;
+import org.junit.Ignore;
+import org.safris.commons.io.Files;
 
-public class Test
+@Ignore("Make this a real test!")
+public class TestMain
 {
 	private static final FileFilter xsdFileFilter = new FileFilter()
 	{

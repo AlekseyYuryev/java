@@ -1,21 +1,19 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import com.safris.schema.test.ITeComplexA;
-import com.safris.schema.test.ITeComplexD;
-import com.safris.schema.test.TeElemD;
+import com.safris.schema.test.$te_complexD;
+import com.safris.schema.test.te_elemD;
 import java.io.StringReader;
+import org.junit.Test;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.toolkit.test.binding.regression.Metadata;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
 import org.xml.sax.InputSource;
 
 public class XsiTest extends Metadata
 {
 	private static final String DEFAULT_HOST = "aol-3";
-	private static final String DEFAULT_DOMAIN = "liberty-iop.biz";
+	private static final String DEFAULT_dOMAIN = "liberty-iop.biz";
 	private static String host = DEFAULT_HOST;
-	private static String domain = DEFAULT_DOMAIN;
+	private static String domain = DEFAULT_dOMAIN;
 
 	public static void main(String[] args)
 	{
@@ -25,22 +23,28 @@ public class XsiTest extends Metadata
 			domain = args[1];
 		}
 
-		ITeComplexD xsiType = new ITeComplexD()
+		new XsiTest().testXsi();
+	}
+
+	@Test
+	public void testXsi()
+	{
+		$te_complexD xsiType = new $te_complexD()
 		{
-			protected ITeComplexA inherits()
+			protected $te_complexD inherits()
 			{
 				return null;
 			}
 		};
-		xsiType.setTeA_attr1Attr(new ITeComplexD.TeA_attr1Attr(RegressionTest.getRandomString()));
-		xsiType.setTeA_attr2Attr(new ITeComplexD.TeA_attr2Attr(RegressionTest.getRandomString()));
-		xsiType.setTeC_attr1Attr(new ITeComplexD.TeC_attr1Attr(RegressionTest.getRandomString()));
-		xsiType.setTeC_attr2Attr(new ITeComplexD.TeC_attr2Attr(RegressionTest.getRandomString()));
-		xsiType.setTeD_attr1Attr(new ITeComplexD.TeD_attr1Attr(RegressionTest.getRandomString()));
-		xsiType.setTeD_attr2Attr(new ITeComplexD.TeD_attr2Attr(RegressionTest.getRandomString()));
+		xsiType.add_a_attr1$(new $te_complexD._a_attr1$(RegressionTest.getRandomString()));
+		xsiType.add_a_attr2$(new $te_complexD._a_attr2$(RegressionTest.getRandomString()));
+		xsiType.add_c_attr1$(new $te_complexD._c_attr1$(RegressionTest.getRandomString()));
+		xsiType.add_c_attr2$(new $te_complexD._c_attr2$(RegressionTest.getRandomString()));
+		xsiType.add_d_attr1$(new $te_complexD._d_attr1$(RegressionTest.getRandomString()));
+		xsiType.add_d_attr2$(new $te_complexD._d_attr2$(RegressionTest.getRandomString()));
 
-		TeElemD elemD = new TeElemD();
-		elemD.setTeElemC(xsiType);
+		te_elemD elemD = new te_elemD();
+		elemD.addte_elemC(xsiType);
 
 		try
 		{

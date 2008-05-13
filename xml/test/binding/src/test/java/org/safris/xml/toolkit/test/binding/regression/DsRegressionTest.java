@@ -1,33 +1,33 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.w3.x2000.x09.xmldsig.DsCanonicalizationMethod;
-import org.w3.x2000.x09.xmldsig.DsDSAKeyValue;
-import org.w3.x2000.x09.xmldsig.DsDigestMethod;
-import org.w3.x2000.x09.xmldsig.DsDigestValue;
-import org.w3.x2000.x09.xmldsig.DsKeyInfo;
-import org.w3.x2000.x09.xmldsig.DsKeyName;
-import org.w3.x2000.x09.xmldsig.DsKeyValue;
-import org.w3.x2000.x09.xmldsig.DsManifest;
-import org.w3.x2000.x09.xmldsig.DsMgmtData;
-import org.w3.x2000.x09.xmldsig.DsObject;
-import org.w3.x2000.x09.xmldsig.DsPGPData;
-import org.w3.x2000.x09.xmldsig.DsRSAKeyValue;
-import org.w3.x2000.x09.xmldsig.DsReference;
-import org.w3.x2000.x09.xmldsig.DsRetrievalMethod;
-import org.w3.x2000.x09.xmldsig.DsSPKIData;
-import org.w3.x2000.x09.xmldsig.DsSignature;
-import org.w3.x2000.x09.xmldsig.DsSignatureMethod;
-import org.w3.x2000.x09.xmldsig.DsSignatureProperties;
-import org.w3.x2000.x09.xmldsig.DsSignatureProperty;
-import org.w3.x2000.x09.xmldsig.DsSignatureValue;
-import org.w3.x2000.x09.xmldsig.DsSignedInfo;
-import org.w3.x2000.x09.xmldsig.DsTransform;
-import org.w3.x2000.x09.xmldsig.DsTransforms;
-import org.w3.x2000.x09.xmldsig.DsX509Data;
-import org.w3.x2000.x09.xmldsig.IDsX509IssuerSerialType;
+import org.junit.Ignore;
+import org.w3.x2000.x09.xmldsig.$ds_X509IssuerSerialType;
+import org.w3.x2000.x09.xmldsig.ds_CanonicalizationMethod;
+import org.w3.x2000.x09.xmldsig.ds_DSAKeyValue;
+import org.w3.x2000.x09.xmldsig.ds_DigestMethod;
+import org.w3.x2000.x09.xmldsig.ds_DigestValue;
+import org.w3.x2000.x09.xmldsig.ds_KeyInfo;
+import org.w3.x2000.x09.xmldsig.ds_KeyName;
+import org.w3.x2000.x09.xmldsig.ds_KeyValue;
+import org.w3.x2000.x09.xmldsig.ds_Manifest;
+import org.w3.x2000.x09.xmldsig.ds_MgmtData;
+import org.w3.x2000.x09.xmldsig.ds_Object;
+import org.w3.x2000.x09.xmldsig.ds_PGPData;
+import org.w3.x2000.x09.xmldsig.ds_RSAKeyValue;
+import org.w3.x2000.x09.xmldsig.ds_Reference;
+import org.w3.x2000.x09.xmldsig.ds_RetrievalMethod;
+import org.w3.x2000.x09.xmldsig.ds_SPKIData;
+import org.w3.x2000.x09.xmldsig.ds_Signature;
+import org.w3.x2000.x09.xmldsig.ds_SignatureMethod;
+import org.w3.x2000.x09.xmldsig.ds_SignatureProperties;
+import org.w3.x2000.x09.xmldsig.ds_SignatureProperty;
+import org.w3.x2000.x09.xmldsig.ds_SignatureValue;
+import org.w3.x2000.x09.xmldsig.ds_SignedInfo;
+import org.w3.x2000.x09.xmldsig.ds_Transform;
+import org.w3.x2000.x09.xmldsig.ds_Transforms;
+import org.w3.x2000.x09.xmldsig.ds_X509Data;
 
+@Ignore("Make this a real test!")
 public class DsRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "http://www.w3.org/2000/09/xmldsig#";
@@ -46,20 +46,20 @@ public class DsRegressionTest extends RegressionTest
 		getSignature();
 	}
 
-	public static DsSignature getSignature()
+	public static ds_Signature getSignature()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignature binding = new DsSignature();
-		binding.setDsIdAttr(new DsSignature.DsIdAttr(getRandomString()));
-		binding.setDsKeyInfo(getKeyInfo());
+		ds_Signature binding = new ds_Signature();
+		binding.add_Id$(new ds_Signature._Id$(getRandomString()));
+		binding.addds_KeyInfo(getKeyInfo());
 		do
-		binding.addDsObject(getObject());
+		binding.addds_Object(getObject());
 		while(Math.random() < ADD_SEED);
-		binding.setDsSignatureValue(getSignatureValue());
-		binding.setDsSignedInfo(getSignedInfo());
+		binding.addds_SignatureValue(getSignatureValue());
+		binding.addds_SignedInfo(getSignedInfo());
 
 		if(verifiable)
 		{
@@ -69,15 +69,15 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSignatureValue getSignatureValue()
+	public static ds_SignatureValue getSignatureValue()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignatureValue binding = new DsSignatureValue();
-		binding.setDsIdAttr(new DsSignatureValue.DsIdAttr(getRandomString()));
-		binding.setTEXT(getBase64Binary());
+		ds_SignatureValue binding = new ds_SignatureValue();
+		binding.add_Id$(new ds_SignatureValue._Id$(getRandomString()));
+		binding.setText(getBase64Binary());
 
 		if(verifiable)
 		{
@@ -87,19 +87,19 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSignedInfo getSignedInfo()
+	public static ds_SignedInfo getSignedInfo()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignedInfo binding = new DsSignedInfo();
-		binding.setDsCanonicalizationMethod(getCanonicalizationMethod());
-		binding.setDsIdAttr(new DsSignedInfo.DsIdAttr(getRandomString()));
+		ds_SignedInfo binding = new ds_SignedInfo();
+		binding.addds_CanonicalizationMethod(getCanonicalizationMethod());
+		binding.add_Id$(new ds_SignedInfo._Id$(getRandomString()));
 		do
-		binding.addDsReference(getReference());
+		binding.addds_Reference(getReference());
 		while(Math.random() < ADD_SEED);
-		binding.setDsSignatureMethod(getSignatureMethod());
+		binding.addds_SignatureMethod(getSignatureMethod());
 
 		if(verifiable)
 		{
@@ -109,17 +109,17 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsCanonicalizationMethod getCanonicalizationMethod()
+	public static ds_CanonicalizationMethod getCanonicalizationMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsCanonicalizationMethod binding = new DsCanonicalizationMethod();
-		binding.setDsAlgorithmAttr(new DsCanonicalizationMethod.DsAlgorithmAttr(getRandomString()));
+		ds_CanonicalizationMethod binding = new ds_CanonicalizationMethod();
+		binding.add_Algorithm$(new ds_CanonicalizationMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setTEXT(getRandomString());
+			binding.addAny(instance.getAny());
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -129,18 +129,18 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSignatureMethod getSignatureMethod()
+	public static ds_SignatureMethod getSignatureMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignatureMethod binding = new DsSignatureMethod();
-		binding.setDsAlgorithmAttr(new DsSignatureMethod.DsAlgorithmAttr(getRandomString()));
+		ds_SignatureMethod binding = new ds_SignatureMethod();
+		binding.add_Algorithm$(new ds_SignatureMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setDsHMACOutputLength(new DsSignatureMethod.DsHMACOutputLength(getRandomInteger()));
-		binding.setTEXT(getRandomString());
+			binding.addAny(instance.getAny());
+		binding.add_HMACOutputLength(new ds_SignatureMethod._HMACOutputLength(getRandomInteger()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -150,19 +150,19 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsReference getReference()
+	public static ds_Reference getReference()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsReference binding = new DsReference();
-		binding.setDsDigestMethod(getDigestMethod());
-		binding.setDsDigestValue(getDigestValue());
-		binding.setDsIdAttr(new DsReference.DsIdAttr(getRandomString()));
-		binding.setDsTransforms(getTransforms());
-		binding.setDsTypeAttr(new DsReference.DsTypeAttr(getRandomString()));
-		binding.setDsURIAttr(new DsReference.DsURIAttr(getRandomString()));
+		ds_Reference binding = new ds_Reference();
+		binding.addds_DigestMethod(getDigestMethod());
+		binding.addds_DigestValue(getDigestValue());
+		binding.add_Id$(new ds_Reference._Id$(getRandomString()));
+		binding.addds_Transforms(getTransforms());
+		binding.add_Type$(new ds_Reference._Type$(getRandomString()));
+		binding.add_URI$(new ds_Reference._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -172,15 +172,15 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsTransforms getTransforms()
+	public static ds_Transforms getTransforms()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsTransforms binding = new DsTransforms();
+		ds_Transforms binding = new ds_Transforms();
 		do
-		binding.addDsTransform(getTransform());
+		binding.addds_Transform(getTransform());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -191,23 +191,23 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsTransform getTransform()
+	public static ds_Transform getTransform()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsTransform binding = new DsTransform();
-		binding.setDsAlgorithmAttr(new DsTransform.DsAlgorithmAttr(getRandomString()));
+		ds_Transform binding = new ds_Transform();
+		binding.add_Algorithm$(new ds_Transform._Algorithm$(getRandomString()));
 		double random = Math.random();
 		if(random < 1 / 2)
 			while(Math.random() < ADD_SEED)
-				binding.addANY(instance.getAny());
+				binding.addAny(instance.getAny());
 		else
 			while(Math.random() < ADD_SEED)
-				binding.addDsXPath(new DsTransform.DsXPath(getRandomString()));
+				binding.add_XPath(new ds_Transform._XPath(getRandomString()));
 
-		binding.setTEXT(getRandomString());
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -217,16 +217,16 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsDigestMethod getDigestMethod()
+	public static ds_DigestMethod getDigestMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsDigestMethod binding = new DsDigestMethod();
-		binding.setDsAlgorithmAttr(new DsDigestMethod.DsAlgorithmAttr(getRandomString()));
+		ds_DigestMethod binding = new ds_DigestMethod();
+		binding.add_Algorithm$(new ds_DigestMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 
 		if(verifiable)
 		{
@@ -236,14 +236,14 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsDigestValue getDigestValue()
+	public static ds_DigestValue getDigestValue()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsDigestValue binding = new DsDigestValue();
-		binding.setTEXT(getBase64Binary());
+		ds_DigestValue binding = new ds_DigestValue();
+		binding.setText(getBase64Binary());
 
 		if(verifiable)
 		{
@@ -253,35 +253,35 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsKeyInfo getKeyInfo()
+	public static ds_KeyInfo getKeyInfo()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsKeyInfo binding = new DsKeyInfo();
+		ds_KeyInfo binding = new ds_KeyInfo();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 		do
-		binding.addDsKeyName(getKeyName());
+		binding.addds_KeyName(getKeyName());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsKeyValue(getKeyValue());
+		binding.addds_KeyValue(getKeyValue());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsMgmtData(getMgmtData());
+		binding.addds_MgmtData(getMgmtData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsPGPData(getPGPData());
+		binding.addds_PGPData(getPGPData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsRetrievalMethod(getRetrievalMethod());
+		binding.addds_RetrievalMethod(getRetrievalMethod());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsSPKIData(getSPKIData());
+		binding.addds_SPKIData(getSPKIData());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509Data(getX509Data());
+		binding.addds_X509Data(getX509Data());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -292,14 +292,14 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsKeyName getKeyName()
+	public static ds_KeyName getKeyName()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsKeyName binding = new DsKeyName();
-		binding.setTEXT(getRandomString());
+		ds_KeyName binding = new ds_KeyName();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -309,14 +309,14 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsMgmtData getMgmtData()
+	public static ds_MgmtData getMgmtData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsMgmtData binding = new DsMgmtData();
-		binding.setTEXT(getRandomString());
+		ds_MgmtData binding = new ds_MgmtData();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -326,21 +326,21 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsKeyValue getKeyValue()
+	public static ds_KeyValue getKeyValue()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsKeyValue binding = new DsKeyValue();
+		ds_KeyValue binding = new ds_KeyValue();
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.setANY(instance.getAny());
+			binding.addAny(instance.getAny());
 		else if(random < 2 / 3)
-			binding.setDsDSAKeyValue(getDsAKeyValue());
+			binding.addds_DSAKeyValue(getds_AKeyValue());
 		else
-			binding.setDsRSAKeyValue(getRSAKeyValue());
-		binding.setTEXT(getRandomString());
+			binding.addds_RSAKeyValue(getRSAKeyValue());
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -350,16 +350,16 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsRetrievalMethod getRetrievalMethod()
+	public static ds_RetrievalMethod getRetrievalMethod()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsRetrievalMethod binding = new DsRetrievalMethod();
-		binding.setDsTransforms(getTransforms());
-		binding.setDsTypeAttr(new DsRetrievalMethod.DsTypeAttr(getRandomString()));
-		binding.setDsURIAttr(new DsRetrievalMethod.DsURIAttr(getRandomString()));
+		ds_RetrievalMethod binding = new ds_RetrievalMethod();
+		binding.addds_Transforms(getTransforms());
+		binding.add_Type$(new ds_RetrievalMethod._Type$(getRandomString()));
+		binding.add_URI$(new ds_RetrievalMethod._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -369,30 +369,30 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsX509Data getX509Data()
+	public static ds_X509Data getX509Data()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsX509Data binding = new DsX509Data();
+		ds_X509Data binding = new ds_X509Data();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 
 		do
-		binding.addDsX509Certificate(new DsX509Data.DsX509Certificate(getBase64Binary()));
+		binding.add_X509Certificate(new ds_X509Data._X509Certificate(getBase64Binary()));
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509CRL(new DsX509Data.DsX509CRL(getBase64Binary()));
+		binding.add_X509CRL(new ds_X509Data._X509CRL(getBase64Binary()));
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509IssuerSerial(getIX509IssuerSerialType());
+		binding.add_X509IssuerSerial(getIX509$ssuerSerialType());
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509SKI(new DsX509Data.DsX509SKI(getBase64Binary()));
+		binding.add_X509SKI(new ds_X509Data._X509SKI(getBase64Binary()));
 		while(Math.random() < ADD_SEED);
 		do
-		binding.addDsX509SubjectName(new DsX509Data.DsX509SubjectName(getRandomString()));
+		binding.add_X509SubjectName(new ds_X509Data._X509SubjectName(getRandomString()));
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -403,17 +403,17 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsPGPData getPGPData()
+	public static ds_PGPData getPGPData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsPGPData binding = new DsPGPData();
+		ds_PGPData binding = new ds_PGPData();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setDsPGPKeyID(new DsPGPData.DsPGPKeyID(getBase64Binary()));
-		binding.setDsPGPKeyPacket(new DsPGPData.DsPGPKeyPacket(getBase64Binary()));
+			binding.addAny(instance.getAny());
+		binding.add_PGPKeyID(new ds_PGPData._PGPKeyID(getBase64Binary()));
+		binding.add_PGPKeyPacket(new ds_PGPData._PGPKeyPacket(getBase64Binary()));
 
 		if(verifiable)
 		{
@@ -423,21 +423,21 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSPKIData getSPKIData()
+	public static ds_SPKIData getSPKIData()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSPKIData binding = new DsSPKIData();
+		ds_SPKIData binding = new ds_SPKIData();
 		// FIXME: This is an "if" because this is a
 		// FIXME: <sequence maxOccurs="unbounded">. How do we deal with this?
 		// FIXME: Make Sequence inner classes? Blah!
 		if(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 
 		do
-		binding.addDsSPKISexp(new DsSPKIData.DsSPKISexp(getBase64Binary()));
+			binding.add_SPKISexp(new ds_SPKIData._SPKISexp(getBase64Binary()));
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -448,19 +448,19 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsObject getObject()
+	public static ds_Object getObject()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsObject binding = new DsObject();
+		ds_Object binding = new ds_Object();
 		while(Math.random() < ADD_SEED)
-			binding.addANY(instance.getAny());
-		binding.setDsEncodingAttr(new DsObject.DsEncodingAttr(getRandomString()));
-		binding.setDsIdAttr(new DsObject.DsIdAttr(getRandomString()));
-		binding.setDsMimeTypeAttr(new DsObject.DsMimeTypeAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+			binding.addAny(instance.getAny());
+		binding.add_Encoding$(new ds_Object._Encoding$(getRandomString()));
+		binding.add_Id$(new ds_Object._Id$(getRandomString()));
+		binding.add_MimeType$(new ds_Object._MimeType$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -470,19 +470,19 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsManifest getManifest()
+	public static ds_Manifest getManifest()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsManifest binding = new DsManifest();
+		ds_Manifest binding = new ds_Manifest();
 		do
 		{
-			binding.addDsReference(getReference());
+			binding.addds_Reference(getReference());
 		}
 		while(Math.random() < ADD_SEED);
-		binding.setDsIdAttr(new DsManifest.DsIdAttr(getRandomString()));
+		binding.add_Id$(new ds_Manifest._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -492,17 +492,17 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSignatureProperties getSignatureProperties()
+	public static ds_SignatureProperties getSignatureProperties()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignatureProperties binding = new DsSignatureProperties();
+		ds_SignatureProperties binding = new ds_SignatureProperties();
 		do
-		binding.addDsSignatureProperty(getSignatureProperty());
+		binding.addds_SignatureProperty(getSignatureProperty());
 		while(Math.random() < ADD_SEED);
-		binding.setDsIdAttr(new DsSignatureProperties.DsIdAttr(getRandomString()));
+		binding.add_Id$(new ds_SignatureProperties._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -512,19 +512,19 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsSignatureProperty getSignatureProperty()
+	public static ds_SignatureProperty getSignatureProperty()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsSignatureProperty binding = new DsSignatureProperty();
+		ds_SignatureProperty binding = new ds_SignatureProperty();
 		do
-		binding.addANY(instance.getAny());
+			binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
-		binding.setDsIdAttr(new DsSignatureProperty.DsIdAttr(getRandomString()));
-		binding.setDsTargetAttr(new DsSignatureProperty.DsTargetAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		binding.add_Id$(new ds_SignatureProperty._Id$(getRandomString()));
+		binding.add_Target$(new ds_SignatureProperty._Target$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -534,20 +534,20 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsDSAKeyValue getDsAKeyValue()
+	public static ds_DSAKeyValue getds_AKeyValue()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsDSAKeyValue binding = new DsDSAKeyValue();
-		binding.setDsG(new DsDSAKeyValue.DsG(getBase64Binary()));
-		binding.setDsJ(new DsDSAKeyValue.DsJ(getBase64Binary()));
-		binding.setDsP(new DsDSAKeyValue.DsP(getBase64Binary()));
-		binding.setDsPgenCounter(new DsDSAKeyValue.DsPgenCounter(getBase64Binary()));
-		binding.setDsQ(new DsDSAKeyValue.DsQ(getBase64Binary()));
-		binding.setDsSeed(new DsDSAKeyValue.DsSeed(getBase64Binary()));
-		binding.setDsY(new DsDSAKeyValue.DsY(getBase64Binary()));
+		ds_DSAKeyValue binding = new ds_DSAKeyValue();
+		binding.add_G(new ds_DSAKeyValue._G(getBase64Binary()));
+		binding.add_J(new ds_DSAKeyValue._J(getBase64Binary()));
+		binding.add_P(new ds_DSAKeyValue._P(getBase64Binary()));
+		binding.add_PgenCounter(new ds_DSAKeyValue._PgenCounter(getBase64Binary()));
+		binding.add_Q(new ds_DSAKeyValue._Q(getBase64Binary()));
+		binding.add_Seed(new ds_DSAKeyValue._Seed(getBase64Binary()));
+		binding.add_Y(new ds_DSAKeyValue._Y(getBase64Binary()));
 
 		if(verifiable)
 		{
@@ -557,15 +557,15 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static DsRSAKeyValue getRSAKeyValue()
+	public static ds_RSAKeyValue getRSAKeyValue()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		DsRSAKeyValue binding = new DsRSAKeyValue();
-		binding.setDsExponent(new DsRSAKeyValue.DsExponent(getBase64Binary()));
-		binding.setDsModulus(new DsRSAKeyValue.DsModulus(getBase64Binary()));
+		ds_RSAKeyValue binding = new ds_RSAKeyValue();
+		binding.add_Exponent(new ds_RSAKeyValue._Exponent(getBase64Binary()));
+		binding.add_Modulus(new ds_RSAKeyValue._Modulus(getBase64Binary()));
 
 		if(verifiable)
 		{
@@ -575,11 +575,11 @@ public class DsRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static final IDsX509IssuerSerialType getIX509IssuerSerialType()
+	public static final $ds_X509IssuerSerialType getIX509$ssuerSerialType()
 	{
-		DsX509Data.DsX509IssuerSerial binding = new DsX509Data.DsX509IssuerSerial();
-		binding.setDsX509IssuerName(new DsX509Data.DsX509IssuerSerial.DsX509IssuerName(getRandomString()));
-		binding.setDsX509SerialNumber(new DsX509Data.DsX509IssuerSerial.DsX509SerialNumber(getRandomInteger()));
+		ds_X509Data._X509IssuerSerial binding = new ds_X509Data._X509IssuerSerial();
+		binding.add_X509IssuerName(new ds_X509Data._X509IssuerSerial._X509IssuerName(getRandomString()));
+		binding.add_X509SerialNumber(new ds_X509Data._X509IssuerSerial._X509SerialNumber(getRandomInteger()));
 		return binding;
 	}
 }

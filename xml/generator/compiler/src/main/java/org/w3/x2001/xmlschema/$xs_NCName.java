@@ -4,9 +4,8 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
-public abstract class $xs_NCName<T extends BindingType> extends $xs_name<T>
+public abstract class $xs_NCName<T extends BindingType> extends $xs_Name<T>
 {
 	public $xs_NCName($xs_NCName<T> binding)
 	{

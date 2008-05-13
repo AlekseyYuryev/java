@@ -295,11 +295,6 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 			for(Object attribute : plan.getAttributes())
 				Writer.writeMarshal(writer, (AttributePlan)attribute, plan);
 
-//			if(plan.getElements().size() != 0)
-//				writer.write("_marshalElements(element);\n");
-//			for(Object element : plan.getElements())
-//				Writer.writeMarshal(writer, (ElementPlan)element, plan);
-
 			writer.write("return node;\n");
 		}
 		else
@@ -310,11 +305,11 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		// PARSE ATTRIBUTE
 		if(plan.getAttributes() != null)
 		{
-			writer.write("protected void parseAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("protected boolean parseAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 			writer.write("{\n");
 			writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
 			writer.write("{\n");
-			writer.write("return;\n");
+			writer.write("return true;\n");
 			writer.write("}\n");
 			AttributePlan any = null;
 			for(Object attribute : plan.getAttributes())
@@ -325,14 +320,19 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 					Writer.writeParse(writer, (AttributePlan)attribute, plan);
 			}
 
-			if(any != null)
-				Writer.writeParse(writer, any, plan);
-
 			writer.write("else\n");
 			writer.write("{\n");
-			writer.write("super.parseAttribute(attribute);\n");
+			writer.write("return super.parseAttribute(attribute);\n");
 			writer.write("}\n");
 			writer.write("}\n");
+
+			if(any != null)
+			{
+				writer.write("protected void parseAnyAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("{\n");
+				Writer.writeParse(writer, any, plan);
+				writer.write("}\n");
+			}
 		}
 
 		// PARSE ELEMENT
@@ -396,10 +396,10 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writer.write("return true;\n");
 		writer.write("if(!(obj instanceof " + plan.getClassName(parent) + "))\n");
 		writer.write("return _$$failEquals();\n");
-		if((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getElements() != null && plan.getElements().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
+		if((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getElements() != null && plan.getElements().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
 		{
 			writer.write("final " + plan.getClassName(parent) + " that = (" + plan.getClassName(parent) + ")obj;\n");
-			if(plan.getMixed() != null && plan.getMixed())
+			if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
 			{
 				writer.write("if(text != null ? !text.equals(that.text) : that.text != null)\n");
 				writer.write("return _$$failEquals();\n");
@@ -417,8 +417,6 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writer.write("{\n");
 		writer.write("int hashCode = super.hashCode();\n");
 		writer.write("hashCode += NAME.hashCode();\n");
-//		if(plan.getMixed() != null && plan.getMixed())
-//			writer.write("hashCode += text != null ? text.hashCode() : -1;\n");
 		for(Object attribute : plan.getAttributes())
 			Writer.writeHashCode(writer, (AttributePlan)attribute, plan);
 		for(Object element : plan.getElements())

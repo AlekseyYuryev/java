@@ -3,14 +3,15 @@ package org.safris.xml.generator.compiler.processor.write.element;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.safris.xml.generator.lexer.schema.attribute.Use;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.Attribute;
 import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.lexer.schema.attribute.Form;
+import org.safris.xml.generator.lexer.schema.attribute.Use;
+import org.w3c.dom.Element;
 
 public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 {
@@ -23,7 +24,7 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 	{
 		writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<" + Attribute.class.getName() + ">> getANYATTR()\n");
 		writer.write("{\n");
-		writer.write("return anyAttribute.getText();\n");
+		writer.write("return anyAttribute.getAttribute();\n");
 		writer.write("}\n");
 	}
 
@@ -31,9 +32,9 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 	{
 		writer.write("public void addAny$(" + Binding.class.getName() + "<" + Attribute.class.getName() + "> anyAttribute)\n");
 		writer.write("{\n");
-		writer.write("if(this.anyAttribute == null)\n");
-		writer.write("this.anyAttribute.setText(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
-		writer.write("this.anyAttribute.getText().add(anyAttribute);\n");
+		writer.write("if(this.anyAttribute.getAttribute() == null)\n");
+		writer.write("this.anyAttribute.setAttribute(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
+		writer.write("this.anyAttribute.getAttribute().add(anyAttribute);\n");
 		writer.write("}\n");
 	}
 
@@ -44,12 +45,12 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan>
 
 	protected void appendParse(StringWriter writer, AnyAttributePlan plan, Plan parent)
 	{
-		writer.write("else\n");
-		writer.write("{\n");
-		writer.write("if(this.anyAttribute == null)\n");
-		writer.write("this.anyAttribute.setText(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
-		writer.write("this.anyAttribute.getText().add(" + Binding.class.getName() + ".parseAttr(node, attribute));\n");
-		writer.write("}\n");
+//		writer.write("else\n");
+//		writer.write("{\n");
+		writer.write("if(this.anyAttribute.getAttribute() == null)\n");
+		writer.write("this.anyAttribute.setAttribute(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">>());\n");
+		writer.write("this.anyAttribute.getAttribute().add(" + Binding.class.getName() + ".parseAttr((" + Element.class.getName() + ")attribute.getParentNode(), attribute));\n");
+//		writer.write("}\n");
 	}
 
 	public void appendCopy(StringWriter writer, AnyAttributePlan plan, Plan parent, String variable)

@@ -101,9 +101,11 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
 		_$$decode((Element)node.getParentNode(), value.toString());
 	}
 
-	protected void parseAttribute(Node node) throws ParseException, ValidationException
+	protected boolean parseAttribute(Node node) throws ParseException, ValidationException
 	{
+		// FIXME: Test this!! Do we return true or false?
 		parse(node);
+		return false;
 	}
 
 	protected boolean parseElement(Node element) throws ParseException, ValidationException

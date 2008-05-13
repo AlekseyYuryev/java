@@ -2,41 +2,48 @@ package org.safris.xml.toolkit.test.binding.regression;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.safris.xml.schema.binding.test.unit.union.UnFour;
-import org.safris.xml.schema.binding.test.unit.union.UnRoot;
-import org.safris.xml.schema.binding.test.unit.union.UnSix;
-import org.safris.xml.schema.binding.test.unit.union.UnTwo;
+import org.junit.Test;
+import org.safris.xml.schema.binding.test.unit.union.un_four;
+import org.safris.xml.schema.binding.test.unit.union.un_root;
+import org.safris.xml.schema.binding.test.unit.union.un_six;
+import org.safris.xml.schema.binding.test.unit.union.un_two;
 
 public class UnionTest
 {
 	public static void main(String[] args)
 	{
-		UnRoot root = new UnRoot();
+		new UnionTest().testUnion();
+	}
 
-		UnRoot.UnOne one = new UnRoot.UnOne();
-		one.setTEXT(new Integer(9));
-		root.addUnOne(one);
+	@Test
+	public void testUnion()
+	{
+		un_root root = new un_root();
 
-		UnTwo two = new UnTwo();
+		un_root._one one = new un_root._one();
+		one.setText(new Integer(9));
+		root.add_one(one);
+
+		un_two two = new un_two();
 		List twos = new ArrayList();
 		twos.add(new Integer(1));
 		twos.add("hi");
-		two.setTEXT(twos);
-		root.addUnTwo(two);
+		two.setText(twos);
+		root.addun_two(two);
 
-		UnRoot.UnThree three = new UnRoot.UnThree(5);
-		root.addUnThree(three);
+		un_root._three three = new un_root._three(5);
+		root.add_three(three);
 
-		UnFour four = new UnFour("text");
-		root.addUnFour(four);
+		un_four four = new un_four("text");
+		root.addun_four(four);
 
-		UnRoot.UnFive five = new UnRoot.UnFive(314);
-		root.addUnFive(five);
+		un_root._five five = new un_root._five(314);
+		root.add_five(five);
 
-		UnSix six = new UnSix("yeah");
-		root.addUnSix(six);
+		un_six six = new un_six("yeah");
+		root.addun_six(six);
 
-		UnRoot.UnSeven seven = new UnRoot.UnSeven(777);
-		root.addUnSeven(seven);
+		un_root._seven seven = new un_root._seven(777);
+		root.add_seven(seven);
 	}
 }

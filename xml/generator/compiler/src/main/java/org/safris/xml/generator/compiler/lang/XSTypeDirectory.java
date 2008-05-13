@@ -44,7 +44,7 @@ import org.w3.x2001.xmlschema.$xs_NCName;
 import org.w3.x2001.xmlschema.$xs_NMTOKEN;
 import org.w3.x2001.xmlschema.$xs_NMTOKENS;
 import org.w3.x2001.xmlschema.$xs_NOTATION;
-import org.w3.x2001.xmlschema.$xs_name;
+import org.w3.x2001.xmlschema.$xs_Name;
 import org.w3.x2001.xmlschema.$xs_negativeInteger;
 import org.w3.x2001.xmlschema.$xs_nonNegativeInteger;
 import org.w3.x2001.xmlschema.$xs_nonPositiveInteger;
@@ -99,7 +99,7 @@ public final class XSTypeDirectory
 			final XSTypeDirectory string = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "string"), new NativeBinding.GenericClass($xs_string.class), new NativeBinding.GenericClass(String.class)), ANYSIMPLETYPE);
 			final XSTypeDirectory normalizedString = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "normalizedString"), new NativeBinding.GenericClass($xs_normalizedString.class), new NativeBinding.GenericClass(String.class)), string);
 			final XSTypeDirectory token = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "token"), new NativeBinding.GenericClass($xs_token.class), new NativeBinding.GenericClass(String.class)), normalizedString);
-			final XSTypeDirectory Name = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "Name"), new NativeBinding.GenericClass($xs_name.class), new NativeBinding.GenericClass(String.class)), token);
+			final XSTypeDirectory Name = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "Name"), new NativeBinding.GenericClass($xs_Name.class), new NativeBinding.GenericClass(String.class)), token);
 			final XSTypeDirectory NCName = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "NCName"), new NativeBinding.GenericClass($xs_NCName.class), new NativeBinding.GenericClass(String.class)), Name);
 			final XSTypeDirectory ENTITY = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "ENTITY"), new NativeBinding.GenericClass($xs_ENTITY.class), new NativeBinding.GenericClass(String.class)), NCName);
 			final XSTypeDirectory ID = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "ID"), new NativeBinding.GenericClass($xs_ID.class), new NativeBinding.GenericClass(String.class)), NCName);

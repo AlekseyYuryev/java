@@ -1,39 +1,34 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import _0_assertion.oasis_names_tc_saml_1.ISamlStatementAbstractType;
-import liberty_iff_2003_08.ILibAuthenticationStatementType;
-import liberty_iff_2003_08.LibAffiliationID;
-import liberty_iff_2003_08.LibAssertion;
-import liberty_iff_2003_08.LibAuthnContext;
-import liberty_iff_2003_08.LibAuthnRequest;
-import liberty_iff_2003_08.LibAuthnRequestEnvelope;
-import liberty_iff_2003_08.LibAuthnResponse;
-import liberty_iff_2003_08.LibAuthnResponseEnvelope;
-import liberty_iff_2003_08.LibConsentAttr;
-import liberty_iff_2003_08.LibExtension;
-import liberty_iff_2003_08.LibFederationTerminationNotification;
-import liberty_iff_2003_08.LibGetComplete;
-import liberty_iff_2003_08.LibIDPEntries;
-import liberty_iff_2003_08.LibIDPEntry;
-import liberty_iff_2003_08.LibIDPList;
-import liberty_iff_2003_08.LibIDPProvidedNameIdentifier;
-import liberty_iff_2003_08.LibLogoutRequest;
-import liberty_iff_2003_08.LibLogoutResponse;
-import liberty_iff_2003_08.LibNameIDPolicy;
-import liberty_iff_2003_08.LibOldProvidedNameIdentifier;
-import liberty_iff_2003_08.LibProtocolProfile;
-import liberty_iff_2003_08.LibProviderID;
-import liberty_iff_2003_08.LibRegisterNameIdentifierRequest;
-import liberty_iff_2003_08.LibRegisterNameIdentifierResponse;
-import liberty_iff_2003_08.LibRelayState;
-import liberty_iff_2003_08.LibSPProvidedNameIdentifier;
-import org.safris.xml.toolkit.test.binding.regression.AcRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.DsRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.LibRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.RegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlRegressionTest;
-import org.safris.xml.toolkit.test.binding.regression.SamlpRegressionTest;
+import liberty_iff_2003_08.$lib_AuthenticationStatementType;
+import liberty_iff_2003_08.lib_AffiliationID;
+import liberty_iff_2003_08.lib_Assertion;
+import liberty_iff_2003_08.lib_AuthnContext;
+import liberty_iff_2003_08.lib_AuthnRequest;
+import liberty_iff_2003_08.lib_AuthnRequestEnvelope;
+import liberty_iff_2003_08.lib_AuthnResponse;
+import liberty_iff_2003_08.lib_AuthnResponseEnvelope;
+import liberty_iff_2003_08.lib_Extension;
+import liberty_iff_2003_08.lib_FederationTerminationNotification;
+import liberty_iff_2003_08.lib_GetComplete;
+import liberty_iff_2003_08.lib_IDPEntries;
+import liberty_iff_2003_08.lib_IDPEntry;
+import liberty_iff_2003_08.lib_IDPList;
+import liberty_iff_2003_08.lib_IDPProvidedNameIdentifier;
+import liberty_iff_2003_08.lib_LogoutRequest;
+import liberty_iff_2003_08.lib_LogoutResponse;
+import liberty_iff_2003_08.lib_NameIDPolicy;
+import liberty_iff_2003_08.lib_OldProvidedNameIdentifier;
+import liberty_iff_2003_08.lib_ProtocolProfile;
+import liberty_iff_2003_08.lib_ProviderID;
+import liberty_iff_2003_08.lib_RegisterNameIdentifierRequest;
+import liberty_iff_2003_08.lib_RegisterNameIdentifierResponse;
+import liberty_iff_2003_08.lib_RelayState;
+import liberty_iff_2003_08.lib_SPProvidedNameIdentifier;
+import liberty_iff_2003_08.lib_consent$;
+import org.junit.Ignore;
 
+@Ignore("Make this a real test!")
 public class LibRegressionTest extends RegressionTest
 {
 	private static final String namespaceURI = "urn:liberty:iff:2003-08";
@@ -58,14 +53,14 @@ public class LibRegressionTest extends RegressionTest
 		getLogoutResponse();
 	}
 
-	public static LibProviderID getProviderID()
+	public static lib_ProviderID getProviderID()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibProviderID binding = new LibProviderID();
-		binding.setTEXT(getRandomString());
+		lib_ProviderID binding = new lib_ProviderID();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -75,14 +70,14 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAffiliationID getAffiliationID()
+	public static lib_AffiliationID getAffiliationID()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAffiliationID binding = new LibAffiliationID();
-		binding.setTEXT(getRandomString());
+		lib_AffiliationID binding = new lib_AffiliationID();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -92,55 +87,55 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAuthnRequest getAuthnRequest()
+	public static lib_AuthnRequest getAuthnRequest()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAuthnRequest binding = new LibAuthnRequest();
-		binding.setSamlpIssueInstantAttr(new LibAuthnRequest.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibAuthnRequest.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibAuthnRequest.SamlpMinorVersionAttr(getRandomInteger()));
+		lib_AuthnRequest binding = new lib_AuthnRequest();
+		binding.add_IssueInstant$(new lib_AuthnRequest._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_AuthnRequest._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_AuthnRequest._MinorVersion$(getRandomInteger()));
 		while(Math.random() < ADD_SEED)
-			binding.addSamlpRespondWith(SamlpRegressionTest.getRespondWith());
-		binding.setSamlpRequestIDAttr(new LibAuthnRequest.SamlpRequestIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
+		binding.add_RequestID$(new lib_AuthnRequest._RequestID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setLibAffiliationID(getAffiliationID());
-		binding.setLibNameIDPolicy(getNameIDPolicy());
-		binding.setLibForceAuthn(new LibAuthnRequest.LibForceAuthn(getRandomBoolean()));
-		binding.setLibIsPassive(new LibAuthnRequest.LibIsPassive(getRandomBoolean()));
-		binding.setLibProtocolProfile(getProtocolProfile());
-		binding.setLibAssertionConsumerServiceID(new LibAuthnRequest.LibAssertionConsumerServiceID(getRandomString()));
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addlib_AffiliationID(getAffiliationID());
+		binding.addlib_NameIDPolicy(getNameIDPolicy());
+		binding.add_ForceAuthn(new lib_AuthnRequest._ForceAuthn(getRandomBoolean()));
+		binding.add_IsPassive(new lib_AuthnRequest._IsPassive(getRandomBoolean()));
+		binding.addlib_ProtocolProfile(getProtocolProfile());
+		binding.add_AssertionConsumerServiceID(new lib_AuthnRequest._AssertionConsumerServiceID(getRandomString()));
 
-		LibAuthnContext.LibAuthnContextComparison authnContextComparison = null;
+		lib_AuthnContext._AuthnContextComparison authnContextComparison = null;
 		double random = Math.random();
 		if(random < 1 / 3)
-			authnContextComparison = new LibAuthnContext.LibAuthnContextComparison(LibAuthnContext.LibAuthnContextComparison.BETTER);
+			authnContextComparison = new lib_AuthnContext._AuthnContextComparison(lib_AuthnContext._AuthnContextComparison.BETTER);
 		else if(random < 2 / 3)
-			authnContextComparison = new LibAuthnContext.LibAuthnContextComparison(LibAuthnContext.LibAuthnContextComparison.EXACT);
+			authnContextComparison = new lib_AuthnContext._AuthnContextComparison(lib_AuthnContext._AuthnContextComparison.EXACT);
 		else
-			authnContextComparison = new LibAuthnContext.LibAuthnContextComparison(LibAuthnContext.LibAuthnContextComparison.MINIMUM);
+			authnContextComparison = new lib_AuthnContext._AuthnContextComparison(lib_AuthnContext._AuthnContextComparison.MINIMUM);
 
-		LibAuthnContext authnContext = new LibAuthnContext();
-		authnContext.setLibAuthnContextComparison(authnContextComparison);
+		lib_AuthnContext authnContext = new lib_AuthnContext();
+		authnContext.add_AuthnContextComparison(authnContextComparison);
 
 		if(Math.random() < CHOICE_SEED)
 			do
-			authnContext.addLibAuthnContextClassRef(new LibAuthnContext.LibAuthnContextClassRef(getRandomString()));
+			authnContext.add_AuthnContextClassRef(new lib_AuthnContext._AuthnContextClassRef(getRandomString()));
 			while(Math.random() < ADD_SEED);
 		else
 			do
-			authnContext.addLibAuthnContextStatementRef(new LibAuthnContext.LibAuthnContextStatementRef(getRandomString()));
+			authnContext.add_AuthnContextStatementRef(new lib_AuthnContext._AuthnContextStatementRef(getRandomString()));
 			while(Math.random() < ADD_SEED);
 
-		binding.setLibAuthnContext(authnContext);
-		binding.setLibRelayState(getRelayState());
-		binding.setLibConsentAttr(new LibConsentAttr(getRandomString()));
+		binding.addlib_AuthnContext(authnContext);
+		binding.addlib_RelayState(getRelayState());
+		binding.addlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -150,22 +145,22 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibNameIDPolicy getNameIDPolicy()
+	public static lib_NameIDPolicy getNameIDPolicy()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibNameIDPolicy binding;
+		lib_NameIDPolicy binding;
 		double random = Math.random();
 		if(random < 1 / 4)
-			binding = new LibNameIDPolicy(LibNameIDPolicy.FEDERATED);
+			binding = new lib_NameIDPolicy(lib_NameIDPolicy.FEDERATED);
 		else if(random < 1 / 2)
-			binding = new LibNameIDPolicy(LibNameIDPolicy.NONE);
+			binding = new lib_NameIDPolicy(lib_NameIDPolicy.NONE);
 		else if(random < 3 / 4)
-			binding = new LibNameIDPolicy(LibNameIDPolicy.ONETIME);
+			binding = new lib_NameIDPolicy(lib_NameIDPolicy.ONETIME);
 		else
-			binding = new LibNameIDPolicy(LibNameIDPolicy.ANY);
+			binding = new lib_NameIDPolicy(lib_NameIDPolicy.ANY);
 
 		if(verifiable)
 		{
@@ -175,14 +170,14 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibRelayState getRelayState()
+	public static lib_RelayState getRelayState()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibRelayState binding = new LibRelayState();
-		binding.setTEXT(getRandomString());
+		lib_RelayState binding = new lib_RelayState();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -192,14 +187,14 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibProtocolProfile getProtocolProfile()
+	public static lib_ProtocolProfile getProtocolProfile()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibProtocolProfile binding = new LibProtocolProfile();
-		binding.setTEXT(getRandomString());
+		lib_ProtocolProfile binding = new lib_ProtocolProfile();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -209,20 +204,20 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAuthnContext getAuthnContext()
+	public static lib_AuthnContext getAuthnContext()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAuthnContext binding = new LibAuthnContext();
+		lib_AuthnContext binding = new lib_AuthnContext();
 		if(Math.random() < CHOICE_SEED)
 			do
-			binding.addLibAuthnContextClassRef(new LibAuthnContext.LibAuthnContextClassRef(getRandomString()));
+			binding.add_AuthnContextClassRef(new lib_AuthnContext._AuthnContextClassRef(getRandomString()));
 			while(Math.random() < ADD_SEED);
 		else
 			do
-			binding.addLibAuthnContextStatementRef(new LibAuthnContext.LibAuthnContextStatementRef(getRandomString()));
+			binding.add_AuthnContextStatementRef(new lib_AuthnContext._AuthnContextStatementRef(getRandomString()));
 			while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -233,29 +228,29 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAuthnResponse getAuthnResponse()
+	public static lib_AuthnResponse getAuthnResponse()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAuthnResponse binding = new LibAuthnResponse();
+		lib_AuthnResponse binding = new lib_AuthnResponse();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAssertion(getAssertion());
-		binding.setSamlpInResponseToAttr(new LibAuthnResponse.SamlpInResponseToAttr(getRandomString()));
-		binding.setSamlpIssueInstantAttr(new LibAuthnResponse.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibAuthnResponse.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibAuthnResponse.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRecipientAttr(new LibAuthnResponse.SamlpRecipientAttr(getRandomString()));
-		binding.setSamlpResponseIDAttr(new LibAuthnResponse.SamlpResponseIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
-		binding.setSamlpStatus(SamlpRegressionTest.getStatus());
+			binding.addsaml_Assertion(getAssertion());
+		binding.add_InResponseTo$(new lib_AuthnResponse._InResponseTo$(getRandomString()));
+		binding.add_IssueInstant$(new lib_AuthnResponse._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_AuthnResponse._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_AuthnResponse._MinorVersion$(getRandomInteger()));
+		binding.add_Recipient$(new lib_AuthnResponse._Recipient$(getRandomString()));
+		binding.add_ResponseID$(new lib_AuthnResponse._ResponseID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
+		binding.addsamlp_Status(SamlpRegressionTest.getStatus());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setLibRelayState(getRelayState());
-		binding.setLibConsentAttr(new LibConsentAttr(getRandomString()));
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addlib_RelayState(getRelayState());
+		binding.addlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -265,37 +260,37 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAssertion getAssertion()
+	public static lib_Assertion getAssertion()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAssertion binding = new LibAssertion();
+		lib_Assertion binding = new lib_Assertion();
 		do
-		binding.addSamlAttributeStatement(SamlRegressionTest.getAttributeStatement());
+		binding.addsaml_AttributeStatement(SamlRegressionTest.getAttributeStatement());
 		while(Math.random() < ADD_SEED);
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthenticationStatement(getAuthenticationStatement());
+			binding.addsaml_AuthenticationStatement(getAuthenticationStatement());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthorizationDecisionStatement(SamlRegressionTest.getAuthorizationDecisionStatement());
+			binding.addsaml_AuthorizationDecisionStatement(SamlRegressionTest.getAuthorizationDecisionStatement());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlStatement(SamlRegressionTest.getStatement());
+			binding.addsaml_Statement(SamlRegressionTest.getStatement());
 		while(Math.random() < ADD_SEED)
-			binding.addSamlSubjectStatement(SamlRegressionTest.getSubjectStatement());
+			binding.addsaml_SubjectStatement(SamlRegressionTest.getSubjectStatement());
 		if(Math.random() < ADD_SEED)
-			binding.setSamlAdvice(SamlRegressionTest.getAdvice());
-		binding.setSamlAssertionIDAttr(new LibAssertion.SamlAssertionIDAttr(getRandomString()));
+			binding.addsaml_Advice(SamlRegressionTest.getAdvice());
+		binding.add_AssertionID$(new lib_Assertion._AssertionID$(getRandomString()));
 		if(Math.random() < ADD_SEED)
-			binding.setSamlConditions(SamlRegressionTest.getConditions());
-		binding.setSamlIssueInstantAttr(new LibAssertion.SamlIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlIssuerAttr(new LibAssertion.SamlIssuerAttr(getRandomString()));
-		binding.setSamlMajorVersionAttr(new LibAssertion.SamlMajorVersionAttr(getRandomInteger()));
-		binding.setSamlMinorVersionAttr(new LibAssertion.SamlMinorVersionAttr(getRandomInteger()));
+			binding.addsaml_Conditions(SamlRegressionTest.getConditions());
+		binding.add_IssueInstant$(new lib_Assertion._IssueInstant$(getRandomDateTime()));
+		binding.add_Issuer$(new lib_Assertion._Issuer$(getRandomString()));
+		binding.add_MajorVersion$(new lib_Assertion._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_Assertion._MinorVersion$(getRandomInteger()));
 		if(Math.random() < ADD_SEED)
-			binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addds_Signature(DsRegressionTest.getSignature());
 
-		binding.setLibInResponseToAttr(new LibAssertion.LibInResponseToAttr(getRandomString()));
+		binding.add_InResponseTo$(new lib_Assertion._InResponseTo$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -305,22 +300,22 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAuthnRequestEnvelope getAuthnRequestEnvelope()
+	public static lib_AuthnRequestEnvelope getAuthnRequestEnvelope()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAuthnRequestEnvelope binding = new LibAuthnRequestEnvelope();
-		binding.setLibAuthnRequest(getAuthnRequest());
-		binding.setLibProviderID(getProviderID());
-		binding.setLibProviderName(new LibAuthnRequestEnvelope.LibProviderName(getRandomString()));
-		binding.setLibAssertionConsumerServiceURL(new LibAuthnRequestEnvelope.LibAssertionConsumerServiceURL(getRandomString()));
-		binding.setLibIDPList(getIDPList());
-		binding.setLibIsPassive(new LibAuthnRequestEnvelope.LibIsPassive(getRandomBoolean()));
+		lib_AuthnRequestEnvelope binding = new lib_AuthnRequestEnvelope();
+		binding.addlib_AuthnRequest(getAuthnRequest());
+		binding.addlib_ProviderID(getProviderID());
+		binding.add_ProviderName(new lib_AuthnRequestEnvelope._ProviderName(getRandomString()));
+		binding.add_AssertionConsumerServiceURL(new lib_AuthnRequestEnvelope._AssertionConsumerServiceURL(getRandomString()));
+		binding.addlib_IDPList(getIDPList());
+		binding.add_IsPassive(new lib_AuthnRequestEnvelope._IsPassive(getRandomBoolean()));
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
+			binding.addlib_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -330,14 +325,14 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibIDPList getIDPList()
+	public static lib_IDPList getIDPList()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibIDPList binding = new LibIDPList();
-		binding.setLibIDPEntries(getIDPEntries());
+		lib_IDPList binding = new lib_IDPList();
+		binding.addlib_IDPEntries(getIDPEntries());
 
 		if(verifiable)
 		{
@@ -347,16 +342,16 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public final static LibIDPEntry getIDPEntry()
+	public final static lib_IDPEntry getIDPEntry()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibIDPEntry binding = new LibIDPEntry();
-		binding.setLibProviderID(getProviderID());
-		binding.setLibProviderName(new LibIDPEntry.LibProviderName(getRandomString()));
-		binding.setLibLoc(new LibIDPEntry.LibLoc(getRandomString()));
+		lib_IDPEntry binding = new lib_IDPEntry();
+		binding.addlib_ProviderID(getProviderID());
+		binding.add_ProviderName(new lib_IDPEntry._ProviderName(getRandomString()));
+		binding.add_Loc(new lib_IDPEntry._Loc(getRandomString()));
 
 		if(verifiable)
 		{
@@ -366,15 +361,15 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibIDPEntries getIDPEntries()
+	public static lib_IDPEntries getIDPEntries()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibIDPEntries binding = new LibIDPEntries();
+		lib_IDPEntries binding = new lib_IDPEntries();
 		do
-		binding.addLibIDPEntry(getIDPEntry());
+		binding.addlib_IDPEntry(getIDPEntry());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)
@@ -385,14 +380,14 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibGetComplete getGetComplete()
+	public static lib_GetComplete getGetComplete()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibGetComplete binding = new LibGetComplete();
-		binding.setTEXT(getRandomString());
+		lib_GetComplete binding = new lib_GetComplete();
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -402,17 +397,17 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibAuthnResponseEnvelope getAuthnResponseEnvelope()
+	public static lib_AuthnResponseEnvelope getAuthnResponseEnvelope()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibAuthnResponseEnvelope binding = new LibAuthnResponseEnvelope();
-		binding.setLibAuthnResponse(getAuthnResponse());
-		binding.setLibAssertionConsumerServiceURL(new LibAuthnResponseEnvelope.LibAssertionConsumerServiceURL(getRandomString()));
+		lib_AuthnResponseEnvelope binding = new lib_AuthnResponseEnvelope();
+		binding.addlib_AuthnResponse(getAuthnResponse());
+		binding.add_AssertionConsumerServiceURL(new lib_AuthnResponseEnvelope._AssertionConsumerServiceURL(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
+			binding.addlib_Extension(getExtension());
 
 		if(verifiable)
 		{
@@ -422,28 +417,28 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibRegisterNameIdentifierRequest getRegisterNameIdentifierRequest()
+	public static lib_RegisterNameIdentifierRequest getRegisterNameIdentifierRequest()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibRegisterNameIdentifierRequest binding = new LibRegisterNameIdentifierRequest();
+		lib_RegisterNameIdentifierRequest binding = new lib_RegisterNameIdentifierRequest();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlpRespondWith(SamlpRegressionTest.getRespondWith());
-		binding.setSamlpIssueInstantAttr(new LibRegisterNameIdentifierRequest.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibRegisterNameIdentifierRequest.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibRegisterNameIdentifierRequest.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRequestIDAttr(new LibRegisterNameIdentifierRequest.SamlpRequestIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
+		binding.add_IssueInstant$(new lib_RegisterNameIdentifierRequest._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_RegisterNameIdentifierRequest._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_RegisterNameIdentifierRequest._MinorVersion$(getRandomInteger()));
+		binding.add_RequestID$(new lib_RegisterNameIdentifierRequest._RequestID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setLibIDPProvidedNameIdentifier(getIDPProvidedNameIdentifier());
-		binding.setLibSPProvidedNameIdentifier(getSPProvidedNameIdentifier());
-		binding.setLibOldProvidedNameIdentifier(getOldProvidedNameIdentifier());
-		binding.setLibRelayState(getRelayState());
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addlib_IDPProvidedNameIdentifier(getIDPProvidedNameIdentifier());
+		binding.addlib_SPProvidedNameIdentifier(getSPProvidedNameIdentifier());
+		binding.addlib_OldProvidedNameIdentifier(getOldProvidedNameIdentifier());
+		binding.addlib_RelayState(getRelayState());
 
 		if(verifiable)
 		{
@@ -453,16 +448,16 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibIDPProvidedNameIdentifier getIDPProvidedNameIdentifier()
+	public static lib_IDPProvidedNameIdentifier getIDPProvidedNameIdentifier()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibIDPProvidedNameIdentifier binding = new LibIDPProvidedNameIdentifier();
-		binding.setSamlFormatAttr(new LibIDPProvidedNameIdentifier.SamlFormatAttr(getRandomString()));
-		binding.setSamlNameQualifierAttr(new LibIDPProvidedNameIdentifier.SamlNameQualifierAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		lib_IDPProvidedNameIdentifier binding = new lib_IDPProvidedNameIdentifier();
+		binding.add_Format$(new lib_IDPProvidedNameIdentifier._Format$(getRandomString()));
+		binding.add_NameQualifier$(new lib_IDPProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -472,16 +467,16 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibSPProvidedNameIdentifier getSPProvidedNameIdentifier()
+	public static lib_SPProvidedNameIdentifier getSPProvidedNameIdentifier()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibSPProvidedNameIdentifier binding = new LibSPProvidedNameIdentifier();
-		binding.setSamlFormatAttr(new LibSPProvidedNameIdentifier.SamlFormatAttr(getRandomString()));
-		binding.setSamlNameQualifierAttr(new LibSPProvidedNameIdentifier.SamlNameQualifierAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		lib_SPProvidedNameIdentifier binding = new lib_SPProvidedNameIdentifier();
+		binding.add_Format$(new lib_SPProvidedNameIdentifier._Format$(getRandomString()));
+		binding.add_NameQualifier$(new lib_SPProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -491,16 +486,16 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibOldProvidedNameIdentifier getOldProvidedNameIdentifier()
+	public static lib_OldProvidedNameIdentifier getOldProvidedNameIdentifier()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibOldProvidedNameIdentifier binding = new LibOldProvidedNameIdentifier();
-		binding.setSamlFormatAttr(new LibOldProvidedNameIdentifier.SamlFormatAttr(getRandomString()));
-		binding.setSamlNameQualifierAttr(new LibOldProvidedNameIdentifier.SamlNameQualifierAttr(getRandomString()));
-		binding.setTEXT(getRandomString());
+		lib_OldProvidedNameIdentifier binding = new lib_OldProvidedNameIdentifier();
+		binding.add_Format$(new lib_OldProvidedNameIdentifier._Format$(getRandomString()));
+		binding.add_NameQualifier$(new lib_OldProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.setText(getRandomString());
 
 		if(verifiable)
 		{
@@ -510,26 +505,26 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibRegisterNameIdentifierResponse getRegisterNameIdentifierResponse()
+	public static lib_RegisterNameIdentifierResponse getRegisterNameIdentifierResponse()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibRegisterNameIdentifierResponse binding = new LibRegisterNameIdentifierResponse();
-		binding.setSamlpInResponseToAttr(new LibRegisterNameIdentifierResponse.SamlpInResponseToAttr(getRandomString()));
-		binding.setSamlpIssueInstantAttr(new LibRegisterNameIdentifierResponse.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibRegisterNameIdentifierResponse.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibRegisterNameIdentifierResponse.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRecipientAttr(new LibRegisterNameIdentifierResponse.SamlpRecipientAttr(getRandomString()));
-		binding.setSamlpResponseIDAttr(new LibRegisterNameIdentifierResponse.SamlpResponseIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+		lib_RegisterNameIdentifierResponse binding = new lib_RegisterNameIdentifierResponse();
+		binding.add_InResponseTo$(new lib_RegisterNameIdentifierResponse._InResponseTo$(getRandomString()));
+		binding.add_IssueInstant$(new lib_RegisterNameIdentifierResponse._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_RegisterNameIdentifierResponse._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_RegisterNameIdentifierResponse._MinorVersion$(getRandomInteger()));
+		binding.add_Recipient$(new lib_RegisterNameIdentifierResponse._Recipient$(getRandomString()));
+		binding.add_ResponseID$(new lib_RegisterNameIdentifierResponse._ResponseID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setSamlpStatus(SamlpRegressionTest.getStatus());
-		binding.setLibRelayState(getRelayState());
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addsamlp_Status(SamlpRegressionTest.getStatus());
+		binding.addlib_RelayState(getRelayState());
 
 		if(verifiable)
 		{
@@ -539,26 +534,26 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibFederationTerminationNotification getFederationTerminationNotification()
+	public static lib_FederationTerminationNotification getFederationTerminationNotification()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibFederationTerminationNotification binding = new LibFederationTerminationNotification();
+		lib_FederationTerminationNotification binding = new lib_FederationTerminationNotification();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlpRespondWith(SamlpRegressionTest.getRespondWith());
-		binding.setSamlpIssueInstantAttr(new LibFederationTerminationNotification.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibFederationTerminationNotification.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibFederationTerminationNotification.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRequestIDAttr(new LibFederationTerminationNotification.SamlpRequestIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
+		binding.add_IssueInstant$(new lib_FederationTerminationNotification._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_FederationTerminationNotification._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_FederationTerminationNotification._MinorVersion$(getRandomInteger()));
+		binding.add_RequestID$(new lib_FederationTerminationNotification._RequestID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setSamlNameIdentifier(getIDPProvidedNameIdentifier());
-		binding.setLibConsentAttr(new LibConsentAttr(getRandomString()));
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addsaml_NameIdentifier(getIDPProvidedNameIdentifier());
+		binding.addlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -568,27 +563,27 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibLogoutRequest getLogoutRequest()
+	public static lib_LogoutRequest getLogoutRequest()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibLogoutRequest binding = new LibLogoutRequest();
+		lib_LogoutRequest binding = new lib_LogoutRequest();
 		while(Math.random() < ADD_SEED)
-			binding.addSamlpRespondWith(SamlpRegressionTest.getRespondWith());
-		binding.setSamlpIssueInstantAttr(new LibLogoutRequest.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibLogoutRequest.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibLogoutRequest.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRequestIDAttr(new LibLogoutRequest.SamlpRequestIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
+		binding.add_IssueInstant$(new lib_LogoutRequest._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_LogoutRequest._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_LogoutRequest._MinorVersion$(getRandomInteger()));
+		binding.add_RequestID$(new lib_LogoutRequest._RequestID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setSamlNameIdentifier(getSPProvidedNameIdentifier());
-		binding.setLibSessionIndex(new LibLogoutRequest.LibSessionIndex(getRandomString()));
-		binding.setLibRelayState(getRelayState());
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addsaml_NameIdentifier(getSPProvidedNameIdentifier());
+		binding.add_SessionIndex(new lib_LogoutRequest._SessionIndex(getRandomString()));
+		binding.addlib_RelayState(getRelayState());
 
 		if(verifiable)
 		{
@@ -598,26 +593,26 @@ public class LibRegressionTest extends RegressionTest
 		return binding;
 	}
 
-	public static LibLogoutResponse getLogoutResponse()
+	public static lib_LogoutResponse getLogoutResponse()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibLogoutResponse binding = new LibLogoutResponse();
+		lib_LogoutResponse binding = new lib_LogoutResponse();
 		while(Math.random() < ADD_SEED)
-			binding.addLibExtension(getExtension());
-		binding.setLibProviderID(getProviderID());
-		binding.setSamlpStatus(SamlpRegressionTest.getStatus());
-		binding.setLibRelayState(getRelayState());
+			binding.addlib_Extension(getExtension());
+		binding.addlib_ProviderID(getProviderID());
+		binding.addsamlp_Status(SamlpRegressionTest.getStatus());
+		binding.addlib_RelayState(getRelayState());
 
-		binding.setSamlpInResponseToAttr(new LibLogoutResponse.SamlpInResponseToAttr(getRandomString()));
-		binding.setSamlpIssueInstantAttr(new LibLogoutResponse.SamlpIssueInstantAttr(getRandomDateTime()));
-		binding.setSamlpMajorVersionAttr(new LibLogoutResponse.SamlpMajorVersionAttr(getRandomInteger()));
-		binding.setSamlpMinorVersionAttr(new LibLogoutResponse.SamlpMinorVersionAttr(getRandomInteger()));
-		binding.setSamlpRecipientAttr(new LibLogoutResponse.SamlpRecipientAttr(getRandomString()));
-		binding.setSamlpResponseIDAttr(new LibLogoutResponse.SamlpResponseIDAttr(getRandomString()));
-		binding.setDsSignature(DsRegressionTest.getSignature());
+		binding.add_InResponseTo$(new lib_LogoutResponse._InResponseTo$(getRandomString()));
+		binding.add_IssueInstant$(new lib_LogoutResponse._IssueInstant$(getRandomDateTime()));
+		binding.add_MajorVersion$(new lib_LogoutResponse._MajorVersion$(getRandomInteger()));
+		binding.add_MinorVersion$(new lib_LogoutResponse._MinorVersion$(getRandomInteger()));
+		binding.add_Recipient$(new lib_LogoutResponse._Recipient$(getRandomString()));
+		binding.add_ResponseID$(new lib_LogoutResponse._ResponseID$(getRandomString()));
+		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		if(verifiable)
 		{
@@ -628,42 +623,42 @@ public class LibRegressionTest extends RegressionTest
 	}
 
 	// NOTE: There is not element that encompases this type directly.
-	public static final ILibAuthenticationStatementType getAuthenticationStatement()
+	public static final $lib_AuthenticationStatementType getAuthenticationStatement()
 	{
-		ILibAuthenticationStatementType binding = new ILibAuthenticationStatementType()
+		$lib_AuthenticationStatementType binding = new $lib_AuthenticationStatementType()
 		{
-			protected ISamlStatementAbstractType inherits()
+			protected $lib_AuthenticationStatementType inherits()
 			{
 				return null;
 			}
 		};
-		binding.setSamlAuthenticationInstantAttr(new ILibAuthenticationStatementType.SamlAuthenticationInstantAttr(getRandomDateTime()));
-		binding.setSamlAuthenticationMethodAttr(new ILibAuthenticationStatementType.SamlAuthenticationMethodAttr(getRandomString()));
+		binding.add_AuthenticationInstant$(new $lib_AuthenticationStatementType._AuthenticationInstant$(getRandomDateTime()));
+		binding.add_AuthenticationMethod$(new $lib_AuthenticationStatementType._AuthenticationMethod$(getRandomString()));
 		while(Math.random() < ADD_SEED)
-			binding.addSamlAuthorityBinding(SamlRegressionTest.getAuthorityBinding());
-		binding.setSamlSubject(SamlRegressionTest.getSubject());
-		binding.setSamlSubjectLocality(SamlRegressionTest.getSubjectLocality());
+			binding.addsaml_AuthorityBinding(SamlRegressionTest.getAuthorityBinding());
+		binding.addsaml_Subject(SamlRegressionTest.getSubject());
+		binding.addsaml_SubjectLocality(SamlRegressionTest.getSubjectLocality());
 
-		ILibAuthenticationStatementType.LibAuthnContext authnContext = new ILibAuthenticationStatementType.LibAuthnContext();
-//		authnContext.setLibAuthnContextClassRef(new LibAuthenticationStatementType.AuthnContext.AuthnContextClassRef(getRandomString()));
+		$lib_AuthenticationStatementType._AuthnContext authnContext = new $lib_AuthenticationStatementType._AuthnContext();
+//		authnContext.addlib_AuthnContextClassRef(new lib_AuthenticationStatementType.AuthnContext.AuthnContextClassRef(getRandomString()));
 		if(Math.random() < CHOICE_SEED)
-			authnContext.setAcAuthenticationContextStatement(AcRegressionTest.getAuthenticationContextStatement());
+			authnContext.addac_AuthenticationContextStatement(AcRegressionTest.getAuthenticationContextStatement());
 //		else
-		//			authnContext.setLibAuthnContextStatementRef(new LibAuthenticationStatementType.AuthnContext.AuthnContextStatementRef(getRandomString()));
-		binding.setLibAuthnContext(authnContext);
+		//			authnContext.addlib_AuthnContextStatementRef(new lib_AuthenticationStatementType.AuthnContext.AuthnContextStatementRef(getRandomString()));
+		binding.add_AuthnContext(authnContext);
 
 		return binding;
 	}
 
-	public static LibExtension getExtension()
+	public static lib_Extension getExtension()
 	{
 		boolean verifiable = isVerifiable();
 		if(verifiable)
 			setVerifiable(false);
 
-		LibExtension binding = new LibExtension();
+		lib_Extension binding = new lib_Extension();
 		do
-		binding.addANY(instance.getAny());
+		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
 
 		if(verifiable)

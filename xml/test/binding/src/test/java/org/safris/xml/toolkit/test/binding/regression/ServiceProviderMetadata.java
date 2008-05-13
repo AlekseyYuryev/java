@@ -1,20 +1,20 @@
 package org.safris.xml.toolkit.test.binding.regression;
 
-import aol_liberty_config.AolIdentityProvider;
-import aol_liberty_config.AolServiceProvider;
+import aol_liberty_config.aol_IdentityProvider;
+import aol_liberty_config.aol_ServiceProvider;
 import java.util.Arrays;
-import liberty_iff_2003_08.LibAffiliationID;
-import liberty_iff_2003_08.LibProviderID;
-import liberty_metadata_2003_08.IMdEntityDescriptorType;
-import liberty_metadata_2003_08.IMdKeyInfoType;
-import liberty_metadata_2003_08.MdCacheDurationAttr;
-import liberty_metadata_2003_08.MdEntityDescriptor;
-import liberty_metadata_2003_08.MdProviderIDAttr;
-import org.safris.xml.generator.compiler.runtime.lang.Duration;
-import org.safris.xml.toolkit.test.binding.regression.Metadata;
-import org.w3.x2000.x09.xmldsig.DsX509Data;
-import org.w3.x2000.x09.xmldsig.IDsKeyInfoType;
+import liberty_iff_2003_08.lib_AffiliationID;
+import liberty_iff_2003_08.lib_ProviderID;
+import liberty_metadata_2003_08.$md_entityDescriptorType;
+import liberty_metadata_2003_08.$md_keyInfoType;
+import liberty_metadata_2003_08.md_EntityDescriptor;
+import liberty_metadata_2003_08.md_cacheDuration$;
+import liberty_metadata_2003_08.md_providerID$;
+import org.junit.Ignore;
+import org.safris.commons.xml.binding.Duration;
+import org.w3.x2000.x09.xmldsig.ds_X509Data;
 
+@Ignore("Make this a real test!")
 public class ServiceProviderMetadata extends Metadata
 {
 	private static final String DEFAULT_HOST = "aol-3";
@@ -34,95 +34,95 @@ public class ServiceProviderMetadata extends Metadata
 		System.out.print(getServiceProvider());
 	}
 
-	public static IMdEntityDescriptorType.MdSPDescriptor getSPDescriptor()
+	public static $md_entityDescriptorType._SPDescriptor getSPDescriptor()
 	{
-		IMdEntityDescriptorType.MdSPDescriptor.MdAssertionConsumerServiceURL assertionConsumerServiceURL = new IMdEntityDescriptorType.MdSPDescriptor.MdAssertionConsumerServiceURL("https://" + host + ".Md" + domain + "/AssertionConsumer");
-		assertionConsumerServiceURL.setMdIdAttr(new IMdEntityDescriptorType.MdSPDescriptor.MdAssertionConsumerServiceURL.MdIdAttr("_123"));
-		assertionConsumerServiceURL.setMdIsDefaultAttr(new IMdEntityDescriptorType.MdSPDescriptor.MdAssertionConsumerServiceURL.MdIsDefaultAttr(new Boolean(true)));
+		$md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL assertionConsumerServiceURL = new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL("https://" + host + "._" + domain + "/AssertionConsumer");
+		assertionConsumerServiceURL.add_id$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._id$("_123"));
+		assertionConsumerServiceURL.add_isDefault$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._isDefault$(new Boolean(true)));
 
-		IMdEntityDescriptorType.MdSPDescriptor spDescriptor = new IMdEntityDescriptorType.MdSPDescriptor();
-		spDescriptor.setMdProtocolSupportEnumerationAttr(new IMdEntityDescriptorType.MdSPDescriptor.MdProtocolSupportEnumerationAttr(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
-		spDescriptor.addMdAssertionConsumerServiceURL(assertionConsumerServiceURL);
-		spDescriptor.addMdFederationTerminationNotificationProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdFederationTerminationNotificationProtocolProfile("http://projectliberty.Mdorg/profiles/fedterm-idp-http"));
-		spDescriptor.addMdFederationTerminationNotificationProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdFederationTerminationNotificationProtocolProfile("http://projectliberty.Mdorg/profiles/fedterm-idp-soap"));
-		spDescriptor.addMdRegisterNameIdentifierProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdRegisterNameIdentifierProtocolProfile("http://projectliberty.Mdorg/profiles/rni-idp-http"));
-		spDescriptor.addMdRegisterNameIdentifierProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdRegisterNameIdentifierProtocolProfile("http://projectliberty.Mdorg/profiles/rni-idp-soap"));
-		spDescriptor.addMdSingleLogoutProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdSingleLogoutProtocolProfile("http://projectliberty.Mdorg/profiles/slo-idp-http"));
-		spDescriptor.addMdSingleLogoutProtocolProfile(new IMdEntityDescriptorType.MdIDPDescriptor.MdSingleLogoutProtocolProfile("http://projectliberty.Mdorg/profiles/slo-idp-soap"));
-		spDescriptor.setMdCacheDurationAttr(new MdCacheDurationAttr(new Duration(false, 0, 0, 7)));
-		spDescriptor.setMdAuthnRequestsSigned(new IMdEntityDescriptorType.MdSPDescriptor.MdAuthnRequestsSigned(new Boolean(true)));
-		spDescriptor.setMdFederationTerminationServiceURL(new IMdEntityDescriptorType.MdSPDescriptor.MdFederationTerminationServiceURL("https://" + host + ".Md" + domain + "/FederationTermination"));
-		spDescriptor.setMdFederationTerminationServiceReturnURL(new IMdEntityDescriptorType.MdSPDescriptor.MdFederationTerminationServiceReturnURL("https://" + host + ".Md" + domain + "/FederationTerminationReturn"));
-		spDescriptor.setMdRegisterNameIdentifierServiceURL(new IMdEntityDescriptorType.MdSPDescriptor.MdRegisterNameIdentifierServiceURL("https://" + host + ".Md" + domain + "/RegisterNameIdentifier"));
-		spDescriptor.setMdRegisterNameIdentifierServiceReturnURL(new IMdEntityDescriptorType.MdSPDescriptor.MdRegisterNameIdentifierServiceReturnURL("https://" + host + ".Md" + domain + "/RegisterNameIdentifierReturn"));
-		spDescriptor.setMdSingleLogoutServiceURL(new IMdEntityDescriptorType.MdSPDescriptor.MdSingleLogoutServiceURL("https://" + host + ".Md" + domain + "/SingleLogout"));
-		spDescriptor.setMdSingleLogoutServiceReturnURL(new IMdEntityDescriptorType.MdSPDescriptor.MdSingleLogoutServiceReturnURL("https://" + host + ".Md" + domain + "/SingleLogoutReturn"));
-		spDescriptor.setMdProviderIDAttr(new MdProviderIDAttr("https://" + host + ".Md" + domain + "/metadata.Mdxml"));
-		spDescriptor.setMdSoapEndpoint(new IMdEntityDescriptorType.MdIDPDescriptor.MdSoapEndpoint("https://" + host + ".Md" + domain + "/services/SoapEndpoint"));
+		$md_entityDescriptorType._SPDescriptor spDescriptor = new $md_entityDescriptorType._SPDescriptor();
+		spDescriptor.add_protocolSupportEnumeration$(new $md_entityDescriptorType._SPDescriptor._protocolSupportEnumeration$(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
+		spDescriptor.add_AssertionConsumerServiceURL(assertionConsumerServiceURL);
+		spDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty._org/profiles/fedterm-idp-http"));
+		spDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty._org/profiles/fedterm-idp-soap"));
+		spDescriptor.add_RegisterNameIdentifierProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._RegisterNameIdentifierProtocolProfile("http://projectliberty._org/profiles/rni-idp-http"));
+		spDescriptor.add_RegisterNameIdentifierProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._RegisterNameIdentifierProtocolProfile("http://projectliberty._org/profiles/rni-idp-soap"));
+		spDescriptor.add_SingleLogoutProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleLogoutProtocolProfile("http://projectliberty._org/profiles/slo-idp-http"));
+		spDescriptor.add_SingleLogoutProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleLogoutProtocolProfile("http://projectliberty._org/profiles/slo-idp-soap"));
+		spDescriptor.addmd_cacheDuration$(new md_cacheDuration$(new Duration(false, 0, 0, 7)));
+		spDescriptor.add_AuthnRequestsSigned(new $md_entityDescriptorType._SPDescriptor._AuthnRequestsSigned(new Boolean(true)));
+		spDescriptor.add_FederationTerminationServiceURL(new $md_entityDescriptorType._SPDescriptor._FederationTerminationServiceURL("https://" + host + "._" + domain + "/FederationTermination"));
+		spDescriptor.add_FederationTerminationServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._FederationTerminationServiceReturnURL("https://" + host + "._" + domain + "/FederationTerminationReturn"));
+		spDescriptor.add_RegisterNameIdentifierServiceURL(new $md_entityDescriptorType._SPDescriptor._RegisterNameIdentifierServiceURL("https://" + host + "._" + domain + "/RegisterNameIdentifier"));
+		spDescriptor.add_RegisterNameIdentifierServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._RegisterNameIdentifierServiceReturnURL("https://" + host + "._" + domain + "/RegisterNameIdentifierReturn"));
+		spDescriptor.add_SingleLogoutServiceURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceURL("https://" + host + "._" + domain + "/SingleLogout"));
+		spDescriptor.add_SingleLogoutServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceReturnURL("https://" + host + "._" + domain + "/SingleLogoutReturn"));
+		spDescriptor.addmd_providerID$(new md_providerID$("https://" + host + "._" + domain + "/metadata._xml"));
+		spDescriptor.add_SoapEndpoint(new $md_entityDescriptorType._IDPDescriptor._SoapEndpoint("https://" + host + "._" + domain + "/services/SoapEndpoint"));
 
-		DsX509Data.DsX509Certificate x509Certificate = new DsX509Data.DsX509Certificate(getKeyInfo(host));
-		DsX509Data x509Data = new DsX509Data();
-		x509Data.addDsX509Certificate(x509Certificate);
+		ds_X509Data._X509Certificate x509Certificate = new ds_X509Data._X509Certificate(getKeyInfo(host));
+		ds_X509Data x509Data = new ds_X509Data();
+		x509Data.add_X509Certificate(x509Certificate);
 
-		IMdKeyInfoType keyInfo = new IMdKeyInfoType()
+		$md_keyInfoType keyInfo = new $md_keyInfoType()
 		{
-			protected IDsKeyInfoType inherits()
+			protected $md_keyInfoType inherits()
 			{
 				return null;
 			}
 		};
-		keyInfo.setMdUseAttr(new IMdKeyInfoType.MdUseAttr(IMdKeyInfoType.MdUseAttr.SIGNING));
-		keyInfo.addDsX509Data(x509Data);
+		keyInfo.add_use$(new $md_keyInfoType._use$($md_keyInfoType._use$.SIGNING));
+		keyInfo.addds_X509Data(x509Data);
 
-		spDescriptor.addMdKeyInfo(keyInfo);
+		spDescriptor.add_KeyInfo(keyInfo);
 
 		return spDescriptor;
 	}
 
-	public static MdEntityDescriptor getEntityDescriptor()
+	public static md_EntityDescriptor getEntityDescriptor()
 	{
-		MdEntityDescriptor entityDescriptor = new MdEntityDescriptor();
-		entityDescriptor.addMdSPDescriptor(getSPDescriptor());
+		md_EntityDescriptor entityDescriptor = new md_EntityDescriptor();
+		entityDescriptor.add_SPDescriptor(getSPDescriptor());
 		return entityDescriptor;
 	}
 
-	public static AolServiceProvider getServiceProvider()
+	public static aol_ServiceProvider getServiceProvider()
 	{
-		AolServiceProvider.AolGuidGenerator guidGenerator = new AolServiceProvider.AolGuidGenerator();
-		guidGenerator.setAolMacAddress(new AolServiceProvider.AolGuidGenerator.AolMacAddress("08:02:20:9f:ae:54"));
+		aol_ServiceProvider._GuidGenerator guidGenerator = new aol_ServiceProvider._GuidGenerator();
+		guidGenerator.add_MacAddress(new aol_ServiceProvider._GuidGenerator._MacAddress("08:02:20:9f:ae:54"));
 
-		AolServiceProvider.AolSession.AolPool sessionPool = new AolServiceProvider.AolSession.AolPool();
-		sessionPool.setAolSize(new AolServiceProvider.AolSession.AolPool.AolSize(new Integer(10)));
+		aol_ServiceProvider._Session._Pool sessionPool = new aol_ServiceProvider._Session._Pool();
+		sessionPool.add_Size(new aol_ServiceProvider._Session._Pool._Size(new Integer(10)));
 
-		AolServiceProvider.AolSession.AolState sessionState = new AolServiceProvider.AolSession.AolState();
-		sessionState.setAolTimeout(new AolServiceProvider.AolSession.AolState.AolTimeout(new Integer(30000)));
+		aol_ServiceProvider._Session._State sessionState = new aol_ServiceProvider._Session._State();
+		sessionState.add_Timeout(new aol_ServiceProvider._Session._State._Timeout(new Integer(30000)));
 
-		AolServiceProvider.AolSession session = new AolServiceProvider.AolSession();
-		session.setAolPool(sessionPool);
-		session.setAolState(sessionState);
+		aol_ServiceProvider._Session session = new aol_ServiceProvider._Session();
+		session.add_Pool(sessionPool);
+		session.add_State(sessionState);
 
-		AolServiceProvider.AolXmlSchema xmlSchema = new AolServiceProvider.AolXmlSchema();
-		xmlSchema.setAolSchemaLocation(new AolServiceProvider.AolXmlSchema.AolSchemaLocation("urn:aol:liberty:config /usr/safris/servers/docs/tacobell/schemas/aol-lib-config.Aolxsd http://www.Aolw3.Aolorg/2001/04/xmlenc# /usr/safris/servers/docs/tacobell/schemas/xenc-schema.Aolxsd http://www.Aolw3.Aolorg/2000/09/xmldsig# /usr/safris/servers/docs/tacobell/schemas/xmldsig-core-schema.Aolxsd urn:oasis:names:tc:SAML:1.Aol0:protocol /usr/safris/servers/docs/tacobell/schemas/cs-sstc-schema-protocol-01.Aolxsd urn:oasis:names:tc:SAML:1.Aol0:assertion /usr/safris/servers/docs/tacobell/schemas/cs-sstc-schema-assertion-01.Aolxsd urn:liberty:ac:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-authentication-context.Aolxsd urn:liberty:iff:2003-08 lib-arch-protocols-schema.Aolxsd urn:liberty:disco:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-disco-svc.Aolxsd urn:liberty:metadata:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-metadata.Aolxsd"));
-		xmlSchema.setAolValidateMarshal(new AolServiceProvider.AolXmlSchema.AolValidateMarshal(new Boolean(false)));
-		xmlSchema.setAolValidateParse(new AolServiceProvider.AolXmlSchema.AolValidateParse(new Boolean(true)));
+		aol_ServiceProvider._XmlSchema xmlSchema = new aol_ServiceProvider._XmlSchema();
+		xmlSchema.add_SchemaLocation(new aol_ServiceProvider._XmlSchema._SchemaLocation("urn:aol:liberty:config /usr/safris/servers/docs/tacobell/schemas/aol-lib-config._xsd http://www._w3._org/2001/04/xmlenc# /usr/safris/servers/docs/tacobell/schemas/xenc-schema._xsd http://www._w3._org/2000/09/xmldsig# /usr/safris/servers/docs/tacobell/schemas/xmldsig-core-schema._xsd urn:oasis:names:tc:SAML:1._0:protocol /usr/safris/servers/docs/tacobell/schemas/cs-sstc-schema-protocol-01._xsd urn:oasis:names:tc:SAML:1._0:assertion /usr/safris/servers/docs/tacobell/schemas/cs-sstc-schema-assertion-01._xsd urn:liberty:ac:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-authentication-context._xsd urn:liberty:iff:2003-08 lib-arch-protocols-schema._xsd urn:liberty:disco:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-disco-svc._xsd urn:liberty:metadata:2003-08 /usr/safris/servers/docs/tacobell/schemas/lib-arch-metadata._xsd"));
+		xmlSchema.add_ValidateMarshal(new aol_ServiceProvider._XmlSchema._ValidateMarshal(new Boolean(false)));
+		xmlSchema.add_ValidateParse(new aol_ServiceProvider._XmlSchema._ValidateParse(new Boolean(true)));
 
-		AolServiceProvider serviceProvider = new AolServiceProvider();
-		serviceProvider.setAolApplicationServiceURL(new AolServiceProvider.AolApplicationServiceURL("https://" + host + ".Aol" + domain + "/Application"));
-		serviceProvider.setAolLoginServiceURL(new AolServiceProvider.AolLoginServiceURL("https://" + host + ".Aol" + domain + "/Login"));
-		serviceProvider.setAolAdminServiceURL(new AolServiceProvider.AolAdminServiceURL("https://" + host + ".Aol" + domain + "/Manager"));
-		serviceProvider.setLibProviderID(new LibProviderID("https://" + host + ".Aol" + domain + "/metadata.Aolxml"));
-		serviceProvider.setLibAffiliationID(new LibAffiliationID("https://" + host + ".Aol" + domain + "/affiliation.Aolxml"));
-		serviceProvider.setAolGuidGenerator(guidGenerator);
-		serviceProvider.setAolSession(session);
-		serviceProvider.setAolXmlSchema(xmlSchema);
-		serviceProvider.setAolAddSignature(new AolServiceProvider.AolAddSignature(new Boolean(true)));
-		serviceProvider.setAolVerifySignature(new AolIdentityProvider.AolVerifySignature(new Boolean(true)));
-		serviceProvider.setAolSelectProtocolProfile(new AolServiceProvider.AolSelectProtocolProfile(new Boolean(true)));
-		serviceProvider.setAolSigAlgorithm(new AolServiceProvider.AolSigAlgorithm("rsa"));
-		serviceProvider.setAolCommonDomain(new AolServiceProvider.AolCommonDomain(".Aol" + domain));
-		serviceProvider.setAolSingleSignOnProtocolProfile(new AolServiceProvider.AolSingleSignOnProtocolProfile("http://projectliberty.Aolorg/profiles/brws-art"));
-		serviceProvider.setAolNameIdentifierMappingServiceURL(new AolServiceProvider.AolNameIdentifierMappingServiceURL("https://" + host + ".Aol" + domain + "/NameIdentifierMapping"));
-		serviceProvider.setAolDiscoveryLookupServiceURL(new AolServiceProvider.AolDiscoveryLookupServiceURL("https://" + host + ".Aol" + domain + "/DiscoveryLookup"));
+		aol_ServiceProvider serviceProvider = new aol_ServiceProvider();
+		serviceProvider.add_ApplicationServiceURL(new aol_ServiceProvider._ApplicationServiceURL("https://" + host + "._" + domain + "/Application"));
+		serviceProvider.add_LoginServiceURL(new aol_ServiceProvider._LoginServiceURL("https://" + host + "._" + domain + "/Login"));
+		serviceProvider.add_AdminServiceURL(new aol_ServiceProvider._AdminServiceURL("https://" + host + "._" + domain + "/Manager"));
+		serviceProvider.addlib_ProviderID(new lib_ProviderID("https://" + host + "._" + domain + "/metadata._xml"));
+		serviceProvider.addlib_AffiliationID(new lib_AffiliationID("https://" + host + "._" + domain + "/affiliation._xml"));
+		serviceProvider.add_GuidGenerator(guidGenerator);
+		serviceProvider.add_Session(session);
+		serviceProvider.add_XmlSchema(xmlSchema);
+		serviceProvider.add_AddSignature(new aol_ServiceProvider._AddSignature(new Boolean(true)));
+		serviceProvider.add_VerifySignature(new aol_IdentityProvider._VerifySignature(new Boolean(true)));
+		serviceProvider.add_SelectProtocolProfile(new aol_ServiceProvider._SelectProtocolProfile(new Boolean(true)));
+		serviceProvider.add_SigAlgorithm(new aol_ServiceProvider._SigAlgorithm("rsa"));
+		serviceProvider.add_CommonDomain(new aol_ServiceProvider._CommonDomain("._" + domain));
+		serviceProvider.add_SingleSignOnProtocolProfile(new aol_ServiceProvider._SingleSignOnProtocolProfile("http://projectliberty._org/profiles/brws-art"));
+		serviceProvider.add_NameIdentifierMappingServiceURL(new aol_ServiceProvider._NameIdentifierMappingServiceURL("https://" + host + "._" + domain + "/NameIdentifierMapping"));
+		serviceProvider.add_DiscoveryLookupServiceURL(new aol_ServiceProvider._DiscoveryLookupServiceURL("https://" + host + "._" + domain + "/DiscoveryLookup"));
 
 		return serviceProvider;
 	}

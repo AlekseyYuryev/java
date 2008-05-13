@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.namespace.QName;
+import org.safris.commons.xml.binding.Base64Binary;
+import org.safris.commons.xml.binding.DateTime;
+import org.safris.commons.xml.binding.Duration;
+import org.safris.commons.xml.binding.HexBinary;
+import org.safris.commons.xml.dom.DOMStyle;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.commons.xml.validator.Validator;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingConfig;
+import org.safris.xml.generator.compiler.runtime.BindingValidator;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.lang.Base64Binary;
-import org.safris.xml.generator.compiler.runtime.lang.DateTime;
-import org.safris.xml.generator.compiler.runtime.lang.Duration;
-import org.safris.xml.generator.compiler.runtime.lang.HexBinary;
-import org.safris.xml.generator.compiler.util.DefaultValidator;
-import org.safris.xml.generator.compiler.util.Validator;
 import org.safris.xml.generator.lexer.processor.model.element.AnyAttributeModel;
-import org.w3.x2001.xmlschema.IXSIDREF;
+import org.w3.x2001.xmlschema.$xs_IDREF;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import sun.misc.BASE64Encoder;
@@ -34,10 +35,6 @@ public abstract class RegressionTest
 
 	static
 	{
-		BindingConfig bindingConfig = new BindingConfig();
-		bindingConfig.setIndent(true);
-		Bindings.bootstrapConfig(bindingConfig);
-
 		anyList.add(AcRegressionTest.class);
 		anyList.add(DscRegressionTest.class);
 		anyList.add(DsRegressionTest.class);
@@ -49,7 +46,7 @@ public abstract class RegressionTest
 		anyList.add(SbRegressionTest.class);
 		anyList.add(TnsRegressionTest.class);
 
-		Validator validator = new DefaultValidator();
+		Validator validator = new BindingValidator();
 		validator.setValidateOnMarshal(true);
 		Validator.setSystemValidator(validator);
 	}
@@ -91,13 +88,13 @@ public abstract class RegressionTest
 		return list;
 	}
 
-	protected static final List<IXSIDREF> getRandomIDRefTypes()
+	protected static final List<$xs_IDREF> getRandomIDRefTypes()
 	{
 		String random = new BASE64Encoder().encode(Integer.toString((int)(Math.random() * 1000000000)).getBytes());
 		int length = (int)(Math.random() * 10);
-		List<IXSIDREF> list = new ArrayList<IXSIDREF>(length);
+		List<$xs_IDREF> list = new ArrayList<$xs_IDREF>(length);
 		for(int i = 0; i < length; i++)
-			list.add(new IXSIDREF(random.substring(0, random.length() - 3).toLowerCase())
+			list.add(new $xs_IDREF(random.substring(0, random.length() - 3).toLowerCase())
 			{
 				protected Binding inherits()
 				{
@@ -215,11 +212,11 @@ public abstract class RegressionTest
 		{
 			Method marshalMethod = binding.getClass().getMethod("marshal");
 			Element marshalledElement = (Element)marshalMethod.invoke(binding);
-			marshalledString = Bindings.domToString(marshalledElement);
+			marshalledString = DOMs.domToString(marshalledElement, DOMStyle.INDENT);
 
 			remarshalledBinding = Bindings.parse(new InputSource(new StringReader(marshalledString)));
 			Element remarshalledElement = (Element)binding.getClass().getMethod("marshal").invoke(remarshalledBinding);
-			remarshalledString = Bindings.domToString(remarshalledElement);
+			remarshalledString = DOMs.domToString(remarshalledElement, DOMStyle.INDENT);
 		}
 		catch(Exception e)
 		{
@@ -266,12 +263,12 @@ public abstract class RegressionTest
 			}
 
 			if(stringNotEqual)
-				System.err.println("[INFO] stringNotEqual = true");
+				System.err.println("[$NFO] stringNotEqual = true");
 
 			if(objectNotEqual)
 			{
 				binding.equals(remarshalledBinding);
-				System.err.println("[INFO] objectNotEqual = true");
+				System.err.println("[$NFO] objectNotEqual = true");
 			}
 
 			System.exit(1);

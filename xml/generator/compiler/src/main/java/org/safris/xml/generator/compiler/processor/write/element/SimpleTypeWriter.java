@@ -100,16 +100,9 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 			writer.write("\n");
 
 		writer.write("{\n");
-//		writer.write("protected static RESTRICTION parseRESTRICTION(" + String.class.getName() + " value)\n");
-//		writer.write("{\n");
-//		writer.write("return singletons.get(value);\n");
-//		writer.write("}\n");
 
 		if(!hasSuperEnumerations && hasEnumerations)
-		{
-//			writer.write("protected final static " + Map.class.getName() + "<" + String.class.getName() + ",RESTRICTION> singletons = new " + HashMap.class.getName() + "<" + String.class.getName() + ",RESTRICTION>();\n");
 			writer.write("protected final " + plan.getNativeItemClassName() + " text;\n");
-		}
 
 		writer.write("protected RESTRICTION(" + String.class.getName() + " text)\n");
 		writer.write("{\n");
@@ -411,7 +404,6 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("{\n");
 		writer.write("int hashCode = super.hashCode();\n");
 		writer.write("hashCode += NAME.hashCode();\n");
-//		writer.write("hashCode += getTEXT() != null ? getTEXT().hashCode() : -1;\n");
 		writer.write("return hashCode;\n");
 		writer.write("}\n");
 

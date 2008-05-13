@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
-import org.safris.xml.generator.compiler.runtime.lang.Base64Binary;
+import org.junit.Ignore;
+import org.safris.commons.xml.binding.Base64Binary;
 
+@Ignore("Make this a real test!")
 public class Metadata
 {
 	private static final String PASSWORD = "liberty";
