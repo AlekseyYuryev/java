@@ -16,10 +16,13 @@ import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.EnumerationPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.PatternPlan;
+import org.safris.xml.generator.compiler.runtime.ComplexType;
+import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
+import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan

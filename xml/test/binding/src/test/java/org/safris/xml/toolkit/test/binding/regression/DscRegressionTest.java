@@ -40,7 +40,7 @@ public class DscRegressionTest extends RegressionTest
 		isf_Status binding = new isf_Status();
 		if(Math.random() < RECURSION_SEED)
 			binding.addisf_Status(getStatus());
-		binding.add_code$(new isf_Status._code$(getRandomQName()));
+		binding.set_code$(new isf_Status._code$(getRandomQName()));
 
 		if(verifiable)
 		{
@@ -115,7 +115,7 @@ public class DscRegressionTest extends RegressionTest
 			binding.addisf_ResourceID(getResourceID());
 		else
 			binding.addisf_EncryptedResourceID(getEncryptedResourceID());
-		binding.add_entryID$(new isf_ResourceOffering._entryID$(getRandomString()));
+		binding.set_entryID$(new isf_ResourceOffering._entryID$(getRandomString()));
 		binding.add_ServiceInstance(getServiceInstance());
 		if(Math.random() < RECURSION_SEED)
 			binding.addisf_Options(getOptions());
@@ -137,7 +137,7 @@ public class DscRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		isf_ResourceID binding = new isf_ResourceID();
-		binding.add_id$(new isf_ResourceID._id$(getRandomString()));
+		binding.set_id$(new isf_ResourceID._id$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -205,7 +205,7 @@ public class DscRegressionTest extends RegressionTest
 
 		isf_AuthorizeRequester binding = new isf_AuthorizeRequester();
 		while(Math.random() < ADD_SEED)
-			binding.add_descriptionIDRefs$(new isf_AuthorizeRequester._descriptionIDRefs$(getRandomStrings()));
+			binding.set_descriptionIDRefs$(new isf_AuthorizeRequester._descriptionIDRefs$(getRandomStrings()));
 
 		if(verifiable)
 		{
@@ -223,7 +223,7 @@ public class DscRegressionTest extends RegressionTest
 
 		isf_AuthenticateSessionContext binding = new isf_AuthenticateSessionContext();
 		while(Math.random() < ADD_SEED)
-			binding.add_descriptionIDRefs$(new isf_AuthenticateSessionContext._descriptionIDRefs$(getRandomStrings()));
+			binding.set_descriptionIDRefs$(new isf_AuthenticateSessionContext._descriptionIDRefs$(getRandomStrings()));
 
 		if(verifiable)
 		{

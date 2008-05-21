@@ -26,100 +26,100 @@ public class NameTest extends AbstractTest
 	public void testExample() throws Exception
 	{
 		na_name name_name_name_name_name_name = new na_name();
-		name_name_name_name_name_name.add_Name$(new $na_name._Name$("more"));
-		name_name_name_name_name_name.add_name$(new $na_name._name$("stuff"));
+		name_name_name_name_name_name.set_Name$(new $na_name._Name$("more"));
+		name_name_name_name_name_name.set_name$(new $na_name._name$("stuff"));
 
 		na_name name_name_name_name_name1 = new na_name();
 		name_name_name_name_name1.addna_name(name_name_name_name_name_name);
 
 		na_name name_name_name_name1 = new na_name();
 		name_name_name_name1.addna_name(name_name_name_name_name1);
-		name_name_name_name1.addna_Name$(new na_Name$(true));
-		name_name_name_name1.addna_name$(new na_name$(false));
+		name_name_name_name1.setna_Name$(new na_Name$(true));
+		name_name_name_name1.setna_name$(new na_name$(false));
 
 		na_name name_name_name1 = new na_name();
 		name_name_name1.addna_name(name_name_name_name1);
 
 		na_name name_name1 = new na_name();
 		name_name1.addna_name(name_name_name1);
-		name_name1.addna_Name$(new na_Name$(false));
-		name_name1.addna_name$(new na_name$(true));
+		name_name1.setna_Name$(new na_Name$(false));
+		name_name1.setna_name$(new na_name$(true));
 
 		na_name name1 = new na_name();
 		name1.addna_name(name_name1);
 
 		na_name name_name_name2 = new na_name();
-		name_name_name2.addna_Name$(new na_Name$(true));
-		name_name_name2.addna_name$(new na_name$(false));
-		name_name_name2.add_Name$(new $na_name._Name$("when"));
-		name_name_name2.add_name$(new $na_name._name$("what"));
+		name_name_name2.setna_Name$(new na_Name$(true));
+		name_name_name2.setna_name$(new na_name$(false));
+		name_name_name2.set_Name$(new $na_name._Name$("when"));
+		name_name_name2.set_name$(new $na_name._name$("what"));
 		name_name_name2.addna_name(new na_name());
 
 		na_name name_name2 = new na_name();
 		name_name2.addna_name(name_name_name2);
 
 		na_name name2 = new na_name();
-		name2.addna_Name$(new na_Name$(false));
-		name2.addna_name$(new na_name$(true));
+		name2.setna_Name$(new na_Name$(false));
+		name2.setna_name$(new na_name$(true));
 		name2.addna_name(name_name2);
 
 		na_name name_name3 = new na_name();
-		name_name3.add_Name$(new $na_name._Name$("here"));
-		name_name3.add_name$(new $na_name._name$("where"));
-		name_name3.addna_Name$(new na_Name$(false));
-		name_name3.addna_name$(new na_name$(true));
+		name_name3.set_Name$(new $na_name._Name$("here"));
+		name_name3.set_name$(new $na_name._name$("where"));
+		name_name3.setna_Name$(new na_Name$(false));
+		name_name3.setna_name$(new na_name$(true));
 		name_name3.addna_name(new na_name());
 
 		na_name name3 = new na_name();
 		name3.addna_name(name_name3);
 
 		na_name name_name_name_name_name4 = new na_name();
-		name_name_name_name_name4.add_Name$(new $na_name._Name$("yup"));
-		name_name_name_name_name4.add_name$(new $na_name._name$("nill"));
+		name_name_name_name_name4.set_Name$(new $na_name._Name$("yup"));
+		name_name_name_name_name4.set_name$(new $na_name._name$("nill"));
 
 		na_name name_name_name_name4 = new na_name();
 		name_name_name_name4.addna_name(name_name_name_name_name4);
 
 		na_name name_name_name4 = new na_name();
 		name_name_name4.addna_name(name_name_name_name4);
-		name_name_name4.addna_Name$(new na_Name$(false));
-		name_name_name4.addna_name$(new na_name$(true));
+		name_name_name4.setna_Name$(new na_Name$(false));
+		name_name_name4.setna_name$(new na_name$(true));
 
 		na_name name_name4 = new na_name();
 		name_name4.addna_name(name_name_name4);
 
 		na_name name_name_name4_2 = new na_name();
-		name_name_name4_2.add_Name$(new $na_name._Name$("ever"));
-		name_name_name4_2.add_name$(new $na_name._name$("who"));
-		name_name_name4_2.addna_Name$(new na_Name$(true));
-		name_name_name4_2.addna_name$(new na_name$(false));
+		name_name_name4_2.set_Name$(new $na_name._Name$("ever"));
+		name_name_name4_2.set_name$(new $na_name._name$("who"));
+		name_name_name4_2.setna_Name$(new na_Name$(true));
+		name_name_name4_2.setna_name$(new na_name$(false));
 
 		na_name name_name4_2 = new na_name();
 		name_name4_2.addna_name(name_name_name4_2);
 
 		na_Name name4 = new na_Name();
-		name4.add_Name$(new $na_name._Name$("hello"));
-		name4.add_name$(new $na_name._name$("hi"));
-		name4.addna_Name$(new na_Name$(true));
-		name4.addna_name$(new na_name$(false));
+		name4.set_Name$(new $na_name._Name$("hello"));
+		name4.set_name$(new $na_name._name$("hi"));
+		name4.setna_Name$(new na_Name$(true));
+		name4.setna_name$(new na_name$(false));
 		name4.addna_name(name_name4);
 		name4.addna_name(name_name4_2);
 
 		na_name name_name_name5 = new na_name();
 		name_name_name5.addna_name(new na_name());
-		name_name_name5.add_Name$(new $na_name._Name$("world"));
-		name_name_name5.add_name$(new $na_name._name$("my"));
-		name_name_name5.addna_Name$(new na_Name$(true));
-		name_name_name5.addna_name$(new na_name$(true));
+		name_name_name5.set_Name$(new $na_name._Name$("world"));
+		name_name_name5.set_name$(new $na_name._name$("my"));
+		name_name_name5.setna_Name$(new na_Name$(true));
+		name_name_name5.setna_name$(new na_name$(true));
 
 		na_name name_name5 = new na_name();
 		name_name5.addna_name(name_name_name5);
 
 		na_Name name5 = new na_Name();
-		name5.add_Name$(new $na_name._Name$("yup"));
-		name5.add_name$(new $na_name._name$("really"));
-		name5.addna_Name$(new na_Name$(true));
-		name5.addna_name$(new na_name$(true));
+		name5.set_Name$(new $na_name._Name$("yup"));
+		name5.set_name$(new $na_name._name$("really"));
+		name5.setna_Name$(new na_Name$(true));
+		name5.setna_name$(new na_name$(true));
 		name5.addna_name(name_name5);
 		name5.addna_name(new na_name());
 

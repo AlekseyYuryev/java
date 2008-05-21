@@ -77,7 +77,7 @@ public final class ElementAudit<T extends Binding>
 		return this.value.add(element, false);
 	}
 
-	public SpecificElementList<T> getElements()
+	public List<T> getElements()
 	{
 		return value;
 	}

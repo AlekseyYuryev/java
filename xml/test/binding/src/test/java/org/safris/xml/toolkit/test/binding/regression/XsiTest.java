@@ -36,12 +36,12 @@ public class XsiTest extends Metadata
 				return null;
 			}
 		};
-		xsiType.add_a_attr1$(new $te_complexD._a_attr1$(RegressionTest.getRandomString()));
-		xsiType.add_a_attr2$(new $te_complexD._a_attr2$(RegressionTest.getRandomString()));
-		xsiType.add_c_attr1$(new $te_complexD._c_attr1$(RegressionTest.getRandomString()));
-		xsiType.add_c_attr2$(new $te_complexD._c_attr2$(RegressionTest.getRandomString()));
-		xsiType.add_d_attr1$(new $te_complexD._d_attr1$(RegressionTest.getRandomString()));
-		xsiType.add_d_attr2$(new $te_complexD._d_attr2$(RegressionTest.getRandomString()));
+		xsiType.set_a_attr1$(new $te_complexD._a_attr1$(RegressionTest.getRandomString()));
+		xsiType.set_a_attr2$(new $te_complexD._a_attr2$(RegressionTest.getRandomString()));
+		xsiType.set_c_attr1$(new $te_complexD._c_attr1$(RegressionTest.getRandomString()));
+		xsiType.set_c_attr2$(new $te_complexD._c_attr2$(RegressionTest.getRandomString()));
+		xsiType.set_d_attr1$(new $te_complexD._d_attr1$(RegressionTest.getRandomString()));
+		xsiType.set_d_attr2$(new $te_complexD._d_attr2$(RegressionTest.getRandomString()));
 
 		te_elemD elemD = new te_elemD();
 		elemD.addte_elemC(xsiType);

@@ -20,20 +20,20 @@ public class AnyExample
 	public Binding runExample()
 	{
 		simple_fruit strawberry = new simple_fruit();
-		strawberry.add_name$(new simple_fruit._name$("strawberry"));
-		strawberry.add_sweet$(new simple_fruit._sweet$(true));
+		strawberry.set_name$(new simple_fruit._name$("strawberry"));
+		strawberry.set_sweet$(new simple_fruit._sweet$(true));
 
 		simple_fruit jackfruit = new simple_fruit();
-		jackfruit.add_name$(new simple_fruit._name$("jackfruit"));
-		jackfruit.add_sweet$(new simple_fruit._sweet$(false));
-		jackfruit.add_dry$(new simple_fruit._dry$(false));
+		jackfruit.set_name$(new simple_fruit._name$("jackfruit"));
+		jackfruit.set_sweet$(new simple_fruit._sweet$(false));
+		jackfruit.set_dry$(new simple_fruit._dry$(false));
 
 		simple_fruitBasket._fruits simple_fruits = new simple_fruitBasket._fruits();
 		simple_fruits.addsimple_fruit(strawberry);
 		simple_fruits.addsimple_fruit(jackfruit);
 
 		enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
-		coloredBasket.addenums_color$(new enums_color$(enums_color$.BLUE));
+		coloredBasket.setenums_color$(new enums_color$(enums_color$.BLUE));
 		coloredBasket.add_fruits(simple_fruits);
 
 		$type_fleshyFruitType berry = new $type_fleshyFruitType()
@@ -43,8 +43,8 @@ public class AnyExample
 				return new simple_fruit();
 			}
 		};
-		berry.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
-		berry.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
+		berry.set_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
+		berry.set_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
 
 		// Again, instantiate a nameless element.GenericBasket
 		$type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
@@ -55,7 +55,7 @@ public class AnyExample
 //				return new SimpleSpecialFruit();
 			}
 		};
-		grain.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
+		grain.set_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
 
 		// Again, instantiate a nameless element.
 		$type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType()
@@ -65,8 +65,8 @@ public class AnyExample
 				return new simple_fruit();
 			}
 		};
-		nut.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
-		nut.add_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+		nut.set_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
+		nut.set_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
 //		nut.setDryAttr(new ITypesimple_fruitType.DryAttr(false));
 
 		any_trash trash = new any_trash();

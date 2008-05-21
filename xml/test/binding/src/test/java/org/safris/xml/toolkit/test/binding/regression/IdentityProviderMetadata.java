@@ -37,16 +37,16 @@ public class IdentityProviderMetadata extends Metadata
 	public static $md_entityDescriptorType._IDPDescriptor getIDPDescriptor()
 	{
 		$md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding nameIdentifierMappingBinding = new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding();
-		nameIdentifierMappingBinding.add_AuthorityKind$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._AuthorityKind$(new QName("urn:oasis:names:tc:Saml:1.0:protocol", "$ibuteQuery")));
-		nameIdentifierMappingBinding.add_Location$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._Location$(("https://" + host + "." + domain + "/services/SoapEndpoint")));
-		nameIdentifierMappingBinding.add_Binding$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._Binding$("urn:oasis:names:tc:Saml:1.0:assertion"));
+		nameIdentifierMappingBinding.set_AuthorityKind$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._AuthorityKind$(new QName("urn:oasis:names:tc:Saml:1.0:protocol", "$ibuteQuery")));
+		nameIdentifierMappingBinding.set_Location$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._Location$(("https://" + host + "." + domain + "/services/SoapEndpoint")));
+		nameIdentifierMappingBinding.set_Binding$(new $md_entityDescriptorType._IDPDescriptor._NameIdentifierMappingBinding._Binding$("urn:oasis:names:tc:Saml:1.0:assertion"));
 
 		$md_entityDescriptorType._IDPDescriptor idpDescriptor = new $md_entityDescriptorType._IDPDescriptor();
-		idpDescriptor.add_protocolSupportEnumeration$(new $md_entityDescriptorType._IDPDescriptor._protocolSupportEnumeration$(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
+		idpDescriptor.set_protocolSupportEnumeration$(new $md_entityDescriptorType._IDPDescriptor._protocolSupportEnumeration$(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
 		idpDescriptor.add_SingleSignOnProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleSignOnProtocolProfile("http://projectliberty.org/profiles/brws-art"));
 		idpDescriptor.add_SingleSignOnProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleSignOnProtocolProfile("http://projectliberty.org/profiles/brws-post"));
 		idpDescriptor.add_SingleSignOnServiceURL(new $md_entityDescriptorType._IDPDescriptor._SingleSignOnServiceURL("https://" + host + "." + domain + "/SingleSignOn"));
-		idpDescriptor.addmd_cacheDuration$(new md_cacheDuration$(new Duration(false, 0, 0, 7)));
+		idpDescriptor.setmd_cacheDuration$(new md_cacheDuration$(new Duration(false, 0, 0, 7)));
 		idpDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty.org/profiles/fedterm-sp-http"));
 		idpDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty.org/profiles/fedterm-sp-soap"));
 		idpDescriptor.add_RegisterNameIdentifierProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._RegisterNameIdentifierProtocolProfile("http://projectliberty.org/profiles/rni-sp-http"));
@@ -60,7 +60,7 @@ public class IdentityProviderMetadata extends Metadata
 		idpDescriptor.add_RegisterNameIdentifierServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._RegisterNameIdentifierServiceReturnURL("https://" + host + "." + domain + "/RegisterNameIdentifierReturn"));
 		idpDescriptor.add_SingleLogoutServiceURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceURL("https://" + host + "." + domain + "/SingleLogout"));
 		idpDescriptor.add_SingleLogoutServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceReturnURL("https://" + host + "." + domain + "/SingleLogoutReturn"));
-		idpDescriptor.addmd_providerID$(new md_providerID$("https://" + host + "." + domain + "/metadata.xml"));
+		idpDescriptor.setmd_providerID$(new md_providerID$("https://" + host + "." + domain + "/metadata.xml"));
 		idpDescriptor.add_SoapEndpoint(new $md_entityDescriptorType._IDPDescriptor._SoapEndpoint("https://" + host + "." + domain + "/services/SoapEndpoint"));
 
 		ds_X509Data._X509Certificate x509Certificate = new ds_X509Data._X509Certificate(getKeyInfo(host));
@@ -75,7 +75,7 @@ public class IdentityProviderMetadata extends Metadata
 			}
 		};
 
-		keyInfo.add_use$(new $md_keyInfoType._use$($md_keyInfoType._use$.SIGNING));
+		keyInfo.set_use$(new $md_keyInfoType._use$($md_keyInfoType._use$.SIGNING));
 		keyInfo.addds_X509Data(x509Data);
 
 		idpDescriptor.add_KeyInfo(keyInfo);

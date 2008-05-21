@@ -67,7 +67,7 @@ public class SamlRegressionTest extends RegressionTest
 
 		saml_Assertion binding = new saml_Assertion();
 		binding.addsaml_Advice(getAdvice());
-		binding.add_AssertionID$(new saml_Assertion._AssertionID$(getRandomString()));
+		binding.set_AssertionID$(new saml_Assertion._AssertionID$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_AttributeStatement(getAttributeStatement());
 		while(Math.random() < ADD_SEED)
@@ -80,10 +80,10 @@ public class SamlRegressionTest extends RegressionTest
 		while(Math.random() < ADD_SEED);
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_SubjectStatement(getSubjectStatement());
-		binding.add_IssueInstant$(new saml_Assertion._IssueInstant$(getRandomDateTime()));
-		binding.add_Issuer$(new saml_Assertion._Issuer$(getRandomString()));
-		binding.add_MajorVersion$(new saml_Assertion._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new saml_Assertion._MinorVersion$(getRandomInteger()));
+		binding.set_IssueInstant$(new saml_Assertion._IssueInstant$(getRandomDateTime()));
+		binding.set_Issuer$(new saml_Assertion._Issuer$(getRandomString()));
+		binding.set_MajorVersion$(new saml_Assertion._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new saml_Assertion._MinorVersion$(getRandomInteger()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		if(verifiable)
@@ -105,8 +105,8 @@ public class SamlRegressionTest extends RegressionTest
 			binding.addsaml_AudienceRestrictionCondition(getAudienceRestrictionCondition());
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_Condition(getCondition());
-		binding.add_NotBefore$(new saml_Conditions._NotBefore$(getRandomDateTime()));
-		binding.add_NotOnOrAfter$(new saml_Conditions._NotOnOrAfter$(getRandomDateTime()));
+		binding.set_NotBefore$(new saml_Conditions._NotBefore$(getRandomDateTime()));
+		binding.set_NotOnOrAfter$(new saml_Conditions._NotOnOrAfter$(getRandomDateTime()));
 
 		if(verifiable)
 		{
@@ -215,8 +215,8 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_NameIdentifier binding = new saml_NameIdentifier();
-		binding.add_Format$(new saml_NameIdentifier._Format$(getRandomString()));
-		binding.add_NameQualifier$(new saml_NameIdentifier._NameQualifier$(getRandomString()));
+		binding.set_Format$(new saml_NameIdentifier._Format$(getRandomString()));
+		binding.set_NameQualifier$(new saml_NameIdentifier._NameQualifier$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -289,8 +289,8 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_AuthenticationStatement binding = new saml_AuthenticationStatement();
-		binding.add_AuthenticationInstant$(new saml_AuthenticationStatement._AuthenticationInstant$(getRandomDateTime()));
-		binding.add_AuthenticationMethod$(new saml_AuthenticationStatement._AuthenticationMethod$(getRandomString()));
+		binding.set_AuthenticationInstant$(new saml_AuthenticationStatement._AuthenticationInstant$(getRandomDateTime()));
+		binding.set_AuthenticationMethod$(new saml_AuthenticationStatement._AuthenticationMethod$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_AuthorityBinding(getAuthorityBinding());
 		binding.addsaml_Subject(getSubject());
@@ -311,8 +311,8 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_SubjectLocality binding = new saml_SubjectLocality();
-		binding.add_DNSAddress$(new saml_SubjectLocality._DNSAddress$(getRandomString()));
-		binding.add_IPAddress$(new saml_SubjectLocality._IPAddress$(getRandomString()));
+		binding.set_DNSAddress$(new saml_SubjectLocality._DNSAddress$(getRandomString()));
+		binding.set_IPAddress$(new saml_SubjectLocality._IPAddress$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -329,9 +329,9 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_AuthorityBinding binding = new saml_AuthorityBinding();
-		binding.add_AuthorityKind$(new saml_AuthorityBinding._AuthorityKind$(getRandomQName()));
-		binding.add_Binding$(new saml_AuthorityBinding._Binding$(getRandomString()));
-		binding.add_Location$(new saml_AuthorityBinding._Location$(getRandomString()));
+		binding.set_AuthorityKind$(new saml_AuthorityBinding._AuthorityKind$(getRandomQName()));
+		binding.set_Binding$(new saml_AuthorityBinding._Binding$(getRandomString()));
+		binding.set_Location$(new saml_AuthorityBinding._Location$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -353,14 +353,14 @@ public class SamlRegressionTest extends RegressionTest
 		while(Math.random() < ADD_SEED);
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.INDETERMINATE));
+			binding.set_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.INDETERMINATE));
 		else if(random < 2 / 3)
-			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.DENY));
+			binding.set_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.DENY));
 		else
-			binding.add_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.PERMIT));
+			binding.set_Decision$(new saml_AuthorizationDecisionStatement._Decision$(saml_AuthorizationDecisionStatement._Decision$.PERMIT));
 		if(Math.random() < ADD_SEED)
 			binding.addsaml_Evidence(getEvidence());
-		binding.add_Resource$(new saml_AuthorizationDecisionStatement._Resource$(getRandomString()));
+		binding.set_Resource$(new saml_AuthorizationDecisionStatement._Resource$(getRandomString()));
 		binding.addsaml_Subject(getSubject());
 
 		if(verifiable)
@@ -378,7 +378,7 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_Action binding = new saml_Action();
-		binding.add_Namespace$(new saml_Action._Namespace$(getRandomString()));
+		binding.set_Namespace$(new saml_Action._Namespace$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -438,8 +438,8 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_AttributeDesignator binding = new saml_AttributeDesignator();
-		binding.add_AttributeName$(new saml_AttributeDesignator._AttributeName$(getRandomString()));
-		binding.add_AttributeNamespace$(new saml_AttributeDesignator._AttributeNamespace$(getRandomString()));
+		binding.set_AttributeName$(new saml_AttributeDesignator._AttributeName$(getRandomString()));
+		binding.set_AttributeNamespace$(new saml_AttributeDesignator._AttributeNamespace$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -456,8 +456,8 @@ public class SamlRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		saml_Attribute binding = new saml_Attribute();
-		binding.add_AttributeName$(new saml_Attribute._AttributeName$(getRandomString()));
-		binding.add_AttributeNamespace$(new saml_Attribute._AttributeNamespace$(getRandomString()));
+		binding.set_AttributeName$(new saml_Attribute._AttributeName$(getRandomString()));
+		binding.set_AttributeNamespace$(new saml_Attribute._AttributeNamespace$(getRandomString()));
 		do
 		binding.addsaml_AttributeValue(getAttributeValue());
 		while(Math.random() < ADD_SEED);

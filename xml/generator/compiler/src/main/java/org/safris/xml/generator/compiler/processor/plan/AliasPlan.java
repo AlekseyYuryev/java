@@ -1,26 +1,55 @@
 package org.safris.xml.generator.compiler.processor.plan;
 
-import java.io.File;
 import org.safris.commons.lang.Paths;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.NamedPlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.DocumentationPlan;
+import org.safris.xml.generator.compiler.runtime.ComplexType;
+import org.safris.xml.generator.compiler.runtime.SimpleType;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
+import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
+import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
+import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> implements DocumentablePlan, Nameable<Plan>
 {
+	private static String getInconvertibleType(AliasModel model)
+	{
+		if(model instanceof ElementModel || model instanceof AttributeModel)
+			return "";
+
+		final StringBuffer invariableType = new StringBuffer("<?");
+		if(model instanceof ComplexTypeModel)
+			invariableType.append(" extends " + ComplexType.class.getName());
+		else if(model instanceof SimpleTypeModel)
+			invariableType.append(" extends " + SimpleType.class.getName());
+
+		return invariableType.append(">").toString();
+	}
+
 	protected static String getClassName(AliasModel model, Model parent)
+	{
+		return getClassName(model, parent, false);
+	}
+
+	protected static String getClassNameWithInconvertible(AliasModel model, Model parent)
+	{
+		return getClassName(model, parent, true);
+	}
+
+	private static String getClassName(AliasModel model, Model parent, boolean inconvertible)
 	{
 		if(model == null || model.getName() == null)
 			return null;
 
 		if(model.getParent() instanceof SchemaModel || UniqueQName.XS.getNamespaceURI().equals(model.getName().getNamespaceURI()))
-			return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model);
+			return model.getName().getNamespaceURI().getPackageName()+ "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
 
 		Model check = model;
 		while((check = check.getParent()) != null)
@@ -37,7 +66,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 			while((parent = parent.getParent()) != null);
 		}
 
-		return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model);
+		return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
 	}
 
 	private DocumentationPlan documentation = null;
@@ -46,6 +75,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 	private String instanceName = null;
 
 	private String className = null;
+	private String classInconvertibleName = null;
 	private String classSimpleName = null;
 	private String schemaReference = null;
 	private String xsdLocation = null;
@@ -90,6 +120,17 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 			return className = AliasPlan.getClassName(getModel(), parent.getModel());
 
 		return className = AliasPlan.getClassName(getModel(), null);
+	}
+
+	public final String getClassWithInconvertible(Plan parent)
+	{
+		if(classInconvertibleName != null)
+			return classInconvertibleName;
+
+		if(parent != null)
+			return classInconvertibleName = AliasPlan.getClassNameWithInconvertible(getModel(), parent.getModel());
+
+		return classInconvertibleName = AliasPlan.getClassNameWithInconvertible(getModel(), null);
 	}
 
 	public final String getClassSimpleName()

@@ -25,8 +25,8 @@ public class RedefineTest
 			}
 		};
 
-		original.addattr_test_attribute_nested1$(null);
-		original.addattr_test_attribute_type$(null);
+		original.setattr_test_attribute_nested1$(null);
+		original.setattr_test_attribute_type$(null);
 		original.addty_test_type_NCName(null);
 		original.addty_test_type_QName(null);
 		original.addAny(null);						// in <redefine/> of groupie
@@ -40,13 +40,13 @@ public class RedefineTest
 			}
 		};
 
-		redefined.addattr_test_attribute_nested1$(null);
-		redefined.addattr_test_attribute_type$(null);
+		redefined.setattr_test_attribute_nested1$(null);
+		redefined.setattr_test_attribute_type$(null);
 		redefined.addty_test_type_NCName(null);
 		redefined.addty_test_type_QName(null);
 		redefined.addAny(null);						// in <redefine/> of groupie
 		redefined.addAny$(null);					// in <redefine/> of attrGroupie
-		redefined.add_redefineTest$(null);		// in <redefine/> of complexTypie
+		redefined.set_redefineTest$(null);		// in <redefine/> of complexTypie
 	}
 
 	@Test

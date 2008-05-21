@@ -6,6 +6,7 @@ import java.util.List;
 import org.safris.commons.xml.binding.Date;
 import org.safris.commons.xml.binding.Decimal;
 import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.xml.sax.InputSource;
 
 public class ParseHowTo
@@ -27,63 +28,49 @@ public class ParseHowTo
 		Date date = invoice.get_date().get(0).getText();
 		System.out.println("is established on " + date + " ");
 
-		List<$pv_addressType._name> billingNames = invoice.get_billingAddress().get(0).get_name();
-		String billingName = billingNames.get(0).getText();
+		String billingName = invoice.get_billingAddress().get(0).get_name().get(0).getText();
 		System.out.print("from " + billingName + ", ");
 
-		List<$pv_addressType._address> billingAddresses = invoice.get_billingAddress().get(0).get_address();
-		String billingAddress = billingAddresses.get(0).getText();
+		String billingAddress = invoice.get_billingAddress().get(0).get_address().get(0).getText();
 		System.out.print(billingAddress + ", ");
 
-		List<$pv_addressType._city> billingCityies = invoice.get_billingAddress().get(0).get_city();
-		String billingCity = billingCityies.get(0).getText();
+		String billingCity = invoice.get_billingAddress().get(0).get_city().get(0).getText();
 		System.out.print(billingCity + ", ");
 
-		List<$pv_addressType._postalCode> billingPostalCodes = invoice.get_billingAddress().get(0).get_postalCode();
-		Integer billingPostalCode = billingPostalCodes.get(0).getText();
+		Integer billingPostalCode = invoice.get_billingAddress().get(0).get_postalCode().get(0).getText();
 		System.out.print(billingPostalCode + ", ");
 
-		List<$pv_addressType._country> billingCountries = invoice.get_billingAddress().get(0).get_country();
-		String billingCountry = billingCountries.get(0).getText();
+		String billingCountry = invoice.get_billingAddress().get(0).get_country().get(0).getText();
 		System.out.println(billingCountry + ".");
 
-		List<$pv_addressType._name> shippingNames = invoice.get_shippingAddress().get(0).get_name();
-		String shippingName = shippingNames.get(0).getText();
+		String shippingName = invoice.get_shippingAddress().get(0).get_name().get(0).getText();
 		System.out.print("Shipping address is: " + shippingName + ", ");
 
-		List<$pv_addressType._address> shippingAddresses = invoice.get_shippingAddress().get(0).get_address();
-		String shippingAddress = shippingAddresses.get(0).getText();
+		String shippingAddress = invoice.get_shippingAddress().get(0).get_address().get(0).getText();
 		System.out.print(shippingAddress + ", ");
 
-		List<$pv_addressType._city> shippingCities = invoice.get_shippingAddress().get(0).get_city();
-		String shippingCity = shippingCities.get(0).getText();
+		String shippingCity = invoice.get_shippingAddress().get(0).get_city().get(0).getText();
 		System.out.print(shippingCity + ", ");
 
-		List<$pv_addressType._postalCode> shippingPostalCodes = invoice.get_shippingAddress().get(0).get_postalCode();
-		Integer shippingPostalCode = shippingPostalCodes.get(0).getText();
+		Integer shippingPostalCode = invoice.get_shippingAddress().get(0).get_postalCode().get(0).getText();
 		System.out.print(shippingPostalCode + ", ");
 
-		List<$pv_addressType._country> shippingCountries = invoice.get_shippingAddress().get(0).get_country();
-		String shippingCountry = shippingCountries.get(0).getText();
+		String shippingCountry = invoice.get_shippingAddress().get(0).get_country().get(0).getText();
 		System.out.println(shippingCountry + ".");
 
 		System.out.println("The following items are included in this invoice:");
-		for($pv_itemType item : (List<$pv_itemType>)invoice.get_billedItems().get(0).get_item())
+		for($pv_itemType<? extends ComplexType> item : (List<$pv_itemType<? extends ComplexType>>)invoice.get_billedItems().get(0).get_item())
 		{
-			List<$pv_itemType._quantity> quantities = item.get_quantity();
-			Integer quantity = quantities.get(0).getText();
+			Integer quantity = item.get_quantity().get(0).getText();
 			System.out.print(quantity + " ");
 
-			List<$pv_itemType._description> descriptions = item.get_description();
-			String description = descriptions.get(0).getText();
+			String description = item.get_description().get(0).getText();
 			System.out.print(description + " ");
 
-			List<$pv_itemType._code> codes = item.get_code();
-			Integer code = codes.get(0).getText();
+			Integer code = item.get_code().get(0).getText();
 			System.out.print("(#" + code + ") ");
 
-			List<$pv_positiveDecimal> prices = item.get_price();
-			Decimal price = prices.get(0).getText();
+			Decimal price = item.get_price().get(0).getText();
 			System.out.println("$" + price + " each.");
 		}
 	}

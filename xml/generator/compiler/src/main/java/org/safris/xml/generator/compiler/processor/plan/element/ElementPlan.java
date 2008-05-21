@@ -15,6 +15,7 @@ import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
+import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
@@ -232,16 +233,33 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		if(declarationGeneric != null)
 			return declarationGeneric;
 
+		final AliasModel model;
 		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-			return AliasPlan.getClassName(getModel().getSuperType(), parent.getModel());
+			model = getModel().getSuperType();
 		else
-			return AliasPlan.getClassName(getModel(), parent.getModel());
+			model = getModel();
+
+		return AliasPlan.getClassName(model, parent.getModel());
+	}
+
+	public final String getDeclarationGenericWithInconvertible(Plan parent)
+	{
+		if(declarationGeneric != null)
+			return declarationGeneric;
+
+		final AliasModel model;
+		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+			model = getModel().getSuperType();
+		else
+			model = getModel();
+
+		return AliasPlan.getClassNameWithInconvertible(model, parent.getModel());
 	}
 
 	public final String getDeclarationRestrictionGeneric(Plan parent)
 	{
 		if(!isRestriction())
-			return getDeclarationGeneric(parent);
+			return getDeclarationGenericWithInconvertible(parent);
 
 		if(declarationRestrictionGeneric != null)
 			return declarationRestrictionGeneric;
@@ -254,7 +272,12 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 			prior = prior.getRestriction();
 		}
 
-		return declarationRestrictionGeneric = AliasPlan.getClassName(first.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((Model)first);
+		if(AliasPlan.getClassNameWithInconvertible(first.getRestrictionOwner(), null).contains("$pv_addressType"))
+		{
+			int i = 0;
+		}
+
+		return declarationRestrictionGeneric = AliasPlan.getClassNameWithInconvertible(first.getRestrictionOwner(), null) + JavaBinding.getClassSimpleName((Model)first);
 	}
 
 	public final String getSuperClassNameWithType()

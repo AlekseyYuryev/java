@@ -104,7 +104,7 @@ final class CompositeElementStore
 		{
 			final ElementAudit elementAudit = elementAudits.remove(index);
 			if(elementAudit != null)
-				return elementAudit.getElements().remove(element, false);
+				return ((SpecificElementList)elementAudit.getElements()).remove(element, false);
 		}
 
 		return false;

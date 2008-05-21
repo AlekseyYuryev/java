@@ -14,6 +14,7 @@ import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
+import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
@@ -112,7 +113,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 
 		String defaultInstance = getDefaultInstance(parent);
 		if(isRestriction())
-			return "super.add" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
+			return "super.set" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
 		else
 			return getInstanceName() + ".setAttribute(" + defaultInstance + ");\n";
 	}
@@ -147,16 +148,33 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
 		if(thisClassNameWithType != null)
 			return thisClassNameWithType;
 
+		final AliasModel model;
 		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-			return AliasPlan.getClassName(getModel().getSuperType(), parent.getModel());
+			model = getModel().getSuperType();
 		else
-			return AliasPlan.getClassName(getModel(), parent.getModel());
+			model = getModel();
+
+		return AliasPlan.getClassName(getModel(), parent.getModel());
+	}
+
+	public final String getThisClassNameWithTypeWithInconvertible(Plan parent)
+	{
+		if(thisClassNameWithType != null)
+			return thisClassNameWithType;
+
+		final AliasModel model;
+		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+			model = getModel().getSuperType();
+		else
+			model = getModel();
+
+		return AliasPlan.getClassNameWithInconvertible(getModel(), parent.getModel());
 	}
 
 	public final String getDeclarationRestrictionGeneric(Plan parent)
 	{
 		if(!isRestriction())
-			return getThisClassNameWithType(parent);
+			return getThisClassNameWithTypeWithInconvertible(parent);
 
 		if(declarationRestrictionGeneric != null)
 			return declarationRestrictionGeneric;

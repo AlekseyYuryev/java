@@ -94,12 +94,12 @@ public class LibRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		lib_AuthnRequest binding = new lib_AuthnRequest();
-		binding.add_IssueInstant$(new lib_AuthnRequest._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_AuthnRequest._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_AuthnRequest._MinorVersion$(getRandomInteger()));
+		binding.set_IssueInstant$(new lib_AuthnRequest._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_AuthnRequest._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_AuthnRequest._MinorVersion$(getRandomInteger()));
 		while(Math.random() < ADD_SEED)
 			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
-		binding.add_RequestID$(new lib_AuthnRequest._RequestID$(getRandomString()));
+		binding.set_RequestID$(new lib_AuthnRequest._RequestID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
@@ -135,7 +135,7 @@ public class LibRegressionTest extends RegressionTest
 
 		binding.addlib_AuthnContext(authnContext);
 		binding.addlib_RelayState(getRelayState());
-		binding.addlib_consent$(new lib_consent$(getRandomString()));
+		binding.setlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -237,12 +237,12 @@ public class LibRegressionTest extends RegressionTest
 		lib_AuthnResponse binding = new lib_AuthnResponse();
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_Assertion(getAssertion());
-		binding.add_InResponseTo$(new lib_AuthnResponse._InResponseTo$(getRandomString()));
-		binding.add_IssueInstant$(new lib_AuthnResponse._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_AuthnResponse._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_AuthnResponse._MinorVersion$(getRandomInteger()));
-		binding.add_Recipient$(new lib_AuthnResponse._Recipient$(getRandomString()));
-		binding.add_ResponseID$(new lib_AuthnResponse._ResponseID$(getRandomString()));
+		binding.set_InResponseTo$(new lib_AuthnResponse._InResponseTo$(getRandomString()));
+		binding.set_IssueInstant$(new lib_AuthnResponse._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_AuthnResponse._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_AuthnResponse._MinorVersion$(getRandomInteger()));
+		binding.set_Recipient$(new lib_AuthnResponse._Recipient$(getRandomString()));
+		binding.set_ResponseID$(new lib_AuthnResponse._ResponseID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 		binding.addsamlp_Status(SamlpRegressionTest.getStatus());
 
@@ -250,7 +250,7 @@ public class LibRegressionTest extends RegressionTest
 			binding.addlib_Extension(getExtension());
 		binding.addlib_ProviderID(getProviderID());
 		binding.addlib_RelayState(getRelayState());
-		binding.addlib_consent$(new lib_consent$(getRandomString()));
+		binding.setlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -280,17 +280,17 @@ public class LibRegressionTest extends RegressionTest
 			binding.addsaml_SubjectStatement(SamlRegressionTest.getSubjectStatement());
 		if(Math.random() < ADD_SEED)
 			binding.addsaml_Advice(SamlRegressionTest.getAdvice());
-		binding.add_AssertionID$(new lib_Assertion._AssertionID$(getRandomString()));
+		binding.set_AssertionID$(new lib_Assertion._AssertionID$(getRandomString()));
 		if(Math.random() < ADD_SEED)
 			binding.addsaml_Conditions(SamlRegressionTest.getConditions());
-		binding.add_IssueInstant$(new lib_Assertion._IssueInstant$(getRandomDateTime()));
-		binding.add_Issuer$(new lib_Assertion._Issuer$(getRandomString()));
-		binding.add_MajorVersion$(new lib_Assertion._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_Assertion._MinorVersion$(getRandomInteger()));
+		binding.set_IssueInstant$(new lib_Assertion._IssueInstant$(getRandomDateTime()));
+		binding.set_Issuer$(new lib_Assertion._Issuer$(getRandomString()));
+		binding.set_MajorVersion$(new lib_Assertion._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_Assertion._MinorVersion$(getRandomInteger()));
 		if(Math.random() < ADD_SEED)
 			binding.addds_Signature(DsRegressionTest.getSignature());
 
-		binding.add_InResponseTo$(new lib_Assertion._InResponseTo$(getRandomString()));
+		binding.set_InResponseTo$(new lib_Assertion._InResponseTo$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -426,10 +426,10 @@ public class LibRegressionTest extends RegressionTest
 		lib_RegisterNameIdentifierRequest binding = new lib_RegisterNameIdentifierRequest();
 		while(Math.random() < ADD_SEED)
 			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
-		binding.add_IssueInstant$(new lib_RegisterNameIdentifierRequest._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_RegisterNameIdentifierRequest._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_RegisterNameIdentifierRequest._MinorVersion$(getRandomInteger()));
-		binding.add_RequestID$(new lib_RegisterNameIdentifierRequest._RequestID$(getRandomString()));
+		binding.set_IssueInstant$(new lib_RegisterNameIdentifierRequest._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_RegisterNameIdentifierRequest._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_RegisterNameIdentifierRequest._MinorVersion$(getRandomInteger()));
+		binding.set_RequestID$(new lib_RegisterNameIdentifierRequest._RequestID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
@@ -455,8 +455,8 @@ public class LibRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		lib_IDPProvidedNameIdentifier binding = new lib_IDPProvidedNameIdentifier();
-		binding.add_Format$(new lib_IDPProvidedNameIdentifier._Format$(getRandomString()));
-		binding.add_NameQualifier$(new lib_IDPProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.set_Format$(new lib_IDPProvidedNameIdentifier._Format$(getRandomString()));
+		binding.set_NameQualifier$(new lib_IDPProvidedNameIdentifier._NameQualifier$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -474,8 +474,8 @@ public class LibRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		lib_SPProvidedNameIdentifier binding = new lib_SPProvidedNameIdentifier();
-		binding.add_Format$(new lib_SPProvidedNameIdentifier._Format$(getRandomString()));
-		binding.add_NameQualifier$(new lib_SPProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.set_Format$(new lib_SPProvidedNameIdentifier._Format$(getRandomString()));
+		binding.set_NameQualifier$(new lib_SPProvidedNameIdentifier._NameQualifier$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -493,8 +493,8 @@ public class LibRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		lib_OldProvidedNameIdentifier binding = new lib_OldProvidedNameIdentifier();
-		binding.add_Format$(new lib_OldProvidedNameIdentifier._Format$(getRandomString()));
-		binding.add_NameQualifier$(new lib_OldProvidedNameIdentifier._NameQualifier$(getRandomString()));
+		binding.set_Format$(new lib_OldProvidedNameIdentifier._Format$(getRandomString()));
+		binding.set_NameQualifier$(new lib_OldProvidedNameIdentifier._NameQualifier$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -512,12 +512,12 @@ public class LibRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		lib_RegisterNameIdentifierResponse binding = new lib_RegisterNameIdentifierResponse();
-		binding.add_InResponseTo$(new lib_RegisterNameIdentifierResponse._InResponseTo$(getRandomString()));
-		binding.add_IssueInstant$(new lib_RegisterNameIdentifierResponse._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_RegisterNameIdentifierResponse._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_RegisterNameIdentifierResponse._MinorVersion$(getRandomInteger()));
-		binding.add_Recipient$(new lib_RegisterNameIdentifierResponse._Recipient$(getRandomString()));
-		binding.add_ResponseID$(new lib_RegisterNameIdentifierResponse._ResponseID$(getRandomString()));
+		binding.set_InResponseTo$(new lib_RegisterNameIdentifierResponse._InResponseTo$(getRandomString()));
+		binding.set_IssueInstant$(new lib_RegisterNameIdentifierResponse._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_RegisterNameIdentifierResponse._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_RegisterNameIdentifierResponse._MinorVersion$(getRandomInteger()));
+		binding.set_Recipient$(new lib_RegisterNameIdentifierResponse._Recipient$(getRandomString()));
+		binding.set_ResponseID$(new lib_RegisterNameIdentifierResponse._ResponseID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
@@ -543,17 +543,17 @@ public class LibRegressionTest extends RegressionTest
 		lib_FederationTerminationNotification binding = new lib_FederationTerminationNotification();
 		while(Math.random() < ADD_SEED)
 			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
-		binding.add_IssueInstant$(new lib_FederationTerminationNotification._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_FederationTerminationNotification._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_FederationTerminationNotification._MinorVersion$(getRandomInteger()));
-		binding.add_RequestID$(new lib_FederationTerminationNotification._RequestID$(getRandomString()));
+		binding.set_IssueInstant$(new lib_FederationTerminationNotification._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_FederationTerminationNotification._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_FederationTerminationNotification._MinorVersion$(getRandomInteger()));
+		binding.set_RequestID$(new lib_FederationTerminationNotification._RequestID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
 			binding.addlib_Extension(getExtension());
 		binding.addlib_ProviderID(getProviderID());
 		binding.addsaml_NameIdentifier(getIDPProvidedNameIdentifier());
-		binding.addlib_consent$(new lib_consent$(getRandomString()));
+		binding.setlib_consent$(new lib_consent$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -572,10 +572,10 @@ public class LibRegressionTest extends RegressionTest
 		lib_LogoutRequest binding = new lib_LogoutRequest();
 		while(Math.random() < ADD_SEED)
 			binding.addsamlp_RespondWith(SamlpRegressionTest.getRespondWith());
-		binding.add_IssueInstant$(new lib_LogoutRequest._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_LogoutRequest._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_LogoutRequest._MinorVersion$(getRandomInteger()));
-		binding.add_RequestID$(new lib_LogoutRequest._RequestID$(getRandomString()));
+		binding.set_IssueInstant$(new lib_LogoutRequest._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_LogoutRequest._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_LogoutRequest._MinorVersion$(getRandomInteger()));
+		binding.set_RequestID$(new lib_LogoutRequest._RequestID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		while(Math.random() < ADD_SEED)
@@ -606,12 +606,12 @@ public class LibRegressionTest extends RegressionTest
 		binding.addsamlp_Status(SamlpRegressionTest.getStatus());
 		binding.addlib_RelayState(getRelayState());
 
-		binding.add_InResponseTo$(new lib_LogoutResponse._InResponseTo$(getRandomString()));
-		binding.add_IssueInstant$(new lib_LogoutResponse._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new lib_LogoutResponse._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new lib_LogoutResponse._MinorVersion$(getRandomInteger()));
-		binding.add_Recipient$(new lib_LogoutResponse._Recipient$(getRandomString()));
-		binding.add_ResponseID$(new lib_LogoutResponse._ResponseID$(getRandomString()));
+		binding.set_InResponseTo$(new lib_LogoutResponse._InResponseTo$(getRandomString()));
+		binding.set_IssueInstant$(new lib_LogoutResponse._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new lib_LogoutResponse._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new lib_LogoutResponse._MinorVersion$(getRandomInteger()));
+		binding.set_Recipient$(new lib_LogoutResponse._Recipient$(getRandomString()));
+		binding.set_ResponseID$(new lib_LogoutResponse._ResponseID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 
 		if(verifiable)
@@ -632,8 +632,8 @@ public class LibRegressionTest extends RegressionTest
 				return null;
 			}
 		};
-		binding.add_AuthenticationInstant$(new $lib_AuthenticationStatementType._AuthenticationInstant$(getRandomDateTime()));
-		binding.add_AuthenticationMethod$(new $lib_AuthenticationStatementType._AuthenticationMethod$(getRandomString()));
+		binding.set_AuthenticationInstant$(new $lib_AuthenticationStatementType._AuthenticationInstant$(getRandomDateTime()));
+		binding.set_AuthenticationMethod$(new $lib_AuthenticationStatementType._AuthenticationMethod$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_AuthorityBinding(SamlRegressionTest.getAuthorityBinding());
 		binding.addsaml_Subject(SamlRegressionTest.getSubject());

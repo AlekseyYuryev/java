@@ -61,10 +61,10 @@ public class SamlpRegressionTest extends RegressionTest
 		do
 		binding.addsamlp_RespondWith(getRespondWith());
 		while(Math.random() < ADD_SEED);
-		binding.add_IssueInstant$(new samlp_Request._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new samlp_Request._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new samlp_Request._MinorVersion$(getRandomInteger()));
-		binding.add_RequestID$(new samlp_Request._RequestID$(getRandomString()));
+		binding.set_IssueInstant$(new samlp_Request._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new samlp_Request._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new samlp_Request._MinorVersion$(getRandomInteger()));
+		binding.set_RequestID$(new samlp_Request._RequestID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 		if(random < 1 / 7)
 			do
@@ -129,7 +129,7 @@ public class SamlpRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		samlp_AuthenticationQuery binding = new samlp_AuthenticationQuery();
-		binding.add_AuthenticationMethod$(new samlp_AuthenticationQuery._AuthenticationMethod$(getRandomString()));
+		binding.set_AuthenticationMethod$(new samlp_AuthenticationQuery._AuthenticationMethod$(getRandomString()));
 		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
@@ -150,7 +150,7 @@ public class SamlpRegressionTest extends RegressionTest
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_AttributeDesignator(SamlRegressionTest.getAttributeDesignator());
 
-		binding.add_Resource$(new samlp_AttributeQuery._Resource$(getRandomString()));
+		binding.set_Resource$(new samlp_AttributeQuery._Resource$(getRandomString()));
 		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
@@ -171,7 +171,7 @@ public class SamlpRegressionTest extends RegressionTest
 		do
 		binding.addsaml_Action(SamlRegressionTest.getAction());
 		while(Math.random() < ADD_SEED);
-		binding.add_Resource$(new samlp_AuthorizationDecisionQuery._Resource$(getRandomString()));
+		binding.set_Resource$(new samlp_AuthorizationDecisionQuery._Resource$(getRandomString()));
 		binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
 		if(verifiable)
@@ -191,12 +191,12 @@ public class SamlpRegressionTest extends RegressionTest
 		samlp_Response binding = new samlp_Response();
 		while(Math.random() < ADD_SEED)
 			binding.addsaml_Assertion(SamlRegressionTest.getAssertion());
-		binding.add_InResponseTo$(new samlp_Response._InResponseTo$(getRandomString()));
-		binding.add_IssueInstant$(new samlp_Response._IssueInstant$(getRandomDateTime()));
-		binding.add_MajorVersion$(new samlp_Response._MajorVersion$(getRandomInteger()));
-		binding.add_MinorVersion$(new samlp_Response._MinorVersion$(getRandomInteger()));
-		binding.add_Recipient$(new samlp_Response._Recipient$(getRandomString()));
-		binding.add_ResponseID$(new samlp_Response._ResponseID$(getRandomString()));
+		binding.set_InResponseTo$(new samlp_Response._InResponseTo$(getRandomString()));
+		binding.set_IssueInstant$(new samlp_Response._IssueInstant$(getRandomDateTime()));
+		binding.set_MajorVersion$(new samlp_Response._MajorVersion$(getRandomInteger()));
+		binding.set_MinorVersion$(new samlp_Response._MinorVersion$(getRandomInteger()));
+		binding.set_Recipient$(new samlp_Response._Recipient$(getRandomString()));
+		binding.set_ResponseID$(new samlp_Response._ResponseID$(getRandomString()));
 		binding.addds_Signature(DsRegressionTest.getSignature());
 		binding.addsamlp_Status(getStatus());
 
@@ -238,7 +238,7 @@ public class SamlpRegressionTest extends RegressionTest
 		// NOTE: We do not want a continuous recursion.
 		if(Math.random() < RECURSION_SEED)
 			binding.addsamlp_StatusCode(getStatusCode());
-		binding.add_Value$(new samlp_StatusCode._Value$(getRandomQName()));
+		binding.set_Value$(new samlp_StatusCode._Value$(getRandomQName()));
 
 		if(verifiable)
 		{

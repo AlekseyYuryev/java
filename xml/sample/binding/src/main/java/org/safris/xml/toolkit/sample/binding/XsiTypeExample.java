@@ -28,8 +28,8 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		berry.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
-		berry.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
+		berry.set_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
+		berry.set_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
 
 		// Again, instantiate a nameless element.
 		$type_fleshyFruitType drupe = new $type_fleshyFruitType()
@@ -39,8 +39,8 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		drupe.add_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.DRUPE));
-		drupe.add_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.FLESHY));
+		drupe.set_name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.DRUPE));
+		drupe.set_pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.FLESHY));
 
 		// Again, instantiate a nameless element.
 		$type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType()
@@ -50,7 +50,7 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		legume.add_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.LEGUME));
+		legume.set_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.LEGUME));
 
 		// Again, instantiate a nameless element.
 		$type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType()
@@ -60,7 +60,7 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		follicle.add_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.FOLLICLE));
+		follicle.set_name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.FOLLICLE));
 
 		// Again, instantiate a nameless element.GenericBasket
 		$type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
@@ -70,7 +70,7 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		grain.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
+		grain.set_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
 
 		// Again, instantiate a nameless element.
 		$type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType()
@@ -80,8 +80,8 @@ public class XsiTypeExample
 				return null;
 			}
 		};
-		nut.add_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
-		nut.add_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+		nut.set_name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
+		nut.set_dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
 //		nut.addDry$(new ITypesimple_fruitType.Dry$(false));
 
 		simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
@@ -93,7 +93,7 @@ public class XsiTypeExample
 		fruits.addsimple_fruit(nut);
 
 		enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
-		coloredBasket.addenums_color$(new enums_color$(enums_color$.RED));
+		coloredBasket.setenums_color$(new enums_color$(enums_color$.RED));
 		coloredBasket.add_fruits(fruits);
 
 		// Now verify the integrity of the code representing this XML structure.

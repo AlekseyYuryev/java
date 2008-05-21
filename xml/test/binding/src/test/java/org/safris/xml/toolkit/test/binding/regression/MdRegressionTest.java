@@ -35,7 +35,7 @@ public class MdRegressionTest extends RegressionTest
 		md_Status binding = new md_Status();
 		if(Math.random() < RECURSION_SEED)
 			binding.addmd_Status(getStatus());
-		binding.add_code$(new md_Status._code$(getRandomQName()));
+		binding.set_code$(new md_Status._code$(getRandomQName()));
 
 		if(verifiable)
 		{
@@ -76,9 +76,9 @@ public class MdRegressionTest extends RegressionTest
 			binding.add_SPDescriptor(ServiceProviderMetadata.getSPDescriptor());
 		while(Math.random() < ADD_SEED)
 			binding.add_IDPDescriptor(IdentityProviderMetadata.getIDPDescriptor());
-		binding.add_id$(new md_EntityDescriptor._id$(getRandomString()));
-		binding.addmd_validUntil$(new md_validUntil$(getRandomDateTime()));
-		binding.addmd_cacheDuration$(new md_cacheDuration$(getRandomDuration()));
+		binding.set_id$(new md_EntityDescriptor._id$(getRandomString()));
+		binding.setmd_validUntil$(new md_validUntil$(getRandomDateTime()));
+		binding.setmd_cacheDuration$(new md_cacheDuration$(getRandomDuration()));
 
 		if(verifiable)
 		{

@@ -37,11 +37,11 @@ public class ServiceProviderMetadata extends Metadata
 	public static $md_entityDescriptorType._SPDescriptor getSPDescriptor()
 	{
 		$md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL assertionConsumerServiceURL = new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL("https://" + host + "._" + domain + "/AssertionConsumer");
-		assertionConsumerServiceURL.add_id$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._id$("_123"));
-		assertionConsumerServiceURL.add_isDefault$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._isDefault$(new Boolean(true)));
+		assertionConsumerServiceURL.set_id$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._id$("_123"));
+		assertionConsumerServiceURL.set_isDefault$(new $md_entityDescriptorType._SPDescriptor._AssertionConsumerServiceURL._isDefault$(new Boolean(true)));
 
 		$md_entityDescriptorType._SPDescriptor spDescriptor = new $md_entityDescriptorType._SPDescriptor();
-		spDescriptor.add_protocolSupportEnumeration$(new $md_entityDescriptorType._SPDescriptor._protocolSupportEnumeration$(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
+		spDescriptor.set_protocolSupportEnumeration$(new $md_entityDescriptorType._SPDescriptor._protocolSupportEnumeration$(Arrays.asList(new String[]{"urn:liberty:iff:2003-08"})));
 		spDescriptor.add_AssertionConsumerServiceURL(assertionConsumerServiceURL);
 		spDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty._org/profiles/fedterm-idp-http"));
 		spDescriptor.add_FederationTerminationNotificationProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._FederationTerminationNotificationProtocolProfile("http://projectliberty._org/profiles/fedterm-idp-soap"));
@@ -49,7 +49,7 @@ public class ServiceProviderMetadata extends Metadata
 		spDescriptor.add_RegisterNameIdentifierProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._RegisterNameIdentifierProtocolProfile("http://projectliberty._org/profiles/rni-idp-soap"));
 		spDescriptor.add_SingleLogoutProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleLogoutProtocolProfile("http://projectliberty._org/profiles/slo-idp-http"));
 		spDescriptor.add_SingleLogoutProtocolProfile(new $md_entityDescriptorType._IDPDescriptor._SingleLogoutProtocolProfile("http://projectliberty._org/profiles/slo-idp-soap"));
-		spDescriptor.addmd_cacheDuration$(new md_cacheDuration$(new Duration(false, 0, 0, 7)));
+		spDescriptor.setmd_cacheDuration$(new md_cacheDuration$(new Duration(false, 0, 0, 7)));
 		spDescriptor.add_AuthnRequestsSigned(new $md_entityDescriptorType._SPDescriptor._AuthnRequestsSigned(new Boolean(true)));
 		spDescriptor.add_FederationTerminationServiceURL(new $md_entityDescriptorType._SPDescriptor._FederationTerminationServiceURL("https://" + host + "._" + domain + "/FederationTermination"));
 		spDescriptor.add_FederationTerminationServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._FederationTerminationServiceReturnURL("https://" + host + "._" + domain + "/FederationTerminationReturn"));
@@ -57,7 +57,7 @@ public class ServiceProviderMetadata extends Metadata
 		spDescriptor.add_RegisterNameIdentifierServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._RegisterNameIdentifierServiceReturnURL("https://" + host + "._" + domain + "/RegisterNameIdentifierReturn"));
 		spDescriptor.add_SingleLogoutServiceURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceURL("https://" + host + "._" + domain + "/SingleLogout"));
 		spDescriptor.add_SingleLogoutServiceReturnURL(new $md_entityDescriptorType._SPDescriptor._SingleLogoutServiceReturnURL("https://" + host + "._" + domain + "/SingleLogoutReturn"));
-		spDescriptor.addmd_providerID$(new md_providerID$("https://" + host + "._" + domain + "/metadata._xml"));
+		spDescriptor.setmd_providerID$(new md_providerID$("https://" + host + "._" + domain + "/metadata._xml"));
 		spDescriptor.add_SoapEndpoint(new $md_entityDescriptorType._IDPDescriptor._SoapEndpoint("https://" + host + "._" + domain + "/services/SoapEndpoint"));
 
 		ds_X509Data._X509Certificate x509Certificate = new ds_X509Data._X509Certificate(getKeyInfo(host));
@@ -71,7 +71,7 @@ public class ServiceProviderMetadata extends Metadata
 				return null;
 			}
 		};
-		keyInfo.add_use$(new $md_keyInfoType._use$($md_keyInfoType._use$.SIGNING));
+		keyInfo.set_use$(new $md_keyInfoType._use$($md_keyInfoType._use$.SIGNING));
 		keyInfo.addds_X509Data(x509Data);
 
 		spDescriptor.add_KeyInfo(keyInfo);

@@ -28,8 +28,8 @@ public class AffiliationMetadata extends Metadata
 		$md_affiliationDescriptorType affiliationDescriptor = new $md_entityDescriptorType._AffiliationDescriptor();
 		affiliationDescriptor.add_AffiliateMember(new $md_affiliationDescriptorType._AffiliateMember("https://aol-3." + domain + "/metadata.xml"));
 		affiliationDescriptor.add_AffiliateMember(new $md_affiliationDescriptorType._AffiliateMember("https://aol-4." + domain + "/metadata.xml"));
-		affiliationDescriptor.add_affiliationID$(new $md_affiliationDescriptorType._affiliationID$("https://aol-3." + domain + "/affiliation.xml"));
-		affiliationDescriptor.add_affiliationOwnerID$(new $md_affiliationDescriptorType._affiliationOwnerID$("https://aol-3." + domain + "/metadata.xml"));
+		affiliationDescriptor.set_affiliationID$(new $md_affiliationDescriptorType._affiliationID$("https://aol-3." + domain + "/affiliation.xml"));
+		affiliationDescriptor.set_affiliationOwnerID$(new $md_affiliationDescriptorType._affiliationOwnerID$("https://aol-3." + domain + "/metadata.xml"));
 		return affiliationDescriptor;
 	}
 }

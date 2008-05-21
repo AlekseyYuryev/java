@@ -14,13 +14,13 @@ public class SimpleExample
 	public Binding runExample()
 	{
 		simple_fruit strawberry = new simple_fruit();
-		strawberry.add_name$(new simple_fruit._name$("strawberry"));
-		strawberry.add_sweet$(new simple_fruit._sweet$(true));
+		strawberry.set_name$(new simple_fruit._name$("strawberry"));
+		strawberry.set_sweet$(new simple_fruit._sweet$(true));
 
 		simple_fruit jackfruit = new simple_fruit();
-		jackfruit.add_name$(new simple_fruit._name$("jackfruit"));
-		jackfruit.add_sweet$(new simple_fruit._sweet$(false));
-		jackfruit.add_dry$(new simple_fruit._dry$(false));
+		jackfruit.set_name$(new simple_fruit._name$("jackfruit"));
+		jackfruit.set_sweet$(new simple_fruit._sweet$(false));
+		jackfruit.set_dry$(new simple_fruit._dry$(false));
 
 		simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
 		fruits.addsimple_fruit(strawberry);

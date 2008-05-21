@@ -73,7 +73,7 @@ public class XencRegressionTest extends RegressionTest
 		do
 		transforms.addds_Transform(DsRegressionTest.getTransform());
 		while(Math.random() < ADD_SEED);
-		binding.add_URI$(new xenc_CipherReference._URI$(getRandomString()));
+		binding.set_URI$(new xenc_CipherReference._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -108,7 +108,7 @@ public class XencRegressionTest extends RegressionTest
 		xenc_EncryptedKey binding = new xenc_EncryptedKey(getEncryptedKeyType());
 		binding.addxenc_ReferenceList(getReferenceList());
 		binding.add_CarriedKeyName(new xenc_EncryptedKey._CarriedKeyName(getRandomString()));
-		binding.add_Recipient$(new xenc_EncryptedKey._Recipient$(getRandomString()));
+		binding.set_Recipient$(new xenc_EncryptedKey._Recipient$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -128,7 +128,7 @@ public class XencRegressionTest extends RegressionTest
 		binding.add_KA_Nonce(new xenc_AgreementMethod._KA_Nonce(getBase64Binary()));
 		binding.add_OriginatorKeyInfo(new xenc_AgreementMethod._OriginatorKeyInfo(DsRegressionTest.getKeyInfo()));
 		binding.add_RecipientKeyInfo(DsRegressionTest.getKeyInfo());
-		binding.add_Algorithm$(new xenc_AgreementMethod._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new xenc_AgreementMethod._Algorithm$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -169,7 +169,7 @@ public class XencRegressionTest extends RegressionTest
 		};
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
-		binding.add_URI$(new $xenc_ReferenceType._URI$(getRandomString()));
+		binding.set_URI$(new $xenc_ReferenceType._URI$(getRandomString()));
 		return binding;
 	}
 
@@ -183,7 +183,7 @@ public class XencRegressionTest extends RegressionTest
 		do
 			binding.addxenc_EncryptionProperty(getEncryptionProperty());
 		while(Math.random() < ADD_SEED);
-		binding.add_Id$(new xenc_EncryptionProperties._Id$(getRandomString()));
+		binding.set_Id$(new xenc_EncryptionProperties._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -203,8 +203,8 @@ public class XencRegressionTest extends RegressionTest
 		do
 		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
-		binding.add_Target$(new xenc_EncryptionProperty._Target$(getRandomString()));
-		binding.add_Id$(new xenc_EncryptionProperty._Id$(getRandomString()));
+		binding.set_Target$(new xenc_EncryptionProperty._Target$(getRandomString()));
+		binding.set_Id$(new xenc_EncryptionProperty._Id$(getRandomString()));
 		// FIXME: $ cannot figure out how this works... What am $ missing?
 		/*		do
 		 binding.addAny$ibute(new $ibute("http://www.w3.org/XML/1998/namespace", "lang", new QName(getRandomString() + ":" + getRandomString(), getRandomString()), getRandomString().substring(0, 2)));
@@ -236,10 +236,10 @@ public class XencRegressionTest extends RegressionTest
 		binding.addds_KeyInfo(DsRegressionTest.getKeyInfo());
 		binding.addxenc_CipherData(getCipherData());
 		binding.addxenc_EncryptionProperties(getEncryptionProperties());
-		binding.add_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
-		binding.add_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
-		binding.add_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
-		binding.add_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
+		binding.set_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
+		binding.set_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
+		binding.set_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
+		binding.set_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
 		binding.addxenc_ReferenceList(getReferenceList());
 		binding.add_CarriedKeyName(new $xenc_EncryptedKeyType._CarriedKeyName(getRandomString()));
 		return binding;
@@ -259,10 +259,10 @@ public class XencRegressionTest extends RegressionTest
 		binding.addds_KeyInfo(DsRegressionTest.getKeyInfo());
 		binding.addxenc_CipherData(getCipherData());
 		binding.addxenc_EncryptionProperties(getEncryptionProperties());
-		binding.add_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
-		binding.add_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
-		binding.add_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
-		binding.add_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
+		binding.set_Id$(new $xenc_EncryptedDataType._Id$(getRandomString()));
+		binding.set_Type$(new $xenc_EncryptedDataType._Type$(getRandomString()));
+		binding.set_MimeType$(new $xenc_EncryptedDataType._MimeType$(getRandomString()));
+		binding.set_Encoding$(new $xenc_EncryptedDataType._Encoding$(getRandomString()));
 		return binding;
 	}
 
@@ -280,7 +280,7 @@ public class XencRegressionTest extends RegressionTest
 		binding.add_OAEPparams(new $xenc_EncryptionMethodType._OAEPparams(getBase64Binary()));
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
-		binding.add_Algorithm$(new $xenc_EncryptionMethodType._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new $xenc_EncryptionMethodType._Algorithm$(getRandomString()));
 		return binding;
 	}
 }

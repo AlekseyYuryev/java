@@ -41,16 +41,16 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			writer.write(" * Use of this method WILL CAUSE an IllegalArgumentException!\n");
 			writer.write(" * Please correct your argument to use the alternate method signature.\n");
 			writer.write(" */\n");
-			writer.write("public void add" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getInstanceName() + ")\n");
+			writer.write("public void set" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getInstanceName() + ")\n");
 			writer.write("{\n");
 			writer.write("throw new " + IllegalArgumentException.class.getName() + "(\"This method has been restricted by a more specific signature. Please correct your argument to use the alternate method signature.\");\n");
 			writer.write("}\n");
 		}
 
-		writer.write("public void add" + plan.getClassSimpleName() + "(" + plan.getThisClassNameWithType(parent) + " " + plan.getInstanceName() + ")\n");
+		writer.write("public void set" + plan.getClassSimpleName() + "(" + plan.getThisClassNameWithType(parent) + " " + plan.getInstanceName() + ")\n");
 		writer.write("{\n");
 		if(plan.isRestriction())
-			writer.write("super.add" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getInstanceName() + ");\n");
+			writer.write("super.set" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getInstanceName() + ");\n");
 		else
 			writer.write("this." + plan.getInstanceName() + ".setAttribute(" + plan.getInstanceName() + ");\n");
 		writer.write("}\n");

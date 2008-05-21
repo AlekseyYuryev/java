@@ -53,7 +53,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_Signature binding = new ds_Signature();
-		binding.add_Id$(new ds_Signature._Id$(getRandomString()));
+		binding.set_Id$(new ds_Signature._Id$(getRandomString()));
 		binding.addds_KeyInfo(getKeyInfo());
 		do
 		binding.addds_Object(getObject());
@@ -76,7 +76,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_SignatureValue binding = new ds_SignatureValue();
-		binding.add_Id$(new ds_SignatureValue._Id$(getRandomString()));
+		binding.set_Id$(new ds_SignatureValue._Id$(getRandomString()));
 		binding.setText(getBase64Binary());
 
 		if(verifiable)
@@ -95,7 +95,7 @@ public class DsRegressionTest extends RegressionTest
 
 		ds_SignedInfo binding = new ds_SignedInfo();
 		binding.addds_CanonicalizationMethod(getCanonicalizationMethod());
-		binding.add_Id$(new ds_SignedInfo._Id$(getRandomString()));
+		binding.set_Id$(new ds_SignedInfo._Id$(getRandomString()));
 		do
 		binding.addds_Reference(getReference());
 		while(Math.random() < ADD_SEED);
@@ -116,7 +116,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_CanonicalizationMethod binding = new ds_CanonicalizationMethod();
-		binding.add_Algorithm$(new ds_CanonicalizationMethod._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new ds_CanonicalizationMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
 		binding.setText(getRandomString());
@@ -136,7 +136,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_SignatureMethod binding = new ds_SignatureMethod();
-		binding.add_Algorithm$(new ds_SignatureMethod._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new ds_SignatureMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
 		binding.add_HMACOutputLength(new ds_SignatureMethod._HMACOutputLength(getRandomInteger()));
@@ -159,10 +159,10 @@ public class DsRegressionTest extends RegressionTest
 		ds_Reference binding = new ds_Reference();
 		binding.addds_DigestMethod(getDigestMethod());
 		binding.addds_DigestValue(getDigestValue());
-		binding.add_Id$(new ds_Reference._Id$(getRandomString()));
+		binding.set_Id$(new ds_Reference._Id$(getRandomString()));
 		binding.addds_Transforms(getTransforms());
-		binding.add_Type$(new ds_Reference._Type$(getRandomString()));
-		binding.add_URI$(new ds_Reference._URI$(getRandomString()));
+		binding.set_Type$(new ds_Reference._Type$(getRandomString()));
+		binding.set_URI$(new ds_Reference._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -198,7 +198,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_Transform binding = new ds_Transform();
-		binding.add_Algorithm$(new ds_Transform._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new ds_Transform._Algorithm$(getRandomString()));
 		double random = Math.random();
 		if(random < 1 / 2)
 			while(Math.random() < ADD_SEED)
@@ -224,7 +224,7 @@ public class DsRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ds_DigestMethod binding = new ds_DigestMethod();
-		binding.add_Algorithm$(new ds_DigestMethod._Algorithm$(getRandomString()));
+		binding.set_Algorithm$(new ds_DigestMethod._Algorithm$(getRandomString()));
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
 
@@ -358,8 +358,8 @@ public class DsRegressionTest extends RegressionTest
 
 		ds_RetrievalMethod binding = new ds_RetrievalMethod();
 		binding.addds_Transforms(getTransforms());
-		binding.add_Type$(new ds_RetrievalMethod._Type$(getRandomString()));
-		binding.add_URI$(new ds_RetrievalMethod._URI$(getRandomString()));
+		binding.set_Type$(new ds_RetrievalMethod._Type$(getRandomString()));
+		binding.set_URI$(new ds_RetrievalMethod._URI$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -457,9 +457,9 @@ public class DsRegressionTest extends RegressionTest
 		ds_Object binding = new ds_Object();
 		while(Math.random() < ADD_SEED)
 			binding.addAny(instance.getAny());
-		binding.add_Encoding$(new ds_Object._Encoding$(getRandomString()));
-		binding.add_Id$(new ds_Object._Id$(getRandomString()));
-		binding.add_MimeType$(new ds_Object._MimeType$(getRandomString()));
+		binding.set_Encoding$(new ds_Object._Encoding$(getRandomString()));
+		binding.set_Id$(new ds_Object._Id$(getRandomString()));
+		binding.set_MimeType$(new ds_Object._MimeType$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)
@@ -482,7 +482,7 @@ public class DsRegressionTest extends RegressionTest
 			binding.addds_Reference(getReference());
 		}
 		while(Math.random() < ADD_SEED);
-		binding.add_Id$(new ds_Manifest._Id$(getRandomString()));
+		binding.set_Id$(new ds_Manifest._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -502,7 +502,7 @@ public class DsRegressionTest extends RegressionTest
 		do
 		binding.addds_SignatureProperty(getSignatureProperty());
 		while(Math.random() < ADD_SEED);
-		binding.add_Id$(new ds_SignatureProperties._Id$(getRandomString()));
+		binding.set_Id$(new ds_SignatureProperties._Id$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -522,8 +522,8 @@ public class DsRegressionTest extends RegressionTest
 		do
 			binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);
-		binding.add_Id$(new ds_SignatureProperty._Id$(getRandomString()));
-		binding.add_Target$(new ds_SignatureProperty._Target$(getRandomString()));
+		binding.set_Id$(new ds_SignatureProperty._Id$(getRandomString()));
+		binding.set_Target$(new ds_SignatureProperty._Target$(getRandomString()));
 		binding.setText(getRandomString());
 
 		if(verifiable)

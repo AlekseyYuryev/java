@@ -33,12 +33,12 @@ public class SbRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		sb_Correlation binding = new sb_Correlation();
-		binding.add_messageID$(new sb_Correlation._messageID$(getRandomString()));
-		binding.add_refToMessageID$(new sb_Correlation._refToMessageID$(getRandomString()));
-		binding.add_timestamp$(new sb_Correlation._timestamp$(getRandomDateTime()));
-		binding.add_id$(new sb_Correlation._id$(getRandomString()));
-		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.addtns_actor$(new tns_actor$(getRandomString()));
+		binding.set_messageID$(new sb_Correlation._messageID$(getRandomString()));
+		binding.set_refToMessageID$(new sb_Correlation._refToMessageID$(getRandomString()));
+		binding.set_timestamp$(new sb_Correlation._timestamp$(getRandomDateTime()));
+		binding.set_id$(new sb_Correlation._id$(getRandomString()));
+		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.settns_actor$(new tns_actor$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -55,11 +55,11 @@ public class SbRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		sb_Consent binding = new sb_Consent();
-		binding.add_uri$(new sb_Consent._uri$(getRandomString()));
-		binding.add_timestamp$(new sb_Consent._timestamp$(getRandomDateTime()));
-		binding.add_id$(new sb_Consent._id$(getRandomString()));
-		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.addtns_actor$(new tns_actor$(getRandomString()));
+		binding.set_uri$(new sb_Consent._uri$(getRandomString()));
+		binding.set_timestamp$(new sb_Consent._timestamp$(getRandomDateTime()));
+		binding.set_id$(new sb_Consent._id$(getRandomString()));
+		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.settns_actor$(new tns_actor$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -76,10 +76,10 @@ public class SbRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		sb_UsageDirective binding = new sb_UsageDirective();
-		binding.add_id$(new sb_UsageDirective._id$(getRandomString()));
-		binding.addtns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.addtns_actor$(new tns_actor$(getRandomString()));
-		binding.add_ref$(new sb_UsageDirective._ref$(getRandomString()));
+		binding.set_id$(new sb_UsageDirective._id$(getRandomString()));
+		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+		binding.settns_actor$(new tns_actor$(getRandomString()));
+		binding.set_ref$(new sb_UsageDirective._ref$(getRandomString()));
 		do
 		binding.addAny(instance.getAny());
 		while(Math.random() < ADD_SEED);

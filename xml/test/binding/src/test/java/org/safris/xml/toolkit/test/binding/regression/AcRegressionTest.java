@@ -79,7 +79,7 @@ public class AcRegressionTest extends RegressionTest
 		binding.addac_AuthenticationMethod(getAuthenticationMethod());
 		binding.addac_GoverningAgreements(getGoverningAgreements());
 		binding.addac_Extension(getExtension());
-		binding.add_ID$(new ac_AuthenticationContextStatement._ID$(getRandomString()));
+		binding.set_ID$(new ac_AuthenticationContextStatement._ID$(getRandomString()));
 
 		if(verifiable)
 		{
@@ -102,11 +102,11 @@ public class AcRegressionTest extends RegressionTest
 			binding.addac_Extension(getExtension());
 		double random = Math.random();
 		if(random < 1 / 3)
-			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.ANONYMITY));
+			binding.set_nym$(new ac_Identification._nym$(ac_Identification._nym$.ANONYMITY));
 		else if(random < 2 / 3)
-			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.PSEUDONYMITY));
+			binding.set_nym$(new ac_Identification._nym$(ac_Identification._nym$.PSEUDONYMITY));
 		else
-			binding.add_nym$(new ac_Identification._nym$(ac_Identification._nym$.VERINYMITY));
+			binding.set_nym$(new ac_Identification._nym$(ac_Identification._nym$.VERINYMITY));
 
 		if(verifiable)
 		{
@@ -124,9 +124,9 @@ public class AcRegressionTest extends RegressionTest
 
 		ac_PhysicalVerification binding = new ac_PhysicalVerification();
 		if(Math.random() < 0.5)
-			binding.add_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.PRIMARY));
+			binding.set_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.PRIMARY));
 		else
-			binding.add_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.SECONDARY));
+			binding.set_credentialLevel$(new ac_PhysicalVerification._credentialLevel$(ac_PhysicalVerification._credentialLevel$.SECONDARY));
 
 		if(verifiable)
 		{
@@ -258,7 +258,7 @@ public class AcRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ac_ActivationLimitUsages binding = new ac_ActivationLimitUsages();
-		binding.add_number$(new ac_ActivationLimitUsages._number$(getRandomInteger()));
+		binding.set_number$(new ac_ActivationLimitUsages._number$(getRandomInteger()));
 
 		if(verifiable)
 		{
@@ -275,7 +275,7 @@ public class AcRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ac_ActivationLimitDuration binding = new ac_ActivationLimitDuration();
-		binding.add_duration$(new ac_ActivationLimitDuration._duration$(getRandomDuration()));
+		binding.set_duration$(new ac_ActivationLimitDuration._duration$(getRandomDuration()));
 
 		if(verifiable)
 		{
@@ -294,15 +294,15 @@ public class AcRegressionTest extends RegressionTest
 		ac_KeyStorage binding = new ac_KeyStorage();
 		double random = Math.random();
 		if(random < 1 / 5)
-			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MEMORY));
+			binding.set_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MEMORY));
 		else if(random < 2 / 5)
-			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEAUTHCARD));
+			binding.set_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEAUTHCARD));
 		else if(random < 3 / 5)
-			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEDEVICE));
+			binding.set_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.MOBILEDEVICE));
 		else if(random < 4 / 5)
-			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.SMARTCARD));
+			binding.set_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.SMARTCARD));
 		else
-			binding.add_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.TOKEN));
+			binding.set_medium$(new ac_KeyStorage._medium$(ac_KeyStorage._medium$.TOKEN));
 
 		if(verifiable)
 		{
@@ -319,7 +319,7 @@ public class AcRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ac_KeySharing binding = new ac_KeySharing();
-		binding.add_sharing$(new ac_KeySharing._sharing$(getRandomBoolean()));
+		binding.set_sharing$(new ac_KeySharing._sharing$(getRandomBoolean()));
 
 		if(verifiable)
 		{
@@ -376,14 +376,14 @@ public class AcRegressionTest extends RegressionTest
 
 		ac_TimeSyncToken binding = new ac_TimeSyncToken();
 		if(Math.random() < 0.5)
-			binding.add_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.HARDWARE));
+			binding.set_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.HARDWARE));
 		else
-			binding.add_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.SOFTWARE));
-		binding.add_SeedLength$(new ac_TimeSyncToken._SeedLength$(getRandomInteger()));
+			binding.set_DeviceType$(new ac_TimeSyncToken._DeviceType$(ac_TimeSyncToken._DeviceType$.SOFTWARE));
+		binding.set_SeedLength$(new ac_TimeSyncToken._SeedLength$(getRandomInteger()));
 		if(Math.random() < 0.5)
-			binding.add_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.FALSE));
+			binding.set_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.FALSE));
 		else
-			binding.add_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.TRUE));
+			binding.set_DeviceInHand$(new ac_TimeSyncToken._DeviceInHand$(ac_TimeSyncToken._DeviceInHand$.TRUE));
 
 		if(verifiable)
 		{
@@ -418,8 +418,8 @@ public class AcRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ac_Length binding = new ac_Length();
-		binding.add_max$(new ac_Length._max$(getRandomInteger()));
-		binding.add_min$(new ac_Length._min$(getRandomInteger()));
+		binding.set_max$(new ac_Length._max$(getRandomInteger()));
+		binding.set_min$(new ac_Length._min$(getRandomInteger()));
 
 		if(verifiable)
 		{
@@ -437,9 +437,9 @@ public class AcRegressionTest extends RegressionTest
 
 		ac_Generation binding = new ac_Generation();
 		if(Math.random() < 0.5)
-			binding.add_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.AUTOMATIC));
+			binding.set_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.AUTOMATIC));
 		else
-			binding.add_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.PRINCIPALCHOSEN));
+			binding.set_mechanism$(new ac_Generation._mechanism$(ac_Generation._mechanism$.PRINCIPALCHOSEN));
 
 		if(verifiable)
 		{
@@ -965,7 +965,7 @@ public class AcRegressionTest extends RegressionTest
 			setVerifiable(false);
 
 		ac_GoverningAgreementRef binding = new ac_GoverningAgreementRef();
-		binding.add_governingAgreementRef$(new ac_GoverningAgreementRef._governingAgreementRef$(getRandomString()));
+		binding.set_governingAgreementRef$(new ac_GoverningAgreementRef._governingAgreementRef$(getRandomString()));
 
 		if(verifiable)
 		{
