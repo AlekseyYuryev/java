@@ -2,12 +2,11 @@ package org.safris.xml.generator.lexer.processor.composite;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
-import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 
 public final class SchemaCompositeProcessor implements PipelineEntity<SchemaComposite>, PipelineProcessor<GeneratorContext,SchemaDocument,SchemaComposite>
 {

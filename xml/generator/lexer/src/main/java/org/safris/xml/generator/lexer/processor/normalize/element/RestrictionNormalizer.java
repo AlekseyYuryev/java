@@ -115,7 +115,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 						attribute = attributeNormalizer.parseAttribute(((Nameable)parent).getName());
 
 					if(attribute == null)
-						throw new LexerError("element == null");
+						throw new LexerError("attribute == null");
 
 					attribute.setSuperType(base);
 					attribute.setRestriction(true);
@@ -132,9 +132,11 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 					if(type instanceof ComplexTypeModel && type.getSuperType() != null)
 						break;
 
+					// Update the superType and restriction flag of the reference model
 					type.setSuperType(base);
 					type.setRestriction(true);
 
+					// Update the superType and restriction flag of this model
 					((SimpleTypeModel)parent).setSuperType(base);
 					((SimpleTypeModel)parent).setRestriction(true);
 				}

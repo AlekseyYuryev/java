@@ -52,6 +52,6 @@ public class SchemaDocument implements PipelineEntity
 
 	public int hashCode()
 	{
-		return (schemaReference != null ? schemaReference.hashCode() : -1) + (document != null ? document.hashCode() : -1);
+		return (schemaReference != null ? schemaReference.hashCode() : -1) + (document != null ? 1 : -1);
 	}
 }

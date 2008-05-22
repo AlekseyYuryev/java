@@ -2,11 +2,11 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 {
@@ -24,7 +24,7 @@ public class SimpleTypeNormalizer extends Normalizer<SimpleTypeModel>
 
 	protected void stage1(SimpleTypeModel model)
 	{
-		if(model.getName() == null || model.getParent() instanceof RedefineModel)
+		if(model.getName() == null || !(model.getParent() instanceof SchemaModel))
 			return;
 
 		if(parseSimpleType(model.getName()) == null)

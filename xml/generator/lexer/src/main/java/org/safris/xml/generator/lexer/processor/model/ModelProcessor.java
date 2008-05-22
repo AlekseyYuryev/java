@@ -3,6 +3,7 @@ package org.safris.xml.generator.lexer.processor.model;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.xml.NamespaceURI;
@@ -28,13 +29,13 @@ public class ModelProcessor implements PipelineProcessor<GeneratorContext,Schema
 
 		for(SchemaComposite schemaComposite : documents)
 		{
-			final SchemaModelComposite SchemaModelComposite = (SchemaModelComposite)schemaComposite;
-			final SchemaDocument schemaDocument = SchemaModelComposite.getSchemaDocument();
+			final SchemaModelComposite schemaModelComposite = (SchemaModelComposite)schemaComposite;
+			final SchemaDocument schemaDocument = schemaModelComposite.getSchemaDocument();
 			final SchemaModel model = recurse(root, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL(), directory);
 			if(model == null)
 				throw new LexerError("We should have found a schema!");
 
-			SchemaModelComposite.setSchemaModel(model);
+			schemaModelComposite.setSchemaModel(model);
 			schemaModels.add(model);
 		}
 

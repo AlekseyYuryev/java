@@ -93,7 +93,10 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel>
 					if(type == base)
 						break;
 
+					// Update the superType and restriction flag of the reference model
 					type.setSuperType(base);
+
+					// Update the superType and restriction flag of this model
 					((SimpleTypeModel)parent).setSuperType(base);
 				}
 				else
