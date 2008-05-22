@@ -341,7 +341,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		// SUBSTITUTION GROUP
 		if(plan.getSubstitutionGroup() != null)
 		{
-			writer.write("protected boolean _isSubstitutionGroup(" + QName.class.getName() + " name)\n");
+			writer.write("protected boolean _$$isSubstitutionGroup(" + QName.class.getName() + " name)\n");
 			writer.write("{\n");
 			writer.write("return name != null && \"" + plan.getSubstitutionGroup().getNamespaceURI() + "\".equals(name.getNamespaceURI()) && \"" + plan.getSubstitutionGroup().getLocalPart() + "\".equals(name.getLocalPart());\n");
 			writer.write("}\n");

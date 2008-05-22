@@ -1,4 +1,4 @@
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import org.junit.Test;
 import org.safris.commons.xml.XMLException;

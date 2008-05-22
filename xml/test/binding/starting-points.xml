@@ -3,31 +3,38 @@
 	xmlns="http://ide.safris.org/common/starting-points.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
-  <startingPoint>
+	<startingPoint>
 		<commandLineArguments/>
 		<name>IdTest</name>
 		<target>org.safris.xml.toolkit.test.binding.regression.IdTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
-  <startingPoint>
+	<startingPoint>
 		<commandLineArguments/>
 		<name>NameTest</name>
 		<target>org.safris.xml.toolkit.test.binding.NameTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
-  <startingPoint>
+	<startingPoint>
 		<commandLineArguments/>
 		<name>OrderTest</name>
 		<target>org.safris.xml.toolkit.test.binding.OrderTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
-  <startingPoint>
+	<startingPoint>
 		<commandLineArguments/>
 		<name>IteratorTest</name>
 		<target>org.safris.xml.toolkit.test.binding.IteratorTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>SubstitutionGroupTest</name>
+		<target>org.safris.xml.toolkit.test.binding.SubstitutionGroupTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>

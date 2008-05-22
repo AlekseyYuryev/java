@@ -112,11 +112,6 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return binding._$$getTypeName();
 	}
 
-	protected static Binding _$$inherits(Binding binding)
-	{
-		return binding.inherits();
-	}
-
 	protected static Binding parse(Element element, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
 	{
 		return parseElement((Element)element.cloneNode(true), defaultClass, name);
