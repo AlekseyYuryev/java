@@ -1,3 +1,18 @@
+/*  Copyright 2008 Safris Technologies Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package org.safris.xml.generator.compiler.processor.write;
 
 import java.io.File;
@@ -22,8 +37,27 @@ import org.safris.xml.generator.lexer.processor.Nameable;
 
 public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 {
+	private static final StringBuffer license = new StringBuffer();
 	protected static final Logger logger = Logger.getLogger(CompilerLoggerName.WRITE);
 	private final Collection<String> messages = new HashSet<String>();
+
+	static
+	{
+		license.append("/*  Copyright 2008 Safris Technologies Inc.\n");
+		license.append(" *\n");
+		license.append(" *  Licensed under the Apache License, Version 2.0 (the \"License\");\n");
+		license.append(" *  you may not use this file except in compliance with the License.\n");
+		license.append(" *  You may obtain a copy of the License at\n");
+		license.append(" *\n");
+		license.append(" *      http://www.apache.org/licenses/LICENSE-2.0\n");
+		license.append(" *\n");
+		license.append(" *  Unless required by applicable law or agreed to in writing, software\n");
+		license.append(" *  distributed under the License is distributed on an \"AS IS\" BASIS,\n");
+		license.append(" *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n");
+		license.append(" *  See the License for the specific language governing permissions and\n");
+		license.append(" *  limitations under the License.\n");
+		license.append(" */\n\n");
+	}
 
 	protected void writeFile(Writer writer, Plan plan, File destDir)
 	{
@@ -57,6 +91,7 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 			String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
 			FileOutputStream out = new FileOutputStream(absoluteFilePath);
 			out.write("// SAFRIS.org, XML Toolkit\n".getBytes());
+			out.write(license.toString().getBytes());
 			out.write(text.getBytes());
 			out.flush();
 			out.close();
