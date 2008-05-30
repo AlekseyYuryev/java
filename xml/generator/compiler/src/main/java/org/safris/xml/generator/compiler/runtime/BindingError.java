@@ -17,10 +17,12 @@ public class BindingError extends XMLError
 	public BindingError(Throwable cause)
 	{
 		super(cause);
+		init(cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName(), cause);
 	}
 
 	public BindingError(String message, Throwable cause)
 	{
 		super(message, cause);
+		init(message != null ? message : (cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName()), cause);
 	}
 }

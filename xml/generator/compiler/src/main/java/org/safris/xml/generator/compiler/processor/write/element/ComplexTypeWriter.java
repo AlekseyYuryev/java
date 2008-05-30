@@ -3,7 +3,6 @@ package org.safris.xml.generator.compiler.processor.write.element;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
@@ -20,6 +19,7 @@ import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -305,7 +305,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		// PARSE ATTRIBUTE
 		if(plan.getAttributes() != null)
 		{
-			writer.write("protected boolean parseAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("protected boolean parseAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 			writer.write("{\n");
 			writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
 			writer.write("{\n");
@@ -328,7 +328,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 
 			if(any != null)
 			{
-				writer.write("protected void parseAnyAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("protected void parseAnyAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 				writer.write("{\n");
 				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");
@@ -338,7 +338,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		// PARSE ELEMENT
 		if(plan.getElements() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()))
 		{
-			writer.write("protected boolean parseElement(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("protected boolean parseElement(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 			writer.write("{\n");
 			if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
 			{
@@ -376,7 +376,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 
 			if(any != null)
 			{
-				writer.write("protected void parseAny(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("protected void parseAny(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 				writer.write("{\n");
 				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");

@@ -13,6 +13,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 public abstract class Binding<T extends BindingType> extends AbstractBinding
 {
@@ -58,7 +60,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return prefix;
 	}
 
-	protected static Binding _$$parseAttr(Class xmlClass, Element parent, Node node)
+	protected static Binding _$$parseAttr(Class xmlClass, Element parent, Node attribute)
 	{
 		final Binding binding;
 		try
@@ -66,7 +68,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			final Constructor constructor = xmlClass.getDeclaredConstructor();
 			constructor.setAccessible(true);
 			binding = (Binding)constructor.newInstance();
-			binding._$$decode(parent, node.getNodeValue());
+			binding._$$decode(parent, attribute.getNodeValue());
 		}
 		catch(Exception e)
 		{
@@ -88,15 +90,20 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 	protected static void parse(Binding binding, Element node) throws ParseException, ValidationException
 	{
-		org.w3c.dom.NamedNodeMap attributes = node.getAttributes();
+		final NamedNodeMap attributes = node.getAttributes();
 		for(int i = 0; i < attributes.getLength(); i++)
-			if(!binding.parseAttribute(attributes.item(i)))
-				binding.parseAnyAttribute(attributes.item(i));
+			if(attributes.item(i) instanceof Attr && !binding.parseAttribute((Attr)attributes.item(i)))
+				binding.parseAnyAttribute((Attr)attributes.item(i));
 
-		org.w3c.dom.NodeList elements = node.getChildNodes();
+		final NodeList elements = node.getChildNodes();
 		for(int i = 0; i < elements.getLength(); i++)
-			if(!binding.parseElement(elements.item(i)))
-				binding.parseAny(elements.item(i));
+		{
+			final Node child = elements.item(i);
+			if(child instanceof Text)
+				binding.parseText((Text)child);
+			else if(child instanceof Element && !binding.parseElement((Element)elements.item(i)))
+				binding.parseAny((Element)elements.item(i));
+		}
 	}
 
 	protected static QName _$$getName(Binding binding)
@@ -114,7 +121,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 	protected static Binding parse(Element element, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
 	{
-		return parseElement((Element)element.cloneNode(true), defaultClass, name);
+		return parseElement(element, defaultClass, name);
 	}
 
 	protected static Binding parseAttr(Element element, Node node) throws ParseException
@@ -141,10 +148,10 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		String xsiTypeName = null;
 		String xsiPrefix = null;
 
-		NamedNodeMap rootAttributes = node.getAttributes();
+		final NamedNodeMap rootAttributes = node.getAttributes();
 		for(int i = 0; i < rootAttributes.getLength(); i++)
 		{
-			Node attribute = rootAttributes.item(i);
+			final Node attribute = rootAttributes.item(i);
 			if(XSI_TYPE.getNamespaceURI().equals(attribute.getNamespaceURI()) && XSI_TYPE.getLocalPart().equals(attribute.getLocalName()))
 			{
 				xsiPrefix = parsePrefix(attribute.getNodeValue());
@@ -408,21 +415,25 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return marshal(root, _$$getName(), _$$getTypeName());
 	}
 
-	protected boolean parseAttribute(Node attribute) throws ParseException, ValidationException
+	protected boolean parseElement(Element element) throws ParseException, ValidationException
 	{
 		return false;
 	}
 
-	protected boolean parseElement(Node element) throws ParseException, ValidationException
+	protected boolean parseAttribute(Attr attribute) throws ParseException, ValidationException
 	{
 		return false;
 	}
 
-	protected void parseAny(Node element) throws ParseException, ValidationException
+	protected void parseText(Text text) throws ParseException, ValidationException
 	{
 	}
 
-	protected void parseAnyAttribute(Node attribute) throws ParseException, ValidationException
+	protected void parseAny(Element element) throws ParseException, ValidationException
+	{
+	}
+
+	protected void parseAnyAttribute(Attr attribute) throws ParseException, ValidationException
 	{
 	}
 

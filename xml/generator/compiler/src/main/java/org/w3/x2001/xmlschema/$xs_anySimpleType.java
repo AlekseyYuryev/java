@@ -9,7 +9,7 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T>
 {
@@ -84,34 +84,21 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
 		return attr;
 	}
 
-	private void parse(Node node) throws ParseException, ValidationException
+	protected void parseText(Text text) throws ParseException, ValidationException
 	{
 		// Ignore all attributes that have a xsi prefix because these are
 		// controlled implicitly by the framework
-		if(XSI_NIL.getPrefix().equals(node.getPrefix()))
+		if(XSI_NIL.getPrefix().equals(text.getPrefix()))
 			return;
 
 		final StringBuffer value = new StringBuffer("");
-		if(node.getNodeValue() != null)
-			value.append(node.getNodeValue().trim());
+		if(text.getNodeValue() != null)
+			value.append(text.getNodeValue().trim());
 
 		if(value.length() == 0)
 			return;
 
-		_$$decode((Element)node.getParentNode(), value.toString());
-	}
-
-	protected boolean parseAttribute(Node node) throws ParseException, ValidationException
-	{
-		// FIXME: Test this!! Do we return true or false?
-		parse(node);
-		return false;
-	}
-
-	protected boolean parseElement(Node element) throws ParseException, ValidationException
-	{
-		parse(element);
-		return false;
+		_$$decode((Element)text.getParentNode(), value.toString());
 	}
 
 	protected QName _$$getName()

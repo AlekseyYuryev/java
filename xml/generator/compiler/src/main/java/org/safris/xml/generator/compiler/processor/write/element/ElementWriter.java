@@ -125,7 +125,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		writer.write("{\n");
 //		if(plan.getMaxOccurs() > 1)
 //		{
-		writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse((" + Element.class.getName() + ")element, " + plan.getClassName(parent) + ".class, new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\")));\n");
+		writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class, new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\")));\n");
 //		}
 //		else
 //		{
@@ -452,7 +452,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		// PARSE ATTRIBUTE
 		if((plan.getAttributes() != null && plan.getAttributes().size() != 0) || plan.isNillable())
 		{
-			writer.write("protected boolean parseAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("protected boolean parseAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 			writer.write("{\n");
 			writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
 			writer.write("{\n");
@@ -484,7 +484,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 
 			if(any != null)
 			{
-				writer.write("protected void parseAnyAttribute(" + Node.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("protected void parseAnyAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 				writer.write("{\n");
 				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");
@@ -494,7 +494,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		// PARSE ELEMENT
 		if((plan.getElements() != null && plan.getElements().size() != 0) || (plan.getMixed() != null && plan.getMixed()))
 		{
-			writer.write("protected boolean parseElement(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+			writer.write("protected boolean parseElement(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 			writer.write("{\n");
 			if(plan.getMixed() != null && plan.getMixed())
 			{
@@ -534,7 +534,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 
 			if(any != null)
 			{
-				writer.write("protected void parseAny(" + Node.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
+				writer.write("protected void parseAny(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
 				writer.write("{\n");
 				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");
