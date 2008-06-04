@@ -13,7 +13,7 @@
  *  limitations under the License.
  */
 
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import org.junit.Test;
 import org.safris.xml.schema.binding.test.unit.everything.$ev_complexTypie;
@@ -44,7 +44,7 @@ public class RedefineTest
 		original.setattr_test_attribute_type$(null);
 		original.addty_test_type_NCName(null);
 		original.addty_test_type_QName(null);
-		original.addAny(null);						// in <redefine/> of groupie
+		original.addAny(null);					// in <redefine/> of groupie
 		original.addAny$(null);					// in <redefine/> of attrGroupie
 
 		$ev_complexTypie redefined = new $ev_complexTypie()
@@ -59,8 +59,8 @@ public class RedefineTest
 		redefined.setattr_test_attribute_type$(null);
 		redefined.addty_test_type_NCName(null);
 		redefined.addty_test_type_QName(null);
-		redefined.addAny(null);						// in <redefine/> of groupie
-		redefined.addAny$(null);					// in <redefine/> of attrGroupie
+		redefined.addAny(null);					// in <redefine/> of groupie
+		redefined.addAny$(null);				// in <redefine/> of attrGroupie
 		redefined.set_redefineTest$(null);		// in <redefine/> of complexTypie
 	}
 

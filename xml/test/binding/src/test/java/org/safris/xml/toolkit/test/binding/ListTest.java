@@ -13,7 +13,7 @@
  *  limitations under the License.
  */
 
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import java.util.ArrayList;
 import java.util.List;

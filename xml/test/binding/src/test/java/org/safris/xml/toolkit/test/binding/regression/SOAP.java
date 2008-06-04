@@ -54,7 +54,6 @@ public class SOAP
 		// Open the input file. After we copy it to a byte array, we can see
 		// how big it is so that we can set the HTTP Cotent-Length
 		// property. (See complete e-mail below for more on this.)
-
 		FileInputStream fileInputStream = new FileInputStream(xmlFile2Send);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 

@@ -15,6 +15,7 @@
 
 package org.w3.x2001.xmlschema;
 
+import java.util.Collection;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.runtime.Binding;
@@ -22,7 +23,6 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
@@ -70,10 +70,18 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
 
 	protected String _$$encode(Element parent) throws MarshalException
 	{
-		if(super.getText() == null)
+		// FIXME: Is it right to return "" for a null getText()?
+		if(getText() == null)
 			return "";
 
-		return super.getText().toString();
+		if(!(getText() instanceof Collection))
+			return getText().toString();
+
+		final StringBuffer stringBuffer = new StringBuffer();
+		for(Object obj : (Collection)getText())
+			stringBuffer.append(" ").append(obj.toString());
+
+		return stringBuffer.substring(1);
 	}
 
 	private transient Element parent = null;
@@ -83,10 +91,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
 		this.parent = parent;
 		final Element element = super.marshal(parent, name, typeName);
 		if(text != null)
-		{
-			final Document document = parent.getOwnerDocument();
-			element.appendChild(document.createTextNode(String.valueOf(_$$encode(parent))));
-		}
+			element.appendChild(parent.getOwnerDocument().createTextNode(String.valueOf(_$$encode(parent))));
 
 		return element;
 	}

@@ -17,6 +17,40 @@ package org.safris.commons.lang;
 
 public final class Strings
 {
+	private static final char[] alpha = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+	private static final char[] alphaNumeric = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+	private static String getRandomString(int length, boolean alphanumeric)
+	{
+		if(length < 0)
+			throw new IllegalArgumentException("length = " + length);
+
+		if(length == 0)
+			return "";
+
+		final char[] chars;
+		if(alphanumeric)
+			chars = alphaNumeric;
+		else
+			chars = alpha;
+
+		final char[] array = new char[length];
+		for(int i = 0; i < length; i++)
+			array[i] = chars[(int)(Math.random() * chars.length)];
+
+		return new String(array);
+	}
+
+	public static String getRandomAlphaNumericString(int length)
+	{
+		return getRandomString(length, true);
+	}
+
+	public static String getRandomAlphaString(int length)
+	{
+		return getRandomString(length, false);
+	}
+
 	private static String changeCase(String string, boolean upper, int beginIndex, int endIndex)
 	{
 		if(string == null || string.length() == 0)
@@ -54,24 +88,29 @@ public final class Strings
 		return upper ? beginString + caseString.toUpperCase() + endString : beginString + caseString.toLowerCase() + endString;
 	}
 
-	public static final String toLowerCase(String string, int beginIndex, int endIndex)
+	public static String toLowerCase(String string, int beginIndex, int endIndex)
 	{
 		return changeCase(string, false, beginIndex, endIndex);
 	}
 
-	public static final String toLowerCase(String string, int beginIndex)
+	public static String toLowerCase(String string, int beginIndex)
 	{
 		return changeCase(string, false, beginIndex, string.length());
 	}
 
-	public static final String toUpperCase(String string, int beginIndex, int endIndex)
+	public static String toUpperCase(String string, int beginIndex, int endIndex)
 	{
 		return changeCase(string, true, beginIndex, endIndex);
 	}
 
-	public static final String toUpperCase(String string, int beginIndex)
+	public static String toUpperCase(String string, int beginIndex)
 	{
 		return changeCase(string, true, beginIndex, string.length());
+	}
+
+	public static String getRandomString(int length)
+	{
+		return getRandomString(length, false);
 	}
 
 	private Strings()

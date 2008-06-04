@@ -13,9 +13,10 @@
  *  limitations under the License.
  */
 
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import org.junit.Test;
+import org.safris.commons.lang.Strings;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -23,39 +24,34 @@ import org.safris.xml.schema.binding.test.unit.mixed._root;
 
 public class MixedTest
 {
-	private static String createString()
-	{
-		return "";
-	}
-
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		new MixedTest().testMixed();
 	}
 
 	@Test
-	public void testMixed()
+	public void testMixed() throws Exception
 	{
 		_root._zero zero = new _root._zero();
 
-		_root._oneEx oneEx = new _root._oneEx(createString());
-		oneEx.setText(createString());
+		_root._oneEx oneEx = new _root._oneEx(Strings.getRandomAlphaString(8));
+		oneEx.setText(Strings.getRandomAlphaString(8));
 
 		_root._oneRe oneRe = new _root._oneRe();			// FIXME: This should NOT be mixed
 
 		_root._two two = new _root._two("mixed");
 		two.setText("mixed");
 
-		_root._three three = new _root._three(createString());
-		three.setText(createString());
+		_root._three three = new _root._three(Strings.getRandomAlphaString(8));
+		three.setText(Strings.getRandomAlphaString(8));
 
-		_root._four four = new _root._four(createString());
-		four.setText(createString());
+		_root._four four = new _root._four(Strings.getRandomAlphaString(8));
+		four.setText(Strings.getRandomAlphaString(8));
 
 		_root._five five = new _root._five();
 
-		_root._six six = new _root._six(createString());
-		six.setText(createString());
+		_root._six six = new _root._six(Strings.getRandomAlphaString(8));
+		six.setText(Strings.getRandomAlphaString(8));
 
 		_root._seven seven = new _root._seven();
 
@@ -64,24 +60,24 @@ public class MixedTest
 
 		_root._ten ten = new _root._ten();
 
-		_root._elevenEx elevenEx = new _root._elevenEx(createString());
-		elevenEx.setText(createString());
+		_root._elevenEx elevenEx = new _root._elevenEx(Strings.getRandomAlphaString(8));
+		elevenEx.setText(Strings.getRandomAlphaString(8));
 
 		_root._elevenRe elevenRe = new _root._elevenRe();	// FIXME: This should NOT be mixed
 
 		_root._twelve twelve = new _root._twelve("mixed");
 		twelve.setText("mixed");
 
-		_root._thirteen thirteen = new _root._thirteen(createString());
-		thirteen.setText(createString());
+		_root._thirteen thirteen = new _root._thirteen(Strings.getRandomAlphaString(8));
+		thirteen.setText(Strings.getRandomAlphaString(8));
 
-		_root._fourteen fourteen = new _root._fourteen(createString());
-		fourteen.setText(createString());
+		_root._fourteen fourteen = new _root._fourteen(Strings.getRandomAlphaString(8));
+		fourteen.setText(Strings.getRandomAlphaString(8));
 
 		_root._fifteen fifteen = new _root._fifteen();
 
-		_root._sixteen sixteen = new _root._sixteen(createString());
-		sixteen.setText(createString());
+		_root._sixteen sixteen = new _root._sixteen(Strings.getRandomAlphaString(8));
+		sixteen.setText(Strings.getRandomAlphaString(8));
 
 		_root._seventeen seventeen = new _root._seventeen();
 
@@ -95,16 +91,16 @@ public class MixedTest
 		_root._twentyTwo twentyTwo = new _root._twentyTwo("mixed");
 		twentyTwo.setText("mixed");
 
-		_root._twentyThree twentyThree = new _root._twentyThree(createString());
-		twentyThree.setText(createString());
+		_root._twentyThree twentyThree = new _root._twentyThree(Strings.getRandomAlphaString(8));
+		twentyThree.setText(Strings.getRandomAlphaString(8));
 
-		_root._twentyFour twentyFour = new _root._twentyFour(createString());
-		twentyFour.setText(createString());
+		_root._twentyFour twentyFour = new _root._twentyFour(Strings.getRandomAlphaString(8));
+		twentyFour.setText(Strings.getRandomAlphaString(8));
 
 		_root._twentyFive twentyFive = new _root._twentyFive();
 
-		_root._twentySix twentySix = new _root._twentySix(createString());
-		twentySix.setText(createString());
+		_root._twentySix twentySix = new _root._twentySix(Strings.getRandomAlphaString(8));
+		twentySix.setText(Strings.getRandomAlphaString(8));
 
 		_root._twentySeven twentySeven = new _root._twentySeven();
 
@@ -118,16 +114,16 @@ public class MixedTest
 		_root._thirtyTwo thirtyTwo = new _root._thirtyTwo("mixed");
 		thirtyTwo.setText("mixed");
 
-		_root._thirtyThree thirtyThree = new _root._thirtyThree(createString());
-		thirtyThree.setText(createString());
+		_root._thirtyThree thirtyThree = new _root._thirtyThree(Strings.getRandomAlphaString(8));
+		thirtyThree.setText(Strings.getRandomAlphaString(8));
 
-		_root._thirtyFour thirtyFour = new _root._thirtyFour(createString());
-		thirtyFour.setText(createString());
+		_root._thirtyFour thirtyFour = new _root._thirtyFour(Strings.getRandomAlphaString(8));
+		thirtyFour.setText(Strings.getRandomAlphaString(8));
 
 		_root._thirtyFive thirtyFive = new _root._thirtyFive();
 
-		_root._thirtySix thirtySix = new _root._thirtySix(createString());
-		thirtySix.setText(createString());
+		_root._thirtySix thirtySix = new _root._thirtySix(Strings.getRandomAlphaString(8));
+		thirtySix.setText(Strings.getRandomAlphaString(8));
 
 		_root._thirtySeven thirtySeven = new _root._thirtySeven();
 
@@ -174,13 +170,6 @@ public class MixedTest
 		root.add_thirtySeven(thirtySeven);
 		root.add_thirtyEight(thirtyEight);
 
-		try
-		{
-			System.out.println(DOMs.domToString(Bindings.marshal(root), DOMStyle.INDENT));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		System.out.println(DOMs.domToString(Bindings.marshal(root), DOMStyle.INDENT));
 	}
 }

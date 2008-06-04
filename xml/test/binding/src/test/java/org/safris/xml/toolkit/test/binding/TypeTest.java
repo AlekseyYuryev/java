@@ -13,24 +13,30 @@
  *  limitations under the License.
  */
 
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import com.safris.schema.test.$te_complexD;
 import com.safris.schema.test.te_elemD;
 import java.io.StringReader;
 import org.junit.Test;
+import org.safris.commons.lang.Strings;
+import org.safris.commons.xml.dom.DOMStyle;
+import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xml.toolkit.test.binding.regression.Metadata;
 import org.xml.sax.InputSource;
 
-public class XsiTest extends Metadata
+import static org.junit.Assert.*;
+
+public class TypeTest extends Metadata
 {
 	private static final String DEFAULT_HOST = "aol-3";
 	private static final String DEFAULT_dOMAIN = "liberty-iop.biz";
 	private static String host = DEFAULT_HOST;
 	private static String domain = DEFAULT_dOMAIN;
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		if(args.length == 2)
 		{
@@ -38,11 +44,11 @@ public class XsiTest extends Metadata
 			domain = args[1];
 		}
 
-		new XsiTest().testXsi();
+		new TypeTest().testType();
 	}
 
 	@Test
-	public void testXsi()
+	public void testType() throws Exception
 	{
 		$te_complexD xsiType = new $te_complexD()
 		{
@@ -51,28 +57,19 @@ public class XsiTest extends Metadata
 				return null;
 			}
 		};
-		xsiType.set_a_attr1$(new $te_complexD._a_attr1$(RegressionTest.getRandomString()));
-		xsiType.set_a_attr2$(new $te_complexD._a_attr2$(RegressionTest.getRandomString()));
-		xsiType.set_c_attr1$(new $te_complexD._c_attr1$(RegressionTest.getRandomString()));
-		xsiType.set_c_attr2$(new $te_complexD._c_attr2$(RegressionTest.getRandomString()));
-		xsiType.set_d_attr1$(new $te_complexD._d_attr1$(RegressionTest.getRandomString()));
-		xsiType.set_d_attr2$(new $te_complexD._d_attr2$(RegressionTest.getRandomString()));
+		xsiType.set_a_attr1$(new $te_complexD._a_attr1$(Strings.getRandomString(8)));
+		xsiType.set_a_attr2$(new $te_complexD._a_attr2$(Strings.getRandomString(8)));
+		xsiType.set_c_attr1$(new $te_complexD._c_attr1$(Strings.getRandomString(8)));
+		xsiType.set_c_attr2$(new $te_complexD._c_attr2$(Strings.getRandomString(8)));
+		xsiType.set_d_attr1$(new $te_complexD._d_attr1$(Strings.getRandomString(8)));
+		xsiType.set_d_attr2$(new $te_complexD._d_attr2$(Strings.getRandomString(8)));
 
 		te_elemD elemD = new te_elemD();
 		elemD.addte_elemC(xsiType);
 
-		try
-		{
-			String marshalled = elemD.toString();
-			Binding binding = Bindings.parse(new InputSource(new StringReader(marshalled)));
-			String remarshalled = binding.toString();
-			System.out.println(marshalled);
-			System.out.println("-----------------------------------------");
-			System.out.println(remarshalled);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		String marshalled = DOMs.domToString(elemD.marshal(), DOMStyle.INDENT);
+		Binding binding = Bindings.parse(new InputSource(new StringReader(marshalled)));
+		String remarshalled = DOMs.domToString(Bindings.marshal(binding), DOMStyle.INDENT);
+		assertEquals(marshalled, remarshalled);
 	}
 }

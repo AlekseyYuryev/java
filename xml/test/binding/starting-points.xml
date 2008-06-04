@@ -22,7 +22,42 @@
 	<startingPoint>
 		<commandLineArguments/>
 		<name>IdTest</name>
-		<target>org.safris.xml.toolkit.test.binding.regression.IdTest</target>
+		<target>org.safris.xml.toolkit.test.binding.IdTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>MixedTest</name>
+		<target>org.safris.xml.toolkit.test.binding.MixedTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>ListTest</name>
+		<target>org.safris.xml.toolkit.test.binding.ListTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>TypeTest</name>
+		<target>org.safris.xml.toolkit.test.binding.TypeTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>RedefineTest</name>
+		<target>org.safris.xml.toolkit.test.binding.RedefineTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>UnionTest</name>
+		<target>org.safris.xml.toolkit.test.binding.UnionTest</target>
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>

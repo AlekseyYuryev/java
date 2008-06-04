@@ -13,27 +13,34 @@
  *  limitations under the License.
  */
 
-package org.safris.commons.lang;
+package org.safris.commons.util;
 
-import org.junit.Test;
+import java.lang.reflect.Field;
+import java.util.Map;
 
-import static org.junit.Assert.*;
-
-public class SystemsTest
+public final class Collections
 {
-	private static final String NAME = "VAR_DOES_NOT_EXIST";
-	private static final String VALUE = "VALUE";
-
-	public static void main(String[] args) throws Exception
+	public static <K,V> boolean putUnmodifiableMap(Map<? super K,? super V> map, K key, V value)
 	{
-		new SystemsTest().testSetenv();
+		try
+		{
+			final Field mField = map.getClass().getDeclaredField("m");
+			mField.setAccessible(true);
+			final Map<? super K,? super V> m = (Map)mField.get(map);
+			m.put(key, value);
+			return true;
+		}
+		catch(RuntimeException e)
+		{
+			return false;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}
 
-	@Test
-	public void testSetenv()
+	private Collections()
 	{
-		assertNull(System.getenv(NAME));
-		assertTrue(Systems.setenv(NAME, VALUE));
-		assertEquals(VALUE, System.getenv(NAME));
 	}
 }

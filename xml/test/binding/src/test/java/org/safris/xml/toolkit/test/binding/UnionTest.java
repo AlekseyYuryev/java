@@ -13,11 +13,14 @@
  *  limitations under the License.
  */
 
-package org.safris.xml.toolkit.test.binding.regression;
+package org.safris.xml.toolkit.test.binding;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import org.safris.commons.xml.dom.DOMStyle;
+import org.safris.commons.xml.dom.DOMs;
+import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.schema.binding.test.unit.union.un_four;
 import org.safris.xml.schema.binding.test.unit.union.un_root;
 import org.safris.xml.schema.binding.test.unit.union.un_six;
@@ -25,13 +28,13 @@ import org.safris.xml.schema.binding.test.unit.union.un_two;
 
 public class UnionTest
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		new UnionTest().testUnion();
 	}
 
 	@Test
-	public void testUnion()
+	public void testUnion() throws Exception
 	{
 		un_root root = new un_root();
 
@@ -60,5 +63,7 @@ public class UnionTest
 
 		un_root._seven seven = new un_root._seven(777);
 		root.add_seven(seven);
+
+		System.out.println(DOMs.domToString(Bindings.marshal(root), DOMStyle.INDENT));
 	}
 }

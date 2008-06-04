@@ -26,7 +26,47 @@ public class StringsTest
 
 	public static void main(String[] args) throws Exception
 	{
+		new StringsTest().testGetRandomAlphaString();
+		new StringsTest().testGetRandomAlphaNumericString();
 		new StringsTest().testChangeCase();
+	}
+
+	@Test
+	public void testGetRandomAlphaString()
+	{
+		try
+		{
+			Strings.getRandomAlphaString(-1);
+			fail("Expecting an IllegalArgumentException");
+		}
+		catch(IllegalArgumentException e)
+		{
+		}
+
+		for(int length = 0; length < 100; length++)
+		{
+			final String randomAlpha = Strings.getRandomAlphaString(length);
+			assertEquals(randomAlpha.length(), length);
+		}
+	}
+
+	@Test
+	public void testGetRandomAlphaNumericString()
+	{
+		try
+		{
+			Strings.getRandomAlphaNumericString(-1);
+			fail("Expecting an IllegalArgumentException");
+		}
+		catch(IllegalArgumentException e)
+		{
+		}
+
+		for(int length = 0; length < 100; length++)
+		{
+			final String randomAlpha = Strings.getRandomAlphaNumericString(length);
+			assertEquals(randomAlpha.length(), length);
+		}
 	}
 
 	@Test
