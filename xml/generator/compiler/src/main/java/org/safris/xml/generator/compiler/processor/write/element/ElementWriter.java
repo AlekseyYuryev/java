@@ -18,7 +18,6 @@ package org.safris.xml.generator.compiler.processor.write.element;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
@@ -30,10 +29,12 @@ import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.ElementAudit;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
+import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -219,8 +220,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			Writer.writeDeclaration(writer, element, plan);
 
 		// ENUMERATIONS CONSTRUCTOR
-		if(plan.hasEnumerations())
-			getRestrictions(writer, plan, parent);
+		getRestrictions(writer, plan, parent);
 
 		// COPY CONSTRUCTOR
 		writer.write(plan.getDocumentation());
@@ -352,6 +352,9 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		writer.write("{\n");
 		writer.write("return this;\n");
 		writer.write("}\n");
+
+		// OWNER
+		appendOwner(writer);
 
 		// SUBSTITUTION GROUP
 		if(plan.getSubstitutionGroup() != null)

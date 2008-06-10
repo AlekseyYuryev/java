@@ -21,13 +21,6 @@
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
 		<commandLineArguments/>
-		<name>IdTest</name>
-		<target>org.safris.xml.toolkit.test.binding.IdTest</target>
-		<vmOtherOptions/>
-		<workingDir>binding\</workingDir>
-	</startingPoint>
-	<startingPoint>
-		<commandLineArguments/>
 		<name>MixedTest</name>
 		<target>org.safris.xml.toolkit.test.binding.MixedTest</target>
 		<vmOtherOptions/>

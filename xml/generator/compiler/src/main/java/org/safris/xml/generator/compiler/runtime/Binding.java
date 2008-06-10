@@ -24,6 +24,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.safris.commons.xml.validator.ValidationException;
+import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -247,6 +248,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 	private final Object elementsLock = new Object();
 	private CompositeElementStore elementDirectory = null;
 	private Binding inherits;
+	private $xs_anySimpleType<BindingType> owner;
 
 	protected Binding(Binding binding)
 	{
@@ -274,6 +276,16 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 		if(!legalInheritance)
 			throw new IllegalArgumentException("Invalid inheritance hierarchy.");
+	}
+
+	protected $xs_anySimpleType<BindingType> _$$getOwner()
+	{
+		return owner;
+	}
+
+	protected void _$$setOwner($xs_anySimpleType<BindingType> owner)
+	{
+		this.owner = owner;
 	}
 
 	protected final boolean _$$hasElements()
@@ -344,7 +356,18 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 				throw new RuntimeBindingException("Elements list should have changed here.");
 		}
 
+		if(element != null)
+			element._$$setOwner(($xs_anySimpleType<BindingType>)this);
+
 		return true;
+	}
+
+	protected static boolean _$$setAttribute(AttributeAudit audit, Binding binding, Binding attribute)
+	{
+		if(attribute != null)
+			attribute._$$setOwner(($xs_anySimpleType<BindingType>)binding);
+
+		return audit.setAttribute(attribute);
 	}
 
 	protected Iterator<Binding> elementIterator()

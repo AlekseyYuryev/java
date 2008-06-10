@@ -83,5 +83,5 @@ public abstract class AbstractTest
 		return success;
 	}
 
-	public abstract void testExample();
+	public abstract void testExample() throws Exception;
 }

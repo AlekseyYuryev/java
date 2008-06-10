@@ -120,8 +120,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 			Writer.writeDeclaration(writer, (ElementPlan)element, plan);
 
 		// ENUMERATIONS CONSTRUCTOR
-		if(plan.hasEnumerations())
-			getRestrictions(writer, plan, parent);
+		getRestrictions(writer, plan, parent);
 
 		// COPY CONSTRUCTOR
 		writer.write(plan.getDocumentation());

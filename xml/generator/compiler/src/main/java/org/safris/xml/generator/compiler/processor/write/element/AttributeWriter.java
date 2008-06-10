@@ -67,7 +67,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		if(plan.isRestriction())
 			writer.write("super.set" + plan.getDeclarationRestrictionSimpleName() + "(" + plan.getInstanceName() + ");\n");
 		else
-			writer.write("this." + plan.getInstanceName() + ".setAttribute(" + plan.getInstanceName() + ");\n");
+			writer.write("_$$setAttribute(this." + plan.getInstanceName() + ", this, " + plan.getInstanceName() + ");\n");
 		writer.write("}\n");
 	}
 
@@ -118,7 +118,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 			writer.write("else if(attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 
 		writer.write("{\n");
-		writer.write("return this." + plan.getInstanceName() + ".setAttribute((" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getOwnerElement(), attribute));\n");
+		writer.write("return _$$setAttribute(this." + plan.getInstanceName() + ", this, (" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getOwnerElement(), attribute));\n");
 		writer.write("}\n");
 	}
 
@@ -176,8 +176,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		writeIdLookup(writer, plan, parent);
 
 		// ENUMERATIONS CONSTRUCTOR
-		if(plan.hasEnumerations())
-			getRestrictions(writer, plan, parent);
+		getRestrictions(writer, plan, parent);
 
 		// COPY CONSTRUCTOR
 		writer.write(plan.getDocumentation());
@@ -211,6 +210,9 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan>
 		writer.write("{\n");
 		writer.write("return this;\n");
 		writer.write("}\n");
+
+		// OWNER
+		appendOwner(writer);
 
 		// GETNAME
 		writer.write("protected " + QName.class.getName() + " _$$getName()\n");

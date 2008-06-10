@@ -43,7 +43,7 @@ public class BindingFileFilter implements FileFilter
 			final byte[] bytes = new byte[15];
 			in.read(bytes);
 			in.close();
-			return new String(bytes).contains("SAFRIS.org");
+			return new String(bytes).contains("Safris Technologies Inc.");
 		}
 		catch(IOException e)
 		{

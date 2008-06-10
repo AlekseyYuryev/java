@@ -47,4 +47,11 @@
 		<vmOtherOptions/>
 		<workingDir/>
 	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>IdTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.IdTest</target>
+		<vmOtherOptions/>
+		<workingDir>binding\</workingDir>
+	</startingPoint>
 </startingPoints>

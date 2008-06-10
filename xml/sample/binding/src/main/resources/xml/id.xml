@@ -15,13 +15,25 @@
 	limitations under the License.
 -->
 
-<id:root xmlns:id="http://xml.safris.org/schema/binding/test/unit/id.xsd"
+<id:directory
+	xmlns:id="http://xml.safris.org/toolkit/sample/binding/id.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xml.safris.org/schema/binding/test/unit/id.xsd ../xsd/unit/id.xsd">
-	<id:simpleElement>one</id:simpleElement>
-	<id:complexElement attribute="two">weeee</id:complexElement>
-	<id:simpleElement>three</id:simpleElement>
-	<id:random>random1</id:random>
-	<id:random>random2</id:random>
-	<id:random>random3</id:random>
-</id:root>
+	xsi:schemaLocation="http://xml.safris.org/toolkit/sample/binding/id.xsd ../xsd/id.xsd">
+	<id:author id="bgreene">
+		<id:name>Brian Greene</id:name>
+	</id:author>
+	<id:author id="shawking">
+		<id:name>Stephen Hawking</id:name>
+	</id:author>
+	<id:book>
+		<id:isbn-10>0393058581</id:isbn-10>
+		<id:title>The Elegant Universe</id:title>
+		<id:author>bgreene</id:author>
+	</id:book>
+	<id:book>
+		<id:isbn-10>0553380168</id:isbn-10>
+		<id:title>A Brief History of Time</id:title>
+		<id:author>shawking</id:author>
+	</id:book>
+	
+</id:directory>

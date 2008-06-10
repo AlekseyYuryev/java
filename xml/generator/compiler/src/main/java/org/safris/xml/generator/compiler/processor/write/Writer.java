@@ -72,25 +72,24 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer>
 			messages.add(message);
 		}
 
-		Nameable nameable = (Nameable)plan;
+		final Nameable nameable = (Nameable)plan;
 		try
 		{
-			String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
+			final String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
 			if(pkg == null)
 			{
 				System.err.println("The binding configuration does not specify package for " + ((Nameable)plan).getName().getNamespaceURI());
 				System.exit(1);
 			}
 
-			File directory = new File(destDir, pkg.replace('.', '/'));
+			final File directory = new File(destDir, pkg.replace('.', '/'));
 			directory.mkdirs();
 
-			String absoluteFilePath = directory.getAbsolutePath() + File.separator + JavaBinding.getClassSimpleName(plan.getModel()) + ".java";
-			StringWriter stringWriter = new StringWriter();
+			final String absoluteFilePath = directory.getAbsolutePath() + File.separator + JavaBinding.getClassSimpleName(plan.getModel()) + ".java";
+			final StringWriter stringWriter = new StringWriter();
 			writer.appendClass(stringWriter, plan, null);
-			String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
-			FileOutputStream out = new FileOutputStream(absoluteFilePath);
-			out.write("// SAFRIS.org, XML Toolkit\n".getBytes());
+			final String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
+			final FileOutputStream out = new FileOutputStream(absoluteFilePath);
 			out.write(license.toString().getBytes());
 			out.write(text.getBytes());
 			out.flush();

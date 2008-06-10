@@ -25,7 +25,6 @@
 		-->
 		<schema>${basedir}/src/test/resources/xsd/xml.xsd</schema>
 
-		<schema>${basedir}/src/test/resources/xsd/unit/id.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/order.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/name.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/unit/union.xsd</schema>

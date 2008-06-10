@@ -15,6 +15,7 @@
 
 package org.w3.x2001.xmlschema;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.compiler.runtime.BindingType;
@@ -22,7 +23,6 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public abstract class $xs_ID<T extends BindingType> extends $xs_NCName<T>
 {
@@ -30,26 +30,26 @@ public abstract class $xs_ID<T extends BindingType> extends $xs_NCName<T>
 
 	private static void persist(String namespace, Object value, $xs_ID id)
 	{
-		Map<Object,$xs_ID> ids;
-		if((ids = namespaceIds.get(namespace)) == null)
-			namespaceIds.put(namespace, ids = new HashMap<Object,$xs_ID>());
+		Map<Object,$xs_ID> idMap = namespaceIds.get(namespace);
+		if(idMap == null)
+			namespaceIds.put(namespace, idMap = new HashMap<Object,$xs_ID>());
 
-		ids.put(value, id);
+		idMap.put(value, id);
 	}
 
 	private static void remove(String namespace, Object value)
 	{
-		Map<Object,$xs_ID> ids;
-		if((ids = namespaceIds.get(namespace)) == null)
+		final Map<Object,$xs_ID> ids = namespaceIds.get(namespace);
+		if(ids == null)
 			return;
 
 		ids.remove(value);
 	}
 
-	public static $xs_ID lookupId(String id)
+	public static $xs_ID lookupId(Object id)
 	{
-		final Map<Object,$xs_ID> ids;
-		if((ids = namespaceIds.get(UniqueQName.XS.getNamespaceURI().toString())) == null)
+		final Map<Object,$xs_ID> ids = namespaceIds.get(UniqueQName.XS.getNamespaceURI().toString());
+		if(ids == null)
 			return null;
 
 		return ids.get(id);

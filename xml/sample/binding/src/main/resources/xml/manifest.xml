@@ -24,5 +24,6 @@
 		<schema>${basedir}/src/main/resources/xsd/enums.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/xsitype.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/any.xsd</schema>
+		<schema>${basedir}/src/main/resources/xsd/id.xsd</schema>
 	</schemas>
 </manifest>

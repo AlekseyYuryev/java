@@ -42,6 +42,8 @@ import org.xml.sax.SAXException;
  */
 public class ValidatorMojo extends AbstractMojo
 {
+	private static final String delimeter = "://";
+
 	private static final FileFilter xmlFileFilter = new FileFilter()
 	{
 		public boolean accept(File pathname)
@@ -111,16 +113,23 @@ public class ValidatorMojo extends AbstractMojo
 		if(httpProxy == null)
 			return;
 
-		final String httpScheme = "http://";
-		if(!httpProxy.startsWith(httpScheme))
-			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no " + httpScheme);
+		final String scheme;
+		if(httpProxy.startsWith("https"))
+			scheme = "https";
+		else if(httpProxy.startsWith("http"))
+			scheme = "http";
+		else
+			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no http or http scheme.");
 
-		final int portIndex = httpProxy.indexOf(":", httpScheme.length());
-		if(portIndex == -1)
-			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no port specified.");
+		final String port;
+		final int portIndex = httpProxy.indexOf(":", scheme.length());
+		if(portIndex != -1)
+			port = httpProxy.substring(portIndex + 1);
+		else
+			port = "80";
 
-		System.setProperty("http.proxyHost", httpProxy.substring(httpScheme.length(), portIndex));
-		System.setProperty("http.proxyPort", httpProxy.substring(portIndex + 1));
+		System.setProperty(scheme + ".proxyHost", httpProxy.substring(scheme.length() + delimeter.length(), portIndex));
+		System.setProperty(scheme + ".proxyPort", port);
 	}
 
 	public void execute() throws MojoExecutionException, MojoFailureException

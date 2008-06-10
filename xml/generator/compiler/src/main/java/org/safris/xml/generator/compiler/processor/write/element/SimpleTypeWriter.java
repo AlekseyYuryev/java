@@ -16,6 +16,7 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3.x2001.xmlschema.$xs_ID;
+import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -45,15 +47,44 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		if(!$xs_ID.class.getName().equals(plan.getSuperClassNameWithoutType()))
 			return;
 
-		writer.write("public static " + plan.getClassName(parent) + " lookupId(" + String.class.getName() + " id)\n");
+		final String className;
+		final String instanceName;
+		if(plan.hasEnumerations())
+		{
+			if(((EnumerablePlan)plan).hasSuperEnumerations())
+				className = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
+			else
+				className = "RESTRICTION";
+
+			instanceName = "id.getText()";
+		}
+		else
+		{
+			className = String.class.getName();
+			instanceName = "id";
+		}
+
+		writer.write("public static " + plan.getClassName(parent) + " lookupId(" + className + " id)\n");
 		writer.write("{\n");
-		writer.write("final " + Map.class.getName() + "<" + Object.class.getName() + "," + $xs_ID.class.getName() + "> ids;\n");
-		writer.write("if((ids = namespaceIds.get(\"" + plan.getName().getNamespaceURI() + "\")) == null)\n");
+		writer.write("final " + Map.class.getName() + "<" + Object.class.getName() + ",? extends " + $xs_ID.class.getName() + "> idMap = namespaceIds.get(NAME.getNamespaceURI());\n");
+		writer.write("if(idMap == null)\n");
 		writer.write("return null;\n");
-		writer.write("final " + $xs_ID.class.getName() + " value = ids.get(id);\n");
+		writer.write("final " + $xs_ID.class.getName() + " value = idMap.get(" + instanceName + ");\n");
 		writer.write("if(value instanceof " + plan.getClassName(parent) + ")\n");
 		writer.write("return (" + plan.getClassName(parent) + ")value;\n");
 		writer.write("return null;\n");
+		writer.write("}\n");
+
+		writer.write("public static " + Collection.class.getName() + "<" + plan.getClassName(parent) + "> lookupId()\n");
+		writer.write("{\n");
+		writer.write("final " + Map.class.getName() + "<" + Object.class.getName() + ",? extends " + $xs_ID.class.getName() + "> idMap = namespaceIds.get(NAME.getNamespaceURI());\n");
+		writer.write("if(idMap == null)\n");
+		writer.write("return null;\n");
+		writer.write("final " + Collection.class.getName() + "<" + plan.getClassName(parent) + "> ids = new " + ArrayList.class.getName() + "<" + plan.getClassName(parent) + ">();\n");
+		writer.write("for(" + $xs_ID.class.getName() + " id : idMap.values())\n");
+		writer.write("if(id.getClass().equals(" + plan.getClassName(parent) + ".class))\n");
+		writer.write("ids.add((" + plan.getClassName(parent) + ")id);\n");
+		writer.write("return ids;\n");
 		writer.write("}\n");
 	}
 
@@ -91,6 +122,9 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 
 	protected static void getRestrictions(StringWriter writer, SimpleTypePlan plan, Plan parent)
 	{
+		if(!plan.hasEnumerations())
+			return;
+
 		if(!(plan instanceof EnumerablePlan) || !((EnumerablePlan)plan).hasEnumerations())
 			return;
 
@@ -139,7 +173,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 
 		writer.write("}\n");
 
-		String restrictionClassName = null;
+		final String restrictionClassName;
 		if(hasSuperEnumerations)
 			restrictionClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
 		else
@@ -227,6 +261,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("}\n");
 	}
 
+	protected final void appendOwner(StringWriter writer)
+	{
+		writer.write("public " + $xs_anySimpleType.class.getName() + "<? extends " + BindingType.class.getName() + "> owner()\n");
+		writer.write("{\n");
+		writer.write("return _$$getOwner();\n");
+		writer.write("}\n");
+	}
+
 	protected void appendClass(StringWriter writer, T plan, Plan parent)
 	{
 		if(plan.getName() == null)
@@ -270,8 +312,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("}\n");
 
 		// ENUMERATIONS CONSTRUCTOR
-		if(plan.hasEnumerations())
-			getRestrictions(writer, plan, parent);
+		getRestrictions(writer, plan, parent);
 
 		// NATIVE CONSTRUCTORS
 		getNativeConstructors(writer, plan, parent);
