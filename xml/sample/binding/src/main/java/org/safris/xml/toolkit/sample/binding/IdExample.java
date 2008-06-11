@@ -48,7 +48,29 @@ public class IdExample
 			String shortName = book.get_author().get(0).getText();
 			id_directory._author._id$ authorId = id_directory._author._id$.lookupId(shortName);
 			id_directory._author author = (id_directory._author)authorId.owner();
-			System.out.println(author.get_name().get(0).getText() + " is the author of " + book.get_title().get(0).getText());
+			System.out.print(author.get_name().get(0).getText() + " is the author of " + book.get_title().get(0).getText() + ".");
+			if(book.get_co_authors() != null)
+			{
+				$id_bookType._co_authors co_authors = book.get_co_authors().get(0);
+				if(co_authors.getText() != null)
+				{
+					StringBuffer buffer = new StringBuffer();
+					for(String co_authorHandle : co_authors.getText())
+					{
+						id_directory._author._id$ co_authorId = id_directory._author._id$.lookupId(co_authorHandle);
+						id_directory._author co_author = (id_directory._author)co_authorId.owner();
+						buffer.append(", ").append(co_author.get_name().get(0).getText());
+					}
+
+					System.out.print(" " + buffer.substring(2));
+					if(co_authors.getText().size() == 1)
+						System.out.print(" is the co-author.");
+					else
+						System.out.print(" are co-authors.");
+				}
+			}
+
+			System.out.println();
 		}
 
 		return directory;

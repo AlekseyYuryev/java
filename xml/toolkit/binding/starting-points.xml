@@ -20,31 +20,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
-		<commandLineArguments>--explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/liberty/xenc-schema.xsd</commandLineArguments>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/liberty/xenc-schema.xsd</commandLineArguments>
 		<name>Generator xenc-schema.xsd</name>
 		<target>org.safris.xml.toolkit.binding.Generator</target>
 		<vmOtherOptions/>
 		<workingDir>..\..\test\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
-		<commandLineArguments>--explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/unit/order.xsd</commandLineArguments>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/unit/order.xsd</commandLineArguments>
 		<name>Generator order.xsd</name>
 		<target>org.safris.xml.toolkit.binding.Generator</target>
 		<vmOtherOptions/>
 		<workingDir>..\..\test\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
-		<commandLineArguments>--explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/unit/name.xsd</commandLineArguments>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/unit/name.xsd</commandLineArguments>
 		<name>Generator name.xsd</name>
 		<target>org.safris.xml.toolkit.binding.Generator</target>
 		<vmOtherOptions/>
 		<workingDir>..\..\test\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
-		<commandLineArguments>--explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/liberty/lib-arch-metadata.xsd</commandLineArguments>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/liberty/lib-arch-metadata.xsd</commandLineArguments>
 		<name>Generator lib-arch-metadata.xsd</name>
 		<target>org.safris.xml.toolkit.binding.Generator</target>
 		<vmOtherOptions/>
 		<workingDir>..\..\test\binding\</workingDir>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/id.xsd</commandLineArguments>
+		<name>Generator id.xsd</name>
+		<target>org.safris.xml.toolkit.binding.Generator</target>
+		<vmOtherOptions/>
+		<workingDir>..\..\sample\binding\</workingDir>
 	</startingPoint>
 </startingPoints>

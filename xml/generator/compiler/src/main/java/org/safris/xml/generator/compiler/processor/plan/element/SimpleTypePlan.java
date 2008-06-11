@@ -140,7 +140,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	private String nativeInterface = null;
 	private String nativeImplementation = null;
 	private String nativeFactory = null;
-	private boolean list;
+	private boolean list = false;
 	private String baseNonXSTypeClassName = null;
 
 	private UniqueQName superTypeName = null;
@@ -154,7 +154,6 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	public SimpleTypePlan(T model, Plan parent)
 	{
 		super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
-		this.list = digList(getModel());
 		if(model instanceof AnyableModel)
 			return;
 
@@ -180,7 +179,14 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		if(baseXSItemTypeDirectory == null)
 			throw new CompilerError("Should always be able to resolve the type for name: " + getName());
 
-		nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getCls().getName();
+		if(this.list = baseXSItemTypeDirectory.getNativeBinding().isList())
+			nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getType().getName();
+		else
+		{
+			this.list = digList(getModel());
+			nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getCls().getName();
+		}
+
 		nativeFactory = baseXSItemTypeDirectory.getNativeFactory();
 		if(isList())
 		{

@@ -16,6 +16,7 @@
 package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class NativeBinding
@@ -24,6 +25,7 @@ public class NativeBinding
 	private final GenericClass baseClass;
 	private final GenericClass nativeClass;
 	private final Method factoryMethod;
+	private final boolean list;
 
 	public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass, Method factoryMethod)
 	{
@@ -37,6 +39,7 @@ public class NativeBinding
 		this.baseClass = baseClass;
 		this.nativeClass = nativeClass;
 		this.factoryMethod = factoryMethod;
+		this.list = nativeClass != null ? nativeClass.isList() : false;
 	}
 
 	public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass)
@@ -47,6 +50,11 @@ public class NativeBinding
 	public NativeBinding(UniqueQName name, GenericClass baseClass)
 	{
 		this(name, baseClass, null, null);
+	}
+
+	public boolean isList()
+	{
+		return list;
 	}
 
 	public UniqueQName getName()
@@ -95,6 +103,7 @@ public class NativeBinding
 	{
 		private final Class cls;
 		private final Class type;
+		private Boolean list = null;
 
 		public GenericClass(Class cls, Class type)
 		{
@@ -118,6 +127,14 @@ public class NativeBinding
 		public Class getType()
 		{
 			return type;
+		}
+
+		protected boolean isList()
+		{
+			if(list != null)
+				return list;
+
+			return list = List.class.isAssignableFrom(cls);
 		}
 
 		public boolean equals(Object obj)

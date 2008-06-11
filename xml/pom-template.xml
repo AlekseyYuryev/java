@@ -63,6 +63,6 @@
 		<module>toolkit</module>
 		<module>sample</module>
 		<module>tutorial</module>
-		<!--<module>test</module>-->
+		<module>test</module>
 	</modules>
 </project>

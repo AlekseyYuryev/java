@@ -41,9 +41,9 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
 		super();
 	}
 
-	protected Object getText()
+	protected List<String> getText()
 	{
-		return super.getText();
+		return (List<String>)super.getText();
 	}
 
 	protected void setText(List<String> text)

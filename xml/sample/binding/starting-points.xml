@@ -52,6 +52,6 @@
 		<name>IdTest</name>
 		<target>org.safris.xml.toolkit.sample.binding.IdTest</target>
 		<vmOtherOptions/>
-		<workingDir>binding\</workingDir>
+		<workingDir>\</workingDir>
 	</startingPoint>
 </startingPoints>
