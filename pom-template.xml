@@ -134,6 +134,20 @@
 		</profile>
 	</profiles>
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -323,7 +337,7 @@
 					<minimumTokens>100</minimumTokens>
 				</configuration>
 			</plugin>
-<!-- Removing because there are permission issues with svn
+			<!-- Removing because there are permission issues with svn
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changelog-maven-plugin</artifactId>
