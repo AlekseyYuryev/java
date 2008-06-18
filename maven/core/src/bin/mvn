@@ -271,7 +271,7 @@ fi
 
 # Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
-	$MVN $ARGS
+	sh -c "$MVN $ARGS"
 	echo
 	echo "Additional options:"
 	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE"
