@@ -122,15 +122,22 @@ public class JavaProjectMojo extends CodeGuideMojo
 		{
 			for(GroupArtifact dependency : dependencies)
 				if(!excludes.contains(dependency))
-					filteredDependencies.add(DependencyMojo.getFile(dependency, localRepository, repositoryPath));
+					addJarAndSourceDependency(filteredDependencies, DependencyMojo.getFile(dependency, localRepository, repositoryPath));
 		}
 		else
 		{
 			for(GroupArtifact dependency : dependencies)
-				filteredDependencies.add(DependencyMojo.getFile(dependency, localRepository, repositoryPath));
+				addJarAndSourceDependency(filteredDependencies, DependencyMojo.getFile(dependency, localRepository, repositoryPath));
 		}
 
 		return filteredDependencies;
+	}
+
+	private static void addJarAndSourceDependency(Set<File> dependencies, File jarFile)
+	{
+		final File sourceFile = new File(jarFile.getAbsolutePath().replace(".jar", "-sources.jar"));
+		dependencies.add(jarFile);
+		dependencies.add(sourceFile);
 	}
 
 	private static Set<GroupArtifact> filterProjectReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> inlcudes, Set<GroupArtifact> excludes)
