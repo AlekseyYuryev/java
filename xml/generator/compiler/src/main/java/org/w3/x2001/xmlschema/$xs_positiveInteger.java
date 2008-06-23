@@ -38,9 +38,9 @@ public abstract class $xs_positiveInteger<T extends BindingType> extends $xs_int
 		super();
 	}
 
-	protected Object getText()
+	protected Integer getText()
 	{
-		return super.getText();
+		return (Integer)super.getText();
 	}
 
 	protected void setText(Integer text)

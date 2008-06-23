@@ -16,6 +16,7 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -135,9 +136,44 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return binding._$$getTypeName();
 	}
 
-	protected static Binding parse(Element element, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
+	protected static boolean _$$iSsubstitutionGroup(QName elementName, String namespaceURI, String localName) throws ParseException
 	{
-		return parseElement(element, defaultClass, name);
+		if(elementName == null || namespaceURI == null || localName == null)
+			return false;
+
+		final Class<? extends Binding> element = lookupElement(elementName);
+		if(element == null)
+			return false;
+
+		final Field[] fields = element.getDeclaredFields();
+		try
+		{
+			for(Field field : fields)
+			{
+				if(!"SUBSTITUTION_GROUP".equals(field.getName()))
+					continue;
+
+				field.setAccessible(true);
+				final QName substitutionGroup = (QName)field.get(null);
+				return namespaceURI.equals(substitutionGroup.getNamespaceURI()) && localName.equals(substitutionGroup.getLocalPart());
+			}
+		}
+		catch(Exception e)
+		{
+			throw new ParseException(e);
+		}
+
+		return false;
+	}
+
+	protected static Binding parse(Element element, Class<? extends Binding<? extends BindingType>> defaultClass) throws ParseException, ValidationException
+	{
+		return parseElement(element, defaultClass);
+	}
+
+	protected static Binding parse(Element element) throws ParseException, ValidationException
+	{
+		return parseElement(element, null);
 	}
 
 	protected static Binding parseAttr(Element element, Node node) throws ParseException
@@ -156,7 +192,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		return Binding._$$parseAttr(classBinding, element, node);
 	}
 
-	protected static Binding parseElement(Element node, Class<? extends Binding> defaultClass, QName name) throws ParseException, ValidationException
+	protected static Binding parseElement(Element node, Class<? extends Binding<? extends BindingType>> defaultClass) throws ParseException, ValidationException
 	{
 		final String localName = node.getLocalName();
 		String namespaceURI = node.getNamespaceURI();

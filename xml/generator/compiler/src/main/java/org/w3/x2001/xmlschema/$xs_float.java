@@ -38,9 +38,9 @@ public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType
 		super();
 	}
 
-	protected Object getText()
+	protected Float getText()
 	{
-		return super.getText();
+		return (Float)super.getText();
 	}
 
 	protected void setText(Float text)

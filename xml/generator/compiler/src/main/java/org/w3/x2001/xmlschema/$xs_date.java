@@ -39,9 +39,9 @@ public abstract class $xs_date<T extends BindingType> extends $xs_anySimpleType<
 		super();
 	}
 
-	protected Object getText()
+	protected Date getText()
 	{
-		return super.getText();
+		return (Date)super.getText();
 	}
 
 	protected void setText(Date text)

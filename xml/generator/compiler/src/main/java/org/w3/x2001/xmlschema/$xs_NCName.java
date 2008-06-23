@@ -37,7 +37,7 @@ public abstract class $xs_NCName<T extends BindingType> extends $xs_Name<T>
 		super();
 	}
 
-	protected Object getText()
+	protected String getText()
 	{
 		return super.getText();
 	}

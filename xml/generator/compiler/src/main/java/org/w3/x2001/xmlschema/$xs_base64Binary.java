@@ -39,9 +39,9 @@ public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySim
 		super();
 	}
 
-	protected Object getText()
+	protected Base64Binary getText()
 	{
-		return super.getText();
+		return (Base64Binary)super.getText();
 	}
 
 	protected void setText(Base64Binary text)

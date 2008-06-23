@@ -39,9 +39,9 @@ public abstract class $xs_gMonthDay<T extends BindingType> extends $xs_anySimple
 		super();
 	}
 
-	protected Object getText()
+	protected MonthDay getText()
 	{
-		return super.getText();
+		return (MonthDay)super.getText();
 	}
 
 	protected void setText(MonthDay text)

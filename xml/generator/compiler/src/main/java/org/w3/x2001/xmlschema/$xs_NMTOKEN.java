@@ -38,7 +38,7 @@ public abstract class $xs_NMTOKEN<T extends BindingType> extends $xs_token<T>
 		super();
 	}
 
-	protected Object getText()
+	protected CharSequence getText()
 	{
 		return super.getText();
 	}

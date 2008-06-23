@@ -39,9 +39,9 @@ public abstract class $xs_hexBinary<T extends BindingType> extends $xs_anySimple
 		super();
 	}
 
-	protected Object getText()
+	protected HexBinary getText()
 	{
-		return super.getText();
+		return (HexBinary)super.getText();
 	}
 
 	protected void setText(HexBinary text)

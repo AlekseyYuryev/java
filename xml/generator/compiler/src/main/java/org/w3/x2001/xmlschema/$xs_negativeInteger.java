@@ -38,7 +38,7 @@ public abstract class $xs_negativeInteger<T extends BindingType> extends $xs_pos
 		super();
 	}
 
-	protected Object getText()
+	protected Integer getText()
 	{
 		return super.getText();
 	}

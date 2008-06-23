@@ -51,9 +51,9 @@ public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleT
 		super();
 	}
 
-	protected Object getText()
+	protected DateTime getText()
 	{
-		return super.getText();
+		return (DateTime)super.getText();
 	}
 
 	protected void setText(DateTime text)

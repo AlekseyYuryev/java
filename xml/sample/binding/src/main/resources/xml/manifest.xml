@@ -25,5 +25,6 @@
 		<schema>${basedir}/src/main/resources/xsd/xsitype.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/any.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/id.xsd</schema>
+		<schema>${basedir}/src/main/resources/xsd/substitutionGroup.xsd</schema>
 	</schemas>
 </manifest>

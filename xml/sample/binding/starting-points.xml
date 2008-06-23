@@ -54,4 +54,11 @@
 		<vmOtherOptions/>
 		<workingDir>\</workingDir>
 	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>SubstitutionGroupTest</name>
+		<target>org.safris.xml.toolkit.sample.binding.SubstitutionGroupTest</target>
+		<vmOtherOptions/>
+		<workingDir>\</workingDir>
+	</startingPoint>
 </startingPoints>

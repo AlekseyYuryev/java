@@ -38,7 +38,7 @@ public abstract class $xs_token<T extends BindingType> extends $xs_normalizedStr
 		super();
 	}
 
-	protected Object getText()
+	protected CharSequence getText()
 	{
 		return super.getText();
 	}

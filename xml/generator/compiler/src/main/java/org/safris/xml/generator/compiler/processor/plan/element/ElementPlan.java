@@ -93,7 +93,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		// If we are directly inheriting from another element via the substitutionGroup, then dont add the type
 		if(substitutionGroup == null || !substitutionGroup.equals(element.getSuperType().getName()))
 		{
-			if(XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(element.getSuperType().getName()) || (element.getSuperType() instanceof ComplexTypeModel && !isRestriction()))
+			if(isComplexType(element.getSuperType()))
 			{
 				isComplexType = true;
 				superClassNameWithType += "<" + ComplexType.class.getName() + ">";
@@ -104,6 +104,10 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 				superClassNameWithType += "<" + SimpleType.class.getName() + ">";
 			}
 		}
+		else if(substitutionGroup != null && isComplexType(element.getSuperType()))
+			isComplexType = true;
+		else
+			isComplexType = false;
 
 		if(!ref && element.getParent() instanceof SchemaModel)
 			declarationGeneric = superClassNameWithType;
@@ -116,6 +120,11 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 			formDefault = element.getFormDefault();
 		else
 			formDefault = Form.QUALIFIED;
+	}
+
+	private boolean isComplexType(SimpleTypeModel simpleType)
+	{
+		return XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(simpleType.getName()) || (simpleType instanceof ComplexTypeModel && !isRestriction());
 	}
 
 	/**

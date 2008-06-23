@@ -118,35 +118,32 @@ public class ElementNormalizer extends Normalizer<ElementModel>
 
 	protected void stage6(ElementModel model)
 	{
-		if(model.getName() == null || model.getRef() != null)
+		if(model.getName() == null || model.getRef() != null || model.getSuperType() != null)
 			return;
 
-		if(model.getSuperType() == null)
+		if(model.getSubstitutionGroup() != null)
 		{
-			if(model.getSubstitutionGroup() != null)
-			{
-				model.setSuperType(parseElement(model.getSubstitutionGroup()));
-				return;
-			}
+			model.setSuperType(parseElement(model.getSubstitutionGroup()));
+			return;
+		}
 
-			boolean def = false;
-			for(Model child : model.getChildren())
+		boolean def = false;
+		for(Model child : model.getChildren())
+		{
+			if(child instanceof ComplexTypeModel || child instanceof SimpleTypeModel)
 			{
-				if(child instanceof ComplexTypeModel || child instanceof SimpleTypeModel)
-				{
-					def = true;
-					break;
-				}
+				def = true;
+				break;
 			}
+		}
 
-			if(def)
-				model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
-			else
-			{
-				final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anyType"));
-				model.setSuperType(type);
-				model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
-			}
+		if(def)
+			model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
+		else
+		{
+			final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anyType"));
+			model.setSuperType(type);
+			model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
 		}
 	}
 }

@@ -39,9 +39,9 @@ public abstract class $xs_time<T extends BindingType> extends $xs_anySimpleType<
 		super();
 	}
 
-	protected Object getText()
+	protected Time getText()
 	{
-		return super.getText();
+		return (Time)super.getText();
 	}
 
 	protected void setText(Time text)

@@ -39,9 +39,9 @@ public abstract class $xs_gYear<T extends BindingType> extends $xs_anySimpleType
 		super();
 	}
 
-	protected Object getText()
+	protected Year getText()
 	{
-		return super.getText();
+		return (Year)super.getText();
 	}
 
 	protected void setText(Year text)

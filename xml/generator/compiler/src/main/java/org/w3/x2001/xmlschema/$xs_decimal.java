@@ -49,7 +49,7 @@ public abstract class $xs_decimal<T extends BindingType> extends $xs_anySimpleTy
 		return super.getText();
 	}
 
-	protected void setText(Decimal text)
+	protected void setText(Number text)
 	{
 		super.setText(text);
 	}

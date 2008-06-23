@@ -38,9 +38,9 @@ public abstract class $xs_string<T extends BindingType> extends $xs_anySimpleTyp
 		super();
 	}
 
-	protected Object getText()
+	protected CharSequence getText()
 	{
-		return super.getText();
+		return (CharSequence)super.getText();
 	}
 
 	protected void setText(CharSequence text)

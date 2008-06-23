@@ -75,11 +75,4 @@
 		<vmOtherOptions/>
 		<workingDir>binding\</workingDir>
 	</startingPoint>
-	<startingPoint>
-		<commandLineArguments/>
-		<name>SubstitutionGroupTest</name>
-		<target>org.safris.xml.toolkit.test.binding.SubstitutionGroupTest</target>
-		<vmOtherOptions/>
-		<workingDir>binding\</workingDir>
-	</startingPoint>
 </startingPoints>

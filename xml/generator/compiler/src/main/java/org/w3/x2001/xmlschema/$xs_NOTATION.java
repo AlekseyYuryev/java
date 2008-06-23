@@ -39,9 +39,9 @@ public abstract class $xs_NOTATION<T extends BindingType> extends $xs_anySimpleT
 		super();
 	}
 
-	protected Object getText()
+	protected NotationType getText()
 	{
-		return super.getText();
+		return (NotationType)super.getText();
 	}
 
 	protected void setText(NotationType text)

@@ -38,9 +38,9 @@ public abstract class $xs_anyURI<T extends BindingType> extends $xs_anySimpleTyp
 		super();
 	}
 
-	protected Object getText()
+	protected String getText()
 	{
-		return super.getText();
+		return (String)super.getText();
 	}
 
 	protected void setText(String text)

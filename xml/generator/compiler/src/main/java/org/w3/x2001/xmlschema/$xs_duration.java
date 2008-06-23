@@ -39,9 +39,9 @@ public abstract class $xs_duration<T extends BindingType> extends $xs_anySimpleT
 		super();
 	}
 
-	protected Object getText()
+	protected Duration getText()
 	{
-		return super.getText();
+		return (Duration)super.getText();
 	}
 
 	protected void setText(Duration text)

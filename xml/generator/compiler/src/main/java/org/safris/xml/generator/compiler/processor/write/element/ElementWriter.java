@@ -98,13 +98,23 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			return;
 
 		if(!plan.isNested() || Form.QUALIFIED.equals(plan.getFormDefault()))
+		{
 			writer.write("else if(\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+			writer.write("{\n");
+			writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
+			writer.write("}\n");
+			writer.write("else if(" + Binding.class.getName() + "._$$iSsubstitutionGroup(new " + QName.class.getName() + "(element.getNamespaceURI(), element.getLocalName()), \"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
+			writer.write("{\n");
+			writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element));\n");
+			writer.write("}\n");
+		}
 		else
+		{
 			writer.write("else if(\"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
-
-		writer.write("{\n");
-		writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class, new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\")));\n");
-		writer.write("}\n");
+			writer.write("{\n");
+			writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
+			writer.write("}\n");
+		}
 	}
 
 	public void appendCopy(StringWriter writer, T plan, Plan parent, String variable)
@@ -150,6 +160,10 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		writer.write("{\n");
 
 		writer.write("private static final " + QName.class.getName() + " NAME = new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\");\n");
+
+		// SUBSTITUTION GROUP
+		if(plan.getSubstitutionGroup() != null)
+			writer.write("private static final " + QName.class.getName() + " SUBSTITUTION_GROUP =  new " + QName.class.getName() + "(\"" + plan.getSubstitutionGroup().getNamespaceURI() + "\", \"" + plan.getSubstitutionGroup().getLocalPart() + "\");\n");
 
 		if(!plan.isNested())
 		{
@@ -215,10 +229,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			writer.write(((AttributePlan)attribute).getFixedInstanceCall(plan));
 		writer.write("}\n");
 
-		if(plan.getClassSimpleName().equals("_co_authors"))
-		{
-			int i = 0;
-		}
 		// MIXED CONSTRUCTOR
 		if(!plan.isComplexType() || (plan.getMixed() == null && plan.getMixedType()) || (plan.getMixed() != null && plan.getMixed()))
 		{
@@ -321,7 +331,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		{
 			writer.write("protected boolean _$$isSubstitutionGroup(" + QName.class.getName() + " name)\n");
 			writer.write("{\n");
-			writer.write("return name != null && \"" + plan.getSubstitutionGroup().getNamespaceURI() + "\".equals(name.getNamespaceURI()) && \"" + plan.getSubstitutionGroup().getLocalPart() + "\".equals(name.getLocalPart());\n");
+			writer.write("return name != null && SUBSTITUTION_GROUP.getNamespaceURI().equals(name.getNamespaceURI()) && SUBSTITUTION_GROUP.getLocalPart().equals(name.getLocalPart());\n");
 			writer.write("}\n");
 		}
 

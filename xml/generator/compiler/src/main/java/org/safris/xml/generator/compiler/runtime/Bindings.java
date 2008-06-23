@@ -44,7 +44,7 @@ public abstract class Bindings
 	 */
 	public static Binding parse(Element element) throws ParseException, ValidationException
 	{
-		final Binding binding = Binding.parseElement(element, null, null);
+		final Binding binding = Binding.parseElement(element, null);
 		if(Validator.getSystemValidator() != null)
 			Validator.getSystemValidator().validateParse(element);
 
@@ -72,6 +72,6 @@ public abstract class Bindings
 		if(Validator.getSystemValidator() != null)
 			Validator.getSystemValidator().validateParse(element);
 
-		return Binding.parseElement(element, null, null);
+		return Binding.parseElement(element, null);
 	}
 }

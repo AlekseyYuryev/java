@@ -37,12 +37,12 @@ public abstract class $xs_normalizedString<T extends BindingType> extends $xs_st
 		super();
 	}
 
-	protected Object getText()
+	protected CharSequence getText()
 	{
 		return super.getText();
 	}
 
-	protected void setText(String text)
+	protected void setText(CharSequence text)
 	{
 		super.setText(text);
 	}

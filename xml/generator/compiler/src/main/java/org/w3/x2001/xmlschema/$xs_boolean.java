@@ -59,9 +59,9 @@ public abstract class $xs_boolean<T extends BindingType> extends $xs_anySimpleTy
 		super();
 	}
 
-	protected Object getText()
+	protected Boolean getText()
 	{
-		return super.getText();
+		return (Boolean)super.getText();
 	}
 
 	protected void setText(Boolean text)

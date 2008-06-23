@@ -38,9 +38,9 @@ public abstract class $xs_double<T extends BindingType> extends $xs_anySimpleTyp
 		super();
 	}
 
-	protected Object getText()
+	protected Double getText()
 	{
-		return super.getText();
+		return (Double)super.getText();
 	}
 
 	protected void setText(Double text)

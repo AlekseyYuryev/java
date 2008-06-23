@@ -74,7 +74,7 @@ public abstract class AbstractBinding implements Cloneable
 
 	protected static Class<? extends Binding> lookupElement(QName name)
 	{
-		Class<? extends Binding> clazz = elementBindings.get(name);
+		final Class<? extends Binding> clazz = elementBindings.get(name);
 		if(clazz != null)
 			return clazz;
 
@@ -89,7 +89,7 @@ public abstract class AbstractBinding implements Cloneable
 
 	protected static Class<? extends Binding> lookupType(QName name)
 	{
-		Class<? extends Binding> clazz = typeBindings.get(name);
+		final Class<? extends Binding> clazz = typeBindings.get(name);
 		if(clazz != null)
 			return clazz;
 

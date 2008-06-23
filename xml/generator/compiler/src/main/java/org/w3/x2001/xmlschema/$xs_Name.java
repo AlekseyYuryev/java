@@ -37,19 +37,19 @@ public abstract class $xs_Name<T extends BindingType> extends $xs_token<T>
 		super();
 	}
 
-	protected Object getText()
+	protected String getText()
 	{
-		return super.getText();
+		return (String)super.getText();
 	}
 
 	protected void setText(String text)
 	{
-		super.setText((CharSequence)text);
+		super.setText(text);
 	}
 
 	protected void _$$decode(Element parent, String value) throws ParseException
 	{
-		super.setText((CharSequence)value);
+		super.setText(value);
 	}
 
 	protected String _$$encode(Element parent) throws MarshalException

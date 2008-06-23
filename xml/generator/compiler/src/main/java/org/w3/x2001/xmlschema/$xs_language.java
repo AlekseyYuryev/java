@@ -39,9 +39,9 @@ public abstract class $xs_language<T extends BindingType> extends $xs_token<T>
 		super();
 	}
 
-	protected Object getText()
+	protected Language getText()
 	{
-		return super.getText();
+		return (Language)super.getText();
 	}
 
 	protected void setText(Language text)

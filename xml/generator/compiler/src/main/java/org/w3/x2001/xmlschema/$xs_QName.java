@@ -38,9 +38,9 @@ public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType
 		super();
 	}
 
-	protected Object getTEXT()
+	protected QName getTEXT()
 	{
-		return super.getText();
+		return (QName)super.getText();
 	}
 
 	protected void setTEXT(QName text)

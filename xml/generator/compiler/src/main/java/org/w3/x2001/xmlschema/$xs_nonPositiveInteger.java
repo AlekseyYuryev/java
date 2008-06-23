@@ -38,9 +38,9 @@ public abstract class $xs_nonPositiveInteger<T extends BindingType> extends $xs_
 		super();
 	}
 
-	protected Object getText()
+	protected Integer getText()
 	{
-		return super.getText();
+		return (Integer)super.getText();
 	}
 
 	protected void setText(Integer text)
