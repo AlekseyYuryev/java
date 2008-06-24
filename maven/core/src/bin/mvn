@@ -264,13 +264,13 @@ THIS_MVN="`which mvn`"
 MVN="`which -a mvn | sed -n '2p'`"
 if [ ! -f "$MVN" ] || [ "$MVN" = "$THIS_MVN" ]; then
 	if [ -z "$M2_HOME" ]; then
-		echo "Error: M2_HOME is not defined correctly."
+		echo "Error: M2_HOME is not defined."
 		exit 1
 	fi
 
 	MVN="$M2_HOME/bin/mvn"
-	if [ ! -f "$MVN" ] || [ "$MVN" = "$THIS_MVN" ]; then
-		echo "Error: Unable to find install of m2. The mvn script is neither in the PATH nor at \$M2_HOME/bin/mvn"
+	if [ ! -f "$MVN" ]; then
+		echo "Error: M2_HOME is not defined correctly."
 		exit 1
 	fi
 fi
