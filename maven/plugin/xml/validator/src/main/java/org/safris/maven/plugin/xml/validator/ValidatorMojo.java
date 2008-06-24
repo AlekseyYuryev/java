@@ -114,15 +114,15 @@ public class ValidatorMojo extends AbstractMojo
 			return;
 
 		final String scheme;
-		if(httpProxy.startsWith("https"))
+		if(httpProxy.startsWith("https" + delimeter))
 			scheme = "https";
-		else if(httpProxy.startsWith("http"))
+		else if(httpProxy.startsWith("http" + delimeter))
 			scheme = "http";
 		else
 			throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no http or http scheme.");
 
 		final String port;
-		final int portIndex = httpProxy.indexOf(":", scheme.length());
+		final int portIndex = httpProxy.indexOf(":", scheme.length() + delimeter.length());
 		if(portIndex != -1)
 			port = httpProxy.substring(portIndex + 1);
 		else
