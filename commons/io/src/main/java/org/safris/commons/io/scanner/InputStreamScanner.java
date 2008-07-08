@@ -62,10 +62,15 @@ public class InputStreamScanner extends Thread
 			char ch = 0;
 			while((ch = (char)in.read()) != -1)
 			{
-				if(ch == '\n')
-					line = "";
-				else
+				if(ch != '\n')
+				{
+                    if(ch == ' ' && line.length() == 0)
+                        continue;
+
 					line += ch;
+				}
+				else
+					line = "";
 
 				if(currentNodes == null)
 					continue;
@@ -75,15 +80,20 @@ public class InputStreamScanner extends Thread
 		}
 		catch(Exception e)
 		{
-			// FIXME: Have to NOT System.exit() here.
 			if("Pipe broken".equals(e.getMessage()))
-				System.exit(0);
+				return;
 
 			throw new RuntimeException(e);
 		}
 		finally
 		{
-			notifyAll();
+			try
+			{
+				notifyAll();
+			}
+			catch(IllegalMonitorStateException e)
+			{
+			}
 		}
 	}
 }

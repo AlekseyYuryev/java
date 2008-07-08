@@ -249,7 +249,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		if(patterns == null || patterns.size() == 0)
 			return;
 
-		writer.write("protected " + String.class.getName() + "[] _getPattern()\n");
+		writer.write("protected " + String.class.getName() + "[] _$$getPattern()\n");
 		writer.write("{\n");
 		writer.write("return new " + String.class.getName() + "[]\n");
 		writer.write("{\n");

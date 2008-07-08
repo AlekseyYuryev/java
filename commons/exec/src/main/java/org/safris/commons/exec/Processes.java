@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.commons.io.Streams;
@@ -29,7 +31,15 @@ public final class Processes
 {
 	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException
 	{
-		final Process process = Runtime.getRuntime().exec(args);
+		final Collection<String> notNullArgs = new ArrayList<String>(args.length);
+		for(String arg : args)
+			if(arg != null)
+				notNullArgs.add(arg);
+
+		if(notNullArgs.size() == 0)
+			throw new IllegalArgumentException("empty argument list");
+
+		final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
 		OutputStream teeStdin = null;
 		if(stdin != null)
 		{
