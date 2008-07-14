@@ -63,7 +63,8 @@ public class ClassLoaderTest
 	}
 
 	@Test
-	@Ignore
+	// FIXME
+    @Ignore("FIXME")
 	public void testClassLoaders() throws IOException
 	{
 		Runtime.getRuntime().gc();

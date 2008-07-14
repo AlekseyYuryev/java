@@ -36,7 +36,8 @@ public class ClassLoaderLocalTest
 	private static String className = "com.sun.jmx.snmp.ThreadContext";
 
 	@Test
-	@Ignore
+	// FIXME
+    @Ignore("FIXME")
 	public void testClassLoaderLocal() throws Exception
 	{
 		final String bootClassPath = System.getProperty("sun.boot.class.path");

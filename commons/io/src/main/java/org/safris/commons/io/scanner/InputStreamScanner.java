@@ -20,27 +20,28 @@ import java.io.InputStream;
 import java.util.List;
 import org.safris.commons.util.HashTree;
 
-public class InputStreamScanner extends Thread
+public final class InputStreamScanner extends Thread
 {
 	private final InputStream in;
-	private final HashTree<ScannerHandler> tree;
 	private List<HashTree.Node<ScannerHandler>> currentNodes;
 
-	public InputStreamScanner(InputStream in, HashTree<ScannerHandler> tree)
+	public InputStreamScanner(InputStream in, HashTree<ScannerHandler> handlers)
 	{
+        super(InputStreamScanner.class.getSimpleName());
 		this.in = in;
-		this.tree = tree;
-		currentNodes = tree != null ? tree.getChildren() : null;
+		currentNodes = handlers != null ? handlers.getChildren() : null;
 	}
 
-	private void doMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException
+	private boolean onMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException
 	{
+        boolean match = false;
 		for(HashTree.Node<ScannerHandler> node : nodes)
 		{
 			if(node.getValue() != null)
 			{
 				if(line.matches(node.getValue().getMatch()))
 				{
+                    match = true;
 					node.getValue().match(line);
 					if(node.hasChildren())
 						currentNodes = node.getChildren();
@@ -49,9 +50,11 @@ public class InputStreamScanner extends Thread
 			else
 			{
 				for(HashTree.Node<ScannerHandler> child : node.getChildren())
-					doMatch(line, child.getChildren());
+					onMatch(line, child.getChildren());
 			}
 		}
+
+        return match;
 	}
 
 	public void run()
@@ -75,7 +78,8 @@ public class InputStreamScanner extends Thread
 				if(currentNodes == null)
 					continue;
 
-				doMatch(line, currentNodes);
+				if(onMatch(line, currentNodes))
+                    line = "";
 			}
 		}
 		catch(Exception e)

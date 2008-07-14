@@ -13,23 +13,11 @@
  *  limitations under the License.
  */
 
-package org.safris.commons.io.scanner;
+package org.safris.commons.expect;
 
-import java.io.IOException;
+import java.util.Map;
 
-public abstract class ScannerHandler
-{
-	private final String regex;
-
-	public ScannerHandler(String regex)
-	{
-		this.regex = regex;
-	}
-
-	public String getMatch()
-	{
-		return regex;
-	}
-
-	public abstract void match(String match) throws IOException;
+public abstract class ExpectCallback {
+    public abstract Map<String,String> process(String exec);
+    public abstract Map<String,String> rule(String ruleId, String prompt, String response);
 }

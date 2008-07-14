@@ -42,6 +42,7 @@
 		<module>cli</module>
 		<module>bytecode</module>
 		<module>xml</module>
+		<module>expect</module>
 		<module>util</module>
 		<module>io</module>
 		<module>net</module>
