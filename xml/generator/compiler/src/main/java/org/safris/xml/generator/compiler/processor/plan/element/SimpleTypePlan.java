@@ -179,6 +179,10 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		if(baseXSItemTypeDirectory == null)
 			throw new CompilerError("Should always be able to resolve the type for name: " + getName());
 
+		// Return if we have an ANYSIMPLETYPE as the base XS type.
+		if(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
+			return;
+
 		if(this.list = baseXSItemTypeDirectory.getNativeBinding().isList())
 			nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getType().getName();
 		else

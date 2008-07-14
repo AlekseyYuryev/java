@@ -194,14 +194,16 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 
 			if(!plan.hasEnumerations())
 			{
-				writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
-				writer.write("{\n");
-				writer.write("super.setText(text);\n");
-				writer.write("}\n");
-
 				if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 				{
 					writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+					writer.write("{\n");
+					writer.write("super.setText(text);\n");
+					writer.write("}\n");
+				}
+				else
+				{
+					writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
 					writer.write("{\n");
 					writer.write("super.setText(text);\n");
 					writer.write("}\n");
