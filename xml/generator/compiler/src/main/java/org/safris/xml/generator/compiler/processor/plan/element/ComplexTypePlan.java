@@ -30,8 +30,10 @@ import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.MixableModel;
+import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.TypeableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
+import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan
@@ -39,6 +41,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
 	private final Boolean mixed;
 
 	private Boolean mixedType = null;
+	private boolean simpleContent = false;
 
 	private LinkedHashSet<AttributePlan> attributes;
 	private LinkedHashSet<ElementPlan> elements;
@@ -61,6 +64,19 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
 	{
 		super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
 		mixed = getModel().getMixed();
+		for(Model child : model.getChildren())
+		{
+			if(child instanceof SimpleContentModel)
+			{
+				simpleContent = true;
+				break;
+			}
+		}
+	}
+
+	public final boolean hasSimpleContent()
+	{
+		return simpleContent;
 	}
 
 	public final LinkedHashSet<AttributePlan> getAttributes()

@@ -162,6 +162,10 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		if(baseNonXSType != null)
 			baseNonXSTypeName = baseNonXSType.getName();
 
+		superTypeName = model.getSuperType().getName();
+		superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);
+		superClassNameWithType = superClassNameWithoutType + "<T>";
+
 		// Gets the XS simpleType name of the itemType
 		final SimpleTypeModel baseXSItemType = digBaseXSItemTypeName(getModel());
 		if(baseXSItemType != null)
@@ -171,17 +175,9 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 
 		baseNonXSTypeClassName = JavaBinding.getClassName(baseNonXSType);
 
-		superTypeName = model.getSuperType().getName();
-		superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);
-		superClassNameWithType = superClassNameWithoutType + "<T>";
-
 		final XSTypeDirectory baseXSItemTypeDirectory = XSTypeDirectory.parseType(getBaseXSItemTypeName());
 		if(baseXSItemTypeDirectory == null)
 			throw new CompilerError("Should always be able to resolve the type for name: " + getName());
-
-		// Return if we have an ANYSIMPLETYPE as the base XS type.
-		if(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
-			return;
 
 		if(this.list = baseXSItemTypeDirectory.getNativeBinding().isList())
 			nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getType().getName();

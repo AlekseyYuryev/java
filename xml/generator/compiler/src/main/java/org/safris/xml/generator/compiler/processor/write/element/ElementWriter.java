@@ -232,7 +232,24 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		// MIXED CONSTRUCTOR
 		if(!plan.isComplexType() || (plan.getMixed() == null && plan.getMixedType()) || (plan.getMixed() != null && plan.getMixed()))
 		{
-			if(plan.getNativeItemClassNameInterface() != null)
+			if(plan.getMixedType())
+			{
+				writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
+				writer.write("{\n");
+				writer.write("super(text);\n");
+				writer.write("}\n");
+
+				writer.write("public " + String.class.getName() + " getText()\n");
+				writer.write("{\n");
+				writer.write("return (" + String.class.getName() + ")super.getText();\n");
+				writer.write("}\n");
+
+				writer.write("public void setText(" + String.class.getName() + " text)\n");
+				writer.write("{\n");
+				writer.write("super.setText(text);\n");
+				writer.write("}\n");
+			}
+			else if(plan.getNativeItemClassNameInterface() != null)
 			{
 				writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
 				writer.write("{\n");
@@ -255,49 +272,29 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 					writer.write("return super.getText();\n");
 				writer.write("}\n");
 			}
-			else
+			else if(plan.getMixed() != null && plan.getMixed())
 			{
-				if(plan.getMixedType())
-				{
-					writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
-					writer.write("{\n");
-					writer.write("super(text);\n");
-					writer.write("}\n");
+				writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
+				writer.write("{\n");
+				writer.write("this.text = text;\n");
+				writer.write("}\n");
 
-					writer.write("public " + String.class.getName() + " getText()\n");
-					writer.write("{\n");
-					writer.write("return (" + String.class.getName() + ")super.getText();\n");
-					writer.write("}\n");
+				writer.write("public " + String.class.getName() + " getText()\n");
+				writer.write("{\n");
+				writer.write("return text;\n");
+				writer.write("}\n");
 
-					writer.write("public void setText(" + String.class.getName() + " text)\n");
-					writer.write("{\n");
-					writer.write("super.setText(text);\n");
-					writer.write("}\n");
-				}
-				else if(plan.getMixed() != null && plan.getMixed())
-				{
-					writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
-					writer.write("{\n");
-					writer.write("this.text = text;\n");
-					writer.write("}\n");
-
-					writer.write("public " + String.class.getName() + " getText()\n");
-					writer.write("{\n");
-					writer.write("return text;\n");
-					writer.write("}\n");
-
-					writer.write("public void setText(" + String.class.getName() + " text)\n");
-					writer.write("{\n");
-					writer.write("this.text = text;\n");
-					writer.write("}\n");
-				}
-				else if(plan.hasEnumerations())
-				{
-					writer.write("public " + String.class.getName() + " getText()\n");
-					writer.write("{\n");
-					writer.write("return (" + String.class.getName() + ")super.getText();\n");
-					writer.write("}\n");
-				}
+				writer.write("public void setText(" + String.class.getName() + " text)\n");
+				writer.write("{\n");
+				writer.write("this.text = text;\n");
+				writer.write("}\n");
+			}
+			else if(plan.hasEnumerations())
+			{
+				writer.write("public " + String.class.getName() + " getText()\n");
+				writer.write("{\n");
+				writer.write("return (" + String.class.getName() + ")super.getText();\n");
+				writer.write("}\n");
 			}
 		}
 

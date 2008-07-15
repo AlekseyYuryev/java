@@ -110,7 +110,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 		writeIdLookup(writer, plan, parent);
 
 		// MIXED
-		if(plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())
+		if((!plan.hasSimpleContent() || plan.getNativeItemClassNameInterface() == null) && plan.getMixed() != null && plan.getMixed())
 			writer.write("private " + String.class.getName() + " text = null;\n");
 
 		for(Object attribute : plan.getAttributes())
@@ -182,23 +182,35 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 			writer.write(((AttributePlan)attribute).getFixedInstanceCall(plan));
 		writer.write("}\n");
 
-		if(plan.getNativeItemClassNameInterface() != null)
+		if(plan.hasSimpleContent() && plan.getNativeItemClassNameInterface() != null)
 		{
-			writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
-			writer.write("{\n");
-			if(!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
-				writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getText();\n");
-			else
-				writer.write("return super.getText();\n");
-			writer.write("}\n");
-
-			if(!plan.hasEnumerations())
+			if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 			{
-				if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+				writer.write("public " + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> getText()\n");
+				writer.write("{\n");
+				writer.write("return (" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + ">)super.getText();\n");
+				writer.write("}\n");
+
+				writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+				writer.write("{\n");
+				writer.write("super.setText(text);\n");
+				writer.write("}\n");
+			}
+			else
+			{
+				writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
+				writer.write("{\n");
+				if(!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
+					writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getText();\n");
+				else
+					writer.write("return super.getText();\n");
+				writer.write("}\n");
+
+				if(plan.hasEnumerations())
 				{
-					writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+					writer.write("public void setText(RESTRICTION restriction)\n");
 					writer.write("{\n");
-					writer.write("super.setText(text);\n");
+					writer.write("super.setText(restriction.getText());\n");
 					writer.write("}\n");
 				}
 				else
@@ -208,13 +220,6 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 					writer.write("super.setText(text);\n");
 					writer.write("}\n");
 				}
-			}
-			else
-			{
-				writer.write("public void setText(RESTRICTION restriction)\n");
-				writer.write("{\n");
-				writer.write("super.setText(restriction.getText());\n");
-				writer.write("}\n");
 			}
 		}
 		else if(plan.getMixed() != null && plan.getMixed())
