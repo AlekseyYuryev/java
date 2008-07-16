@@ -22,6 +22,8 @@ import java.util.TimeZone;
 
 public class DateTime extends Date
 {
+	protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+
 	private static final String formatNoMillis = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final String formatMillis = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
@@ -39,6 +41,7 @@ public class DateTime extends Date
 		else
 			format = new SimpleDateFormat(formatNoMillis);
 
+		// FIXME: Is my substring silly?
 		if(dot < string.length() && (string.charAt(dot) == '+' || string.charAt(dot) == '-'))
 			timeZone = TimeZone.getTimeZone("GMT" + string.substring(dot, dot + 3) + string.substring(dot + 3));
 		else
@@ -51,7 +54,7 @@ public class DateTime extends Date
 		}
 		catch(ParseException e)
 		{
-			IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string);
+			final IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string);
 			illegalArgumentException.setStackTrace(e.getStackTrace());
 			throw illegalArgumentException;
 		}
@@ -67,11 +70,12 @@ public class DateTime extends Date
 		return i;
 	}
 
-	private TimeZone timeZone = TimeZone.getTimeZone("GMT");
+	private final TimeZone timeZone;
 
 	public DateTime()
 	{
 		super();
+		this.timeZone = TimeZone.getTimeZone("GMT");
 	}
 
 	public DateTime(TimeZone timeZone)
@@ -83,6 +87,7 @@ public class DateTime extends Date
 	protected DateTime(String s)
 	{
 		super(s);
+		this.timeZone = TimeZone.getTimeZone("GMT");
 	}
 
 	public DateTime(long date, TimeZone timeZone)
@@ -127,16 +132,16 @@ public class DateTime extends Date
 		else
 			dateFormatString = formatMillis;
 
-		if(TimeZone.getTimeZone("GMT").equals(timeZone))
+		if(GMT.equals(timeZone))
 		{
-			SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "'Z'");
+			final SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "'Z'");
 			dateFormat.setTimeZone(timeZone);
 			return dateFormat.format(this);
 		}
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "Z");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "Z");
 		dateFormat.setTimeZone(timeZone);
-		String format = dateFormat.format(this);
+		final String format = dateFormat.format(this);
 		return format.substring(0, format.length() - 2) + ":" + format.substring(format.length() - 2);
 	}
 }

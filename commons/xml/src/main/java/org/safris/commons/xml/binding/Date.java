@@ -28,7 +28,7 @@ public class Date extends java.util.Date
 		}
 		catch(ParseException e)
 		{
-			IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string);
+			final IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string);
 			illegalArgumentException.setStackTrace(e.getStackTrace());
 			throw illegalArgumentException;
 		}

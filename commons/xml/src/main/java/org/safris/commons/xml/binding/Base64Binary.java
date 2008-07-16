@@ -19,7 +19,7 @@ import java.io.IOException;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-public class Base64Binary
+public final class Base64Binary
 {
 	public static Base64Binary parseBase64Binary(String string)
 	{
@@ -33,7 +33,7 @@ public class Base64Binary
 		}
 		catch(IOException e)
 		{
-			IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
+			final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
 			illegalArgumentException.setStackTrace(e.getStackTrace());
 			throw illegalArgumentException;
 		}
@@ -58,8 +58,8 @@ public class Base64Binary
 		if(!(obj instanceof Base64Binary))
 			return false;
 
-		Base64Binary equals = (Base64Binary)obj;
-		return encoded.equals(equals.encoded);
+		final Base64Binary that = (Base64Binary)obj;
+		return encoded.equals(that.encoded);
 	}
 
 	public String toString()

@@ -20,11 +20,12 @@
 	xsi:schemaLocation="http://xml.safris.org/toolkit/binding/manifest.xsd ../../../../../../toolkit/binding/src/main/resources/xsd/manifest.xsd">
 	<destdir explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
 	<schemas>
+		<schema>${basedir}/src/main/resources/xsd/substitutionGroup.xsd</schema>
+		<schema>${basedir}/src/main/resources/xsd/xsitype.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/simple.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/enums.xsd</schema>
-		<schema>${basedir}/src/main/resources/xsd/xsitype.xsd</schema>
+		<schema>${basedir}/src/main/resources/xsd/list.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/any.xsd</schema>
 		<schema>${basedir}/src/main/resources/xsd/id.xsd</schema>
-		<schema>${basedir}/src/main/resources/xsd/substitutionGroup.xsd</schema>
 	</schemas>
 </manifest>

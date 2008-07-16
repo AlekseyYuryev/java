@@ -17,6 +17,7 @@ package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +112,22 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("super(text);\n");
 		writer.write("}\n");
 
-		if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+		if(plan.isList())
 		{
-			writer.write(accessibility + plan.getClassSimpleName() + "(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+			writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeItemClassName() + " ... text)\n");
 			writer.write("{\n");
-			writer.write("super(text);\n");
+			writer.write("super(" + Arrays.class.getName()+ ".asList(text));\n");
 			writer.write("}\n");
+
 		}
+
+//		if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+//		{
+//			writer.write(accessibility + plan.getClassSimpleName() + "(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+//			writer.write("{\n");
+//			writer.write("super(text);\n");
+//			writer.write("}\n");
+//		}
 	}
 
 	protected static void getRestrictions(StringWriter writer, SimpleTypePlan plan, Plan parent)
@@ -184,12 +194,21 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 
 		if(plan.isList())
 		{
-			writer.write("public " + plan.getClassSimpleName() + "(" + List.class.getName() + "<" + restrictionClassName + "> restriction)\n");
+			writer.write("public " + plan.getClassSimpleName() + "(" + List.class.getName() + "<" + restrictionClassName + "> restrictions)\n");
 			writer.write("{\n");
 			writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-			writer.write("for(" + restrictionClassName + " temp : restriction)\n");
+			writer.write("for(" + restrictionClassName + " temp : restrictions)\n");
 			writer.write("if(temp != null)\n");
 			writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+			writer.write("}\n");
+
+			writer.write("public " + plan.getClassSimpleName() + "(" + restrictionClassName + " ... restrictions)\n");
+			writer.write("{\n");
+			writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+			writer.write("for(" + restrictionClassName + " temp : restrictions)\n");
+			writer.write("if(temp != null)\n");
+			writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+			writer.write("}\n");
 		}
 		else
 		{
@@ -199,9 +218,8 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 				writer.write("super(restriction.getText());\n");
 			else
 				writer.write("super(restriction);\n");
+			writer.write("}\n");
 		}
-
-		writer.write("}\n");
 	}
 
 	protected void appendDeclaration(StringWriter writer, T plan, Plan parent)

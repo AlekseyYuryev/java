@@ -26,7 +26,7 @@ public class MonthDay
 
 		int month = 1;
 		int day = 1;
-		StringTokenizer tokenizer = new StringTokenizer(string.substring(2), "-Z");
+		final StringTokenizer tokenizer = new StringTokenizer(string.substring(2), "-Z");
 		if(tokenizer.hasMoreTokens())
 			month = Integer.parseInt(tokenizer.nextToken());
 

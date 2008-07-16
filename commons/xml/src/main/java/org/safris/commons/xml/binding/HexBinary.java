@@ -24,7 +24,7 @@ public class HexBinary
 		if(string == null)
 			return null;
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		for(int i = 0; i < string.length(); i += 2)
 		{
 			char c1 = string.charAt(i);

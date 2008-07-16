@@ -49,13 +49,9 @@ public class Duration
 		}
 
 		if(len == 0  ||  string.charAt(offset) != 'P')
-		{
 			throw new IllegalArgumentException("Invalid duration: " + string + " (must start with P, +P, or -P)");
-		}
 		else
-		{
 			++offset;
-		}
 
 		int years = -1, months = -1, daysOfMonth = -1, hours = -1, minutes = -1, seconds = -1;
 		int preDurationPoint = -1;
@@ -357,9 +353,7 @@ public class Duration
 		}
 
 		if(stringBuffer.length() == 1)
-		{
 			stringBuffer.append(0).append(D);
-		}
 
 		return stringBuffer.toString();
 	}

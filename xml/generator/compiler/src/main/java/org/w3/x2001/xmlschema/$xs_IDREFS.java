@@ -57,7 +57,7 @@ public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleTyp
 			return;
 
 		super.setText(new ArrayList<String>());
-		StringTokenizer tokenizer = new StringTokenizer(String.valueOf(value));
+		final StringTokenizer tokenizer = new StringTokenizer(String.valueOf(value));
 		while(tokenizer.hasMoreTokens())
 			((List<String>)super.getText()).add(tokenizer.nextToken());
 	}

@@ -16,12 +16,15 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
-import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
+import org.safris.xml.generator.compiler.processor.plan.EnumerablePlan;
+import org.safris.xml.generator.compiler.processor.plan.ExtensiblePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyPlan;
@@ -29,12 +32,10 @@ import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.ElementAudit;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -251,18 +252,54 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			}
 			else if(plan.getNativeItemClassNameInterface() != null)
 			{
-				writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
-				writer.write("{\n");
-				writer.write("super.setText(text);\n");
-				writer.write("}\n");
-
-				if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+				if(plan.hasEnumerations() && plan.isList())
 				{
-					writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+					boolean hasSuperEnumerations = ((EnumerablePlan)plan).hasSuperEnumerations();
+					final String restrictionClassName;
+					if(hasSuperEnumerations)
+						restrictionClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
+					else
+						restrictionClassName = "RESTRICTION";
+
+					writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
+					writer.write("{\n");
+					writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+					writer.write("for(" + restrictionClassName + " temp : text)\n");
+					writer.write("if(temp != null)\n");
+					writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+					writer.write("}\n");
+
+					writer.write("public void setText(" + restrictionClassName + " ... text)\n");
+					writer.write("{\n");
+					writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+					writer.write("for(" + restrictionClassName + " temp : text)\n");
+					writer.write("if(temp != null)\n");
+					writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+					writer.write("}\n");
+				}
+				else
+				{
+					writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
 					writer.write("{\n");
 					writer.write("super.setText(text);\n");
 					writer.write("}\n");
+
+					if(plan.isList())
+					{
+						writer.write("public void setText(" + plan.getNativeItemClassName() + " ... text)\n");
+						writer.write("{\n");
+						writer.write("super.setText(" + Arrays.class.getName() + ".asList(text));\n");
+						writer.write("}\n");
+					}
 				}
+
+//				if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+//				{
+//					writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+//					writer.write("{\n");
+//					writer.write("super.setText(text);\n");
+//					writer.write("}\n");
+//				}
 
 				writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
 				writer.write("{\n");
@@ -524,6 +561,29 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 				Writer.writeParse(writer, any, plan);
 				writer.write("}\n");
 			}
+		}
+
+		if(plan.getName().getLocalPart().contains("workDays") || plan.getName().getLocalPart().contains("position"))
+		{
+			Plan superType = plan.getSuperType();
+			int i = 0;
+		}
+
+		if(plan.isList() && plan.getSuperType() == null)
+		{
+			writer.write("protected void _$$decode(" + Element.class.getName() + " parent, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
+			writer.write("{\n");
+			writer.write("if(value == null || value.length() == 0)\n");
+			writer.write("return;\n");
+
+			writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+			writer.write("final " + StringTokenizer.class.getName() + " tokenizer = new " + StringTokenizer.class.getName() + "(value);\n");
+			writer.write("while(tokenizer.hasMoreTokens())\n");
+			if(plan.getNativeFactory() != null)
+				writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.getText()).add(" + plan.getNativeFactory() + "(tokenizer.nextToken()));\n");
+			else
+				writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.getText()).add(tokenizer.nextToken());\n");
+			writer.write("}\n");
 		}
 
 		// CLONE
