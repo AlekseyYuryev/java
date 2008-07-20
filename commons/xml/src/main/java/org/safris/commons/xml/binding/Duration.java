@@ -27,7 +27,7 @@ public class Duration
 		boolean isNegative;
 		if(len > 0)
 		{
-			char c = string.charAt(0);
+			final char c = string.charAt(0);
 			if(c == '-')
 			{
 				isNegative = true;
@@ -56,7 +56,7 @@ public class Duration
 		int years = -1, months = -1, daysOfMonth = -1, hours = -1, minutes = -1, seconds = -1;
 		int preDurationPoint = -1;
 		boolean separatorSeen = false;
-		StringBuffer digits = new StringBuffer();
+		final StringBuffer digits = new StringBuffer();
 		while(offset < len)
 		{
 			char c = string.charAt(offset);
@@ -67,14 +67,9 @@ public class Duration
 			else if(c == 'T')
 			{
 				if(separatorSeen)
-				{
-					throw new IllegalArgumentException("Invalid duration: " + string
-					+ " (date/time separator 'T' used twice)");
-				}
+					throw new IllegalArgumentException("Invalid duration: " + string + " (date/time separator 'T' used twice)");
 				else
-				{
 					separatorSeen = true;
-				}
 			}
 			else
 			{
@@ -87,13 +82,13 @@ public class Duration
 				{
 					try
 					{
-						l = java.lang.Integer.parseInt(digits.toString());
+						l = Integer.parseInt(digits.toString());
 					}
 					catch(NumberFormatException e)
 					{
-						throw new IllegalArgumentException("Invalid duration: "  + string
-						+ " (max long value exceeded by " + digits + ")");
+						throw new IllegalArgumentException("Invalid duration: "  + string + " (max long value exceeded by " + digits + ")");
 					}
+
 					digits.setLength(0);
 				}
 				if(preDurationPoint >= 0)
@@ -101,29 +96,22 @@ public class Duration
 					if(c == 'S')
 					{
 						if(!separatorSeen)
-						{
-							throw new IllegalArgumentException("Invalid duration: " + string
-							+ "(seconds specified before date/time separator 'T' seen)");
-						}
+							throw new IllegalArgumentException("Invalid duration: " + string + "(seconds specified before date/time separator 'T' seen)");
+
 						if(seconds != -1)
-						{
-							throw new IllegalArgumentException("Invalid duration: " + string
-							+ " (seconds specified twice)");
-						}
+							throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified twice)");
+
 						seconds = preDurationPoint;
 						preDurationPoint = -1;
 					}
 					else
 					{
-						throw new IllegalArgumentException("Invalid duration: " + string
-						+ " (Duration point not allowed here: "
-						+ preDurationPoint + "." + digits + c + ")");
+						throw new IllegalArgumentException("Invalid duration: " + string + " (Duration point not allowed here: " + preDurationPoint + "." + digits + c + ")");
 					}
 				}
-				else if(l > java.lang.Integer.MAX_VALUE)
+				else if(l > Integer.MAX_VALUE)
 				{
-					throw new IllegalArgumentException("Invalid duration: " + string
-					+ " (max integer value exceeded by " + digits + ")");
+					throw new IllegalArgumentException("Invalid duration: " + string + " (max integer value exceeded by " + digits + ")");
 				}
 				else
 				{
@@ -135,105 +123,78 @@ public class Duration
 					else if(separatorSeen)
 					{
 						if(c == 'Y'  ||  c == 'D')
-						{
-							throw new IllegalArgumentException("Invalid duration: " + string
-							+ " (years or days of month specified after date/time separator 'T' seen)");
-						}
-						else if(c == 'S')
+							throw new IllegalArgumentException("Invalid duration: " + string + " (years or days of month specified after date/time separator 'T' seen)");
+
+						if(c == 'S')
 						{
 							if(seconds != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (seconds specified twice)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified twice)");
+
 							seconds = i;
 						}
 						else if(c == 'M')
 						{
 							if(minutes != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (minutes specified twice)");
-							}
-							else if(seconds != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (minutes specified after seconds)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (minutes specified twice)");
+
+							if(seconds != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (minutes specified after seconds)");
+
 							minutes = i;
 						}
 						else if(c == 'H')
 						{
 							if(hours != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (hours specified twice)");
-							}
-							else if(minutes != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (hours specified after minutes)");
-							}
-							else if(seconds != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (seconds specified after minutes)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (hours specified twice)");
+
+							if(minutes != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (hours specified after minutes)");
+
+							if(seconds != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified after minutes)");
+
 							hours = i;
 						}
 					}
 					else
 					{
 						if(c == 'H'  ||  c == 'S')
-						{
-							throw new IllegalArgumentException("Invalid duration: " + string
-							+ " (hours or seconds specified before date/time separator 'T' seen)");
-						}
-						else if(c == 'Y')
+							throw new IllegalArgumentException("Invalid duration: " + string + " (hours or seconds specified before date/time separator 'T' seen)");
+
+						if(c == 'Y')
 						{
 							if(years != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (years specified twice)");
-							}
-							else if(months != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (years specified after months)");
-							}
-							else if(daysOfMonth != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (years specified after days of month)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified twice)");
+
+							if(months != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified after months)");
+
+							if(daysOfMonth != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified after days of month)");
+
 							years = i;
 						}
 						else if(c == 'M')
 						{
 							if(months != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (months specified twice)");
-							}
-							else if(daysOfMonth != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (days of month specified after months)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (months specified twice)");
+
+							if(daysOfMonth != -1)
+								throw new IllegalArgumentException("Invalid duration: " + string + " (days of month specified after months)");
+
 							months = i;
 						}
 						else if(c == 'D')
 						{
 							if(daysOfMonth != -1)
-							{
-								throw new IllegalArgumentException("Invalid duration: " + string
-								+ " (days of month specified twice)");
-							}
+								throw new IllegalArgumentException("Invalid duration: " + string + " (days of month specified twice)");
+
 							daysOfMonth = i;
 						}
 					}
 				}
 			}
+
 			++offset;
 		}
 
@@ -302,13 +263,13 @@ public class Duration
 
 	public String toString()
 	{
-		StringBuffer stringBuffer = null;
+		final StringBuffer stringBuffer;
 		if(isNegative)
 			stringBuffer = new StringBuffer("-");
 		else
 			stringBuffer = new StringBuffer();
 
-		stringBuffer.append(java.lang.String.valueOf(P));
+		stringBuffer.append(String.valueOf(P));
 		if(this.value.getYear() != -1)
 		{
 			if(this.value.getYear() != 0)

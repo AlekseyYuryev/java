@@ -20,7 +20,7 @@ import java.io.FileFilter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.io.Files;
@@ -67,6 +67,41 @@ public class JavaProjectMojo extends CodeGuideMojo
 		}
 	};
 
+	private static Set<GroupArtifact> filterProjectReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> inlcudes, Set<GroupArtifact> excludes)
+	{
+		if(dependencies == null)
+			return null;
+
+		final Set<GroupArtifact> filteredReferences = new HashSet<GroupArtifact>();
+		if(inlcudes != null)
+		{
+			if(excludes != null)
+			{
+				for(GroupArtifact dependency : dependencies)
+					if(inlcudes.contains(dependency) && !excludes.contains(dependency))
+						filteredReferences.add(dependency);
+			}
+			else
+			{
+				for(GroupArtifact dependency : dependencies)
+					if(inlcudes.contains(dependency))
+						filteredReferences.add(dependency);
+			}
+		}
+		else if(excludes != null)
+		{
+			for(GroupArtifact dependency : dependencies)
+				if(!excludes.contains(dependency))
+					filteredReferences.add(dependency);
+		}
+		else
+		{
+			filteredReferences.addAll(dependencies);
+		}
+
+		return filteredReferences;
+	}
+
 	private Set<File> findSources()
 	{
 		final Set<File> sourceFiles = new HashSet<File>();
@@ -112,7 +147,7 @@ public class JavaProjectMojo extends CodeGuideMojo
 		return resourceFiles;
 	}
 
-	private static Set<File> filterClasspathReferences(ArtifactRepository localRepository, String repositoryPath, Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes)
+	private Set<File> filterClasspathReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes)
 	{
 		if(dependencies == null)
 			return null;
@@ -122,63 +157,46 @@ public class JavaProjectMojo extends CodeGuideMojo
 		{
 			for(GroupArtifact dependency : dependencies)
 				if(!excludes.contains(dependency))
-					addJarAndSourceDependency(filteredDependencies, DependencyMojo.getFile(dependency, localRepository, repositoryPath));
+					addJarAndSourceDependency(filteredDependencies, dependency);
 		}
 		else
 		{
 			for(GroupArtifact dependency : dependencies)
-				addJarAndSourceDependency(filteredDependencies, DependencyMojo.getFile(dependency, localRepository, repositoryPath));
+				addJarAndSourceDependency(filteredDependencies, dependency);
 		}
 
 		return filteredDependencies;
 	}
 
-	private static void addJarAndSourceDependency(Set<File> dependencies, File jarFile)
+	private void addJarAndSourceDependency(Set<File> dependencies, GroupArtifact dependency)
 	{
+		final File jarFile = DependencyMojo.getFile(dependency, getLocal(), getRepositoryPath());
 		final File sourceFile = new File(jarFile.getAbsolutePath().replace(".jar", "-sources.jar"));
+		// If the source file does not exist, try to download it
+		boolean sourcesExist = sourceFile.exists();
+		if(!sourcesExist)
+		{
+			try
+			{
+				final Artifact artifact = getFactory().createArtifact(dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion() + "-sources", dependency.getScope(), dependency.getType());
+				artifact.setBaseVersion(dependency.getVersion());
+				getResolver().resolve(artifact, getRemoteRepos(), getLocal());
+				sourcesExist = true;
+			}
+			catch(Exception e)
+			{
+			}
+		}
+
 		dependencies.add(jarFile);
-		dependencies.add(sourceFile);
+		if(sourcesExist)
+			dependencies.add(sourceFile);
 	}
 
-	private static Set<GroupArtifact> filterProjectReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> inlcudes, Set<GroupArtifact> excludes)
-	{
-		if(dependencies == null)
-			return null;
-
-		final Set<GroupArtifact> filteredReferences = new HashSet<GroupArtifact>();
-		if(inlcudes != null)
-		{
-			if(excludes != null)
-			{
-				for(GroupArtifact dependency : dependencies)
-					if(inlcudes.contains(dependency) && !excludes.contains(dependency))
-						filteredReferences.add(dependency);
-			}
-			else
-			{
-				for(GroupArtifact dependency : dependencies)
-					if(inlcudes.contains(dependency))
-						filteredReferences.add(dependency);
-			}
-		}
-		else if(excludes != null)
-		{
-			for(GroupArtifact dependency : dependencies)
-				if(!excludes.contains(dependency))
-					filteredReferences.add(dependency);
-		}
-		else
-		{
-			filteredReferences.addAll(dependencies);
-		}
-
-		return filteredReferences;
-	}
-
-	private static void resolveDependencies(ArtifactRepository localRepository, String repositoryPath, JavaProject project, StateManager stateManager)
+	private void resolveDependencies(JavaProject project, StateManager stateManager)
 	{
 		// Filter the classpath reference by excluding the other projects
-		final Set<File> filteredDependencies = filterClasspathReferences(localRepository, repositoryPath, project.getDependencies(), stateManager.getGroupArtifacts());
+		final Set<File> filteredDependencies = filterClasspathReferences(project.getDependencies(), stateManager.getGroupArtifacts());
 		project.setClasspathReferences(filteredDependencies);
 
 		final Set<GroupArtifact> excludes = new HashSet<GroupArtifact>();
@@ -234,7 +252,7 @@ public class JavaProjectMojo extends CodeGuideMojo
 		{
 			for(JavaProject project : stateManager.getJavaProjects())
 			{
-				resolveDependencies(getLocal(), getRepositoryPath(), project, stateManager);
+				resolveDependencies(project, stateManager);
 				JavaProjectWriter.write(project);
 			}
 		}

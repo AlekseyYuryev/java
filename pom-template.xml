@@ -278,9 +278,9 @@
 				<version>1.0-alpha-2</version>
 			</dependency>
 			<dependency>
-				<artifactId>plexus-utils</artifactId>
 				<groupId>org.codehaus.plexus</groupId>
-				<version>1.5.1</version>
+				<artifactId>plexus-utils</artifactId>
+				<version>1.5.5</version>
 			</dependency>
 			<dependency>
 				<groupId>xalan</groupId>
@@ -337,7 +337,7 @@
 					<minimumTokens>100</minimumTokens>
 				</configuration>
 			</plugin>
-			<!-- Removing because there are permission issues with svn
+<!-- Removing because there are permission issues with svn
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changelog-maven-plugin</artifactId>

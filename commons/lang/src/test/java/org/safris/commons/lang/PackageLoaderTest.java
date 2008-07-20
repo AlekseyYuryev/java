@@ -15,6 +15,8 @@
 
 package org.safris.commons.lang;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 import sun.reflect.Reflection;
 
@@ -48,27 +50,32 @@ public class PackageLoaderTest
 	@Test
 	public void testPackageLoader() throws Exception
 	{
-		assertFalse(isClassLoaded("org.junit.experimental.results.ResultMatchers"));
-		assertFalse(isClassLoaded("org.junit.experimental.theories.internal.TheoryMethod"));
-		assertFalse(isClassLoaded("org.junit.experimental.theories.suppliers.TestedOnSupplier"));
-		assertFalse(isClassLoaded("org.junit.matchers.Each"));
-		assertFalse(isClassLoaded("org.junit.runners.Enclosed"));
-		assertFalse(isClassLoaded("org.junit.runners.Parameterized"));
-		assertFalse(isClassLoaded("org.junit.runners.Suite"));
-		assertFalse(isClassLoaded("org.junit.PackageLoaderClass1"));
-		assertFalse(isClassLoaded("org.junit.PackageLoaderClass2"));
-		assertFalse(isClassLoaded("org.junit.PackageLoaderClass3"));
-		PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
-		assertTrue(isClassLoaded("org.junit.experimental.results.ResultMatchers"));
-		assertTrue(isClassLoaded("org.junit.experimental.theories.internal.TheoryMethod"));
-		assertTrue(isClassLoaded("org.junit.experimental.theories.suppliers.TestedOnSupplier"));
-		assertTrue(isClassLoaded("org.junit.matchers.Each"));
-		assertTrue(isClassLoaded("org.junit.runners.Enclosed"));
-		assertTrue(isClassLoaded("org.junit.runners.Parameterized"));
-		assertTrue(isClassLoaded("org.junit.runners.Suite"));
-		assertTrue(isClassLoaded("org.junit.PackageLoaderClass1"));
-		assertTrue(isClassLoaded("org.junit.PackageLoaderClass2"));
-		assertTrue(isClassLoaded("org.junit.PackageLoaderClass3"));
+		final String[] testClasses = new String[]{
+			"org.junit.experimental.results.ResultMatchers",
+			"org.junit.experimental.theories.internal.TheoryMethod",
+			"org.junit.experimental.theories.suppliers.TestedOnSupplier",
+			"org.junit.matchers.Each",
+			"org.junit.runners.Enclosed",
+			"org.junit.runners.Parameterized",
+			"org.junit.runners.Suite",
+			"org.junit.PackageLoaderClass1",
+			"org.junit.PackageLoaderClass2",
+			"org.junit.PackageLoaderClass3"
+		};
+
+		for(String testClass : testClasses)
+			assertFalse(isClassLoaded(testClass));
+
+		final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
+		final Set<String> classNames = new HashSet<String>();
+		for(Class<?> loadedClass : loadedClasses)
+			classNames.add(loadedClass.getName());
+
+		for(String testClass : testClasses)
+		{
+			assertTrue(classNames.contains(testClass));
+			assertTrue(isClassLoaded(testClass));
+		}
 
 		try
 		{

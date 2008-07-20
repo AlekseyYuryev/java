@@ -23,14 +23,18 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * This utility class is for loading all of the classes in a package.
+ * This utility class is for loading classes in a package.
  *
  * @author Seva Safris
- * @version 1.3
+ * @version 1.4
  */
 public abstract class PackageLoader extends ClassLoader
 {
@@ -52,7 +56,23 @@ public abstract class PackageLoader extends ClassLoader
 	{
 	}
 
-	public void loadPackage(String name) throws ClassNotFoundException, PackageNotFoundException
+	/**
+	 * This method will call Class.forName() and initialize each class in a
+	 * given package. This method will search for all existing package resources
+	 * in all elements of the classpath. If the package exists in multiple
+	 * classpath locations, such as a couple of jar files and a directory, each
+	 * of the classpath references will be used to load all classes in each
+	 * resource. This method will search for all classpath entries in all class
+	 * loaders.
+	 *
+	 * @param		name	The name of the package.
+	 *
+	 * @return		A set of all classes for which Class.forName() was called.
+	 *
+	 * @exception	PackageNotFoundException	Gets thrown for a package name
+	 * that cannot be found in any classpath resources.
+	 */
+	public Set<Class<?>> loadPackage(String name) throws PackageNotFoundException
 	{
 		if(name == null || name.length() == 0)
 			throw new PackageNotFoundException(name);
@@ -78,6 +98,7 @@ public abstract class PackageLoader extends ClassLoader
 		if(resources == null)
 			throw new PackageNotFoundException(name);
 
+		final Set<Class<?>> loadedClasses = new HashSet<Class<?>>();
 		while(resources.hasMoreElements())
 		{
 			final Resource resource = resources.nextElement();
@@ -85,6 +106,7 @@ public abstract class PackageLoader extends ClassLoader
 			final ClassLoader classLoader = resource.getClassLoader();
 			synchronized(classLoader)
 			{
+				final Map<String,ClassLoader> classesToLoad = new HashMap<String,ClassLoader>();
 				String decodedUrl;
 				try
 				{
@@ -103,8 +125,8 @@ public abstract class PackageLoader extends ClassLoader
 					String className = null;
 					for(File file : files)
 					{
-						className = file.getName().substring(0, file.getName().length() - 6);
-						Class.forName(name + "." + className, true, classLoader);
+						className = name + "." + file.getName().substring(0, file.getName().length() - 6);
+						classesToLoad.put(className, classLoader);
 					}
 				}
 				else
@@ -136,10 +158,23 @@ public abstract class PackageLoader extends ClassLoader
 							className = className.substring(1);
 
 						className = className.replace('/', '.');
-						Class.forName(className, true, classLoader);
+						classesToLoad.put(className, classLoader);
+					}
+				}
+
+				for(Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet())
+				{
+					try
+					{
+						loadedClasses.add(Class.forName(entry.getKey(), true, entry.getValue()));
+					}
+					catch(ClassNotFoundException e)
+					{
 					}
 				}
 			}
 		}
+
+		return loadedClasses;
 	}
 }

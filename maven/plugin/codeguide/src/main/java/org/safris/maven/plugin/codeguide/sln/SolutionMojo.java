@@ -24,7 +24,7 @@ import org.safris.maven.plugin.codeguide.javaproj.JavaProjectMojo;
  * @requiresDependencyResolution test
  * @phase process-test-sources
  */
-public class SolutionMojo extends JavaProjectMojo
+public final class SolutionMojo extends JavaProjectMojo
 {
 	public void execute() throws MojoExecutionException
 	{
