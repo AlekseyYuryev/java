@@ -24,29 +24,32 @@ public class HexBinary
 		if(string == null)
 			return null;
 
+		if(string.length() % 2 != 0)
+			throw new IllegalArgumentException("odd hex string length");
+
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		for(int i = 0; i < string.length(); i += 2)
 		{
-			char c1 = string.charAt(i);
+			final char c1 = string.charAt(i);
 			if(i + 1 >= string.length())
 				throw new IllegalArgumentException();
 
-			char c2 = string.charAt(i + 1);
+			final char c2 = string.charAt(i + 1);
 			byte b = 0;
-			if(c1 >= '0' && c1 <= '9')
+			if('0' <= c1 && c1 <= '9')
 				b += ((c1 - '0') * 16);
-			else if(c1 >= 'a' && c1 <= 'f')
+			else if('a' <= c1 && c1 <= 'f')
 				b += ((c1 - 'a' + 10) * 16);
-			else if(c1 >= 'A' && c1 <= 'F')
+			else if('A' <= c1 && c1 <= 'F')
 				b += ((c1 - 'A' + 10) * 16);
 			else
 				throw new IllegalArgumentException("bad characted in hex string");
 
-			if(c2 >= '0' && c2 <= '9')
+			if('0' <= c2 && c2 <= '9')
 				b += (c2 - '0');
-			else if(c2 >= 'a' && c2 <= 'f')
+			else if('a' <= c2 && c2 <= 'f')
 				b += (c2 - 'a' + 10);
-			else if(c2 >= 'A' && c2 <= 'F')
+			else if('A' <= c2 && c2 <= 'F')
 				b += (c2 - 'A' + 10);
 			else
 				throw new IllegalArgumentException("bad characted in hex string");
@@ -61,7 +64,7 @@ public class HexBinary
 	{
 		value &= 0x0f;
 		if(value >= 10)
-			return ((char)(value - 10 + 'a'));
+			return ((char)(value - 10 + 'A'));
 		else
 			return ((char)(value + '0'));
 	}
@@ -82,6 +85,16 @@ public class HexBinary
 		this.encoded = buffer.toString();
 	}
 
+	public byte[] getBytes()
+	{
+		return bytes;
+	}
+
+	/**
+	 * Returns the hex string representation of this object's byte[] data.
+	 *
+	 * @return	The hex string.
+	 */
 	public String toString()
 	{
 		return encoded;
