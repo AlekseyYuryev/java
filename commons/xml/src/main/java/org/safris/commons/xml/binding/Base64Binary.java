@@ -50,6 +50,11 @@ public final class Base64Binary
 		this.encoded = new BASE64Encoder().encodeBuffer(bytes);
 	}
 
+	public byte[] getBytes()
+	{
+		return bytes;
+	}
+
 	public boolean equals(Object obj)
 	{
 		if(this == obj)
@@ -62,6 +67,11 @@ public final class Base64Binary
 		return encoded.equals(that.encoded);
 	}
 
+	/**
+	 * Returns the base64 string representation of this object's byte[] data.
+	 *
+	 * @return	The base64 string.
+	 */
 	public String toString()
 	{
 		return encoded;
