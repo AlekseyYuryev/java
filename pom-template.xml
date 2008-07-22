@@ -337,7 +337,7 @@
 					<minimumTokens>100</minimumTokens>
 				</configuration>
 			</plugin>
-<!-- Removing because there are permission issues with svn
+			<!-- Removing because there are permission issues with svn
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>changelog-maven-plugin</artifactId>
@@ -357,4 +357,28 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>snapshots</id>
+			<name>Maven Central Plugins Development Repository</name>
+			<url>http://snapshots.maven.codehaus.org/maven2</url>
+		</pluginRepository>
+		<pluginRepository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<id>apache.snapshots</id>
+			<name>Apache Development Repository</name>
+			<url>http://cvs.apache.org/maven-snapshot-repository</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
