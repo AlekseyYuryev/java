@@ -58,6 +58,17 @@
 			</build>
 		</profile>
 	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<excludeModules>test</excludeModules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<modules>
 		<module>generator</module>
 		<module>toolkit</module>

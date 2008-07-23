@@ -95,7 +95,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 			return;
 
 		String accessibility;
-		if(plan instanceof EnumerablePlan && ((EnumerablePlan)plan).hasEnumerations())
+		if(plan instanceof EnumerablePlan && ((EnumerablePlan)plan).hasEnumerations() && !plan.isUnionWithNonEnumeration())
 		{
 			accessibility = "protected ";
 		}
@@ -107,14 +107,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 			accessibility = "public ";
 		}
 
-		writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeItemClassNameInterface() + " text)\n");
+		writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
 		writer.write("{\n");
 		writer.write("super(text);\n");
 		writer.write("}\n");
 
 		if(plan.isList())
 		{
-			writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeItemClassName() + " ... text)\n");
+			writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeNonEnumItemClassName() + " ... text)\n");
 			writer.write("{\n");
 			writer.write("super(" + Arrays.class.getName()+ ".asList(text));\n");
 			writer.write("}\n");
@@ -329,6 +329,11 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("super(copy);\n");
 		writer.write("}\n");
 
+		if(plan.getName().getLocalPart().contains("maxActive"))
+		{
+			int i = 0;
+		}
+
 		// ENUMERATIONS CONSTRUCTOR
 		getRestrictions(writer, plan, parent);
 
@@ -378,6 +383,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 					writer.write("{\n");
 					writer.write("super.setText(restriction.text);\n");
 					writer.write("}\n");
+
+					if(plan.isUnionWithNonEnumeration())
+					{
+						writer.write("public void setText(" + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
+						writer.write("{\n");
+						writer.write("super.setText(text);\n");
+						writer.write("}\n");
+					}
 				}
 			}
 			else

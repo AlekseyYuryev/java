@@ -230,6 +230,11 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			writer.write(((AttributePlan)attribute).getFixedInstanceCall(plan));
 		writer.write("}\n");
 
+		if(plan.getName().getLocalPart().contains("four"))
+		{
+			int i = 0;
+		}
+
 		// MIXED CONSTRUCTOR
 		if(!plan.isComplexType() || (plan.getMixed() == null && plan.getMixedType()) || (plan.getMixed() != null && plan.getMixed()))
 		{
@@ -252,7 +257,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			}
 			else if(plan.getNativeItemClassNameInterface() != null)
 			{
-				if(plan.hasEnumerations() && plan.isList())
+				if(plan.hasEnumerations())
 				{
 					boolean hasSuperEnumerations = ((EnumerablePlan)plan).hasSuperEnumerations();
 					final String restrictionClassName;
@@ -261,21 +266,51 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 					else
 						restrictionClassName = "RESTRICTION";
 
-					writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
-					writer.write("{\n");
-					writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-					writer.write("for(" + restrictionClassName + " temp : text)\n");
-					writer.write("if(temp != null)\n");
-					writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
-					writer.write("}\n");
+					if(plan.isList())
+					{
 
-					writer.write("public void setText(" + restrictionClassName + " ... text)\n");
-					writer.write("{\n");
-					writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-					writer.write("for(" + restrictionClassName + " temp : text)\n");
-					writer.write("if(temp != null)\n");
-					writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
-					writer.write("}\n");
+						writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
+						writer.write("{\n");
+						writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+						writer.write("for(" + restrictionClassName + " temp : text)\n");
+						writer.write("if(temp != null)\n");
+						writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+						writer.write("}\n");
+
+						writer.write("public void setText(" + restrictionClassName + " ... text)\n");
+						writer.write("{\n");
+						writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+						writer.write("for(" + restrictionClassName + " temp : text)\n");
+						writer.write("if(temp != null)\n");
+						writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+						writer.write("}\n");
+
+						if(plan.isUnionWithNonEnumeration())
+						{
+							writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + "> text)\n");
+							writer.write("{\n");
+							writer.write("super.setText(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
+							writer.write("for(" + restrictionClassName + " temp : text)\n");
+							writer.write("if(temp != null)\n");
+							writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+							writer.write("}\n");
+						}
+					}
+					else
+					{
+						writer.write("public void setText(" + restrictionClassName + " restriction)\n");
+						writer.write("{\n");
+						writer.write("super.setText(restriction.text);\n");
+						writer.write("}\n");
+
+						if(plan.isUnionWithNonEnumeration())
+						{
+							writer.write("public void setText(" + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
+							writer.write("{\n");
+							writer.write("super.setText(text);\n");
+							writer.write("}\n");
+						}
+					}
 				}
 				else
 				{

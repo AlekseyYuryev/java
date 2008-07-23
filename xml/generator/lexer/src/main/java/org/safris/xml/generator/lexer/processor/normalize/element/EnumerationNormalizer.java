@@ -49,10 +49,11 @@ public class EnumerationNormalizer extends Normalizer<EnumerationModel>
 		Model parent = model;
 		while((parent = parent.getParent()) != null)
 		{
-			if(parent instanceof EnumerableModel && parent instanceof Nameable && ((Nameable)parent).getName() != null)
+			if(parent instanceof EnumerableModel && parent instanceof Nameable)
 			{
 				((EnumerableModel)parent).addEnumeration(model);
-				break;
+				if(((Nameable)parent).getName() != null)
+					break;
 			}
 		}
 	}

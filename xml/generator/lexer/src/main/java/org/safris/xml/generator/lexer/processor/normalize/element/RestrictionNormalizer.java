@@ -18,10 +18,12 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.AttributableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
+import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
@@ -34,7 +36,6 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 
 public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 {
@@ -102,7 +103,13 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel>
 
 				if(parent instanceof UnionModel)
 				{
-					((UnionModel)parent).getMemberTypes().add(base);
+					// NOTE: We do not pass the SimpleTypeModel.Undefined
+					// NOTE: version of this element because it will be modified
+					// NOTE: later to add enumerations, which would end up
+					// NOTE: modifying ALL such SimpleTypeModel.Undefined
+					// NOTE: references.
+//					((NamedModel)model.getParent()).setName(base.getName());
+					((UnionModel)parent).getMemberTypes().add((SimpleTypeModel)model.getParent());
 					break;
 				}
 			}

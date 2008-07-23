@@ -121,7 +121,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
 	public final void addEnumeration(EnumerationModel enumeration)
 	{
 		if(!enumerations.contains(enumeration))
-			this.enumerations.add(enumeration);
+			enumerations.add(enumeration);
 	}
 
 	public final LinkedHashSet<EnumerationModel> getEnumerations()

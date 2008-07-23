@@ -39,6 +39,7 @@ import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
+import java.lang.reflect.InvocationTargetException;
 
 public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan
 {
@@ -183,7 +184,10 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 
 		String _default = XSTypeDirectory.QNAME.getNativeBinding().getName().equals(getBaseXSItemTypeName()) ? getDefault().toString() : getDefault().getLocalPart();
 		if(hasEnumerations())
-			_default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
+		{
+			if(!isUnionWithNonEnumeration() || !testNativeFactory(getNativeFactory(), _default))
+				_default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
+		}
 		else
 			_default = "\"" + _default + "\"";
 
@@ -194,6 +198,27 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 			defaultInstance += "" + _default + ")";
 
 		return defaultInstance;
+	}
+
+	private static boolean testNativeFactory(String nativeFactory, String defaultValue)
+	{
+		final int index = nativeFactory.lastIndexOf(".");
+		final String nativeFactoryClass = nativeFactory.substring(0, index);
+		final String nativeFactoryMethod = nativeFactory.substring(index + 1);
+		try
+		{
+			Class.forName(nativeFactoryClass).getMethod(nativeFactoryMethod, String.class).invoke(null, defaultValue);
+		}
+		catch(InvocationTargetException e)
+		{
+			return false;
+		}
+		catch(Exception e)
+		{
+			throw new CompilerError(e);
+		}
+
+		return true;
 	}
 
 	public final boolean isComplexType()

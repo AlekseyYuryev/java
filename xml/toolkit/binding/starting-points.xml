@@ -48,7 +48,7 @@
 		<workingDir>..\..\test\binding\</workingDir>
 	</startingPoint>
 	<startingPoint>
-		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/test/resources/xsd/id.xsd</commandLineArguments>
+		<commandLineArguments>--overwrite --explodeJars -d target/generated-sources/xmlbinding src/main/resources/xsd/id.xsd</commandLineArguments>
 		<name>Generator id.xsd</name>
 		<target>org.safris.xml.toolkit.binding.Generator</target>
 		<vmOtherOptions/>

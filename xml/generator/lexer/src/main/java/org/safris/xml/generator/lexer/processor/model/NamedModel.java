@@ -17,6 +17,7 @@ package org.safris.xml.generator.lexer.processor.model;
 
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
+import org.safris.xml.generator.lexer.processor.model.element.RestrictionModel;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -61,13 +62,38 @@ public abstract class NamedModel extends Model implements Nameable<Model>
 		return name != null ? name.equals(that.name) : that.name == null;
 	}
 
+	// FIXME: This is dirty!!
+	public static UniqueQName getNameOfRestrictionBase(NamedModel model)
+	{
+		if(model == null)
+			return null;
+
+		for(Model child : model.getChildren())
+		{
+			if(!(child instanceof RestrictionModel))
+				continue;
+
+			return ((RestrictionModel)child).getBase().getName();
+		}
+
+		return null;
+	}
+
 	public int hashCode()
 	{
+		UniqueQName name = this.name;
+		if(name == null)
+			name = getNameOfRestrictionBase(this);
+
 		return 3 * (name != null ? name.hashCode() : -1);
 	}
 
 	public String toString()
 	{
+		UniqueQName name = this.name;
+		if(name == null)
+			name = getNameOfRestrictionBase(this);
+
 		if(name == null)
 			return super.toString();
 
