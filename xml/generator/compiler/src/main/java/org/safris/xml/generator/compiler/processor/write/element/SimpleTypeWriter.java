@@ -116,7 +116,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		{
 			writer.write(accessibility + plan.getClassSimpleName() + "(" + plan.getNativeNonEnumItemClassName() + " ... text)\n");
 			writer.write("{\n");
-			writer.write("super(" + Arrays.class.getName()+ ".asList(text));\n");
+			writer.write("super(" + Arrays.class.getName() + ".asList(text));\n");
 			writer.write("}\n");
 
 		}
@@ -166,10 +166,21 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T>
 		writer.write("protected RESTRICTION(" + String.class.getName() + " text)\n");
 		writer.write("{\n");
 
+		if("indefiniteType".equals(plan.getName().getLocalPart()))
+		{
+			int i = 0;
+		}
 		if(hasSuperEnumerations)
 			writer.write("super(text);\n");
 		else if(hasEnumerations)
-			writer.write("this.text = " + (plan.getNativeFactory() != null ? plan.getNativeFactory() + "(text)" : "text") + ";\n");
+		{
+			if(plan.getNativeFactory() != null)
+			{
+				writer.write("this.text = " + plan.getNativeFactory() + "(text);\n");
+			}
+			else
+				writer.write("this.text = text;\n");
+		}
 
 		writer.write("}\n");
 

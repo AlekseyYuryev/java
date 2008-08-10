@@ -20,6 +20,8 @@ import com.omnicore.javaproject3.jp_javaProject3;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMStyle;
@@ -77,18 +79,38 @@ public class JavaProjectWriter
 		return entry;
 	}
 
+	private static final String resourceBasePackage = "src/????/resources/";
+	private static final jp_javaProject3._includedFiles._javaFile2._buildAction COMPILE_ACTION = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.COMPILE);
+	private static final jp_javaProject3._includedFiles._javaFile2._buildAction COPY_ACTION = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.COPY);
+
 	private static jp_javaProject3._includedFiles createIncludedFiles(JavaProject javaProject)
 	{
 		// Add the source files
 		final jp_javaProject3._includedFiles includedFiles = new jp_javaProject3._includedFiles();
-		final jp_javaProject3._includedFiles._javaFile2._buildAction compileAction = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.COMPILE);
 		for(File sourceFile : javaProject.getSourceFiles())
-			includedFiles.add_javaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), sourceFile), compileAction));
+			includedFiles.add_javaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), sourceFile), COMPILE_ACTION));
 
 		// Add the resource files
-		final jp_javaProject3._includedFiles._javaFile2._buildAction noneAction = new jp_javaProject3._includedFiles._javaFile2._buildAction(jp_javaProject3._includedFiles._javaFile2._buildAction.NONE);
+		// Filter the resources and set the test resources as highest priority
+		final Map<String,File> resourceFiles = new HashMap<String,File>();
 		for(File resourceFile : javaProject.getResourceFiles())
-			includedFiles.add_javaFile2(createJavaFile2(Files.relativePath(javaProject.getDir(), resourceFile), noneAction));
+		{
+			final String path = Files.relativePath(javaProject.getDir(), resourceFile);
+			final String resourceName = path.substring(8);
+			final String build = path.substring(4, 8);
+			if(!resourceFiles.containsKey(resourceName) || "test".equals(build))
+				resourceFiles.put(resourceName, resourceFile);
+		}
+
+		// Add the resources to the project
+		for(File resourceFile : resourceFiles.values())
+		{
+			final String dirPath = Files.relativePath(javaProject.getDir(), resourceFile.getParentFile());
+			final jp_javaProject3._includedFiles._javaFile2 javaFile2 = createJavaFile2(Files.relativePath(javaProject.getDir(), resourceFile), COPY_ACTION);
+			final String _package = dirPath.length() > resourceBasePackage.length() ? dirPath.substring(resourceBasePackage.length()) : null;
+			javaFile2.add_packageNameForResource(new jp_javaProject3._includedFiles._javaFile2._packageNameForResource(_package));
+			includedFiles.add_javaFile2(javaFile2);
+		}
 
 		return includedFiles;
 	}

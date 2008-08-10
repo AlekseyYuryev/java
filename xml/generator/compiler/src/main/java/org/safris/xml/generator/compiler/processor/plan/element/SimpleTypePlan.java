@@ -172,6 +172,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	private String nativeImplementation = null;
 	private String nativeNonEnumImplementation = null;
 	private String nativeFactory = null;
+	private String nonEnumNativeFactory = null;
 	private boolean list = false;
 	private String baseNonXSTypeClassName = null;
 
@@ -257,7 +258,8 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 			nativeNonEnumItemClassName = baseXSNonEnumItemTypeDirectory.getNativeBinding().getNativeClass().getCls().getName();
 		}
 
-		nativeFactory = baseXSNonEnumItemTypeDirectory.getNativeFactory();
+		nativeFactory = baseXSItemTypeDirectory.getNativeFactory();
+		nonEnumNativeFactory = baseXSNonEnumItemTypeDirectory.getNativeFactory();
 		if(isList())
 		{
 			nativeInterface = List.class.getName() + "<" + nativeItemClassName + ">";
@@ -338,6 +340,11 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 	public final String getNativeFactory()
 	{
 		return nativeFactory;
+	}
+
+	public final String getNativeFactoryNonEnum()
+	{
+		return nonEnumNativeFactory;
 	}
 
 	public String getSuperClassNameWithoutType()

@@ -39,31 +39,18 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 public class JavaProjectMojo extends CodeGuideMojo
 {
 	private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
+	private static final FileFilter resourceFileFilter = new FileFilter()
+	{
+		public boolean accept(File pathname)
+		{
+			return !pathname.isDirectory() && !pathname.getAbsolutePath().contains(".svn");
+		}
+	};
 	private static final FileFilter sourceFileFilter = new FileFilter()
 	{
 		public boolean accept(File pathname)
 		{
 			return pathname.getName().endsWith(".java");
-		}
-	};
-
-	private static final FileFilter resourceFileFilter = new FileFilter()
-	{
-		private final String[] includes = new String[]
-		{
-			".xml",
-			".xsd",
-			".dtd",
-			".txt"
-		};
-
-		public boolean accept(File pathname)
-		{
-			for(String include : includes)
-				if(pathname.getName().endsWith(include))
-					return true;
-
-			return false;
 		}
 	};
 

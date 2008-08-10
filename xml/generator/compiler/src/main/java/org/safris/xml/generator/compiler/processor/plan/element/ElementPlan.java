@@ -185,7 +185,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 		String _default = XSTypeDirectory.QNAME.getNativeBinding().getName().equals(getBaseXSItemTypeName()) ? getDefault().toString() : getDefault().getLocalPart();
 		if(hasEnumerations())
 		{
-			if(!isUnionWithNonEnumeration() || !testNativeFactory(getNativeFactory(), _default))
+			if(!isUnionWithNonEnumeration() || !testNativeFactory(getNativeFactoryNonEnum(), _default))
 				_default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
 		}
 		else
