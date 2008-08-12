@@ -216,23 +216,19 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 		Class<? extends Binding> classBinding = null;
 		try
 		{
-			if(defaultClass == null)
-			{
-				classBinding = lookupElement(new QName(namespaceURI, localName));
-				if(classBinding == null)
-				{
-					if(namespaceURI != null)
-						throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
-					else
-						throw new ParseException("Unable to find class binding for <" + localName + "/>");
-				}
-			}
-			else
+			if(defaultClass != null)
 				classBinding = defaultClass;
+			else
+				classBinding = lookupElement(new QName(namespaceURI, localName));
 
-			final Constructor constructor = classBinding.getDeclaredConstructor();
-			constructor.setAccessible(true);
-			Binding binding = (Binding)constructor.newInstance();
+			Binding binding = null;
+			if(classBinding != null)
+			{
+				final Constructor constructor = classBinding.getDeclaredConstructor();
+				constructor.setAccessible(true);
+				binding = (Binding)constructor.newInstance();
+			}
+
 			if(xsiTypeName != null)
 			{
 				namespaceURI = node.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
@@ -258,6 +254,14 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 				method.setAccessible(true);
 				binding = (Binding)method.invoke(null, binding);
+			}
+
+			if(binding == null)
+			{
+				if(namespaceURI != null)
+					throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
+				else
+					throw new ParseException("Unable to find class binding for <" + localName + "/>");
 			}
 
 			Binding.parse(binding, node);
