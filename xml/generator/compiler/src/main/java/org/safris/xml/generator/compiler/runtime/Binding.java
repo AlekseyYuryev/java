@@ -208,8 +208,6 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			{
 				xsiPrefix = parsePrefix(attribute.getNodeValue());
 				xsiTypeName = parseLocalName(attribute.getNodeValue());
-				if(xsiPrefix == null)
-					xsiPrefix = XMLNS.getLocalPart();
 			}
 		}
 
@@ -231,7 +229,9 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 
 			if(xsiTypeName != null)
 			{
-				namespaceURI = node.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
+				if(xsiPrefix != null)
+					namespaceURI = node.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
+
 				final Class<? extends Binding> xsiBinding = lookupType(new QName(namespaceURI, xsiTypeName));
 				if(xsiBinding == null)
 				{

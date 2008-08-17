@@ -36,10 +36,12 @@
 		<module>logging</module>
 		<module>pipeline</module>
 		<module>formatter</module>
+		<module>jndi</module>
 		<module>lang</module>
 		<module>math</module>
 		<module>el</module>
 		<module>cli</module>
+		<module>dbcp</module>
 		<module>bytecode</module>
 		<module>xml</module>
 		<module>expect</module>

@@ -23,7 +23,6 @@
 		<!--
 			<schema>${basedir}/src/test/resources/xsd/XMLSchema.xsd</schema>
 		-->
-		<schema>${basedir}/src/test/resources/xsd/dbcp.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/maven-v4_0_0.xsd</schema>
 		<schema>${basedir}/src/test/resources/xsd/xml.xsd</schema>
 
