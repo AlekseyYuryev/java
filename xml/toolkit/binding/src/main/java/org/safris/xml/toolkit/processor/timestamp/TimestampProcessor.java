@@ -66,4 +66,4 @@ public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProce
 
 		return null;
 	}
-}i have modified this file so do the pom-template.properties
+}
