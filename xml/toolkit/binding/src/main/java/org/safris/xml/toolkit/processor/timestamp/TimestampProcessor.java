@@ -18,11 +18,12 @@ package org.safris.xml.toolkit.processor.timestamp;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
+import java.util.List;
 import org.safris.commons.io.Files;
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
 public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProcessor<GeneratorContext,Bundle,Bundle>
@@ -51,14 +52,18 @@ public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProce
 	{
 		// Get the earliest lastModified time of all the files
 		long lastModified = Long.MAX_VALUE;
-		for(File file : Files.listAll(pipelineContext.getDestDir(), fileFilter))
-			if(file.lastModified() < lastModified)
-				lastModified = file.lastModified();
+		final List<File> files = Files.listAll(pipelineContext.getDestDir(), fileFilter);
+		if(files != null)
+			for(File file : files)
+				if(file.lastModified() < lastModified)
+					lastModified = file.lastModified();
 
 		// Set the lastModified time of all directories to just before the value from above
-		for(File dir : Files.listAll(pipelineContext.getDestDir(), dirFileFilter))
-			dir.setLastModified(lastModified - 100);
+		final List<File> dirs = Files.listAll(pipelineContext.getDestDir(), dirFileFilter);
+		if(dirs != null)
+			for(File dir : dirs)
+				dir.setLastModified(lastModified - 100);
 
 		return null;
 	}
-}
+}i have modified this file so do the pom-template.properties
