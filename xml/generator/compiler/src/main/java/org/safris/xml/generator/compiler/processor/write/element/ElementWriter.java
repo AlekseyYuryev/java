@@ -151,6 +151,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 		if(!plan.isNested())
 			writer.write("package " + plan.getPackageName() + ";\n");
 
+		writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
 		writer.write("public ");
 		if(plan.isNested())
 			writer.write("static ");

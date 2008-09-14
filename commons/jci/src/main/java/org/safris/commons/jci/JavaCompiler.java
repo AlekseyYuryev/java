@@ -136,10 +136,9 @@ public final class JavaCompiler
 		out.close();
 
 		int i = 0;
-		final String[] args = new String[8];
+		final String[] args = new String[7];
 		args[i++] = "javac";
-		args[i++] = "-Xmaxwarns";
-		args[i++] = "0";
+		args[i++] = "-Xlint:all";
 		args[i++] = "-d";
 		args[i++] = destDir.getAbsolutePath();
 		args[i++] = "-cp";

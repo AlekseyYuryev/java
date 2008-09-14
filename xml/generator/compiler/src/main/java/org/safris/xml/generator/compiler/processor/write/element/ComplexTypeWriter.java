@@ -84,6 +84,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 	{
 		writer.write("package " + plan.getPackageName() + ";\n");
 
+		writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
 		writer.write("public abstract class " + plan.getClassSimpleName() + "<T extends " + ComplexType.class.getName() + "> extends " + plan.getSuperClassNameWithType() + "\n");
 		writer.write("{\n");
 		writer.write("private static final " + QName.class.getName() + " NAME = new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\");\n");
