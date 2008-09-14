@@ -90,7 +90,7 @@ public class Time
 			throw new NullPointerException("null string");
 
 		if(string.length() == 0)
-			throw new IllegalArgumentException("empty string");
+			return null;
 
 		TimeZone timeZone = null;
 		int index = 0;

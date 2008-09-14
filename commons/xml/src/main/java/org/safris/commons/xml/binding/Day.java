@@ -17,6 +17,9 @@ package org.safris.commons.xml.binding;
 
 import java.util.TimeZone;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#gDay
+ */
 public class Day
 {
 	public static Day parseDay(String string)
@@ -24,24 +27,32 @@ public class Day
 		if(string == null)
 			throw new NullPointerException();
 
-		if(!string.startsWith("---") && string.length() < 4)
+		if(!string.startsWith("---") || string.length() < 5)
 			throw new IllegalArgumentException(string);
+
 
 		int index = 3;
-		char ch = string.charAt(index);
-		if(ch < '0' || '9' < ch)
+		final char ch = string.charAt(index);
+		final char ch2 = string.charAt(++index);
+		if(ch == '0')
+		{
+			if(ch2 < '1' || '9' < ch2)
+				throw new IllegalArgumentException(string);
+		}
+		else if(ch == '1' || ch == '2')
+		{
+			if(ch2 < '0' || '9' < ch2)
+				throw new IllegalArgumentException(string);
+		}
+		else if(ch == '3')
+		{
+			if(ch2 < '0' || '1' < ch2)
+				throw new IllegalArgumentException(string);
+		}
+		else
 			throw new IllegalArgumentException(string);
 
-		if(++index < string.length())
-		{
-			ch = string.charAt(index);
-			if('0' < ch && ch < '9')
-				index = index + 1;
-			else
-				index = index;
-		}
-
-		final String dayString = string.substring(3, index);
+		final String dayString = "" + ch + ch2;
 		int day;
 		try
 		{
@@ -57,7 +68,7 @@ public class Day
 
 		final TimeZone timeZone;
 		if(index < string.length())
-			timeZone = Time.parseTimeZone(string.substring(index));
+			timeZone = Time.parseTimeZone(string.substring(++index));
 		else
 			timeZone = null;
 
@@ -107,7 +118,12 @@ public class Day
 
 	public String toString()
 	{
-		final String string = "---" + day;
+		final String string;
+		if(day < 10)
+			string = "---0" + day;
+		else
+			string = "---" + day;
+
 		if(timeZone == null)
 			return string;
 

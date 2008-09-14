@@ -15,27 +15,103 @@
 
 package org.safris.commons.xml.binding;
 
-import java.util.StringTokenizer;
+import java.util.TimeZone;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#gMonth
+ */
 public class Month
 {
 	public static Month parseMonth(String string)
 	{
-		if(string == null || string.length() == 0)
-			return null;
+		if(string == null)
+			throw new NullPointerException();
 
-		int month = 1;
-		StringTokenizer tokenizer = new StringTokenizer(string.substring(2), "-");
-		if(tokenizer.hasMoreTokens())
-			month = Integer.parseInt(tokenizer.nextToken());
+		if(!string.startsWith("--") || string.length() < 4)
+			throw new IllegalArgumentException(string);
 
-		return new Month(month);
+		int index = 2;
+		final char ch = string.charAt(index);
+		final char ch2 = string.charAt(++index);
+		if(ch == '0')
+		{
+			if(ch2 < '1' || '9' < ch2)
+				throw new IllegalArgumentException(string);
+		}
+		else if(ch == '1')
+		{
+			if(ch2 < '0' || '2' < ch2)
+				throw new IllegalArgumentException(string);
+		}
+		else
+			throw new IllegalArgumentException(string);
+
+
+		final String monthString = "" + ch + ch2;
+		int month;
+		try
+		{
+			month = Integer.parseInt(monthString);
+		}
+		catch(NumberFormatException e)
+		{
+			throw new IllegalArgumentException(e);
+		}
+
+		final TimeZone timeZone = Time.parseTimeZone(string.substring(++index));
+		return new Month(month, timeZone);
 	}
 
 	private final int month;
+	private final TimeZone timeZone;
 
-	public Month(int month)
+	public Month(int month, TimeZone timeZone)
 	{
 		this.month = month;
+		this.timeZone = timeZone;
+	}
+
+	public int getMonth()
+	{
+		return month;
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof Month))
+			return false;
+
+		final Month that = (Month)obj;
+		return this.month == that.month && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+	}
+
+	public int hashCode()
+	{
+		return month ^ 13 + (timeZone != null ? timeZone.hashCode() : -1);
+	}
+
+	public String toString()
+	{
+		final String string;
+		if(month < 10)
+			string = "--0" + month;
+		else
+			string = "--" + month;
+
+		if(timeZone == null)
+			return string;
+
+		if(DateTime.GMT.equals(timeZone))
+			return string + "Z";
+
+		return string + timeZone.getID().substring(3);
 	}
 }
