@@ -75,37 +75,52 @@ public class Time
 			if(string.length() == index)
 				return new Time(hour, minute, second);
 
-			TimeZone timeZone = null;
-			final char zPlusMinus = string.charAt(index);
-			if(zPlusMinus == 'Z')
-			{
-				++index;
-				timeZone = TimeZone.getTimeZone("GMT");
-			}
-			else if(zPlusMinus == '+' || zPlusMinus == '-')
-			{
-				final String tzHr = string.substring(++index, index += 2);
-				final int tzHour = Integer.parseInt(tzHr);
-				if(14 < tzHour || tzHour < 0)
-					throw new IllegalArgumentException(string);
-
-				final String tzMn = string.substring(++index, index += 2);
-				final int tzMinute = Integer.parseInt(tzMn);
-				if(59 < tzMinute || tzMinute < 0)
-					throw new IllegalArgumentException(string);
-
-				timeZone = TimeZone.getTimeZone("GMT" + zPlusMinus + tzHr + ":" + tzMn);
-			}
-
-			if(string.length() == index)
-				return new Time(hour, minute, second, timeZone);
-
-			throw new IllegalArgumentException(string);
+			final TimeZone timeZone = parseTimeZone(string.substring(index));
+			return new Time(hour, minute, second, timeZone);
 		}
 		catch(NumberFormatException e)
 		{
 			throw new IllegalArgumentException(e);
 		}
+	}
+
+	protected static TimeZone parseTimeZone(String string)
+	{
+		if(string == null)
+			throw new NullPointerException("null string");
+
+		if(string.length() == 0)
+			throw new IllegalArgumentException("empty string");
+
+		TimeZone timeZone = null;
+		int index = 0;
+		final char zPlusMinus = string.charAt(index);
+		if(zPlusMinus == 'Z')
+		{
+			++index;
+			timeZone = TimeZone.getTimeZone("GMT");
+		}
+		else if((zPlusMinus == '+' || zPlusMinus == '-') && 6 <= string.length())
+		{
+			final String hourString = string.substring(++index, index += 2);
+			final int hour = Integer.parseInt(hourString);
+			if(14 < hour || hour < 0)
+				throw new IllegalArgumentException(string);
+
+			final String minuteString = string.substring(++index, index += 2);
+			final int minute = Integer.parseInt(minuteString);
+			if(59 < minute || minute < 0)
+				throw new IllegalArgumentException(string);
+
+			timeZone = TimeZone.getTimeZone("GMT" + zPlusMinus + hourString + ":" + minuteString);
+		}
+		else
+			throw new IllegalArgumentException(string);
+
+		if(index != string.length())
+			throw new IllegalArgumentException(string);
+
+		return timeZone;
 	}
 
 	private final TimeZone timeZone;

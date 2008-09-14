@@ -21,6 +21,20 @@
 	xsi:schemaLocation="http://ide.safris.org/common/starting-points.xsd ../../ide/common/src/main/resources/xsd/starting-points.xsd">
 	<startingPoint>
 		<commandLineArguments/>
+		<name>DayTest</name>
+		<target>org.safris.commons.xml.binding.DayTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>TimeTest</name>
+		<target>org.safris.commons.xml.binding.TimeTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>NamespaceBindingTest</name>
 		<target>org.safris.commons.xml.NamespaceBindingTest</target>
 		<vmOtherOptions/>
