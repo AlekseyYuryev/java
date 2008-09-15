@@ -35,6 +35,20 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>MonthDayTest</name>
+		<target>org.safris.commons.xml.binding.MonthDayTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
+		<name>YearTest</name>
+		<target>org.safris.commons.xml.binding.YearTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>TimeTest</name>
 		<target>org.safris.commons.xml.binding.TimeTest</target>
 		<vmOtherOptions/>

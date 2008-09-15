@@ -27,30 +27,43 @@ public class Day
 		if(string == null)
 			throw new NullPointerException();
 
-		if(!string.startsWith("---") || string.length() < 5)
+		string = string.trim();
+		if(!string.startsWith(PAD_FRAG) || string.length() < PAD_FRAG.length() + DAY_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
+		final int day = parseDayFrag(string.substring(PAD_FRAG.length()));
+		final TimeZone timeZone = Time.parseTimeZoneFrag(string.substring(PAD_FRAG.length() + DAY_FRAG_MIN_LENGTH));
+		return new Day(day, timeZone);
+	}
 
-		int index = 3;
+	protected static int parseDayFrag(String string)
+	{
+		if(string == null)
+			throw new NullPointerException("string == null");
+
+		if(string.length() < DAY_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException(string);
+
+		int index = 0;
 		final char ch = string.charAt(index);
 		final char ch2 = string.charAt(++index);
 		if(ch == '0')
 		{
 			if(ch2 < '1' || '9' < ch2)
-				throw new IllegalArgumentException(string);
+				throw new IllegalArgumentException("day == " + string);
 		}
 		else if(ch == '1' || ch == '2')
 		{
 			if(ch2 < '0' || '9' < ch2)
-				throw new IllegalArgumentException(string);
+				throw new IllegalArgumentException("day == " + string);
 		}
 		else if(ch == '3')
 		{
 			if(ch2 < '0' || '1' < ch2)
-				throw new IllegalArgumentException(string);
+				throw new IllegalArgumentException("day == " + string);
 		}
 		else
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("day == " + string);
 
 		final String dayString = "" + ch + ch2;
 		int day;
@@ -60,20 +73,14 @@ public class Day
 		}
 		catch(NumberFormatException e)
 		{
-			throw new IllegalArgumentException(e);
+			throw new IllegalArgumentException(string, e);
 		}
 
-		if(day < 1 || 31 < day)
-			throw new IllegalArgumentException(string);
-
-		final TimeZone timeZone;
-		if(index < string.length())
-			timeZone = Time.parseTimeZone(string.substring(++index));
-		else
-			timeZone = null;
-
-		return new Day(day, timeZone);
+		return day;
 	}
+
+	protected static final int DAY_FRAG_MIN_LENGTH = 2;
+	private static final String PAD_FRAG = "---";
 
 	private final int day;
 	private final TimeZone timeZone;
@@ -81,6 +88,9 @@ public class Day
 	public Day(int day, TimeZone timeZone)
 	{
 		this.day = day;
+		if(day < 0 || 31 < day)
+			throw new IllegalArgumentException("day = " + day);
+
 		this.timeZone = timeZone;
 	}
 

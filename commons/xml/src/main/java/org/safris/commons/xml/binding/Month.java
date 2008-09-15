@@ -27,24 +27,32 @@ public class Month
 		if(string == null)
 			throw new NullPointerException();
 
-		if(!string.startsWith("--") || string.length() < 4)
+		string = string.trim();
+		if(!string.startsWith(PAD_FRAG) || string.length() < PAD_FRAG.length() + MONTH_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
+		final int month = parseMonthFrag(string);
+		final TimeZone timeZone = Time.parseTimeZoneFrag(string.substring(PAD_FRAG.length() + MONTH_FRAG_MIN_LENGTH));
+		return new Month(month, timeZone);
+	}
+
+	protected static int parseMonthFrag(String string)
+	{
 		int index = 2;
 		final char ch = string.charAt(index);
 		final char ch2 = string.charAt(++index);
 		if(ch == '0')
 		{
 			if(ch2 < '1' || '9' < ch2)
-				throw new IllegalArgumentException(string);
+				throw new IllegalArgumentException("month == " + string);
 		}
 		else if(ch == '1')
 		{
 			if(ch2 < '0' || '2' < ch2)
-				throw new IllegalArgumentException(string);
+				throw new IllegalArgumentException("month == " + string);
 		}
 		else
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("month == " + string);
 
 
 		final String monthString = "" + ch + ch2;
@@ -58,9 +66,11 @@ public class Month
 			throw new IllegalArgumentException(e);
 		}
 
-		final TimeZone timeZone = Time.parseTimeZone(string.substring(++index));
-		return new Month(month, timeZone);
+		return month;
 	}
+
+	protected static int MONTH_FRAG_MIN_LENGTH = 2;
+	private static final String PAD_FRAG = "--";
 
 	private final int month;
 	private final TimeZone timeZone;
@@ -68,7 +78,15 @@ public class Month
 	public Month(int month, TimeZone timeZone)
 	{
 		this.month = month;
+		if(month < 0 || 12 < month)
+			throw new IllegalArgumentException("month = " + month);
+
 		this.timeZone = timeZone;
+	}
+
+	public Month(int month)
+	{
+		this(month, null);
 	}
 
 	public int getMonth()

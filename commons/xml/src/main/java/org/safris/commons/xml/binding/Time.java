@@ -29,53 +29,27 @@ public class Time
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
-		if(string.length() < 6)
+		if(string.length() < TIME_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
 		try
 		{
-			int index = 0;
-			int hour = Integer.parseInt(string.substring(index, index += 2));
-			if(24 < hour || hour < 0)
-				throw new IllegalArgumentException(string);
+			final int hour = parseHourFrag(string);
+			final int minute = parseMinuteFrag(string.substring(3));
+			final float second = parseSecondFrag(string.substring(6));
+			int index = string.indexOf("Z", TIME_FRAG_MIN_LENGTH);
+			if(index == -1)
+				index = string.indexOf("-", TIME_FRAG_MIN_LENGTH);
 
-			int minute = Integer.parseInt(string.substring(++index, index += 2));
-			if(59 < minute || minute < 0)
-				throw new IllegalArgumentException(string);
+			if(index == -1)
+				index = string.indexOf("+", TIME_FRAG_MIN_LENGTH);
 
-			final StringBuffer secondString = new StringBuffer(string.substring(++index, index += 2));
-			final float second;
-			if(string.length() == index)
-			{
-				second = Float.parseFloat(secondString.toString());
-				if(59 < second || second < 0)
-					throw new IllegalArgumentException(string);
+			final TimeZone timeZone;
+			if(index != -1)
+				timeZone = parseTimeZoneFrag(string.substring(index));
+			else
+				timeZone = null;
 
-				return new Time(hour, minute, second);
-			}
-
-			if(string.charAt(index) == '.')
-			{
-				char ch = '.';
-				secondString.append(ch);
-				while(++index < string.length())
-				{
-					ch = string.charAt(index);
-					if('9' < ch || ch < '0')
-						break;
-
-					secondString.append(ch);
-				}
-			}
-
-			second = Float.parseFloat(secondString.toString());
-			if(60 <= second || second < 0)
-				throw new IllegalArgumentException(string);
-
-			if(string.length() == index)
-				return new Time(hour, minute, second);
-
-			final TimeZone timeZone = parseTimeZone(string.substring(index));
 			return new Time(hour, minute, second, timeZone);
 		}
 		catch(NumberFormatException e)
@@ -84,10 +58,69 @@ public class Time
 		}
 	}
 
-	protected static TimeZone parseTimeZone(String string)
+	protected static int parseHourFrag(String string)
+	{
+		final int hour = Integer.parseInt(string.substring(0, HOUR_FRAG_MIN_LENGTH));
+		if(hour < 0 || 24 < hour)
+			throw new IllegalArgumentException("hour == " + string);
+
+		return hour;
+	}
+
+	protected static int parseMinuteFrag(String string)
+	{
+		int minute = Integer.parseInt(string.substring(0, MINUTE_FRAG_MIN_LENGTH));
+		if(minute < 0 || 59 < minute)
+			throw new IllegalArgumentException("minute == " + string);
+
+		return minute;
+	}
+
+	protected static float parseSecondFrag(String string)
 	{
 		if(string == null)
-			throw new NullPointerException("null string");
+			throw new NullPointerException("string == null");
+
+		if(string.length() < SECOND_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("second == " + string);
+
+		char ch1 = string.charAt(0);
+		if(ch1 < '0' || '5' < ch1)
+			throw new IllegalArgumentException("second == " + string);
+
+		char ch2 = string.charAt(1);
+		if(ch2 < '0' || '9' < ch2)
+			throw new IllegalArgumentException("second == " + string);
+
+		final StringBuffer secondString = new StringBuffer();
+		secondString.append(ch1);
+		secondString.append(ch2);
+		int index = 2;
+		if(index < string.length() && string.charAt(index) == '.')
+		{
+			char ch = '.';
+			secondString.append(ch);
+			while(++index < string.length())
+			{
+				ch = string.charAt(index);
+				if(ch < '0' || '9' < ch)
+					break;
+
+				secondString.append(ch);
+			}
+		}
+
+		final float second = Float.parseFloat(secondString.toString());
+		if(second < 0 || 60 <= second)
+			throw new IllegalArgumentException("second == " + string);
+
+		return second;
+	}
+
+	protected static TimeZone parseTimeZoneFrag(String string)
+	{
+		if(string == null)
+			throw new NullPointerException("string == null");
 
 		if(string.length() == 0)
 			return null;
@@ -115,13 +148,18 @@ public class Time
 			timeZone = TimeZone.getTimeZone("GMT" + zPlusMinus + hourString + ":" + minuteString);
 		}
 		else
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("timeZone == " + string);
 
 		if(index != string.length())
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("timeZone == " + string);
 
 		return timeZone;
 	}
+
+	protected static final int HOUR_FRAG_MIN_LENGTH = 2;
+	protected static final int MINUTE_FRAG_MIN_LENGTH = 2;
+	protected static final int SECOND_FRAG_MIN_LENGTH = 2;
+	private static final int TIME_FRAG_MIN_LENGTH = HOUR_FRAG_MIN_LENGTH + 1 + MINUTE_FRAG_MIN_LENGTH + 1 + SECOND_FRAG_MIN_LENGTH;
 
 	private final TimeZone timeZone;
 	private final int hours;

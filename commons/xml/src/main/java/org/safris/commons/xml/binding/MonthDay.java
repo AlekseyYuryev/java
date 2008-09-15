@@ -15,33 +15,118 @@
 
 package org.safris.commons.xml.binding;
 
-import java.util.StringTokenizer;
+import java.util.Arrays;
+import java.util.TimeZone;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#gMonthDay
+ */
 public class MonthDay
 {
 	public static MonthDay parseMonthDay(String string)
 	{
-		if(string == null || string.length() == 0)
-			return null;
+		if(string == null)
+			throw new NullPointerException();
 
-		int month = 1;
-		int day = 1;
-		final StringTokenizer tokenizer = new StringTokenizer(string.substring(2), "-Z");
-		if(tokenizer.hasMoreTokens())
-			month = Integer.parseInt(tokenizer.nextToken());
+		string = string.trim();
+		if(!string.startsWith(PAD_FRAG) || string.length() < MONTH_DAY_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException(string);
 
-		if(tokenizer.hasMoreTokens())
-			day = Integer.parseInt(tokenizer.nextToken());
+		final int month = Month.parseMonthFrag(string);
+		final int day = Day.parseDayFrag(string.substring(PAD_FRAG.length() + Month.MONTH_FRAG_MIN_LENGTH + 1));
+		if(month == 2 && 29 < day)
+			throw new IllegalArgumentException(string);
 
-		return new MonthDay(month, day);
+		if(Arrays.binarySearch(LONG_MONTHS, month) < 0 && 30 < day)
+			throw new IllegalArgumentException(string);
+
+		final TimeZone timeZone;
+		if(MONTH_DAY_FRAG_MIN_LENGTH < string.length())
+			timeZone = Time.parseTimeZoneFrag(string.substring(MONTH_DAY_FRAG_MIN_LENGTH));
+		else
+			timeZone = null;
+
+		return new MonthDay(month, day, timeZone);
 	}
+
+	private static int[] LONG_MONTHS = new int[] {1, 3, 5, 7, 8, 10, 12};
+	private static String PAD_FRAG = "--";
+	private static final int MONTH_DAY_FRAG_MIN_LENGTH = PAD_FRAG.length() + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH;
 
 	private final int month;
 	private final int day;
+	private final TimeZone timeZone;
+
+	public MonthDay(int month, int day, TimeZone timeZone)
+	{
+		this.month = month;
+		if(month < 0 || 12 < month)
+			throw new IllegalArgumentException("month = " + month);
+
+		this.day = day;
+		if(day < 0 || 31 < day)
+			throw new IllegalArgumentException("day = " + day);
+
+		this.timeZone = timeZone;
+	}
 
 	public MonthDay(int month, int day)
 	{
-		this.month = month;
-		this.day = day;
+		this(month, day, null);
+	}
+
+	public int getMonth()
+	{
+		return month;
+	}
+
+	public int getDay()
+	{
+		return day;
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof MonthDay))
+			return false;
+
+		final MonthDay that = (MonthDay)obj;
+		return this.month == that.month && this.day == that.day && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+	}
+
+	public int hashCode()
+	{
+		return month ^ 13 + day ^ 17 + (timeZone != null ? timeZone.hashCode() : -1);
+	}
+
+	public String toString()
+	{
+		final StringBuffer buffer = new StringBuffer("--");
+		if(month < 10)
+			buffer.append("0").append(month);
+		else
+			buffer.append(month);
+
+		buffer.append("-");
+		if(day < 10)
+			buffer.append("0").append(day);
+		else
+			buffer.append(day);
+
+		if(timeZone == null)
+			return buffer.toString();
+
+		if(DateTime.GMT.equals(timeZone))
+			return buffer.toString() + "Z";
+
+		return buffer.toString() + timeZone.getID().substring(3);
 	}
 }

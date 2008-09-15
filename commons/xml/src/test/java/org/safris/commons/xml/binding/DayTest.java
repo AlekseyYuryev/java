@@ -130,7 +130,7 @@ public class DayTest
 
 		try
 		{
-			Time.parseTime("---27-15:00");
+			Day.parseDay("---27-15:00");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -139,7 +139,7 @@ public class DayTest
 
 		try
 		{
-			Time.parseTime("---27+14:60");
+			Day.parseDay("---27+14:60");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -148,7 +148,7 @@ public class DayTest
 
 		try
 		{
-			Time.parseTime("---27+14:60.9");
+			Day.parseDay("---27+14:60.9");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)

@@ -42,12 +42,11 @@ public final class Base64Binary
 	}
 
 	private final byte[] bytes;
-	private final String encoded;
+	private String encoded = null;
 
 	public Base64Binary(byte[] bytes)
 	{
 		this.bytes = bytes;
-		this.encoded = new BASE64Encoder().encodeBuffer(bytes);
 	}
 
 	public byte[] getBytes()
@@ -63,8 +62,7 @@ public final class Base64Binary
 		if(!(obj instanceof Base64Binary))
 			return false;
 
-		final Base64Binary that = (Base64Binary)obj;
-		return encoded.equals(that.encoded);
+		return toString().equals(obj.toString());
 	}
 
 	/**
@@ -74,6 +72,9 @@ public final class Base64Binary
 	 */
 	public String toString()
 	{
+		if(encoded == null)
+			encoded = new BASE64Encoder().encodeBuffer(bytes);
+
 		return encoded;
 	}
 }

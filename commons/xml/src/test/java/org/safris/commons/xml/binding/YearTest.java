@@ -19,19 +19,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MonthTest
+public class YearTest
 {
 	public static void main(String[] args)
 	{
-		new MonthTest().testMonth();
+		new YearTest().testYear();
 	}
 
 	@Test
-	public void testMonth()
+	public void testYear()
 	{
 		try
 		{
-			Month.parseMonth(null);
+			Year.parseYear(null);
 			fail("Expected a NullPointerException");
 		}
 		catch(NullPointerException e)
@@ -40,7 +40,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("");
+			Year.parseYear("");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -49,7 +49,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("---5");
+			Year.parseYear("010");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -58,7 +58,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("-5");
+			Year.parseYear("10");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -67,7 +67,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("--A");
+			Year.parseYear("100");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -76,7 +76,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("--00");
+			Year.parseYear("AAA");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -85,7 +85,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("--13");
+			Year.parseYear("2227-15:00");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -94,7 +94,7 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("--4");
+			Year.parseYear("2227+14:60");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
@@ -103,56 +103,29 @@ public class MonthTest
 
 		try
 		{
-			Month.parseMonth("--11Z-");
+			Year.parseYear("2227+14:60.9");
 			fail("Expected a IllegalArgumentException");
 		}
 		catch(IllegalArgumentException e)
 		{
 		}
 
-		try
+		final String[] years = new String[]
 		{
-			Month.parseMonth("--12-15:00");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
-
-		try
-		{
-			Month.parseMonth("--07+14:60");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
-
-		try
-		{
-			Month.parseMonth("--02+14:60.9");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
-
-		final String[] months = new String[]
-		{
-			"--12",
-			"--04",
-			"--03",
-			"--02",
-			"--01",
-			"--01Z",
-			"--07+01:00",
-			"--09-01:00",
-			"--10Z",
-			"--11+12:00",
-			"--12-12:30"
+			"2500",
+			"1400",
+			"0003",
+			"0020",
+			"0310",
+			"1001Z",
+			"2007+01:00",
+			"3017-01:00",
+			"4027Z",
+			"1302+12:00",
+			"1112-12:30"
 		};
 
-		for(String month : months)
-			assertEquals(month, Month.parseMonth(month).toString());
+		for(String day : years)
+			assertEquals(day, Year.parseYear(day).toString());
 	}
 }
