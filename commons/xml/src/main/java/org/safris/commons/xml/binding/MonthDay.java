@@ -32,7 +32,7 @@ public class MonthDay
 		if(!string.startsWith(PAD_FRAG) || string.length() < MONTH_DAY_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
-		final int month = Month.parseMonthFrag(string);
+		final int month = Month.parseMonthFrag(string.substring(PAD_FRAG.length()));
 		final int day = Day.parseDayFrag(string.substring(PAD_FRAG.length() + Month.MONTH_FRAG_MIN_LENGTH + 1));
 		if(month == 2 && 29 < day)
 			throw new IllegalArgumentException(string);

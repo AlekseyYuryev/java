@@ -15,33 +15,110 @@
 
 package org.safris.commons.xml.binding;
 
-import java.util.StringTokenizer;
+import java.util.TimeZone;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#gYearMonth
+ */
 public class YearMonth
 {
 	public static YearMonth parseYearMonth(String string)
 	{
-		if(string == null || string.length() == 0)
-			return null;
+		if(string == null)
+			throw new NullPointerException("string == null");
 
-		int year = 1;
-		int month = 1;
-		StringTokenizer tokenizer = new StringTokenizer(string, "-");
-		if(tokenizer.hasMoreTokens())
-			year = Integer.parseInt(tokenizer.nextToken());
+		string = string.trim();
+		final int year = Year.parseYearFrag(string);
+		int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
+		final int month = Month.parseMonthFrag(string.substring(index + 1));
+		index = string.indexOf("Z", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
+		if(index == -1)
+			index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
 
-		if(tokenizer.hasMoreTokens())
-			month = Integer.parseInt(tokenizer.nextToken());
+		if(index == -1)
+			index = string.indexOf("+", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
 
-		return new YearMonth(year, month);
+		final TimeZone timeZone;
+		if(index != -1)
+			timeZone = Time.parseTimeZoneFrag(string.substring(index));
+		else
+			timeZone = null;
+
+		return new YearMonth(year, month, timeZone);
 	}
 
 	private final int year;
 	private final int month;
+	private final TimeZone timeZone;
 
-	public YearMonth(int year, int month)
+	public YearMonth(int year, int month, TimeZone timeZone)
 	{
 		this.year = year;
 		this.month = month;
+		this.timeZone = timeZone;
+	}
+
+	public YearMonth(int year, int month)
+	{
+		this(year, month, null);
+	}
+
+	public int getYear()
+	{
+		return year;
+	}
+
+	public int getMonth()
+	{
+		return month;
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(obj == this)
+			return true;
+
+		if(!(obj instanceof YearMonth))
+			return false;
+
+		final YearMonth that = (YearMonth)obj;
+		return this.year == that.year && this.month == that.month && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+	}
+
+	public int hashCode()
+	{
+		return year ^ 5 + month ^ 13 + (timeZone != null ? timeZone.hashCode() : -1);
+	}
+
+	public String toString()
+	{
+		final StringBuffer buffer = new StringBuffer();
+		if(year < 10)
+			buffer.append("000").append(year);
+		else if(year < 100)
+			buffer.append("00").append(year);
+		else if(year < 1000)
+			buffer.append("0").append(year);
+		else
+			buffer.append(year);
+
+		buffer.append("-");
+		if(month < 10)
+			buffer.append("0").append(month);
+		else
+			buffer.append(month);
+
+		if(timeZone == null)
+			return buffer.toString();
+
+		if(DateTime.GMT.equals(timeZone))
+			return buffer.append("Z").toString();
+
+		return buffer.append(timeZone.getID().substring(3)).toString();
 	}
 }

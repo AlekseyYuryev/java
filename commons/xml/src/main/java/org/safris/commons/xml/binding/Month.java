@@ -31,14 +31,20 @@ public class Month
 		if(!string.startsWith(PAD_FRAG) || string.length() < PAD_FRAG.length() + MONTH_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
-		final int month = parseMonthFrag(string);
+		final int month = parseMonthFrag(string.substring(PAD_FRAG.length()));
 		final TimeZone timeZone = Time.parseTimeZoneFrag(string.substring(PAD_FRAG.length() + MONTH_FRAG_MIN_LENGTH));
 		return new Month(month, timeZone);
 	}
 
 	protected static int parseMonthFrag(String string)
 	{
-		int index = 2;
+		if(string == null)
+			throw new NullPointerException("string == null");
+
+		if(string.length() < MONTH_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("month == " + string);
+
+		int index = 0;
 		final char ch = string.charAt(index);
 		final char ch2 = string.charAt(++index);
 		if(ch == '0')

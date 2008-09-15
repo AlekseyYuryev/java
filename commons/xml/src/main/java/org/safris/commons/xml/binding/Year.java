@@ -21,6 +21,10 @@ public class Year
 {
 	public static Year parseYear(String string)
 	{
+		if(string == null)
+			throw new NullPointerException("string == null");
+
+		string = string.trim();
 		final int year = parseYearFrag(string);
 		int index = string.indexOf("Z", YEAR_FRAG_MIN_LENGTH);
 		if(index == -1)
@@ -47,12 +51,14 @@ public class Year
 			throw new IllegalArgumentException(string);
 
 		int index = string.indexOf("Z", YEAR_FRAG_MIN_LENGTH);
-		if(index == -1)
-			index = string.indexOf("-", YEAR_FRAG_MIN_LENGTH);
+		if(index != -1)
+			string = string.substring(0, index);
 
-		if(index == -1)
-			index = string.indexOf("+", YEAR_FRAG_MIN_LENGTH);
+		index = string.indexOf("-", YEAR_FRAG_MIN_LENGTH);
+		if(index != -1)
+			string = string.substring(0, index);
 
+		index = string.indexOf("+", YEAR_FRAG_MIN_LENGTH);
 		if(index != -1)
 			string = string.substring(0, index);
 
