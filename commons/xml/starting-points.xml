@@ -70,6 +70,13 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>LanguageTest</name>
+		<target>org.safris.commons.xml.binding.LanguageTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>NamespaceBindingTest</name>
 		<target>org.safris.commons.xml.NamespaceBindingTest</target>
 		<vmOtherOptions/>
