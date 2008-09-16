@@ -17,6 +17,9 @@ package org.safris.commons.xml.binding;
 
 import java.util.TimeZone;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#gYear
+ */
 public class Year
 {
 	public static Year parseYear(String string)
@@ -25,6 +28,9 @@ public class Year
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
+		if(string.length() < YEAR_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("year == " + string);
+
 		final int year = parseYearFrag(string);
 		int index = string.indexOf("Z", YEAR_FRAG_MIN_LENGTH);
 		if(index == -1)
@@ -91,6 +97,13 @@ public class Year
 		this(year, null);
 	}
 
+	public Year(long time)
+	{
+		final java.util.Date date = new java.util.Date(time);
+		this.year = date.getYear() + 1900;
+		this.timeZone = null;
+	}
+
 	public int getYear()
 	{
 		return year;
@@ -120,22 +133,22 @@ public class Year
 
 	public String toString()
 	{
-		final String string;
+		final StringBuffer buffer = new StringBuffer();
 		if(year < 10)
-			string = "000" + String.valueOf(year);
+			buffer.append("000").append(year);
 		else if(year < 100)
-			string = "00" + String.valueOf(year);
+			buffer.append("00").append(year);
 		else if(year < 1000)
-			string = "0" + String.valueOf(year);
+			buffer.append("0").append(year);
 		else
-			string = String.valueOf(year);
+			buffer.append(year);
 
 		if(timeZone == null)
-			return string;
+			return buffer.toString();
 
 		if(DateTime.GMT.equals(timeZone))
-			return string + "Z";
+			return buffer.append("Z").toString();
 
-		return string + timeZone.getID().substring(3);
+		return buffer.append(timeZone.getID().substring(3)).toString();
 	}
 }

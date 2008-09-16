@@ -20,7 +20,7 @@ package org.safris.commons.xml.binding;
  */
 import java.util.TimeZone;
 
-public class Date extends java.util.Date
+public class Date
 {
 	public static Date parseDate(String string)
 	{
@@ -28,17 +28,16 @@ public class Date extends java.util.Date
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
-		final int year = Year.parseYearFrag(string);
-		int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
-		final int month = Month.parseMonthFrag(string.substring(index + 1));
-		index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
-		final int day = Day.parseDayFrag(string.substring(index + 1));
-		index = string.indexOf("Z", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH);
+		if(string.length() < DATE_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("date == " + string);
+
+		final Date date = parseDateFrag(string);
+		int index = string.indexOf("Z", DATE_FRAG_MIN_LENGTH);
 		if(index == -1)
-			index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH);
+			index = string.indexOf("-", DATE_FRAG_MIN_LENGTH);
 
 		if(index == -1)
-			index = string.indexOf("+", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH);
+			index = string.indexOf("+", DATE_FRAG_MIN_LENGTH);
 
 		final TimeZone timeZone;
 		if(index != -1)
@@ -46,48 +45,79 @@ public class Date extends java.util.Date
 		else
 			timeZone = null;
 
-		return new Date(year, month, day, timeZone);
+		return new Date(date.getYear(), date.getMonth(), date.getDay(), timeZone);
 	}
 
+	protected static Date parseDateFrag(String string)
+	{
+		if(string == null)
+			throw new NullPointerException("string == null");
+
+		if(string.length() < DATE_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("date == " + string);
+
+		final int year = Year.parseYearFrag(string);
+		final int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
+		final MonthDay monthDay = MonthDay.parseMonthDayFrag(string = string.substring(index + 1));
+		if(year % 4 != 0 && monthDay.getMonth() == 2 && monthDay.getDay() == 29)
+			throw new IllegalArgumentException("year == " + year + " month == " + monthDay.getMonth() + " day == " + monthDay.getDay());
+
+		return new Date(year, monthDay.getMonth(), monthDay.getDay());
+	}
+
+	protected static final int DATE_FRAG_MIN_LENGTH = Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH;
+	private final YearMonth yearMonth;
+	private final Day day;
 	private final TimeZone timeZone;
 
-	public Date()
+	protected Date(YearMonth yearMonth, Day day)
 	{
-		super();
-		this.timeZone = null;
-    }
+		if(yearMonth == null)
+			throw new NullPointerException("yearMonth == null");
 
-    protected Date(String s)
-	{
-		super(s);
+		if(day == null)
+			throw new NullPointerException("day == null");
+
+		this.yearMonth = yearMonth;
+		this.day = day;
 		this.timeZone = null;
 	}
 
-	public Date(long date)
+	public Date(int year, int month, int day, TimeZone timeZone)
 	{
-		super(date);
-		this.timeZone = null;
-    }
-
-	public Date(int year, int month, int date, TimeZone timeZone)
-	{
-		super(year - 1900, month - 1, date);
+		this.yearMonth = new YearMonth(year, month);
+		this.day = new Day(day);
 		this.timeZone = timeZone;
 	}
 
-	public Date(int year, int month, int date)
+	public Date(int year, int month, int day)
 	{
-		this(year, month, date, null);
+		this(year, month, day, null);
+	}
+
+	public Date(long time)
+	{
+		this(new YearMonth(time), new Day(time));
 	}
 
 	public int getYear()
 	{
-		return super.getYear() + 1900;
+		return yearMonth.getYear();
 	}
 
 	public int getMonth()
 	{
-		return super.getMonth() + 1;
+		return yearMonth.getMonth();
+	}
+
+	public int getDay()
+	{
+		return day.getDay();
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return timeZone;
 	}
 
 	public boolean equals(Object obj)
@@ -99,40 +129,23 @@ public class Date extends java.util.Date
 			return false;
 
 		final Date that = (Date)obj;
-		return this.getYear() == that.getYear() && this.getMonth() == that.getMonth() && this.getDate() == that.getDate() && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+		return (yearMonth != null ? yearMonth.equals(that.yearMonth) : that.yearMonth == null) && (day != null ? day.equals(that.day) : that.day == null) && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
 	}
 
 	public int hashCode()
 	{
-		return getYear() ^ 5 + getMonth() ^ 13 + getDate() ^ 17 + (timeZone != null ? timeZone.hashCode() : -1);
+		return (yearMonth != null ? yearMonth.hashCode() : -1) + (day != null ? day.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
 	}
 
 	public String toString()
 	{
 		final StringBuffer buffer = new StringBuffer();
-		final int year = getYear();
-		final int month = getMonth();
-		final int date = getDate();
-		if(year < 10)
-			buffer.append("000").append(year);
-		else if(year < 100)
-			buffer.append("00").append(year);
-		else if(year < 1000)
-			buffer.append("0").append(year);
-		else
-			buffer.append(year);
-
+		buffer.append(yearMonth);
 		buffer.append("-");
-		if(month < 10)
-			buffer.append("0").append(month);
+		if(getDay() < 10)
+			buffer.append("0").append(getDay());
 		else
-			buffer.append(month);
-
-		buffer.append("-");
-		if(date < 10)
-			buffer.append("0").append(date);
-		else
-			buffer.append(date);
+			buffer.append(getDay());
 
 		if(timeZone == null)
 			return buffer.toString();

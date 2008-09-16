@@ -15,7 +15,6 @@
 
 package org.safris.commons.xml.binding;
 
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -29,33 +28,26 @@ public class Time
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
-		if(string.length() < HOUR_FRAG_MIN_LENGTH + 1 + MINUTE_FRAG_MIN_LENGTH + 1 + SECOND_FRAG_MIN_LENGTH)
-			throw new IllegalArgumentException(string);
+		if(string.length() < TIME_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("time == " + string);
 
-		try
-		{
-			final int hour = parseHourFrag(string);
-			final int minute = parseMinuteFrag(string = string.substring(HOUR_FRAG_MIN_LENGTH + 1));
-			final float second = parseSecondFrag(string = string.substring(MINUTE_FRAG_MIN_LENGTH + 1));
-			int index = string.indexOf("Z", SECOND_FRAG_MIN_LENGTH);
-			if(index == -1)
-				index = string.indexOf("-", SECOND_FRAG_MIN_LENGTH);
+		final int hour = parseHourFrag(string);
+		final int minute = parseMinuteFrag(string = string.substring(HOUR_FRAG_MIN_LENGTH + 1));
+		final float second = parseSecondFrag(string = string.substring(MINUTE_FRAG_MIN_LENGTH + 1));
+		int index = string.indexOf("Z", SECOND_FRAG_MIN_LENGTH);
+		if(index == -1)
+			index = string.indexOf("-", SECOND_FRAG_MIN_LENGTH);
 
-			if(index == -1)
-				index = string.indexOf("+", SECOND_FRAG_MIN_LENGTH);
+		if(index == -1)
+			index = string.indexOf("+", SECOND_FRAG_MIN_LENGTH);
 
-			final TimeZone timeZone;
-			if(index != -1)
-				timeZone = parseTimeZoneFrag(string.substring(index));
-			else
-				timeZone = null;
+		final TimeZone timeZone;
+		if(index != -1)
+			timeZone = parseTimeZoneFrag(string.substring(index));
+		else
+			timeZone = null;
 
-			return new Time(hour, minute, second, timeZone);
-		}
-		catch(NumberFormatException e)
-		{
-			throw new IllegalArgumentException(e);
-		}
+		return new Time(hour, minute, second, timeZone);
 	}
 
 	protected static int parseHourFrag(String string)
@@ -125,8 +117,8 @@ public class Time
 		if(string.length() == 0)
 			return null;
 
-		TimeZone timeZone = null;
 		int index = 0;
+		final TimeZone timeZone;
 		final char zPlusMinus = string.charAt(index);
 		if(zPlusMinus == 'Z')
 		{
@@ -159,51 +151,28 @@ public class Time
 	protected static final int HOUR_FRAG_MIN_LENGTH = 2;
 	protected static final int MINUTE_FRAG_MIN_LENGTH = 2;
 	protected static final int SECOND_FRAG_MIN_LENGTH = 2;
+	protected static final int TIME_FRAG_MIN_LENGTH = HOUR_FRAG_MIN_LENGTH + 1 + MINUTE_FRAG_MIN_LENGTH + 1 + SECOND_FRAG_MIN_LENGTH;
 
+	private final int hour;
+	private final int minute;
+	private final float second;
 	private final TimeZone timeZone;
-	private final int hours;
-	private final int minutes;
-	private final float seconds;
 
-	public Time()
+	public Time(int hour, int minute, float second, TimeZone timeZone)
 	{
-		this.timeZone = null;
-		hours = 0;
-		minutes = 0;
-		seconds = 0;
-    }
+		this.hour = hour;
+		if(24 < hour || hour < 0)
+			throw new IllegalArgumentException("hour == " + hour);
 
-	public Time(TimeZone timeZone)
-	{
+		this.minute = minute;
+		if(59 < minute || minute < 0)
+			throw new IllegalArgumentException("minute == " + minute);
+
+		this.second = second;
+		if(60 < second || second < 0)
+			throw new IllegalArgumentException("second == " + second);
+
 		this.timeZone = timeZone;
-		hours = 0;
-		minutes = 0;
-		seconds = 0;
-	}
-
-    public Time(String s)
-	{
-		this(new Date(s).getTime(), TimeZone.getTimeZone("GMT"));
-	}
-
-	public Time(long date, TimeZone timeZone)
-	{
-		final Date temp = new Date(date);
-		hours = temp.getHours();
-		minutes = temp.getMinutes();
-		final String string = String.valueOf(date);
-		seconds = Float.parseFloat(string.substring(string.length() - 5, string.length() - 3) + "." + string.substring(string.length() - 3, string.length()));
-		this.timeZone = timeZone;
-    }
-
-	public Time(int hours, int minutes, int seconds)
-	{
-		this(hours, minutes, (float)seconds, null);
-	}
-
-	public Time(int hours, int minutes, int seconds, TimeZone timeZone)
-	{
-		this(hours, minutes, (float)seconds, timeZone);
 	}
 
 	public Time(int hours, int minutes, float seconds)
@@ -211,41 +180,33 @@ public class Time
 		this(hours, minutes, seconds, null);
 	}
 
-	public Time(int hours, int minutes, float seconds, TimeZone timeZone)
+	public Time(long time)
 	{
-		this.hours = hours;
-		if(24 < hours || hours < 0)
-			throw new IllegalArgumentException("hours out of range: " + hours);
+		final java.util.Date date = new java.util.Date(time);
+		this.hour = date.getHours();
+		this.minute = date.getMinutes();
+		this.second = date.getSeconds() + (float)((time - (int)(time / 1000) * 1000) / 1000);
+		this.timeZone = null;
+	}
 
-		this.minutes = minutes;
-		if(59 < minutes || minutes < 0)
-			throw new IllegalArgumentException("minutes out of range: " + minutes);
+	public int getHour()
+	{
+		return hour;
+	}
 
-		this.seconds = seconds;
-		if(60 < seconds || seconds < 0)
-			throw new IllegalArgumentException("seconds out of range: " + seconds);
+	public int getMinute()
+	{
+		return minute;
+	}
 
-		this.timeZone = timeZone;
+	public float getSecond()
+	{
+		return second;
 	}
 
 	public TimeZone getTimeZone()
 	{
 		return timeZone;
-	}
-
-	public int getHours()
-	{
-		return hours;
-	}
-
-	public int getMinutes()
-	{
-		return minutes;
-	}
-
-	public float getSeconds()
-	{
-		return seconds;
 	}
 
 	public boolean equals(Object obj)
@@ -257,26 +218,49 @@ public class Time
 			return false;
 
 		final Time that = (Time)obj;
-		return this.hours == that.hours && this.minutes == that.minutes && this.seconds == that.seconds && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+		return this.hour == that.hour && this.minute == that.minute && this.second == that.second && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
 	}
 
 	public int hashCode()
 	{
-		return hours ^ 3 + minutes ^ 5 + (int)(seconds * 1000) ^ 7 + (timeZone != null ? timeZone.hashCode() : -1);
+		return hour ^ 3 + minute ^ 5 + (int)(second * 1000) ^ 7 + (timeZone != null ? timeZone.hashCode() : -1);
 	}
 
 	public String toString()
 	{
-		final String hoursString = hours < 9 ? "0" + hours : String.valueOf(hours);
-		final String minutesString = minutes < 9 ? "0" + minutes : String.valueOf(minutes);
-		final String secondsString = seconds < 9 ? "0" + seconds : String.valueOf(seconds);
-		final String string = hoursString + ":" + minutesString + ":" + (secondsString.endsWith(".0") ? secondsString.substring(0, secondsString.length() - 2) : secondsString);
+		final StringBuffer buffer = new StringBuffer();
+		if(hour < 10)
+			buffer.append("0").append(hour);
+		else
+			buffer.append(hour);
+
+		buffer.append(":");
+		if(minute < 10)
+			buffer.append("0").append(minute);
+		else
+			buffer.append(minute);
+
+		buffer.append(":");
+		if(second < 10f)
+		{
+			if(second != 0f)
+			{
+				buffer.append("0").append(second);
+				while(buffer.charAt(buffer.length() - 1) == '0')
+					buffer.deleteCharAt(buffer.length() - 1);
+			}
+			else
+				buffer.append("00");
+		}
+		else
+			buffer.append(second);
+
 		if(timeZone == null)
-			return string;
+			return buffer.toString();
 
 		if(DateTime.GMT.equals(timeZone))
-			return string + "Z";
+			return buffer.append("Z").toString();
 
-		return string + timeZone.getID().substring(3);
+		return buffer.append(timeZone.getID().substring(3)).toString();
 	}
 }

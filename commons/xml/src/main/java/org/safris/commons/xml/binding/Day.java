@@ -29,7 +29,7 @@ public class Day
 
 		string = string.trim();
 		if(!string.startsWith(PAD_FRAG) || string.length() < PAD_FRAG.length() + DAY_FRAG_MIN_LENGTH)
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("day == " + string);
 
 		final int day = parseDayFrag(string.substring(PAD_FRAG.length()));
 		final TimeZone timeZone = Time.parseTimeZoneFrag(string.substring(PAD_FRAG.length() + DAY_FRAG_MIN_LENGTH));
@@ -42,7 +42,7 @@ public class Day
 			throw new NullPointerException("string == null");
 
 		if(string.length() < DAY_FRAG_MIN_LENGTH)
-			throw new IllegalArgumentException(string);
+			throw new IllegalArgumentException("day == " + string);
 
 		int index = 0;
 		final char ch = string.charAt(index);
@@ -99,6 +99,13 @@ public class Day
 		this(day, null);
 	}
 
+	public Day(long time)
+	{
+		final java.util.Date date = new java.util.Date(time);
+		this.day = date.getDate();
+		this.timeZone = null;
+	}
+
 	public int getDay()
 	{
 		return day;
@@ -128,18 +135,18 @@ public class Day
 
 	public String toString()
 	{
-		final String string;
+		final StringBuffer string = new StringBuffer();
 		if(day < 10)
-			string = "---0" + day;
+			string.append("---0").append(day);
 		else
-			string = "---" + day;
+			string.append("---").append(day);
 
 		if(timeZone == null)
-			return string;
+			return string.toString();
 
 		if(DateTime.GMT.equals(timeZone))
-			return string + "Z";
+			return string.append("Z").toString();
 
-		return string + timeZone.getID().substring(3);
+		return string.append(timeZone.getID().substring(3)).toString();
 	}
 }

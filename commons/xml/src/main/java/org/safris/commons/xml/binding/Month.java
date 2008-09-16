@@ -69,7 +69,7 @@ public class Month
 		}
 		catch(NumberFormatException e)
 		{
-			throw new IllegalArgumentException(e);
+			throw new IllegalArgumentException("month == " + string, e);
 		}
 
 		return month;
@@ -93,6 +93,13 @@ public class Month
 	public Month(int month)
 	{
 		this(month, null);
+	}
+
+	public Month(long time)
+	{
+		final java.util.Date date = new java.util.Date(time);
+		this.month = date.getMonth() + 1;
+		this.timeZone = null;
 	}
 
 	public int getMonth()
@@ -124,18 +131,18 @@ public class Month
 
 	public String toString()
 	{
-		final String string;
+		final StringBuffer buffer = new StringBuffer();
 		if(month < 10)
-			string = "--0" + month;
+			buffer.append("--0").append(month);
 		else
-			string = "--" + month;
+			buffer.append("--").append(month);
 
 		if(timeZone == null)
-			return string;
+			return buffer.toString();
 
 		if(DateTime.GMT.equals(timeZone))
-			return string + "Z";
+			return buffer.append("Z").toString();
 
-		return string + timeZone.getID().substring(3);
+		return buffer.append(timeZone.getID().substring(3)).toString();
 	}
 }

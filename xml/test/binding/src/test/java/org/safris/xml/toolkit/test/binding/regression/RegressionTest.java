@@ -153,7 +153,7 @@ public abstract class RegressionTest
 
 	protected static final DateTime getRandomDateTime()
 	{
-		return new DateTime();
+		return new DateTime(System.currentTimeMillis());
 	}
 
 	protected static final Duration getRandomDuration()

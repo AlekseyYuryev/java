@@ -28,15 +28,18 @@ public class YearMonth
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
+		if(string.length() < YEAR_MONTH_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException("year-month == " + string);
+
 		final int year = Year.parseYearFrag(string);
 		int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
 		final int month = Month.parseMonthFrag(string.substring(index + 1));
-		index = string.indexOf("Z", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
+		index = string.indexOf("Z", YEAR_MONTH_FRAG_MIN_LENGTH);
 		if(index == -1)
-			index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
+			index = string.indexOf("-", YEAR_MONTH_FRAG_MIN_LENGTH);
 
 		if(index == -1)
-			index = string.indexOf("+", Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH);
+			index = string.indexOf("+", YEAR_MONTH_FRAG_MIN_LENGTH);
 
 		final TimeZone timeZone;
 		if(index != -1)
@@ -47,14 +50,23 @@ public class YearMonth
 		return new YearMonth(year, month, timeZone);
 	}
 
-	private final int year;
-	private final int month;
+	protected static final int YEAR_MONTH_FRAG_MIN_LENGTH = Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH;
+
+	private final Year year;
+	private final Month month;
 	private final TimeZone timeZone;
 
-	public YearMonth(int year, int month, TimeZone timeZone)
+	protected YearMonth(Year year, Month month)
 	{
 		this.year = year;
 		this.month = month;
+		this.timeZone = null;
+	}
+
+	public YearMonth(int year, int month, TimeZone timeZone)
+	{
+		this.year = new Year(year);
+		this.month = new Month(month);
 		this.timeZone = timeZone;
 	}
 
@@ -63,14 +75,19 @@ public class YearMonth
 		this(year, month, null);
 	}
 
+	public YearMonth(long time)
+	{
+		this(new Year(time), new Month(time));
+	}
+
 	public int getYear()
 	{
-		return year;
+		return year.getYear();
 	}
 
 	public int getMonth()
 	{
-		return month;
+		return month.getMonth();
 	}
 
 	public TimeZone getTimeZone()
@@ -87,31 +104,23 @@ public class YearMonth
 			return false;
 
 		final YearMonth that = (YearMonth)obj;
-		return this.year == that.year && this.month == that.month && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+		return (year != null ? year.equals(that.year) : that.year == null) && (month != null ? month.equals(that.month) : that.month == null) && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
 	}
 
 	public int hashCode()
 	{
-		return year ^ 5 + month ^ 13 + (timeZone != null ? timeZone.hashCode() : -1);
+		return (year != null ? year.hashCode() : -1) + (month != null ? month.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
 	}
 
 	public String toString()
 	{
 		final StringBuffer buffer = new StringBuffer();
-		if(year < 10)
-			buffer.append("000").append(year);
-		else if(year < 100)
-			buffer.append("00").append(year);
-		else if(year < 1000)
-			buffer.append("0").append(year);
-		else
-			buffer.append(year);
-
+		buffer.append(year);
 		buffer.append("-");
-		if(month < 10)
-			buffer.append("0").append(month);
+		if(getMonth() < 10)
+			buffer.append("0").append(getMonth());
 		else
-			buffer.append(month);
+			buffer.append(getMonth());
 
 		if(timeZone == null)
 			return buffer.toString();

@@ -15,10 +15,9 @@
 
 package org.safris.commons.xml.binding;
 
-import java.util.Date;
 import java.util.TimeZone;
 
-public class DateTime extends Date
+public class DateTime
 {
 	protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
@@ -31,26 +30,13 @@ public class DateTime extends Date
 		if(string.length() < Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH + 1 + Time.HOUR_FRAG_MIN_LENGTH + 1 + Time.MINUTE_FRAG_MIN_LENGTH + 1 + Time.SECOND_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
-		final int year = Year.parseYearFrag(string);
-		final int month = Month.parseMonthFrag(string = string.substring(string.indexOf("-") + 1));
-		final int day = Day.parseDayFrag(string = string.substring(Month.MONTH_FRAG_MIN_LENGTH + 1));
-		final int hour = Time.parseHourFrag(string = string.substring(Day.DAY_FRAG_MIN_LENGTH + 1));
-		final int minute = Time.parseMinuteFrag(string = string.substring(Time.HOUR_FRAG_MIN_LENGTH + 1));
-		final float second = Time.parseSecondFrag(string = string.substring(Time.MINUTE_FRAG_MIN_LENGTH + 1));
-		int index = string.indexOf("Z", Time.SECOND_FRAG_MIN_LENGTH);
+		final Date date = Date.parseDateFrag(string);
+		final int index = string.indexOf("T", Date.DATE_FRAG_MIN_LENGTH);
 		if(index == -1)
-			index = string.indexOf("-", Time.SECOND_FRAG_MIN_LENGTH);
+			throw new IllegalArgumentException("dateTime == " + string);
 
-		if(index == -1)
-			index = string.indexOf("+", Time.SECOND_FRAG_MIN_LENGTH);
-
-		final TimeZone timeZone;
-		if(index != -1)
-			timeZone = Time.parseTimeZoneFrag(string.substring(index));
-		else
-			timeZone = null;
-
-		return new DateTime(year, month, day, hour, minute, second, timeZone);
+		final Time time = Time.parseTime(string.substring(index + 1));
+		return new DateTime(date, time);
 	}
 
 	private static int countMillis(char[] value)
@@ -63,64 +49,64 @@ public class DateTime extends Date
 		return i;
 	}
 
-	private final TimeZone timeZone;
+	private final Date date;
+	private final Time time;
 
-	public DateTime()
+	protected DateTime(Date date, Time time)
 	{
-		super();
-		this.timeZone = null;
+		this.date = date;
+		this.time = time;
 	}
 
-	public DateTime(TimeZone timeZone)
+	public DateTime(int year, int month, int day, int hour, int minute, float second, TimeZone timeZone)
 	{
-		super();
-		this.timeZone = timeZone;
+		date = new Date(year, month, day);
+		time = new Time(hour, minute, second, timeZone);
 	}
 
-	protected DateTime(String s)
+	public DateTime(int year, int month, int day, int hour, int minute, float second)
 	{
-		super(s);
-		timeZone = null;
+		this(year, month, day, hour, minute, second, null);
 	}
 
-	public DateTime(long date, TimeZone timeZone)
+	public DateTime(long time)
 	{
-		super(date);
-		this.timeZone = timeZone;
-	}
-
-	public DateTime(int year, int month, int date, TimeZone timeZone)
-	{
-		super(year + 1900, month + 1, date, 0, 0, 0);
-		this.timeZone = timeZone;
-	}
-
-	public DateTime(int year, int month, int date, int hrs, int min, TimeZone timeZone)
-	{
-		super(year + 1900, month + 1, date, hrs, min, 0);
-		this.timeZone = timeZone;
-	}
-
-	public DateTime(int year, int month, int date, int hrs, int min, float sec, TimeZone timeZone)
-	{
-		super(year + 1900, month + 1, date, hrs, min, (int)Math.floor(sec));
-		this.setTime(this.getTime() + (int)Math.round(10000 * (sec - (int)sec)) / 10);
-		this.timeZone = timeZone;
+		this(new Date(time), new Time(time));
 	}
 
 	public int getYear()
 	{
-		return super.getYear() - 1900;
+		return date.getYear();
 	}
 
 	public int getMonth()
 	{
-		return super.getMonth() - 1;
+		return date.getMonth();
 	}
 
-	protected int getMilliSeconds()
+	public int getDay()
 	{
-		return (int)(getTime() - (int)(getTime() / 1000) * 1000);
+		return date.getDay();
+	}
+
+	public int getHour()
+	{
+		return time.getHour();
+	}
+
+	public int getMinute()
+	{
+		return time.getMinute();
+	}
+
+	public float getSecond()
+	{
+		return time.getSecond();
+	}
+
+	public TimeZone getTimeZone()
+	{
+		return time.getTimeZone();
 	}
 
 	public boolean equals(Object obj)
@@ -132,66 +118,24 @@ public class DateTime extends Date
 			return false;
 
 		final DateTime that = (DateTime)obj;
-		return this.getTime() == that.getTime() && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+		return (date != null ? date.equals(that.date) : that.date == null) && (time != null ? time.equals(that.time) : that.time == null);
 	}
 
 	public int hashCode()
 	{
-		return (int)getTime() + (timeZone != null ? timeZone.hashCode() : -1);
+		return (date != null ? date.hashCode() : -1) + (time != null ? time.hashCode() : -1);
 	}
 
 	public String toString()
 	{
 		final StringBuffer buffer = new StringBuffer();
-		final int year = getYear();
-		final int month = getMonth();
-		final int date = getDate();
-		if(year < 10)
-			buffer.append("000").append(year);
-		else if(year < 100)
-			buffer.append("00").append(year);
-		else if(year < 1000)
-			buffer.append("0").append(year);
-		else
-			buffer.append(year);
-
-		buffer.append("-");
-		if(month < 10)
-			buffer.append("0").append(month);
-		else
-			buffer.append(month);
-
-		buffer.append("-");
-		if(date < 10)
-			buffer.append("0").append(date);
-		else
+		if(date != null)
 			buffer.append(date);
 
 		buffer.append("T");
-		final int hours = getHours();
-		final int minutes = getMinutes();
-		final int seconds = getSeconds();
-		final int millis =  getMilliSeconds();
-		final String hoursString = hours < 9 ? "0" + hours : String.valueOf(hours);
-		final String minutesString = minutes < 9 ? "0" + minutes : String.valueOf(minutes);
-		String secondsString = seconds < 9 ? "0" + seconds : String.valueOf(seconds);
-		if(millis != 0)
-		{
-			secondsString += "." + millis;
-			while(secondsString.endsWith("0"))
-				secondsString = secondsString.substring(0, secondsString.length() - 1);
-		}
+		if(time != null)
+			buffer.append(time);
 
-		buffer.append(hoursString).append(":");
-		buffer.append(minutesString).append(":");
-		buffer.append(secondsString);
-
-		if(timeZone == null)
-			return buffer.toString();
-
-		if(DateTime.GMT.equals(timeZone))
-			return buffer.append("Z").toString();
-
-		return buffer.append(timeZone.getID().substring(3)).toString();
+		return buffer.toString();
 	}
 }
