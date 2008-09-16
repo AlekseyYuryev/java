@@ -15,8 +15,6 @@
 
 package org.safris.commons.xml.binding;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -24,40 +22,35 @@ public class DateTime extends Date
 {
 	protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
-	private static final String formatNoMillis = "yyyy-MM-dd'T'HH:mm:ss";
-	private static final String formatMillis = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-
 	public static DateTime parseDateTime(String string)
 	{
-		final SimpleDateFormat format;
+		if(string == null)
+			throw new NullPointerException("string == null");
+
+		string = string.trim();
+		if(string.length() < Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH + 1 + Time.HOUR_FRAG_MIN_LENGTH + 1 + Time.MINUTE_FRAG_MIN_LENGTH + 1 + Time.SECOND_FRAG_MIN_LENGTH)
+			throw new IllegalArgumentException(string);
+
+		final int year = Year.parseYearFrag(string);
+		final int month = Month.parseMonthFrag(string = string.substring(string.indexOf("-") + 1));
+		final int day = Day.parseDayFrag(string = string.substring(Month.MONTH_FRAG_MIN_LENGTH + 1));
+		final int hour = Time.parseHourFrag(string = string.substring(Day.DAY_FRAG_MIN_LENGTH + 1));
+		final int minute = Time.parseMinuteFrag(string = string.substring(Time.HOUR_FRAG_MIN_LENGTH + 1));
+		final float second = Time.parseSecondFrag(string = string.substring(Time.MINUTE_FRAG_MIN_LENGTH + 1));
+		int index = string.indexOf("Z", Time.SECOND_FRAG_MIN_LENGTH);
+		if(index == -1)
+			index = string.indexOf("-", Time.SECOND_FRAG_MIN_LENGTH);
+
+		if(index == -1)
+			index = string.indexOf("+", Time.SECOND_FRAG_MIN_LENGTH);
+
 		final TimeZone timeZone;
-
-		int dot = formatNoMillis.length() - 2;
-		if(dot < string.length() && string.charAt(dot) == '.')
-		{
-			dot += countMillis(string.substring(dot + 1).toCharArray()) + 1;
-			format = new SimpleDateFormat(formatMillis);
-		}
+		if(index != -1)
+			timeZone = Time.parseTimeZoneFrag(string.substring(index));
 		else
-			format = new SimpleDateFormat(formatNoMillis);
+			timeZone = null;
 
-		// FIXME: Is my substring silly?
-		if(dot < string.length() && (string.charAt(dot) == '+' || string.charAt(dot) == '-'))
-			timeZone = TimeZone.getTimeZone("GMT" + string.substring(dot, dot + 3) + string.substring(dot + 3));
-		else
-			timeZone = TimeZone.getTimeZone("GMT");
-
-		try
-		{
-			format.setTimeZone(timeZone);
-			return new DateTime(format.parse(string.substring(0, dot)).getTime(), timeZone);
-		}
-		catch(ParseException e)
-		{
-			final IllegalArgumentException illegalArgumentException = new IllegalArgumentException(string);
-			illegalArgumentException.setStackTrace(e.getStackTrace());
-			throw illegalArgumentException;
-		}
+		return new DateTime(year, month, day, hour, minute, second, timeZone);
 	}
 
 	private static int countMillis(char[] value)
@@ -75,7 +68,7 @@ public class DateTime extends Date
 	public DateTime()
 	{
 		super();
-		this.timeZone = TimeZone.getTimeZone("GMT");
+		this.timeZone = null;
 	}
 
 	public DateTime(TimeZone timeZone)
@@ -87,7 +80,7 @@ public class DateTime extends Date
 	protected DateTime(String s)
 	{
 		super(s);
-		this.timeZone = TimeZone.getTimeZone("GMT");
+		timeZone = null;
 	}
 
 	public DateTime(long date, TimeZone timeZone)
@@ -98,50 +91,107 @@ public class DateTime extends Date
 
 	public DateTime(int year, int month, int date, TimeZone timeZone)
 	{
-		super(year - 1900, month - 1, date, 0, 0, 0);
+		super(year + 1900, month + 1, date, 0, 0, 0);
 		this.timeZone = timeZone;
 	}
 
 	public DateTime(int year, int month, int date, int hrs, int min, TimeZone timeZone)
 	{
-		super(year - 1900, month - 1, date, hrs, min, 0);
+		super(year + 1900, month + 1, date, hrs, min, 0);
 		this.timeZone = timeZone;
 	}
 
-	public DateTime(int year, int month, int date, int hrs, int min, int sec, TimeZone timeZone)
+	public DateTime(int year, int month, int date, int hrs, int min, float sec, TimeZone timeZone)
 	{
-		super(year - 1900, month - 1, date, hrs, min, sec);
+		super(year + 1900, month + 1, date, hrs, min, (int)Math.floor(sec));
+		this.setTime(this.getTime() + (int)Math.round(10000 * (sec - (int)sec)) / 10);
 		this.timeZone = timeZone;
 	}
 
 	public int getYear()
 	{
-		return super.getYear() + 1900;
+		return super.getYear() - 1900;
 	}
 
 	public int getMonth()
 	{
-		return super.getMonth() + 1;
+		return super.getMonth() - 1;
+	}
+
+	protected int getMilliSeconds()
+	{
+		return (int)(getTime() - (int)(getTime() / 1000) * 1000);
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(obj == this)
+			return true;
+
+		if(!(obj instanceof DateTime))
+			return false;
+
+		final DateTime that = (DateTime)obj;
+		return this.getTime() == that.getTime() && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+	}
+
+	public int hashCode()
+	{
+		return (int)getTime() + (timeZone != null ? timeZone.hashCode() : -1);
 	}
 
 	public String toString()
 	{
-		String dateFormatString = null;
-		if((long)(getTime() / 1000) * 1000 == getTime())
-			dateFormatString = formatNoMillis;
+		final StringBuffer buffer = new StringBuffer();
+		final int year = getYear();
+		final int month = getMonth();
+		final int date = getDate();
+		if(year < 10)
+			buffer.append("000").append(year);
+		else if(year < 100)
+			buffer.append("00").append(year);
+		else if(year < 1000)
+			buffer.append("0").append(year);
 		else
-			dateFormatString = formatMillis;
+			buffer.append(year);
 
-		if(GMT.equals(timeZone))
+		buffer.append("-");
+		if(month < 10)
+			buffer.append("0").append(month);
+		else
+			buffer.append(month);
+
+		buffer.append("-");
+		if(date < 10)
+			buffer.append("0").append(date);
+		else
+			buffer.append(date);
+
+		buffer.append("T");
+		final int hours = getHours();
+		final int minutes = getMinutes();
+		final int seconds = getSeconds();
+		final int millis =  getMilliSeconds();
+		final String hoursString = hours < 9 ? "0" + hours : String.valueOf(hours);
+		final String minutesString = minutes < 9 ? "0" + minutes : String.valueOf(minutes);
+		String secondsString = seconds < 9 ? "0" + seconds : String.valueOf(seconds);
+		if(millis != 0)
 		{
-			final SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "'Z'");
-			dateFormat.setTimeZone(timeZone);
-			return dateFormat.format(this);
+			secondsString += "." + millis;
+			while(secondsString.endsWith("0"))
+				secondsString = secondsString.substring(0, secondsString.length() - 1);
 		}
 
-		final SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString + "Z");
-		dateFormat.setTimeZone(timeZone);
-		final String format = dateFormat.format(this);
-		return format.substring(0, format.length() - 2) + ":" + format.substring(format.length() - 2);
+		buffer.append(hoursString).append(":");
+		buffer.append(minutesString).append(":");
+		buffer.append(secondsString);
+
+		if(timeZone == null)
+			return buffer.toString();
+
+		if(DateTime.GMT.equals(timeZone))
+			return buffer.append("Z").toString();
+
+		return buffer.append(timeZone.getID().substring(3)).toString();
 	}
 }

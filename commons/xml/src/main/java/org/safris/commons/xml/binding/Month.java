@@ -25,7 +25,7 @@ public class Month
 	public static Month parseMonth(String string)
 	{
 		if(string == null)
-			throw new NullPointerException();
+			throw new NullPointerException("string == null");
 
 		string = string.trim();
 		if(!string.startsWith(PAD_FRAG) || string.length() < PAD_FRAG.length() + MONTH_FRAG_MIN_LENGTH)

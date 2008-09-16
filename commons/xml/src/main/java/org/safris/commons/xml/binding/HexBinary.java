@@ -16,6 +16,7 @@
 package org.safris.commons.xml.binding;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 public class HexBinary
 {
@@ -88,6 +89,23 @@ public class HexBinary
 	public byte[] getBytes()
 	{
 		return bytes;
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof Base64Binary))
+			return false;
+
+		final HexBinary that = (HexBinary)obj;
+		return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
+	}
+
+	public int hashCode()
+	{
+		return bytes != null ? Arrays.hashCode(bytes) : -1;
 	}
 
 	/**

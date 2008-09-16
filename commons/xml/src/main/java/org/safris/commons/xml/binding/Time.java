@@ -29,20 +29,20 @@ public class Time
 			throw new NullPointerException("string == null");
 
 		string = string.trim();
-		if(string.length() < TIME_FRAG_MIN_LENGTH)
+		if(string.length() < HOUR_FRAG_MIN_LENGTH + 1 + MINUTE_FRAG_MIN_LENGTH + 1 + SECOND_FRAG_MIN_LENGTH)
 			throw new IllegalArgumentException(string);
 
 		try
 		{
 			final int hour = parseHourFrag(string);
-			final int minute = parseMinuteFrag(string.substring(3));
-			final float second = parseSecondFrag(string.substring(6));
-			int index = string.indexOf("Z", TIME_FRAG_MIN_LENGTH);
+			final int minute = parseMinuteFrag(string = string.substring(HOUR_FRAG_MIN_LENGTH + 1));
+			final float second = parseSecondFrag(string = string.substring(MINUTE_FRAG_MIN_LENGTH + 1));
+			int index = string.indexOf("Z", SECOND_FRAG_MIN_LENGTH);
 			if(index == -1)
-				index = string.indexOf("-", TIME_FRAG_MIN_LENGTH);
+				index = string.indexOf("-", SECOND_FRAG_MIN_LENGTH);
 
 			if(index == -1)
-				index = string.indexOf("+", TIME_FRAG_MIN_LENGTH);
+				index = string.indexOf("+", SECOND_FRAG_MIN_LENGTH);
 
 			final TimeZone timeZone;
 			if(index != -1)
@@ -159,7 +159,6 @@ public class Time
 	protected static final int HOUR_FRAG_MIN_LENGTH = 2;
 	protected static final int MINUTE_FRAG_MIN_LENGTH = 2;
 	protected static final int SECOND_FRAG_MIN_LENGTH = 2;
-	private static final int TIME_FRAG_MIN_LENGTH = HOUR_FRAG_MIN_LENGTH + 1 + MINUTE_FRAG_MIN_LENGTH + 1 + SECOND_FRAG_MIN_LENGTH;
 
 	private final TimeZone timeZone;
 	private final int hours;
@@ -263,7 +262,7 @@ public class Time
 
 	public int hashCode()
 	{
-		return (timeZone != null ? timeZone.hashCode() : -1) + hours ^ 3 + minutes ^ 5 + (int)(seconds * 1000) ^ 7;
+		return hours ^ 3 + minutes ^ 5 + (int)(seconds * 1000) ^ 7 + (timeZone != null ? timeZone.hashCode() : -1);
 	}
 
 	public String toString()

@@ -16,6 +16,7 @@
 package org.safris.commons.xml.binding;
 
 import java.io.IOException;
+import java.util.Arrays;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -62,7 +63,13 @@ public final class Base64Binary
 		if(!(obj instanceof Base64Binary))
 			return false;
 
-		return toString().equals(obj.toString());
+		final Base64Binary that = (Base64Binary)obj;
+		return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
+	}
+
+	public int hashCode()
+	{
+		return bytes != null ? Arrays.hashCode(bytes) : -1;
 	}
 
 	/**

@@ -63,6 +63,13 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>DateTimeTest</name>
+		<target>org.safris.commons.xml.binding.DateTimeTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>TimeTest</name>
 		<target>org.safris.commons.xml.binding.TimeTest</target>
 		<vmOtherOptions/>
