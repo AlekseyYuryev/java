@@ -20,6 +20,9 @@ import java.util.Arrays;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#base64Binary
+ */
 public final class Base64Binary
 {
 	public static Base64Binary parseBase64Binary(String string)

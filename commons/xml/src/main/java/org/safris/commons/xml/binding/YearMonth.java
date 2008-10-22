@@ -56,18 +56,22 @@ public class YearMonth
 	private final Month month;
 	private final TimeZone timeZone;
 
-	protected YearMonth(Year year, Month month)
+	protected YearMonth(Year year, Month month, TimeZone timeZone)
 	{
+		if(year == null)
+			throw new NullPointerException("year == null");
+
+		if(month == null)
+			throw new NullPointerException("month == null");
+
 		this.year = year;
 		this.month = month;
-		this.timeZone = null;
+		this.timeZone = timeZone;
 	}
 
 	public YearMonth(int year, int month, TimeZone timeZone)
 	{
-		this.year = new Year(year);
-		this.month = new Month(month);
-		this.timeZone = timeZone;
+		this(new Year(year), new Month(month), timeZone);
 	}
 
 	public YearMonth(int year, int month)
@@ -77,7 +81,12 @@ public class YearMonth
 
 	public YearMonth(long time)
 	{
-		this(new Year(time), new Month(time));
+		this(new Year(time), new Month(time), null);
+	}
+
+	public YearMonth()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getYear()

@@ -18,6 +18,9 @@ package org.safris.commons.xml.binding;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#hexBinary
+ */
 public class HexBinary
 {
 	public static HexBinary parseHexBinary(String string)
@@ -26,7 +29,7 @@ public class HexBinary
 			return null;
 
 		if(string.length() % 2 != 0)
-			throw new IllegalArgumentException("odd hex string length");
+			throw new IllegalArgumentException("odd length of hex string");
 
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		for(int i = 0; i < string.length(); i += 2)

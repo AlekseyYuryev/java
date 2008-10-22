@@ -72,27 +72,26 @@ public class MonthDay
 
 	public MonthDay(int month, int day, TimeZone timeZone)
 	{
-		this.month = new Month(month);
-		this.day = new Day(day);
-		this.timeZone = timeZone;
-		if(month < 0 || 12 < month)
-			throw new IllegalArgumentException("month == " + month);
-
-		if(day < 0 || 31 < day)
-			throw new IllegalArgumentException("day == " + day);
-
-		if(month == 2 && 29 < day)
-			throw new IllegalArgumentException("month == " + month + " day == " + day);
-
-		if(Arrays.binarySearch(LONG_MONTHS, month) < 0 && 30 < day)
-			throw new IllegalArgumentException("month == " + month + " day == " + day);
+		this(new Month(month), new Day(day), timeZone);
 	}
 
-	protected MonthDay(Month month, Day day)
+	protected MonthDay(Month month, Day day, TimeZone timeZone)
 	{
+		if(month == null)
+			throw new NullPointerException("month == null");
+
+		if(day == null)
+			throw new NullPointerException("day == null");
+
 		this.month = month;
 		this.day = day;
-		this.timeZone = null;
+		if(month.getMonth() == 2 && 29 < day.getDay())
+			throw new IllegalArgumentException("month == " + month + " day == " + day);
+
+		if(Arrays.binarySearch(LONG_MONTHS, month.getMonth()) < 0 && 30 < day.getDay())
+			throw new IllegalArgumentException("month == " + month + " day == " + day);
+
+		this.timeZone = timeZone;
 	}
 
 	public MonthDay(int month, int day)
@@ -102,7 +101,12 @@ public class MonthDay
 
 	public MonthDay(long time)
 	{
-		this(new Month(time), new Day(time));
+		this(new Month(time), new Day(time), null);
+	}
+
+	public MonthDay()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getMonth()

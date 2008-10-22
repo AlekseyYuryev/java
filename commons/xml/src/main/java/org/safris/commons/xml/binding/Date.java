@@ -70,7 +70,7 @@ public class Date
 	private final Day day;
 	private final TimeZone timeZone;
 
-	protected Date(YearMonth yearMonth, Day day)
+	protected Date(YearMonth yearMonth, Day day, TimeZone timeZone)
 	{
 		if(yearMonth == null)
 			throw new NullPointerException("yearMonth == null");
@@ -78,16 +78,15 @@ public class Date
 		if(day == null)
 			throw new NullPointerException("day == null");
 
+		new MonthDay(yearMonth.getMonth(), day.getDay());
 		this.yearMonth = yearMonth;
 		this.day = day;
-		this.timeZone = null;
+		this.timeZone = timeZone;
 	}
 
 	public Date(int year, int month, int day, TimeZone timeZone)
 	{
-		this.yearMonth = new YearMonth(year, month);
-		this.day = new Day(day);
-		this.timeZone = timeZone;
+		this(new YearMonth(year, month), new Day(day), timeZone);
 	}
 
 	public Date(int year, int month, int day)
@@ -97,7 +96,12 @@ public class Date
 
 	public Date(long time)
 	{
-		this(new YearMonth(time), new Day(time));
+		this(new YearMonth(time), new Day(time), null);
+	}
+
+	public Date()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getYear()

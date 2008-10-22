@@ -85,7 +85,7 @@ public class Month
 	{
 		this.month = month;
 		if(month < 0 || 12 < month)
-			throw new IllegalArgumentException("month = " + month);
+			throw new IllegalArgumentException("month == " + month);
 
 		this.timeZone = timeZone;
 	}
@@ -100,6 +100,11 @@ public class Month
 		final java.util.Date date = new java.util.Date(time);
 		this.month = date.getMonth() + 1;
 		this.timeZone = null;
+	}
+
+	public Month()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getMonth()

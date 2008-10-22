@@ -19,8 +19,6 @@ import java.util.TimeZone;
 
 public class DateTime
 {
-	protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
-
 	public static DateTime parseDateTime(String string)
 	{
 		if(string == null)
@@ -39,29 +37,26 @@ public class DateTime
 		return new DateTime(date, time);
 	}
 
-	private static int countMillis(char[] value)
-	{
-		int i;
-		for(i = 0; i < value.length; i++)
-			if('9' < value[i] || value[i] < '0')
-				break;
-
-		return i;
-	}
+	protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
 	private final Date date;
 	private final Time time;
 
 	protected DateTime(Date date, Time time)
 	{
+		if(date == null)
+			throw new NullPointerException("date == null");
+
+		if(time == null)
+			throw new NullPointerException("time == null");
+
 		this.date = date;
 		this.time = time;
 	}
 
 	public DateTime(int year, int month, int day, int hour, int minute, float second, TimeZone timeZone)
 	{
-		date = new Date(year, month, day);
-		time = new Time(hour, minute, second, timeZone);
+		this(new Date(year, month, day), new Time(hour, minute, second, timeZone));
 	}
 
 	public DateTime(int year, int month, int day, int hour, int minute, float second)
@@ -72,6 +67,11 @@ public class DateTime
 	public DateTime(long time)
 	{
 		this(new Date(time), new Time(time));
+	}
+
+	public DateTime()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getYear()

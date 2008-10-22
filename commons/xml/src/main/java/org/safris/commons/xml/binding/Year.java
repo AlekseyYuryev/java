@@ -104,6 +104,11 @@ public class Year
 		this.timeZone = null;
 	}
 
+	public Year()
+	{
+		this(System.currentTimeMillis());
+	}
+
 	public int getYear()
 	{
 		return year;

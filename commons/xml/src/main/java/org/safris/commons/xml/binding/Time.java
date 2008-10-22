@@ -189,6 +189,11 @@ public class Time
 		this.timeZone = null;
 	}
 
+	public Time()
+	{
+		this(System.currentTimeMillis());
+	}
+
 	public int getHour()
 	{
 		return hour;

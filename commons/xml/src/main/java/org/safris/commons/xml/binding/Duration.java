@@ -15,12 +15,15 @@
 
 package org.safris.commons.xml.binding;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#duration
+ */
 public class Duration
 {
 	public static Duration parseDuration(String string)
 	{
 		if(string == null)
-			throw new NullPointerException("The duration value must not be null.");
+			throw new NullPointerException("string == null");
 
 		int len = string.length();
 		int offset = 0;

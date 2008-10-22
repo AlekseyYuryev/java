@@ -89,7 +89,7 @@ public class Day
 	{
 		this.day = day;
 		if(day < 0 || 31 < day)
-			throw new IllegalArgumentException("day = " + day);
+			throw new IllegalArgumentException("day == " + day);
 
 		this.timeZone = timeZone;
 	}
@@ -104,6 +104,11 @@ public class Day
 		final java.util.Date date = new java.util.Date(time);
 		this.day = date.getDate();
 		this.timeZone = null;
+	}
+
+	public Day()
+	{
+		this(System.currentTimeMillis());
 	}
 
 	public int getDay()

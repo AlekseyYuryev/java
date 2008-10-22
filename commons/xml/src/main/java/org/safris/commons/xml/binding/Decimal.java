@@ -15,6 +15,9 @@
 
 package org.safris.commons.xml.binding;
 
+/**
+ * http://www.w3.org/TR/xmlschema11-2/#decimal
+ */
 public class Decimal extends Number
 {
 	public static Decimal parseDecimal(String string)
