@@ -18,7 +18,10 @@ package org.safris.maven.plugin.codeguide.javaproj;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Resource;
@@ -210,6 +213,26 @@ public class JavaProjectMojo extends CodeGuideMojo
 		return stateManager;
 	}
 
+	/**
+	 * File path to a project if it's already been added to a dependency. This
+	 * is why this code sits here where we first resolve the dependencies and
+	 * project references.
+	 */
+	private Set<File> filterDuplicateSources(JavaProject javaProject, Set<File> sources)
+	{
+		final Map<String,File> sourcesMap = new HashMap<String,File>();
+		for(File file : sources)
+			sourcesMap.put(Files.relativePath(javaProject.getDir(), file), file);
+
+		final Set<String> addedSources = getStateManager().getAddedSources(javaProject.getProjectReferences());
+		for(String addedSource : addedSources)
+			if(addedSource.endsWith(".java"))
+				sourcesMap.remove(addedSource);
+
+		getStateManager().setAddedSources(javaProject, sourcesMap.keySet());
+		return Collections.<File>unmodifiableSet(new HashSet<File>(sourcesMap.values()));
+	}
+
 	public void execute() throws MojoExecutionException
 	{
 		// This has to be done first to initialize the StateManager.
@@ -225,8 +248,7 @@ public class JavaProjectMojo extends CodeGuideMojo
 		final JavaProject javaProject = new JavaProject(self, getProject().getFile().getParentFile());
 		stateManager.put(self, javaProject);
 
-		// Find the project's sources, resources, and dependencies
-		javaProject.setSourceFiles(findSources());
+		// Find the project's resources, and dependencies
 		javaProject.setResourceFiles(findResources());
 		javaProject.setDependencies(DependencyMojo.getDependencies(this));
 
@@ -240,6 +262,10 @@ public class JavaProjectMojo extends CodeGuideMojo
 			for(JavaProject project : stateManager.getJavaProjects())
 			{
 				resolveDependencies(project, stateManager);
+				// For the sources, we dont want to add the same relative
+				if(project == javaProject)
+					javaProject.setSourceFiles(filterDuplicateSources(javaProject, findSources()));
+
 				JavaProjectWriter.write(project);
 			}
 		}

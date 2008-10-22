@@ -15,7 +15,10 @@
 
 package org.safris.maven.plugin.codeguide;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
@@ -27,6 +30,7 @@ public class StateManager
 	private final Solution solution;
 	private final Map<GroupArtifact,JavaProject> artifactToProject = new HashMap<GroupArtifact,JavaProject>();
 	private final Map<JavaProject,GroupArtifact> projectToArtifact = new HashMap<JavaProject,GroupArtifact>();
+	private final Map<JavaProject,Set<String>> sourcesMap = new HashMap<JavaProject,Set<String>>();
 
 	public StateManager(Solution solution)
 	{
@@ -62,5 +66,23 @@ public class StateManager
 	public Set<JavaProject> getJavaProjects()
 	{
 		return projectToArtifact.keySet();
+	}
+
+	public Set<String> getAddedSources(Set<JavaProject> javaProjects)
+	{
+		final Set<String> addedSources = new HashSet<String>();
+		for(JavaProject javaProject : javaProjects)
+		{
+			final Set<String> sources = sourcesMap.get(javaProject);
+			if(sources != null)
+				addedSources.addAll(sources);
+		}
+
+		return Collections.<String>unmodifiableSet(addedSources);
+	}
+
+	public Set<String> setAddedSources(JavaProject javaProject, Set<String> sources)
+	{
+		return sourcesMap.put(javaProject, sources);
 	}
 }
