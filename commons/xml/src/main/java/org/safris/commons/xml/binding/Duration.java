@@ -25,117 +25,106 @@ public class Duration
 		if(string == null)
 			throw new NullPointerException("string == null");
 
-		int len = string.length();
-		int offset = 0;
-		boolean isNegative;
-		if(len > 0)
-		{
-			final char c = string.charAt(0);
-			if(c == '-')
-			{
-				isNegative = true;
-				++offset;
-			}
-			else if(c == '+')
-			{
-				isNegative = false;
-				++offset;
-			}
-			else
-			{
-				isNegative = false;
-			}
-		}
-		else
-		{
+		string = string.trim();
+		if(string.length() == 0)
 			throw new IllegalArgumentException("Invalid duration: Empty string");
+
+		int offset = 0;
+		final boolean isNegative;
+		final char signChar = string.charAt(0);
+		if(signChar == '-')
+		{
+			isNegative = true;
+			++offset;
+		}
+		else if(signChar == '+')
+		{
+			isNegative = false;
+			++offset;
+		}
+		else
+		{
+			isNegative = false;
 		}
 
-		if(len == 0  ||  string.charAt(offset) != 'P')
+		if(string.charAt(offset) != P)
 			throw new IllegalArgumentException("Invalid duration: " + string + " (must start with P, +P, or -P)");
-		else
-			++offset;
 
-		int years = -1, months = -1, daysOfMonth = -1, hours = -1, minutes = -1, seconds = -1;
-		int preDurationPoint = -1;
+		long years = -1;
+		long months = -1;
+		long days = -1;
+		long hours = -1;
+		long minutes = -1;
+		float seconds = -1;
+		long secondsDecimalDigits = -1;
 		boolean separatorSeen = false;
-		final StringBuffer digits = new StringBuffer();
-		while(offset < len)
+
+		final StringBuffer buffer = new StringBuffer();
+		while(++offset < string.length())
 		{
-			char c = string.charAt(offset);
-			if(Character.isDigit(c))
+			final char ch = string.charAt(offset);
+			if(Character.isDigit(ch))
 			{
-				digits.append(c);
+				buffer.append(ch);
 			}
-			else if(c == 'T')
+			else if(ch == T)
 			{
 				if(separatorSeen)
 					throw new IllegalArgumentException("Invalid duration: " + string + " (date/time separator 'T' used twice)");
-				else
-					separatorSeen = true;
+
+				separatorSeen = true;
 			}
 			else
 			{
-				int l;
-				if(digits.length() == 0)
+				long digits;
+				if(buffer.length() == 0)
 				{
-					l = 0;
+					digits = 0;
 				}
 				else
 				{
 					try
 					{
-						l = Integer.parseInt(digits.toString());
+						digits = Long.parseLong(buffer.toString());
 					}
 					catch(NumberFormatException e)
 					{
-						throw new IllegalArgumentException("Invalid duration: "  + string + " (max long value exceeded by " + digits + ")");
+						throw new IllegalArgumentException("Invalid duration: "  + string + " (max long value exceeded by " + buffer + ")");
 					}
 
-					digits.setLength(0);
+					buffer.setLength(0);
 				}
-				if(preDurationPoint >= 0)
-				{
-					if(c == 'S')
-					{
-						if(!separatorSeen)
-							throw new IllegalArgumentException("Invalid duration: " + string + "(seconds specified before date/time separator 'T' seen)");
 
-						if(seconds != -1)
-							throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified twice)");
-
-						seconds = preDurationPoint;
-						preDurationPoint = -1;
-					}
-					else
-					{
-						throw new IllegalArgumentException("Invalid duration: " + string + " (Duration point not allowed here: " + preDurationPoint + "." + digits + c + ")");
-					}
-				}
-				else if(l > Integer.MAX_VALUE)
+				if(secondsDecimalDigits > -1)
 				{
-					throw new IllegalArgumentException("Invalid duration: " + string + " (max integer value exceeded by " + digits + ")");
+					if(ch != S)
+						throw new IllegalArgumentException("Invalid duration: " + string + " (Duration point not allowed here: " + secondsDecimalDigits + "." + buffer + ch + ")");
+
+					if(!separatorSeen)
+						throw new IllegalArgumentException("Invalid duration: " + string + "(seconds specified before date/time separator 'T' seen)");
+
+					if(seconds != -1)
+						throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified twice)");
+
+					seconds = Float.parseFloat(secondsDecimalDigits + "." + digits);
+					secondsDecimalDigits = -1;
 				}
 				else
 				{
-					int i = l;
-					if(c == '.')
+					if(ch == '.')
 					{
-						preDurationPoint = i;
+						secondsDecimalDigits = digits;
 					}
 					else if(separatorSeen)
 					{
-						if(c == 'Y'  ||  c == 'D')
-							throw new IllegalArgumentException("Invalid duration: " + string + " (years or days of month specified after date/time separator 'T' seen)");
-
-						if(c == 'S')
+						if(ch == S)
 						{
 							if(seconds != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified twice)");
 
-							seconds = i;
+							seconds = digits;
 						}
-						else if(c == 'M')
+						else if(ch == M)
 						{
 							if(minutes != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (minutes specified twice)");
@@ -143,9 +132,9 @@ public class Duration
 							if(seconds != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (minutes specified after seconds)");
 
-							minutes = i;
+							minutes = digits;
 						}
-						else if(c == 'H')
+						else if(ch == H)
 						{
 							if(hours != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (hours specified twice)");
@@ -156,15 +145,14 @@ public class Duration
 							if(seconds != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (seconds specified after minutes)");
 
-							hours = i;
+							hours = digits;
 						}
+						else if(ch == Y || ch == D)
+							throw new IllegalArgumentException("Invalid duration: " + string + " (years or days of month specified after date/time separator 'T' seen)");
 					}
 					else
 					{
-						if(c == 'H'  ||  c == 'S')
-							throw new IllegalArgumentException("Invalid duration: " + string + " (hours or seconds specified before date/time separator 'T' seen)");
-
-						if(c == 'Y')
+						if(ch == Y)
 						{
 							if(years != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified twice)");
@@ -172,36 +160,36 @@ public class Duration
 							if(months != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified after months)");
 
-							if(daysOfMonth != -1)
+							if(days != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (years specified after days of month)");
 
-							years = i;
+							years = digits;
 						}
-						else if(c == 'M')
+						else if(ch == M)
 						{
 							if(months != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (months specified twice)");
 
-							if(daysOfMonth != -1)
+							if(days != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (days of month specified after months)");
 
-							months = i;
+							months = digits;
 						}
-						else if(c == 'D')
+						else if(ch == D)
 						{
-							if(daysOfMonth != -1)
+							if(days != -1)
 								throw new IllegalArgumentException("Invalid duration: " + string + " (days of month specified twice)");
 
-							daysOfMonth = i;
+							days = digits;
 						}
+						else if(ch == H || ch == S)
+							throw new IllegalArgumentException("Invalid duration: " + string + " (hours or seconds specified before date/time separator 'T' seen)");
 					}
 				}
 			}
-
-			++offset;
 		}
 
-		return new Duration(isNegative, years == -1 ? 0 : years, months == -1 ? 0 : months, daysOfMonth == -1 ? 0 : daysOfMonth, hours == -1 ? 0 : hours, minutes == -1 ? 0 : minutes, seconds == -1 ? 0 : seconds);
+		return new Duration(isNegative, years == -1 ? 0 : years, months == -1 ? 0 : months, days == -1 ? 0 : days, hours == -1 ? 0 : hours, minutes == -1 ? 0 : minutes, seconds == -1 ? 0 : seconds);
 	}
 
 	private static final char P = 'P';
@@ -212,16 +200,13 @@ public class Duration
 	private static final char H = 'H';
 	private static final char S = 'S';
 
-	private java.util.Date value = null;
 	private boolean isNegative = false;
-
-	public Duration(Duration binding)
-	{
-		if(binding == null)
-			throw new IllegalArgumentException("value cannot be null");
-
-		this.value = binding.value;
-	}
+	private final long years;
+	private final long months;
+	private final long days;
+	private final long hours;
+	private final long minutes;
+	private final float seconds;
 
 	protected Duration()
 	{
@@ -230,95 +215,119 @@ public class Duration
 
 	public Duration(boolean isNegative, int years)
 	{
-		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, 0, 0, 0, 0, 0);
+		this(isNegative, years, 0, 0, 0, 0, 0);
 	}
 
-	public Duration(boolean isNegative, int years, int months)
+	public Duration(boolean isNegative, long years, long months)
 	{
-		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, months, 0, 0, 0, 0);
+		this(isNegative, years, months, 0, 0, 0, 0);
 	}
 
-	public Duration(boolean isNegative, int years, int months, int days)
+	public Duration(boolean isNegative, long years, long months, long days)
 	{
-		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, months, days, 0, 0, 0);
+		this(isNegative, years, months, days, 0, 0, 0);
 	}
 
-	public Duration(boolean isNegative, int years, int months, int days, int hours)
+	public Duration(boolean isNegative, long years, long months, long days, long hours)
 	{
-		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, months, days, hours, 0, 0);
+		this(isNegative, years, months, days, hours, 0, 0);
 	}
 
-	public Duration(boolean isNegative, int years, int months, int days, int hours, int minutes)
+	public Duration(boolean isNegative, long years, long months, long days, long hours, long minutes)
 	{
-		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, months, days, hours, minutes, 0);
+		this(isNegative, years, months, days, hours, minutes, 0);
 	}
 
-	public Duration(boolean isNegative, int years, int months, int days, int hours, int minutes, int seconds)
+	public Duration(boolean isNegative, long years, long months, long days, long hours, long minutes, float seconds)
 	{
 		this.isNegative = isNegative;
-		this.value = new java.util.Date(years, months, days, hours, minutes, seconds);
+		this.years = years;
+		this.months = months;
+		this.days = days;
+		this.hours = hours;
+		this.minutes = minutes;
+		this.seconds = seconds;
+	}
+
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+
+		if(!(obj instanceof Duration))
+			return false;
+
+		final Duration that = (Duration)obj;
+		return (isNegative == that.isNegative) && (years == that.years) && (months == that.months) && (days == that.days) && (hours == that.hours) && (minutes == that.minutes) && (seconds == that.seconds);
+	}
+
+	// FIXME: Come up with a better hash algorithm
+	public int hashCode()
+	{
+		return (int)((isNegative ? -1 : 1) * (years + 1) * (months + 1) + (days + 1) * (hours + 1) * (minutes + 1) * (seconds + 1));
 	}
 
 	public String toString()
 	{
-		final StringBuffer stringBuffer;
+		final StringBuffer buffer;
 		if(isNegative)
-			stringBuffer = new StringBuffer("-");
+			buffer = new StringBuffer("-");
 		else
-			stringBuffer = new StringBuffer();
+			buffer = new StringBuffer();
 
-		stringBuffer.append(String.valueOf(P));
-		if(this.value.getYear() != -1)
+		buffer.append(String.valueOf(P));
+		if(years != -1)
 		{
-			if(this.value.getYear() != 0)
+			if(years != 0)
 			{
-				stringBuffer.append(this.value.getYear());
-				stringBuffer.append(Y);
+				buffer.append(years);
+				buffer.append(Y);
 			}
 
-			if(this.value.getMonth() != 0)
+			if(months != 0)
 			{
-				stringBuffer.append(this.value.getMonth());
-				stringBuffer.append(M);
+				buffer.append(months);
+				buffer.append(M);
 			}
 
-			if(this.value.getDate() != 0)
+			if(days != 0)
 			{
-				stringBuffer.append(this.value.getDate());
-				stringBuffer.append(D);
+				buffer.append(days);
+				buffer.append(D);
 			}
 		}
 
-		if(this.value.getHours() != 0 || this.value.getMinutes() != 0 || this.value.getSeconds() != 0)
+		if(hours != 0 || minutes != 0 || seconds != 0)
 		{
-			stringBuffer.append(T);
-			if(this.value.getHours() != 0)
+			buffer.append(T);
+			if(hours != 0)
 			{
-				stringBuffer.append(this.value.getHours());
-				stringBuffer.append(H);
+				buffer.append(hours);
+				buffer.append(H);
 			}
 
-			if(this.value.getMinutes() != 0)
+			if(minutes != 0)
 			{
-				stringBuffer.append(this.value.getMinutes());
-				stringBuffer.append(M);
+				buffer.append(minutes);
+				buffer.append(M);
 			}
 
-			if(this.value.getSeconds() != 0)
+			if(seconds != 0)
 			{
-				stringBuffer.append(this.value.getSeconds());
-				stringBuffer.append(S);
+				buffer.append(seconds);
+				while(buffer.charAt(buffer.length() - 1) == '0')
+					buffer.deleteCharAt(buffer.length() - 1);
+
+				if(buffer.charAt(buffer.length() - 1) == '.')
+					buffer.deleteCharAt(buffer.length() - 1);
+
+				buffer.append(S);
 			}
 		}
 
-		if(stringBuffer.length() == 1)
-			stringBuffer.append(0).append(D);
+		if(buffer.length() == 1)
+			buffer.append(0).append(D);
 
-		return stringBuffer.toString();
+		return buffer.toString();
 	}
 }

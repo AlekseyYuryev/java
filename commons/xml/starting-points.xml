@@ -84,6 +84,13 @@
 	</startingPoint>
 	<startingPoint>
 		<commandLineArguments/>
+		<name>DurationTest</name>
+		<target>org.safris.commons.xml.binding.DurationTest</target>
+		<vmOtherOptions/>
+		<workingDir/>
+	</startingPoint>
+	<startingPoint>
+		<commandLineArguments/>
 		<name>NamespaceBindingTest</name>
 		<target>org.safris.commons.xml.NamespaceBindingTest</target>
 		<vmOtherOptions/>
