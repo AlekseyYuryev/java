@@ -42,6 +42,10 @@
 						</xs:element>
 					</xs:sequence>
 				</xs:complexType>
+				<xs:unique name="uniqueNode">
+					<xs:selector xpath="ex:node"/>
+					<xs:field xpath="@rule"/>
+				</xs:unique>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="exec" type="xs:string" use="required"/>
