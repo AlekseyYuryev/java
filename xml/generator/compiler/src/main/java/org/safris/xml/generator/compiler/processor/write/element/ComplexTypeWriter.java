@@ -372,6 +372,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
 				writer.write("if(text == null && value.length() != 0)\n");
 				writer.write("text = new " + String.class.getName() + "(value);\n");
 				writer.write("}\n");
+				writer.write("return true;\n");
 				writer.write("}\n");
 			}
 			else

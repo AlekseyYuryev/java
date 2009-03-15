@@ -560,6 +560,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 				writer.write("else\n");
 				writer.write("text += element.getNodeValue();\n");
 				writer.write("}\n");
+				writer.write("return true;\n");
 				writer.write("}\n");
 			}
 			else
