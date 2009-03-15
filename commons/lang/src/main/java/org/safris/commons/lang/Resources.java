@@ -64,8 +64,7 @@ public final class Resources
 			return new Resource(url, classLoader);
 
 		final Class callerClass = Reflection.getCallerClass(2);
-		classLoader = callerClass.getClassLoader();
-		url = classLoader.getResource(name);
+		url = callerClass.getResource(name);
 		if(url != null)
 			return new Resource(url, classLoader);
 

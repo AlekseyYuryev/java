@@ -231,11 +231,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T>
 			writer.write(((AttributePlan)attribute).getFixedInstanceCall(plan));
 		writer.write("}\n");
 
-		if(plan.getName().getLocalPart().contains("four"))
-		{
-			int i = 0;
-		}
-
 		// MIXED CONSTRUCTOR
 		if(!plan.isComplexType() || (plan.getMixed() == null && plan.getMixedType()) || (plan.getMixed() != null && plan.getMixed()))
 		{

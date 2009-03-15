@@ -105,7 +105,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
 		if(mixedType != null)
 			return mixedType;
 
-		// this flag may be a HACk. I am using it to see if I have a restriction in the chain of
+		// this flag may be a HACK. I am using it to see if I have a restriction in the chain of
 		// dependencies. If I do, then mixed="true" has to be stated explicitly.
 		boolean isEverRestriction = false;
 		TypeableModel parent = getModel();

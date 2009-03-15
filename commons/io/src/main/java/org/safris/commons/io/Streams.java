@@ -115,7 +115,7 @@ public final class Streams
 				}
 				catch(IOException e)
 				{
-					if("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()))
+					if("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage()))
 						return;
 
 					e.printStackTrace();

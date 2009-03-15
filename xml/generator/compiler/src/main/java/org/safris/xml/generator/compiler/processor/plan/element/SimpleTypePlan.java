@@ -227,11 +227,6 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 		superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);
 		superClassNameWithType = superClassNameWithoutType + "<T>";
 
-		if(getName().getLocalPart().contains("four"))
-		{
-			int i = 0;
-		}
-
 		// Gets the XS simpleType name of the itemType
 		digItemTypes(baseNonXSType);
 
