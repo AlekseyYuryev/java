@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.Java;
 
 /**
  * @goal report
- * @phase test
+ * @phase verify
  */
 public class ReportMojo extends CoberturaMojo
 {
@@ -64,8 +64,7 @@ public class ReportMojo extends CoberturaMojo
 		}
 		catch(BuildException e)
 		{
-			e.printStackTrace();
-			return;
+			throw new MojoExecutionException(e.getMessage(), e);
 		}
 
 		getLog().info("Cobertura report url: file:///" + getCoberturaDir().getAbsolutePath() + "/report/index.html");

@@ -82,6 +82,16 @@ final class CompositeElementStore
 		}
 	}
 
+	protected void addAfter(Binding after, Binding element, ElementAudit<Binding> elementAudit)
+	{
+		synchronized(elements)
+		{
+			final int index = elements.indexOf(after);
+			elements.add(index + 1, element);
+			elementAudits.add(index, elementAudit);
+		}
+	}
+
 	protected void replace(Binding original, Binding element, ElementAudit<Binding> elementAudit)
 	{
 		synchronized(elements)

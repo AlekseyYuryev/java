@@ -65,7 +65,7 @@ public class InstrumentMojo extends CoberturaMojo
 		fileSet.setFollowSymlinks(true);
 		fileSet.setDir(coberturaClassesDir);
 		fileSet.setIncludes("**/*.class");
-		fileSet.setExcludes("**/*Test.class");
+		fileSet.setExcludes("**/*Test*.class");
 
 		final Project project = new Project();
 		project.addTaskDefinition("java", Java.class);

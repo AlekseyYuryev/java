@@ -49,7 +49,9 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E>
 
 	public boolean add(E o)
 	{
-		return add(o, true);
+		final E after = get(size() - 1);
+		elementAudit.getParent()._$$addElementAfter(after, elementAudit, o);
+		return super.add(o);
 	}
 
 	public E set(int index, E element)

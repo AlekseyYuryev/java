@@ -127,17 +127,6 @@ public class IteratorTest extends AbstractTest
 			}
 		}
 
-		// These lines assert that the listIterator.add() method works
-		listIterator = c.get_innerF().listIterator();
-		while(listIterator.hasNext())
-		{
-			if(listIterator.next() == addBeforeMe)
-			{
-				listIterator.add(new or_C._innerF(55f));
-				break;
-			}
-		}
-
 		// These lines assert that the element removal code works
 		assertFalse(c.get_innerA().remove(keepMe));
 		assertTrue(c.get_innerA().remove(removeMe3));
@@ -151,6 +140,17 @@ public class IteratorTest extends AbstractTest
 		root.addor_B(b);
 		root.addor_C(c);
 		root.addor_B(remove_b);
+
+		// These lines assert that the listIterator.add() method works
+		listIterator = c.get_innerF().listIterator();
+		while(listIterator.hasNext())
+		{
+			if(listIterator.next() == addBeforeMe)
+			{
+				listIterator.add(new or_C._innerF(55f));
+				break;
+			}
+		}
 
 		// These lines assert that the elementIterator.remove() method works
 		iterator = root.elementIterator();

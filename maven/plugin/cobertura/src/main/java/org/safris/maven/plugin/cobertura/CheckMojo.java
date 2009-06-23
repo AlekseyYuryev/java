@@ -24,7 +24,7 @@ import org.apache.tools.ant.taskdefs.Java;
 
 /**
  * @goal check
- * @phase test
+ * @phase verify
  */
 public class CheckMojo extends CoberturaMojo
 {

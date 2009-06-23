@@ -47,6 +47,9 @@
 		</A>
 		<innerE>false</innerE>
 		<innerF>4</innerF>
+		<innerF>54</innerF>
+		<innerF>55</innerF>
+		<innerF>56</innerF>
 		<B>
 			<innerA>hi!!</innerA>
 			<innerB>2</innerB>
@@ -59,11 +62,8 @@
 			<innerE>true</innerE>
 			<innerF>5.3</innerF>
 		</B>
-		<innerG>-99</innerG>
 		<innerA>again</innerA>
-		<innerF>54</innerF>
-		<innerF>55</innerF>
-		<innerF>56</innerF>
+		<innerG>-99</innerG>
 		<innerG>99</innerG>
 	</C>
 </root>

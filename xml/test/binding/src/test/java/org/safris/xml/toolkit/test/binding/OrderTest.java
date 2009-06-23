@@ -69,12 +69,12 @@ public class OrderTest extends AbstractTest
 		or_C._innerA removeMe3 = new or_C._innerA("removeMe");
 		c.add_innerA(removeMe3);
 		c.add_innerG(new or_C._innerG(-99d));
-		c.add_innerA(new or_C._innerA("again"));
+		c.get_innerA().add(new or_C._innerA("again"));
 		c.add_innerB(removeMe1);
 		c.add_innerB(removeMe2);
-		c.add_innerF(new or_C._innerF(54f));
-		c.add_innerF(new or_C._innerF(55f));
-		c.add_innerF(new or_C._innerF(56f));
+		c.get_innerF().add(new or_C._innerF(54f));
+		c.get_innerF().add(new or_C._innerF(55f));
+		c.get_innerF().add(new or_C._innerF(56f));
 		c.add_innerG(new or_C._innerG(99d));
 
 		// These lines assert that the element removal code works properly.

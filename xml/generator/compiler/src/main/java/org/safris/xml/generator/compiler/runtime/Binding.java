@@ -361,6 +361,12 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding
 			elementDirectory.addBefore(before, element, elementAudit);
 	}
 
+	protected final void _$$addElementAfter(Binding after, ElementAudit elementAudit, Binding element)
+	{
+		if(elementDirectory != null)
+			elementDirectory.addAfter(after, element, elementAudit);
+	}
+
 	protected final boolean _$$addElement(ElementAudit elementAudit, Binding element)
 	{
 		return _$$addElement(elementAudit, element, true);
