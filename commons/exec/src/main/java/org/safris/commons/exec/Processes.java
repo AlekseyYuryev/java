@@ -66,12 +66,41 @@ public final class Processes
 
 	public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException
 	{
-		final Process process = forkAsync(stdin, stdout, stderr, args);
-		process.waitFor();
-		process.getErrorStream().close();
-		process.getInputStream().close();
-		process.getOutputStream().close();
-		return process;
+		final Collection<String> notNullArgs = new ArrayList<String>(args.length);
+		for(String arg : args)
+			if(arg != null)
+				notNullArgs.add(arg);
+
+		if(notNullArgs.size() == 0)
+			throw new IllegalArgumentException("empty argument list");
+
+		final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
+		OutputStream teeStdin = null;
+		if(stdin != null)
+		{
+			final OutputStream processStdin = process.getOutputStream();
+			teeStdin = Streams.tee(processStdin, stdin, stdout);
+		}
+
+		InputStream teeStdout = null;
+		if(stdout != null)
+		{
+			final InputStream processStdout = process.getInputStream();
+			teeStdout = processStdout;
+			Streams.pipe(processStdout, stdout);
+		}
+
+		InputStream teeStderr = null;
+		if(stderr != null)
+		{
+			final InputStream processStderr = process.getErrorStream();
+			teeStderr = processStderr;
+			Streams.pipe(processStderr, stderr);
+		}
+
+		final Process subProcess = new PipedProcess(process, teeStdin, teeStdout, teeStderr);
+		subProcess.waitFor();
+		return subProcess;
 	}
 
 	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException

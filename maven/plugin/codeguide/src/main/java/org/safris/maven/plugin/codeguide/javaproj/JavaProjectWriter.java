@@ -165,13 +165,13 @@ public class JavaProjectWriter
 	{
 		final jp_javaProject3._startingPoints startingPoints = new jp_javaProject3._startingPoints();
 		if(javaProject.getStartingPoints() != null)
-			for(sp_startingPoints._startingPoint startingPoint : javaProject.getStartingPoints())
+			for(jp_javaProject3._startingPoints._startingPoint startingPoint : javaProject.getStartingPoints())
 				startingPoints.add_startingPoint(createStartingPoint(startingPoint));
 
 		return startingPoints;
 	}
 
-	private static jp_javaProject3._startingPoints._startingPoint createStartingPoint(sp_startingPoints._startingPoint startingPoint)
+	private static jp_javaProject3._startingPoints._startingPoint createStartingPoint(jp_javaProject3._startingPoints._startingPoint startingPoint)
 	{
 		final jp_javaProject3._startingPoints._startingPoint point = new jp_javaProject3._startingPoints._startingPoint();
 		point.add_commandLineArguments(new jp_javaProject3._startingPoints._startingPoint._commandLineArguments(startingPoint.get_commandLineArguments().get(0).getText()));

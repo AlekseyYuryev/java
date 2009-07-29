@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.UUID;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
-import org.safris.commons.io.Streams;
+import org.safris.commons.io.input.NonBlockingInputStream;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.util.jar.Jar;
 import org.safris.commons.util.zip.CachedFile;
@@ -138,7 +138,7 @@ public final class JavaCompiler
 		int i = 0;
 		final String[] args = new String[7];
 		args[i++] = "javac";
-		args[i++] = "-Xlint:all";
+		args[i++] = "-Xlint:none";
 		args[i++] = "-d";
 		args[i++] = destDir.getAbsolutePath();
 		args[i++] = "-cp";
