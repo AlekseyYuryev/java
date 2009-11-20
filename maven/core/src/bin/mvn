@@ -101,7 +101,8 @@ updatePOM() {
 		# Generate a script to replace all occurances of each property with its value
 		# such that ${name} gets replaced with value. Also replace all references to
 		# POM-TEMPLATE with POM
-		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+#		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/[-\.a-zA-Z]*\\\\}\/\2\/g/g' | sed 's/\( \)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed 's/\(^\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
 		echo $UPDATE_CMD | xargs sed > $UP_POM
 		echo "Updated: $UP_POM"
 	fi
@@ -170,7 +171,7 @@ updateChildPOMs() {
 			if [ -f ${UCP_CHILD_MODULE}${UCP_FILE_NAME} ]; then
 				[ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::while::for::if(-f ${UCP_CHILD_MODULE}${UCP_FILE_NAME})"
 				# Get all module entries and remove <module>, </module> and <!--.*-->
-				UCP_UCP_CHILD_MODULE_MODULES="`grep '<module>' ${UCP_CHILD_MODULE}${UCP_FILE_NAME} | sed 's/\(\(\(<\)\|\(<\/\)\)module>\)\|\(<!--.*-->\)//g' | xargs echo`"
+				UCP_UCP_CHILD_MODULE_MODULES="`grep '<module>' ${UCP_CHILD_MODULE}${UCP_FILE_NAME} | sed -e 's/<\/*module>//g' -e 's/<!--.*-->//g' | xargs echo`"
 
 				# If the module has modules of its own
 				if [ "$UCP_UCP_CHILD_MODULE_MODULES" != "" ]; then
