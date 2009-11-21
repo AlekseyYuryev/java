@@ -28,27 +28,27 @@ import java.util.logging.SimpleFormatter;
 
 public final class Logger
 {
-    public static final Logger global = new Logger(java.util.logging.Logger.global);
+    public static final Logger global = new Logger(ConfigurableLogger.getLogger().global);
 	private static final Map<String,Logger> instances = new HashMap<String,Logger>();
 
 	public static Logger getLogger(LoggerName name)
 	{
-		return getLogger(java.util.logging.Logger.getLogger(name.getName()));
+		return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName()));
 	}
 
 	public static Logger getLogger(LoggerName name, String resourceBundleName)
 	{
-		return getLogger(java.util.logging.Logger.getLogger(name.getName(), resourceBundleName));
+		return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName(), resourceBundleName));
 	}
 
 	public static Logger getAnonymousLogger()
 	{
-		return getLogger(java.util.logging.Logger.getAnonymousLogger());
+		return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger());
 	}
 
 	public static Logger getAnonymousLogger(String resourceBundleName)
 	{
-		return getLogger(java.util.logging.Logger.getAnonymousLogger(resourceBundleName));
+		return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger(resourceBundleName));
 	}
 
 	private static Logger getLogger(java.util.logging.Logger logger)

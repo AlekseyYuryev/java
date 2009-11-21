@@ -38,9 +38,11 @@
 		<module>formatter</module>
 		<module>jndi</module>
 		<module>lang</module>
+		<module>test</module>
 		<module>math</module>
 		<module>el</module>
 		<module>cli</module>
+		<module>sql</module>
 		<module>dbcp</module>
 		<module>bytecode</module>
 		<module>xml</module>

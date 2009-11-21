@@ -19,16 +19,49 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.management.ManagementFactory;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import org.safris.commons.io.Streams;
 import org.safris.commons.lang.ClassLoaders;
 
 public final class Processes
 {
+    public static Class getExecutedClass() {
+        try {
+            final Field field = ClassLoader.class.getDeclaredField("classes");
+            field.setAccessible(true);
+            final Vector<Class> classes = (Vector<Class>)field.get(ClassLoader.getSystemClassLoader());
+            for (Class cls : classes)  {
+                if ((cls.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT && cls.getName().startsWith("com.barclaysglobal"))
+                    return cls;
+            }
+        }
+        catch (Exception e) {
+        }
+
+        return null;
+    }
+
+    public static int getPID() {
+        final String pidAtHost = ManagementFactory.getRuntimeMXBean().getName();
+        if (pidAtHost == null)
+            return -1;
+
+        try {
+            return Integer.parseInt(pidAtHost.substring(0, pidAtHost.indexOf("@")));
+        }
+        catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
 	public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException
 	{
 		final Collection<String> notNullArgs = new ArrayList<String>(args.length);

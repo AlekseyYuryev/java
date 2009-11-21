@@ -25,11 +25,11 @@
 		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
-	<artifactId>logging</artifactId>
-	<version>${dev:org.safris.commons.logging}</version>
+	<artifactId>test</artifactId>
+	<version>${dev:org.safris.commons.test}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		Wrapper around several logging APIs.
+		Wrappers for common test patterns.
 	</description>
 	<profiles>
 		<profile>
@@ -59,29 +59,8 @@
 	</profiles>
 	<dependencies>
 		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>lang</artifactId>
-			<version>${dev:org.safris.commons.lang}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>test</artifactId>
-			<version>${dev:org.safris.commons.test}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>io</artifactId>
-			<version>${dev:org.safris.commons.io}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>el</artifactId>
-			<version>${dev:org.safris.commons.el}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>exec</artifactId>
-			<version>${dev:org.safris.commons.exec}</version>
+			<artifactId>junit</artifactId>
+			<groupId>junit</groupId>
 		</dependency>
 	</dependencies>
 </project>

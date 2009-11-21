@@ -25,11 +25,11 @@
 		<version>${dev:org.safris.commons}</version>
 	</parent>
 	<groupId>org.safris.commons</groupId>
-	<artifactId>logging</artifactId>
-	<version>${dev:org.safris.commons.logging}</version>
+	<artifactId>sql</artifactId>
+	<version>${dev:org.safris.commons.sql}</version>
 	<name>${groupId}.${artifactId}</name>
 	<description>
-		Wrapper around several logging APIs.
+		Wrappers for common sql patterns.
 	</description>
 	<profiles>
 		<profile>
@@ -65,23 +65,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.safris.commons</groupId>
-			<artifactId>test</artifactId>
-			<version>${dev:org.safris.commons.test}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>io</artifactId>
-			<version>${dev:org.safris.commons.io}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>el</artifactId>
-			<version>${dev:org.safris.commons.el}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.safris.commons</groupId>
-			<artifactId>exec</artifactId>
-			<version>${dev:org.safris.commons.exec}</version>
+			<artifactId>logging</artifactId>
+			<version>${dev:org.safris.commons.logging}</version>
 		</dependency>
 	</dependencies>
 </project>
