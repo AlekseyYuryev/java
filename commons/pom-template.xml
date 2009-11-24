@@ -38,6 +38,7 @@
 		<module>formatter</module>
 		<module>jndi</module>
 		<module>lang</module>
+		<module>security</module>
 		<module>test</module>
 		<module>math</module>
 		<module>el</module>
