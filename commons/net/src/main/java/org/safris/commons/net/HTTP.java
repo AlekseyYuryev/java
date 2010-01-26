@@ -147,6 +147,9 @@ public final class HTTP {
      * @throws UnsupportedEncodingException If the given charset is not supported.
      */
     public static String createQuery(Map<String,String[]> parameters, String charset) throws UnsupportedEncodingException {
+        if (parameters == null)
+            return "";
+
         final StringBuilder query = new StringBuilder();
         for (Map.Entry<String,String[]> entry : parameters.entrySet()) {
             final String name = entry.getKey();
