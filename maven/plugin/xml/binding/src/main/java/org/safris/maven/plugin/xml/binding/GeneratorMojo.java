@@ -184,7 +184,8 @@ public class GeneratorMojo extends AbstractMojo {
 
             if (!hrefFile.exists())
                 throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" does not exist.");
-            else if (!hrefFile.isFile())
+
+            if (!hrefFile.isFile())
                 throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" is not a file.");
 
             Document document = null;
