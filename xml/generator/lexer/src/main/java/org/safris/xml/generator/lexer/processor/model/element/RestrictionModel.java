@@ -35,8 +35,8 @@ public class RestrictionModel extends ElementModel {
                     base = ComplexTypeModel.Reference.parseComplexType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
                 else if (parentNode.getLocalName().contains("simple"))
                     base = SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
-
-                throw new LexerError("whoa, schema error?");
+                else
+                    throw new LexerError("whoa, schema error?");
             }
         }
     }
