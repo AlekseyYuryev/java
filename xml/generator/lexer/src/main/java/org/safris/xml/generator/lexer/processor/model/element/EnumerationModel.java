@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,51 +17,43 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import javax.xml.namespace.QName;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class EnumerationModel extends Model
-{
-	private QName value = null;
+public class EnumerationModel extends Model {
+    private QName value = null;
 
-	protected EnumerationModel(Node node, Model parent)
-	{
-		super(node, parent);
-		final NamedNodeMap attributes = node.getAttributes();
-		for(int i = 0; i < attributes.getLength(); i++)
-		{
-			final Node attribute = attributes.item(i);
-			if("value".equals(attribute.getLocalName()))
-				value = parseQNameValue(attribute.getNodeValue(), node);
-		}
-	}
+    protected EnumerationModel(Node node, Model parent) {
+        super(node, parent);
+        final NamedNodeMap attributes = node.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            final Node attribute = attributes.item(i);
+            if ("value".equals(attribute.getLocalName()))
+                value = parseQNameValue(attribute.getNodeValue(), node);
+        }
+    }
 
-	public EnumerationModel(QName value)
-	{
-		super(null, null);
-		this.value = value;
-	}
+    public EnumerationModel(QName value) {
+        super(null, null);
+        this.value = value;
+    }
 
-	public final QName getValue()
-	{
-		return value;
-	}
+    public final QName getValue() {
+        return value;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(obj == this)
-			return true;
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
 
-		if(!(obj instanceof EnumerationModel))
-			return false;
+        if (!(obj instanceof EnumerationModel))
+            return false;
 
-		final EnumerationModel that = (EnumerationModel)obj;
-		return (getValue() == null && that.getValue() == null) || (getValue() != null && getValue().equals(that.getValue()));
-	}
+        final EnumerationModel that = (EnumerationModel)obj;
+        return (getValue() == null && that.getValue() == null) || (getValue() != null && getValue().equals(that.getValue()));
+    }
 
-	public int hashCode()
-	{
-		return getValue().hashCode();
-	}
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
@@ -66,98 +69,88 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
-import org.safris.commons.pipeline.PipelineEntity;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 import org.w3c.dom.Node;
 
-public class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model>
-{
-	private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
-	private final Collection<String> keys;
-	private final ModelProcessor processor = new ModelProcessor();
+public class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
+    private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
+    private final Collection<String> keys;
+    private final ModelProcessor processor = new ModelProcessor();
 
-	public ModelDirectory()
-	{
-		classes.put("all", AllModel.class);
-		classes.put("annotation", AnnotationModel.class);
-		classes.put("anyAttribute", AnyAttributeModel.class);
-		classes.put("any", AnyModel.class);
-		classes.put("appinfo", AppinfoModel.class);
-		classes.put("attributeGroup", AttributeGroupModel.class);
-		classes.put("attribute", AttributeModel.class);
-		classes.put("choice", ChoiceModel.class);
-		classes.put("complexContent", ComplexContentModel.class);
-		classes.put("complexType", ComplexTypeModel.class);
-		classes.put("documentation", DocumentationModel.class);
-		classes.put("element", ElementModel.class);
-		classes.put("enumeration", EnumerationModel.class);
-		classes.put("extension", ExtensionModel.class);
-		classes.put("field", FieldModel.class);
-		classes.put("fractiondigits", FractionDigitsModel.class);
-		classes.put("group", GroupModel.class);
-		classes.put("hagetsFacet", HasFacetModel.class);
-		classes.put("hasProperty", HasPropertyModel.class);
-		classes.put("import", ImportModel.class);
-		classes.put("include", IncludeModel.class);
-		classes.put("key", KeyModel.class);
-		classes.put("keyref", KeyrefModel.class);
-		classes.put("length", LengthModel.class);
-		classes.put("list", ListModel.class);
-		classes.put("maxInclusive", MaxInclusiveModel.class);
-		classes.put("maxLength", MaxLengthModel.class);
-		classes.put("minExclusive", MinExclusiveModel.class);
-		classes.put("minInclusive", MinInclusiveModel.class);
-		classes.put("minLength", MinLengthModel.class);
-		classes.put("notation", NotationModel.class);
-		classes.put("pattern", PatternModel.class);
-		classes.put("redefine", RedefineModel.class);
-		classes.put("restriction", RestrictionModel.class);
-		classes.put("schema", SchemaModel.class);
-		classes.put("selector", SelectorModel.class);
-		classes.put("sequence", SequenceModel.class);
-		classes.put("simpleContent", SimpleContentModel.class);
-		classes.put("simpleType", SimpleTypeModel.class);
-		classes.put("union", UnionModel.class);
-		classes.put("unique", UniqueModel.class);
-		classes.put("whiteSpace", WhiteSpaceModel.class);
-		keys = classes.keySet();
-	}
+    public ModelDirectory() {
+        classes.put("all", AllModel.class);
+        classes.put("annotation", AnnotationModel.class);
+        classes.put("anyAttribute", AnyAttributeModel.class);
+        classes.put("any", AnyModel.class);
+        classes.put("appinfo", AppinfoModel.class);
+        classes.put("attributeGroup", AttributeGroupModel.class);
+        classes.put("attribute", AttributeModel.class);
+        classes.put("choice", ChoiceModel.class);
+        classes.put("complexContent", ComplexContentModel.class);
+        classes.put("complexType", ComplexTypeModel.class);
+        classes.put("documentation", DocumentationModel.class);
+        classes.put("element", ElementModel.class);
+        classes.put("enumeration", EnumerationModel.class);
+        classes.put("extension", ExtensionModel.class);
+        classes.put("field", FieldModel.class);
+        classes.put("fractiondigits", FractionDigitsModel.class);
+        classes.put("group", GroupModel.class);
+        classes.put("hagetsFacet", HasFacetModel.class);
+        classes.put("hasProperty", HasPropertyModel.class);
+        classes.put("import", ImportModel.class);
+        classes.put("include", IncludeModel.class);
+        classes.put("key", KeyModel.class);
+        classes.put("keyref", KeyrefModel.class);
+        classes.put("length", LengthModel.class);
+        classes.put("list", ListModel.class);
+        classes.put("maxInclusive", MaxInclusiveModel.class);
+        classes.put("maxLength", MaxLengthModel.class);
+        classes.put("minExclusive", MinExclusiveModel.class);
+        classes.put("minInclusive", MinInclusiveModel.class);
+        classes.put("minLength", MinLengthModel.class);
+        classes.put("notation", NotationModel.class);
+        classes.put("pattern", PatternModel.class);
+        classes.put("redefine", RedefineModel.class);
+        classes.put("restriction", RestrictionModel.class);
+        classes.put("schema", SchemaModel.class);
+        classes.put("selector", SelectorModel.class);
+        classes.put("sequence", SequenceModel.class);
+        classes.put("simpleContent", SimpleContentModel.class);
+        classes.put("simpleType", SimpleTypeModel.class);
+        classes.put("union", UnionModel.class);
+        classes.put("unique", UniqueModel.class);
+        classes.put("whiteSpace", WhiteSpaceModel.class);
+        keys = classes.keySet();
+    }
 
-	public PipelineEntity<Model> getEntity(SchemaComposite entity, Model parent)
-	{
-		if(!(entity instanceof SchemaNodeComposite))
-			return null;
+    public PipelineEntity<Model> getEntity(SchemaComposite entity, Model parent) {
+        if (!(entity instanceof SchemaNodeComposite))
+            return null;
 
-		SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)entity;
-		final String elementName = schemaNodeComposite.getNode().getLocalName();
-		if(elementName == null)
-			throw new IllegalArgumentException("Node key without local name");
+        final SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)entity;
+        final String elementName = schemaNodeComposite.getNode().getLocalName();
+        if (elementName == null)
+            throw new IllegalArgumentException("Node key without local name");
 
-		if(!keys.contains(elementName))
-			throw new IllegalArgumentException("Unknown key: " + elementName);
+        if (!keys.contains(elementName))
+            throw new IllegalArgumentException("Unknown key: " + elementName);
 
-		final Class<? extends Model> modelClass = classes.get(elementName);
-		Model handler = null;
-		try
-		{
-			final Constructor<? extends Model> constructor = modelClass.getDeclaredConstructor(Node.class, Model.class);
-			constructor.setAccessible(true);
-			handler = constructor.newInstance(schemaNodeComposite.getNode(), parent);
-			return handler;
-		}
-		catch(Exception e)
-		{
-			throw new LexerError(e);
-		}
-	}
+        final Class<? extends Model> modelClass = classes.get(elementName);
+        Model handler = null;
+        try {
+            final Constructor<? extends Model> constructor = modelClass.getDeclaredConstructor(Node.class, Model.class);
+            constructor.setAccessible(true);
+            handler = constructor.newInstance(schemaNodeComposite.getNode(), parent);
+            return handler;
+        }
+        catch (Exception e) {
+            throw new LexerError(e);
+        }
+    }
 
-	public PipelineProcessor<GeneratorContext,SchemaComposite,Model> getProcessor()
-	{
-		return processor;
-	}
+    public PipelineProcessor<GeneratorContext,SchemaComposite,Model> getProcessor() {
+        return processor;
+    }
 
-	public void clear()
-	{
-	}
+    public void clear() {
+    }
 }

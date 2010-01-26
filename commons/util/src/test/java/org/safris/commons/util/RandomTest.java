@@ -25,7 +25,7 @@ public class RandomTest {
     private static final char[] NUMERIC = "0123456789".toCharArray();
     private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new RandomTest().testRandom();
     }
 

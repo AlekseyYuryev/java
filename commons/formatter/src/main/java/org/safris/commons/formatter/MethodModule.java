@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,29 +15,23 @@
 
 package org.safris.commons.formatter;
 
-public class MethodModule extends FormatModule
-{
-	String format(String formated, String token)
-	{
-		if(token.trim().lastIndexOf(";") != token.trim().length() - 1)
-		{
-			if(token.trim().indexOf("else") == -1 && token.trim().indexOf("else ") == -1 && ((token.trim().indexOf("static") == 0 && token.trim().length() == 6) || (token.trim().indexOf(" ") != -1 && token.trim().indexOf(" ") < token.trim().indexOf("(") - 1 && (token.trim().lastIndexOf(")") == token.length() - 1 || token.trim().lastIndexOf(")") < token.trim().lastIndexOf("throws")))))
-			{
-				for(int i = 0; i < getDepth(); i++)
-				{
-					token = "\t" + token;
-				}
+public class MethodModule extends FormatModule {
+    String format(String formated, String token) {
+        if (token.trim().lastIndexOf(";") != token.trim().length() - 1) {
+            if (token.trim().indexOf("else") == -1 && token.trim().indexOf("else ") == -1 && ((token.trim().indexOf("static") == 0 && token.trim().length() == 6) || (token.trim().indexOf(" ") != -1 && token.trim().indexOf(" ") < token.trim().indexOf("(") - 1 && (token.trim().lastIndexOf(")") == token.length() - 1 || token.trim().lastIndexOf(")") < token.trim().lastIndexOf("throws"))))) {
+                for (int i = 0; i < getDepth(); i++) {
+                    token = "\t" + token;
+                }
 
-				if(getLastModule() instanceof CloseBracketModule || getLastModule() instanceof FieldModule)
-				{
-					token = "\n\n" + token;
-				}
-				else
-				{
-					token = "\n" + token;
-				}
-			}
-		}
-		return token;
-	}
+                if (getLastModule() instanceof CloseBracketModule || getLastModule() instanceof FieldModule) {
+                    token = "\n\n" + token;
+                }
+                else {
+                    token = "\n" + token;
+                }
+            }
+        }
+
+        return token;
+    }
 }

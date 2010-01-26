@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,27 +15,23 @@
 
 package org.safris.xml.generator.lexer.document;
 
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 
-public class SchemaDocumentDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument>
-{
-	private final SchemaDocumentProcessor processor = new SchemaDocumentProcessor();
+public class SchemaDocumentDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> {
+    private final SchemaDocumentProcessor processor = new SchemaDocumentProcessor();
 
-	public SchemaDocumentProcessor getEntity(SchemaReference entity, SchemaDocument parent)
-	{
-		return processor;
-	}
+    public SchemaDocumentProcessor getEntity(SchemaReference entity, SchemaDocument parent) {
+        return processor;
+    }
 
-	public PipelineProcessor<GeneratorContext,SchemaReference, SchemaDocument> getProcessor()
-	{
-		return processor;
-	}
+    public PipelineProcessor<GeneratorContext,SchemaReference, SchemaDocument> getProcessor() {
+        return processor;
+    }
 
-	public void clear()
-	{
-	}
+    public void clear() {
+    }
 }

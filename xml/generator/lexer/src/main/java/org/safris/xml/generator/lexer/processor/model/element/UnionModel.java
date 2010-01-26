@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,51 +19,44 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.StringTokenizer;
-import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class UnionModel extends Model
-{
-	private final Collection<SimpleTypeModel> memberTypes = new HashSet<SimpleTypeModel>();
-	private final Collection<UnionModel> unions = new HashSet<UnionModel>();
+public class UnionModel extends Model {
+    private final Collection<SimpleTypeModel> memberTypes = new HashSet<SimpleTypeModel>();
+    private final Collection<UnionModel> unions = new HashSet<UnionModel>();
 
-	protected UnionModel(Node node, Model parent)
-	{
-		super(node, parent);
-		final NamedNodeMap attributes = node.getAttributes();
-		for(int i = 0; i < attributes.getLength(); i++)
-		{
-			final Node attribute = attributes.item(i);
-			if("memberTypes".equals(attribute.getLocalName()))
-				parseMemberTypes(attribute.getNodeValue(), node);
-		}
-	}
+    protected UnionModel(Node node, Model parent) {
+        super(node, parent);
+        final NamedNodeMap attributes = node.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            final Node attribute = attributes.item(i);
+            if ("memberTypes".equals(attribute.getLocalName()))
+                parseMemberTypes(attribute.getNodeValue(), node);
+        }
+    }
 
-	private final void parseMemberTypes(String memberTypes, Node node)
-	{
-		final StringTokenizer tokenizer = new StringTokenizer(memberTypes);
-		while(tokenizer.hasMoreTokens())
-			this.memberTypes.add(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(tokenizer.nextToken(), node))));
-	}
+    private final void parseMemberTypes(String memberTypes, Node node) {
+        final StringTokenizer tokenizer = new StringTokenizer(memberTypes);
+        while (tokenizer.hasMoreTokens())
+            this.memberTypes.add(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(tokenizer.nextToken(), node))));
+    }
 
-	public final Collection<SimpleTypeModel> getMemberTypes()
-	{
-		return memberTypes;
-	}
+    public final Collection<SimpleTypeModel> getMemberTypes() {
+        return memberTypes;
+    }
 
-	public final void addUnion(UnionModel unionModel)
-	{
-		unions.add(unionModel);
-	}
+    public final void addUnion(UnionModel unionModel) {
+        unions.add(unionModel);
+    }
 
-	public final Collection<SimpleTypeModel> getNormalizedMemberTypes()
-	{
-		final Collection<SimpleTypeModel> allMemberTypes = new ArrayList<SimpleTypeModel>(getMemberTypes());
-		for(UnionModel union : unions)
-			allMemberTypes.addAll(union.getNormalizedMemberTypes());
+    public final Collection<SimpleTypeModel> getNormalizedMemberTypes() {
+        final Collection<SimpleTypeModel> allMemberTypes = new ArrayList<SimpleTypeModel>(getMemberTypes());
+        for (UnionModel union : unions)
+            allMemberTypes.addAll(union.getNormalizedMemberTypes());
 
-		return allMemberTypes;
-	}
+        return allMemberTypes;
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,56 +30,47 @@ import org.safris.commons.xml.validator.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-public class BindingValidator extends Validator
-{
-	private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
+public class BindingValidator extends Validator {
+    private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
-	protected URL lookupSchemaLocation(String namespaceURI)
-	{
-		return schemaReferences.get(namespaceURI);
-	}
+    protected URL lookupSchemaLocation(String namespaceURI) {
+        return schemaReferences.get(namespaceURI);
+    }
 
-	protected URL getSchemaLocation(String namespaceURI)
-	{
-		return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
-	}
+    protected URL getSchemaLocation(String namespaceURI) {
+        return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
+    }
 
-	protected void parse(Element element) throws IOException, ValidationException
-	{
-		final SAXParser saxParser;
-		try
-		{
-			saxParser = SAXParsers.createParser();
+    protected void parse(Element element) throws IOException, ValidationException {
+        final SAXParser saxParser;
+        try {
+            saxParser = SAXParsers.createParser();
 
-			saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
-			saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
-			saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
-			saxParser.setFeature(SAXFeature.NAMESPACES, true);
-			saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
-			saxParser.setFeature(SAXFeature.VALIDATION, true);
+            saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
+            saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
+            saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
+            saxParser.setFeature(SAXFeature.NAMESPACES, true);
+            saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
+            saxParser.setFeature(SAXFeature.VALIDATION, true);
 
-			saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
-			saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new BindingEntityResolver());
+            saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
+            saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new BindingEntityResolver());
 
-			saxParser.setErrorHandler(BindingErrorHandler.getInstance());
-		}
-		catch(Exception e)
-		{
-			throw new ValidationException(e);
-		}
+            saxParser.setErrorHandler(BindingErrorHandler.getInstance());
+        }
+        catch (Exception e) {
+            throw new ValidationException(e);
+        }
 
-		final String output = DOMs.domToString(element);
-		try
-		{
-			saxParser.parse(new InputSource(new StringReader(output)));
-		}
-		catch(IOException e)
-		{
-			throw e;
-		}
-		catch(Exception e)
-		{
-			throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
-		}
-	}
+        final String output = DOMs.domToString(element);
+        try {
+            saxParser.parse(new InputSource(new StringReader(output)));
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
+        }
+    }
 }

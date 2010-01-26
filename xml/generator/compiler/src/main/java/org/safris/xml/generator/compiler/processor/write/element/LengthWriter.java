@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,45 +16,35 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
-import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.LengthPlan;
+import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class LengthWriter extends Writer<LengthPlan>
-{
-	protected void appendDeclaration(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+public class LengthWriter extends Writer<LengthPlan> {
+    protected void appendDeclaration(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendGetMethod(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendGetMethod(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendSetMethod(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendSetMethod(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendMarshal(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendMarshal(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendParse(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendParse(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	public void appendCopy(StringWriter writer, LengthPlan plan, Plan parent, String variable)
-	{
-	}
+    public void appendCopy(StringWriter writer, LengthPlan plan, Plan parent, String variable) {
+    }
 
-	protected void appendEquals(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendEquals(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendHashCode(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendHashCode(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 
-	protected void appendClass(StringWriter writer, LengthPlan plan, Plan parent)
-	{
-	}
+    protected void appendClass(StringWriter writer, LengthPlan plan, Plan parent) {
+    }
 }

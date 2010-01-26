@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,40 +15,33 @@
 
 package org.safris.commons.formatter;
 
-public abstract class FormatModule
-{
-	private static int depth = 0;
-	private static FormatModule lastModule = null;
+public abstract class FormatModule {
+    private static int depth = 0;
+    private static FormatModule lastModule = null;
 
-	public static void restetDepth()
-	{
-		depth = 0;
-	}
+    public static void restetDepth() {
+        depth = 0;
+    }
 
-	protected void increaseDepth()
-	{
-		depth++;
-	}
+    protected void increaseDepth() {
+        depth++;
+    }
 
-	protected void decreaseDepth()
-	{
-		depth--;
-	}
+    protected void decreaseDepth() {
+        depth--;
+    }
 
-	protected int getDepth()
-	{
-		return depth;
-	}
+    protected int getDepth() {
+        return depth;
+    }
 
-	protected static FormatModule getLastModule()
-	{
-		return lastModule;
-	}
+    protected static FormatModule getLastModule() {
+        return lastModule;
+    }
 
-	protected static void setLastModule(FormatModule module)
-	{
-		FormatModule.lastModule = module;
-	}
+    protected static void setLastModule(FormatModule module) {
+        FormatModule.lastModule = module;
+    }
 
-	abstract String format(String formated, String token);
+    abstract String format(String formated, String token);
 }

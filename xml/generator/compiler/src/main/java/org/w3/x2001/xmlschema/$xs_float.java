@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,54 +21,43 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType<T>
-{
-	public $xs_float($xs_float<T> binding)
-	{
-		super(binding);
-	}
+public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType<T> {
+    public $xs_float($xs_float<T> binding) {
+        super(binding);
+    }
 
-	public $xs_float(Float value)
-	{
-		super(value);
-	}
+    public $xs_float(Float value) {
+        super(value);
+    }
 
-	protected $xs_float()
-	{
-		super();
-	}
+    protected $xs_float() {
+        super();
+    }
 
-	protected Float getText()
-	{
-		return (Float)super.getText();
-	}
+    protected Float getText() {
+        return (Float)super.getText();
+    }
 
-	protected void setText(Float text)
-	{
-		super.setText(text);
-	}
+    protected void setText(Float text) {
+        super.setText(text);
+    }
 
-	protected void _$$decode(Element parent, String value) throws ParseException
-	{
-		super.setText(Float.parseFloat(value));
-	}
+    protected void _$$decode(Element parent, String value) throws ParseException {
+        super.setText(Float.parseFloat(value));
+    }
 
-	protected String _$$encode(Element parent) throws MarshalException
-	{
-		if(super.getText() == null)
-			return "";
+    protected String _$$encode(Element parent) throws MarshalException {
+        if (super.getText() == null)
+            return "";
 
-		return Numbers.roundInsignificant(super.getText().toString());
-	}
+        return Numbers.roundInsignificant(super.getText().toString());
+    }
 
-	public $xs_float clone()
-	{
-		return new $xs_float(this)
-		{
-			protected $xs_float inherits()
-			{
-				return this;
-			}
-		};
-	}
+    public $xs_float clone() {
+        return new $xs_float(this) {
+            protected $xs_float inherits() {
+                return this;
+            }
+        };
+    }
 }

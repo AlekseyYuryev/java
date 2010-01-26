@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,14 +36,12 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
-import org.safris.commons.lang.Strings;
 import org.safris.commons.logging.Logger;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
@@ -369,7 +367,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
                 buffer.append(value);
         }
 
-		final String display = buffer.toString();
+        final String display = buffer.toString();
 //        String display = null;
 //        try {
 //            display = SQLFormat.format(buffer.toString());

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,56 +29,52 @@ import org.safris.commons.io.Files;
  * @goal instrument
  * @phase test-compile
  */
-public class InstrumentMojo extends CoberturaMojo
-{
-	public void execute() throws MojoExecutionException, MojoFailureException
-	{
-		if(getMavenTestSkip() != null && getMavenTestSkip())
-			return;
+public class InstrumentMojo extends CoberturaMojo {
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (getMavenTestSkip() != null && getMavenTestSkip())
+            return;
 
-		if(getProject() == null)
-			throw new NullPointerException("project == null");
+        if (getProject() == null)
+            throw new NullPointerException("project == null");
 
-		final File classesDir = new File(getDirectory(), "classes");
-		if("pom".equals(getProject().getPackaging()) || !classesDir.exists())
-			return;
+        final File classesDir = new File(getDirectory(), "classes");
+        if ("pom".equals(getProject().getPackaging()) || !classesDir.exists())
+            return;
 
-		if(getBasedir() == null)
-			throw new NullPointerException("basedir == null");
+        if (getBasedir() == null)
+            throw new NullPointerException("basedir == null");
 
-		if(getDirectory() == null)
-			throw new NullPointerException("directory == null");
+        if (getDirectory() == null)
+            throw new NullPointerException("directory == null");
 
-		final File coberturaClassesDir = new File(getCoberturaDir(), "classes");
+        final File coberturaClassesDir = new File(getCoberturaDir(), "classes");
 
-		getCoberturaDir().mkdir();
-		try
-		{
-			Files.copy(classesDir, coberturaClassesDir);
-		}
-		catch(IOException e)
-		{
-			throw new MojoExecutionException(e.getMessage(), e);
-		}
+        getCoberturaDir().mkdir();
+        try {
+            Files.copy(classesDir, coberturaClassesDir);
+        }
+        catch (IOException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
 
-		final FileSet fileSet = new FileSet();
-		fileSet.setFollowSymlinks(true);
-		fileSet.setDir(coberturaClassesDir);
-		fileSet.setIncludes("**/*.class");
-		fileSet.setExcludes("**/*Test*.class");
+        final FileSet fileSet = new FileSet();
+        fileSet.setFollowSymlinks(true);
+        fileSet.setDir(coberturaClassesDir);
+        fileSet.setIncludes("**/*.class");
+        fileSet.setExcludes("**/*Test*.class");
 
-		final Project project = new Project();
-		project.addTaskDefinition("java", Java.class);
-		project.setBasedir(getBasedir());
+        final Project project = new Project();
+        project.addTaskDefinition("java", Java.class);
+        project.setBasedir(getBasedir());
 
-		final InstrumentTask instrumentTask = new InstrumentTask();
-		instrumentTask.setProject(project);
-		instrumentTask.setToDir(new File(getDirectory(), "test-classes"));
-		instrumentTask.setDataFile(getDataFile().getAbsolutePath());
-		instrumentTask.XsetIgnore("org.apache.log4j.*");
-		instrumentTask.addFileset(fileSet);
-		instrumentTask.execute();
+        final InstrumentTask instrumentTask = new InstrumentTask();
+        instrumentTask.setProject(project);
+        instrumentTask.setToDir(new File(getDirectory(), "test-classes"));
+        instrumentTask.setDataFile(getDataFile().getAbsolutePath());
+        instrumentTask.XsetIgnore("org.apache.log4j.*");
+        instrumentTask.addFileset(fileSet);
+        instrumentTask.execute();
 
-		System.setProperty("net.sourceforge.cobertura.datafile", getDataFile().getAbsolutePath());
-	}
+        System.setProperty("net.sourceforge.cobertura.datafile", getDataFile().getAbsolutePath());
+    }
 }

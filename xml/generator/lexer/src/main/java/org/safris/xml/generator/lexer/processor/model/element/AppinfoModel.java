@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,29 +19,24 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class AppinfoModel extends Model
-{
-	private String source = null;
+public class AppinfoModel extends Model {
+    private String source = null;
 
-	protected AppinfoModel(Node node, Model parent)
-	{
-		super(node, parent);
-		final NamedNodeMap attributes = node.getAttributes();
-		for(int i = 0; i < attributes.getLength(); i++)
-		{
-			final Node attribute = attributes.item(i);
-			if("source".equals(attribute.getLocalName()))
-				source = attribute.getNodeValue();
-		}
-	}
+    protected AppinfoModel(Node node, Model parent) {
+        super(node, parent);
+        final NamedNodeMap attributes = node.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            final Node attribute = attributes.item(i);
+            if ("source".equals(attribute.getLocalName()))
+                source = attribute.getNodeValue();
+        }
+    }
 
-	public final String getSource()
-	{
-		return source;
-	}
+    public final String getSource() {
+        return source;
+    }
 
-	public String toString()
-	{
-		return super.toString().replace(TO_STRING_DELIMITER, "source=\"" + source + "\"");
-	}
+    public String toString() {
+        return super.toString().replace(TO_STRING_DELIMITER, "source=\"" + source + "\"");
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,73 +18,152 @@ package org.safris.commons.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import org.safris.commons.util.zip.Zips;
 
 public final class HTTP {
-    public static String post(URL url, Properties requestProperties, Map<String,String> requestParameters, List<String> cookies) throws IOException {
-        if (url == null)
-            throw new NullPointerException("url == null");
+    /**
+     * Invoke a GET request on the given URL with the given parameter map which will be encoded as
+     * UTF-8. It is highly recommended to close the obtained inputstream after processing!
+     * @param url The URL to be invoked.
+     * @param patameters The parameters to be processed as query parameters.
+     * @return The result of the GET request as an InputStream.
+     * @throws MalformedURLException If the given URL is invalid.
+     * @throws IOException If the given URL cannot be connected nor written.
+     */
+    public static InputStream doGet(String url, Map<String,String[]> parameters) throws MalformedURLException, IOException {
+        return doGet(url, parameters, "UTF-8");
+    }
 
-        final HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-        httpURLConnection.setRequestMethod("POST");
-        httpURLConnection.addRequestProperty("Referer", url.toExternalForm());
+    /**
+     * Invoke a GET request on the given URL with the given parameter map and the given charset
+     * encoding. It is highly recommended to close the obtained inputstream after processing!
+     * @param url The URL to be invoked.
+     * @param patameters The parameters to be processed as query parameters.
+     * @param charset The encoding to be applied.
+     * @return The result of the GET request as an InputStream.
+     * @throws MalformedURLException If the given URL is invalid.
+     * @throws IOException If the given URL cannot be connected nor written.
+     * @throws UnsupportedEncodingException If the given charset is not supported.
+     */
+    public static InputStream doGet(String url, Map<String,String[]> parameters, String charset) throws MalformedURLException, IOException, UnsupportedEncodingException {
+        final String query = createQuery(parameters, charset);
+        final URLConnection urlConnection = new URL(url + "?" + query).openConnection();
+        urlConnection.setUseCaches(false);
 
-        if (requestProperties != null)
-            URLConnections.setRequestProperties(httpURLConnection, requestProperties);
+        return urlConnection.getInputStream();
+    }
 
-        if (requestParameters != null) {
-            final StringBuffer parameterStringBuffer = new StringBuffer();
-            for (Map.Entry<String,String> entry : requestParameters.entrySet())
-                parameterStringBuffer.append("&").append(URLEncoder.encode(entry.getKey(), "UTF-8")).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+    /**
+     * Invoke a POST request on the given URL with the given parameter map which will be encoded as
+     * UTF-8. It is highly recommended to close the obtained inputstream after processing!
+     * @param url The URL to be invoked.
+     * @param patameters The parameters to be processed as query parameters.
+     * @return The result of the POST request as an InputStream.
+     * @throws MalformedURLException If the given URL is invalid.
+     * @throws IOException If the given URL cannot be connected nor written.
+     */
+    public static InputStream doPost(URL url, Map<String,String[]> parameters) throws MalformedURLException, IOException {
+        return doPost(url, parameters, null);
+    }
 
-            setContent(httpURLConnection, parameterStringBuffer.substring(1));
+    /**
+     * Invoke a POST request on the given URL with the given parameter map which will be encoded as
+     * UTF-8. It is highly recommended to close the obtained inputstream after processing!
+     * @param url The URL to be invoked.
+     * @param patameters The parameters to be processed as query parameters.
+     * @param properties The request properties to be processed as header properties.
+     * @return The result of the POST request as an InputStream.
+     * @throws MalformedURLException If the given URL is invalid.
+     * @throws IOException If the given URL cannot be connected nor written.
+     */
+    public static InputStream doPost(URL url, Map<String,String[]> parameters, Properties properties) throws MalformedURLException, IOException {
+        return doPost(url, parameters, properties, null);
+    }
+
+    /**
+     * Invoke a POST request on the given URL with the given parameter map which will be encoded as
+     * UTF-8. It is highly recommended to close the obtained inputstream after processing!
+     * @param url The URL to be invoked.
+     * @param patameters The parameters to be processed as query parameters.
+     * @param properties The request properties to be processed as header properties.
+     * @param cookies The cookies to be injected into the header.
+     * @return The result of the POST request as an InputStream.
+     * @throws MalformedURLException If the given URL is invalid.
+     * @throws IOException If the given URL cannot be connected nor written.
+     */
+    public static InputStream doPost(URL url, Map<String,String[]> parameters, Properties properties, List<String> cookies) throws MalformedURLException, IOException {
+        String charset = properties != null ? properties.getProperty("accept-charset") : null;
+        if (charset == null)
+            charset = "UTF-8";
+
+        final String query = createQuery(parameters, charset);
+        final URLConnection urlConnection = new URL(url.toExternalForm()).openConnection();
+        urlConnection.setUseCaches(false);
+        urlConnection.setDoOutput(true); // Triggers POST.
+//        urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
+        if (properties != null)
+            for (Map.Entry property : properties.entrySet())
+                urlConnection.setRequestProperty((String)property.getKey(), (String)property.getValue());
+
+        if (cookies != null) {
+            final Map.Entry<String,String> cookie = Cookies.createCookieHeader(cookies);
+            urlConnection.setRequestProperty(cookie.getKey(), cookie.getValue());
         }
 
-        if (cookies != null)
-            setCookies(httpURLConnection, cookies);
-
-        final InputStream input = httpURLConnection.getInputStream();
-        String unzipped = null;
+        OutputStreamWriter writer = null;
         try {
-            unzipped = Zips.gunzip(input);
+            writer = new OutputStreamWriter(urlConnection.getOutputStream());
+            writer.write(query);
         }
-        catch (IOException e) {
-            if (!"Not in GZIP format".equals(e.getMessage()))
-                throw e;
-
-            while (input.read() != -1);
+        finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                }
+                catch (IOException e) {
+                    final String message = "Closing URLConnection#getOutputStream() of " + url + " failed.";
+                    // Do your thing with the exception and the message. Print it, log it or mail it.
+                    System.err.println(message);
+                    e.printStackTrace();
+                }
+            }
         }
 
-        input.close();
-        return unzipped;
+        return urlConnection.getInputStream();
     }
 
-    private static void setCookies(URLConnection urlConnection, List<String> cookies) {
-        final StringBuffer cookieStringBuffer = new StringBuffer();
-        for (String cookie : cookies)
-            cookieStringBuffer.append("; ").append(cookie);
+    /**
+     * Create a query string based on the given parameter map and the given charset encoding.
+     * @param parameters The parameter map to be processed as query parameters.
+     * @param charset The encoding to be applied.
+     * @return The parameter map as query string.
+     * @throws UnsupportedEncodingException If the given charset is not supported.
+     */
+    public static String createQuery(Map<String,String[]> parameters, String charset) throws UnsupportedEncodingException {
+        final StringBuilder query = new StringBuilder();
+        for (Map.Entry<String,String[]> entry : parameters.entrySet()) {
+            final String name = entry.getKey();
+            final String[] values = entry.getValue();
+            query.append("&");
+            final StringBuilder temp = new StringBuilder();
+            for (String value : values) {
+                temp.append("&");
+                temp.append(URLEncoder.encode(name, charset));
+                temp.append("=");
+                temp.append(URLEncoder.encode(value, charset));
+            }
 
-        urlConnection.setRequestProperty("Cookie", cookieStringBuffer.substring(2));
-    }
+            query.append(temp.substring(1));
+        }
 
-    private static void setContent(URLConnection urlConnection, String content) throws IOException {
-        urlConnection.setRequestProperty("Content-Length", String.valueOf(content.length()));
-
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-
-        final Writer writer = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
-        writer.write(content);
-        writer.flush();
-        writer.close();
+        return query.substring(1);
     }
 
     private HTTP() {

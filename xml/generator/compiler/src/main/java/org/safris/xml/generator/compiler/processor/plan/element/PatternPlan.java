@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,21 +15,18 @@
 
 package org.safris.xml.generator.compiler.processor.plan.element;
 
-import org.safris.xml.generator.lexer.processor.model.element.PatternModel;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
+import org.safris.xml.generator.lexer.processor.model.element.PatternModel;
 
-public class PatternPlan extends Plan<PatternModel>
-{
-	private final String value;
+public class PatternPlan extends Plan<PatternModel> {
+    private final String value;
 
-	public PatternPlan(PatternModel model, Plan parent)
-	{
-		super(model, parent);
-		this.value = model.getValue();
-	}
+    public PatternPlan(PatternModel model, Plan parent) {
+        super(model, parent);
+        this.value = model.getValue();
+    }
 
-	public String getValue()
-	{
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 }

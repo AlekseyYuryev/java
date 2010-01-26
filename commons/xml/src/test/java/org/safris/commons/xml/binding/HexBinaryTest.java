@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,27 +18,23 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class HexBinaryTest
-{
-	private static void assertEquals(String data, String base64)
-	{
-		final HexBinary hexBinary = new HexBinary(data.getBytes());
-		final String hexString = hexBinary.toString();
-		Assert.assertEquals(base64, hexString);
-		final HexBinary unmarshalled = HexBinary.parseHexBinary(hexString);
-		Assert.assertEquals(data, new String(unmarshalled.getBytes()));
-	}
+public class HexBinaryTest {
+    private static void assertEquals(String data, String base64) {
+        final HexBinary hexBinary = new HexBinary(data.getBytes());
+        final String hexString = hexBinary.toString();
+        Assert.assertEquals(base64, hexString);
+        final HexBinary unmarshalled = HexBinary.parseHexBinary(hexString);
+        Assert.assertEquals(data, new String(unmarshalled.getBytes()));
+    }
 
-	public static void main(String[] args)
-	{
-		new HexBinaryTest().testHexBinary();
-	}
+    public static void main(String[] args) {
+        new HexBinaryTest().testHexBinary();
+    }
 
-	@Test
-	public void testHexBinary()
-	{
-		assertEquals("Bonjour", "426F6E6A6F7572");
-		assertEquals("Hello World", "48656C6C6F20576F726C64");
-		assertEquals("The quick brown fox jumps over the lazy dog", "54686520717569636B2062726F776E20666F78206A756D7073206F76657220746865206C617A7920646F67");
-	}
+    @Test
+    public void testHexBinary() {
+        assertEquals("Bonjour", "426F6E6A6F7572");
+        assertEquals("Hello World", "48656C6C6F20576F726C64");
+        assertEquals("The quick brown fox jumps over the lazy dog", "54686520717569636B2062726F776E20666F78206A756D7073206F76657220746865206C617A7920646F67");
+    }
 }

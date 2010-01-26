@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,13 +15,11 @@
 
 package org.safris.xml.generator.compiler.processor.plan.element;
 
-import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
+import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 
-public class KeyrefPlan extends Plan<KeyrefModel>
-{
-	public KeyrefPlan(KeyrefModel model, Plan parent)
-	{
-		super(model, parent);
-	}
+public class KeyrefPlan extends Plan<KeyrefModel> {
+    public KeyrefPlan(KeyrefModel model, Plan parent) {
+        super(model, parent);
+    }
 }

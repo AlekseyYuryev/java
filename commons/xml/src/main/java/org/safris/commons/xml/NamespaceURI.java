@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,51 +18,44 @@ package org.safris.commons.xml;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class NamespaceURI
-{
-	private static final Map<String,NamespaceURI> instances = new HashMap<String,NamespaceURI>();
+public final class NamespaceURI {
+    private static final Map<String,NamespaceURI> instances = new HashMap<String,NamespaceURI>();
 
-	public static NamespaceURI getInstance(String namespaceURI)
-	{
-		NamespaceURI value = instances.get(namespaceURI);
-		if(value == null)
-			instances.put(namespaceURI, value = new NamespaceURI(namespaceURI));
+    public static NamespaceURI getInstance(String namespaceURI) {
+        NamespaceURI value = instances.get(namespaceURI);
+        if (value == null)
+            instances.put(namespaceURI, value = new NamespaceURI(namespaceURI));
 
-		return value;
-	}
+        return value;
+    }
 
-	private final String namespaceURI;
-	private final PackageName packageName;
+    private final String namespaceURI;
+    private final PackageName packageName;
 
-	private NamespaceURI(String namespaceURI)
-	{
-		this.namespaceURI = namespaceURI;
-		this.packageName = new PackageName(NamespaceBinding.getPackageFromNamespace(namespaceURI));
-	}
+    private NamespaceURI(String namespaceURI) {
+        this.namespaceURI = namespaceURI;
+        this.packageName = new PackageName(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+    }
 
-	public PackageName getPackageName()
-	{
-		return packageName;
-	}
+    public PackageName getPackageName() {
+        return packageName;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof NamespaceURI))
-			return false;
+        if (!(obj instanceof NamespaceURI))
+            return false;
 
-		return namespaceURI.equals(((NamespaceURI)obj).namespaceURI);
-	}
+        return namespaceURI.equals(((NamespaceURI)obj).namespaceURI);
+    }
 
-	public int hashCode()
-	{
-		return namespaceURI.hashCode();
-	}
+    public int hashCode() {
+        return namespaceURI.hashCode();
+    }
 
-	public String toString()
-	{
-		return namespaceURI;
-	}
+    public String toString() {
+        return namespaceURI;
+    }
 }

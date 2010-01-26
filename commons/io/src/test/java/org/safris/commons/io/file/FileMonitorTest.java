@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ public class FileMonitorTest implements FileEventListener {
     @Test
     @Ignore
     public void testFileMonitor() throws InterruptedException {
-		final File testFile = new File("/tmp/file-monitor-test");
-		testFile.deleteOnExit();
+        final File testFile = new File("/tmp/file-monitor-test");
+        testFile.deleteOnExit();
 
         final FileMonitor monitor = new FileMonitor(testFile, 5000);
         monitor.addListener(this);

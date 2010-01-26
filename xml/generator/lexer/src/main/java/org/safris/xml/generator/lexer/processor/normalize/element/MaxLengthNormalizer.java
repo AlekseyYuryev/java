@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,34 +19,26 @@ import org.safris.xml.generator.lexer.processor.model.element.MaxLengthModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class MaxLengthNormalizer extends Normalizer<MaxLengthModel>
-{
-	public MaxLengthNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+public class MaxLengthNormalizer extends Normalizer<MaxLengthModel> {
+    public MaxLengthNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(MaxLengthModel model)
-	{
-	}
+    protected void stage1(MaxLengthModel model) {
+    }
 
-	protected void stage2(MaxLengthModel model)
-	{
-	}
+    protected void stage2(MaxLengthModel model) {
+    }
 
-	protected void stage3(MaxLengthModel model)
-	{
-	}
+    protected void stage3(MaxLengthModel model) {
+    }
 
-	protected void stage4(MaxLengthModel model)
-	{
-	}
+    protected void stage4(MaxLengthModel model) {
+    }
 
-	protected void stage5(MaxLengthModel model)
-	{
-	}
+    protected void stage5(MaxLengthModel model) {
+    }
 
-	protected void stage6(MaxLengthModel model)
-	{
-	}
+    protected void stage6(MaxLengthModel model) {
+    }
 }

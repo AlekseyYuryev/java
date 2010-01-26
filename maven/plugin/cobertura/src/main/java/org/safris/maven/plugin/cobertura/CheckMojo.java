@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,37 +26,35 @@ import org.apache.tools.ant.taskdefs.Java;
  * @goal check
  * @phase verify
  */
-public class CheckMojo extends CoberturaMojo
-{
-	// FIXME: Finish this!
-	public void execute() throws MojoExecutionException, MojoFailureException
-	{
-		System.exit(1);
-		if(getMavenTestSkip() != null && getMavenTestSkip())
-			return;
+public class CheckMojo extends CoberturaMojo {
+    // FIXME: Finish this!
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        System.exit(1);
+        if (getMavenTestSkip() != null && getMavenTestSkip())
+            return;
 
-		if(getBasedir() == null)
-			throw new NullPointerException("basedir == null");
+        if (getBasedir() == null)
+            throw new NullPointerException("basedir == null");
 
-		if(getDirectory() == null)
-			throw new NullPointerException("projectBuildDirectory == null");
+        if (getDirectory() == null)
+            throw new NullPointerException("projectBuildDirectory == null");
 
-		final File coberturaDir = new File(getDirectory(), "cobertura");
-		final File coberturaReportDir = new File(coberturaDir, "report");
+        final File coberturaDir = new File(getDirectory(), "cobertura");
+        final File coberturaReportDir = new File(coberturaDir, "report");
 
-		final Project project = new Project();
-		project.addTaskDefinition("java", Java.class);
-		project.setBasedir(getBasedir());
+        final Project project = new Project();
+        project.addTaskDefinition("java", Java.class);
+        project.setBasedir(getBasedir());
 
-		final CheckTask checkTask = new CheckTask();
-		checkTask.setDataFile(getDataFile().getAbsolutePath());
-		checkTask.setHaltOnFailure(true);
-		checkTask.setBranchRate("TODO");
-		checkTask.setLineRate("TODO");
-		checkTask.setPackageBranchRate("TODO");
-		checkTask.setPackageLineRate("TODO");
-		checkTask.setTotalBranchRate("TODO");
-		checkTask.setTotalLineRate("TODO");
-		checkTask.execute();
-	}
+        final CheckTask checkTask = new CheckTask();
+        checkTask.setDataFile(getDataFile().getAbsolutePath());
+        checkTask.setHaltOnFailure(true);
+        checkTask.setBranchRate("TODO");
+        checkTask.setLineRate("TODO");
+        checkTask.setPackageBranchRate("TODO");
+        checkTask.setPackageLineRate("TODO");
+        checkTask.setTotalBranchRate("TODO");
+        checkTask.setTotalLineRate("TODO");
+        checkTask.execute();
+    }
 }

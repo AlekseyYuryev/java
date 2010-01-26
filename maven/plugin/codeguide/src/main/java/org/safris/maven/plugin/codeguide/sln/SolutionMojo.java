@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,20 +24,16 @@ import org.safris.maven.plugin.codeguide.javaproj.JavaProjectMojo;
  * @requiresDependencyResolution test
  * @phase process-test-sources
  */
-public final class SolutionMojo extends JavaProjectMojo
-{
-	public void execute() throws MojoExecutionException
-	{
-		super.execute();
+public final class SolutionMojo extends JavaProjectMojo {
+    public void execute() throws MojoExecutionException {
+        super.execute();
 
-		// Write the Solution file
-		try
-		{
-			SolutionWriter.write(getStateManager().getSolution());
-		}
-		catch(IOException e)
-		{
-			throw new MojoExecutionException(e.getMessage(), e);
-		}
-	}
+        // Write the Solution file
+        try {
+            SolutionWriter.write(getStateManager().getSolution());
+        }
+        catch (IOException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+    }
 }

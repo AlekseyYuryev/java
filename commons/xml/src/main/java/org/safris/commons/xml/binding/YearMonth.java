@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,123 +20,110 @@ import java.util.TimeZone;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gYearMonth
  */
-public class YearMonth
-{
-	public static YearMonth parseYearMonth(String string)
-	{
-		if(string == null)
-			throw new NullPointerException("string == null");
+public class YearMonth {
+    public static YearMonth parseYearMonth(String string) {
+        if (string == null)
+            throw new NullPointerException("string == null");
 
-		string = string.trim();
-		if(string.length() < YEAR_MONTH_FRAG_MIN_LENGTH)
-			throw new IllegalArgumentException("year-month == " + string);
+        string = string.trim();
+        if (string.length() < YEAR_MONTH_FRAG_MIN_LENGTH)
+            throw new IllegalArgumentException("year-month == " + string);
 
-		final int year = Year.parseYearFrag(string);
-		int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
-		final int month = Month.parseMonthFrag(string.substring(index + 1));
-		index = string.indexOf("Z", YEAR_MONTH_FRAG_MIN_LENGTH);
-		if(index == -1)
-			index = string.indexOf("-", YEAR_MONTH_FRAG_MIN_LENGTH);
+        final int year = Year.parseYearFrag(string);
+        int index = string.indexOf("-", Year.YEAR_FRAG_MIN_LENGTH);
+        final int month = Month.parseMonthFrag(string.substring(index + 1));
+        index = string.indexOf("Z", YEAR_MONTH_FRAG_MIN_LENGTH);
+        if (index == -1)
+            index = string.indexOf("-", YEAR_MONTH_FRAG_MIN_LENGTH);
 
-		if(index == -1)
-			index = string.indexOf("+", YEAR_MONTH_FRAG_MIN_LENGTH);
+        if (index == -1)
+            index = string.indexOf("+", YEAR_MONTH_FRAG_MIN_LENGTH);
 
-		final TimeZone timeZone;
-		if(index != -1)
-			timeZone = Time.parseTimeZoneFrag(string.substring(index));
-		else
-			timeZone = null;
+        final TimeZone timeZone;
+        if (index != -1)
+            timeZone = Time.parseTimeZoneFrag(string.substring(index));
+        else
+            timeZone = null;
 
-		return new YearMonth(year, month, timeZone);
-	}
+        return new YearMonth(year, month, timeZone);
+    }
 
-	protected static final int YEAR_MONTH_FRAG_MIN_LENGTH = Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH;
+    protected static final int YEAR_MONTH_FRAG_MIN_LENGTH = Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH;
 
-	private final Year year;
-	private final Month month;
-	private final TimeZone timeZone;
+    private final Year year;
+    private final Month month;
+    private final TimeZone timeZone;
 
-	protected YearMonth(Year year, Month month, TimeZone timeZone)
-	{
-		if(year == null)
-			throw new NullPointerException("year == null");
+    protected YearMonth(Year year, Month month, TimeZone timeZone) {
+        if (year == null)
+            throw new NullPointerException("year == null");
 
-		if(month == null)
-			throw new NullPointerException("month == null");
+        if (month == null)
+            throw new NullPointerException("month == null");
 
-		this.year = year;
-		this.month = month;
-		this.timeZone = timeZone;
-	}
+        this.year = year;
+        this.month = month;
+        this.timeZone = timeZone;
+    }
 
-	public YearMonth(int year, int month, TimeZone timeZone)
-	{
-		this(new Year(year), new Month(month), timeZone);
-	}
+    public YearMonth(int year, int month, TimeZone timeZone) {
+        this(new Year(year), new Month(month), timeZone);
+    }
 
-	public YearMonth(int year, int month)
-	{
-		this(year, month, null);
-	}
+    public YearMonth(int year, int month) {
+        this(year, month, null);
+    }
 
-	public YearMonth(long time)
-	{
-		this(new Year(time), new Month(time), null);
-	}
+    public YearMonth(long time) {
+        this(new Year(time), new Month(time), null);
+    }
 
-	public YearMonth()
-	{
-		this(System.currentTimeMillis());
-	}
+    public YearMonth() {
+        this(System.currentTimeMillis());
+    }
 
-	public int getYear()
-	{
-		return year.getYear();
-	}
+    public int getYear() {
+        return year.getYear();
+    }
 
-	public int getMonth()
-	{
-		return month.getMonth();
-	}
+    public int getMonth() {
+        return month.getMonth();
+    }
 
-	public TimeZone getTimeZone()
-	{
-		return timeZone;
-	}
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(obj == this)
-			return true;
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
 
-		if(!(obj instanceof YearMonth))
-			return false;
+        if (!(obj instanceof YearMonth))
+            return false;
 
-		final YearMonth that = (YearMonth)obj;
-		return (year != null ? year.equals(that.year) : that.year == null) && (month != null ? month.equals(that.month) : that.month == null) && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
-	}
+        final YearMonth that = (YearMonth)obj;
+        return (year != null ? year.equals(that.year) : that.year == null) && (month != null ? month.equals(that.month) : that.month == null) && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
+    }
 
-	public int hashCode()
-	{
-		return (year != null ? year.hashCode() : -1) + (month != null ? month.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
-	}
+    public int hashCode() {
+        return (year != null ? year.hashCode() : -1) + (month != null ? month.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
+    }
 
-	public String toString()
-	{
-		final StringBuffer buffer = new StringBuffer();
-		buffer.append(year);
-		buffer.append("-");
-		if(getMonth() < 10)
-			buffer.append("0").append(getMonth());
-		else
-			buffer.append(getMonth());
+    public String toString() {
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(year);
+        buffer.append("-");
+        if (getMonth() < 10)
+            buffer.append("0").append(getMonth());
+        else
+            buffer.append(getMonth());
 
-		if(timeZone == null)
-			return buffer.toString();
+        if (timeZone == null)
+            return buffer.toString();
 
-		if(DateTime.GMT.equals(timeZone))
-			return buffer.append("Z").toString();
+        if (DateTime.GMT.equals(timeZone))
+            return buffer.append("Z").toString();
 
-		return buffer.append(timeZone.getID().substring(3)).toString();
-	}
+        return buffer.append(timeZone.getID().substring(3)).toString();
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,97 +36,86 @@ import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
-public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan
-{
-	private final Boolean mixed;
+public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan {
+    private final Boolean mixed;
 
-	private Boolean mixedType = null;
-	private boolean simpleContent = false;
+    private Boolean mixedType = null;
+    private boolean simpleContent = false;
 
-	private LinkedHashSet<AttributePlan> attributes;
-	private LinkedHashSet<ElementPlan> elements;
+    private LinkedHashSet<AttributePlan> attributes;
+    private LinkedHashSet<ElementPlan> elements;
 
-	public ElementPlan elementRefExistsInParent(UniqueQName name)
-	{
-		// FIXME: This is slow!
-		if(getElements() != null)
-			for(ElementPlan element : getElements())
-				if(element.getName() != null && element.getName().equals(name))
-					return element;
+    public ElementPlan elementRefExistsInParent(UniqueQName name) {
+        // FIXME: This is slow!
+        if (getElements() != null)
+            for (ElementPlan element : getElements())
+                if (element.getName() != null && element.getName().equals(name))
+                    return element;
 
-		if(getSuperType() == null)
-			return null;
+        if (getSuperType() == null)
+            return null;
 
-		return getSuperType().elementRefExistsInParent(name);
-	}
+        return getSuperType().elementRefExistsInParent(name);
+    }
 
-	public ComplexTypePlan(T model, Plan parent)
-	{
-		super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
-		mixed = getModel().getMixed();
-		for(Model child : model.getChildren())
-		{
-			if(child instanceof SimpleContentModel)
-			{
-				simpleContent = true;
-				break;
-			}
-		}
-	}
+    public ComplexTypePlan(T model, Plan parent) {
+        super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
+        mixed = getModel().getMixed();
+        for (Model child : model.getChildren()) {
+            if (child instanceof SimpleContentModel) {
+                simpleContent = true;
+                break;
+            }
+        }
+    }
 
-	public final boolean hasSimpleContent()
-	{
-		return simpleContent;
-	}
+    public final boolean hasSimpleContent() {
+        return simpleContent;
+    }
 
-	public final LinkedHashSet<AttributePlan> getAttributes()
-	{
-		if(attributes != null)
-			return attributes;
+    public final LinkedHashSet<AttributePlan> getAttributes() {
+        if (attributes != null)
+            return attributes;
 
-		return attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this);
-	}
+        return attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this);
+    }
 
-	public final LinkedHashSet<ElementPlan> getElements()
-	{
-		if(elements != null)
-			return elements;
+    public final LinkedHashSet<ElementPlan> getElements() {
+        if (elements != null)
+            return elements;
 
-		return elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this);
-	}
+        return elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this);
+    }
 
-	public final Boolean getMixed()
-	{
-		return mixed;
-	}
+    public final Boolean getMixed() {
+        return mixed;
+    }
 
-	public final Boolean getMixedType()
-	{
-		if(mixedType != null)
-			return mixedType;
+    public final Boolean getMixedType() {
+        if (mixedType != null)
+            return mixedType;
 
-		// this flag may be a HACK. I am using it to see if I have a restriction in the chain of
-		// dependencies. If I do, then mixed="true" has to be stated explicitly.
-		boolean isEverRestriction = false;
-		TypeableModel parent = getModel();
-		boolean restriction = getModel().isRestriction();
-		while((parent = parent.getSuperType()) != null)
-		{
-			if(parent instanceof MixableModel && !restriction && ((MixableModel)parent).getMixed() != null && ((MixableModel)parent).getMixed())
-				return mixedType = true;
+        // this flag may be a HACK. I am using it to see if I have a restriction in the chain of
+        // dependencies. If I do, then mixed="true" has to be stated explicitly.
+        boolean isEverRestriction = false;
+        TypeableModel parent = getModel();
+        boolean restriction = getModel().isRestriction();
+        while ((parent = parent.getSuperType()) != null) {
+            if (parent instanceof MixableModel && !restriction && ((MixableModel)parent).getMixed() != null && ((MixableModel)parent).getMixed())
+                return mixedType = true;
 
-			restriction = ((SimpleTypeModel)parent).isRestriction();
-			isEverRestriction = isEverRestriction || restriction;
-		}
+            restriction = ((SimpleTypeModel)parent).isRestriction();
+            isEverRestriction = isEverRestriction || restriction;
+        }
 
-		parent = getModel();
-		while((parent = parent.getSuperType()) != null)
-			if(parent instanceof MixableModel && ((MixableModel)parent).getMixed() != null)
-				return mixedType = ((MixableModel)parent).getMixed();
+        parent = getModel();
+        while ((parent = parent.getSuperType()) != null)
+            if (parent instanceof MixableModel && ((MixableModel)parent).getMixed() != null)
+                return mixedType = ((MixableModel)parent).getMixed();
 
-		if(!isEverRestriction && XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
-			return mixedType = true;
+        if (!isEverRestriction && XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
+            return mixedType = true;
 
-		return mixedType = false;
-	}
+        return mixedType = false;
+    }
 }

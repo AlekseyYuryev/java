@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,43 +22,33 @@ import org.safris.xml.generator.lexer.processor.model.element.ChoiceModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class ChoiceNormalizer extends Normalizer<ChoiceModel>
-{
-	public ChoiceNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+public class ChoiceNormalizer extends Normalizer<ChoiceModel> {
+    public ChoiceNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(ChoiceModel model)
-	{
-	}
+    protected void stage1(ChoiceModel model) {
+    }
 
-	protected void stage2(ChoiceModel model)
-	{
-	}
+    protected void stage2(ChoiceModel model) {
+    }
 
-	protected void stage3(ChoiceModel model)
-	{
-	}
+    protected void stage3(ChoiceModel model) {
+    }
 
-	protected void stage4(ChoiceModel model)
-	{
-		Model parent = model;
-		while((parent = parent.getParent()) != null)
-		{
-			if(parent instanceof ElementableModel && (!(parent instanceof Nameable) || ((Nameable)parent).getName() != null))
-			{
-				((ElementableModel)parent).addMultiplicableModel(model);
-				break;
-			}
-		}
-	}
+    protected void stage4(ChoiceModel model) {
+        Model parent = model;
+        while ((parent = parent.getParent()) != null) {
+            if (parent instanceof ElementableModel && (!(parent instanceof Nameable) || ((Nameable)parent).getName() != null)) {
+                ((ElementableModel)parent).addMultiplicableModel(model);
+                break;
+            }
+        }
+    }
 
-	protected void stage5(ChoiceModel model)
-	{
-	}
+    protected void stage5(ChoiceModel model) {
+    }
 
-	protected void stage6(ChoiceModel model)
-	{
-	}
+    protected void stage6(ChoiceModel model) {
+    }
 }

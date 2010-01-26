@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,40 +25,36 @@ import java.net.URL;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 
-public class ValidatorEntityResolver implements XMLEntityResolver
-{
-	private final File basedir;
+public class ValidatorEntityResolver implements XMLEntityResolver {
+    private final File basedir;
 
-	public ValidatorEntityResolver(File basedir)
-	{
-		this.basedir = basedir;
-	}
+    public ValidatorEntityResolver(File basedir) {
+        this.basedir = basedir;
+    }
 
-	public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException
-	{
-		final String systemId = resourceIdentifier.getLiteralSystemId();
-		if(systemId == null)
-			return null;
+    public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
+        final String systemId = resourceIdentifier.getLiteralSystemId();
+        if (systemId == null)
+            return null;
 
-		final URL url;
-		if(!URLs.isAbsolute(systemId))
-		{
-			final String parentBaseId;
-			if(resourceIdentifier.getBaseSystemId() != null)
-				parentBaseId = Paths.getParent(resourceIdentifier.getBaseSystemId());
-			else
-				parentBaseId = basedir.getAbsolutePath();
+        final URL url;
+        if (!URLs.isAbsolute(systemId)) {
+            final String parentBaseId;
+            if (resourceIdentifier.getBaseSystemId() != null)
+                parentBaseId = Paths.getParent(resourceIdentifier.getBaseSystemId());
+            else
+                parentBaseId = basedir.getAbsolutePath();
 
-			url = URLs.makeUrlFromPath(parentBaseId, systemId);
-		}
-		else
-			url = URLs.makeUrlFromPath(systemId);
+            url = URLs.makeUrlFromPath(parentBaseId, systemId);
+        }
+        else
+            url = URLs.makeUrlFromPath(systemId);
 
-		if(resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
-			resourceIdentifier.setLiteralSystemId(url.getPath());
+        if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
+            resourceIdentifier.setLiteralSystemId(url.getPath());
 
-		final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
-		inputSource.setByteStream(url.openStream());
-		return inputSource;
-	}
+        final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
+        inputSource.setByteStream(url.openStream());
+        return inputSource;
+    }
 }

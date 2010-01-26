@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,54 +20,43 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_normalizedString<T extends BindingType> extends $xs_string<T>
-{
-	public $xs_normalizedString($xs_normalizedString<T> binding)
-	{
-		super(binding);
-	}
+public abstract class $xs_normalizedString<T extends BindingType> extends $xs_string<T> {
+    public $xs_normalizedString($xs_normalizedString<T> binding) {
+        super(binding);
+    }
 
-	public $xs_normalizedString(CharSequence value)
-	{
-		super(value);
-	}
+    public $xs_normalizedString(CharSequence value) {
+        super(value);
+    }
 
-	protected $xs_normalizedString()
-	{
-		super();
-	}
+    protected $xs_normalizedString() {
+        super();
+    }
 
-	protected CharSequence getText()
-	{
-		return super.getText();
-	}
+    protected CharSequence getText() {
+        return super.getText();
+    }
 
-	protected void setText(CharSequence text)
-	{
-		super.setText(text);
-	}
+    protected void setText(CharSequence text) {
+        super.setText(text);
+    }
 
-	protected void _$$decode(CharSequence element, CharSequence value) throws ParseException
-	{
-		super.setText(value);
-	}
+    protected void _$$decode(CharSequence element, CharSequence value) throws ParseException {
+        super.setText(value);
+    }
 
-	protected String _$$encode(Element parent) throws MarshalException
-	{
-		if(super.getText() == null)
-			return "";
+    protected String _$$encode(Element parent) throws MarshalException {
+        if (super.getText() == null)
+            return "";
 
-		return super.getText().toString();
-	}
+        return super.getText().toString();
+    }
 
-	public $xs_normalizedString clone()
-	{
-		return new $xs_normalizedString(this)
-		{
-			protected $xs_normalizedString inherits()
-			{
-				return this;
-			}
-		};
-	}
+    public $xs_normalizedString clone() {
+        return new $xs_normalizedString(this) {
+            protected $xs_normalizedString inherits() {
+                return this;
+            }
+        };
+    }
 }

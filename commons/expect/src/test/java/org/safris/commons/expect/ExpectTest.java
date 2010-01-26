@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,35 +21,29 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class ExpectTest
-{
-    public static void main(String[] args) throws Exception
-	{
+public class ExpectTest {
+    public static void main(String[] args) throws Exception {
         new ExpectTest().testStart();
     }
 
     @Test
-	// FIXME
+    // FIXME
     @Ignore("FIXME")
-    public void testStart() throws Exception
-	{
+    public void testStart() throws Exception {
         final ExpectCallback callback = new ExpectCallback() {
             private final Map<String,String> variables = new HashMap<String,String>();
             private int index = -1;
 
-            public Map<String,String> process(String exec)
-			{
+            public Map<String,String> process(String exec) {
                 variables.put("date", "080630");
                 return variables;
             }
 
-            public Map<String,String> rule(String ruleId, String prompt, String response)
-			{
-                if(!"r2".equals(ruleId))
+            public Map<String,String> rule(String ruleId, String prompt, String response) {
+                if (!"r2".equals(ruleId))
                     return variables;
 
-                switch(++index)
-				{
+                switch (++index) {
                     case 0:
                         variables.put("name", "Lisa\n");
                         variables.put("adultOrChild", "C\n");

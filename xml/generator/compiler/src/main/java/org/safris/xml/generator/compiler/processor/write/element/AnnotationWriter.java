@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,41 +20,31 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnnotationPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class AnnotationWriter extends Writer<AnnotationPlan>
-{
-	protected void appendDeclaration(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+public class AnnotationWriter extends Writer<AnnotationPlan> {
+    protected void appendDeclaration(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendGetMethod(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendGetMethod(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendSetMethod(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendSetMethod(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendMarshal(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendMarshal(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendParse(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendParse(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	public void appendCopy(StringWriter writer, AnnotationPlan plan, Plan parent, String variable)
-	{
-	}
+    public void appendCopy(StringWriter writer, AnnotationPlan plan, Plan parent, String variable) {
+    }
 
-	protected void appendEquals(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendEquals(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendHashCode(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendHashCode(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 
-	protected void appendClass(StringWriter writer, AnnotationPlan plan, Plan parent)
-	{
-	}
+    protected void appendClass(StringWriter writer, AnnotationPlan plan, Plan parent) {
+    }
 }

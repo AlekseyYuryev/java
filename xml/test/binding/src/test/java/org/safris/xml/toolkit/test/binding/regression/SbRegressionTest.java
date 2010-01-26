@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,87 +23,81 @@ import org.xmlsoap.schemas.soap.envelope.tns_actor$;
 import org.xmlsoap.schemas.soap.envelope.tns_mustUnderstand$;
 
 @Ignore("Make this a real test!")
-public class SbRegressionTest extends RegressionTest
-{
-	private static final String namespaceURI = "urn:liberty:sb:2003-08";
+public class SbRegressionTest extends RegressionTest {
+    private static final String namespaceURI = "urn:liberty:sb:2003-08";
 
-	public static String getNamespaceURI()
-	{
-		return namespaceURI;
-	}
+    public static String getNamespaceURI() {
+        return namespaceURI;
+    }
 
-	private static RegressionTest instance = new SbRegressionTest();
+    private static RegressionTest instance = new SbRegressionTest();
 
-	public static void main(String[] args)
-	{
-		getCorrelation();
-		getConsent();
-		getUsageDirective();
-	}
+    public static void main(String[] args) {
+        getCorrelation();
+        getConsent();
+        getUsageDirective();
+    }
 
-	public static sb_Correlation getCorrelation()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static sb_Correlation getCorrelation() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		sb_Correlation binding = new sb_Correlation();
-		binding.set_messageID$(new sb_Correlation._messageID$(getRandomString()));
-		binding.set_refToMessageID$(new sb_Correlation._refToMessageID$(getRandomString()));
-		binding.set_timestamp$(new sb_Correlation._timestamp$(getRandomDateTime()));
-		binding.set_id$(new sb_Correlation._id$(getRandomString()));
-		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.settns_actor$(new tns_actor$(getRandomString()));
+        sb_Correlation binding = new sb_Correlation();
+        binding.set_messageID$(new sb_Correlation._messageID$(getRandomString()));
+        binding.set_refToMessageID$(new sb_Correlation._refToMessageID$(getRandomString()));
+        binding.set_timestamp$(new sb_Correlation._timestamp$(getRandomDateTime()));
+        binding.set_id$(new sb_Correlation._id$(getRandomString()));
+        binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+        binding.settns_actor$(new tns_actor$(getRandomString()));
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-	public static sb_Consent getConsent()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        return binding;
+    }
 
-		sb_Consent binding = new sb_Consent();
-		binding.set_uri$(new sb_Consent._uri$(getRandomString()));
-		binding.set_timestamp$(new sb_Consent._timestamp$(getRandomDateTime()));
-		binding.set_id$(new sb_Consent._id$(getRandomString()));
-		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.settns_actor$(new tns_actor$(getRandomString()));
+    public static sb_Consent getConsent() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        sb_Consent binding = new sb_Consent();
+        binding.set_uri$(new sb_Consent._uri$(getRandomString()));
+        binding.set_timestamp$(new sb_Consent._timestamp$(getRandomDateTime()));
+        binding.set_id$(new sb_Consent._id$(getRandomString()));
+        binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+        binding.settns_actor$(new tns_actor$(getRandomString()));
 
-	public static sb_UsageDirective getUsageDirective()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		sb_UsageDirective binding = new sb_UsageDirective();
-		binding.set_id$(new sb_UsageDirective._id$(getRandomString()));
-		binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
-		binding.settns_actor$(new tns_actor$(getRandomString()));
-		binding.set_ref$(new sb_UsageDirective._ref$(getRandomString()));
-		do
-		binding.addAny(instance.getAny());
-		while(Math.random() < ADD_SEED);
+        return binding;
+    }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+    public static sb_UsageDirective getUsageDirective() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
+
+        sb_UsageDirective binding = new sb_UsageDirective();
+        binding.set_id$(new sb_UsageDirective._id$(getRandomString()));
+        binding.settns_mustUnderstand$(new tns_mustUnderstand$(getRandomBoolean()));
+        binding.settns_actor$(new tns_actor$(getRandomString()));
+        binding.set_ref$(new sb_UsageDirective._ref$(getRandomString()));
+        do
+            binding.addAny(instance.getAny());
+        while(Math.random() < ADD_SEED);
+
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
+
+        return binding;
+    }
 }

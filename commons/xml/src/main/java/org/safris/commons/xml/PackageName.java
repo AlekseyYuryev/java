@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,33 +15,28 @@
 
 package org.safris.commons.xml;
 
-public class PackageName
-{
-	private final String packageName;
+public class PackageName {
+    private final String packageName;
 
-	public PackageName(String packageName)
-	{
-		this.packageName = packageName;
-	}
+    public PackageName(String packageName) {
+        this.packageName = packageName;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof PackageName))
-			return false;
+        if (!(obj instanceof PackageName))
+            return false;
 
-		return packageName.equals(((PackageName)obj).packageName);
-	}
+        return packageName.equals(((PackageName)obj).packageName);
+    }
 
-	public int hashCode()
-	{
-		return packageName.hashCode();
-	}
+    public int hashCode() {
+        return packageName.hashCode();
+    }
 
-	public String toString()
-	{
-		return packageName;
-	}
+    public String toString() {
+        return packageName;
+    }
 }

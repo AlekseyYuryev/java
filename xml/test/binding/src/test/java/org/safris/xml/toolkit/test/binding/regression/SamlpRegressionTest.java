@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,270 +31,254 @@ import _0_protocol.oasis_names_tc_saml_1.samlp_StatusMessage;
 import org.junit.Ignore;
 
 @Ignore("Make this a real test!")
-public class SamlpRegressionTest extends RegressionTest
-{
-	private static final String namespaceURI = "urn:oasis:names:tc:Saml:1.0:protocol";
+public class SamlpRegressionTest extends RegressionTest {
+    private static final String namespaceURI = "urn:oasis:names:tc:Saml:1.0:protocol";
 
-	public static String getNamespaceURI()
-	{
-		return namespaceURI;
-	}
+    public static String getNamespaceURI() {
+        return namespaceURI;
+    }
 
-	private static RegressionTest instance = new SamlpRegressionTest();
+    private static RegressionTest instance = new SamlpRegressionTest();
 
-	public static void main(String[] args)
-	{
-		getRequest();
-		getResponse();
-	}
+    public static void main(String[] args) {
+        getRequest();
+        getResponse();
+    }
 
-	public static samlp_RespondWith getRespondWith()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static samlp_RespondWith getRespondWith() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		samlp_RespondWith binding = new samlp_RespondWith();
-		binding.setText(getRandomQName());
+        samlp_RespondWith binding = new samlp_RespondWith();
+        binding.setText(getRandomQName());
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-	public static samlp_Request getRequest()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        return binding;
+    }
 
-		samlp_Request binding = new samlp_Request();
-		double random = Math.random();
-		do
-		binding.addsamlp_RespondWith(getRespondWith());
-		while(Math.random() < ADD_SEED);
-		binding.set_IssueInstant$(new samlp_Request._IssueInstant$(getRandomDateTime()));
-		binding.set_MajorVersion$(new samlp_Request._MajorVersion$(getRandomInteger()));
-		binding.set_MinorVersion$(new samlp_Request._MinorVersion$(getRandomInteger()));
-		binding.set_RequestID$(new samlp_Request._RequestID$(getRandomString()));
-		binding.addds_Signature(DsRegressionTest.getSignature());
-		if(random < 1 / 7)
-			do
-			binding.addsamlp_AssertionArtifact(getAssertionArtifact());
-			while(Math.random() < ADD_SEED);
-		else if(random < 2 / 7)
-			do
-			binding.addsaml_AssertionIDReference(SamlRegressionTest.getAssertionIDReference());
-			while(Math.random() < ADD_SEED);
-		else if(random < 3 / 7)
-			binding.addsamlp_AttributeQuery(getAttributeQuery());
-		else if(random < 4 / 7)
-			binding.addsamlp_AuthenticationQuery(getAuthenticationQuery());
-		else if(random < 5 / 7)
-			binding.addsamlp_AuthorizationDecisionQuery(getAuthorizationDecisionQuery());
-		else if(random < 6 / 7)
-			binding.addsamlp_Query(getQuery());
-		else
-			binding.addsamlp_SubjectQuery(getSubjectQuery());
+    public static samlp_Request getRequest() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        samlp_Request binding = new samlp_Request();
+        double random = Math.random();
+        do
+         binding.addsamlp_RespondWith(getRespondWith());
+        while(Math.random() < ADD_SEED);
+        binding.set_IssueInstant$(new samlp_Request._IssueInstant$(getRandomDateTime()));
+        binding.set_MajorVersion$(new samlp_Request._MajorVersion$(getRandomInteger()));
+        binding.set_MinorVersion$(new samlp_Request._MinorVersion$(getRandomInteger()));
+        binding.set_RequestID$(new samlp_Request._RequestID$(getRandomString()));
+        binding.addds_Signature(DsRegressionTest.getSignature());
+        if (random < 1 / 7)
+            do
+              binding.addsamlp_AssertionArtifact(getAssertionArtifact());
+            while(Math.random() < ADD_SEED);
+        else if (random < 2 / 7)
+            do
+                binding.addsaml_AssertionIDReference(SamlRegressionTest.getAssertionIDReference());
+            while(Math.random() < ADD_SEED);
+        else if (random < 3 / 7)
+            binding.addsamlp_AttributeQuery(getAttributeQuery());
+        else if (random < 4 / 7)
+            binding.addsamlp_AuthenticationQuery(getAuthenticationQuery());
+        else if (random < 5 / 7)
+            binding.addsamlp_AuthorizationDecisionQuery(getAuthorizationDecisionQuery());
+        else if (random < 6 / 7)
+            binding.addsamlp_Query(getQuery());
+        else
+            binding.addsamlp_SubjectQuery(getSubjectQuery());
 
-	public static samlp_AssertionArtifact getAssertionArtifact()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		samlp_AssertionArtifact binding = new samlp_AssertionArtifact();
-		binding.setText(getRandomString());
+        return binding;
+    }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+    public static samlp_AssertionArtifact getAssertionArtifact() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-	// FIXME: Query is a direct element of an abstract complexType.
-	public static $samlp_QueryAbstractType getQuery()
-	{
-		return getAttributeQuery();
-	}
+        samlp_AssertionArtifact binding = new samlp_AssertionArtifact();
+        binding.setText(getRandomString());
 
-	// FIXME: SubjectQuery is a direct element of an abstract complexType.
-	public static $samlp_SubjectQueryAbstractType getSubjectQuery()
-	{
-		return getAttributeQuery();
-	}
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-	public static samlp_AuthenticationQuery getAuthenticationQuery()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        return binding;
+    }
 
-		samlp_AuthenticationQuery binding = new samlp_AuthenticationQuery();
-		binding.set_AuthenticationMethod$(new samlp_AuthenticationQuery._AuthenticationMethod$(getRandomString()));
-		binding.addsaml_Subject(SamlRegressionTest.getSubject());
+    // FIXME: Query is a direct element of an abstract complexType.
+    public static $samlp_QueryAbstractType getQuery() {
+        return getAttributeQuery();
+    }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+    // FIXME: SubjectQuery is a direct element of an abstract complexType.
+    public static $samlp_SubjectQueryAbstractType getSubjectQuery() {
+        return getAttributeQuery();
+    }
 
-	public static samlp_AttributeQuery getAttributeQuery()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static samlp_AuthenticationQuery getAuthenticationQuery() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		samlp_AttributeQuery binding = new samlp_AttributeQuery();
-		while(Math.random() < ADD_SEED)
-			binding.addsaml_AttributeDesignator(SamlRegressionTest.getAttributeDesignator());
+        samlp_AuthenticationQuery binding = new samlp_AuthenticationQuery();
+        binding.set_AuthenticationMethod$(new samlp_AuthenticationQuery._AuthenticationMethod$(getRandomString()));
+        binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
-		binding.set_Resource$(new samlp_AttributeQuery._Resource$(getRandomString()));
-		binding.addsaml_Subject(SamlRegressionTest.getSubject());
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        return binding;
+    }
 
-	public static samlp_AuthorizationDecisionQuery getAuthorizationDecisionQuery()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static samlp_AttributeQuery getAttributeQuery() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		samlp_AuthorizationDecisionQuery binding = new samlp_AuthorizationDecisionQuery();
-		do
-		binding.addsaml_Action(SamlRegressionTest.getAction());
-		while(Math.random() < ADD_SEED);
-		binding.set_Resource$(new samlp_AuthorizationDecisionQuery._Resource$(getRandomString()));
-		binding.addsaml_Subject(SamlRegressionTest.getSubject());
+        samlp_AttributeQuery binding = new samlp_AttributeQuery();
+        while (Math.random() < ADD_SEED)
+            binding.addsaml_AttributeDesignator(SamlRegressionTest.getAttributeDesignator());
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        binding.set_Resource$(new samlp_AttributeQuery._Resource$(getRandomString()));
+        binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
-	public static samlp_Response getResponse()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		samlp_Response binding = new samlp_Response();
-		while(Math.random() < ADD_SEED)
-			binding.addsaml_Assertion(SamlRegressionTest.getAssertion());
-		binding.set_InResponseTo$(new samlp_Response._InResponseTo$(getRandomString()));
-		binding.set_IssueInstant$(new samlp_Response._IssueInstant$(getRandomDateTime()));
-		binding.set_MajorVersion$(new samlp_Response._MajorVersion$(getRandomInteger()));
-		binding.set_MinorVersion$(new samlp_Response._MinorVersion$(getRandomInteger()));
-		binding.set_Recipient$(new samlp_Response._Recipient$(getRandomString()));
-		binding.set_ResponseID$(new samlp_Response._ResponseID$(getRandomString()));
-		binding.addds_Signature(DsRegressionTest.getSignature());
-		binding.addsamlp_Status(getStatus());
+        return binding;
+    }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+    public static samlp_AuthorizationDecisionQuery getAuthorizationDecisionQuery() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-	public static samlp_Status getStatus()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        samlp_AuthorizationDecisionQuery binding = new samlp_AuthorizationDecisionQuery();
+        do
+            binding.addsaml_Action(SamlRegressionTest.getAction());
+        while(Math.random() < ADD_SEED);
+        binding.set_Resource$(new samlp_AuthorizationDecisionQuery._Resource$(getRandomString()));
+        binding.addsaml_Subject(SamlRegressionTest.getSubject());
 
-		samlp_Status binding = new samlp_Status();
-		binding.addsamlp_StatusCode(getStatusCode());
-		binding.addsamlp_StatusDetail(getStatusDetail());
-		binding.addsamlp_StatusMessage(getStatusMessage());
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        return binding;
+    }
 
-	public static samlp_StatusCode getStatusCode()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static samlp_Response getResponse() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		samlp_StatusCode binding = new samlp_StatusCode();
+        samlp_Response binding = new samlp_Response();
+        while (Math.random() < ADD_SEED)
+            binding.addsaml_Assertion(SamlRegressionTest.getAssertion());
+        binding.set_InResponseTo$(new samlp_Response._InResponseTo$(getRandomString()));
+        binding.set_IssueInstant$(new samlp_Response._IssueInstant$(getRandomDateTime()));
+        binding.set_MajorVersion$(new samlp_Response._MajorVersion$(getRandomInteger()));
+        binding.set_MinorVersion$(new samlp_Response._MinorVersion$(getRandomInteger()));
+        binding.set_Recipient$(new samlp_Response._Recipient$(getRandomString()));
+        binding.set_ResponseID$(new samlp_Response._ResponseID$(getRandomString()));
+        binding.addds_Signature(DsRegressionTest.getSignature());
+        binding.addsamlp_Status(getStatus());
 
-		// NOTE: We do not want a continuous recursion.
-		if(Math.random() < RECURSION_SEED)
-			binding.addsamlp_StatusCode(getStatusCode());
-		binding.set_Value$(new samlp_StatusCode._Value$(getRandomQName()));
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        return binding;
+    }
 
-	public static samlp_StatusMessage getStatusMessage()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+    public static samlp_Status getStatus() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		samlp_StatusMessage binding = new samlp_StatusMessage();
-		binding.setText(getRandomString());
+        samlp_Status binding = new samlp_Status();
+        binding.addsamlp_StatusCode(getStatusCode());
+        binding.addsamlp_StatusDetail(getStatusDetail());
+        binding.addsamlp_StatusMessage(getStatusMessage());
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
 
-	public static samlp_StatusDetail getStatusDetail()
-	{
-		boolean verifiable = isVerifiable();
-		if(verifiable)
-			setVerifiable(false);
+        return binding;
+    }
 
-		samlp_StatusDetail binding = new samlp_StatusDetail();
-		while(Math.random() < ADD_SEED)
-			binding.addAny(instance.getAny());
+    public static samlp_StatusCode getStatusCode() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
 
-		if(verifiable)
-		{
-			verify(binding);
-			setVerifiable(true);
-		}
-		return binding;
-	}
+        samlp_StatusCode binding = new samlp_StatusCode();
+
+        // NOTE: We do not want a continuous recursion.
+        if (Math.random() < RECURSION_SEED)
+            binding.addsamlp_StatusCode(getStatusCode());
+        binding.set_Value$(new samlp_StatusCode._Value$(getRandomQName()));
+
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
+
+        return binding;
+    }
+
+    public static samlp_StatusMessage getStatusMessage() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
+
+        samlp_StatusMessage binding = new samlp_StatusMessage();
+        binding.setText(getRandomString());
+
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
+
+        return binding;
+    }
+
+    public static samlp_StatusDetail getStatusDetail() {
+        boolean verifiable = isVerifiable();
+        if (verifiable)
+            setVerifiable(false);
+
+        samlp_StatusDetail binding = new samlp_StatusDetail();
+        while (Math.random() < ADD_SEED)
+            binding.addAny(instance.getAny());
+
+        if (verifiable) {
+            verify(binding);
+            setVerifiable(true);
+        }
+
+        return binding;
+    }
 }

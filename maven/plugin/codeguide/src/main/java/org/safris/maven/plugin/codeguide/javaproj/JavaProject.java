@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,144 +28,119 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
-public class JavaProject
-{
-	private final String name;
-	private final String shortName;
-	private final String uuid;
-	private final File dir;
-	private Set<File> sourceFiles = null;
-	private Set<File> resourceFiles = null;
-	private Set<GroupArtifact> dependencies = null;
-	private Set<File> classpathReferences = null;
-	private Set<JavaProject> projectReferences = null;
-	private Collection<jp_javaProject3._startingPoints._startingPoint> startingPoints = null;
-	private boolean startingPointsSearched = false;
-	private Solution solution = null;
+public class JavaProject {
+    private final String name;
+    private final String shortName;
+    private final String uuid;
+    private final File dir;
+    private Set<File> sourceFiles = null;
+    private Set<File> resourceFiles = null;
+    private Set<GroupArtifact> dependencies = null;
+    private Set<File> classpathReferences = null;
+    private Set<JavaProject> projectReferences = null;
+    private Collection<jp_javaProject3._startingPoints._startingPoint> startingPoints = null;
+    private boolean startingPointsSearched = false;
+    private Solution solution = null;
 
-	public JavaProject(GroupArtifact address, File dir)
-	{
-		this.name = address.getGroupId() + ":" + address.getArtifactId();
-		this.shortName = address.getArtifactId();
-		this.uuid = UUID.nameUUIDFromBytes(name.getBytes()).toString().toUpperCase();
-		this.dir = dir;
-	}
+    public JavaProject(GroupArtifact address, File dir) {
+        this.name = address.getGroupId() + ":" + address.getArtifactId();
+        this.shortName = address.getArtifactId();
+        this.uuid = UUID.nameUUIDFromBytes(name.getBytes()).toString().toUpperCase();
+        this.dir = dir;
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getShortName()
-	{
-		return shortName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	public String getUUID()
-	{
-		return uuid;
-	}
+    public String getUUID() {
+        return uuid;
+    }
 
-	public File getDir()
-	{
-		return dir;
-	}
+    public File getDir() {
+        return dir;
+    }
 
-	public void setSourceFiles(Set<File> sourceFiles)
-	{
-		this.sourceFiles = sourceFiles;
-	}
+    public void setSourceFiles(Set<File> sourceFiles) {
+        this.sourceFiles = sourceFiles;
+    }
 
-	public Set<File> getSourceFiles()
-	{
-		return sourceFiles;
-	}
+    public Set<File> getSourceFiles() {
+        return sourceFiles;
+    }
 
-	public void setResourceFiles(Set<File> resourceFiles)
-	{
-		this.resourceFiles = resourceFiles;
-	}
+    public void setResourceFiles(Set<File> resourceFiles) {
+        this.resourceFiles = resourceFiles;
+    }
 
-	public Set<File> getResourceFiles()
-	{
-		return resourceFiles;
-	}
+    public Set<File> getResourceFiles() {
+        return resourceFiles;
+    }
 
-	public void setDependencies(Set<GroupArtifact> dependencies)
-	{
-		this.dependencies = dependencies;
-	}
+    public void setDependencies(Set<GroupArtifact> dependencies) {
+        this.dependencies = dependencies;
+    }
 
-	public Set<GroupArtifact> getDependencies()
-	{
-		return dependencies;
-	}
+    public Set<GroupArtifact> getDependencies() {
+        return dependencies;
+    }
 
-	public void setClasspathReferences(Set<File> classpathReferences)
-	{
-		this.classpathReferences = classpathReferences;
-	}
+    public void setClasspathReferences(Set<File> classpathReferences) {
+        this.classpathReferences = classpathReferences;
+    }
 
-	public Set<File> getClasspathReferences()
-	{
-		return classpathReferences;
-	}
+    public Set<File> getClasspathReferences() {
+        return classpathReferences;
+    }
 
-	public void setProjectReferences(Set<JavaProject> projectReferences)
-	{
-		this.projectReferences = projectReferences;
-	}
+    public void setProjectReferences(Set<JavaProject> projectReferences) {
+        this.projectReferences = projectReferences;
+    }
 
-	public Set<JavaProject> getProjectReferences()
-	{
-		return projectReferences;
-	}
+    public Set<JavaProject> getProjectReferences() {
+        return projectReferences;
+    }
 
-	// FIXME: Fix all this here...
-	public Collection<jp_javaProject3._startingPoints._startingPoint> getStartingPoints()
-	{
-		if(startingPointsSearched)
-			return startingPoints;
+    // FIXME: Fix all this here...
+    public Collection<jp_javaProject3._startingPoints._startingPoint> getStartingPoints() {
+        if (startingPointsSearched)
+            return startingPoints;
 
-		synchronized(name)
-		{
-			if(startingPointsSearched)
-				return startingPoints;
+        synchronized (name) {
+            if (startingPointsSearched)
+                return startingPoints;
 
-			final File javaprojXML = new File(getDir(), getShortName() + ".javaproj");
-			try
-			{
-				if(javaprojXML.exists())
-				{
-					final jp_javaProject3 javaProject3 = (jp_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
-					if(javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
-						this.startingPoints = javaProject3.get_startingPoints().get(0).get_startingPoint();
-				}
-			}
-			catch(XMLException e)
-			{
-				System.err.println(e.getMessage());
-			}
-			catch(FileNotFoundException e)
-			{
-				System.err.println(e.getMessage());
-			}
-			finally
-			{
-				startingPointsSearched = true;
-			}
-		}
+            final File javaprojXML = new File(getDir(), getShortName() + ".javaproj");
+            try {
+                if (javaprojXML.exists()) {
+                    final jp_javaProject3 javaProject3 = (jp_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
+                    if (javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
+                        this.startingPoints = javaProject3.get_startingPoints().get(0).get_startingPoint();
+                }
+            }
+            catch (XMLException e) {
+                System.err.println(e.getMessage());
+            }
+            catch (FileNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
+            finally {
+                startingPointsSearched = true;
+            }
+        }
 
-		return startingPoints;
-	}
+        return startingPoints;
+    }
 
-	public void setSolution(Solution solution)
-	{
-		this.solution = solution;
-	}
+    public void setSolution(Solution solution) {
+        this.solution = solution;
+    }
 
-	public Solution getSolution()
-	{
-		return solution;
-	}
+    public Solution getSolution() {
+        return solution;
+    }
 }

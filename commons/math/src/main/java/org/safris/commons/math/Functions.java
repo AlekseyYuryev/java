@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,22 +15,19 @@
 
 package org.safris.commons.math;
 
-public final class Functions
-{
-	/**
-	 * Calculate the log given both the base and value.
-	 *
-	 * @param base The base.
-	 * @param value The value.
-	 *
-	 * @return The log.
-	 */
-	public static double log(int base, int value)
-	{
-		return Math.log(value) / Math.log(base);
-	}
+public final class Functions {
+    /**
+     * Calculate the log given both the base and value.
+     *
+     * @param base The base.
+     * @param value The value.
+     *
+     * @return The log.
+     */
+    public static double log(int base, int value) {
+        return Math.log(value) / Math.log(base);
+    }
 
-	private Functions()
-	{
-	}
+    private Functions() {
+    }
 }

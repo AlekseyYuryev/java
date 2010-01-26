@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
 
 package org.safris.commons.pipeline;
 
-public interface PipelineDirectory<C extends PipelineContext,K extends PipelineEntity,V extends PipelineEntity>
-{
-	public PipelineEntity<V> getEntity(K entity, V parent);
-	public PipelineProcessor<C,K,V> getProcessor();
-	public void clear();
+public interface PipelineDirectory<C extends PipelineContext,K extends PipelineEntity,V extends PipelineEntity> {
+    public PipelineEntity<V> getEntity(K entity, V parent);
+    public PipelineProcessor<C,K,V> getProcessor();
+    public void clear();
 }

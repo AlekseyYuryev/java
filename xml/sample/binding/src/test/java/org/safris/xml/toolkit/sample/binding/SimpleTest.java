@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,16 +19,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SimpleTest extends AbstractTest
-{
-	public static void main(String[] args)
-	{
-		new SimpleTest().testExample();
-	}
+public class SimpleTest extends AbstractTest {
+    public static void main(String[] args) {
+        new SimpleTest().testExample();
+    }
 
-	@Test
-	public void testExample()
-	{
-		assertTrue(verifyBinding(new SimpleExample().runExample()));
-	}
+    @Test
+    public void testExample() {
+        assertTrue(verifyBinding(new SimpleExample().runExample()));
+    }
 }

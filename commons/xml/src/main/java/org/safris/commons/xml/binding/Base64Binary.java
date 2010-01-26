@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,68 +23,59 @@ import sun.misc.BASE64Encoder;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#base64Binary
  */
-public final class Base64Binary
-{
-	public static Base64Binary parseBase64Binary(String string)
-	{
-		if(string == null)
-			return null;
+public final class Base64Binary {
+    public static Base64Binary parseBase64Binary(String string) {
+        if (string == null)
+            return null;
 
-		byte[] bytes = null;
-		try
-		{
-			bytes = new BASE64Decoder().decodeBuffer(string);
-		}
-		catch(IOException e)
-		{
-			final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
-			illegalArgumentException.setStackTrace(e.getStackTrace());
-			throw illegalArgumentException;
-		}
+        byte[] bytes = null;
+        try {
+            bytes = new BASE64Decoder().decodeBuffer(string);
+        }
+        catch (IOException e) {
+            final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
+            illegalArgumentException.setStackTrace(e.getStackTrace());
+            throw illegalArgumentException;
+        }
 
-		return new Base64Binary(bytes);
-	}
+        return new Base64Binary(bytes);
+    }
 
-	private final byte[] bytes;
-	private String encoded = null;
+    private final byte[] bytes;
+    private String encoded = null;
 
-	public Base64Binary(byte[] bytes)
-	{
-		this.bytes = bytes;
-	}
+    public Base64Binary(byte[] bytes) {
+        this.bytes = bytes;
+    }
 
-	public byte[] getBytes()
-	{
-		return bytes;
-	}
+    public byte[] getBytes() {
+        return bytes;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof Base64Binary))
-			return false;
+        if (!(obj instanceof Base64Binary))
+            return false;
 
-		final Base64Binary that = (Base64Binary)obj;
-		return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
-	}
+        final Base64Binary that = (Base64Binary)obj;
+        return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
+    }
 
-	public int hashCode()
-	{
-		return bytes != null ? Arrays.hashCode(bytes) : -1;
-	}
+    public int hashCode() {
+        return bytes != null ? Arrays.hashCode(bytes) : -1;
+    }
 
-	/**
-	 * Returns the base64 string representation of this object's byte[] data.
-	 *
-	 * @return	The base64 string.
-	 */
-	public String toString()
-	{
-		if(encoded == null)
-			encoded = new BASE64Encoder().encodeBuffer(bytes);
+    /**
+     * Returns the base64 string representation of this object's byte[] data.
+     *
+     * @return  The base64 string.
+     */
+    public String toString() {
+        if (encoded == null)
+            encoded = new BASE64Encoder().encodeBuffer(bytes);
 
-		return encoded;
-	}
+        return encoded;
+    }
 }

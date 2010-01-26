@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,27 +17,23 @@ package org.safris.maven.plugin.dependency;
 
 import org.apache.maven.artifact.Artifact;
 
-public class GroupArtifact extends GroupArtifactVersionType
-{
-	public GroupArtifact(Artifact artifact)
-	{
-		super(artifact);
-	}
+public class GroupArtifact extends GroupArtifactVersionType {
+    public GroupArtifact(Artifact artifact) {
+        super(artifact);
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof GroupArtifact))
-			return false;
+        if (!(obj instanceof GroupArtifact))
+            return false;
 
-		final GroupArtifact groupArtifact = (GroupArtifact)obj;
-		return getGroupId().equals(groupArtifact.getGroupId()) && getArtifactId().equals(groupArtifact.getArtifactId());
-	}
+        final GroupArtifact groupArtifact = (GroupArtifact)obj;
+        return getGroupId().equals(groupArtifact.getGroupId()) && getArtifactId().equals(groupArtifact.getArtifactId());
+    }
 
-	public int hashCode()
-	{
-		return (getGroupId() + ":" + getArtifactId()).hashCode();
-	}
+    public int hashCode() {
+        return (getGroupId() + ":" + getArtifactId()).hashCode();
+    }
 }

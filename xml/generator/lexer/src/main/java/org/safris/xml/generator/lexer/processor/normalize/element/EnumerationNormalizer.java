@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,47 +22,37 @@ import org.safris.xml.generator.lexer.processor.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class EnumerationNormalizer extends Normalizer<EnumerationModel>
-{
-	public EnumerationNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+public class EnumerationNormalizer extends Normalizer<EnumerationModel> {
+    public EnumerationNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(EnumerationModel model)
-	{
-	}
+    protected void stage1(EnumerationModel model) {
+    }
 
-	protected void stage2(EnumerationModel model)
-	{
-	}
+    protected void stage2(EnumerationModel model) {
+    }
 
-	protected void stage3(EnumerationModel model)
-	{
-	}
+    protected void stage3(EnumerationModel model) {
+    }
 
-	protected void stage4(EnumerationModel model)
-	{
-		if(model.getValue() == null || model.getValue().getLocalPart().length() == 0)
-			return;
+    protected void stage4(EnumerationModel model) {
+        if (model.getValue() == null || model.getValue().getLocalPart().length() == 0)
+            return;
 
-		Model parent = model;
-		while((parent = parent.getParent()) != null)
-		{
-			if(parent instanceof EnumerableModel && parent instanceof Nameable)
-			{
-				((EnumerableModel)parent).addEnumeration(model);
-				if(((Nameable)parent).getName() != null)
-					break;
-			}
-		}
-	}
+        Model parent = model;
+        while ((parent = parent.getParent()) != null) {
+            if (parent instanceof EnumerableModel && parent instanceof Nameable) {
+                ((EnumerableModel)parent).addEnumeration(model);
+                if (((Nameable)parent).getName() != null)
+                    break;
+            }
+        }
+    }
 
-	protected void stage5(EnumerationModel model)
-	{
-	}
+    protected void stage5(EnumerationModel model) {
+    }
 
-	protected void stage6(EnumerationModel model)
-	{
-	}
+    protected void stage6(EnumerationModel model) {
+    }
 }

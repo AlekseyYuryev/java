@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,25 +17,20 @@ package org.safris.commons.xml.validator;
 
 import org.safris.commons.xml.XMLError;
 
-public class ValidatorError extends XMLError
-{
-	public ValidatorError()
-	{
-		super();
-	}
+public class ValidatorError extends XMLError {
+    public ValidatorError() {
+        super();
+    }
 
-	public ValidatorError(String message)
-	{
-		super(message);
-	}
+    public ValidatorError(String message) {
+        super(message);
+    }
 
-	public ValidatorError(Throwable cause)
-	{
-		super(cause);
-	}
+    public ValidatorError(Throwable cause) {
+        super(cause);
+    }
 
-	public ValidatorError(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
+    public ValidatorError(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

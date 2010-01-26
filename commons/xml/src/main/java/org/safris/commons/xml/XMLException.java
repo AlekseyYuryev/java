@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,25 +15,20 @@
 
 package org.safris.commons.xml;
 
-public class XMLException extends Exception
-{
-	public XMLException()
-	{
-		super();
-	}
+public class XMLException extends Exception {
+    public XMLException() {
+        super();
+    }
 
-	public XMLException(String message)
-	{
-		super(message);
-	}
+    public XMLException(String message) {
+        super(message);
+    }
 
-	public XMLException(Throwable cause)
-	{
-		super(cause);
-	}
+    public XMLException(Throwable cause) {
+        super(cause);
+    }
 
-	public XMLException(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
+    public XMLException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

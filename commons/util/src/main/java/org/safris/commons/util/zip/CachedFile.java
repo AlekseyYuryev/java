@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,36 +20,30 @@ import java.net.URI;
 
 // FIXME: This is not the right way to be doing this!
 // FIXME: It creates unnecessary dependencies and relations.
-public class CachedFile extends File
-{
-	private final byte[] bytes;
+public class CachedFile extends File {
+    private final byte[] bytes;
 
-    public CachedFile(String pathname, byte[] bytes)
-	{
-		super(pathname);
-		this.bytes = bytes;
-	}
+    public CachedFile(String pathname, byte[] bytes) {
+        super(pathname);
+        this.bytes = bytes;
+    }
 
-    public CachedFile(String parent, String child, byte[] bytes)
-	{
-		super(parent, child);
-		this.bytes = bytes;
-	}
+    public CachedFile(String parent, String child, byte[] bytes) {
+        super(parent, child);
+        this.bytes = bytes;
+    }
 
-	public CachedFile(File parent, String child, byte[] bytes)
-	{
-		super(parent, child);
-		this.bytes = bytes;
-	}
+    public CachedFile(File parent, String child, byte[] bytes) {
+        super(parent, child);
+        this.bytes = bytes;
+    }
 
-	public CachedFile(URI uri, byte[] bytes)
-	{
-		super(uri);
-		this.bytes = bytes;
-	}
+    public CachedFile(URI uri, byte[] bytes) {
+        super(uri);
+        this.bytes = bytes;
+    }
 
-	public byte[] getBytes()
-	{
-		return bytes;
-	}
+    public byte[] getBytes() {
+        return bytes;
+    }
 }

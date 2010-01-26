@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -55,232 +55,208 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Generator extends AbstractGenerator
-{
-	private static void usage()
-	{
-		System.err.println("Usage: Generator [OPTIONS] <-d <destDir>> <schema.xsd>");
-		System.err.println("");
-		System.err.println("Mandatory arguments:");
-		System.err.println("  -d <destDir>    Specify the destination directory.");
-		System.err.println("");
-		System.err.println("Optional arguments:");
-		System.err.println("  --explodeJars   Explode generated jars into the destination directory.");
-		System.err.println("  --overwrite     Overwrite all existing generated classes.");
-		System.exit(1);
-	}
+public class Generator extends AbstractGenerator {
+    private static void usage() {
+        System.err.println("Usage: Generator [OPTIONS] <-d <destDir>> <schema.xsd>");
+        System.err.println("");
+        System.err.println("Mandatory arguments:");
+        System.err.println("  -d <destDir>    Specify the destination directory.");
+        System.err.println("");
+        System.err.println("Optional arguments:");
+        System.err.println("  --explodeJars   Explode generated jars into the destination directory.");
+        System.err.println("  --overwrite     Overwrite all existing generated classes.");
+        System.exit(1);
+    }
 
-	public static void main(String[] args)
-	{
-		if(args.length == 0 || args[0] == null || args[0].length() == 0)
-			usage();
+    public static void main(String[] args) {
+        if (args.length == 0 || args[0] == null || args[0].length() == 0)
+            usage();
 
-		boolean explodeJars = false;
-		boolean overwrite = false;
-		File destDir = null;
-		final Collection<SchemaReference> schemas = new HashSet<SchemaReference>();
-		for(int i = 0; i < args.length; i++)
-		{
-			if("--explodeJars".equals(args[i]))
-				explodeJars = true;
-			else if("--overwrite".equals(args[i]))
-				overwrite = true;
-			else if("-d".equals(args[i]) && i < args.length)
-				destDir = new File(args[++i]).getAbsoluteFile();
-			else
-				schemas.add(new SchemaReference(args[i]));
-		}
+        boolean explodeJars = false;
+        boolean overwrite = false;
+        File destDir = null;
+        final Collection<SchemaReference> schemas = new HashSet<SchemaReference>();
+        for (int i = 0; i < args.length; i++) {
+            if ("--explodeJars".equals(args[i]))
+                explodeJars = true;
+            else if ("--overwrite".equals(args[i]))
+                overwrite = true;
+            else if ("-d".equals(args[i]) && i < args.length)
+                destDir = new File(args[++i]).getAbsoluteFile();
+            else
+                schemas.add(new SchemaReference(args[i]));
+        }
 
-		if(destDir == null)
-			destDir = Files.getCwd();
+        if (destDir == null)
+            destDir = Files.getCwd();
 
-		final GeneratorContext generatorContext = new GeneratorContext(System.currentTimeMillis(), destDir, explodeJars, overwrite);
-		final Generator generator = new Generator(generatorContext, schemas);
-		generator.generate();
-	}
+        final GeneratorContext generatorContext = new GeneratorContext(System.currentTimeMillis(), destDir, explodeJars, overwrite);
+        final Generator generator = new Generator(generatorContext, schemas);
+        generator.generate();
+    }
 
-	private static final String MANIFEST_ERROR = "There is an error in your binding xml. Please consult manifest.xsd for proper usage.";
-	private final GeneratorContext generatorContext;
-	private final Collection<SchemaReference> schemas;
+    private static final String MANIFEST_ERROR = "There is an error in your binding xml. Please consult manifest.xsd for proper usage.";
+    private final GeneratorContext generatorContext;
+    private final Collection<SchemaReference> schemas;
 
-	public Generator(GeneratorContext generatorContext, Collection<SchemaReference> schemas)
-	{
-		this.generatorContext = generatorContext;
-		this.schemas = schemas;
-	}
+    public Generator(GeneratorContext generatorContext, Collection<SchemaReference> schemas) {
+        this.generatorContext = generatorContext;
+        this.schemas = schemas;
+    }
 
-	public Generator(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
-	{
-		this.schemas = new HashSet<SchemaReference>();
-		this.generatorContext = parseConfig(basedir, bindingsElement, lastModified, resolver);
-	}
+    public Generator(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver) {
+        this.schemas = new HashSet<SchemaReference>();
+        this.generatorContext = parseConfig(basedir, bindingsElement, lastModified, resolver);
+    }
 
-	public GeneratorContext getGeneratorContext()
-	{
-		return generatorContext;
-	}
+    public GeneratorContext getGeneratorContext() {
+        return generatorContext;
+    }
 
-	public Collection<SchemaReference> getSchemas()
-	{
-		return schemas;
-	}
+    public Collection<SchemaReference> getSchemas() {
+        return schemas;
+    }
 
-	public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver)
-	{
-		if(!"manifest".equals(bindingsElement.getNodeName()))
-			throw new IllegalArgumentException("Invalid manifest element!");
+    public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver) {
+        if (!"manifest".equals(bindingsElement.getNodeName()))
+            throw new IllegalArgumentException("Invalid manifest element!");
 
-		File destDir = null;
-		boolean explodeJars = false;
-		boolean overwrite = false;
+        File destDir = null;
+        boolean explodeJars = false;
+        boolean overwrite = false;
 
-		URL hrefURL = null;
-		final NodeList list = bindingsElement.getChildNodes();
-		for(int i = 0; i < list.getLength(); i++)
-		{
-			String schemaReference = null;
-			final Node child = list.item(i);
-			if("schemas".equals(child.getNodeName()))
-			{
-				NodeList schemaNodes = child.getChildNodes();
-				for(int j = 0; j < schemaNodes.getLength(); j++)
-				{
-					Node schemaNode = schemaNodes.item(j);
-					if(!"schema".equals(schemaNode.getLocalName()))
-						continue;
+        URL hrefURL = null;
+        final NodeList list = bindingsElement.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            String schemaReference = null;
+            final Node child = list.item(i);
+            if ("schemas".equals(child.getNodeName())) {
+                NodeList schemaNodes = child.getChildNodes();
+                for (int j = 0; j < schemaNodes.getLength(); j++) {
+                    Node schemaNode = schemaNodes.item(j);
+                    if (!"schema".equals(schemaNode.getLocalName()))
+                        continue;
 
-					NodeList text = schemaNode.getChildNodes();
-					for(int k = 0; k < text.getLength(); k++)
-					{
-						Node node = text.item(k);
-						if(node.getNodeType() != Node.TEXT_NODE)
-							continue;
+                    NodeList text = schemaNode.getChildNodes();
+                    for (int k = 0; k < text.getLength(); k++) {
+                        Node node = text.item(k);
+                        if (node.getNodeType() != Node.TEXT_NODE)
+                            continue;
 
-						schemaReference = resolver.resolve(node.getNodeValue());
-						break;
-					}
+                        schemaReference = resolver.resolve(node.getNodeValue());
+                        break;
+                    }
 
-					if(schemaReference.length() != 0 && !Paths.isAbsolute(schemaReference))
-						schemaReference = basedir.getAbsolutePath() + File.separator + schemaReference;
+                    if (schemaReference.length() != 0 && !Paths.isAbsolute(schemaReference))
+                        schemaReference = basedir.getAbsolutePath() + File.separator + schemaReference;
 
-					schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
-				}
-			}
-			else if(destDir == null && "destdir".equals(child.getLocalName()))
-			{
-				final NodeList text = child.getChildNodes();
-				for(int j = 0; j < text.getLength(); j++)
-				{
-					final Node node = text.item(j);
-					if(node.getNodeType() != Node.TEXT_NODE)
-						continue;
+                    schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
+                }
+            }
+            else if (destDir == null && "destdir".equals(child.getLocalName())) {
+                final NodeList text = child.getChildNodes();
+                for (int j = 0; j < text.getLength(); j++) {
+                    final Node node = text.item(j);
+                    if (node.getNodeType() != Node.TEXT_NODE)
+                        continue;
 
-					destDir = new File(resolver.resolve(node.getNodeValue()));
-					final NamedNodeMap attributes = child.getAttributes();
-					if(attributes != null)
-					{
-						for(int k = 0; k < attributes.getLength(); k++)
-						{
-							final Node attribute = attributes.item(k);
-							if("explodeJars".equals(attribute.getLocalName()))
-								explodeJars = $xs_boolean.parseBoolean(attribute.getNodeValue());
-							else if("overwrite".equals(attribute.getLocalName()))
-								overwrite = $xs_boolean.parseBoolean(attribute.getNodeValue());
-						}
-					}
+                    destDir = new File(resolver.resolve(node.getNodeValue()));
+                    final NamedNodeMap attributes = child.getAttributes();
+                    if (attributes != null) {
+                        for (int k = 0; k < attributes.getLength(); k++) {
+                            final Node attribute = attributes.item(k);
+                            if ("explodeJars".equals(attribute.getLocalName()))
+                                explodeJars = $xs_boolean.parseBoolean(attribute.getNodeValue());
+                            else if ("overwrite".equals(attribute.getLocalName()))
+                                overwrite = $xs_boolean.parseBoolean(attribute.getNodeValue());
+                        }
+                    }
 
-					break;
-				}
-			}
-			else if(hrefURL == null && "link".equals(child.getLocalName()))
-			{
-				final NamedNodeMap attributes = child.getAttributes();
-				Node hrefNode = null;
-				if(attributes == null || (hrefNode = attributes.getNamedItemNS("http://www.w3.org/1999/xlink", "href")) == null || hrefNode.getNodeValue().length() == 0)
-					throw new BindingError(MANIFEST_ERROR);
+                    break;
+                }
+            }
+            else if (hrefURL == null && "link".equals(child.getLocalName())) {
+                final NamedNodeMap attributes = child.getAttributes();
+                Node hrefNode = null;
+                if (attributes == null || (hrefNode = attributes.getNamedItemNS("http://www.w3.org/1999/xlink", "href")) == null || hrefNode.getNodeValue().length() == 0)
+                    throw new BindingError(MANIFEST_ERROR);
 
-				final String href = resolver.resolve(hrefNode.getNodeValue());
-				try
-				{
-					if(basedir != null)
-						hrefURL = URLs.makeUrlFromPath(basedir.getAbsolutePath(), href);
-					else
-						hrefURL = URLs.makeUrlFromPath(href);
-				}
-				catch(MalformedURLException e)
-				{
-					throw new CompilerError(e);
-				}
-			}
-			else if(child.getNodeType() == Node.ELEMENT_NODE)
-				throw new BindingError(MANIFEST_ERROR);
-		}
+                final String href = resolver.resolve(hrefNode.getNodeValue());
+                try {
+                    if (basedir != null)
+                        hrefURL = URLs.makeUrlFromPath(basedir.getAbsolutePath(), href);
+                    else
+                        hrefURL = URLs.makeUrlFromPath(href);
+                }
+                catch (MalformedURLException e) {
+                    throw new CompilerError(e);
+                }
+            }
+            else if (child.getNodeType() == Node.ELEMENT_NODE)
+                throw new BindingError(MANIFEST_ERROR);
+        }
 
-		if(hrefURL != null)
-		{
-			if(destDir != null || schemas.size() != 0)
-				throw new BindingError(MANIFEST_ERROR);
+        if (hrefURL != null) {
+            if (destDir != null || schemas.size() != 0)
+                throw new BindingError(MANIFEST_ERROR);
 
-			long modified = 0;
-			final Document document;
-			try
-			{
-				final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
-				final URLConnection connection = hrefURL.openConnection();
-				modified = connection.getLastModified();
-				document = documentBuilder.parse(connection.getInputStream());
-			}
-			catch(Exception e)
-			{
-				throw new CompilerError(e);
-			}
+            long modified = 0;
+            final Document document;
+            try {
+                final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
+                final URLConnection connection = hrefURL.openConnection();
+                modified = connection.getLastModified();
+                document = documentBuilder.parse(connection.getInputStream());
+            }
+            catch (Exception e) {
+                throw new CompilerError(e);
+            }
 
-			return parseConfig(basedir, document.getDocumentElement(), modified, resolver);
-		}
+            return parseConfig(basedir, document.getDocumentElement(), modified, resolver);
+        }
 
-		return new GeneratorContext(lastModified, destDir, explodeJars, overwrite);
-	}
+        return new GeneratorContext(lastModified, destDir, explodeJars, overwrite);
+    }
 
-	public Collection<Bundle> generate()
-	{
-		final Pipeline<GeneratorContext> pipeline = new Pipeline<GeneratorContext>(generatorContext);
+    public Collection<Bundle> generate() {
+        final Pipeline<GeneratorContext> pipeline = new Pipeline<GeneratorContext>(generatorContext);
 
-		// select the schemas to be generated and exit if no schemas need work
-		final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
-		pipeline.<SchemaReference,SchemaReference>addProcessor(schemas, schemaReferences, new SchemaReferenceDirectory());
+        // select the schemas to be generated and exit if no schemas need work
+        final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>();
+        pipeline.<SchemaReference,SchemaReference>addProcessor(schemas, schemaReferences, new SchemaReferenceDirectory());
 
-		// prepare the schemas to be worked on and build the dependency graph
-		final Collection<SchemaDocument> schemaDocuments = new ArrayList<SchemaDocument>();
-		pipeline.<SchemaReference,SchemaDocument>addProcessor(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
+        // prepare the schemas to be worked on and build the dependency graph
+        final Collection<SchemaDocument> schemaDocuments = new ArrayList<SchemaDocument>();
+        pipeline.<SchemaReference,SchemaDocument>addProcessor(schemaReferences, schemaDocuments, new SchemaDocumentDirectory());
 
-		// bridge the dependency structure within the framework
-		final Collection<SchemaComposite> schemaComposites = new ArrayList<SchemaComposite>();
-		pipeline.<SchemaDocument,SchemaComposite>addProcessor(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
+        // bridge the dependency structure within the framework
+        final Collection<SchemaComposite> schemaComposites = new ArrayList<SchemaComposite>();
+        pipeline.<SchemaDocument,SchemaComposite>addProcessor(schemaDocuments, schemaComposites, new SchemaCompositeDirectory());
 
-		// model the schema elements using Model objects
-		final Collection<Model> models = new ArrayList<Model>();
-		pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
+        // model the schema elements using Model objects
+        final Collection<Model> models = new ArrayList<Model>();
+        pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
 
-		// normalize the models
-		pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
+        // normalize the models
+        pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
 
-		// plan the schema elements using Plan objects
-		final Collection<Plan> plans = new ArrayList<Plan>();
-		pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
+        // plan the schema elements using Plan objects
+        final Collection<Plan> plans = new ArrayList<Plan>();
+        pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
 
-		// write the plans to files
-		pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
+        // write the plans to files
+        pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
 
-		// compile and jar the bindings
-		final Collection<Bundle> bundles = new ArrayList<Bundle>();
-		pipeline.<SchemaComposite,Bundle>addProcessor(schemaComposites, bundles, new BundleDirectory());
+        // compile and jar the bindings
+        final Collection<Bundle> bundles = new ArrayList<Bundle>();
+        pipeline.<SchemaComposite,Bundle>addProcessor(schemaComposites, bundles, new BundleDirectory());
 
-		// timestamp the generated files and directories
-		pipeline.<Bundle,Bundle>addProcessor(bundles, null, new TimestampDirectory());
+        // timestamp the generated files and directories
+        pipeline.<Bundle,Bundle>addProcessor(bundles, null, new TimestampDirectory());
 
-		// start the pipeline
-		pipeline.begin();
+        // start the pipeline
+        pipeline.begin();
 
-		return bundles;
-	}
+        return bundles;
+    }
 }

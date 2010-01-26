@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,36 +28,31 @@ import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.w3c.dom.Document;
 
-public abstract class AbstractGenerator
-{
-	private static final Map<String,SchemaDocument> parsedDocuments = new HashMap<String,SchemaDocument>();
+public abstract class AbstractGenerator {
+    private static final Map<String,SchemaDocument> parsedDocuments = new HashMap<String,SchemaDocument>();
 
-	public static SchemaDocument parse(SchemaReference schemaReference)
-	{
-		URL url = null;
-		SchemaDocument parsedDocument = null;
-		Document document = null;
-		try
-		{
-			url = URLs.canonicalizeURL(schemaReference.getURL());
-			parsedDocuments.get(schemaReference.getNamespaceURI() + url.toString());
-			if(parsedDocument != null)
-				return parsedDocument;
+    public static SchemaDocument parse(SchemaReference schemaReference) {
+        URL url = null;
+        SchemaDocument parsedDocument = null;
+        Document document = null;
+        try {
+            url = URLs.canonicalizeURL(schemaReference.getURL());
+            parsedDocuments.get(schemaReference.getNamespaceURI() + url.toString());
+            if (parsedDocument != null)
+                return parsedDocument;
 
-			final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
-			document = documentBuilder.parse(url.toString());
-		}
-		catch(FileNotFoundException e)
-		{
-			throw new BindingError(e.getMessage());
-		}
-		catch(Exception e)
-		{
-			throw new CompilerError(e);
-		}
+            final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
+            document = documentBuilder.parse(url.toString());
+        }
+        catch (FileNotFoundException e) {
+            throw new BindingError(e.getMessage());
+        }
+        catch (Exception e) {
+            throw new CompilerError(e);
+        }
 
-		parsedDocument = new SchemaDocument(schemaReference, document);
-		parsedDocuments.put(schemaReference.getNamespaceURI() + url.toString(), parsedDocument);
-		return parsedDocument;
-	}
+        parsedDocument = new SchemaDocument(schemaReference, document);
+        parsedDocuments.put(schemaReference.getNamespaceURI() + url.toString(), parsedDocument);
+        return parsedDocument;
+    }
 }

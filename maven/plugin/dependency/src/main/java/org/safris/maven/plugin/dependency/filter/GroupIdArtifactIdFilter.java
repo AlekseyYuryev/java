@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,15 +18,12 @@ package org.safris.maven.plugin.dependency.filter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.dependency.utils.filters.AbstractArtifactFeatureFilter;
 
-public class GroupIdArtifactIdFilter extends AbstractArtifactFeatureFilter
-{
-    public GroupIdArtifactIdFilter(String include, String exclude)
-    {
+public class GroupIdArtifactIdFilter extends AbstractArtifactFeatureFilter {
+    public GroupIdArtifactIdFilter(String include, String exclude) {
         super(include, exclude, "Artifact");
     }
 
-    protected String getArtifactFeature(Artifact artifact)
-    {
+    protected String getArtifactFeature(Artifact artifact) {
         return artifact.getGroupId() + ":" + artifact.getArtifactId();
     }
 }

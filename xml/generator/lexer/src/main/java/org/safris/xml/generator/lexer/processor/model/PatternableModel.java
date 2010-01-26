@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,8 +18,7 @@ package org.safris.xml.generator.lexer.processor.model;
 import java.util.LinkedHashSet;
 import org.safris.xml.generator.lexer.processor.model.element.PatternModel;
 
-public interface PatternableModel
-{
-	public void addPattern(PatternModel model);
-	public LinkedHashSet<PatternModel> getPatterns();
+public interface PatternableModel {
+    public void addPattern(PatternModel model);
+    public LinkedHashSet<PatternModel> getPatterns();
 }

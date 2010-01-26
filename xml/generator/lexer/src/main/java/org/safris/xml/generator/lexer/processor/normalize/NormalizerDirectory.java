@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -107,98 +110,87 @@ import org.safris.xml.generator.lexer.processor.normalize.element.SimpleTypeNorm
 import org.safris.xml.generator.lexer.processor.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.UniqueNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.WhiteSpaceNormalizer;
-import org.safris.commons.pipeline.PipelineEntity;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 
-public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer>
-{
-	private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
-	private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
-	private final Collection<Class<? extends Model>> keys;
-	private final NormalizerProcessor processor = new NormalizerProcessor();
+public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer> {
+    private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
+    private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
+    private final Collection<Class<? extends Model>> keys;
+    private final NormalizerProcessor processor = new NormalizerProcessor();
 
-	public NormalizerDirectory()
-	{
-		classes.put(AllModel.class, AllNormalizer.class);
-		classes.put(AnnotationModel.class, AnnotationNormalizer.class);
-		classes.put(AnyAttributeModel.class, AnyAttributeNormalizer.class);
-		classes.put(AnyModel.class, AnyNormalizer.class);
-		classes.put(AppinfoModel.class, AppinfoNormalizer.class);
-		classes.put(AttributeGroupModel.class, AttributeGroupNormalizer.class);
-		classes.put(AttributeModel.class, AttributeNormalizer.class);
-		classes.put(ChoiceModel.class, ChoiceNormalizer.class);
-		classes.put(ComplexContentModel.class, ComplexContentNormalizer.class);
-		classes.put(ComplexTypeModel.class, ComplexTypeNormalizer.class);
-		classes.put(DocumentationModel.class, DocumentationNormalizer.class);
-		classes.put(ElementModel.class, ElementNormalizer.class);
-		classes.put(EnumerationModel.class, EnumerationNormalizer.class);
-		classes.put(ExtensionModel.class, ExtensionNormalizer.class);
-		classes.put(FieldModel.class, FieldNormalizer.class);
-		classes.put(FractionDigitsModel.class, FractionDigitsNormalizer.class);
-		classes.put(GroupModel.class, GroupNormalizer.class);
-		classes.put(HasFacetModel.class, HasFacetNormalizer.class);
-		classes.put(HasPropertyModel.class, HasPropertyNormalizer.class);
-		classes.put(ImportModel.class, ImportNormalizer.class);
-		classes.put(IncludeModel.class, IncludeNormalizer.class);
-		classes.put(KeyModel.class, KeyNormalizer.class);
-		classes.put(KeyrefModel.class, KeyrefNormalizer.class);
-		classes.put(LengthModel.class, LengthNormalizer.class);
-		classes.put(ListModel.class, ListNormalizer.class);
-		classes.put(MaxInclusiveModel.class, MaxInclusiveNormalizer.class);
-		classes.put(MaxLengthModel.class, MaxLengthNormalizer.class);
-		classes.put(MinExclusiveModel.class, MinExclusiveNormalizer.class);
-		classes.put(MinInclusiveModel.class, MinInclusiveNormalizer.class);
-		classes.put(MinLengthModel.class, MinLengthNormalizer.class);
-		classes.put(NotationModel.class, NotationNormalizer.class);
-		classes.put(PatternModel.class, PatternNormalizer.class);
-		classes.put(RedefineModel.class, RedefineNormalizer.class);
-		classes.put(RestrictionModel.class, RestrictionNormalizer.class);
-		classes.put(SchemaModel.class, SchemaNormalizer.class);
-		classes.put(SelectorModel.class, SelectorNormalizer.class);
-		classes.put(SequenceModel.class, SequenceNormalizer.class);
-		classes.put(SimpleContentModel.class, SimpleContentNormalizer.class);
-		classes.put(SimpleTypeModel.class, SimpleTypeNormalizer.class);
-		classes.put(UnionModel.class, UnionNormalizer.class);
-		classes.put(UniqueModel.class, UniqueNormalizer.class);
-		classes.put(WhiteSpaceModel.class, WhiteSpaceNormalizer.class);
-		keys = classes.keySet();
-	}
+    public NormalizerDirectory() {
+        classes.put(AllModel.class, AllNormalizer.class);
+        classes.put(AnnotationModel.class, AnnotationNormalizer.class);
+        classes.put(AnyAttributeModel.class, AnyAttributeNormalizer.class);
+        classes.put(AnyModel.class, AnyNormalizer.class);
+        classes.put(AppinfoModel.class, AppinfoNormalizer.class);
+        classes.put(AttributeGroupModel.class, AttributeGroupNormalizer.class);
+        classes.put(AttributeModel.class, AttributeNormalizer.class);
+        classes.put(ChoiceModel.class, ChoiceNormalizer.class);
+        classes.put(ComplexContentModel.class, ComplexContentNormalizer.class);
+        classes.put(ComplexTypeModel.class, ComplexTypeNormalizer.class);
+        classes.put(DocumentationModel.class, DocumentationNormalizer.class);
+        classes.put(ElementModel.class, ElementNormalizer.class);
+        classes.put(EnumerationModel.class, EnumerationNormalizer.class);
+        classes.put(ExtensionModel.class, ExtensionNormalizer.class);
+        classes.put(FieldModel.class, FieldNormalizer.class);
+        classes.put(FractionDigitsModel.class, FractionDigitsNormalizer.class);
+        classes.put(GroupModel.class, GroupNormalizer.class);
+        classes.put(HasFacetModel.class, HasFacetNormalizer.class);
+        classes.put(HasPropertyModel.class, HasPropertyNormalizer.class);
+        classes.put(ImportModel.class, ImportNormalizer.class);
+        classes.put(IncludeModel.class, IncludeNormalizer.class);
+        classes.put(KeyModel.class, KeyNormalizer.class);
+        classes.put(KeyrefModel.class, KeyrefNormalizer.class);
+        classes.put(LengthModel.class, LengthNormalizer.class);
+        classes.put(ListModel.class, ListNormalizer.class);
+        classes.put(MaxInclusiveModel.class, MaxInclusiveNormalizer.class);
+        classes.put(MaxLengthModel.class, MaxLengthNormalizer.class);
+        classes.put(MinExclusiveModel.class, MinExclusiveNormalizer.class);
+        classes.put(MinInclusiveModel.class, MinInclusiveNormalizer.class);
+        classes.put(MinLengthModel.class, MinLengthNormalizer.class);
+        classes.put(NotationModel.class, NotationNormalizer.class);
+        classes.put(PatternModel.class, PatternNormalizer.class);
+        classes.put(RedefineModel.class, RedefineNormalizer.class);
+        classes.put(RestrictionModel.class, RestrictionNormalizer.class);
+        classes.put(SchemaModel.class, SchemaNormalizer.class);
+        classes.put(SelectorModel.class, SelectorNormalizer.class);
+        classes.put(SequenceModel.class, SequenceNormalizer.class);
+        classes.put(SimpleContentModel.class, SimpleContentNormalizer.class);
+        classes.put(SimpleTypeModel.class, SimpleTypeNormalizer.class);
+        classes.put(UnionModel.class, UnionNormalizer.class);
+        classes.put(UniqueModel.class, UniqueNormalizer.class);
+        classes.put(WhiteSpaceModel.class, WhiteSpaceNormalizer.class);
+        keys = classes.keySet();
+    }
 
-	public PipelineEntity<Normalizer> getEntity(Model entity, Normalizer parent)
-	{
-		return lookup(entity.getClass());
-	}
+    public PipelineEntity<Normalizer> getEntity(Model entity, Normalizer parent) {
+        return lookup(entity.getClass());
+    }
 
-	public PipelineEntity<Normalizer> lookup(Class<? extends Model> clazz)
-	{
-		if(!keys.contains(clazz))
-			throw new IllegalArgumentException("Unknown key: " + clazz.getSimpleName());
+    public PipelineEntity<Normalizer> lookup(Class<? extends Model> clazz) {
+        if (!keys.contains(clazz))
+            throw new IllegalArgumentException("Unknown key: " + clazz.getSimpleName());
 
-		Normalizer normalizerInstance = instances.get(clazz);
-		if(normalizerInstance != null)
-			return normalizerInstance;
+        Normalizer normalizerInstance = instances.get(clazz);
+        if (normalizerInstance != null)
+            return normalizerInstance;
 
-		final Class<? extends Normalizer> normalizerClass = classes.get(clazz);
-		try
-		{
-			final Constructor<? extends Normalizer> constructor = normalizerClass.getConstructor(NormalizerDirectory.class);
-			instances.put(clazz, normalizerInstance = constructor.newInstance(this));
-			return normalizerInstance;
-		}
-		catch(Exception e)
-		{
-			throw new LexerError(e);
-		}
-	}
+        final Class<? extends Normalizer> normalizerClass = classes.get(clazz);
+        try {
+            final Constructor<? extends Normalizer> constructor = normalizerClass.getConstructor(NormalizerDirectory.class);
+            instances.put(clazz, normalizerInstance = constructor.newInstance(this));
+            return normalizerInstance;
+        }
+        catch (Exception e) {
+            throw new LexerError(e);
+        }
+    }
 
-	public PipelineProcessor<GeneratorContext,Model,Normalizer> getProcessor()
-	{
-		return processor;
-	}
+    public PipelineProcessor<GeneratorContext,Model,Normalizer> getProcessor() {
+        return processor;
+    }
 
-	public void clear()
-	{
-		instances.clear();
-	}
+    public void clear() {
+        instances.clear();
+    }
 }

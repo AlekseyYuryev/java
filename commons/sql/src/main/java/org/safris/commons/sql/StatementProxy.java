@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.logging.Level;
-import org.safris.commons.lang.Strings;
 import org.safris.commons.logging.Logger;
 
 public class StatementProxy implements Statement {
@@ -43,6 +41,7 @@ public class StatementProxy implements Statement {
             buffer.append("\n) -> " + resultSet.getSize() + "\t\t" + (System.currentTimeMillis() - time) + "ms");
             Logger.getAnonymousLogger().fine(buffer.toString());
         }
+
         return resultSet;
     }
 

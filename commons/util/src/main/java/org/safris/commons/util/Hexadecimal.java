@@ -48,7 +48,7 @@ public class Hexadecimal {
     }
 
     private static String bytesToHex(byte[] bytes) {
-        if(bytes == null)
+        if (bytes == null)
             throw new NullPointerException("bytes == null");
 
         final StringBuffer stringBuffer = new StringBuffer(bytes.length * 2);
@@ -64,7 +64,7 @@ public class Hexadecimal {
     }
 
     private static byte[] hexToBytes(String hexadecimal) {
-        if(hexadecimal == null)
+        if (hexadecimal == null)
             throw new NullPointerException("hexadecimal == null");
 
         final int stringLength = hexadecimal.length();

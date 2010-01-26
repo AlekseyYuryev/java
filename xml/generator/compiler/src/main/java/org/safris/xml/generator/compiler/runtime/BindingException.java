@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,27 +17,22 @@ package org.safris.xml.generator.compiler.runtime;
 
 import org.safris.commons.xml.XMLException;
 
-public class BindingException extends XMLException
-{
-	public static final String ILLEGAL_NULL_ARGUMENT = "value cannot be null";
+public class BindingException extends XMLException {
+    public static final String ILLEGAL_NULL_ARGUMENT = "value cannot be null";
 
-	public BindingException()
-	{
-		super();
-	}
+    public BindingException() {
+        super();
+    }
 
-	public BindingException(String message)
-	{
-		super(message);
-	}
+    public BindingException(String message) {
+        super(message);
+    }
 
-	public BindingException(Throwable cause)
-	{
-		super(cause);
-	}
+    public BindingException(Throwable cause) {
+        super(cause);
+    }
 
-	public BindingException(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
+    public BindingException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

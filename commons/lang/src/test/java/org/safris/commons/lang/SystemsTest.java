@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,21 +19,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SystemsTest
-{
-	private static final String NAME = "VAR_DOES_NOT_EXIST";
-	private static final String VALUE = "VALUE";
+public class SystemsTest {
+    private static final String NAME = "VAR_DOES_NOT_EXIST";
+    private static final String VALUE = "VALUE";
 
-	public static void main(String[] args) throws Exception
-	{
-		new SystemsTest().testSetenv();
-	}
+    public static void main(String[] args) throws Exception {
+        new SystemsTest().testSetenv();
+    }
 
-	@Test
-	public void testSetenv()
-	{
-		assertNull(System.getenv(NAME));
-		assertTrue(Systems.setenv(NAME, VALUE));
-		assertEquals(VALUE, System.getenv(NAME));
-	}
+    @Test
+    public void testSetenv() {
+        assertNull(System.getenv(NAME));
+        assertTrue(Systems.setenv(NAME, VALUE));
+        assertEquals(VALUE, System.getenv(NAME));
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,14 +23,12 @@ import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 
-public final class SchemaCompositeProcessor implements PipelineEntity<SchemaComposite>, PipelineProcessor<GeneratorContext,SchemaDocument,SchemaComposite>
-{
-	public Collection<SchemaComposite> process(GeneratorContext pipelineContext, Collection<SchemaDocument> documents, PipelineDirectory<GeneratorContext,SchemaDocument,SchemaComposite> directory)
-	{
-		final Collection<SchemaComposite> selectors = new ArrayList<SchemaComposite>();
-		for(SchemaDocument schemaDocument : documents)
-			selectors.add(new SchemaModelComposite(schemaDocument));
+public final class SchemaCompositeProcessor implements PipelineEntity<SchemaComposite>, PipelineProcessor<GeneratorContext,SchemaDocument,SchemaComposite> {
+    public Collection<SchemaComposite> process(GeneratorContext pipelineContext, Collection<SchemaDocument> documents, PipelineDirectory<GeneratorContext,SchemaDocument,SchemaComposite> directory) {
+        final Collection<SchemaComposite> selectors = new ArrayList<SchemaComposite>();
+        for (SchemaDocument schemaDocument : documents)
+            selectors.add(new SchemaModelComposite(schemaDocument));
 
-		return selectors;
-	}
+        return selectors;
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,92 +25,85 @@ import java.util.Set;
 import java.util.Vector;
 import sun.reflect.Reflection;
 
-public final class Resources
-{
-	public static File getLocationBase(Class clazz)
-	{
-		if(clazz == null)
-			return null;
+public final class Resources {
+    public static File getLocationBase(Class clazz) {
+        if (clazz == null)
+            return null;
 
-		final Resource resource = getResource(clazz.getName().replace('.', '/') + ".class");
-		if(resource == null)
-			return null;
+        final Resource resource = getResource(clazz.getName().replace('.', '/') + ".class");
+        if (resource == null)
+            return null;
 
-		final URL url = resource.getURL();
-		String classFile = url.getFile();
-		final int colon = classFile.indexOf(':');
-		final int bang = classFile.indexOf('!');
-		if(bang != -1 && colon != -1)
-			classFile = classFile.substring(colon + 1, bang);
-		else
-			classFile = classFile.substring(0, classFile.length() - clazz.getName().length() - 7);
+        final URL url = resource.getURL();
+        String classFile = url.getFile();
+        final int colon = classFile.indexOf(':');
+        final int bang = classFile.indexOf('!');
+        if (bang != -1 && colon != -1)
+            classFile = classFile.substring(colon + 1, bang);
+        else
+            classFile = classFile.substring(0, classFile.length() - clazz.getName().length() - 7);
 
-		return new File(classFile);
-	}
+        return new File(classFile);
+    }
 
-	public static Resource getResource(String name)
-	{
-		if(name == null || name.length() == 0)
-			return null;
+    public static Resource getResource(String name) {
+        if (name == null || name.length() == 0)
+            return null;
 
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-		URL url = classLoader.getResource(name);
-		if(url != null)
-			return new Resource(url, classLoader);
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        URL url = classLoader.getResource(name);
+        if (url != null)
+            return new Resource(url, classLoader);
 
-		classLoader = Thread.currentThread().getContextClassLoader();
-		url = classLoader.getResource(name);
-		if(url != null)
-			return new Resource(url, classLoader);
+        classLoader = Thread.currentThread().getContextClassLoader();
+        url = classLoader.getResource(name);
+        if (url != null)
+            return new Resource(url, classLoader);
 
-		final Class callerClass = Reflection.getCallerClass(2);
-		url = callerClass.getResource(name);
-		if(url != null)
-			return new Resource(url, classLoader);
+        final Class callerClass = Reflection.getCallerClass(2);
+        url = callerClass.getResource(name);
+        if (url != null)
+            return new Resource(url, classLoader);
 
-		return null;
-	}
+        return null;
+    }
 
-	public static Enumeration<Resource> getResources(String name) throws IOException
-	{
-		if(name == null || name.length() == 0)
-			return null;
+    public static Enumeration<Resource> getResources(String name) throws IOException {
+        if (name == null || name.length() == 0)
+            return null;
 
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-		final Set<URL> history = new HashSet<URL>();
-		Enumeration<URL> urls = classLoader.getResources(name);
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        final Set<URL> history = new HashSet<URL>();
+        Enumeration<URL> urls = classLoader.getResources(name);
 
-		final Vector<Resource> resources = new Vector<Resource>(1, 1);
-		combineResources(urls, classLoader, history, resources);
-		classLoader = Thread.currentThread().getContextClassLoader();
-		urls = classLoader.getResources(name);
-		combineResources(urls, classLoader, history, resources);
+        final Vector<Resource> resources = new Vector<Resource>(1, 1);
+        combineResources(urls, classLoader, history, resources);
+        classLoader = Thread.currentThread().getContextClassLoader();
+        urls = classLoader.getResources(name);
+        combineResources(urls, classLoader, history, resources);
 
-		final Class callerClass = Reflection.getCallerClass(2);
-		classLoader = callerClass.getClassLoader();
-		urls = classLoader.getResources(name);
-		combineResources(urls, classLoader, history, resources);
+        final Class callerClass = Reflection.getCallerClass(2);
+        classLoader = callerClass.getClassLoader();
+        urls = classLoader.getResources(name);
+        combineResources(urls, classLoader, history, resources);
 
-		return resources.elements();
-	}
+        return resources.elements();
+    }
 
-	private static void combineResources(Enumeration<URL> urls, ClassLoader classLoader, Set<URL> history, Collection<Resource> resources)
-	{
-		if(urls == null)
-			return;
+    private static void combineResources(Enumeration<URL> urls, ClassLoader classLoader, Set<URL> history, Collection<Resource> resources) {
+        if (urls == null)
+            return;
 
-		while(urls.hasMoreElements())
-		{
-			final URL url = urls.nextElement();
-			if(history.contains(url))
-				continue;
+        while (urls.hasMoreElements()) {
+            final URL url = urls.nextElement();
+            if (history.contains(url))
+                continue;
 
-			history.add(url);
-			resources.add(new Resource(url, classLoader));
-		}
-	}
+            history.add(url);
+            resources.add(new Resource(url, classLoader));
+        }
+    }
 
-	private Resources()
-	{
-	}
+    private Resources() {
+    }
 }

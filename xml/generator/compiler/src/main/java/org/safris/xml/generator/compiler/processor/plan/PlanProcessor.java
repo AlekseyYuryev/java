@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,33 +26,29 @@ import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
-public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan>
-{
-	private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
-	private Plan root;
+public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan> {
+    private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
+    private Plan root;
 
-	public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory)
-	{
-		root = new Plan(null, null){};
-		final Collection<Plan> plans = new ArrayList<Plan>();
-		for(Model model : documents)
-		{
-			if(model.getChildren() == null || model.getChildren().size() == 0)
-				continue;
+    public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
+        root = new Plan(null, null){};
+        final Collection<Plan> plans = new ArrayList<Plan>();
+        for (Model model : documents) {
+            if (model.getChildren() == null || model.getChildren().size() == 0)
+                continue;
 
-			final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
-			logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
+            final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
+            logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
-			for(Model child : model.getChildren())
-				disclose(child, root, plans, pipelineContext, directory);
-		}
+            for (Model child : model.getChildren())
+                disclose(child, root, plans, pipelineContext, directory);
+        }
 
-		return plans;
-	}
+        return plans;
+    }
 
-	protected final void disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory)
-	{
-		final Plan plan = (Plan)directory.getEntity(model, parent);
-		plans.add(plan);
-	}
+    protected final void disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
+        final Plan plan = (Plan)directory.getEntity(model, parent);
+        plans.add(plan);
+    }
 }

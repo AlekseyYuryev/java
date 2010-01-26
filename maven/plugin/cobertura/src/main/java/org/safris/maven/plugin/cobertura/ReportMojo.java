@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,46 +27,42 @@ import org.apache.tools.ant.taskdefs.Java;
  * @goal report
  * @phase verify
  */
-public class ReportMojo extends CoberturaMojo
-{
-	public void execute() throws MojoExecutionException, MojoFailureException
-	{
-		if(getMavenTestSkip() != null && getMavenTestSkip())
-			return;
+public class ReportMojo extends CoberturaMojo {
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (getMavenTestSkip() != null && getMavenTestSkip())
+            return;
 
-		if(getProject() == null)
-			throw new NullPointerException("project == null");
+        if (getProject() == null)
+            throw new NullPointerException("project == null");
 
-		if("pom".equals(getProject().getPackaging()) || !new File(getSourceDirectory()).exists())
-			return;
+        if ("pom".equals(getProject().getPackaging()) || !new File(getSourceDirectory()).exists())
+            return;
 
-		if(getBasedir() == null)
-			throw new NullPointerException("basedir == null");
+        if (getBasedir() == null)
+            throw new NullPointerException("basedir == null");
 
-		if(getDirectory() == null)
-			throw new NullPointerException("directory == null");
+        if (getDirectory() == null)
+            throw new NullPointerException("directory == null");
 
-		final File coberturaReportDir = new File(getCoberturaDir(), "report");
+        final File coberturaReportDir = new File(getCoberturaDir(), "report");
 
-		final Project project = new Project();
-		project.addTaskDefinition("java", Java.class);
-		project.setBasedir(getBasedir());
+        final Project project = new Project();
+        project.addTaskDefinition("java", Java.class);
+        project.setBasedir(getBasedir());
 
-		final ReportTask reportTask = new ReportTask();
-		reportTask.setProject(project);
-		reportTask.setDestDir(coberturaReportDir);
-		reportTask.setSrcDir(getSourceDirectory());
-		reportTask.setDataFile(getDataFile().getAbsolutePath());
-		reportTask.setFormat("html");
-		try
-		{
-			reportTask.execute();
-		}
-		catch(BuildException e)
-		{
-			throw new MojoExecutionException(e.getMessage(), e);
-		}
+        final ReportTask reportTask = new ReportTask();
+        reportTask.setProject(project);
+        reportTask.setDestDir(coberturaReportDir);
+        reportTask.setSrcDir(getSourceDirectory());
+        reportTask.setDataFile(getDataFile().getAbsolutePath());
+        reportTask.setFormat("html");
+        try {
+            reportTask.execute();
+        }
+        catch (BuildException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
 
-		getLog().info("Cobertura report url: file:///" + getCoberturaDir().getAbsolutePath() + "/report/index.html");
-	}
+        getLog().info("Cobertura report url: file:///" + getCoberturaDir().getAbsolutePath() + "/report/index.html");
+    }
 }

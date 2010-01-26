@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,17 +18,14 @@ package org.safris.xml.toolkit.processor.bundle;
 import java.io.File;
 import org.safris.commons.pipeline.PipelineEntity;
 
-public final class Bundle implements PipelineEntity<Bundle>
-{
-	private final File file;
+public final class Bundle implements PipelineEntity<Bundle> {
+    private final File file;
 
-	public Bundle(File file)
-	{
-		this.file = file;
-	}
+    public Bundle(File file) {
+        this.file = file;
+    }
 
-	public File getFile()
-	{
-		return file;
-	}
+    public File getFile() {
+        return file;
+    }
 }

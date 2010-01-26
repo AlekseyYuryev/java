@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,6 +18,9 @@ package org.safris.xml.generator.compiler.processor.write;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.commons.pipeline.PipelineEntity;
+import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AllPlan;
@@ -106,92 +109,82 @@ import org.safris.xml.generator.compiler.processor.write.element.UnionWriter;
 import org.safris.xml.generator.compiler.processor.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.processor.write.element.WhiteSpaceWriter;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.commons.pipeline.PipelineEntity;
-import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
 
-public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,Writer>
-{
-	private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
-	private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
-	private final Collection<Class<? extends Plan>> keys;
-	private final WriterProcessor processor = new WriterProcessor();
+public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,Writer> {
+    private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
+    private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
+    private final Collection<Class<? extends Plan>> keys;
+    private final WriterProcessor processor = new WriterProcessor();
 
-	public WriterDirectory()
-	{
-		classes.put(AllPlan.class, AllWriter.class);
-		classes.put(AnnotationPlan.class, AnnotationWriter.class);
-		classes.put(AnyAttributePlan.class, AnyAttributeWriter.class);
-		classes.put(AnyPlan.class, AnyWriter.class);
-		classes.put(AppinfoPlan.class, AppinfoWriter.class);
-		classes.put(AttributeGroupPlan.class, AttributeGroupWriter.class);
-		classes.put(AttributePlan.class, AttributeWriter.class);
-		classes.put(ChoicePlan.class, ChoiceWriter.class);
-		classes.put(ComplexContentPlan.class, ComplexContentWriter.class);
-		classes.put(ComplexTypePlan.class, ComplexTypeWriter.class);
-		classes.put(DocumentationPlan.class, DocumentationWriter.class);
-		classes.put(ElementPlan.class, ElementWriter.class);
-		classes.put(EnumerationPlan.class, EnumerationWriter.class);
-		classes.put(ExtensionPlan.class, ExtensionWriter.class);
-		classes.put(FieldPlan.class, FieldWriter.class);
-		classes.put(FractionDigitsPlan.class, FractionDigitsWriter.class);
-		classes.put(GroupPlan.class, GroupWriter.class);
-		classes.put(HasFacetPlan.class, HasFacetWriter.class);
-		classes.put(HasPropertyPlan.class, HasPropertyWriter.class);
-		classes.put(ImportPlan.class, ImportWriter.class);
-		classes.put(IncludePlan.class, IncludeWriter.class);
-		classes.put(KeyPlan.class, KeyWriter.class);
-		classes.put(KeyrefPlan.class, KeyrefWriter.class);
-		classes.put(LengthPlan.class, LengthWriter.class);
-		classes.put(ListPlan.class, ListWriter.class);
-		classes.put(MaxInclusivePlan.class, MaxInclusiveWriter.class);
-		classes.put(MaxLengthPlan.class, MaxLengthWriter.class);
-		classes.put(MinExclusivePlan.class, MinExclusiveWriter.class);
-		classes.put(MinInclusivePlan.class, MinInclusiveWriter.class);
-		classes.put(MinLengthPlan.class, MinLengthWriter.class);
-		classes.put(NotationPlan.class, NotationWriter.class);
-		classes.put(PatternPlan.class, PatternWriter.class);
-		classes.put(RedefinePlan.class, RedefineWriter.class);
-		classes.put(RestrictionPlan.class, RestrictionWriter.class);
-		classes.put(SchemaPlan.class, SchemaWriter.class);
-		classes.put(SelectorPlan.class, SelectorWriter.class);
-		classes.put(SequencePlan.class, SequenceWriter.class);
-		classes.put(SimpleContentPlan.class, SimpleContentWriter.class);
-		classes.put(SimpleTypePlan.class, SimpleTypeWriter.class);
-		classes.put(UnionPlan.class, UnionWriter.class);
-		classes.put(UniquePlan.class, UniqueWriter.class);
-		classes.put(WhiteSpacePlan.class, WhiteSpaceWriter.class);
-		keys = classes.keySet();
-	}
+    public WriterDirectory() {
+        classes.put(AllPlan.class, AllWriter.class);
+        classes.put(AnnotationPlan.class, AnnotationWriter.class);
+        classes.put(AnyAttributePlan.class, AnyAttributeWriter.class);
+        classes.put(AnyPlan.class, AnyWriter.class);
+        classes.put(AppinfoPlan.class, AppinfoWriter.class);
+        classes.put(AttributeGroupPlan.class, AttributeGroupWriter.class);
+        classes.put(AttributePlan.class, AttributeWriter.class);
+        classes.put(ChoicePlan.class, ChoiceWriter.class);
+        classes.put(ComplexContentPlan.class, ComplexContentWriter.class);
+        classes.put(ComplexTypePlan.class, ComplexTypeWriter.class);
+        classes.put(DocumentationPlan.class, DocumentationWriter.class);
+        classes.put(ElementPlan.class, ElementWriter.class);
+        classes.put(EnumerationPlan.class, EnumerationWriter.class);
+        classes.put(ExtensionPlan.class, ExtensionWriter.class);
+        classes.put(FieldPlan.class, FieldWriter.class);
+        classes.put(FractionDigitsPlan.class, FractionDigitsWriter.class);
+        classes.put(GroupPlan.class, GroupWriter.class);
+        classes.put(HasFacetPlan.class, HasFacetWriter.class);
+        classes.put(HasPropertyPlan.class, HasPropertyWriter.class);
+        classes.put(ImportPlan.class, ImportWriter.class);
+        classes.put(IncludePlan.class, IncludeWriter.class);
+        classes.put(KeyPlan.class, KeyWriter.class);
+        classes.put(KeyrefPlan.class, KeyrefWriter.class);
+        classes.put(LengthPlan.class, LengthWriter.class);
+        classes.put(ListPlan.class, ListWriter.class);
+        classes.put(MaxInclusivePlan.class, MaxInclusiveWriter.class);
+        classes.put(MaxLengthPlan.class, MaxLengthWriter.class);
+        classes.put(MinExclusivePlan.class, MinExclusiveWriter.class);
+        classes.put(MinInclusivePlan.class, MinInclusiveWriter.class);
+        classes.put(MinLengthPlan.class, MinLengthWriter.class);
+        classes.put(NotationPlan.class, NotationWriter.class);
+        classes.put(PatternPlan.class, PatternWriter.class);
+        classes.put(RedefinePlan.class, RedefineWriter.class);
+        classes.put(RestrictionPlan.class, RestrictionWriter.class);
+        classes.put(SchemaPlan.class, SchemaWriter.class);
+        classes.put(SelectorPlan.class, SelectorWriter.class);
+        classes.put(SequencePlan.class, SequenceWriter.class);
+        classes.put(SimpleContentPlan.class, SimpleContentWriter.class);
+        classes.put(SimpleTypePlan.class, SimpleTypeWriter.class);
+        classes.put(UnionPlan.class, UnionWriter.class);
+        classes.put(UniquePlan.class, UniqueWriter.class);
+        classes.put(WhiteSpacePlan.class, WhiteSpaceWriter.class);
+        keys = classes.keySet();
+    }
 
-	public PipelineEntity<Writer> getEntity(Plan entity, Writer parent)
-	{
-		if(!keys.contains(entity.getClass()))
-			throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
+    public PipelineEntity<Writer> getEntity(Plan entity, Writer parent) {
+        if (!keys.contains(entity.getClass()))
+            throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
-		Writer writerInstance = instances.get(entity.getClass());
-		if(writerInstance != null)
-			return writerInstance;
+        Writer writerInstance = instances.get(entity.getClass());
+        if (writerInstance != null)
+            return writerInstance;
 
-		final Class<? extends Writer> writerClass = classes.get(entity.getClass());
-		try
-		{
-			instances.put(entity.getClass(), writerInstance = writerClass.newInstance());
-			return writerInstance;
-		}
-		catch(Exception e)
-		{
-			throw new CompilerError(e);
-		}
-	}
+        final Class<? extends Writer> writerClass = classes.get(entity.getClass());
+        try {
+            instances.put(entity.getClass(), writerInstance = writerClass.newInstance());
+            return writerInstance;
+        }
+        catch (Exception e) {
+            throw new CompilerError(e);
+        }
+    }
 
-	public PipelineProcessor<GeneratorContext,Plan,Writer> getProcessor()
-	{
-		return processor;
-	}
+    public PipelineProcessor<GeneratorContext,Plan,Writer> getProcessor() {
+        return processor;
+    }
 
-	public void clear()
-	{
-		instances.clear();
-	}
+    public void clear() {
+        instances.clear();
+    }
 }

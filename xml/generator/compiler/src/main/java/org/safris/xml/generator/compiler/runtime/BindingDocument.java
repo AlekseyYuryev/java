@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,25 +20,21 @@ import java.net.URL;
 import org.safris.commons.xml.validator.ValidationException;
 import org.xml.sax.InputSource;
 
-public class BindingDocument
-{
-	private final URL url;
-	private final Binding document;
+public class BindingDocument {
+    private final URL url;
+    private final Binding document;
 
-	public BindingDocument(URL url) throws IOException, ParseException, ValidationException
-	{
-		this.url = url;
-		url.openConnection();
-		document = Bindings.parse(new InputSource(url.openStream()));
-	}
+    public BindingDocument(URL url) throws IOException, ParseException, ValidationException {
+        this.url = url;
+        url.openConnection();
+        document = Bindings.parse(new InputSource(url.openStream()));
+    }
 
-	public Binding getDocument()
-	{
-		return document;
-	}
+    public Binding getDocument() {
+        return document;
+    }
 
-	public URL getURL()
-	{
-		return url;
-	}
+    public URL getURL() {
+        return url;
+    }
 }

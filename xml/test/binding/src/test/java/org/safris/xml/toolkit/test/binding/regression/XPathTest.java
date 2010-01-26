@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,60 +31,53 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
 
-public class XPathTest
-{
-	private static String xpath = null;
+public class XPathTest {
+    private static String xpath = null;
 
-	protected static boolean isTextNode(Node node)
-	{
-		if(node == null)
-			return false;
+    protected static boolean isTextNode(Node node) {
+        if (node == null)
+            return false;
 
-		final short nodeType = node.getNodeType();
-		return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
-	}
+        final short nodeType = node.getNodeType();
+        return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
+    }
 
-	public static void main(String[] args) throws Exception
-	{
-		xpath = args[0];
-		new XPathTest().testXPath();
-	}
+    public static void main(String[] args) throws Exception {
+        xpath = args[0];
+        new XPathTest().testXPath();
+    }
 
-	@Ignore("Finish implementing this test!")
-	@Test
-	public void testXPath() throws Exception
-	{
-		pp_Query._QueryItem queryItem = new pp_Query._QueryItem();
-//		queryItem.setSelect(new QueryType.QueryItem.Select(xpath));
+    @Ignore("Finish implementing this test!")
+    @Test
+    public void testXPath() throws Exception {
+        pp_Query._QueryItem queryItem = new pp_Query._QueryItem();
+//      queryItem.setSelect(new QueryType.QueryItem.Select(xpath));
 
-		pp_Query query = new pp_Query();
-		query.add_QueryItem(queryItem);
+        pp_Query query = new pp_Query();
+        query.add_QueryItem(queryItem);
 
-		Element element = query.marshal();
-		System.out.println(DOMs.domToString(element, DOMStyle.INDENT));
+        Element element = query.marshal();
+        System.out.println(DOMs.domToString(element, DOMStyle.INDENT));
 
-		Transformer serializer = TransformerFactory.newInstance().newTransformer();
-		serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        Transformer serializer = TransformerFactory.newInstance().newTransformer();
+        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-		NodeIterator nodeIterator = XPathAPI.selectNodeIterator(element, xpath);
-		Node node = null;
-		while((node = nodeIterator.nextNode()) != null)
-		{
-			if(isTextNode(node))
-			{
-				// DOM may have more than one node corresponding to a
-				// single XPath text node.  Coalesce all contiguous text nodes
-				// at this level
-				final StringBuffer stringBuffer = new StringBuffer(node.getNodeValue());
-				for(Node nextNode = node.getNextSibling(); isTextNode(nextNode); nextNode = nextNode.getNextSibling())
-					stringBuffer.append(nextNode.getNodeValue());
+        NodeIterator nodeIterator = XPathAPI.selectNodeIterator(element, xpath);
+        Node node = null;
+        while ((node = nodeIterator.nextNode()) != null) {
+            if (isTextNode(node)) {
+                // DOM may have more than one node corresponding to a
+                // single XPath text node.  Coalesce all contiguous text nodes
+                // at this level
+                final StringBuffer stringBuffer = new StringBuffer(node.getNodeValue());
+                for (Node nextNode = node.getNextSibling(); isTextNode(nextNode); nextNode = nextNode.getNextSibling())
+                    stringBuffer.append(nextNode.getNodeValue());
 
-				System.out.print(stringBuffer);
-			}
-			else
-			{
-				serializer.transform(new DOMSource(node), new StreamResult(new OutputStreamWriter(System.out)));
-			}
-		}
-	}
+                System.out.print(stringBuffer);
+            }
+            else {
+                serializer.transform(new DOMSource(node), new StreamResult(new OutputStreamWriter(System.out)));
+            }
+        }
+    }
 }

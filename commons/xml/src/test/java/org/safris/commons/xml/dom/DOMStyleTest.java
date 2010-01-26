@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,36 +19,33 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class DOMStyleTest
-{
-	public static void main(String[] args) throws Exception
-	{
-		new DOMStyleTest().testConsolidate();
-	}
+public class DOMStyleTest {
+    public static void main(String[] args) throws Exception {
+        new DOMStyleTest().testConsolidate();
+    }
 
-	@Test
-	public void testConsolidate()
-	{
-		assertNull(DOMStyle.consolidate(null));
+    @Test
+    public void testConsolidate() {
+        assertNull(DOMStyle.consolidate(null));
 
-		// Condition: default
-		DOMStyle option = DOMStyle.consolidate();
-		assertFalse(option.isIndent());
-		assertFalse(option.isIgnoreNamespaces());
+        // Condition: default
+        DOMStyle option = DOMStyle.consolidate();
+        assertFalse(option.isIndent());
+        assertFalse(option.isIgnoreNamespaces());
 
-		// Condition: indent
-		option = DOMStyle.consolidate(DOMStyle.INDENT);
-		assertTrue(option.isIndent());
-		assertFalse(option.isIgnoreNamespaces());
+        // Condition: indent
+        option = DOMStyle.consolidate(DOMStyle.INDENT);
+        assertTrue(option.isIndent());
+        assertFalse(option.isIgnoreNamespaces());
 
-		// Condition: ignoreNamespases
-		option = DOMStyle.consolidate(DOMStyle.IGNORE_NAMESPACES);
-		assertTrue(option.isIgnoreNamespaces());
-		assertFalse(option.isIndent());
+        // Condition: ignoreNamespases
+        option = DOMStyle.consolidate(DOMStyle.IGNORE_NAMESPACES);
+        assertTrue(option.isIgnoreNamespaces());
+        assertFalse(option.isIndent());
 
-		// Condition: indent & ignoreNamespases
-		option = DOMStyle.consolidate(DOMStyle.INDENT, DOMStyle.IGNORE_NAMESPACES);
-		assertTrue(option.isIgnoreNamespaces());
-		assertTrue(option.isIndent());
-	}
+        // Condition: indent & ignoreNamespases
+        option = DOMStyle.consolidate(DOMStyle.INDENT, DOMStyle.IGNORE_NAMESPACES);
+        assertTrue(option.isIgnoreNamespaces());
+        assertTrue(option.isIndent());
+    }
 }

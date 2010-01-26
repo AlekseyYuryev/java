@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,44 +21,36 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class SchemaNormalizer extends Normalizer<SchemaModel>
-{
-	private static File CWD = null;
+public class SchemaNormalizer extends Normalizer<SchemaModel> {
+    private static File CWD = null;
 
-	public SchemaNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+    public SchemaNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(SchemaModel model)
-	{
-		if(CWD == null)
-			CWD = Files.getCwd();
+    protected void stage1(SchemaModel model) {
+        if (CWD == null)
+            CWD = Files.getCwd();
 
-		if(model.getURL() == null)
-			return;
+        if (model.getURL() == null)
+            return;
 
-		final String display = Files.relativePath(CWD.getAbsoluteFile(), new File(model.getURL().getFile()).getAbsoluteFile());
-		logger.info("Lexing {" + model.getTargetNamespace() + "} from " + display);
-	}
+        final String display = Files.relativePath(CWD.getAbsoluteFile(), new File(model.getURL().getFile()).getAbsoluteFile());
+        logger.info("Lexing {" + model.getTargetNamespace() + "} from " + display);
+    }
 
-	protected void stage2(SchemaModel model)
-	{
-	}
+    protected void stage2(SchemaModel model) {
+    }
 
-	protected void stage3(SchemaModel model)
-	{
-	}
+    protected void stage3(SchemaModel model) {
+    }
 
-	protected void stage4(SchemaModel model)
-	{
-	}
+    protected void stage4(SchemaModel model) {
+    }
 
-	protected void stage5(SchemaModel model)
-	{
-	}
+    protected void stage5(SchemaModel model) {
+    }
 
-	protected void stage6(SchemaModel model)
-	{
-	}
+    protected void stage6(SchemaModel model) {
+    }
 }

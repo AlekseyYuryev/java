@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,14 +15,11 @@
 
 package org.safris.commons.formatter;
 
-public class PackageModule extends FormatModule
-{
-	String format(String formated, String token)
-	{
-		if(token.trim().indexOf("package") == 0)
-		{
-			token = token + "\n";
-		}
-		return token;
-	}
+public class PackageModule extends FormatModule {
+    String format(String formated, String token) {
+        if (token.trim().indexOf("package") == 0)
+            token = token + "\n";
+
+        return token;
+    }
 }

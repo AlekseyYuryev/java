@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,26 +15,21 @@
 
 package org.safris.commons.formatter;
 
-public class DocumentationModule extends FormatModule
-{
-	String format(String formated, String token)
-	{
-		if(token.trim().indexOf("//") == 0 || token.trim().indexOf("/*") == 0 || (token.trim().indexOf("*") == 0 && getLastModule() instanceof DocumentationModule))
-		{
-			for(int i = 0; i < getDepth(); i++)
-			{
-				token = "\t" + token;
-			}
+public class DocumentationModule extends FormatModule {
+    String format(String formated, String token) {
+        if (token.trim().indexOf("//") == 0 || token.trim().indexOf("/*") == 0 || (token.trim().indexOf("*") == 0 && getLastModule() instanceof DocumentationModule)) {
+            for (int i = 0; i < getDepth(); i++)
+                token = "\t" + token;
 
-			if(getLastModule() instanceof CloseBracketModule)
-				token = "\n" + token;
+            if (getLastModule() instanceof CloseBracketModule)
+                token = "\n" + token;
 
-			if(token.trim().indexOf("/") == 0)
-				token = "\n" + token;
+            if (token.trim().indexOf("/") == 0)
+                token = "\n" + token;
 
-			return token + "\n";
-		}
+            return token + "\n";
+        }
 
-		return token;
-	}
+        return token;
+    }
 }

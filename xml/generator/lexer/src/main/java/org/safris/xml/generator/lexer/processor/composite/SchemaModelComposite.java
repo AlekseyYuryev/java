@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,28 +18,23 @@ package org.safris.xml.generator.lexer.processor.composite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 
-public class SchemaModelComposite implements SchemaComposite
-{
-	private final SchemaDocument schemaDocument;
-	private SchemaModel schemaModel = null;
+public class SchemaModelComposite implements SchemaComposite {
+    private final SchemaDocument schemaDocument;
+    private SchemaModel schemaModel = null;
 
-	public SchemaModelComposite(SchemaDocument schemaDocument)
-	{
-		this.schemaDocument = schemaDocument;
-	}
+    public SchemaModelComposite(SchemaDocument schemaDocument) {
+        this.schemaDocument = schemaDocument;
+    }
 
-	public SchemaDocument getSchemaDocument()
-	{
-		return schemaDocument;
-	}
+    public SchemaDocument getSchemaDocument() {
+        return schemaDocument;
+    }
 
-	public void setSchemaModel(SchemaModel schemaModel)
-	{
-		this.schemaModel = schemaModel;
-	}
+    public void setSchemaModel(SchemaModel schemaModel) {
+        this.schemaModel = schemaModel;
+    }
 
-	public SchemaModel getSchemaModel()
-	{
-		return schemaModel;
-	}
+    public SchemaModel getSchemaModel() {
+        return schemaModel;
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,28 +15,24 @@
 
 package org.safris.xml.toolkit.processor.bundle;
 
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public class BundleDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Bundle>
-{
-	private BundleProcessor processor = new BundleProcessor();
+public class BundleDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Bundle> {
+    private BundleProcessor processor = new BundleProcessor();
 
-	public PipelineEntity<Bundle> getEntity(SchemaComposite entity, Bundle parent)
-	{
-		return processor;
-	}
+    public PipelineEntity<Bundle> getEntity(SchemaComposite entity, Bundle parent) {
+        return processor;
+    }
 
-	public PipelineProcessor<GeneratorContext,SchemaComposite,Bundle> getProcessor()
-	{
-		return processor;
-	}
+    public PipelineProcessor<GeneratorContext,SchemaComposite,Bundle> getProcessor() {
+        return processor;
+    }
 
-	public void clear()
-	{
-	}
+    public void clear() {
+    }
 }

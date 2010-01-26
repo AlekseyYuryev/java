@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,35 +17,34 @@ package org.safris.commons.util;
 
 import java.util.Collection;
 
-public interface Tree<E>
-{
-//	int size();
+public interface Tree<E> {
+//  int size();
 
-//	boolean isEmpty();
+//  boolean isEmpty();
 
-//	boolean contains(Object o);
+//  boolean contains(Object o);
 
-	TreeIterator<E> iterator();
+    TreeIterator<E> iterator();
 
-//	Object[] toArray();
+//  Object[] toArray();
 
-//	<T> T[] toArray(T[] a);
+//  <T> T[] toArray(T[] a);
 
-	boolean addChild(E p, E e);
+    boolean addChild(E p, E e);
 
-	boolean remove(Object o);
+    boolean remove(Object o);
 
-	boolean containsAll(Collection<?> c);
+    boolean containsAll(Collection<?> c);
 
-	boolean addAll(Collection<? extends E> c);
+    boolean addAll(Collection<? extends E> c);
 
-	boolean retainAll(Collection<?> c);
+    boolean retainAll(Collection<?> c);
 
-	boolean removeAll(Collection<?> c);
+    boolean removeAll(Collection<?> c);
 
-	void clear();
+    void clear();
 
-	boolean equals(Object o);
+    boolean equals(Object o);
 
-	int hashCode();
+    int hashCode();
 }

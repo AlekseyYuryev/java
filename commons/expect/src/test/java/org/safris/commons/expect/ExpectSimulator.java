@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,11 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ExpectSimulator
-{
+public class ExpectSimulator {
     private static List<Prompt> prompts = new ArrayList<Prompt>();
-    private static class Prompt
-	{
+    private static class Prompt {
         private List<String> answers = new ArrayList<String>();
         private String prompt;
         private String matchLeft;
@@ -31,8 +29,7 @@ public class ExpectSimulator
         private String matchRight;
         private Prompt right;
 
-        public Prompt(String prompt, String matchLeft, Prompt left, String matchRight, Prompt right)
-		{
+        public Prompt(String prompt, String matchLeft, Prompt left, String matchRight, Prompt right) {
             this.prompt = prompt;
             this.matchLeft = matchLeft;
             this.left = left;
@@ -41,45 +38,36 @@ public class ExpectSimulator
             prompts.add(this);
         }
 
-        public void setPrompt(String prompt)
-		{
+        public void setPrompt(String prompt) {
             this.prompt = prompt;
         }
 
-        public String getPrompt()
-		{
+        public String getPrompt() {
             return prompt;
         }
 
-        public void setLeft(Prompt left)
-		{
+        public void setLeft(Prompt left) {
             this.left = left;
         }
 
-        public Prompt getLeft()
-		{
+        public Prompt getLeft() {
             return left;
         }
 
-        public void setRight(Prompt right)
-		{
+        public void setRight(Prompt right) {
             this.right = right;
         }
 
-        public Prompt getRight()
-		{
+        public Prompt getRight() {
             return right;
         }
 
-        public Prompt getNext(String line)
-		{
-            if(line.matches(matchLeft))
-			{
+        public Prompt getNext(String line) {
+            if (line.matches(matchLeft)) {
                 answers.add(line);
                 return left;
             }
-            else if(line.matches(matchRight))
-			{
+            else if (line.matches(matchRight)) {
                 answers.add(line);
                 return right;
             }
@@ -87,9 +75,8 @@ public class ExpectSimulator
             return this;
         }
 
-        public void printAnswers()
-		{
-            for(String answer : answers)
+        public void printAnswers() {
+            for (String answer : answers)
                 System.out.println(answer);
         }
     }
@@ -116,22 +103,20 @@ public class ExpectSimulator
         r14.setRight(r1);
     }
 
-    public static void main(String[] args)
-	{
-        if(args.length != 1)
+    public static void main(String[] args) {
+        if (args.length != 1)
             System.exit(1);
 
         System.out.println("Running for date: " + args[0]);
         Prompt prompt = r1;
-        while(prompt != null)
-		{
+        while (prompt != null) {
             System.out.print(prompt.getPrompt() + " ");
             final Scanner input = new Scanner(System.in);
             final String line = input.nextLine().trim();
             prompt = prompt.getNext(line);
         }
 
-        for(Prompt p : prompts)
+        for (Prompt p : prompts)
             p.printAnswers();
 
         System.out.println("Thanks for playing!");

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,34 +19,26 @@ import org.safris.xml.generator.lexer.processor.model.element.HasPropertyModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class HasPropertyNormalizer extends Normalizer<HasPropertyModel>
-{
-	public HasPropertyNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+public class HasPropertyNormalizer extends Normalizer<HasPropertyModel> {
+    public HasPropertyNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(HasPropertyModel model)
-	{
-	}
+    protected void stage1(HasPropertyModel model) {
+    }
 
-	protected void stage2(HasPropertyModel model)
-	{
-	}
+    protected void stage2(HasPropertyModel model) {
+    }
 
-	protected void stage3(HasPropertyModel model)
-	{
-	}
+    protected void stage3(HasPropertyModel model) {
+    }
 
-	protected void stage4(HasPropertyModel model)
-	{
-	}
+    protected void stage4(HasPropertyModel model) {
+    }
 
-	protected void stage5(HasPropertyModel model)
-	{
-	}
+    protected void stage5(HasPropertyModel model) {
+    }
 
-	protected void stage6(HasPropertyModel model)
-	{
-	}
+    protected void stage6(HasPropertyModel model) {
+    }
 }

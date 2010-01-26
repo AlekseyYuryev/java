@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,27 +15,23 @@
 
 package org.safris.xml.generator.lexer.processor.reference;
 
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
+import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.commons.pipeline.PipelineDirectory;
+import org.safris.xml.generator.lexer.processor.GeneratorContext;
+import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 
-public class SchemaReferenceDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference>
-{
-	private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
+public class SchemaReferenceDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> {
+    private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
 
-	public PipelineEntity<SchemaReference> getEntity(SchemaReference entity, SchemaReference parent)
-	{
-		return schemaReferenceProcessor;
-	}
+    public PipelineEntity<SchemaReference> getEntity(SchemaReference entity, SchemaReference parent) {
+        return schemaReferenceProcessor;
+    }
 
-	public PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> getProcessor()
-	{
-		return schemaReferenceProcessor;
-	}
+    public PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> getProcessor() {
+        return schemaReferenceProcessor;
+    }
 
-	public void clear()
-	{
-	}
+    public void clear() {
+    }
 }

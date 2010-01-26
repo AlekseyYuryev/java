@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,11 +18,10 @@ package org.safris.xml.generator.lexer.processor.model;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 
-public interface RestrictableModel<T extends RestrictableModel>
-{
-	public AliasModel getRestrictionOwner();
-	public void setRestrictionOwner(AliasModel restrictionOwner);
-	
-	public T getRestriction();
-	public void setRestriction(T restriction);
+public interface RestrictableModel<T extends RestrictableModel> {
+    public AliasModel getRestrictionOwner();
+    public void setRestrictionOwner(AliasModel restrictionOwner);
+
+    public T getRestriction();
+    public void setRestriction(T restriction);
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,45 +17,38 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 
-public final class Occurs
-{
-	public static final Occurs UNBOUNDED = new Occurs(Integer.MAX_VALUE);
-	
-	public static Occurs parseOccurs(String value)
-	{
-		if("unbounded".equals(value))
-			return UNBOUNDED;
-		
-		return new Occurs(Integer.parseInt(value));
-	}
-	
-	private int value = 1;
-	
-	private Occurs(int value)
-	{
-		this.value = value;
-	}
-	
-	public int getValue()
-	{
-		return value;
-	}
-	
-	public boolean equals(Object o)
-	{
-		if(!(o instanceof Occurs))
-			return false;
-		
-		return getValue() == ((Occurs)o).getValue();
-	}
-	
-	public int hashCode()
-	{
-		return (getClass().getName() + toString()).hashCode();
-	}
-	
-	public String toString()
-	{
-		return String.valueOf(value);
-	}
+public final class Occurs {
+    public static final Occurs UNBOUNDED = new Occurs(Integer.MAX_VALUE);
+
+    public static Occurs parseOccurs(String value) {
+        if ("unbounded".equals(value))
+            return UNBOUNDED;
+
+        return new Occurs(Integer.parseInt(value));
+    }
+
+    private int value = 1;
+
+    private Occurs(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof Occurs))
+            return false;
+
+        return getValue() == ((Occurs)o).getValue();
+    }
+
+    public int hashCode() {
+        return (getClass().getName() + toString()).hashCode();
+    }
+
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

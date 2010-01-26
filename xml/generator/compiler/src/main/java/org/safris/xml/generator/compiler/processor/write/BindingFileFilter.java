@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,34 +20,29 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BindingFileFilter implements FileFilter
-{
-	private final boolean acceptHidden;
+public class BindingFileFilter implements FileFilter {
+    private final boolean acceptHidden;
 
-	public BindingFileFilter(boolean acceptHidden)
-	{
-		this.acceptHidden = acceptHidden;
-	}
+    public BindingFileFilter(boolean acceptHidden) {
+        this.acceptHidden = acceptHidden;
+    }
 
-	public boolean accept(File pathname)
-	{
-		if(!acceptHidden && pathname.isHidden())
-			return false;
+    public boolean accept(File pathname) {
+        if (!acceptHidden && pathname.isHidden())
+            return false;
 
-		if(pathname.isDirectory())
-			return true;
+        if (pathname.isDirectory())
+            return true;
 
-		try
-		{
-			final InputStream in = pathname.toURL().openStream();
-			final byte[] bytes = new byte[15];
-			in.read(bytes);
-			in.close();
-			return new String(bytes).contains("Safris Technologies Inc.");
-		}
-		catch(IOException e)
-		{
-			return false;
-		}
-	}
+        try {
+            final InputStream in = pathname.toURL().openStream();
+            final byte[] bytes = new byte[15];
+            in.read(bytes);
+            in.close();
+            return new String(bytes).contains("Safris Technologies Inc.");
+        }
+        catch (IOException e) {
+            return false;
+        }
+    }
 }

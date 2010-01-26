@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,49 +19,42 @@ import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 
-public final class Form
-{
-	private static final Map<String,Form> enums = new HashMap<String,Form>();
+public final class Form {
+    private static final Map<String,Form> enums = new HashMap<String,Form>();
 
-	public static final Form QUALIFIED = new Form("qualified");
-	public static final Form UNQUALIFIED = new Form("unqualified");
+    public static final Form QUALIFIED = new Form("qualified");
+    public static final Form UNQUALIFIED = new Form("unqualified");
 
-	public static Form parseForm(String value)
-	{
-		return enums.get(value);
-	}
+    public static Form parseForm(String value) {
+        return enums.get(value);
+    }
 
-	private final String value;
+    private final String value;
 
-	private Form(String value)
-	{
-		this.value = value;
-		enums.put(value, this);
-	}
+    private Form(String value) {
+        this.value = value;
+        enums.put(value, this);
+    }
 
-	public String getValue()
-	{
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof Form))
-			return false;
+        if (!(obj instanceof Form))
+            return false;
 
-		return getValue().equals(((Form)obj).getValue());
-	}
+        return getValue().equals(((Form)obj).getValue());
+    }
 
-	public int hashCode()
-	{
-		return getValue().hashCode();
-	}
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 
-	public String toString()
-	{
-		return getValue();
-	}
+    public String toString() {
+        return getValue();
+    }
 }

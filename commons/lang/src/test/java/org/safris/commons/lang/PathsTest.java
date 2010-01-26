@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,44 +21,40 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PathsTest
-{
-	public static void main(String[] args) throws Exception
-	{
-		final PathsTest pathsTest = new PathsTest();
-		pathsTest.testGetName();
-		pathsTest.testGetParent();
-	}
+public class PathsTest {
+    public static void main(String[] args) throws Exception {
+        final PathsTest pathsTest = new PathsTest();
+        pathsTest.testGetName();
+        pathsTest.testGetParent();
+    }
 
-	@Test
-	public void testGetName() throws Exception
-	{
-		final Map<String,String> paths = new HashMap<String,String>();
-		paths.put("share", "file:///usr/share/../share");
-		paths.put("lib", "file:///usr/share/../share/../lib");
-		paths.put("var", "/usr/share/../share/../lib/../../var");
-		paths.put("var", "/usr/share/../share/../lib/../../var/");
-		paths.put("resolv.conf", "/etc/resolv.conf");
-		paths.put("name", "name");
+    @Test
+    public void testGetName() throws Exception {
+        final Map<String,String> paths = new HashMap<String,String>();
+        paths.put("share", "file:///usr/share/../share");
+        paths.put("lib", "file:///usr/share/../share/../lib");
+        paths.put("var", "/usr/share/../share/../lib/../../var");
+        paths.put("var", "/usr/share/../share/../lib/../../var/");
+        paths.put("resolv.conf", "/etc/resolv.conf");
+        paths.put("name", "name");
 
-		for(Map.Entry<String,String> entry : paths.entrySet())
-			assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
+        for (Map.Entry<String,String> entry : paths.entrySet())
+            assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
 
-		assertNull(Paths.getName(null));
-	}
+        assertNull(Paths.getName(null));
+    }
 
-	@Test
-	public void testGetParent() throws Exception
-	{
-		final Map<String,String> urls = new HashMap<String,String>();
-		urls.put("file:///usr", "file:///usr/share/../share");
-		urls.put("/usr", "/usr/share/../share/..");
-		urls.put("/", "/usr/share/../share/../../");
-		urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
+    @Test
+    public void testGetParent() throws Exception {
+        final Map<String,String> urls = new HashMap<String,String>();
+        urls.put("file:///usr", "file:///usr/share/../share");
+        urls.put("/usr", "/usr/share/../share/..");
+        urls.put("/", "/usr/share/../share/../../");
+        urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
 
-		for(Map.Entry<String,String> entry : urls.entrySet())
-			assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
+        for (Map.Entry<String,String> entry : urls.entrySet())
+            assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
 
-		assertNull(Paths.getParent(null));
-	}
+        assertNull(Paths.getParent(null));
+    }
 }

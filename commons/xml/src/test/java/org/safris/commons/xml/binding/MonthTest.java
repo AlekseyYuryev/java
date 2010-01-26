@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,140 +19,113 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MonthTest
-{
-	public static void main(String[] args)
-	{
-		new MonthTest().testMonth();
-	}
+public class MonthTest {
+    public static void main(String[] args) {
+        new MonthTest().testMonth();
+    }
 
-	@Test
-	public void testMonth()
-	{
-		try
-		{
-			Month.parseMonth(null);
-			fail("Expected a NullPointerException");
-		}
-		catch(NullPointerException e)
-		{
-		}
+    @Test
+    public void testMonth() {
+        try {
+            Month.parseMonth(null);
+            fail("Expected a NullPointerException");
+        }
+        catch (NullPointerException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("---5");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("---5");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("-5");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("-5");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--A");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--A");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--00");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--00");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--13");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--13");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--4");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--4");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--11Z-");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--11Z-");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--12-15:00");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--12-15:00");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--07+14:60");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--07+14:60");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		try
-		{
-			Month.parseMonth("--02+14:60.9");
-			fail("Expected a IllegalArgumentException");
-		}
-		catch(IllegalArgumentException e)
-		{
-		}
+        try {
+            Month.parseMonth("--02+14:60.9");
+            fail("Expected a IllegalArgumentException");
+        }
+        catch (IllegalArgumentException e) {
+        }
 
-		final String[] months = new String[]
-		{
-			"--12",
-			"--04",
-			"--03",
-			"--02",
-			"--01",
-			"--01Z",
-			"--07+01:00",
-			"--09-01:00",
-			"--10Z",
-			"--11+12:00",
-			"--12-12:30"
-		};
+        final String[] months = new String[]
+        {
+            "--12",
+            "--04",
+            "--03",
+            "--02",
+            "--01",
+            "--01Z",
+            "--07+01:00",
+            "--09-01:00",
+            "--10Z",
+            "--11+12:00",
+            "--12-12:30"
+        };
 
-		for(String month : months)
-			assertEquals(month, Month.parseMonth(month).toString());
-	}
+        for (String month : months)
+            assertEquals(month, Month.parseMonth(month).toString());
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,41 +20,31 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributeGroupPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class AttributeGroupWriter extends Writer<AttributeGroupPlan>
-{
-	protected void appendDeclaration(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+public class AttributeGroupWriter extends Writer<AttributeGroupPlan> {
+    protected void appendDeclaration(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendGetMethod(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendGetMethod(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendSetMethod(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendSetMethod(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendMarshal(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendMarshal(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendParse(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendParse(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	public void appendCopy(StringWriter writer, AttributeGroupPlan plan, Plan parent, String variable)
-	{
-	}
+    public void appendCopy(StringWriter writer, AttributeGroupPlan plan, Plan parent, String variable) {
+    }
 
-	protected void appendEquals(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendEquals(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendHashCode(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendHashCode(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 
-	protected void appendClass(StringWriter writer, AttributeGroupPlan plan, Plan parent)
-	{
-	}
+    protected void appendClass(StringWriter writer, AttributeGroupPlan plan, Plan parent) {
+    }
 }

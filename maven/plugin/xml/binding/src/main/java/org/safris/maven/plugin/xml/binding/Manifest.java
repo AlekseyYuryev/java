@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,24 +17,20 @@ package org.safris.maven.plugin.xml.binding;
 
 import java.util.List;
 
-public final class Manifest
-{
-	private String destdir = null;
-	private String link = null;
-	private List<String> schemas = null;
+public final class Manifest {
+    private String destdir = null;
+    private String link = null;
+    private List<String> schemas = null;
 
-	public String getDestdir()
-	{
-		return destdir;
-	}
+    public String getDestdir() {
+        return destdir;
+    }
 
-	public String getLink()
-	{
-		return link;
-	}
+    public String getLink() {
+        return link;
+    }
 
-	public List<String> getSchemas()
-	{
-		return schemas;
-	}
+    public List<String> getSchemas() {
+        return schemas;
+    }
 }

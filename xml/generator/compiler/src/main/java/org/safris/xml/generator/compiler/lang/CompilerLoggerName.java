@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,13 +17,11 @@ package org.safris.xml.generator.compiler.lang;
 
 import org.safris.commons.logging.LoggerName;
 
-public class CompilerLoggerName extends LoggerName
-{
-	public static final CompilerLoggerName PLAN = new CompilerLoggerName("PLAN");
-	public static final CompilerLoggerName WRITE = new CompilerLoggerName("WRITE");
+public class CompilerLoggerName extends LoggerName {
+    public static final CompilerLoggerName PLAN = new CompilerLoggerName("PLAN");
+    public static final CompilerLoggerName WRITE = new CompilerLoggerName("WRITE");
 
-	public CompilerLoggerName(String name)
-	{
-		super(name);
-	}
+    public CompilerLoggerName(String name) {
+        super(name);
+    }
 }

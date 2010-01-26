@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -39,212 +39,191 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
 
-public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan
-{
-	private final AttributeModel attribute;
-	private final boolean ref;
-	private final boolean restriction;
-	private final boolean fixed;
-	private final QName _default;
-	private final Use use;
+public class AttributePlan extends SimpleTypePlan<AttributeModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan {
+    private final AttributeModel attribute;
+    private final boolean ref;
+    private final boolean restriction;
+    private final boolean fixed;
+    private final QName _default;
+    private final Use use;
 
-	private String thisClassNameWithType = null;
-	private String declarationRestrictionGeneric = null;
-	private String declarationRestrictionSimpleName = null;
+    private String thisClassNameWithType = null;
+    private String declarationRestrictionGeneric = null;
+    private String declarationRestrictionSimpleName = null;
 
-	private String superClassNameWithType = null;
-	private String superClassNameWithoutType = null;
+    private String superClassNameWithType = null;
+    private String superClassNameWithoutType = null;
 
-	private boolean nested = false;
-	private Form formDefault = null;
+    private boolean nested = false;
+    private Form formDefault = null;
 
-	public AttributePlan(AttributeModel model, Plan parent)
-	{
-		super(model, parent);
-		ref = (attribute = getModel()) != model;
-		restriction = model.getRestrictionOwner() != null;
-		fixed = model.getFixed() != null;
-		_default = fixed ? model.getFixed() : model.getDefault();
-		use = model.getUse();
-		if(model instanceof AnyableModel)
-			return;
+    public AttributePlan(AttributeModel model, Plan parent) {
+        super(model, parent);
+        ref = (attribute = getModel()) != model;
+        restriction = model.getRestrictionOwner() != null;
+        fixed = model.getFixed() != null;
+        _default = fixed ? model.getFixed() : model.getDefault();
+        use = model.getUse();
+        if (model instanceof AnyableModel)
+            return;
 
-		if(isRestriction())
-			superClassNameWithoutType = AliasPlan.getClassName(attribute.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel)getModel().getRestriction());
-		else
-			superClassNameWithoutType = AliasPlan.getClassName(attribute.getSuperType(), attribute.getSuperType().getParent());
+        if (isRestriction())
+            superClassNameWithoutType = AliasPlan.getClassName(attribute.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel)getModel().getRestriction());
+        else
+            superClassNameWithoutType = AliasPlan.getClassName(attribute.getSuperType(), attribute.getSuperType().getParent());
 
-		if(!(attribute.getSuperType() instanceof AttributeModel) && !isRestriction())
-			superClassNameWithType = superClassNameWithoutType + "<" + SimpleType.class.getName() + ">";
-		else
-			superClassNameWithType = superClassNameWithoutType;
+        if (!(attribute.getSuperType() instanceof AttributeModel) && !isRestriction())
+            superClassNameWithType = superClassNameWithoutType + "<" + SimpleType.class.getName() + ">";
+        else
+            superClassNameWithType = superClassNameWithoutType;
 
-		if(!ref && attribute.getParent() instanceof SchemaModel)
-			thisClassNameWithType = superClassNameWithType;
-		else
-			thisClassNameWithType = null;
+        if (!ref && attribute.getParent() instanceof SchemaModel)
+            thisClassNameWithType = superClassNameWithType;
+        else
+            thisClassNameWithType = null;
 
-		nested = ref || !(attribute.getParent() instanceof SchemaModel);
-		if(!ref)
-			formDefault = attribute.getFormDefault();
-		else
-			formDefault = Form.QUALIFIED;
-	}
+        nested = ref || !(attribute.getParent() instanceof SchemaModel);
+        if (!ref)
+            formDefault = attribute.getFormDefault();
+        else
+            formDefault = Form.QUALIFIED;
+    }
 
-	public final Use getUse()
-	{
-		return use;
-	}
+    public final Use getUse() {
+        return use;
+    }
 
-	public final boolean isFixed()
-	{
-		return fixed;
-	}
+    public final boolean isFixed() {
+        return fixed;
+    }
 
-	public final String getDefaultInstance(Plan parent)
-	{
-		if(getDefault() == null)
-			return null;
+    public final String getDefaultInstance(Plan parent) {
+        if (getDefault() == null)
+            return null;
 
-		String _default = XSTypeDirectory.QNAME.getNativeBinding().getName().equals(getBaseXSItemTypeName()) ? getDefault().toString() : getDefault().getLocalPart();
-		if(hasEnumerations())
-			_default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
-		else
-			_default = "\"" + _default + "\"";
+        String _default = XSTypeDirectory.QNAME.getNativeBinding().getName().equals(getBaseXSItemTypeName()) ? getDefault().toString() : getDefault().getLocalPart();
+        if (hasEnumerations())
+            _default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
+        else
+            _default = "\"" + _default + "\"";
 
-		String defaultInstance = "new " + getClassName(parent) + "(";
-		if(!hasEnumerations() && getNativeFactory() != null)
-			defaultInstance += getNativeFactory() + "(" + _default + "))";
-		else
-			defaultInstance += "" + _default + ")";
+        String defaultInstance = "new " + getClassName(parent) + "(";
+        if (!hasEnumerations() && getNativeFactory() != null)
+            defaultInstance += getNativeFactory() + "(" + _default + "))";
+        else
+            defaultInstance += "" + _default + ")";
 
-		return defaultInstance;
-	}
+        return defaultInstance;
+    }
 
-	public final String getFixedInstanceCall(Plan parent)
-	{
-		if(!fixed)
-			return "";
+    public final String getFixedInstanceCall(Plan parent) {
+        if (!fixed)
+            return "";
 
-		String defaultInstance = getDefaultInstance(parent);
-		if(isRestriction())
-			return "super.set" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
-		else
-			return "_$$setAttribute(" + getInstanceName() + ", this, " + defaultInstance + ");\n";
-	}
+        String defaultInstance = getDefaultInstance(parent);
+        if (isRestriction())
+            return "super.set" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
+        else
+            return "_$$setAttribute(" + getInstanceName() + ", this, " + defaultInstance + ");\n";
+    }
 
-	public final QName getDefault()
-	{
-		return _default;
-	}
+    public final QName getDefault() {
+        return _default;
+    }
 
-	public final boolean isRestriction()
-	{
-		return restriction;
-	}
+    public final boolean isRestriction() {
+        return restriction;
+    }
 
-	public final AttributeModel getModel()
-	{
-		return super.getModel().getRef() != null ? super.getModel().getRef() : super.getModel();
-	}
+    public final AttributeModel getModel() {
+        return super.getModel().getRef() != null ? super.getModel().getRef() : super.getModel();
+    }
 
-	public final String getSuperClassNameWithoutType()
-	{
-		return superClassNameWithoutType;
-	}
+    public final String getSuperClassNameWithoutType() {
+        return superClassNameWithoutType;
+    }
 
-	public final boolean isRef()
-	{
-		return ref;
-	}
+    public final boolean isRef() {
+        return ref;
+    }
 
-	public final String getThisClassNameWithType(Plan parent)
-	{
-		if(thisClassNameWithType != null)
-			return thisClassNameWithType;
+    public final String getThisClassNameWithType(Plan parent) {
+        if (thisClassNameWithType != null)
+            return thisClassNameWithType;
 
-		final AliasModel model;
-		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-			model = getModel().getSuperType();
-		else
-			model = getModel();
+        final AliasModel model;
+        if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+            model = getModel().getSuperType();
+        else
+            model = getModel();
 
-		return AliasPlan.getClassName(getModel(), parent.getModel());
-	}
+        return AliasPlan.getClassName(getModel(), parent.getModel());
+    }
 
-	public final String getThisClassNameWithTypeWithInconvertible(Plan parent)
-	{
-		if(thisClassNameWithType != null)
-			return thisClassNameWithType;
+    public final String getThisClassNameWithTypeWithInconvertible(Plan parent) {
+        if (thisClassNameWithType != null)
+            return thisClassNameWithType;
 
-		final AliasModel model;
-		if(!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-			model = getModel().getSuperType();
-		else
-			model = getModel();
+        final AliasModel model;
+        if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+            model = getModel().getSuperType();
+        else
+            model = getModel();
 
-		return AliasPlan.getClassNameWithInconvertible(getModel(), parent.getModel());
-	}
+        return AliasPlan.getClassNameWithInconvertible(getModel(), parent.getModel());
+    }
 
-	public final String getDeclarationRestrictionGeneric(Plan parent)
-	{
-		if(!isRestriction())
-			return getThisClassNameWithTypeWithInconvertible(parent);
+    public final String getDeclarationRestrictionGeneric(Plan parent) {
+        if (!isRestriction())
+            return getThisClassNameWithTypeWithInconvertible(parent);
 
-		if(declarationRestrictionGeneric != null)
-			return declarationRestrictionGeneric;
+        if (declarationRestrictionGeneric != null)
+            return declarationRestrictionGeneric;
 
-		RestrictableModel first = null;
-		RestrictableModel prior = getModel();
-		while(prior.getRestriction() != null)
-		{
-			first = prior;
-			prior = prior.getRestriction();
-		}
+        RestrictableModel first = null;
+        RestrictableModel prior = getModel();
+        while (prior.getRestriction() != null) {
+            first = prior;
+            prior = prior.getRestriction();
+        }
 
-		return declarationRestrictionGeneric = AliasPlan.getClassName(first.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((Model)prior);
-	}
+        return declarationRestrictionGeneric = AliasPlan.getClassName(first.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((Model)prior);
+    }
 
-	public final String getDeclarationRestrictionSimpleName()
-	{
-		if(!isRestriction())
-			return getClassSimpleName();
+    public final String getDeclarationRestrictionSimpleName() {
+        if (!isRestriction())
+            return getClassSimpleName();
 
-		if(declarationRestrictionSimpleName != null)
-			return declarationRestrictionSimpleName;
+        if (declarationRestrictionSimpleName != null)
+            return declarationRestrictionSimpleName;
 
-		RestrictableModel prior = getModel();
-		while(prior.getRestriction() != null)
-			prior = prior.getRestriction();
+        RestrictableModel prior = getModel();
+        while (prior.getRestriction() != null)
+            prior = prior.getRestriction();
 
-		return declarationRestrictionSimpleName = JavaBinding.getClassSimpleName((Model)prior);
-	}
+        return declarationRestrictionSimpleName = JavaBinding.getClassSimpleName((Model)prior);
+    }
 
-	public final String getSuperClassNameWithType()
-	{
-		return superClassNameWithType;
-	}
+    public final String getSuperClassNameWithType() {
+        return superClassNameWithType;
+    }
 
-	public final String getCopyClassName(Plan parent)
-	{
-		if(!getModel().getSuperType().getName().equals(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName()))
-			return AliasPlan.getClassName(getModel().getSuperType(), null);
-		else
-		{
-			if(getModel().getRef() != null && getModel().getRef().getName() != null)
-				return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
-			else
-				return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
-		}
-	}
+    public final String getCopyClassName(Plan parent) {
+        if (!getModel().getSuperType().getName().equals(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName()))
+            return AliasPlan.getClassName(getModel().getSuperType(), null);
+        else {
+            if (getModel().getRef() != null && getModel().getRef().getName() != null)
+                return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
+            else
+                return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
+        }
+    }
 
-	public final boolean isNested()
-	{
-		return nested;
-	}
+    public final boolean isNested() {
+        return nested;
+    }
 
-	public final Form getFormDefault()
-	{
-		return formDefault;
-	}
+    public final Form getFormDefault() {
+        return formDefault;
+    }
 }

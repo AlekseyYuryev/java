@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,14 +17,11 @@ package org.safris.ant.task.xml.binding;
 
 import org.apache.tools.ant.Main;
 
-public final class AntLauncher
-{
-	public static void main(String[] args)
-	{
-		Main.main(args);
-	}
+public final class AntLauncher {
+    public static void main(String[] args) {
+        Main.main(args);
+    }
 
-	private AntLauncher()
-	{
-	}
+    private AntLauncher() {
+    }
 }

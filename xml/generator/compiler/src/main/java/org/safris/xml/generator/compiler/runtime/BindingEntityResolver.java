@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,106 +31,91 @@ import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 import org.safris.commons.xml.validator.ValidatorError;
 
-public class BindingEntityResolver implements XMLEntityResolver
-{
-	public static void registerSchemaLocation(String namespaceURI, URL schemaReference)
-	{
-		final URL present = schemaReferences.get(namespaceURI);
-		if(present != null && !present.equals(schemaReference))
-			throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
+public class BindingEntityResolver implements XMLEntityResolver {
+    public static void registerSchemaLocation(String namespaceURI, URL schemaReference) {
+        final URL present = schemaReferences.get(namespaceURI);
+        if (present != null && !present.equals(schemaReference))
+            throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
 
-		schemaReferences.put(namespaceURI, schemaReference);
-	}
+        schemaReferences.put(namespaceURI, schemaReference);
+    }
 
-	public static URL lookupSchemaLocation(String namespaceURI)
-	{
-		if(namespaceURI == null)
-			return null;
+    public static URL lookupSchemaLocation(String namespaceURI) {
+        if (namespaceURI == null)
+            return null;
 
-		URL schemaReference = schemaReferences.get(namespaceURI);
-		if(schemaReference == null)
-		{
-			// The schemaReference may not have been registered yet
-			synchronized(namespaceURI)
-			{
-				// When loading the classes, the static block of each binding will call the
-				// registerSchemaLocation() function.
-				// FIXME: Look this over. Also make a dedicated RuntimeException for this.
-				if(!schemaReferences.containsKey(namespaceURI))
-				{
-					try
-					{
-						PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
-					}
-					catch(Exception e)
-					{
-						throw new RuntimeException(e);
-					}
-				}
-			}
+        URL schemaReference = schemaReferences.get(namespaceURI);
+        if (schemaReference == null) {
+            // The schemaReference may not have been registered yet
+            synchronized (namespaceURI) {
+                // When loading the classes, the static block of each binding will call the
+                // registerSchemaLocation() function.
+                // FIXME: Look this over. Also make a dedicated RuntimeException for this.
+                if (!schemaReferences.containsKey(namespaceURI)) {
+                    try {
+                        PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+                    }
+                    catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
 
-			schemaReference = schemaReferences.get(namespaceURI);
-		}
+            schemaReference = schemaReferences.get(namespaceURI);
+        }
 
-		return schemaReference;
-	}
+        return schemaReference;
+    }
 
-	private static final Map<String,URL> schemaReferences = new HashMap<String,URL>();
+    private static final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
-	public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException
-	{
-		if(resourceIdentifier == null)
-			return null;
+    public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
+        if (resourceIdentifier == null)
+            return null;
 
-		final String namespaceURI = resourceIdentifier.getNamespace();
-		String baseId = resourceIdentifier.getBaseSystemId();
-		if(baseId == null)
-			baseId = resourceIdentifier.getExpandedSystemId();
+        final String namespaceURI = resourceIdentifier.getNamespace();
+        String baseId = resourceIdentifier.getBaseSystemId();
+        if (baseId == null)
+            baseId = resourceIdentifier.getExpandedSystemId();
 
-		// for some reason, this happens every once in a while
-		if(namespaceURI == null && baseId == null)
-			return null;
+        // for some reason, this happens every once in a while
+        if (namespaceURI == null && baseId == null)
+            return null;
 
-		try
-		{
-			final URL schemaReference;
-			if(((XSDDescription)resourceIdentifier).getContextType() == XSDDescription.CONTEXT_INCLUDE)
-			{
-				final String localName = Paths.getName(resourceIdentifier.getExpandedSystemId());
-				schemaReference = new URL(Paths.getParent(baseId) + "/" + localName);
-			}
-			else
-				schemaReference = lookupSchemaLocation(namespaceURI);
+        try {
+            final URL schemaReference;
+            if (((XSDDescription)resourceIdentifier).getContextType() == XSDDescription.CONTEXT_INCLUDE) {
+                final String localName = Paths.getName(resourceIdentifier.getExpandedSystemId());
+                schemaReference = new URL(Paths.getParent(baseId) + "/" + localName);
+            }
+            else
+                schemaReference = lookupSchemaLocation(namespaceURI);
 
-			if(schemaReference == null)
-				throw new ValidatorError("The schemaReference for " + resourceIdentifier + " is null!");
+            if (schemaReference == null)
+                throw new ValidatorError("The schemaReference for " + resourceIdentifier + " is null!");
 
-			final String expandedSystemId;
-			try
-			{
-				expandedSystemId = URLs.toExternalForm(schemaReference);
-			}
-			catch(MalformedURLException e)
-			{
-				final IOException ioException = new IOException("Cannot obtain externalForm of " + schemaReference);
-				ioException.initCause(e);
-				throw ioException;
-			}
+            final String expandedSystemId;
+            try {
+                expandedSystemId = URLs.toExternalForm(schemaReference);
+            }
+            catch (MalformedURLException e) {
+                final IOException ioException = new IOException("Cannot obtain externalForm of " + schemaReference);
+                ioException.initCause(e);
+                throw ioException;
+            }
 
-			resourceIdentifier.setExpandedSystemId(expandedSystemId);
-			resourceIdentifier.setLiteralSystemId(expandedSystemId);
+            resourceIdentifier.setExpandedSystemId(expandedSystemId);
+            resourceIdentifier.setLiteralSystemId(expandedSystemId);
 
-			final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
-			inputSource.setByteStream(schemaReference.openStream());
-			return inputSource;
-		}
-		catch(IOException e)
-		{
-			throw e;
-		}
-		catch(Exception e)
-		{
-			throw new ValidatorError(resourceIdentifier.toString(), e);
-		}
-	}
+            final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
+            inputSource.setByteStream(schemaReference.openStream());
+            return inputSource;
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ValidatorError(resourceIdentifier.toString(), e);
+        }
+    }
 }

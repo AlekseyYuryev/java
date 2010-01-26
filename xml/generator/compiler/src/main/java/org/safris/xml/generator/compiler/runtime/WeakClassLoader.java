@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,82 +25,70 @@ import java.net.URLDecoder;
 import java.security.SecureClassLoader;
 import org.safris.commons.io.Files;
 
-public class WeakClassLoader extends SecureClassLoader
-{
-	private final java.lang.ClassLoader parent;
+public class WeakClassLoader extends SecureClassLoader {
+    private final java.lang.ClassLoader parent;
 
-	public WeakClassLoader()
-	{
-		super();
-		this.parent = null;
-	}
-
-	public WeakClassLoader(java.lang.ClassLoader parent)
-	{
-		super(parent);
-		this.parent = parent;
-	}
-
-	public Class loadClass(String name) throws ClassNotFoundException
-	{
-		return loadClass(name, false);
- 	}
-
-	public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
-	{
-		final WeakReference<Class<?>> ref = new WeakReference<Class<?>>(findClass(name));
-		final Class<?> cls = ref.get();
-		if(resolve)
-			resolveClass(cls);
-
-		return cls;
+    public WeakClassLoader() {
+        super();
+        this.parent = null;
     }
 
-	protected Class<?> findClass(String name) throws ClassNotFoundException
-	{
-		if(Binding.class.getName().equals(name))
-		{
-			if(parent != null)
-				return parent.loadClass(name);
-			else
-				return WeakClassLoader.getSystemClassLoader().loadClass(name);
-		}
+    public WeakClassLoader(java.lang.ClassLoader parent) {
+        super(parent);
+        this.parent = parent;
+    }
 
-		String fileName = name;
-		fileName = fileName.replace('.', '/');
-		if(!fileName.startsWith("/"))
-			fileName = '/' + fileName;
+    public Class loadClass(String name) throws ClassNotFoundException {
+        return loadClass(name, false);
+    }
 
-		fileName += ".class";
-		URL url = WeakClassLoader.class.getResource("/");
-		String decodedUrl = null;
-		try
-		{
-			decodedUrl = URLDecoder.decode(url.getFile(), "UTF-8");
-		}
-		catch(UnsupportedEncodingException e)
-		{
-			System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
-		}
+    public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        final WeakReference<Class<?>> ref = new WeakReference<Class<?>>(findClass(name));
+        final Class<?> cls = ref.get();
+        if (resolve)
+            resolveClass(cls);
 
-		Class<?> bindingClass = null;
-		try
-		{
-			byte[] bytes = Files.getBytes(new File(decodedUrl + fileName));
-			bindingClass = defineClass(name, bytes, 0, bytes.length);
-		}
-		catch(FileNotFoundException e)
-		{
-			if(parent != null)
-				return parent.loadClass(name);
-			else
-				return WeakClassLoader.getSystemClassLoader().loadClass(name);
-		}
-		catch(IOException e)
-		{
-			System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
-		}
+        return cls;
+    }
 
-		return bindingClass;
-	}
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        if (Binding.class.getName().equals(name)) {
+            if (parent != null)
+                return parent.loadClass(name);
+            else
+                return WeakClassLoader.getSystemClassLoader().loadClass(name);
+        }
+
+        String fileName = name;
+        fileName = fileName.replace('.', '/');
+        if (!fileName.startsWith("/"))
+            fileName = '/' + fileName;
+
+        fileName += ".class";
+        URL url = WeakClassLoader.class.getResource("/");
+        String decodedUrl = null;
+        try {
+            decodedUrl = URLDecoder.decode(url.getFile(), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
+        }
+
+        Class<?> bindingClass = null;
+        try {
+            byte[] bytes = Files.getBytes(new File(decodedUrl + fileName));
+            bindingClass = defineClass(name, bytes, 0, bytes.length);
+        }
+        catch (FileNotFoundException e) {
+            if (parent != null)
+                return parent.loadClass(name);
+            else
+                return WeakClassLoader.getSystemClassLoader().loadClass(name);
+        }
+        catch (IOException e) {
+            System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
+        }
+
+        return bindingClass;
+    }
 }

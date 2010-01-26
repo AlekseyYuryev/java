@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,41 +17,35 @@ package org.safris.commons.lang;
 
 import java.net.URL;
 
-public final class Resource
-{
-	private final URL url;
-	private final ClassLoader classLoader;
+public final class Resource {
+    private final URL url;
+    private final ClassLoader classLoader;
 
-	public Resource(URL url, ClassLoader classLoader)
-	{
-		this.url = url;
-		this.classLoader = classLoader;
-	}
+    public Resource(URL url, ClassLoader classLoader) {
+        this.url = url;
+        this.classLoader = classLoader;
+    }
 
-	public URL getURL()
-	{
-		return url;
-	}
+    public URL getURL() {
+        return url;
+    }
 
-	public ClassLoader getClassLoader()
-	{
-		return classLoader;
-	}
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
 
-	public boolean equals(Object obj)
-	{
-		if(this == obj)
-			return true;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if(!(obj instanceof Resource))
-			return false;
+        if (!(obj instanceof Resource))
+            return false;
 
-		final Resource resource = (Resource)obj;
-		return url != null ? url.equals(resource.url) && (classLoader != null ? classLoader.equals(resource.classLoader) : resource.classLoader == null) : resource.url == null && (classLoader != null ? classLoader.equals(resource.classLoader) : resource.classLoader == null);
-	}
+        final Resource resource = (Resource)obj;
+        return url != null ? url.equals(resource.url) && (classLoader != null ? classLoader.equals(resource.classLoader) : resource.classLoader == null) : resource.url == null && (classLoader != null ? classLoader.equals(resource.classLoader) : resource.classLoader == null);
+    }
 
-	public int hashCode()
-	{
-		return url.hashCode() * 3 + classLoader.hashCode();
-	}
+    public int hashCode() {
+        return url.hashCode() * 3 + classLoader.hashCode();
+    }
 }

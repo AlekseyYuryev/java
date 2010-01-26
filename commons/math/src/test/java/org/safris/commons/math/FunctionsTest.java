@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,20 +19,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class FunctionsTest
-{
-	public static void main(String[] args)
-	{
-		new FunctionsTest().testLog();
-	}
+public class FunctionsTest {
+    public static void main(String[] args) {
+        new FunctionsTest().testLog();
+    }
 
-	@Test
-	public void testLog()
-	{
-		assertEquals(0d, Functions.log(0, 2), 0d);
-		assertEquals(0d, Functions.log(2, 1), 0d);
-		assertEquals(2d, Functions.log(2, 4), 0d);
-		assertEquals(Double.POSITIVE_INFINITY, Functions.log(1, 2), 0d);
-		assertEquals(Double.NEGATIVE_INFINITY, Functions.log(1, 0), 0d);
-	}
+    @Test
+    public void testLog() {
+        assertEquals(0d, Functions.log(0, 2), 0d);
+        assertEquals(0d, Functions.log(2, 1), 0d);
+        assertEquals(2d, Functions.log(2, 4), 0d);
+        assertEquals(Double.POSITIVE_INFINITY, Functions.log(1, 2), 0d);
+        assertEquals(Double.NEGATIVE_INFINITY, Functions.log(1, 0), 0d);
+    }
 }

@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,23 +15,18 @@
 
 package org.safris.commons.formatter;
 
-public class OpenBracketModule extends FormatModule
-{
-	String format(String formated, String token)
-	{
-		if(token.trim().lastIndexOf(";") != token.trim().length() - 1)
-		{
-			if(token.trim().indexOf("{") == 0)
-			{
-				for(int i = 0; i < getDepth(); i++)
-				{
-					token = "\t" + token;
-				}
-				increaseDepth();
-				token = "\n" + token;
-			}
-		}
+public class OpenBracketModule extends FormatModule {
+    String format(String formated, String token) {
+        if (token.trim().lastIndexOf(";") != token.trim().length() - 1) {
+            if (token.trim().indexOf("{") == 0) {
+                for (int i = 0; i < getDepth(); i++) {
+                    token = "\t" + token;
+                }
+                increaseDepth();
+                token = "\n" + token;
+            }
+        }
 
-		return token;
-	}
+        return token;
+    }
 }

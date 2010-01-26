@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,34 +19,26 @@ import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class KeyrefNormalizer extends Normalizer<KeyrefModel>
-{
-	public KeyrefNormalizer(NormalizerDirectory directory)
-	{
-		super(directory);
-	}
+public class KeyrefNormalizer extends Normalizer<KeyrefModel> {
+    public KeyrefNormalizer(NormalizerDirectory directory) {
+        super(directory);
+    }
 
-	protected void stage1(KeyrefModel model)
-	{
-	}
+    protected void stage1(KeyrefModel model) {
+    }
 
-	protected void stage2(KeyrefModel model)
-	{
-	}
+    protected void stage2(KeyrefModel model) {
+    }
 
-	protected void stage3(KeyrefModel model)
-	{
-	}
+    protected void stage3(KeyrefModel model) {
+    }
 
-	protected void stage4(KeyrefModel model)
-	{
-	}
+    protected void stage4(KeyrefModel model) {
+    }
 
-	protected void stage5(KeyrefModel model)
-	{
-	}
+    protected void stage5(KeyrefModel model) {
+    }
 
-	protected void stage6(KeyrefModel model)
-	{
-	}
+    protected void stage6(KeyrefModel model) {
+    }
 }

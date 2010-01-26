@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,42 +15,38 @@
 
 package org.safris.commons.lang.reflect;
 
-public final class Classes
-{
-	public static Class<?> getGreatestCommonSuperclass(Class<?> ... classes)
-	{
-		if(classes == null || classes.length == 0)
-			return null;
+public final class Classes {
+    public static Class<?> getGreatestCommonSuperclass(Class<?> ... classes) {
+        if (classes == null || classes.length == 0)
+            return null;
 
-		if(classes.length == 1)
-			return classes[0];
+        if (classes.length == 1)
+            return classes[0];
 
-		Class<?> gcc = getGreatestCommonSuperclass(classes[0], classes[1]);
-		for(int i = 2; i < classes.length && gcc != null; i++)
-			gcc = getGreatestCommonSuperclass(gcc, classes[i]);
+        Class<?> gcc = getGreatestCommonSuperclass(classes[0], classes[1]);
+        for (int i = 2; i < classes.length && gcc != null; i++)
+            gcc = getGreatestCommonSuperclass(gcc, classes[i]);
 
-		return gcc;
-	}
+        return gcc;
+    }
 
-	private static Class<?> getGreatestCommonSuperclass(Class<?> class1, Class<?> class2)
-	{
-		Class<?> super1 = class1;
-		do
-		{
-			Class<?> super2 = class2;
-			do
-			{
-				if(super1.isAssignableFrom(super2))
-					return super1;
-			}
-			while((super2 = super2.getSuperclass()) != null);
-		}
-		while((super1 = super1.getSuperclass()) != null);
+    private static Class<?> getGreatestCommonSuperclass(Class<?> class1, Class<?> class2) {
+        Class<?> super1 = class1;
+        do
+        {
+            Class<?> super2 = class2;
+            do
+            {
+                if (super1.isAssignableFrom(super2))
+                    return super1;
+            }
+            while((super2 = super2.getSuperclass()) != null);
+        }
+        while((super1 = super1.getSuperclass()) != null);
 
-		return null;
-	}
+        return null;
+    }
 
-	private Classes()
-	{
-	}
+    private Classes() {
+    }
 }

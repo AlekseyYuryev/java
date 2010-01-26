@@ -1,4 +1,4 @@
-/*  Copyright 2008 Safris Technologies Inc.
+/*  Copyright 2010 Safris Technologies Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,25 +15,20 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-public class MarshalException extends BindingException
-{
-	public MarshalException()
-	{
-		super();
-	}
+public class MarshalException extends BindingException {
+    public MarshalException() {
+        super();
+    }
 
-	public MarshalException(String message)
-	{
-		super(message);
-	}
+    public MarshalException(String message) {
+        super(message);
+    }
 
-	public MarshalException(Throwable cause)
-	{
-		super(cause);
-	}
+    public MarshalException(Throwable cause) {
+        super(cause);
+    }
 
-	public MarshalException(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
+    public MarshalException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
