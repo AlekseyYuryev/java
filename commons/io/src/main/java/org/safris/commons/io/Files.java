@@ -152,7 +152,8 @@ public final class Files {
         else if (from.isDirectory()) {
             if (to.isFile())
                 throw new IllegalArgumentException("trying to copy a directory to a file");
-            else if (!to.exists())
+
+            if (!to.exists())
                 to.mkdir();
 
             final List<File> files = Files.listAll(from.getAbsoluteFile());
