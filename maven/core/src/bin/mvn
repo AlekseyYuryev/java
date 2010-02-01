@@ -96,7 +96,8 @@ updatePOM() {
 
 		# Read pom-template.properties and sort the contents by the number of "."
 		# characters in the name of each name=value pair (in descending order).
-		PROPERTIES=`awk -F\. '{print NF " " $0} ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v '^$\|^\S*#'`
+		# PROPERTIES=`awk -F\. '{print NF " " $0} ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v '^$\|^\S*#'`
+		PROPERTIES=`sed 's/^ *//g' $FP_POM_TEMPLATE_PROPERTIES | grep -v '^$\|^\S*#' | sed '1!G;h;$!d'`
 
 		# Generate a script to replace all occurances of each property with its value
 		# such that ${name} gets replaced with value. Also replace all references to
