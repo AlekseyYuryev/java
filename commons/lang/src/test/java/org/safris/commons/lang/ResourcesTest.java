@@ -23,7 +23,19 @@ import static org.junit.Assert.*;
 
 public class ResourcesTest {
     private static final File JAVA_HOME = new File(System.getProperty("java.home").replace(" ", "%20"));
-    private static final File RT_JAR = new File(JAVA_HOME, "lib/rt.jar");
+    private static final File RT_JAR;
+
+	static {
+		try {
+			if (System.getProperty("os.name").contains("Mac"))
+				RT_JAR = new File(JAVA_HOME, "../Classes/classes.jar").getCanonicalFile();
+			else
+				RT_JAR = new File(JAVA_HOME, "lib/rt.jar");
+		}
+		catch(Exception e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 
     public static void main(String[] args) throws Exception {
         final ResourcesTest resourcesTest = new ResourcesTest();
