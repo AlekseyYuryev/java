@@ -143,4 +143,22 @@ public class JavaProject {
     public Solution getSolution() {
         return solution;
     }
+
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+
+		if(!(obj instanceof JavaProject))
+			return false;
+
+		final JavaProject that = (JavaProject)obj;
+		return (name != null ? name.equals(that.name) : that.name == null) && (dir != null ? dir.equals(that.dir) : that.dir == null);
+	}
+
+	public int hashCode() {
+		int hashCode = 7;
+		hashCode ^= name != null ? name.hashCode() : -1;
+		hashCode ^= dir != null ? dir.hashCode() : -1;
+		return hashCode;
+	}
 }
