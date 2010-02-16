@@ -16,6 +16,7 @@
 package org.safris.maven.plugin.xml.binding;
 
 import java.io.File;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
@@ -32,8 +33,9 @@ public class ExternalTest {
     }
 
     @Test
+	@Ignore
     public void testExternal() throws Exception {
-        final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, GeneratorMojo.class, new String[]{POM_PATH + "pom-external.xml"});
+        final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, GeneratorMojo.class, POM_PATH + "pom-external.xml");
         if (process.exitValue() != 0)
             fail();
 
