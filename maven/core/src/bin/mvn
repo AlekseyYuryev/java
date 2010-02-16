@@ -118,7 +118,7 @@ scanUpdatePOMs() {
 	[ "$SUPOM_TEMPLATE" != "$DEFAULT_POM_TEMPLATE" ] && SUPOM_ROOT="`dirname $SUPOM_TEMPLATE`"
 
 	# Find all pom*-template.xml files and write them to pom.xml.
-	SUP_TEMPLATES=`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\+ //'`
+	SUP_TEMPLATES=`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\{1,\} //'`
 	for POM_TEMPLATE in $SUP_TEMPLATES; do
 		[ "$DEBUG" ] && echo "\t2\tscanUpdatePOMs()::for($POM_TEMPLATE)"
 
@@ -308,10 +308,10 @@ fi
 
 if [ $DEPENDENCY_SCAN ]; then
 	PWD="`pwd`"
-	MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e 's/^[?A-Z]\s\+//' -e 's/\/src.*//' | xargs -L 1 echo $PWD~~~~ | sed -e 's/~~~~ /\//' -e 's/^.*trunk\///' -e 's/^/org.safris./' -e 's/\//./g' | xargs echo | sed 's/ /:\\\|/g'`
+	MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e 's/^[?A-Z]\s\{1,\}//' -e 's/\/src.*//' | xargs -L 1 echo $PWD~~~~ | sed -e 's/~~~~ /\//' -e 's/^.*trunk\///' -e 's/^/org.safris./' -e 's/\//./g' | xargs echo | sed 's/ /:\\\|/g'`
 	echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
 	echo 'Key: MODULE_1 --> MODULE_2'
-	$MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\+:[^:]\+\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '
+	$MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\{1,\}:[^:]\{1,\}\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '
 	exit 0
 fi
 
@@ -331,6 +331,6 @@ updateChildPOMs $POM_TEMPLATE
 
 # For each task listed on the command line, set a property like:
 # -Dtask-segment:${task-segment}=true
-TASK_SEGMENTS="`echo $ARGS | sed 's/\(\"\)\|\(-f [^ ]\+\)\|\(-[\.:a-zA-Z0-9]\+\(\=\(\S\)\+\)\?\)//g' | sed 's/\(\(^\)\|\( \)\)\([\"]\?[\.:a-zA-Z0-9]\+\)/ -Dtask-segment:\4=true/g'`"
+TASK_SEGMENTS="`echo $ARGS | sed 's/\"//g' | sed 's/-f [^ ]*//g' | sed 's/-[\.:a-zA-Z0-9]*\(\=\(\S\)\{1,\}\)\{0,1\}//g' | sed 's/^/ /' | sed 's/\(\"\{0,1\}[\.:a-zA-Z0-9]\{1,\}\)/ -Dtask-segment:\1=true/g'`"
 
 sh -c "$MVN $TASK_SEGMENTS $ARGS"
