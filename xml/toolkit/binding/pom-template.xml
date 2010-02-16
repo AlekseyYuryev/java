@@ -50,6 +50,11 @@
 					<descriptors>
 						<descriptor>src/main/assembly/scripts.xml</descriptor>
 					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>org.safris.xml.toolkit.binding.Generator</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
