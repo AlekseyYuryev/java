@@ -15,6 +15,7 @@
 
 package org.safris.commons.net.mail;
 
+import java.security.Security;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -46,26 +47,47 @@ public final class MailClient {
         if (body == null)
             throw new NullPointerException("body == null");
 
-        final boolean debug = false;
+        final boolean debug = true;
+		final String protocol = "smtp";
+		final int port = 25;
 
-        //Set the host smtp address
+		//System.setProperty("javax.net.debug", "ssl,handshake");
+
         final Properties properties = new Properties();
-        if (credentials != null && credentials.getHostname() != null)
-            properties.put("mail.smtp.host", credentials.getHostname());
+		properties.put("mail.transport.protocol", protocol);
+		properties.put("mail.from", from);
 
-        properties.put("mail.smtp.auth", Boolean.toString(credentials != null));
+		properties.put("mail." + protocol + ".debug", Boolean.toString(debug));
+		properties.put("mail." + protocol + ".port", port);
+		properties.put("mail." + protocol + ".quitwait", "false");
+		if("smtps".equals(protocol)) {
+			properties.put("mail." + protocol + ".ssl.enable", "true");
+			properties.put("mail." + protocol + ".ssl.protocols","SSLv3 TLSv1");
+			properties.put("mail." + protocol + ".starttls.enable", "true");
+			properties.put("mail." + protocol + ".starttls.required", "true");
+			properties.put("mail." + protocol + ".socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			properties.put("mail." + protocol + ".socketFactory.port", port);
+			properties.put("mail." + protocol + ".socketFactory.fallback", "false");
+		}
+
         final Session session;
         if (credentials != null) {
+			if (credentials.getHostname() != null)
+				properties.put("mail." + protocol + ".host", credentials.getHostname());
+
+			properties.put("mail." + protocol + ".auth", Boolean.toString(true));
+			properties.put("mail." + protocol + ".ehlo", "false");
+			properties.put("mail." + protocol + ".user", credentials.getUsername());
             final Authenticator authenticator = new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(credentials.getUsername(), credentials.getPassword());
                 }
             };
 
-            session = Session.getDefaultInstance(properties, authenticator);
+            session = Session.getInstance(properties, authenticator);
         }
         else
-            session = Session.getDefaultInstance(properties);
+            session = Session.getInstance(properties);
 
         session.setDebug(debug);
 
@@ -73,8 +95,7 @@ public final class MailClient {
         final Message message = new MimeMessage(session);
 
         // set the from and to address
-        final InternetAddress addressFrom = new InternetAddress(from);
-        message.setFrom(addressFrom);
+        message.setFrom(new InternetAddress(from));
 
         final InternetAddress[] addressesTo = new InternetAddress[to.length];
         for (int i = 0; i < to.length; i++)
@@ -86,7 +107,19 @@ public final class MailClient {
         message.setSubject(subject);
         message.setText(body);
 
-        Transport.send(message);
+		if(credentials != null) {
+			final Transport transport = session.getTransport(protocol);
+			message.saveChanges();
+			try {
+				transport.connect(credentials.getHostname(), port, credentials.getUsername(), credentials.getPassword());
+				transport.sendMessage(message, message.getAllRecipients());
+			}
+			finally {
+				transport.close();
+			}
+		}
+		else
+			Transport.send(message, message.getAllRecipients());
     }
 
     private MailClient() {
