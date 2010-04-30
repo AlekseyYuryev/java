@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
-    protected static class Entry<K extends Comparable<K>,V> implements Comparable<Entry<K,V>>, Map.Entry<K,V> {
+    public static final class Entry<K extends Comparable<K>,V> implements Comparable<Entry<K,V>>, Map.Entry<K,V> {
         private final K key;
         private V value;
 
