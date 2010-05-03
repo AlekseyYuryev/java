@@ -16,9 +16,7 @@
 
 <xs:schema
 	elementFormDefault="qualified"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jp="http://www.omnicore.com/java-project-3.xsd"
-	targetNamespace="http://www.omnicore.com/java-project-3.xsd">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
 	<xs:element name="buildProperties">
 		<xs:complexType>
@@ -43,7 +41,7 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element name="string" type="xs:string"/>
-										<xs:element ref="jp:buildProperties"/>
+										<xs:element ref="buildProperties"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>

@@ -94,11 +94,6 @@
 			<version>${dev:org.safris.xml.generator.compiler}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.safris.ide</groupId>
-			<artifactId>common</artifactId>
-			<version>${dev:org.safris.ide.common}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.safris.maven.plugin</groupId>
 			<artifactId>dependency</artifactId>
 			<version>${dev:org.safris.maven.plugin.dependency}</version>

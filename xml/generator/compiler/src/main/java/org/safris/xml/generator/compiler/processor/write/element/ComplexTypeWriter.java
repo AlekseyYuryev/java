@@ -72,7 +72,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
     }
 
     protected void appendClass(StringWriter writer, T plan, Plan parent) {
-        writer.write("package " + plan.getPackageName() + ";\n");
+		writer.write("package " + plan.getPackageName() + ";\n");
 
         writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
         writer.write("public abstract class " + plan.getClassSimpleName() + "<T extends " + ComplexType.class.getName() + "> extends " + plan.getSuperClassNameWithType() + "\n");

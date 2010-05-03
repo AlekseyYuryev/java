@@ -59,7 +59,8 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
             return null;
 
         if (model.getParent() instanceof SchemaModel || UniqueQName.XS.getNamespaceURI().equals(model.getName().getNamespaceURI()))
-            return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
+			return model.getName().getNamespaceURI().getPackageName().toString() + "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
+
 
         Model check = model;
         while ((check = check.getParent()) != null)
@@ -67,15 +68,14 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
                 return getClassName((AliasModel)check, null) + "." + JavaBinding.getClassSimpleName(model);
 
         if (parent != null) {
-            do
-            {
+            do {
                 if (parent instanceof AliasModel && ((AliasModel)parent).getName() != null)
                     return getClassName((AliasModel)parent, null) + "." + JavaBinding.getClassSimpleName(model);
             }
             while((parent = parent.getParent()) != null);
         }
 
-        return model.getName().getNamespaceURI().getPackageName() + "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
+        return model.getName().getNamespaceURI().getPackageName().toString() + "." + JavaBinding.getClassSimpleName(model) + (inconvertible ? getInconvertibleType((AliasModel)model) : "");
     }
 
     private DocumentationPlan documentation = null;

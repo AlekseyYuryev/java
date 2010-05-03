@@ -86,6 +86,9 @@ public final class Paths {
         if (url == null)
             return null;
 
+        if (url.length() == 0)
+            return "";
+
         if (url.endsWith("/"))
             url = url.substring(0, url.length() - 1);
 

@@ -19,6 +19,9 @@ public class PackageName {
     private final String packageName;
 
     public PackageName(String packageName) {
+		if (packageName == null)
+			throw new NullPointerException("packageName == null");
+
         this.packageName = packageName;
     }
 

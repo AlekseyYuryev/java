@@ -190,8 +190,11 @@ public final class NamespaceBinding {
     }
 
     private static String getPackageFromNamespace(String uri, boolean useJaxRpcRules) {
+		if(uri == null)
+			throw new NullPointerException("uri == null");
+
         // special case: no namespace -> package "noNamespace"
-        if (uri == null || uri.length() == 0)
+        if (uri.length() == 0)
             return "noNamespace";
 
         // apply draft JAXB rules

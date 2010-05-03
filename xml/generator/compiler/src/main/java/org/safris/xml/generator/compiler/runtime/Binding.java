@@ -400,7 +400,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
             name = _$$getName();
 
         Element element = parent;
-        if (parent.getPrefix() != null)
+        if (parent.getPrefix() != null || parent.getNamespaceURI() == null)
             element = parent.getOwnerDocument().createElementNS(name.getNamespaceURI(), name.getLocalPart());
 
         element.setPrefix(_$$getPrefix(parent, name));

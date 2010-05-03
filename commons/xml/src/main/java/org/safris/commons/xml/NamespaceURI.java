@@ -33,6 +33,9 @@ public final class NamespaceURI {
     private final PackageName packageName;
 
     private NamespaceURI(String namespaceURI) {
+		if(namespaceURI == null)
+			throw new NullPointerException("namespaceURI == null");
+
         this.namespaceURI = namespaceURI;
         this.packageName = new PackageName(NamespaceBinding.getPackageFromNamespace(namespaceURI));
     }

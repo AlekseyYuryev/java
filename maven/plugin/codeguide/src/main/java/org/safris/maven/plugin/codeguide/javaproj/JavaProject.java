@@ -15,14 +15,14 @@
 
 package org.safris.maven.plugin.codeguide.javaproj;
 
-import com.omnicore.javaproject3.jp_javaProject3;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
-import org.safris.commons.xml.XMLException;
+import noNamespace._javaProject3;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.safris.commons.lang.PackageLoader;
 import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -38,7 +38,7 @@ public class JavaProject {
     private Set<GroupArtifact> dependencies = null;
     private Set<File> classpathReferences = null;
     private Set<JavaProject> projectReferences = null;
-    private Collection<jp_javaProject3._startingPoints._startingPoint> startingPoints = null;
+    private Collection<_javaProject3._startingPoints._startingPoint> startingPoints = null;
     private boolean startingPointsSearched = false;
     private Solution solution = null;
 
@@ -106,7 +106,7 @@ public class JavaProject {
     }
 
     // FIXME: Fix all this here...
-    public Collection<jp_javaProject3._startingPoints._startingPoint> getStartingPoints() {
+    public Collection<_javaProject3._startingPoints._startingPoint> getStartingPoints() throws MojoExecutionException {
         if (startingPointsSearched)
             return startingPoints;
 
@@ -116,17 +116,15 @@ public class JavaProject {
 
             final File javaprojXML = new File(getDir(), getShortName() + ".javaproj");
             try {
+				final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(_javaProject3.class.getPackage().getName());
                 if (javaprojXML.exists()) {
-                    final jp_javaProject3 javaProject3 = (jp_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
+                    final _javaProject3 javaProject3 = (_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
                     if (javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
                         this.startingPoints = javaProject3.get_startingPoints().get(0).get_startingPoint();
                 }
             }
-            catch (XMLException e) {
-                System.err.println(e.getMessage());
-            }
-            catch (FileNotFoundException e) {
-                System.err.println(e.getMessage());
+            catch (Exception e) {
+				throw new MojoExecutionException(e.getMessage(), e);
             }
             finally {
                 startingPointsSearched = true;

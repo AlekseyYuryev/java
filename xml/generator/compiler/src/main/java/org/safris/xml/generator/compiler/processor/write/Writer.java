@@ -73,7 +73,7 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
         try {
             final String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
             if (pkg == null) {
-                System.err.println("The binding configuration does not specify package for " + ((Nameable)plan).getName().getNamespaceURI());
+                System.err.println("The binding configuration does not specify a package for " + ((Nameable)plan).getName().getNamespaceURI());
                 System.exit(1);
             }
 

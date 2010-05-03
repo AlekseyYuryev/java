@@ -275,7 +275,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
         if (plan.getName() == null)
             throw new CompilerError("Why are we trying to write a class that has no name?");
 
-        writer.write("package " + plan.getPackageName() + ";\n");
+		writer.write("package " + plan.getPackageName() + ";\n");
 
         writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
         writer.write("public abstract class " + plan.getClassSimpleName() + "<T extends " + BindingType.class.getName() + "> extends " + plan.getSuperClassNameWithType() + "\n");

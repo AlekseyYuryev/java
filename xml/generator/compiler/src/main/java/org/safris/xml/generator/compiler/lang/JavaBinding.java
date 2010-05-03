@@ -15,6 +15,7 @@
 
 package org.safris.xml.generator.compiler.lang;
 
+import org.safris.commons.xml.PackageName;
 import org.safris.commons.xml.Prefix;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -56,9 +57,9 @@ public final class JavaBinding {
         if (!(model instanceof Nameable) || ((Nameable)model).getName() == null)
             throw new CompilerError("Method being called on a model with no name");
 
-        final String pkg = ((Nameable)model).getName().getNamespaceURI().getPackageName() + ".";
+        final String pkg = ((Nameable)model).getName().getNamespaceURI().getPackageName().toString();
         final String simpleName = getClassSimpleName(model);
-        return pkg + simpleName;
+        return pkg + "." + simpleName;
     }
 
     private static boolean isRef(Model model) {

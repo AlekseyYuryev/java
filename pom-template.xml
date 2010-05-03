@@ -24,13 +24,10 @@
 	<version>${dev:org.safris}</version>
 	<packaging>pom</packaging>
 	<name>${groupId}.${artifactId}</name>
-	<description>
-		All projects under org.safris.
-	</description>
+	<description> All projects under org.safris. </description>
 	<modules>
 		<module>commons</module>
 		<module>xml</module>
-		<module>ide</module>
 		<module>ant</module>
 		<module>maven</module>
 		<!--<module>web</module>-->
@@ -49,28 +46,7 @@
 	</licenses>
 	<developers>
 		<developer>
-			<id>ayuryev</id>
-			<name>Alex Yuryev</name>
-			<email>ayuryev@safris.org</email>
-			<organization>Safris Technologies</organization>
-			<organizationUrl>safris.com</organizationUrl>
-		</developer>
-		<developer>
-			<id>jprice</id>
-			<name>Jeff Price</name>
-			<email>jprice@safris.org</email>
-			<organization>EA</organization>
-			<organizationUrl>ea.com</organizationUrl>
-		</developer>
-		<developer>
-			<id>mpernia</id>
-			<name>Marc Pernia</name>
-			<email>mpernia@safris.org</email>
-			<organization>Exobox Technologies Inc.</organization>
-			<organizationUrl>exobox.com</organizationUrl>
-		</developer>
-		<developer>
-			<id>ssafris</id>
+			<id>seva</id>
 			<name>Seva Safris</name>
 			<email>seva@safris.org</email>
 			<organization>Safris Technologies</organization>
@@ -199,6 +175,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.1</version>
 				<executions>
 					<execution>
 						<phase>verify</phase>
@@ -207,6 +184,16 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>**/*.class</exclude>
+						<exclude>**/*.jar</exclude>
+					</excludes>
+					<!--<includes>
+						<include>LICENSE.txt</include>
+						<include>pom.xml</include>
+					</includes>-->
+				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>

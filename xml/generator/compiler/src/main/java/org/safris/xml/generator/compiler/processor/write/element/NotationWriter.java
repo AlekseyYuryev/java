@@ -57,7 +57,7 @@ public class NotationWriter extends Writer<NotationPlan> {
     }
 
     protected void appendClass(StringWriter writer, NotationPlan plan, Plan parent) {
-        writer.write("package " + plan.getPackageName() + ";\n");
+		writer.write("package " + plan.getPackageName() + ";\n");
 
         // DOCUMENTATION
         writer.write(plan.getDocumentation());
