@@ -27,9 +27,10 @@ import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
+import org.safris.xml.generator.compiler.runtime.MarshalException;
 
 public class JavaProjectWriter {
-    public static void write(JavaProject javaProject) throws IOException, MojoExecutionException, XMLException {
+    public static void write(JavaProject javaProject) throws IOException, MarshalException, MojoExecutionException, XMLException {
         final _javaProject3 javaProject3 = createJavaProject(javaProject);
         final String xml = DOMs.domToString(javaProject3.marshal(), DOMStyle.INDENT, DOMStyle.IGNORE_NAMESPACES);
         final FileOutputStream out = new FileOutputStream(new File(javaProject.getDir(), javaProject.getShortName() + ".javaproj"));

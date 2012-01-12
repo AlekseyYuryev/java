@@ -19,83 +19,83 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class IdentityArrayList<E> extends ArrayList<E> {
-    private final Object lock = new Object();
+  private final Object mutex = new Object();
 
-    public IdentityArrayList(int initialCapacity) {
-        super(initialCapacity);
+  public IdentityArrayList(final int initialCapacity) {
+    super(initialCapacity);
+  }
+
+  public IdentityArrayList(final Collection<? extends E> c) {
+    super(c);
+  }
+
+  public IdentityArrayList() {
+    super();
+  }
+
+  public boolean contains(final Object o) {
+    return indexOf(o) > -1;
+  }
+
+  public int indexOf(final Object o) {
+    for (int i = 0; i < size(); i++)
+      if (o == get(i))
+        return i;
+
+    return -1;
+  }
+
+  public int lastIndexOf(final Object o) {
+    for (int i = size() - 1; i >= 0; i--)
+      if (o == get(i))
+        return i;
+
+    return -1;
+  }
+
+  public boolean remove(final Object o) {
+    synchronized (mutex) {
+      final int index = indexOf(o);
+      if (index < 0)
+        return false;
+
+      return super.remove(index) != null;
+    }
+  }
+
+  public boolean removeAll(final Collection<?> c) {
+    if (c == null)
+      return false;
+
+    final int size = size();
+    for (Object o : c)
+      remove(o);
+
+    return size != size();
+  }
+
+  public boolean retainAll(final Collection<?> c) {
+    if (c == null)
+      return false;
+
+    if (c.size() == 0 && size() != 0) {
+      clear();
+      return true;
     }
 
-    public IdentityArrayList(Collection<? extends E> c) {
-        super(c);
+    boolean modified = false;
+    OUT:
+    for (int i = 0; i < c.size(); i++) {
+      synchronized (mutex) {
+        final Object o = get(i);
+        for (final Object obj : c)
+          if (obj == o)
+            continue OUT;
+
+        modified = remove(i) != null || modified;
+      }
     }
 
-    public IdentityArrayList() {
-        super();
-    }
-
-    public boolean contains(Object elem) {
-        return indexOf(elem) > -1;
-    }
-
-    public int indexOf(Object elem) {
-        for (int i = 0; i < size(); i++)
-            if (elem == get(i))
-                return i;
-
-        return -1;
-    }
-
-    public int lastIndexOf(Object elem) {
-        for (int i = size() - 1; i >= 0; i--)
-            if (elem == get(i))
-                return i;
-
-        return -1;
-    }
-
-    public boolean remove(Object o) {
-        synchronized (lock) {
-            final int index = this.indexOf(o);
-            if (index < 0)
-                return false;
-
-            return super.remove(index) != null;
-        }
-    }
-
-    public boolean removeAll(Collection<?> c) {
-        if (c == null)
-            return false;
-
-        boolean modified = false;
-        for (Object o : c)
-            modified = remove(o) || modified;
-
-        return modified;
-    }
-
-    public boolean retainAll(Collection<?> c) {
-        if (c == null)
-            return false;
-
-        if (c.size() == 0 && size() != 0) {
-            clear();
-            return true;
-        }
-
-        boolean modified = false;
-OUT:
-        for (int i = 0; i < c.size(); i++) {
-            synchronized (lock) {
-                final Object o = get(i);
-                for (final Object obj : c)
-                    if (obj == o)
-                        continue OUT;
-
-                modified = remove(i) != null || modified;
-            }
-        }
-
-        return modified;
-    }
+    return modified;
+  }
 }

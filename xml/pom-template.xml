@@ -39,6 +39,7 @@
 					<name>!task-segment:site</name>
 				</property>
 			</activation>
+			<!--
 			<build>
 				<plugins>
 					<plugin>
@@ -56,6 +57,7 @@
 					</plugin>
 				</plugins>
 			</build>
+			-->
 		</profile>
 	</profiles>
 	<build>

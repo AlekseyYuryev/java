@@ -34,8 +34,38 @@ public class EnumerationPlan extends Plan<EnumerationModel> {
         if (value.getPrefix() != null && value.getPrefix().toString().length() != 0)
             string = value.getPrefix() + "_" + string;
 
+        string = string.replace("_", "__");
+        string = string.replace('~', '_');
         string = string.replace('.', '_');
+        string = string.replace(' ', '_');
         string = string.replace('-', '_');
+        string = string.replace('=', '_');
+        string = string.replace('+', '_');
+        string = string.replace('|', '_');
+        string = string.replace('@', '_');
+        string = string.replace("!", "");
+        string = string.replace("@", "");
+        string = string.replace("#", "");
+        string = string.replace("%", "");
+        string = string.replace("^", "");
+        string = string.replace("&", "");
+        string = string.replace("*", "");
+        string = string.replace("(", "");
+        string = string.replace(")", "");
+        string = string.replace("{", "");
+        string = string.replace("}", "");
+        string = string.replace("[", "");
+        string = string.replace("]", "");
+        string = string.replace("|", "");
+        string = string.replace(";", "");
+        string = string.replace(":", "");
+        string = string.replace("<", "");
+        string = string.replace(">", "");
+        string = string.replace(",", "");
+        string = string.replace("?", "");
+        string = string.replace("\\", "");
+        string = string.replace("/", "");
+        string = string.replace("(", "");
         return string.toUpperCase();
     }
 

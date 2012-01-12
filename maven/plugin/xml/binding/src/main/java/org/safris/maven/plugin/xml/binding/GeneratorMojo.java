@@ -235,14 +235,18 @@ public class GeneratorMojo extends AbstractMojo {
             for (Bundle bundle : bundles) {
                 for (String element : (List<String>)project.getTestClasspathElements()) {
                     final File elementFile = new File(element);
-                    if (!elementFile.isFile())
-                        Zips.unzip(bundle.getFile(), classesFilter, elementFile);
+                    if (!elementFile.isFile()) {
+						elementFile.delete();
+                        Zips.unzip(bundle.getFile(), elementFile, classesFilter);
+					}
                 }
 
                 for (String element : (List<String>)project.getCompileClasspathElements()) {
                     final File elementFile = new File(element);
-                    if (!elementFile.isFile())
-                        Zips.unzip(bundle.getFile(), classesFilter, elementFile);
+                    if (!elementFile.isFile()) {
+						elementFile.delete();
+                        Zips.unzip(bundle.getFile(), elementFile, classesFilter);
+					}
                 }
             }
         }

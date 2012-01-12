@@ -555,11 +555,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 			}
 		}
 
-		if (plan.getName().getLocalPart().contains("workDays") || plan.getName().getLocalPart().contains("position")) {
-			Plan superType = plan.getSuperType();
-			int i = 0;
-		}
-
 		if (plan.isList() && plan.getSuperType() == null) {
 			writer.write("protected void _$$decode(" + Element.class.getName() + " parent, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
 			writer.write("{\n");

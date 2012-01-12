@@ -15,6 +15,8 @@
 
 package org.safris.commons.xml.binding;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class DateTime {
@@ -39,6 +41,7 @@ public class DateTime {
 
     private final Date date;
     private final Time time;
+    private final long epochTime;
 
     protected DateTime(Date date, Time time) {
         if (date == null)
@@ -49,14 +52,19 @@ public class DateTime {
 
         this.date = date;
         this.time = time;
+        epochTime = java.util.Date.UTC(date.getYear() - 1900, date.getMonth() - 1, date.getDay(), time.getHour(), time.getMinute(), (int)time.getSecond()) + ((int)(time.getSecond() * 1000) - (int)time.getSecond() * 1000) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
     }
 
     public DateTime(int year, int month, int day, int hour, int minute, float second, TimeZone timeZone) {
-        this(new Date(year, month, day), new Time(hour, minute, second, timeZone));
+        this(new Date(year, month, day, timeZone), new Time(hour, minute, second, timeZone));
     }
 
     public DateTime(int year, int month, int day, int hour, int minute, float second) {
         this(year, month, day, hour, minute, second, null);
+    }
+
+    public DateTime(long time, TimeZone timeZone) {
+      this(new Date(time, timeZone), new Time(time, timeZone));
     }
 
     public DateTime(long time) {
@@ -95,6 +103,10 @@ public class DateTime {
         return time.getTimeZone();
     }
 
+    public long getTime() {
+      return epochTime;
+    }
+
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
@@ -110,15 +122,19 @@ public class DateTime {
         return (date != null ? date.hashCode() : -1) + (time != null ? time.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
         if (date != null)
-            buffer.append(date);
+            buffer.append(date.toEmbededString());
 
         buffer.append("T");
         if (time != null)
-            buffer.append(time);
+            buffer.append(time.toEmbededString());
 
         return buffer.toString();
+    }
+
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(getTimeZone())).toString();
     }
 }

@@ -68,7 +68,7 @@ public class Month {
         return month;
     }
 
-    protected static int MONTH_FRAG_MIN_LENGTH = 2;
+    protected static final int MONTH_FRAG_MIN_LENGTH = 2;
     private static final String PAD_FRAG = "--";
 
     private final int month;
@@ -79,7 +79,7 @@ public class Month {
         if (month < 0 || 12 < month)
             throw new IllegalArgumentException("month == " + month);
 
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
     }
 
     public Month(int month) {
@@ -89,7 +89,7 @@ public class Month {
     public Month(long time) {
         final java.util.Date date = new java.util.Date(time);
         this.month = date.getMonth() + 1;
-        this.timeZone = null;
+        this.timeZone = TimeZone.getDefault();
     }
 
     public Month() {
@@ -119,19 +119,17 @@ public class Month {
         return month ^ 13 + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
         if (month < 10)
             buffer.append("--0").append(month);
         else
             buffer.append("--").append(month);
 
-        if (timeZone == null)
-            return buffer.toString();
+        return buffer.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
-
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

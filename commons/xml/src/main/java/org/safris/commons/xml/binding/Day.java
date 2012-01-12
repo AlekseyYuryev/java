@@ -82,7 +82,7 @@ public class Day {
         if (day < 0 || 31 < day)
             throw new IllegalArgumentException("day == " + day);
 
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
     }
 
     public Day(int day) {
@@ -92,7 +92,7 @@ public class Day {
     public Day(long time) {
         final java.util.Date date = new java.util.Date(time);
         this.day = date.getDate();
-        this.timeZone = null;
+        this.timeZone = TimeZone.getDefault();
     }
 
     public Day() {
@@ -122,19 +122,17 @@ public class Day {
         return day ^ 17 + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer string = new StringBuffer();
         if (day < 10)
             string.append("---0").append(day);
         else
             string.append("---").append(day);
 
-        if (timeZone == null)
-            return string.toString();
+        return string.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return string.append("Z").toString();
-
-        return string.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

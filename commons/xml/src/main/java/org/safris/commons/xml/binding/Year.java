@@ -15,7 +15,9 @@
 
 package org.safris.commons.xml.binding;
 
+import java.util.Calendar;
 import java.util.TimeZone;
+import org.safris.commons.util.CalendarUtil;
 
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gYear
@@ -76,24 +78,28 @@ public class Year {
         }
     }
 
-    protected static int YEAR_FRAG_MIN_LENGTH = 4;
+    protected static final int YEAR_FRAG_MIN_LENGTH = 4;
 
     private final int year;
     private final TimeZone timeZone;
+    private final long epochTime;
 
     public Year(int year, TimeZone timeZone) {
         this.year = year;
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
+        epochTime = java.util.Date.UTC(year - 1900, 0, 1, 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
     }
 
     public Year(int year) {
         this(year, null);
     }
 
+    public Year(long time, TimeZone timeZone) {
+      this(CalendarUtil.newCalendar(time, timeZone).get(Calendar.YEAR), null);
+    }
+
     public Year(long time) {
-        final java.util.Date date = new java.util.Date(time);
-        this.year = date.getYear() + 1900;
-        this.timeZone = null;
+      this(CalendarUtil.newCalendar(time).get(Calendar.YEAR), null);
     }
 
     public Year() {
@@ -106,6 +112,10 @@ public class Year {
 
     public TimeZone getTimeZone() {
         return timeZone;
+    }
+
+    public long getTime() {
+        return epochTime;
     }
 
     public boolean equals(Object obj) {
@@ -123,7 +133,7 @@ public class Year {
         return year ^ 5 + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
         if (year < 10)
             buffer.append("000").append(year);
@@ -134,12 +144,10 @@ public class Year {
         else
             buffer.append(year);
 
-        if (timeZone == null)
-            return buffer.toString();
+        return buffer.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
-
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

@@ -67,10 +67,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     }
 
     protected boolean remove(Object o, boolean removeFromAudit) {
-        if (!(o instanceof Binding))
-            return false;
-
-        if (!contains(o))
+        if (!(o instanceof Binding) || !contains(o))
             return false;
 
         final boolean listModified = super.remove(o);
@@ -85,7 +82,32 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     }
 
     public boolean remove(Object o) {
-        return remove(o, true);
+        final boolean retVal = remove(o, true);
+        if (size() == 0)
+            elementAudit.reset();
+
+        return retVal;
+    }
+
+    public boolean removeAll(Collection<?> c) {
+        final boolean retVal = super.removeAll(c);
+        if (size() == 0)
+            elementAudit.reset();
+
+        return retVal;
+    }
+
+    public boolean retainAll(Collection<?> c) {
+        final boolean retVal = super.retainAll(c);
+        if (size() == 0)
+            elementAudit.reset();
+
+        return retVal;
+    }
+
+    public void clear() {
+        super.clear();
+        elementAudit.reset();
     }
 
     public Iterator iterator() {

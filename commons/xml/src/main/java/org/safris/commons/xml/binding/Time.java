@@ -15,7 +15,9 @@
 
 package org.safris.commons.xml.binding;
 
+import java.util.Calendar;
 import java.util.TimeZone;
+import org.safris.commons.util.CalendarUtil;
 
 /**
  * http://www.w3.org/TR/xmlschema11-2/#time
@@ -39,12 +41,7 @@ public class Time {
         if (index == -1)
             index = string.indexOf("+", SECOND_FRAG_MIN_LENGTH);
 
-        final TimeZone timeZone;
-        if (index != -1)
-            timeZone = parseTimeZoneFrag(string.substring(index));
-        else
-            timeZone = null;
-
+        final TimeZone timeZone = index != -1 ? parseTimeZoneFrag(string.substring(index)) : null;
         return new Time(hour, minute, second, timeZone);
     }
 
@@ -138,6 +135,21 @@ public class Time {
         return timeZone;
     }
 
+    protected static String formatTimeZone(TimeZone timeZone) {
+        if (timeZone == null)
+            return "";
+
+        if (DateTime.GMT.equals(timeZone))
+            return "Z";
+
+        int offset = (timeZone.getRawOffset() + timeZone.getDSTSavings()) / 60000;
+        final boolean negative = offset < 0;
+        offset = Math.abs(offset);
+        final int hourTZ = offset / 60;
+        final int minsTZ = offset - hourTZ * 60;
+        return (negative ? "-" : "+") + (hourTZ < 10 ? "0" + hourTZ : String.valueOf(hourTZ)) + ":" + (minsTZ < 10 ? "0" + minsTZ : String.valueOf(minsTZ));
+    }
+
     protected static final int HOUR_FRAG_MIN_LENGTH = 2;
     protected static final int MINUTE_FRAG_MIN_LENGTH = 2;
     protected static final int SECOND_FRAG_MIN_LENGTH = 2;
@@ -161,19 +173,24 @@ public class Time {
         if (60 < second || second < 0)
             throw new IllegalArgumentException("second == " + second);
 
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
     }
 
     public Time(int hours, int minutes, float seconds) {
         this(hours, minutes, seconds, null);
     }
 
+    public Time(long time, TimeZone timeZone) {
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
+
+        final Calendar calendar = CalendarUtil.newCalendar(time, this.timeZone);
+        this.hour = calendar.get(Calendar.HOUR);
+        this.minute = calendar.get(Calendar.MINUTE);
+        this.second = calendar.get(Calendar.SECOND) + (float)calendar.get(Calendar.MILLISECOND) / 1000f;
+    }
+
     public Time(long time) {
-        final java.util.Date date = new java.util.Date(time);
-        this.hour = date.getHours();
-        this.minute = date.getMinutes();
-        this.second = date.getSeconds() + (float)((time - (int)(time / 1000) * 1000) / 1000);
-        this.timeZone = null;
+        this(time, null);
     }
 
     public Time() {
@@ -211,7 +228,7 @@ public class Time {
         return hour ^ 3 + minute ^ 5 + (int)(second * 1000) ^ 7 + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
         if (hour < 10)
             buffer.append("0").append(hour);
@@ -237,12 +254,19 @@ public class Time {
         else
             buffer.append(second);
 
-        if (timeZone == null)
-            return buffer.toString();
+        // Add trailing ".?00" to conform to XML millisecond standard
+        final int lastDotIndex = buffer.lastIndexOf(".");
+        if (lastDotIndex != -1) {
+            if (buffer.length() - lastDotIndex == 2)
+                buffer.append("00");
+            else if (buffer.length() - lastDotIndex == 3)
+                buffer.append("0");
+        }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
+        return buffer.toString();
+    }
 
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

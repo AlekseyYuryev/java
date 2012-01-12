@@ -66,6 +66,7 @@ public class Date {
     private final YearMonth yearMonth;
     private final Day day;
     private final TimeZone timeZone;
+    private final long epochTime;
 
     protected Date(YearMonth yearMonth, Day day, TimeZone timeZone) {
         if (yearMonth == null)
@@ -77,7 +78,8 @@ public class Date {
         new MonthDay(yearMonth.getMonth(), day.getDay());
         this.yearMonth = yearMonth;
         this.day = day;
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
+        epochTime = java.util.Date.UTC(yearMonth.getYear() - 1900, yearMonth.getMonth() - 1, day.getDay(), 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
     }
 
     public Date(int year, int month, int day, TimeZone timeZone) {
@@ -86,6 +88,10 @@ public class Date {
 
     public Date(int year, int month, int day) {
         this(year, month, day, null);
+    }
+
+    public Date(long time, TimeZone timeZone) {
+      this(new YearMonth(time, timeZone), new Day(time), null);
     }
 
     public Date(long time) {
@@ -127,21 +133,19 @@ public class Date {
         return (yearMonth != null ? yearMonth.hashCode() : -1) + (day != null ? day.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(yearMonth);
+        buffer.append(yearMonth.toEmbededString());
         buffer.append("-");
         if (getDay() < 10)
             buffer.append("0").append(getDay());
         else
             buffer.append(getDay());
 
-        if (timeZone == null)
-            return buffer.toString();
+        return buffer.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
-
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

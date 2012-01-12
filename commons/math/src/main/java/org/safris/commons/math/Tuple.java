@@ -15,7 +15,26 @@
 
 package org.safris.commons.math;
 
-public interface Constants {
-  public static final double LN_2 = 0.6931471805599453d;
-  public static final double LN_10 = 2.302585092994046d;
+import java.util.Comparator;
+
+public class Tuple<X extends Number,Y extends Number> {
+  public static final Comparator<Tuple> comparatorX = new Comparator<Tuple>() {
+    public int compare(Tuple o1, Tuple o2) {
+      return Double.compare(o1.x.doubleValue(), o2.x.doubleValue());
+    }
+  };
+
+  public static final Comparator<Tuple> comparatorY = new Comparator<Tuple>() {
+    public int compare(Tuple o1, Tuple o2) {
+      return Double.compare(o1.y.doubleValue(), o2.y.doubleValue());
+    }
+  };
+
+  public final X x;
+  public final Y y;
+
+  public Tuple(X x, Y y) {
+    this.x = x;
+    this.y = y;
+  }
 }

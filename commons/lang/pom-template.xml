@@ -37,5 +37,10 @@
 			<artifactId>util</artifactId>
 			<version>${dev:org.safris.commons.util}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.0</version>
+		</dependency>
 	</dependencies>
 </project>

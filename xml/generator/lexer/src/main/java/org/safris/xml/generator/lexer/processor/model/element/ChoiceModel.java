@@ -16,7 +16,6 @@
 package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.LinkedHashSet;
-import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
@@ -42,9 +41,6 @@ public class ChoiceModel extends Model implements MultiplicableModel {
     }
 
     public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
-        if (multiplicableModel instanceof Nameable && ((Nameable)multiplicableModel).getName() != null && ((Nameable)multiplicableModel).getName().getLocalPart().equals("inline")) {
-            int i = 0;
-        }
         if (!this.equals(multiplicableModel))
             this.multiplicableModels.add(multiplicableModel);
     }

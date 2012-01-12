@@ -63,10 +63,6 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     }
 
     public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
-        if (multiplicableModel instanceof ChoiceModel && getName().getLocalPart().equals("inline")) {
-            int i = 0;
-        }
-
         if (!this.equals(multiplicableModel))
             this.multiplicableModels.add(multiplicableModel);
     }

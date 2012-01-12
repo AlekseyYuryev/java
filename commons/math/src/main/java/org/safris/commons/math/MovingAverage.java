@@ -15,7 +15,22 @@
 
 package org.safris.commons.math;
 
-public interface Constants {
-  public static final double LN_2 = 0.6931471805599453d;
-  public static final double LN_10 = 2.302585092994046d;
+public final class MovingAverage {
+  private volatile double average = 0d;
+  private volatile double count = 0d;
+
+  public void add(final double ... value) {
+    if (value == null)
+      return;
+
+    average = (average * count + Functions.sum(value)) / (count += value.length);
+  }
+
+  public double getAverage() {
+    return average;
+  }
+
+  public String toString() {
+    return String.valueOf(getAverage());
+  }
 }

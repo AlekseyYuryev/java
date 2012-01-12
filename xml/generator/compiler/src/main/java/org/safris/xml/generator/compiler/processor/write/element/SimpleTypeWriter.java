@@ -155,9 +155,6 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
         writer.write("protected RESTRICTION(" + String.class.getName() + " text)\n");
         writer.write("{\n");
 
-        if ("indefiniteType".equals(plan.getName().getLocalPart())) {
-            int i = 0;
-        }
         if (hasSuperEnumerations)
             writer.write("super(text);\n");
         else if (hasEnumerations) {
@@ -312,10 +309,6 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
         writer.write("{\n");
         writer.write("super(copy);\n");
         writer.write("}\n");
-
-        if (plan.getName().getLocalPart().contains("maxActive")) {
-            int i = 0;
-        }
 
         // ENUMERATIONS CONSTRUCTOR
         getRestrictions(writer, plan, parent);

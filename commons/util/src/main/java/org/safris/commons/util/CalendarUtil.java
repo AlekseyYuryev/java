@@ -13,9 +13,27 @@
  *  limitations under the License.
  */
 
-package org.safris.commons.math;
+package org.safris.commons.util;
 
-public interface Constants {
-  public static final double LN_2 = 0.6931471805599453d;
-  public static final double LN_10 = 2.302585092994046d;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+public final class CalendarUtil {
+  public static Calendar newCalendar(final long time, final TimeZone timeZone) {
+    if (timeZone == null)
+      throw new NullPointerException("timeZone == null");
+
+    final Calendar calendar = Calendar.getInstance(timeZone);
+    calendar.setTimeInMillis(time);
+    return calendar;
+  }
+
+  public static Calendar newCalendar(final long time) {
+    final Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(time);
+    return calendar;
+  }
+
+  private CalendarUtil() {
+  }
 }

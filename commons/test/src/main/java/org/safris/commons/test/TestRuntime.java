@@ -15,8 +15,6 @@
 
 package org.safris.commons.test;
 
-
-
 public final class TestRuntime {
     public static boolean isInIDE() {
         // See if the test is being invoked from IDEA

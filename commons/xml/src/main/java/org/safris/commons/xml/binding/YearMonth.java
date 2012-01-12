@@ -53,6 +53,7 @@ public class YearMonth {
     private final Year year;
     private final Month month;
     private final TimeZone timeZone;
+    private final long epochTime;
 
     protected YearMonth(Year year, Month month, TimeZone timeZone) {
         if (year == null)
@@ -63,19 +64,24 @@ public class YearMonth {
 
         this.year = year;
         this.month = month;
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
+        epochTime = java.util.Date.UTC(year.getYear() - 1900, month.getMonth() - 1, 1, 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
     }
 
     public YearMonth(int year, int month, TimeZone timeZone) {
-        this(new Year(year), new Month(month), timeZone);
+        this(new Year(year, timeZone), new Month(month, timeZone), timeZone);
     }
 
     public YearMonth(int year, int month) {
         this(year, month, null);
     }
 
+    public YearMonth(long time, TimeZone timeZone) {
+      this(new Year(time, timeZone), new Month(time), timeZone);
+    }
+
     public YearMonth(long time) {
-        this(new Year(time), new Month(time), null);
+      this(new Year(time), new Month(time), null);
     }
 
     public YearMonth() {
@@ -94,6 +100,10 @@ public class YearMonth {
         return timeZone;
     }
 
+    public long getTime() {
+        return epochTime;
+    }
+
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
@@ -109,21 +119,19 @@ public class YearMonth {
         return (year != null ? year.hashCode() : -1) + (month != null ? month.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(year);
+        buffer.append(year.toEmbededString());
         buffer.append("-");
         if (getMonth() < 10)
             buffer.append("0").append(getMonth());
         else
             buffer.append(getMonth());
 
-        if (timeZone == null)
-            return buffer.toString();
+        return buffer.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
-
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }

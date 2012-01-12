@@ -26,6 +26,7 @@ import java.util.Map;
 import org.safris.commons.io.Files;
 import org.safris.commons.io.Streams;
 import org.safris.commons.jci.JavaCompiler;
+import org.safris.commons.lang.ClassLoaders;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
@@ -62,6 +63,10 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
 		final File namespaceBindingBase = Resources.getLocationBase(NamespaceBinding.class);
 		if (namespaceBindingBase != null)
 			classpath.add(namespaceBindingBase);
+
+
+		for (URL url : ClassLoaders.getClassPath())
+			classpath.add(new File(url.toURI()));
 
 		new JavaCompiler(destDir, classpath).compile(javaSources);
 	}
@@ -117,9 +122,9 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
 
 				final URL url = schemaComposite.getSchemaDocument().getSchemaReference().getURL();
 
-				final String simpleName = file.getParentFile().getName();
-				final String jarName = simpleName + ".jar";
-				final String xsdName = pkgDir + File.separator + simpleName + ".xsd";
+				final String packageName = Files.relativePath(destDir, file.getParentFile()).replace(File.separatorChar, '.');
+				final String jarName = packageName + ".jar";
+				final String xsdName = pkgDir + File.separator + packageName + ".xsd";
 
 				final File jarFile = new File(destDir, jarName);
 				if (jarFile.exists())

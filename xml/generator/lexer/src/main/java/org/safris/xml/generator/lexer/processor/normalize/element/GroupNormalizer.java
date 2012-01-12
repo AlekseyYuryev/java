@@ -41,8 +41,7 @@ public class GroupNormalizer extends Normalizer<GroupModel> {
         if (model.getName() == null)
             return;
 
-        final GroupModel groupModel = parseGroup(model.getName());
-        if (groupModel == null)
+        if (!all.containsKey(model.getName()))
             all.put(model.getName(), model);
     }
 

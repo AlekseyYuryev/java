@@ -85,6 +85,10 @@ public final class ElementAudit<T extends Binding> {
         return value;
     }
 
+    protected void reset() {
+        value = null;
+    }
+
     private void marshalNil(Element element, Element parent) {
         // NOTE: This makes the assumption that the xmlns:xsi will be present if
         // NOTE: xsi:nil is present, saving us a hasAttributeNS() call.

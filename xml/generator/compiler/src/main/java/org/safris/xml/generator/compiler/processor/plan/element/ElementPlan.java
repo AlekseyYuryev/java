@@ -288,10 +288,6 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
             prior = prior.getRestriction();
         }
 
-        if (AliasPlan.getClassNameWithInconvertible(first.getRestrictionOwner(), null).contains("$pv_addressType")) {
-            int i = 0;
-        }
-
         return declarationRestrictionGeneric = AliasPlan.getClassNameWithInconvertible(first.getRestrictionOwner(), null) + JavaBinding.getClassSimpleName((Model)first);
     }
 

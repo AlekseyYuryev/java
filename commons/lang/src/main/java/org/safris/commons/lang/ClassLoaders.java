@@ -15,6 +15,7 @@
 
 package org.safris.commons.lang;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,8 +25,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import org.apache.tools.ant.AntClassLoader;
 import sun.misc.URLClassPath;
 import sun.reflect.Reflection;
+import java.net.MalformedURLException;
 
 public final class ClassLoaders {
     public static boolean isClassLoaded(ClassLoader classLoader, String name) {
@@ -63,12 +66,27 @@ public final class ClassLoaders {
             final URLClassPath ucp = (URLClassPath)ucpField.get(classLoader);
             final Field lmapField = URLClassPath.class.getDeclaredField("lmap");
             lmapField.setAccessible(true);
-            final Map<URL,Object> lmap = (Map<URL,Object>)lmapField.get(ucp);
-            urls.addAll(lmap.keySet());
+            final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
+						for (String key : lmap.keySet())
+            	urls.add(new URL(key));
         }
         catch (Exception e) {
             // TODO: Oh well, try the regular approach
-            urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
+					if (classLoader instanceof AntClassLoader) {
+            final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
+						if (fullClasspath != null) {
+							final String[] classpaths = fullClasspath.split(File.pathSeparator);
+							for (String classpath : classpaths) {
+								try {
+									urls.add(new File(classpath).toURL());
+								}
+								catch (MalformedURLException e2) {
+								}
+							}
+						}
+					}
+					else if (classLoader instanceof URLClassLoader)
+						urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
         }
 
         return urls.toArray(new URL[urls.size()]);

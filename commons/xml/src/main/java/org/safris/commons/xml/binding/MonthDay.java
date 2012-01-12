@@ -86,7 +86,7 @@ public class MonthDay {
         if (Arrays.binarySearch(LONG_MONTHS, month.getMonth()) < 0 && 30 < day.getDay())
             throw new IllegalArgumentException("month == " + month + " day == " + day);
 
-        this.timeZone = timeZone;
+        this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
     }
 
     public MonthDay(int month, int day) {
@@ -128,21 +128,19 @@ public class MonthDay {
         return (month != null ? month.hashCode() : -1) + (day != null ? day.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
     }
 
-    public String toString() {
+    protected String toEmbededString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(month);
+        buffer.append(month.toEmbededString());
         buffer.append("-");
         if (getDay() < 10)
             buffer.append("0").append(getDay());
         else
             buffer.append(getDay());
 
-        if (timeZone == null)
-            return buffer.toString();
+        return buffer.toString();
+    }
 
-        if (DateTime.GMT.equals(timeZone))
-            return buffer.append("Z").toString();
-
-        return buffer.append(timeZone.getID().substring(3)).toString();
+    public String toString() {
+        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
     }
 }
