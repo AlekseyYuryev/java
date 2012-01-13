@@ -38,6 +38,6 @@
     <module>codeguide</module>
     <module>xml</module>
     <module>cobertura</module>
-    <module>install-cert</module>
+    <module>cert</module>
   </modules>
 </project>
