@@ -1,103 +1,104 @@
 <!--
-	Copyright 2010 Safris Technologies Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-			http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+  Copyright Safris Software 2006
+  
+  This code is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <project name="bind-builder-ant" basedir="../../../..">
 
-	<property environment="env"/>
-	<property name="lib" location="${env.HOME}/.m2/"/>
-	<property name="src" location="src/main/java"/>
-	<property name="test" location="src/test/java"/>
-	<property name="project.build.directory" location="target"/>
+  <property environment="env"/>
+  <property name="lib" location="${env.HOME}/.m2/"/>
+  <property name="src" location="src/main/java"/>
+  <property name="test" location="src/test/java"/>
+  <property name="project.build.directory" location="target"/>
 
-	<path id="project.class.path">
-		<fileset dir="${lib}">
-			<include name="**/*.jar"/>
-		</fileset>
-		<fileset dir="${generator.build.jar}">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
+  <path id="project.class.path">
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${generator.build.jar}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
 
-	<target name="validate" description="validate the project is correct and all necessary information is available"/>
+  <target name="validate" description="validate the project is correct and all necessary information is available"/>
 
-	<target name="generate-sources" depends="validate" description="generate any source code for inclusion in compilation">
-		<taskdef name="binding" classname="org.safris.ant.task.xml.binding.GeneratorTask">
-			<classpath>
-				<fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-		</taskdef>
-		<binding>
-			<manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-				<destdir explodeJars="true" overwrite="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
-				<schemas>
-					<schema>../xsd/ant.xsd</schema>
-				</schemas>
-			</manifest>
-		</binding>
-	</target>
+  <target name="generate-sources" depends="validate" description="generate any source code for inclusion in compilation">
+    <taskdef name="binding" classname="org.safris.ant.task.xml.binding.GeneratorTask">
+      <classpath>
+        <fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </taskdef>
+    <binding>
+      <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+        <destdir explodeJars="true" overwrite="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
+        <schemas>
+          <schema>../xsd/ant.xsd</schema>
+        </schemas>
+      </manifest>
+    </binding>
+  </target>
 
-	<target name="process-sources" depends="generate-sources" description="process the source code, for example to filter any values"/>
+  <target name="process-sources" depends="generate-sources" description="process the source code, for example to filter any values"/>
 
-	<target name="generate-resources" depends="process-sources" description="generate resources for inclusion in the package"/>
+  <target name="generate-resources" depends="process-sources" description="generate resources for inclusion in the package"/>
 
-	<target name="process-resources" depends="generate-resources" description="copy and process the resources into the destination directory, ready for packaging"/>
+  <target name="process-resources" depends="generate-resources" description="copy and process the resources into the destination directory, ready for packaging"/>
 
-	<target name="compile" depends="process-resources" description="compile the source code of the project">
-		<javac>
-			<classpath>
-				<fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<sourcepath path="${src}"/>
-		</javac>
-	</target>
+  <target name="compile" depends="process-resources" description="compile the source code of the project">
+    <javac>
+      <classpath>
+        <fileset dir="${env.HOME}/.m2/repository/org/safris/xml/toolkit/">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+      <sourcepath path="${src}"/>
+    </javac>
+  </target>
 
-	<target name="process-classes" depends="compile" description="post-process the generated files from compilation, for example to do bytecode enhancement on Java classes"/>
+  <target name="process-classes" depends="compile" description="post-process the generated files from compilation, for example to do bytecode enhancement on Java classes"/>
 
-	<target name="generate-test-sources" depends="process-classes" description="generate any test source code for inclusion in compilation"/>
+  <target name="generate-test-sources" depends="process-classes" description="generate any test source code for inclusion in compilation"/>
 
-	<target name="process-test-sources" depends="generate-test-sources" description="process the test source code, for example to filter any values"/>
+  <target name="process-test-sources" depends="generate-test-sources" description="process the test source code, for example to filter any values"/>
 
-	<target name="generate-test-resources" depends="process-test-sources" description="create resources for testing"/>
+  <target name="generate-test-resources" depends="process-test-sources" description="create resources for testing"/>
 
-	<target name="process-test-resources" depends="generate-test-resources" description="copy and process the resources into the test destination directory"/>
+  <target name="process-test-resources" depends="generate-test-resources" description="copy and process the resources into the test destination directory"/>
 
-	<target name="test-compile" depends="process-test-resources" description="compile the test source code into the test destination directory"/>
+  <target name="test-compile" depends="process-test-resources" description="compile the test source code into the test destination directory"/>
 
-	<target name="test" depends="test-compile" description="run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed"/>
+  <target name="test" depends="test-compile" description="run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed"/>
 
-	<target name="package" depends="test" description="take the compiled code and package it in its distributable format, such as a JAR"/>
+  <target name="package" depends="test" description="take the compiled code and package it in its distributable format, such as a JAR"/>
 
-	<target name="integration-test" depends="package" description="process and deploy the package if necessary into an environment where integration tests can be run"/>
+  <target name="integration-test" depends="package" description="process and deploy the package if necessary into an environment where integration tests can be run"/>
 
-	<target name="verify" depends="integration-test" description="run any checks to verify the package is valid and meets quality criteria"/>
+  <target name="verify" depends="integration-test" description="run any checks to verify the package is valid and meets quality criteria"/>
 
-	<target name="install" depends="verify" description="install the package into the local repository, for use as a dependency in other projects locally"/>
+  <target name="install" depends="verify" description="install the package into the local repository, for use as a dependency in other projects locally"/>
 
-	<target name="deploy" depends="install" description="done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects"/>
+  <target name="deploy" depends="install" description="done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects"/>
 
-	<target name="pre-clean"/>
+  <target name="pre-clean"/>
 
-	<target name="clean" depends="pre-clean">
-		<delete dir="${project.build.directory}"/>
-	</target>
+  <target name="clean" depends="pre-clean">
+    <delete dir="${project.build.directory}"/>
+  </target>
 
-	<target name="post-clean" depends="clean"/>
+  <target name="post-clean" depends="clean"/>
 
 </project>

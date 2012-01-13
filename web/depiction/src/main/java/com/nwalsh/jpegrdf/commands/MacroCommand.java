@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -25,38 +26,38 @@ import com.nwalsh.jpegrdf.SystemKit;
 
 public class MacroCommand implements Command {
 
-	private List commandList;
+  private List commandList;
 private Object receiver;
 
-	public MacroCommand() {
-		commandList = new ArrayList();
-	}
+  public MacroCommand() {
+    commandList = new ArrayList();
+  }
 
-	public void add(Command command) {
-		commandList.add(command);
-	}
+  public void add(Command command) {
+    commandList.add(command);
+  }
 
-	public void removeCommand(Command command) {
-		commandList.remove(command);
-	}
-	
-	public int size(){
-		return commandList.size();
-	}
+  public void removeCommand(Command command) {
+    commandList.remove(command);
+  }
+  
+  public int size(){
+    return commandList.size();
+  }
 
-	public void execute() {
-		Command command;
-		for (int i = 0; i < commandList.size(); i++) {
-			
-			command = (Command) commandList.get(i);
-			command.setReceiver(receiver);
-			SystemKit.debug("Macro calling "+command.getClass());
-			command.execute();
-		
-		}
-	}
+  public void execute() {
+    Command command;
+    for (int i = 0; i < commandList.size(); i++) {
+      
+      command = (Command) commandList.get(i);
+      command.setReceiver(receiver);
+      SystemKit.debug("Macro calling "+command.getClass());
+      command.execute();
+    
+    }
+  }
 
-	public void setReceiver(Object receiver) {
-		this.receiver = receiver;
-	}
+  public void setReceiver(Object receiver) {
+    this.receiver = receiver;
+  }
 }

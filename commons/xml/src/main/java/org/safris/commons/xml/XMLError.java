@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.xml;
@@ -19,72 +20,72 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class XMLError extends Error {
-    private final Object lock = new Object();
+  private final Object lock = new Object();
 
-    public XMLError() {
-        super();
+  public XMLError() {
+    super();
+  }
+
+  public XMLError(String message) {
+    super(message);
+  }
+
+  public XMLError(Throwable cause) {
+    if (cause instanceof InvocationTargetException)
+      init(cause.getCause().getMessage(), cause.getCause());
+    else
+      init(cause.getMessage(), cause);
+  }
+
+  public XMLError(String message, Throwable cause) {
+    if (cause instanceof InvocationTargetException)
+      init(message != null ? message : cause.getCause().getMessage(), cause.getCause());
+    else
+      init(cause.getMessage(), cause);
+  }
+
+  protected final void init(String message, Throwable cause) {
+    setMessage(message);
+    overwriteCause(cause.getCause());
+    setStackTrace(cause.getStackTrace());
+  }
+
+  protected final void overwriteCause(Throwable cause) {
+    if (cause == this)
+      throw new IllegalArgumentException("Self-causation not permitted");
+
+    try {
+      synchronized (lock) {
+        final Field detailMessageField = Throwable.class.getDeclaredField("cause");
+        detailMessageField.setAccessible(true);
+        detailMessageField.set(this, cause);
+      }
     }
-
-    public XMLError(String message) {
-        super(message);
+    catch (SecurityException e) {
     }
-
-    public XMLError(Throwable cause) {
-        if (cause instanceof InvocationTargetException)
-            init(cause.getCause().getMessage(), cause.getCause());
-        else
-            init(cause.getMessage(), cause);
+    catch (NoSuchFieldException e) {
     }
-
-    public XMLError(String message, Throwable cause) {
-        if (cause instanceof InvocationTargetException)
-            init(message != null ? message : cause.getCause().getMessage(), cause.getCause());
-        else
-            init(cause.getMessage(), cause);
+    catch (IllegalAccessException e) {
     }
-
-    protected final void init(String message, Throwable cause) {
-        setMessage(message);
-        overwriteCause(cause.getCause());
-        setStackTrace(cause.getStackTrace());
+    catch (IllegalArgumentException e) {
     }
+  }
 
-    protected final void overwriteCause(Throwable cause) {
-        if (cause == this)
-            throw new IllegalArgumentException("Self-causation not permitted");
-
-        try {
-            synchronized (lock) {
-                final Field detailMessageField = Throwable.class.getDeclaredField("cause");
-                detailMessageField.setAccessible(true);
-                detailMessageField.set(this, cause);
-            }
-        }
-        catch (SecurityException e) {
-        }
-        catch (NoSuchFieldException e) {
-        }
-        catch (IllegalAccessException e) {
-        }
-        catch (IllegalArgumentException e) {
-        }
+  protected final void setMessage(String message) {
+    try {
+      synchronized (lock) {
+        final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
+        detailMessageField.setAccessible(true);
+        detailMessageField.set(this, message);
+      }
     }
-
-    protected final void setMessage(String message) {
-        try {
-            synchronized (lock) {
-                final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
-                detailMessageField.setAccessible(true);
-                detailMessageField.set(this, message);
-            }
-        }
-        catch (SecurityException e) {
-        }
-        catch (NoSuchFieldException e) {
-        }
-        catch (IllegalAccessException e) {
-        }
-        catch (IllegalArgumentException e) {
-        }
+    catch (SecurityException e) {
     }
+    catch (NoSuchFieldException e) {
+    }
+    catch (IllegalAccessException e) {
+    }
+    catch (IllegalArgumentException e) {
+    }
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // JpegCOmmentWriter.java
@@ -54,12 +55,12 @@ public class JpegCommentWriter extends Writer {
      * beginning of the jpeg to avoid problems
      */
     public JpegCommentWriter(OutputStream out, InputStream in) {
-	super(out);
-	inJpegData = in;
-	outJpegData = out;
-	byteStream = new ByteArrayOutputStream(65536);
-	osw = new OutputStreamWriter(byteStream);
-	init = false;
+  super(out);
+  inJpegData = in;
+  outJpegData = out;
+  byteStream = new ByteArrayOutputStream(65536);
+  osw = new OutputStreamWriter(byteStream);
+  init = false;
     }
 
     /**
@@ -71,302 +72,302 @@ public class JpegCommentWriter extends Writer {
      * @param enc the encoding name used when you write comments
      */
     public JpegCommentWriter(OutputStream out, InputStream in, String enc)
-	throws UnsupportedEncodingException
+  throws UnsupportedEncodingException
     { 
-	super(out);
-	inJpegData = in;
-	outJpegData = out;
-	byteStream = new ByteArrayOutputStream(65536);
-	osw = new OutputStreamWriter(byteStream, enc);
-	init = false;
+  super(out);
+  inJpegData = in;
+  outJpegData = out;
+  byteStream = new ByteArrayOutputStream(65536);
+  osw = new OutputStreamWriter(byteStream, enc);
+  init = false;
     } 
 
     /**
      * gets the encoding used by the comment writer
      */
     public String getEncoding() {
-	return osw.getEncoding();
+  return osw.getEncoding();
     }
 
     /**
      * write one character
      */
     public void write(int ch) 
-	throws IOException
+  throws IOException
     {
-	osw.write(ch);
+  osw.write(ch);
     }
 
     /**
      * write an array of characters
      */
     public void write(char[] buffer)
-	throws IOException
+  throws IOException
     {
-	osw.write(buffer);
+  osw.write(buffer);
     }
 
     /**
      * write a portion of an array of characters
      */
     public void write(char[] buffer, int off, int len)
-	throws IOException
+  throws IOException
     {
-	osw.write(buffer, off, len);
+  osw.write(buffer, off, len);
     }
 
     /**
      * Write a String
      */
     public void write(String s)
-	throws IOException
+  throws IOException
     {
-	osw.write(s);
+  osw.write(s);
     }
 
      /**
      * Write a portion of a String
      */
     public void write(String s, int off, int len)
-	throws IOException
+  throws IOException
     {
-	osw.write(s, off, len);
+  osw.write(s, off, len);
     }
 
     public void flush()
-	throws IOException
+  throws IOException
     {
-	if (!init) {
-	    dupFirstHeaders();
-	    init = true;
-	}
-	osw.flush();
-	byte[] buffer;
-	synchronized(byteStream) {
-	    buffer = byteStream.toByteArray();
-	    byteStream.reset();
-	}
-	int buflen = buffer.length;
-	int curlen;
-	int curpos = 0;
-	// write the comments, using chunks if necessary
-	while (buflen > 0) {
-	    writeMarker(Jpeg.M_COM);
-	    curlen = Math.min(Jpeg.M_MAX_COM_LENGTH, buflen);
-	    writeMarkerLength(curlen+2);
-	    outJpegData.write(buffer, curpos, curlen);
-	    curpos += curlen;
-	    buflen -= curlen;
-	};
+  if (!init) {
+      dupFirstHeaders();
+      init = true;
+  }
+  osw.flush();
+  byte[] buffer;
+  synchronized(byteStream) {
+      buffer = byteStream.toByteArray();
+      byteStream.reset();
+  }
+  int buflen = buffer.length;
+  int curlen;
+  int curpos = 0;
+  // write the comments, using chunks if necessary
+  while (buflen > 0) {
+      writeMarker(Jpeg.M_COM);
+      curlen = Math.min(Jpeg.M_MAX_COM_LENGTH, buflen);
+      writeMarkerLength(curlen+2);
+      outJpegData.write(buffer, curpos, curlen);
+      curpos += curlen;
+      buflen -= curlen;
+  };
     }
 
     public void close()
-	throws IOException
+  throws IOException
     {
-	flush();
-	byte[] buf = new byte[1024];
-	int got;
-	// first dump the last marker
-	writeMarker(lastMarker);
-	// then the end of the file
-	do {
-	    got = inJpegData.read(buf);
-	    if (got < 0) 
-		break;
-	    outJpegData.write(buf, 0, got);
-	} while (got >= 0);
+  flush();
+  byte[] buf = new byte[1024];
+  int got;
+  // first dump the last marker
+  writeMarker(lastMarker);
+  // then the end of the file
+  do {
+      got = inJpegData.read(buf);
+      if (got < 0) 
+    break;
+      outJpegData.write(buf, 0, got);
+  } while (got >= 0);
     }
 
     /**
      * copy the marker and return it
      */
     protected int dupFirstMarker()
-	throws IOException, JpegException
+  throws IOException, JpegException
     {
-	int c1, c2;
-	c1 = inJpegData.read();
-	c2 = inJpegData.read();
-	if (c1 != 0xFF || c2 != Jpeg.M_SOI)
-	    throw new JpegException("Not a JPEG file");
-	outJpegData.write(c1);
-	outJpegData.write(c2);
-	return c2;
+  int c1, c2;
+  c1 = inJpegData.read();
+  c2 = inJpegData.read();
+  if (c1 != 0xFF || c2 != Jpeg.M_SOI)
+      throw new JpegException("Not a JPEG file");
+  outJpegData.write(c1);
+  outJpegData.write(c2);
+  return c2;
     }
 
     /**
      * read 2 bytes and create an integer out of it
      */
     protected int read2bytes() 
-	throws IOException, JpegException
+  throws IOException, JpegException
     {
-	int c1, c2;
-	c1 = inJpegData.read();
-	if (c1 == -1)
-	    throw new JpegException("Premature EOF in JPEG file");
-	c2 = inJpegData.read();
-	if (c2 == -1)
-	    throw new JpegException("Premature EOF in JPEG file");
-	return (((int) c1) << 8) + ((int) c2);
+  int c1, c2;
+  c1 = inJpegData.read();
+  if (c1 == -1)
+      throw new JpegException("Premature EOF in JPEG file");
+  c2 = inJpegData.read();
+  if (c2 == -1)
+      throw new JpegException("Premature EOF in JPEG file");
+  return (((int) c1) << 8) + ((int) c2);
     }
 
     /**
      * get the next marker, and eat extra bytes
      */
     protected int nextMarker() 
-	throws IOException
+  throws IOException
     {
-	int discarded_bytes = 0;
-	int c;
+  int discarded_bytes = 0;
+  int c;
 
-	/* Find 0xFF byte; count and skip any non-FFs. */
-	c = inJpegData.read();
-	while (c != 0xFF)
-	    c = inJpegData.read();
+  /* Find 0xFF byte; count and skip any non-FFs. */
+  c = inJpegData.read();
+  while (c != 0xFF)
+      c = inJpegData.read();
 
-	/* Get marker code byte, swallowing any duplicate FF bytes.  Extra FFs
-	 * are legal as pad bytes, so don't count them in discarded_bytes.
-	 */
-	do {
-	    c = inJpegData.read();
-	} while (c == 0xFF);
+  /* Get marker code byte, swallowing any duplicate FF bytes.  Extra FFs
+   * are legal as pad bytes, so don't count them in discarded_bytes.
+   */
+  do {
+      c = inJpegData.read();
+  } while (c == 0xFF);
 
-	return c;
+  return c;
     }
 
     /**
      * skip the body after a marker
      */
     protected void skipVariable() 
-	throws IOException, JpegException
+  throws IOException, JpegException
     {
-	long len = (long)read2bytes() - 2;
-	if (len < 0 )
-	    throw new JpegException("Erroneous JPEG marker length");
-	while (len > 0) {
-	    long saved = inJpegData.skip(len);
-	    if (saved < 0)
-		throw new IOException("Error while reading jpeg stream");
-	    len -= saved;
-	}
+  long len = (long)read2bytes() - 2;
+  if (len < 0 )
+      throw new JpegException("Erroneous JPEG marker length");
+  while (len > 0) {
+      long saved = inJpegData.skip(len);
+      if (saved < 0)
+    throw new IOException("Error while reading jpeg stream");
+      len -= saved;
+  }
     }
 
     /**
      * dup the marker and the body
      */
     protected void dupHeader(int marker) 
-	throws IOException, JpegException
+  throws IOException, JpegException
     {
-	int len = read2bytes();
-	if (len < 2 )
-	    throw new JpegException("Erroneous JPEG marker length");
-	// dump the marker
-	writeMarker(marker);
-	// write the length
-	writeMarkerLength(len);
-	// and now copy the bytes
-	byte[] buf = new byte[1024];
-	int got;
-	len -= 2;
-	while (len > 0) {
-	    got = inJpegData.read(buf, 0, Math.min(buf.length, len));
-	    if (got < 0) 
-		throw new IOException("Error while reading jpeg stream (EOF)");
-	    outJpegData.write(buf, 0, got);
-	    len -= got;
-	}
+  int len = read2bytes();
+  if (len < 2 )
+      throw new JpegException("Erroneous JPEG marker length");
+  // dump the marker
+  writeMarker(marker);
+  // write the length
+  writeMarkerLength(len);
+  // and now copy the bytes
+  byte[] buf = new byte[1024];
+  int got;
+  len -= 2;
+  while (len > 0) {
+      got = inJpegData.read(buf, 0, Math.min(buf.length, len));
+      if (got < 0) 
+    throw new IOException("Error while reading jpeg stream (EOF)");
+      outJpegData.write(buf, 0, got);
+      len -= got;
+  }
     }    
 
     protected void writeMarker(int marker) 
-	throws IOException
+  throws IOException
     {
-	outJpegData.write(0xFF);
-	outJpegData.write(marker);
+  outJpegData.write(0xFF);
+  outJpegData.write(marker);
     }
 
     protected void writeMarkerLength(int len)
-	throws IOException
+  throws IOException
     {
-	outJpegData.write((len >> 8) & 0xFF);
-	outJpegData.write(len & 0xFF);
+  outJpegData.write((len >> 8) & 0xFF);
+  outJpegData.write(len & 0xFF);
     }	
 
     /**
      * the the first headers until a SOF parker is found
      */
     protected void dupFirstHeaders() 
-	throws IOException
+  throws IOException
     {
-	int marker;
-	// first duplicate the header and make sure it is valid
-	try {
-	    dupFirstMarker();
-	} catch (JpegException ex) {
-	    if (debug) {
-		ex.printStackTrace();
-	    }
-	    throw new IOException(ex.getMessage());
-	}
-	// now dump the headers
-	
-	while (true) {
-	    marker = nextMarker();
-	    switch (marker) {
-	    case Jpeg.M_SOF0:	 /* Baseline */
-	    case Jpeg.M_SOF1:	 /* Extended sequential, Huffman */
-	    case Jpeg.M_SOF2:	 /* Progressive, Huffman */
-	    case Jpeg.M_SOF3:	 /* Lossless, Huffman */
-	    case Jpeg.M_SOF5:	 /* Differential sequential, Huffman */
-	    case Jpeg.M_SOF6:	 /* Differential progressive, Huffman */
-	    case Jpeg.M_SOF7:	 /* Differential lossless, Huffman */
-	    case Jpeg.M_SOF9:	 /* Extended sequential, arithmetic */
-	    case Jpeg.M_SOF10:	 /* Progressive, arithmetic */
-	    case Jpeg.M_SOF11:	 /* Lossless, arithmetic */
-	    case Jpeg.M_SOF13:	 /* Differential sequential, arithmetic */
-	    case Jpeg.M_SOF14:	 /* Differential progressive, arithmetic */
-	    case Jpeg.M_SOF15:	 /* Differential lossless, arithmetic */   
-		// bye!
-		lastMarker = marker;
-		return;
-	    case Jpeg.M_SOS:	
-		break;
-	    case Jpeg.M_EOI:
-		lastMarker = marker;
-		return;
-	    case Jpeg.M_APP12:
-	    case Jpeg.M_COM:   // remove previous comments
-		try {
-		    skipVariable();
-		} catch (JpegException jex) {
-		    if (debug)
-			jex.printStackTrace();
-		    throw new IOException(jex.getMessage());
-		}
-		break;
-	    default:	
-		try {
-		    dupHeader(marker);
-		} catch (JpegException jex) {
-		    if (debug)
-			jex.printStackTrace();
-		    throw new IOException(jex.getMessage());
-		}
-		break;
-	    }	    
-	}
+  int marker;
+  // first duplicate the header and make sure it is valid
+  try {
+      dupFirstMarker();
+  } catch (JpegException ex) {
+      if (debug) {
+    ex.printStackTrace();
+      }
+      throw new IOException(ex.getMessage());
+  }
+  // now dump the headers
+  
+  while (true) {
+      marker = nextMarker();
+      switch (marker) {
+      case Jpeg.M_SOF0:	 /* Baseline */
+      case Jpeg.M_SOF1:	 /* Extended sequential, Huffman */
+      case Jpeg.M_SOF2:	 /* Progressive, Huffman */
+      case Jpeg.M_SOF3:	 /* Lossless, Huffman */
+      case Jpeg.M_SOF5:	 /* Differential sequential, Huffman */
+      case Jpeg.M_SOF6:	 /* Differential progressive, Huffman */
+      case Jpeg.M_SOF7:	 /* Differential lossless, Huffman */
+      case Jpeg.M_SOF9:	 /* Extended sequential, arithmetic */
+      case Jpeg.M_SOF10:	 /* Progressive, arithmetic */
+      case Jpeg.M_SOF11:	 /* Lossless, arithmetic */
+      case Jpeg.M_SOF13:	 /* Differential sequential, arithmetic */
+      case Jpeg.M_SOF14:	 /* Differential progressive, arithmetic */
+      case Jpeg.M_SOF15:	 /* Differential lossless, arithmetic */   
+    // bye!
+    lastMarker = marker;
+    return;
+      case Jpeg.M_SOS:	
+    break;
+      case Jpeg.M_EOI:
+    lastMarker = marker;
+    return;
+      case Jpeg.M_APP12:
+      case Jpeg.M_COM:   // remove previous comments
+    try {
+        skipVariable();
+    } catch (JpegException jex) {
+        if (debug)
+      jex.printStackTrace();
+        throw new IOException(jex.getMessage());
+    }
+    break;
+      default:	
+    try {
+        dupHeader(marker);
+    } catch (JpegException jex) {
+        if (debug)
+      jex.printStackTrace();
+        throw new IOException(jex.getMessage());
+    }
+    break;
+      }	    
+  }
     }
 
     /**
      * The usual debugging tool
      */
     public static void main(String args[]) {
-	try {
-	    File jpegFile = new File(args[0]);
-	    JpegCommentWriter jcw = new JpegCommentWriter(System.out,
-					       new FileInputStream(jpegFile));
-	    jcw.write(args[1]);
-	    jcw.close();
-	} catch (Exception ex) {
-	    ex.printStackTrace();
-	}
+  try {
+      File jpegFile = new File(args[0]);
+      JpegCommentWriter jcw = new JpegCommentWriter(System.out,
+                 new FileInputStream(jpegFile));
+      jcw.write(args[1]);
+      jcw.close();
+  } catch (Exception ex) {
+      ex.printStackTrace();
+  }
     }    
 }

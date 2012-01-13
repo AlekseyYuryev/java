@@ -1544,12 +1544,12 @@
       <xs:attribute name="height" type="Length"/>
       <xs:attribute name="width" type="Length"/>
       <xs:attribute name="usemap" type="URI">
-	<xs:annotation>
-	  <xs:documentation>
+  <xs:annotation>
+    <xs:documentation>
           usemap points to a map element which may be in this document
           or an external document, although the latter is not widely supported
           </xs:documentation>
-	</xs:annotation>
+  </xs:annotation>
       </xs:attribute>
       <xs:attribute name="ismap">
         <xs:simpleType>
@@ -1684,11 +1684,11 @@
       <xs:attributeGroup ref="focus"/>
       <xs:attribute name="type" default="text" type="InputType"/>
       <xs:attribute name="name">
-	<xs:annotation>
-	  <xs:documentation>
+  <xs:annotation>
+    <xs:documentation>
           the name attribute is required for all but submit &amp; reset
           </xs:documentation>
-	</xs:annotation>
+  </xs:annotation>
       </xs:attribute>
       <xs:attribute name="value"/>
       <xs:attribute name="checked">

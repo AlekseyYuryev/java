@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2009
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.sql;
@@ -36,215 +37,215 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class ConnectionProxy implements Connection {
-    public static Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
+  public static Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
 
-    public static ConnectionProxy getInstance(Connection connection) {
-        ConnectionProxy connectionProxy;
-        if ((connectionProxy = instances.get(connection)) == null)
-            instances.put(connection, connectionProxy = new ConnectionProxy(connection));
+  public static ConnectionProxy getInstance(Connection connection) {
+    ConnectionProxy connectionProxy;
+    if ((connectionProxy = instances.get(connection)) == null)
+      instances.put(connection, connectionProxy = new ConnectionProxy(connection));
 
-        return connectionProxy;
-    }
+    return connectionProxy;
+  }
 
-    private final Connection connection;
+  private final Connection connection;
 
-    private ConnectionProxy(Connection connection) {
-        this.connection = connection;
-    }
+  private ConnectionProxy(Connection connection) {
+    this.connection = connection;
+  }
 
-    public Statement createStatement() throws SQLException {
-        return new StatementProxy(connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY));
-    }
+  public Statement createStatement() throws SQLException {
+    return new StatementProxy(connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY));
+  }
 
-    public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), sql);
-    }
+  public PreparedStatement prepareStatement(String sql) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), sql);
+  }
 
-    public CallableStatement prepareCall(String sql) throws SQLException {
-        return new CallableStatementProxy(connection.prepareCall(sql), sql);
-    }
+  public CallableStatement prepareCall(String sql) throws SQLException {
+    return new CallableStatementProxy(connection.prepareCall(sql), sql);
+  }
 
-    public String nativeSQL(String sql) throws SQLException {
-        return connection.nativeSQL(sql);
-    }
+  public String nativeSQL(String sql) throws SQLException {
+    return connection.nativeSQL(sql);
+  }
 
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
-        connection.setAutoCommit(autoCommit);
-    }
+  public void setAutoCommit(boolean autoCommit) throws SQLException {
+    connection.setAutoCommit(autoCommit);
+  }
 
-    public boolean getAutoCommit() throws SQLException {
-        return connection.getAutoCommit();
-    }
+  public boolean getAutoCommit() throws SQLException {
+    return connection.getAutoCommit();
+  }
 
-    public void commit() throws SQLException {
-        connection.commit();
-    }
+  public void commit() throws SQLException {
+    connection.commit();
+  }
 
-    public void rollback() throws SQLException {
-        connection.rollback();
-    }
+  public void rollback() throws SQLException {
+    connection.rollback();
+  }
 
-    public void close() throws SQLException {
-        connection.close();
-    }
+  public void close() throws SQLException {
+    connection.close();
+  }
 
-    public boolean isClosed() throws SQLException {
-        return connection.isClosed();
-    }
+  public boolean isClosed() throws SQLException {
+    return connection.isClosed();
+  }
 
-    public DatabaseMetaData getMetaData() throws SQLException {
-        return connection.getMetaData();
-    }
+  public DatabaseMetaData getMetaData() throws SQLException {
+    return connection.getMetaData();
+  }
 
-    public void setReadOnly(boolean readOnly) throws SQLException {
-        connection.setReadOnly(readOnly);
-    }
+  public void setReadOnly(boolean readOnly) throws SQLException {
+    connection.setReadOnly(readOnly);
+  }
 
-    public boolean isReadOnly() throws SQLException {
-        return connection.isReadOnly();
-    }
+  public boolean isReadOnly() throws SQLException {
+    return connection.isReadOnly();
+  }
 
-    public void setCatalog(String catalog) throws SQLException {
-        connection.setCatalog(catalog);
-    }
+  public void setCatalog(String catalog) throws SQLException {
+    connection.setCatalog(catalog);
+  }
 
-    public String getCatalog() throws SQLException {
-        return connection.getCatalog();
-    }
+  public String getCatalog() throws SQLException {
+    return connection.getCatalog();
+  }
 
-    public void setTransactionIsolation(int level) throws SQLException {
-        connection.setTransactionIsolation(level);
-    }
+  public void setTransactionIsolation(int level) throws SQLException {
+    connection.setTransactionIsolation(level);
+  }
 
-    public int getTransactionIsolation() throws SQLException {
-        return connection.getTransactionIsolation();
-    }
+  public int getTransactionIsolation() throws SQLException {
+    return connection.getTransactionIsolation();
+  }
 
-    public SQLWarning getWarnings() throws SQLException {
-        return connection.getWarnings();
-    }
+  public SQLWarning getWarnings() throws SQLException {
+    return connection.getWarnings();
+  }
 
-    public void clearWarnings() throws SQLException {
-        connection.clearWarnings();
-    }
+  public void clearWarnings() throws SQLException {
+    connection.clearWarnings();
+  }
 
-    public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-        return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency));
-    }
+  public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
+    return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency));
+  }
 
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
-    }
+  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
+  }
 
-    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-        return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
-    }
+  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
+  }
 
-    public Map<String, Class<?>> getTypeMap() throws SQLException {
-        return connection.getTypeMap();
-    }
+  public Map<String, Class<?>> getTypeMap() throws SQLException {
+    return connection.getTypeMap();
+  }
 
-    public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
-        connection.setTypeMap(map);
-    }
+  public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+    connection.setTypeMap(map);
+  }
 
-    public void setHoldability(int holdability) throws SQLException {
-        connection.setHoldability(holdability);
-    }
+  public void setHoldability(int holdability) throws SQLException {
+    connection.setHoldability(holdability);
+  }
 
-    public int getHoldability() throws SQLException {
-        return connection.getHoldability();
-    }
+  public int getHoldability() throws SQLException {
+    return connection.getHoldability();
+  }
 
-    public Savepoint setSavepoint() throws SQLException {
-        return connection.setSavepoint();
-    }
+  public Savepoint setSavepoint() throws SQLException {
+    return connection.setSavepoint();
+  }
 
-    public Savepoint setSavepoint(String name) throws SQLException {
-        return connection.setSavepoint(name);
-    }
+  public Savepoint setSavepoint(String name) throws SQLException {
+    return connection.setSavepoint(name);
+  }
 
-    public void rollback(Savepoint savepoint) throws SQLException {
-        connection.rollback(savepoint);
-    }
+  public void rollback(Savepoint savepoint) throws SQLException {
+    connection.rollback(savepoint);
+  }
 
-    public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-        connection.releaseSavepoint(savepoint);
-    }
+  public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+    connection.releaseSavepoint(savepoint);
+  }
 
-    public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability));
-    }
+  public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+    return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability));
+  }
 
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
-    }
+  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
+  }
 
-    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
-    }
+  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
+  }
 
-    public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, autoGeneratedKeys), sql);
-    }
+  public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, autoGeneratedKeys), sql);
+  }
 
-    public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, columnIndexes), sql);
-    }
+  public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, columnIndexes), sql);
+  }
 
-    public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
-        return new PreparedStatementProxy(connection.prepareStatement(sql, columnNames), sql);
-    }
+  public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
+    return new PreparedStatementProxy(connection.prepareStatement(sql, columnNames), sql);
+  }
 
-    public Clob createClob() throws SQLException {
-        return connection.createClob();
-    }
+  public Clob createClob() throws SQLException {
+    return connection.createClob();
+  }
 
-    public Blob createBlob() throws SQLException {
-        return connection.createBlob();
-    }
+  public Blob createBlob() throws SQLException {
+    return connection.createBlob();
+  }
 
-    public NClob createNClob() throws SQLException {
-        return connection.createNClob();
-    }
+  public NClob createNClob() throws SQLException {
+    return connection.createNClob();
+  }
 
-    public SQLXML createSQLXML() throws SQLException {
-        return connection.createSQLXML();
-    }
+  public SQLXML createSQLXML() throws SQLException {
+    return connection.createSQLXML();
+  }
 
-    public boolean isValid(int timeout) throws SQLException {
-        return connection.isValid(timeout);
-    }
+  public boolean isValid(int timeout) throws SQLException {
+    return connection.isValid(timeout);
+  }
 
-    public void setClientInfo(String name, String value) throws SQLClientInfoException {
-        connection.setClientInfo(name, value);
-    }
+  public void setClientInfo(String name, String value) throws SQLClientInfoException {
+    connection.setClientInfo(name, value);
+  }
 
-    public void setClientInfo(Properties properties) throws SQLClientInfoException {
-        connection.setClientInfo(properties);
-    }
+  public void setClientInfo(Properties properties) throws SQLClientInfoException {
+    connection.setClientInfo(properties);
+  }
 
-    public String getClientInfo(String name) throws SQLException {
-        return connection.getClientInfo(name);
-    }
+  public String getClientInfo(String name) throws SQLException {
+    return connection.getClientInfo(name);
+  }
 
-    public Properties getClientInfo() throws SQLException {
-        return connection.getClientInfo();
-    }
+  public Properties getClientInfo() throws SQLException {
+    return connection.getClientInfo();
+  }
 
-    public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-        return connection.createArrayOf(typeName, elements);
-    }
+  public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+    return connection.createArrayOf(typeName, elements);
+  }
 
-    public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-        return connection.createStruct(typeName, attributes);
-    }
+  public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+    return connection.createStruct(typeName, attributes);
+  }
 
-    public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
-        return connection.unwrap(iface);
-    }
+  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+    return connection.unwrap(iface);
+  }
 
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return connection.isWrapperFor(iface);
-    }
+  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    return connection.isWrapperFor(iface);
+  }
 }

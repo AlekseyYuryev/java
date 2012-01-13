@@ -1,104 +1,105 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.lang;
 
 public final class Paths {
-    public static boolean isAbsolute(String path) {
-        if (path == null)
-            throw new NullPointerException();
+  public static boolean isAbsolute(String path) {
+    if (path == null)
+      throw new NullPointerException();
 
-        return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
+    return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
+  }
+
+  public static String canonicalize(String path) {
+    if (path == null)
+      return null;
+
+    if (path.endsWith(".."))
+      path = path + "/";
+
+    // This removes all redundant "//" sequences.
+    if (path.contains("://"))
+      path = path.substring(0, 7) + path.substring(7).replace("//", "/");
+    else
+      path = path.replace("//", "/");
+
+    int index;
+    while ((index = path.indexOf("/./")) != -1)
+      path = path.substring(0, index) + path.substring(index + 2);
+
+    // Process "/../" correctly. This probably isn't very efficient in
+    // the general case, but it's probably not bad most of the time.
+    while ((index = path.indexOf("/../")) != -1) {
+      // Strip of the previous directory - if it exists.
+      final int previous = path.lastIndexOf('/', index - 1);
+      if (previous != -1)
+        path = path.substring(0, previous) + path.substring(index + 3);
+      else
+        break;
     }
 
-    public static String canonicalize(String path) {
-        if (path == null)
-            return null;
+    return path;
+  }
 
-        if (path.endsWith(".."))
-            path = path + "/";
+  public static String relativePath(String dir, String file) {
+    if (dir == null || file == null)
+      return null;
 
-        // This removes all redundant "//" sequences.
-        if (path.contains("://"))
-            path = path.substring(0, 7) + path.substring(7).replace("//", "/");
-        else
-            path = path.replace("//", "/");
+    final String filePath = Paths.canonicalize(file);
+    final String dirPath = Paths.canonicalize(dir);
 
-        int index;
-        while ((index = path.indexOf("/./")) != -1)
-            path = path.substring(0, index) + path.substring(index + 2);
+    if (!filePath.startsWith(dirPath))
+      return filePath;
 
-        // Process "/../" correctly. This probably isn't very efficient in
-        // the general case, but it's probably not bad most of the time.
-        while ((index = path.indexOf("/../")) != -1) {
-            // Strip of the previous directory - if it exists.
-            final int previous = path.lastIndexOf('/', index - 1);
-            if (previous != -1)
-                path = path.substring(0, previous) + path.substring(index + 3);
-            else
-                break;
-        }
+    if (filePath.length() == dirPath.length())
+      return "";
 
-        return path;
-    }
+    return filePath.substring(dirPath.length() + 1);
+  }
 
-    public static String relativePath(String dir, String file) {
-        if (dir == null || file == null)
-            return null;
+  public static String getParent(String url) {
+    if (url == null)
+      return null;
 
-        final String filePath = Paths.canonicalize(file);
-        final String dirPath = Paths.canonicalize(dir);
+    url = canonicalize(url);
+    final int separator = url.lastIndexOf('/');
+    if (separator > 0)
+      return url.substring(0, separator);
 
-        if (!filePath.startsWith(dirPath))
-            return filePath;
+    return url;
+  }
 
-        if (filePath.length() == dirPath.length())
-            return "";
+  public static String getName(String url) {
+    if (url == null)
+      return null;
 
-        return filePath.substring(dirPath.length() + 1);
-    }
+    if (url.length() == 0)
+      return "";
 
-    public static String getParent(String url) {
-        if (url == null)
-            return null;
+    if (url.endsWith("/"))
+      url = url.substring(0, url.length() - 1);
 
-        url = canonicalize(url);
-        final int separator = url.lastIndexOf('/');
-        if (separator > 0)
-            return url.substring(0, separator);
+    final int separator = url.lastIndexOf('/');
+    if (separator != -1)
+      return url.substring(separator + 1);
 
-        return url;
-    }
+    return url;
+  }
 
-    public static String getName(String url) {
-        if (url == null)
-            return null;
-
-        if (url.length() == 0)
-            return "";
-
-        if (url.endsWith("/"))
-            url = url.substring(0, url.length() - 1);
-
-        final int separator = url.lastIndexOf('/');
-        if (separator != -1)
-            return url.substring(separator + 1);
-
-        return url;
-    }
-
-    private Paths() {
-    }
+  private Paths() {
+  }
 }

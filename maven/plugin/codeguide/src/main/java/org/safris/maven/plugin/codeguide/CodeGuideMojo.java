@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.maven.plugin.codeguide;
@@ -25,368 +26,368 @@ import org.apache.maven.project.MavenProject;
 import org.safris.maven.plugin.dependency.DependencyProperties;
 
 public abstract class CodeGuideMojo extends AbstractMojo implements DependencyProperties {
-    /**
-     * @parameter expression="${project.build.sourceDirectory}"
-     */
-    private String sourceDirectory;
+  /**
+   * @parameter expression="${project.build.sourceDirectory}"
+   */
+  private String sourceDirectory;
 
-    public String getSourceDirectory() {
-        return sourceDirectory;
-    }
+  public String getSourceDirectory() {
+    return sourceDirectory;
+  }
 
-    /**
-     * @parameter expression="${project.build.testSourceDirectory}"
-     */
-    private String testSourceDirectory;
+  /**
+   * @parameter expression="${project.build.testSourceDirectory}"
+   */
+  private String testSourceDirectory;
 
-    public String getTestSourceDirectory() {
-        return testSourceDirectory;
-    }
+  public String getTestSourceDirectory() {
+    return testSourceDirectory;
+  }
 
-    /**
-     * @parameter expression="${project.build.directory}"
-     */
-    private String directory;
+  /**
+   * @parameter expression="${project.build.directory}"
+   */
+  private String directory;
 
-    public String getDirectory() {
-        return directory;
-    }
+  public String getDirectory() {
+    return directory;
+  }
 
-    /**
-     * @parameter expression="${project.resources}"
-     */
-    private List<Resource> resources;
+  /**
+   * @parameter expression="${project.resources}"
+   */
+  private List<Resource> resources;
 
-    public List<Resource> getResources() {
-        return resources;
-    }
+  public List<Resource> getResources() {
+    return resources;
+  }
 
-    /**
-     * @parameter expression="${project.testResources}"
-     */
-    private List<Resource> testResources;
+  /**
+   * @parameter expression="${project.testResources}"
+   */
+  private List<Resource> testResources;
 
-    public List<Resource> getTestResources() {
-        return testResources;
-    }
+  public List<Resource> getTestResources() {
+    return testResources;
+  }
 
-    /**
-     * @parameter default-value="" expression="${mdep.fileSeparator}"
-     */
-    private String fileSeparator;
+  /**
+   * @parameter default-value="" expression="${mdep.fileSeparator}"
+   */
+  private String fileSeparator;
 
-    /**
-     * Override the char used between the paths. This field is initialized to
-     * contain the first character of the value of the system property
-     * file.separator. On UNIX systems the value of this field is '/'; on
-     * Microsoft Windows systems it is '\'. The default is File.separator
-     */
-    public String getFileSeparator() {
-        return fileSeparator;
-    }
+  /**
+   * Override the char used between the paths. This field is initialized to
+   * contain the first character of the value of the system property
+   * file.separator. On UNIX systems the value of this field is '/'; on
+   * Microsoft Windows systems it is '\'. The default is File.separator
+   */
+  public String getFileSeparator() {
+    return fileSeparator;
+  }
 
-    /**
-     * @parameter default-value="" expression="${mdep.pathSeparator}"
-     */
-    private String pathSeparator;
+  /**
+   * @parameter default-value="" expression="${mdep.pathSeparator}"
+   */
+  private String pathSeparator;
 
-    /**
-     * Override the char used between path folders. The system-dependent
-     * path-separator character. This field is initialized to contain the first
-     * character of the value of the system property path.separator. This
-     * character is used to separate filenames in a sequence of files given as a
-     * path list. On UNIX systems, this character is ':'; on Microsoft Windows
-     * systems it is ';'.
-     */
-    public String getPathSeparator() {
-        return pathSeparator;
-    }
+  /**
+   * Override the char used between path folders. The system-dependent
+   * path-separator character. This field is initialized to contain the first
+   * character of the value of the system property path.separator. This
+   * character is used to separate filenames in a sequence of files given as a
+   * path list. On UNIX systems, this character is ':'; on Microsoft Windows
+   * systems it is ';'.
+   */
+  public String getPathSeparator() {
+    return pathSeparator;
+  }
 
-    /**
-     * @parameter expression="${component.org.apache.maven.artifact.factory.ArtifactFactory}"
-     * @required
-     * @readonly
-     */
-    private ArtifactFactory factory;
+  /**
+   * @parameter expression="${component.org.apache.maven.artifact.factory.ArtifactFactory}"
+   * @required
+   * @readonly
+   */
+  private ArtifactFactory factory;
 
-    /**
-     * Used to look up Artifacts in the remote repository.
-     */
-    public ArtifactFactory getFactory() {
-        return factory;
-    }
+  /**
+   * Used to look up Artifacts in the remote repository.
+   */
+  public ArtifactFactory getFactory() {
+    return factory;
+  }
 
-    /**
-     * @parameter expression="${component.org.apache.maven.artifact.resolver.ArtifactResolver}"
-     * @required
-     * @readonly
-     */
-    private ArtifactResolver resolver;
+  /**
+   * @parameter expression="${component.org.apache.maven.artifact.resolver.ArtifactResolver}"
+   * @required
+   * @readonly
+   */
+  private ArtifactResolver resolver;
 
-    /**
-     * Used to look up Artifacts in the remote repository.
-     */
-    public ArtifactResolver getResolver() {
-        return resolver;
-    }
+  /**
+   * Used to look up Artifacts in the remote repository.
+   */
+  public ArtifactResolver getResolver() {
+    return resolver;
+  }
 
-    /**
-     * @parameter default-value="${settings.localRepository}" expression="${mdep.repositoryPath}"
-     */
-    private String repositoryPath;
+  /**
+   * @parameter default-value="${settings.localRepository}" expression="${mdep.repositoryPath}"
+   */
+  private String repositoryPath;
 
-    /**
-     * The prefix to preppend on each dependent artifact. If undefined, the
-     * paths refer to the actual files store in the local repository (the
-     * stipVersion parameter does nothing then).
-     */
-    public String getRepositoryPath() {
-        return repositoryPath;
-    }
+  /**
+   * The prefix to preppend on each dependent artifact. If undefined, the
+   * paths refer to the actual files store in the local repository (the
+   * stipVersion parameter does nothing then).
+   */
+  public String getRepositoryPath() {
+    return repositoryPath;
+  }
 
-    /**
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
-    private ArtifactRepository local;
+  /**
+   * @parameter expression="${localRepository}"
+   * @readonly
+   * @required
+   */
+  private ArtifactRepository local;
 
-    /**
-     * Location of the local repository.
-     */
-    public ArtifactRepository getLocal() {
-        return local;
-    }
+  /**
+   * Location of the local repository.
+   */
+  public ArtifactRepository getLocal() {
+    return local;
+  }
 
-    /**
-     * @parameter expression="${project.remoteArtifactRepositories}"
-     * @readonly
-     * @required
-     */
-    private List remoteRepos;
+  /**
+   * @parameter expression="${project.remoteArtifactRepositories}"
+   * @readonly
+   * @required
+   */
+  private List remoteRepos;
 
-    /**
-     * List of Remote Repositories used by the resolver
-     */
-    public List getRemoteRepos() {
-        return remoteRepos;
-    }
+  /**
+   * List of Remote Repositories used by the resolver
+   */
+  public List getRemoteRepos() {
+    return remoteRepos;
+  }
 
-    /**
-     * @parameter expression="${project}"
-     * @readonly
-     * @required
-     */
-    private MavenProject project;
+  /**
+   * @parameter expression="${project}"
+   * @readonly
+   * @required
+   */
+  private MavenProject project;
 
-    /**
-     * POM
-     */
-    public MavenProject getProject() {
-        return project;
-    }
+  /**
+   * POM
+   */
+  public MavenProject getProject() {
+    return project;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${excludeTransitive}" default-value="false"
-     */
-    private boolean excludeTransitive;
+  /**
+   * @optional
+   * @parameter expression="${excludeTransitive}" default-value="false"
+   */
+  private boolean excludeTransitive;
 
-    /**
-     * If we should exclude transitive dependencies
-     */
-    public boolean getExcludeTransitive() {
-        return excludeTransitive;
-    }
+  /**
+   * If we should exclude transitive dependencies
+   */
+  public boolean getExcludeTransitive() {
+    return excludeTransitive;
+  }
 
-    /**
-     * @parameter expression="${includeTypes}" default-value=""
-     * @optional
-     */
-    private String includeTypes;
+  /**
+   * @parameter expression="${includeTypes}" default-value=""
+   * @optional
+   */
+  private String includeTypes;
 
-    /**
-     * Comma Separated list of Types to include. Empty String indicates include
-     * everything (default).
-     */
-    public String getIncludeTypes() {
-        return includeTypes;
-    }
+  /**
+   * Comma Separated list of Types to include. Empty String indicates include
+   * everything (default).
+   */
+  public String getIncludeTypes() {
+    return includeTypes;
+  }
 
-    /**
-     * @parameter expression="${excludeTypes}" default-value=""
-     * @optional
-     */
-    private String excludeTypes;
+  /**
+   * @parameter expression="${excludeTypes}" default-value=""
+   * @optional
+   */
+  private String excludeTypes;
 
-    /**
-     * Comma Separated list of Types to exclude. Empty String indicates don't
-     * exclude anything (default).
-     */
-    public String getExcludeTypes() {
-        return excludeTypes;
-    }
+  /**
+   * Comma Separated list of Types to exclude. Empty String indicates don't
+   * exclude anything (default).
+   */
+  public String getExcludeTypes() {
+    return excludeTypes;
+  }
 
-    /**
-     * @parameter expression="${includeScope}" default-value=""
-     * @optional
-     */
-    private String includeScope;
+  /**
+   * @parameter expression="${includeScope}" default-value=""
+   * @optional
+   */
+  private String includeScope;
 
-    /**
-     * Scope to include. An Empty string indicates all scopes (default).
-     */
-    public String getIncludeScope() {
-        return includeScope;
-    }
+  /**
+   * Scope to include. An Empty string indicates all scopes (default).
+   */
+  public String getIncludeScope() {
+    return includeScope;
+  }
 
-    /**
-     * @parameter expression="${excludeScope}" default-value=""
-     * @optional
-     */
-    private String excludeScope;
+  /**
+   * @parameter expression="${excludeScope}" default-value=""
+   * @optional
+   */
+  private String excludeScope;
 
-    /**
-     * Scope to exclude. An empty string indicates no scopes (default).
-     */
-    public String getExcludeScope() {
-        return excludeScope;
-    }
+  /**
+   * Scope to exclude. An empty string indicates no scopes (default).
+   */
+  public String getExcludeScope() {
+    return excludeScope;
+  }
 
-    /**
-     * @parameter expression="${includeClassifiers}" default-value=""
-     * @optional
-     */
-    private String includeClassifiers;
+  /**
+   * @parameter expression="${includeClassifiers}" default-value=""
+   * @optional
+   */
+  private String includeClassifiers;
 
-    /**
-     * Comma Separated list of Classifiers to include. Empty String indicates
-     * include everything (default).
-     */
-    public String getIncludeClassifiers() {
-        return includeClassifiers;
-    }
+  /**
+   * Comma Separated list of Classifiers to include. Empty String indicates
+   * include everything (default).
+   */
+  public String getIncludeClassifiers() {
+    return includeClassifiers;
+  }
 
-    /**
-     * @parameter expression="${excludeClassifiers}" default-value=""
-     * @optional
-     */
-    private String excludeClassifiers;
+  /**
+   * @parameter expression="${excludeClassifiers}" default-value=""
+   * @optional
+   */
+  private String excludeClassifiers;
 
-    /**
-     * Comma Separated list of Classifiers to exclude. Empty String indicates
-     * don't exclude anything (default).
-     */
-    public String getExcludeClassifiers() {
-        return excludeClassifiers;
-    }
+  /**
+   * Comma Separated list of Classifiers to exclude. Empty String indicates
+   * don't exclude anything (default).
+   */
+  public String getExcludeClassifiers() {
+    return excludeClassifiers;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${classifier}" default-value=""
-     */
-    private String classifier;
+  /**
+   * @optional
+   * @parameter expression="${classifier}" default-value=""
+   */
+  private String classifier;
 
-    /**
-     * Specify classifier to look for. Example: sources
-     */
-    public String getClassifier() {
-        return classifier;
-    }
+  /**
+   * Specify classifier to look for. Example: sources
+   */
+  public String getClassifier() {
+    return classifier;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${type}" default-value="java-source"
-     */
-    private String type;
+  /**
+   * @optional
+   * @parameter expression="${type}" default-value="java-source"
+   */
+  private String type;
 
-    /**
-     * Specify type to look for when constructing artifact based on classifier.
-     * Example: java-source,jar,war
-     */
-    public String getType() {
-        return type;
-    }
+  /**
+   * Specify type to look for when constructing artifact based on classifier.
+   * Example: java-source,jar,war
+   */
+  public String getType() {
+    return type;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${excludeArtifactIds}" default-value=""
-     */
-    private String excludeArtifactIds;
+  /**
+   * @optional
+   * @parameter expression="${excludeArtifactIds}" default-value=""
+   */
+  private String excludeArtifactIds;
 
-    /**
-     * Comma separated list of Artifact names too exclude.
-     */
-    public String getExcludeArtifactIds() {
-        return excludeArtifactIds;
-    }
+  /**
+   * Comma separated list of Artifact names too exclude.
+   */
+  public String getExcludeArtifactIds() {
+    return excludeArtifactIds;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${includeArtifactIds}" default-value=""
-     */
-    private String includeArtifactIds;
+  /**
+   * @optional
+   * @parameter expression="${includeArtifactIds}" default-value=""
+   */
+  private String includeArtifactIds;
 
-    /**
-     * Comma separated list of Artifact names to include.
-     */
-    public String getIncludeArtifactIds() {
-        return includeArtifactIds;
-    }
+  /**
+   * Comma separated list of Artifact names to include.
+   */
+  public String getIncludeArtifactIds() {
+    return includeArtifactIds;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${excludeGroupIds}" default-value=""
-     */
-    private String excludeGroupIds;
+  /**
+   * @optional
+   * @parameter expression="${excludeGroupIds}" default-value=""
+   */
+  private String excludeGroupIds;
 
-    /**
-     * Comma separated list of GroupId Names to exclude.
-     */
-    public String getExcludeGroupIds() {
-        return excludeGroupIds;
-    }
+  /**
+   * Comma separated list of GroupId Names to exclude.
+   */
+  public String getExcludeGroupIds() {
+    return excludeGroupIds;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${includeGroupIds}" default-value=""
-     */
-    private String includeGroupIds;
+  /**
+   * @optional
+   * @parameter expression="${includeGroupIds}" default-value=""
+   */
+  private String includeGroupIds;
 
-    /**
-     * Comma separated list of GroupIds to include.
-     */
-    public String getIncludeGroupIds() {
-        return includeGroupIds;
-    }
+  /**
+   * Comma separated list of GroupIds to include.
+   */
+  public String getIncludeGroupIds() {
+    return includeGroupIds;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${excludeArtifactIds}" default-value=""
-     */
-    private String excludeGroupIdArtifactIds;
+  /**
+   * @optional
+   * @parameter expression="${excludeArtifactIds}" default-value=""
+   */
+  private String excludeGroupIdArtifactIds;
 
-    public void setExcludeGroupIdArtifactIds(String excludeGroupIdArtifactIds) {
-        this.excludeGroupIdArtifactIds = excludeGroupIdArtifactIds;
-    }
+  public void setExcludeGroupIdArtifactIds(String excludeGroupIdArtifactIds) {
+    this.excludeGroupIdArtifactIds = excludeGroupIdArtifactIds;
+  }
 
-    /**
-     * Comma separated list of Artifact names too exclude.
-     */
-    public String getExcludeGroupIdArtifactIds() {
-        return excludeGroupIdArtifactIds;
-    }
+  /**
+   * Comma separated list of Artifact names too exclude.
+   */
+  public String getExcludeGroupIdArtifactIds() {
+    return excludeGroupIdArtifactIds;
+  }
 
-    /**
-     * @optional
-     * @parameter expression="${includeArtifactIds}" default-value=""
-     */
-    private String includeGroupIdArtifactIds;
+  /**
+   * @optional
+   * @parameter expression="${includeArtifactIds}" default-value=""
+   */
+  private String includeGroupIdArtifactIds;
 
-    /**
-     * Comma separated list of Artifact names to include.
-     */
-    public String getIncludeGroupIdArtifactIds() {
-        return includeGroupIdArtifactIds;
-    }
+  /**
+   * Comma separated list of Artifact names to include.
+   */
+  public String getIncludeGroupIdArtifactIds() {
+    return includeGroupIdArtifactIds;
+  }
 }

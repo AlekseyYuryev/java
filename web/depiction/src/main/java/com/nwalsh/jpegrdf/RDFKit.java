@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -42,403 +43,403 @@ import java.util.Set;
  */
 public class RDFKit
 {
-	public static Map<String,String> namespaces = new Hashtable<String,String>();
+  public static Map<String,String> namespaces = new Hashtable<String,String>();
 
-	/**
-	 * Don't instantiate
-	 */
-	private RDFKit()
-	{
-	}
+  /**
+   * Don't instantiate
+   */
+  private RDFKit()
+  {
+  }
 
-	public static boolean findProperty(Model model, Resource subject, String property)
-	{
-		boolean foundLocal = false;
+  public static boolean findProperty(Model model, Resource subject, String property)
+  {
+    boolean foundLocal = false;
 
-		try
-		{
-			int pos = property.indexOf(":");
-			String prefix = property.substring(0, pos);
-			property = property.substring(pos + 1);
+    try
+    {
+      int pos = property.indexOf(":");
+      String prefix = property.substring(0, pos);
+      property = property.substring(pos + 1);
 
-			String uri = RDFKit.namespaces.get(prefix);
+      String uri = RDFKit.namespaces.get(prefix);
 
-			Property p = null;
-			if(property.length() != 0)
-			{
-				p = model.createProperty(uri, property);
-			}
+      Property p = null;
+      if(property.length() != 0)
+      {
+        p = model.createProperty(uri, property);
+      }
 
-			StmtIterator iter = model.listStatements(new SelectorImpl(subject, p, (RDFNode) null));
-			while(iter.hasNext() && !foundLocal)
-			{
-				Statement stmt = (Statement) iter.next();
-				Property sp = stmt.getPredicate();
+      StmtIterator iter = model.listStatements(new SelectorImpl(subject, p, (RDFNode) null));
+      while(iter.hasNext() && !foundLocal)
+      {
+        Statement stmt = (Statement) iter.next();
+        Property sp = stmt.getPredicate();
 
-				if(uri.equals(sp.getNameSpace()) && (property.length() == 0 || sp.getLocalName().equals(property)))
-				{
-					foundLocal = true;
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			// nop
-		}
+        if(uri.equals(sp.getNameSpace()) && (property.length() == 0 || sp.getLocalName().equals(property)))
+        {
+          foundLocal = true;
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      // nop
+    }
 
-		return foundLocal;
-	}
+    return foundLocal;
+  }
 
-	public static Model copyModel(Model model,
-	Resource subject, String uri)
-	{
-		try
-		{
-			Model newModel = ModelFactory.createDefaultModel();
-			Resource newSubject = newModel.createResource(uri);
+  public static Model copyModel(Model model,
+  Resource subject, String uri)
+  {
+    try
+    {
+      Model newModel = ModelFactory.createDefaultModel();
+      Resource newSubject = newModel.createResource(uri);
 
-			// Copy prefix mappings to the new model...
-			newModel.setNsPrefixes(model.getNsPrefixMap());
+      // Copy prefix mappings to the new model...
+      newModel.setNsPrefixes(model.getNsPrefixMap());
 
-			copyToModel(model, subject, newModel, newSubject);
+      copyToModel(model, subject, newModel, newSubject);
 
-			return newModel;
-		}
-		catch(Exception e)
-		{
-			System.err.println("Failed: " + e);
-			e.printStackTrace();
-			System.exit(2);
-		}
+      return newModel;
+    }
+    catch(Exception e)
+    {
+      System.err.println("Failed: " + e);
+      e.printStackTrace();
+      System.exit(2);
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public static void copyToModel(Model srcModel, Resource srcRsrc, Model destModel, Resource destRsrc)
-	{
-		try
-		{
-			StmtIterator iter = srcModel.listStatements(new SelectorImpl(srcRsrc, null, (RDFNode) null));
-			while(iter.hasNext())
-			{
-				Statement stmt = (Statement) iter.next();
-				RDFNode obj = stmt.getObject();
+  public static void copyToModel(Model srcModel, Resource srcRsrc, Model destModel, Resource destRsrc)
+  {
+    try
+    {
+      StmtIterator iter = srcModel.listStatements(new SelectorImpl(srcRsrc, null, (RDFNode) null));
+      while(iter.hasNext())
+      {
+        Statement stmt = (Statement) iter.next();
+        RDFNode obj = stmt.getObject();
 
-				if(obj instanceof Resource)
-				{
-					Resource robj = (Resource) obj;
-					if(robj.isAnon())
-					{
-						Resource destSubResource = destModel.createResource();
-						copyToModel(srcModel, robj, destModel, destSubResource);
-						obj = destSubResource;
-					}
-				}
+        if(obj instanceof Resource)
+        {
+          Resource robj = (Resource) obj;
+          if(robj.isAnon())
+          {
+            Resource destSubResource = destModel.createResource();
+            copyToModel(srcModel, robj, destModel, destSubResource);
+            obj = destSubResource;
+          }
+        }
 
-				Statement newStmt = destModel.createStatement(destRsrc, stmt.getPredicate(), obj);
-				destModel.add(newStmt);
-			}
-		}
-		catch(Exception e)
-		{
-			System.err.println("Failed: " + e);
-			e.printStackTrace();
-			System.exit(2);
-		}
-	}
+        Statement newStmt = destModel.createStatement(destRsrc, stmt.getPredicate(), obj);
+        destModel.add(newStmt);
+      }
+    }
+    catch(Exception e)
+    {
+      System.err.println("Failed: " + e);
+      e.printStackTrace();
+      System.exit(2);
+    }
+  }
 
-	public static Model loadModel(String filename)
-	{
-		// I used to pass encoding in here, but that's dumb. I'm reading XML
-		// which is self-describing.
+  public static Model loadModel(String filename)
+  {
+    // I used to pass encoding in here, but that's dumb. I'm reading XML
+    // which is self-describing.
 
-		Model model = ModelFactory.createDefaultModel();
+    Model model = ModelFactory.createDefaultModel();
 
-		SystemKit.message(2, "Loading " + filename + "...");
-		try
-		{
-			File inputFile = new File(filename);
-			FileInputStream input = new FileInputStream(inputFile);
-			if(input == null)
-			{
-				SystemKit.abort(1, "Failed to open " + filename);
-			}
+    SystemKit.message(2, "Loading " + filename + "...");
+    try
+    {
+      File inputFile = new File(filename);
+      FileInputStream input = new FileInputStream(inputFile);
+      if(input == null)
+      {
+        SystemKit.abort(1, "Failed to open " + filename);
+      }
 
-			model.read(input, "file://" + inputFile.getAbsolutePath());
-			input.close();
+      model.read(input, "file://" + inputFile.getAbsolutePath());
+      input.close();
 
-		}
-		catch(FileNotFoundException fnfe)
-		{
-			SystemKit.message(1, "No file: " + filename);
-			fnfe.printStackTrace();
-		}
-		catch(UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IOException e)
-		{
-			SystemKit.message(1, "Failed to read: " + filename);
-			e.printStackTrace();
-		}
-		return model;
-	}
+    }
+    catch(FileNotFoundException fnfe)
+    {
+      SystemKit.message(1, "No file: " + filename);
+      fnfe.printStackTrace();
+    }
+    catch(UnsupportedEncodingException e)
+    {
+      e.printStackTrace();
+    }
+    catch(IOException e)
+    {
+      SystemKit.message(1, "Failed to read: " + filename);
+      e.printStackTrace();
+    }
+    return model;
+  }
 
-	public static Model mergeModel(Model model, Model newModel)
-	{
-		try
-		{
-			ResIterator ri = newModel.listSubjects();
-			while(ri.hasNext())
-			{
-				Resource newSubject = (Resource) ri.next();
-				Resource subject;
-				if(newSubject.isAnon())
-				{
-					// nevermind; copyToModel will handle this case recursively
-				}
-				else
-				{
-					subject = model.createResource(newSubject.getURI());
-					copyToModel(newModel, newSubject, model, subject);
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			System.err.println("Failed: " + e);
-			e.printStackTrace();
-			System.exit(2);
-		}
-		return model;
-	}
+  public static Model mergeModel(Model model, Model newModel)
+  {
+    try
+    {
+      ResIterator ri = newModel.listSubjects();
+      while(ri.hasNext())
+      {
+        Resource newSubject = (Resource) ri.next();
+        Resource subject;
+        if(newSubject.isAnon())
+        {
+          // nevermind; copyToModel will handle this case recursively
+        }
+        else
+        {
+          subject = model.createResource(newSubject.getURI());
+          copyToModel(newModel, newSubject, model, subject);
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      System.err.println("Failed: " + e);
+      e.printStackTrace();
+      System.exit(2);
+    }
+    return model;
+  }
 
-	public static void deleteLiteral(Model model, Resource subject, String property, String value)
-	{
-		String prefix = "";
+  public static void deleteLiteral(Model model, Resource subject, String property, String value)
+  {
+    String prefix = "";
 
-		int pos = property.indexOf(":");
-		prefix = property.substring(0, pos);
-		property = property.substring(pos + 1);
+    int pos = property.indexOf(":");
+    prefix = property.substring(0, pos);
+    property = property.substring(pos + 1);
 
-		try
-		{
-			String uri = namespaces.get(prefix);
-			Property p = model.createProperty(uri, property);
-			RDFNode v = model.createLiteral(value);
-			Statement s = model.createStatement(subject, p, v);
-			model.remove(s);
-		}
-		catch(Exception e)
-		{
-			// nop;
-		}
-	}
+    try
+    {
+      String uri = namespaces.get(prefix);
+      Property p = model.createProperty(uri, property);
+      RDFNode v = model.createLiteral(value);
+      Statement s = model.createStatement(subject, p, v);
+      model.remove(s);
+    }
+    catch(Exception e)
+    {
+      // nop;
+    }
+  }
 
-	public static String queryLiteral(Model model, Resource subject, String property)
-	{
-		String prefix = "";
+  public static String queryLiteral(Model model, Resource subject, String property)
+  {
+    String prefix = "";
 
-		int pos = property.indexOf(":");
-		prefix = property.substring(0, pos);
-		property = property.substring(pos + 1);
+    int pos = property.indexOf(":");
+    prefix = property.substring(0, pos);
+    property = property.substring(pos + 1);
 
-		try
-		{
-			String uri = namespaces.get(prefix);
-			Property p = model.createProperty(uri, property);
-			RDFNode v = null;
+    try
+    {
+      String uri = namespaces.get(prefix);
+      Property p = model.createProperty(uri, property);
+      RDFNode v = null;
 
-			StmtIterator iter = model.listStatements(new SelectorImpl(subject, p, v));
-			while(iter.hasNext())
-			{
-				Statement stmt = (Statement) iter.next();
-				RDFNode obj = stmt.getObject();
-				if(obj instanceof Literal)
-				{
-					return obj.toString();
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			// nop;
-		}
+      StmtIterator iter = model.listStatements(new SelectorImpl(subject, p, v));
+      while(iter.hasNext())
+      {
+        Statement stmt = (Statement) iter.next();
+        RDFNode obj = stmt.getObject();
+        if(obj instanceof Literal)
+        {
+          return obj.toString();
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      // nop;
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public static void updateLiteral(Model model, Resource subject, String property, String value)
-	{
+  public static void updateLiteral(Model model, Resource subject, String property, String value)
+  {
 
-		try
-		{
-			String rdfValue =
-			queryLiteral(model, subject, property);
+    try
+    {
+      String rdfValue =
+      queryLiteral(model, subject, property);
 
-			if(value != null && !value.equals(rdfValue))
-			{
-				SystemKit.message(2, "Updating " + property + "=" + value);
-				deleteLiteral(model, subject, property, rdfValue);
+      if(value != null && !value.equals(rdfValue))
+      {
+        SystemKit.message(2, "Updating " + property + "=" + value);
+        deleteLiteral(model, subject, property, rdfValue);
 
-				String prefix = "";
-				int pos = property.indexOf(":");
-				prefix = property.substring(0, pos);
-				property = property.substring(pos + 1);
+        String prefix = "";
+        int pos = property.indexOf(":");
+        prefix = property.substring(0, pos);
+        property = property.substring(pos + 1);
 
-				String uri = namespaces.get(prefix);
-				Property p = model.createProperty(uri, property);
-				RDFNode v = model.createLiteral(value);
+        String uri = namespaces.get(prefix);
+        Property p = model.createProperty(uri, property);
+        RDFNode v = model.createLiteral(value);
 
-				Statement s = model.createStatement(subject, p, v);
+        Statement s = model.createStatement(subject, p, v);
 
-				model.add(s);
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception in ul");
-			e.printStackTrace();
-			// nop;
-		}
-	}
+        model.add(s);
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("Exception in ul");
+      e.printStackTrace();
+      // nop;
+    }
+  }
 
-	public static String getNamespacePrefix(String namespace)
-	{
-		if(namespaces.containsValue(namespace))
-		{
-			// find it...
-			Set<String> keys = namespaces.keySet();
-			for(String key : keys)
-			{
-				if(namespace.equals(namespaces.get(key)))
-				{
-					return key;
-				}
-			}
-			System.err.println("Internal error: this can't happen.");
-			return "XXX";
-		}
-		else if(!namespaces.containsKey("exif") && "http://nwalsh.com/rdf/exif#".equals(namespace))
-		{
-			// Special case
-			namespaces.put("exif", namespace);
-			return "exif";
-		}
-		else if(!namespaces.containsKey("exifi") && "http://nwalsh.com/rdf/exif-intrinsic#".equals(namespace))
-		{
-			// Special case
-			namespaces.put("exifi", namespace);
-			return "exifi";
-		}
-		else
-		{
-			// add it...
-			String p = "dp";
-			int num = 0;
-			String prefix = p + num;
-			while(namespaces.containsKey(prefix))
-			{
-				num++;
-				prefix = p + num;
-			}
-			namespaces.put(prefix, namespace);
-			return prefix;
-		}
-	}
+  public static String getNamespacePrefix(String namespace)
+  {
+    if(namespaces.containsValue(namespace))
+    {
+      // find it...
+      Set<String> keys = namespaces.keySet();
+      for(String key : keys)
+      {
+        if(namespace.equals(namespaces.get(key)))
+        {
+          return key;
+        }
+      }
+      System.err.println("Internal error: this can't happen.");
+      return "XXX";
+    }
+    else if(!namespaces.containsKey("exif") && "http://nwalsh.com/rdf/exif#".equals(namespace))
+    {
+      // Special case
+      namespaces.put("exif", namespace);
+      return "exif";
+    }
+    else if(!namespaces.containsKey("exifi") && "http://nwalsh.com/rdf/exif-intrinsic#".equals(namespace))
+    {
+      // Special case
+      namespaces.put("exifi", namespace);
+      return "exifi";
+    }
+    else
+    {
+      // add it...
+      String p = "dp";
+      int num = 0;
+      String prefix = p + num;
+      while(namespaces.containsKey(prefix))
+      {
+        num++;
+        prefix = p + num;
+      }
+      namespaces.put(prefix, namespace);
+      return prefix;
+    }
+  }
 
-	public static String modelToString(Model showRDF, String baseURI)
-	{
-		StringOutputStream stringOutput = new StringOutputStream();
-		showRDF.write(stringOutput, "RDF/XML-ABBREV", baseURI);
-		String rawString = stringOutput.toString();
+  public static String modelToString(Model showRDF, String baseURI)
+  {
+    StringOutputStream stringOutput = new StringOutputStream();
+    showRDF.write(stringOutput, "RDF/XML-ABBREV", baseURI);
+    String rawString = stringOutput.toString();
 
-		// The rawString contains the octets of the utf-8 representation of the
-		// data as individual characters. This is really unusual, but it's true.
-		byte[] utf8octets = new byte[rawString.length()];
-		for(int i = 0; i < rawString.length(); i++)
-		{
-			utf8octets[i] = (byte) rawString.charAt(i);
-		}
+    // The rawString contains the octets of the utf-8 representation of the
+    // data as individual characters. This is really unusual, but it's true.
+    byte[] utf8octets = new byte[rawString.length()];
+    for(int i = 0; i < rawString.length(); i++)
+    {
+      utf8octets[i] = (byte) rawString.charAt(i);
+    }
 
-		// Turn these octets back into a proper utf-8 string.
-		try
-		{
-			rawString = new String(utf8octets, "utf-8");
-		}
-		catch(UnsupportedEncodingException uee)
-		{
-			// this can't happen
-		}
+    // Turn these octets back into a proper utf-8 string.
+    try
+    {
+      rawString = new String(utf8octets, "utf-8");
+    }
+    catch(UnsupportedEncodingException uee)
+    {
+      // this can't happen
+    }
 
-		// Now encode it "safely" as XML
-		String rdfString = XMLKit.xmlEncode(rawString);
+    // Now encode it "safely" as XML
+    String rdfString = XMLKit.xmlEncode(rawString);
 
-		//System.err.println("Serialized RDF: " + rdfString);
+    //System.err.println("Serialized RDF: " + rdfString);
 
-		return rdfString;
-	}
+    return rdfString;
+  }
 
-	public static void delete(Model model, Resource subject, String property)
-	{
+  public static void delete(Model model, Resource subject, String property)
+  {
 
-		String prefix = "";
+    String prefix = "";
 
-		int pos = property.indexOf(":");
-		prefix = property.substring(0, pos);
-		property = property.substring(pos + 1);
+    int pos = property.indexOf(":");
+    prefix = property.substring(0, pos);
+    property = property.substring(pos + 1);
 
-		Property p = null;
-		String uri =
-		(String) RDFKit.namespaces.get(prefix);
-		if(!"".equals(property))
-		{
-			p = model.createProperty(uri, property);
-		}
+    Property p = null;
+    String uri =
+    (String) RDFKit.namespaces.get(prefix);
+    if(!"".equals(property))
+    {
+      p = model.createProperty(uri, property);
+    }
 
-		StmtIterator iter =
-		model.listStatements(
-		new SelectorImpl(
-		subject,
-		p,
-		(RDFNode) null));
+    StmtIterator iter =
+    model.listStatements(
+    new SelectorImpl(
+    subject,
+    p,
+    (RDFNode) null));
 
-		while(iter.hasNext())
-		{
-			Statement stmt =
-			(Statement) iter.next();
+    while(iter.hasNext())
+    {
+      Statement stmt =
+      (Statement) iter.next();
 
-			p = stmt.getPredicate();
+      p = stmt.getPredicate();
 
-			if(p.getNameSpace() == null)
-			{
-				continue;
-			}
+      if(p.getNameSpace() == null)
+      {
+        continue;
+      }
 
-			if(p.getNameSpace().equals(uri))
-			{
-				String type = "literal";
-				if(stmt.getObject()
-				instanceof Resource)
-				{
-					type = "resource";
-				}
-				SystemKit.message(
-				3,
-				"\tdelete "
-				+ type
-				+ ": "
-				+ prefix
-				+ ":"
-				+ p.getLocalName()
-				+ "="
-				+ stmt
-				.getObject()
-				.toString());
-				model.remove(stmt);
-			}
-		}
-	}
+      if(p.getNameSpace().equals(uri))
+      {
+        String type = "literal";
+        if(stmt.getObject()
+        instanceof Resource)
+        {
+          type = "resource";
+        }
+        SystemKit.message(
+        3,
+        "\tdelete "
+        + type
+        + ": "
+        + prefix
+        + ":"
+        + p.getLocalName()
+        + "="
+        + stmt
+        .getObject()
+        .toString());
+        model.remove(stmt);
+      }
+    }
+  }
 
 }

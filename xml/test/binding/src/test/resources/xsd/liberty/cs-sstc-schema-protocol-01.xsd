@@ -3,386 +3,386 @@
 <!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Phillip Hallam-Baker (Phillip Hallam-Baker) -->
 
 <schema
-	elementFormDefault="unqualified"
-	targetNamespace="urn:oasis:names:tc:SAML:1.0:protocol"
-	xmlns="http://www.w3.org/2001/XMLSchema"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion"
-	xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol">
+  elementFormDefault="unqualified"
+  targetNamespace="urn:oasis:names:tc:SAML:1.0:protocol"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion"
+  xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol">
 
-	<import
-		namespace="urn:oasis:names:tc:SAML:1.0:assertion"
-		schemaLocation="cs-sstc-schema-assertion-01.xsd"/>
+  <import
+    namespace="urn:oasis:names:tc:SAML:1.0:assertion"
+    schemaLocation="cs-sstc-schema-assertion-01.xsd"/>
 
-	<import
-		namespace="http://www.w3.org/2000/09/xmldsig#"
-		schemaLocation="xmldsig-core-schema.xsd"/>
+  <import
+    namespace="http://www.w3.org/2000/09/xmldsig#"
+    schemaLocation="xmldsig-core-schema.xsd"/>
 
-	<annotation>
+  <annotation>
 
-		<documentation> Document identifier: cs-sstc-schema-protocol-01 Location:
-			http://www.oasis-open.org/committees/security/docs/ </documentation>
+    <documentation> Document identifier: cs-sstc-schema-protocol-01 Location:
+      http://www.oasis-open.org/committees/security/docs/ </documentation>
 
-	</annotation>
+  </annotation>
 
-	<complexType
-		abstract="true"
-		name="RequestAbstractType">
+  <complexType
+    abstract="true"
+    name="RequestAbstractType">
 
-		<sequence>
+    <sequence>
 
-			<element
-				maxOccurs="unbounded"
-				minOccurs="0"
-				ref="samlp:RespondWith"/>
+      <element
+        maxOccurs="unbounded"
+        minOccurs="0"
+        ref="samlp:RespondWith"/>
 
-			<element
-				minOccurs="0"
-				ref="ds:Signature"/>
+      <element
+        minOccurs="0"
+        ref="ds:Signature"/>
 
-		</sequence>
+    </sequence>
 
-		<attribute
-			name="RequestID"
-			type="saml:IDType"
-			use="required"/>
+    <attribute
+      name="RequestID"
+      type="saml:IDType"
+      use="required"/>
 
-		<attribute
-			name="MajorVersion"
-			type="integer"
-			use="required"/>
+    <attribute
+      name="MajorVersion"
+      type="integer"
+      use="required"/>
 
-		<attribute
-			name="MinorVersion"
-			type="integer"
-			use="required"/>
+    <attribute
+      name="MinorVersion"
+      type="integer"
+      use="required"/>
 
-		<attribute
-			name="IssueInstant"
-			type="dateTime"
-			use="required"/>
+    <attribute
+      name="IssueInstant"
+      type="dateTime"
+      use="required"/>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="RespondWith"
-		type="QName"/>
+  <element
+    name="RespondWith"
+    type="QName"/>
 
-	<element
-		name="Request"
-		type="samlp:RequestType"/>
+  <element
+    name="Request"
+    type="samlp:RequestType"/>
 
-	<complexType
-		name="RequestType">
+  <complexType
+    name="RequestType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:RequestAbstractType">
+      <extension
+        base="samlp:RequestAbstractType">
 
-				<choice>
+        <choice>
 
-					<element
-						ref="samlp:Query"/>
+          <element
+            ref="samlp:Query"/>
 
-					<element
-						ref="samlp:SubjectQuery"/>
+          <element
+            ref="samlp:SubjectQuery"/>
 
-					<element
-						ref="samlp:AuthenticationQuery"/>
+          <element
+            ref="samlp:AuthenticationQuery"/>
 
-					<element
-						ref="samlp:AttributeQuery"/>
+          <element
+            ref="samlp:AttributeQuery"/>
 
-					<element
-						ref="samlp:AuthorizationDecisionQuery"/>
+          <element
+            ref="samlp:AuthorizationDecisionQuery"/>
 
-					<element
-						maxOccurs="unbounded"
-						ref="saml:AssertionIDReference"/>
+          <element
+            maxOccurs="unbounded"
+            ref="saml:AssertionIDReference"/>
 
-					<element
-						maxOccurs="unbounded"
-						ref="samlp:AssertionArtifact"/>
+          <element
+            maxOccurs="unbounded"
+            ref="samlp:AssertionArtifact"/>
 
-				</choice>
+        </choice>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="AssertionArtifact"
-		type="string"/>
+  <element
+    name="AssertionArtifact"
+    type="string"/>
 
-	<element
-		name="Query"
-		type="samlp:QueryAbstractType"/>
+  <element
+    name="Query"
+    type="samlp:QueryAbstractType"/>
 
-	<complexType
-		abstract="true"
-		name="QueryAbstractType"/>
+  <complexType
+    abstract="true"
+    name="QueryAbstractType"/>
 
-	<element
-		name="SubjectQuery"
-		type="samlp:SubjectQueryAbstractType"/>
+  <element
+    name="SubjectQuery"
+    type="samlp:SubjectQueryAbstractType"/>
 
-	<complexType
-		abstract="true"
-		name="SubjectQueryAbstractType">
+  <complexType
+    abstract="true"
+    name="SubjectQueryAbstractType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:QueryAbstractType">
+      <extension
+        base="samlp:QueryAbstractType">
 
-				<sequence>
+        <sequence>
 
-					<element
-						ref="saml:Subject"/>
+          <element
+            ref="saml:Subject"/>
 
-				</sequence>
+        </sequence>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="AuthenticationQuery"
-		type="samlp:AuthenticationQueryType"/>
+  <element
+    name="AuthenticationQuery"
+    type="samlp:AuthenticationQueryType"/>
 
-	<complexType
-		name="AuthenticationQueryType">
+  <complexType
+    name="AuthenticationQueryType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:SubjectQueryAbstractType">
+      <extension
+        base="samlp:SubjectQueryAbstractType">
 
-				<attribute
-					name="AuthenticationMethod"
-					type="anyURI"/>
+        <attribute
+          name="AuthenticationMethod"
+          type="anyURI"/>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="AttributeQuery"
-		type="samlp:AttributeQueryType"/>
+  <element
+    name="AttributeQuery"
+    type="samlp:AttributeQueryType"/>
 
-	<complexType
-		name="AttributeQueryType">
+  <complexType
+    name="AttributeQueryType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:SubjectQueryAbstractType">
+      <extension
+        base="samlp:SubjectQueryAbstractType">
 
-				<sequence>
+        <sequence>
 
-					<element
-						maxOccurs="unbounded"
-						minOccurs="0"
-						ref="saml:AttributeDesignator"/>
+          <element
+            maxOccurs="unbounded"
+            minOccurs="0"
+            ref="saml:AttributeDesignator"/>
 
-				</sequence>
+        </sequence>
 
-				<attribute
-					name="Resource"
-					type="anyURI"
-					use="optional"/>
+        <attribute
+          name="Resource"
+          type="anyURI"
+          use="optional"/>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="AuthorizationDecisionQuery"
-		type="samlp:AuthorizationDecisionQueryType"/>
+  <element
+    name="AuthorizationDecisionQuery"
+    type="samlp:AuthorizationDecisionQueryType"/>
 
-	<complexType
-		name="AuthorizationDecisionQueryType">
+  <complexType
+    name="AuthorizationDecisionQueryType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:SubjectQueryAbstractType">
+      <extension
+        base="samlp:SubjectQueryAbstractType">
 
-				<sequence>
+        <sequence>
 
-					<element
-						maxOccurs="unbounded"
-						ref="saml:Action"/>
+          <element
+            maxOccurs="unbounded"
+            ref="saml:Action"/>
 
-					<element
-						maxOccurs="1"
-						minOccurs="0"
-						ref="saml:Evidence"/>
+          <element
+            maxOccurs="1"
+            minOccurs="0"
+            ref="saml:Evidence"/>
 
-				</sequence>
+        </sequence>
 
-				<attribute
-					name="Resource"
-					type="anyURI"
-					use="required"/>
+        <attribute
+          name="Resource"
+          type="anyURI"
+          use="required"/>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<complexType
-		abstract="true"
-		name="ResponseAbstractType">
+  <complexType
+    abstract="true"
+    name="ResponseAbstractType">
 
-		<sequence>
+    <sequence>
 
-			<element
-				minOccurs="0"
-				ref="ds:Signature"/>
+      <element
+        minOccurs="0"
+        ref="ds:Signature"/>
 
-		</sequence>
+    </sequence>
 
-		<attribute
-			name="ResponseID"
-			type="saml:IDType"
-			use="required"/>
+    <attribute
+      name="ResponseID"
+      type="saml:IDType"
+      use="required"/>
 
-		<attribute
-			name="InResponseTo"
-			type="saml:IDReferenceType"
-			use="optional"/>
+    <attribute
+      name="InResponseTo"
+      type="saml:IDReferenceType"
+      use="optional"/>
 
-		<attribute
-			name="MajorVersion"
-			type="integer"
-			use="required"/>
+    <attribute
+      name="MajorVersion"
+      type="integer"
+      use="required"/>
 
-		<attribute
-			name="MinorVersion"
-			type="integer"
-			use="required"/>
+    <attribute
+      name="MinorVersion"
+      type="integer"
+      use="required"/>
 
-		<attribute
-			name="IssueInstant"
-			type="dateTime"
-			use="required"/>
+    <attribute
+      name="IssueInstant"
+      type="dateTime"
+      use="required"/>
 
-		<attribute
-			name="Recipient"
-			type="anyURI"
-			use="optional"/>
+    <attribute
+      name="Recipient"
+      type="anyURI"
+      use="optional"/>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="Response"
-		type="samlp:ResponseType"/>
+  <element
+    name="Response"
+    type="samlp:ResponseType"/>
 
-	<complexType
-		name="ResponseType">
+  <complexType
+    name="ResponseType">
 
-		<complexContent>
+    <complexContent>
 
-			<extension
-				base="samlp:ResponseAbstractType">
+      <extension
+        base="samlp:ResponseAbstractType">
 
-				<sequence>
+        <sequence>
 
-					<element
-						ref="samlp:Status"/>
+          <element
+            ref="samlp:Status"/>
 
-					<element
-						maxOccurs="unbounded"
-						minOccurs="0"
-						ref="saml:Assertion"/>
+          <element
+            maxOccurs="unbounded"
+            minOccurs="0"
+            ref="saml:Assertion"/>
 
-				</sequence>
+        </sequence>
 
-			</extension>
+      </extension>
 
-		</complexContent>
+    </complexContent>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="Status"
-		type="samlp:StatusType"/>
+  <element
+    name="Status"
+    type="samlp:StatusType"/>
 
-	<complexType
-		name="StatusType">
+  <complexType
+    name="StatusType">
 
-		<sequence>
+    <sequence>
 
-			<element
-				ref="samlp:StatusCode"/>
+      <element
+        ref="samlp:StatusCode"/>
 
-			<element
-				maxOccurs="1"
-				minOccurs="0"
-				ref="samlp:StatusMessage"/>
+      <element
+        maxOccurs="1"
+        minOccurs="0"
+        ref="samlp:StatusMessage"/>
 
-			<element
-				minOccurs="0"
-				ref="samlp:StatusDetail"/>
+      <element
+        minOccurs="0"
+        ref="samlp:StatusDetail"/>
 
-		</sequence>
+    </sequence>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="StatusCode"
-		type="samlp:StatusCodeType"/>
+  <element
+    name="StatusCode"
+    type="samlp:StatusCodeType"/>
 
-	<complexType
-		name="StatusCodeType">
+  <complexType
+    name="StatusCodeType">
 
-		<sequence>
+    <sequence>
 
-			<element
-				minOccurs="0"
-				ref="samlp:StatusCode"/>
+      <element
+        minOccurs="0"
+        ref="samlp:StatusCode"/>
 
-		</sequence>
+    </sequence>
 
-		<attribute
-			name="Value"
-			type="QName"
-			use="required"/>
+    <attribute
+      name="Value"
+      type="QName"
+      use="required"/>
 
-	</complexType>
+  </complexType>
 
-	<element
-		name="StatusMessage"
-		type="string"/>
+  <element
+    name="StatusMessage"
+    type="string"/>
 
-	<element
-		name="StatusDetail"
-		type="samlp:StatusDetailType"/>
+  <element
+    name="StatusDetail"
+    type="samlp:StatusDetailType"/>
 
-	<complexType
-		name="StatusDetailType">
+  <complexType
+    name="StatusDetailType">
 
-		<sequence>
+    <sequence>
 
-			<any
-				maxOccurs="unbounded"
-				minOccurs="0"
-				namespace="##any"
-				processContents="lax"/>
+      <any
+        maxOccurs="unbounded"
+        minOccurs="0"
+        namespace="##any"
+        processContents="lax"/>
 
-		</sequence>
+    </sequence>
 
-	</complexType>
+  </complexType>
 
 </schema>

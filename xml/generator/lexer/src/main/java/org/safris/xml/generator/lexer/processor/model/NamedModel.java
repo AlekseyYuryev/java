@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.processor.model;
@@ -22,71 +23,71 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class NamedModel extends Model implements Nameable<Model> {
-    private UniqueQName name = null;
+  private UniqueQName name = null;
 
-    protected NamedModel(Node node, Model parent) {
-        super(node, parent);
-        if (node == null)
-            return;
+  protected NamedModel(Node node, Model parent) {
+    super(node, parent);
+    if (node == null)
+      return;
 
-        final NamedNodeMap attributes = node.getAttributes();
-        for (int i = 0; i < attributes.getLength(); i++) {
-            final Node attribute = attributes.item(i);
-            if ("name".equals(attribute.getLocalName()))
-                name = UniqueQName.getInstance(getTargetNamespace(), attribute.getNodeValue());
-        }
+    final NamedNodeMap attributes = node.getAttributes();
+    for (int i = 0; i < attributes.getLength(); i++) {
+      final Node attribute = attributes.item(i);
+      if ("name".equals(attribute.getLocalName()))
+        name = UniqueQName.getInstance(getTargetNamespace(), attribute.getNodeValue());
+    }
+  }
+
+  protected final void setName(UniqueQName name) {
+    this.name = name;
+  }
+
+  public UniqueQName getName() {
+    return name;
+  }
+
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+
+    if (!(getClass().isInstance(obj)))
+      return false;
+
+    final NamedModel that = (NamedModel)obj;
+    return name != null ? name.equals(that.name) : that.name == null;
+  }
+
+  // FIXME: This is dirty!!
+  public static UniqueQName getNameOfRestrictionBase(NamedModel model) {
+    if (model == null)
+      return null;
+
+    for (Model child : model.getChildren()) {
+      if (!(child instanceof RestrictionModel))
+        continue;
+
+      return ((RestrictionModel)child).getBase().getName();
     }
 
-    protected final void setName(UniqueQName name) {
-        this.name = name;
-    }
+    return null;
+  }
 
-    public UniqueQName getName() {
-        return name;
-    }
+  public int hashCode() {
+    UniqueQName name = this.name;
+    if (name == null)
+      name = getNameOfRestrictionBase(this);
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+    return 3 * (name != null ? name.hashCode() : -1);
+  }
 
-        if (!(getClass().isInstance(obj)))
-            return false;
+  public String toString() {
+    UniqueQName name = this.name;
+    if (name == null)
+      name = getNameOfRestrictionBase(this);
 
-        final NamedModel that = (NamedModel)obj;
-        return name != null ? name.equals(that.name) : that.name == null;
-    }
+    if (name == null)
+      return super.toString();
 
-    // FIXME: This is dirty!!
-    public static UniqueQName getNameOfRestrictionBase(NamedModel model) {
-        if (model == null)
-            return null;
-
-        for (Model child : model.getChildren()) {
-            if (!(child instanceof RestrictionModel))
-                continue;
-
-            return ((RestrictionModel)child).getBase().getName();
-        }
-
-        return null;
-    }
-
-    public int hashCode() {
-        UniqueQName name = this.name;
-        if (name == null)
-            name = getNameOfRestrictionBase(this);
-
-        return 3 * (name != null ? name.hashCode() : -1);
-    }
-
-    public String toString() {
-        UniqueQName name = this.name;
-        if (name == null)
-            name = getNameOfRestrictionBase(this);
-
-        if (name == null)
-            return super.toString();
-
-        return super.toString() + name.toString();
-    }
+    return super.toString() + name.toString();
+  }
 }

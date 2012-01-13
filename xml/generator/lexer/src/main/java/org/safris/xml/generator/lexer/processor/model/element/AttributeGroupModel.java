@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.processor.model.element;
@@ -31,71 +32,71 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class AttributeGroupModel extends NamedModel implements AttributableModel, RedefineableModel<AttributeGroupModel>, ReferableModel<AttributeGroupModel> {
-    private final LinkedHashSet<AttributeModel> attributes = new LinkedHashSet<AttributeModel>();
-    private AttributeGroupModel ref = null;
-    private AttributeGroupModel redefine = null;
+  private final LinkedHashSet<AttributeModel> attributes = new LinkedHashSet<AttributeModel>();
+  private AttributeGroupModel ref = null;
+  private AttributeGroupModel redefine = null;
 
-    protected AttributeGroupModel(Node node, Model parent) {
-        super(node, parent);
-        if (node == null)
-            return;
+  protected AttributeGroupModel(Node node, Model parent) {
+    super(node, parent);
+    if (node == null)
+      return;
 
-        final NamedNodeMap attributes = node.getAttributes();
-        for (int i = 0; i < attributes.getLength(); i++) {
-            final Node attribute = attributes.item(i);
-            if ("ref".equals(attribute.getLocalName()))
-                ref = AttributeGroupModel.Reference.parseAttributeGroup(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
-        }
+    final NamedNodeMap attributes = node.getAttributes();
+    for (int i = 0; i < attributes.getLength(); i++) {
+      final Node attribute = attributes.item(i);
+      if ("ref".equals(attribute.getLocalName()))
+        ref = AttributeGroupModel.Reference.parseAttributeGroup(UniqueQName.getInstance(parseQNameValue(attribute.getNodeValue(), node)));
+    }
+  }
+
+  public final void setRedefine(AttributeGroupModel redefine) {
+    this.redefine = redefine;
+  }
+
+  public final AttributeGroupModel getRedefine() {
+    return redefine;
+  }
+
+  public final void addAttribute(AttributeModel attribute) {
+    attributes.add(attribute);
+  }
+
+  public final void addAllAttributes(Collection<AttributeModel> attributes) {
+    attributes.addAll(attributes);
+  }
+
+  public final LinkedHashSet<AttributeModel> getAttributes() {
+    return attributes;
+  }
+
+  public final void setRef(AttributeGroupModel ref) {
+    this.ref = ref;
+  }
+
+  public final AttributeGroupModel getRef() {
+    return ref;
+  }
+
+  public String toString() {
+    return super.toString().replace(TO_STRING_DELIMITER, "ref=\"" + ref + "\"");
+  }
+
+  public static class Reference extends AttributeGroupModel implements Referenceable {
+    private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
+
+    protected Reference(Model parent) {
+      super(null, parent);
     }
 
-    public final void setRedefine(AttributeGroupModel redefine) {
-        this.redefine = redefine;
+    public static Reference parseAttributeGroup(UniqueQName name) {
+      Reference type = all.get(name);
+      if (type != null)
+        return type;
+
+      type = new Reference(null);
+      type.setName(name);
+      Reference.all.put(name, type);
+      return type;
     }
-
-    public final AttributeGroupModel getRedefine() {
-        return redefine;
-    }
-
-    public final void addAttribute(AttributeModel attribute) {
-        attributes.add(attribute);
-    }
-
-    public final void addAllAttributes(Collection<AttributeModel> attributes) {
-        attributes.addAll(attributes);
-    }
-
-    public final LinkedHashSet<AttributeModel> getAttributes() {
-        return attributes;
-    }
-
-    public final void setRef(AttributeGroupModel ref) {
-        this.ref = ref;
-    }
-
-    public final AttributeGroupModel getRef() {
-        return ref;
-    }
-
-    public String toString() {
-        return super.toString().replace(TO_STRING_DELIMITER, "ref=\"" + ref + "\"");
-    }
-
-    public static class Reference extends AttributeGroupModel implements Referenceable {
-        private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
-
-        protected Reference(Model parent) {
-            super(null, parent);
-        }
-
-        public static Reference parseAttributeGroup(UniqueQName name) {
-            Reference type = all.get(name);
-            if (type != null)
-                return type;
-
-            type = new Reference(null);
-            type.setName(name);
-            Reference.all.put(name, type);
-            return type;
-        }
-    }
+  }
 }

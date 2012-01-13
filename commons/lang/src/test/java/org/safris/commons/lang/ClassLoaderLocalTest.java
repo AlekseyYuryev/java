@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.lang;
@@ -27,42 +28,42 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ClassLoaderLocalTest {
-    public static void main(String[] args) throws Exception {
-        new ClassLoaderLocalTest().testClassLoaderLocal();
-    }
+  public static void main(String[] args) throws Exception {
+    new ClassLoaderLocalTest().testClassLoaderLocal();
+  }
 
-    private static String className = "com.sun.jmx.snmp.ThreadContext";
+  private static String className = "com.sun.jmx.snmp.ThreadContext";
 
-    @Test
-    // FIXME
-    @Ignore("FIXME")
-    public void testClassLoaderLocal() throws Exception {
-        final String bootClassPath = System.getProperty("sun.boot.class.path");
-        final Collection<URL> urls = new ArrayList<URL>();
-        final StringTokenizer tokenizer = new StringTokenizer(bootClassPath, ":");
-        while (tokenizer.hasMoreTokens())
-            urls.add(new URL("file", null, tokenizer.nextToken()));
+  @Test
+  // FIXME
+  @Ignore("FIXME")
+  public void testClassLoaderLocal() throws Exception {
+    final String bootClassPath = System.getProperty("sun.boot.class.path");
+    final Collection<URL> urls = new ArrayList<URL>();
+    final StringTokenizer tokenizer = new StringTokenizer(bootClassPath, ":");
+    while (tokenizer.hasMoreTokens())
+      urls.add(new URL("file", null, tokenizer.nextToken()));
 
-        final WeakReference<URLClassLoader> classLoaderReference = new WeakReference<URLClassLoader>(new URLClassLoader(urls.toArray(new URL[urls.size()]), null));
-        print(classLoaderReference);
-        classLoaderReference.get().loadClass(className).getDeclaredMethod("push", String.class, Object.class).invoke(null, "YES", "ONE");
-        classLoaderReference.get().loadClass(className);
-        print(classLoaderReference);
-        classLoaderReference.enqueue();
-        System.gc();
+    final WeakReference<URLClassLoader> classLoaderReference = new WeakReference<URLClassLoader>(new URLClassLoader(urls.toArray(new URL[urls.size()]), null));
+    print(classLoaderReference);
+    classLoaderReference.get().loadClass(className).getDeclaredMethod("push", String.class, Object.class).invoke(null, "YES", "ONE");
+    classLoaderReference.get().loadClass(className);
+    print(classLoaderReference);
+    classLoaderReference.enqueue();
+    System.gc();
 
-        final Object tc2 = ClassLoader.getSystemClassLoader().loadClass(className).getDeclaredMethod("get", String.class).invoke(null, "YES");
-        System.out.println(tc2);
-        print(classLoaderReference);
-    }
+    final Object tc2 = ClassLoader.getSystemClassLoader().loadClass(className).getDeclaredMethod("get", String.class).invoke(null, "YES");
+    System.out.println(tc2);
+    print(classLoaderReference);
+  }
 
-    private void print(WeakReference<URLClassLoader> classLoaderReference) {
-        System.out.println("----");
-        if (classLoaderReference.get() != null)
-            System.out.println("Weak: " + ClassLoaders.isClassLoaded(classLoaderReference.get(), className) + " " + classLoaderReference.get().getClass().getClassLoader());
-        System.out.println("Current: " + ClassLoaders.isClassLoaded(getClass().getClassLoader(), className) + " " + getClass().getClassLoader());
-        System.out.println("Context: " + ClassLoaders.isClassLoaded(Thread.currentThread().getContextClassLoader(), className) + " " + Thread.currentThread().getClass().getClassLoader());
-        System.out.println("System: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getClass().getClassLoader());
-        System.out.println("Bootstrap: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getParent().getClass().getClassLoader());
-    }
+  private void print(WeakReference<URLClassLoader> classLoaderReference) {
+    System.out.println("----");
+    if (classLoaderReference.get() != null)
+      System.out.println("Weak: " + ClassLoaders.isClassLoaded(classLoaderReference.get(), className) + " " + classLoaderReference.get().getClass().getClassLoader());
+    System.out.println("Current: " + ClassLoaders.isClassLoaded(getClass().getClassLoader(), className) + " " + getClass().getClassLoader());
+    System.out.println("Context: " + ClassLoaders.isClassLoaded(Thread.currentThread().getContextClassLoader(), className) + " " + Thread.currentThread().getClass().getClassLoader());
+    System.out.println("System: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getClass().getClassLoader());
+    System.out.println("Bootstrap: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getParent().getClass().getClassLoader());
+  }
 }

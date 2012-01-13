@@ -1,71 +1,72 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.xml.dom;
 
 public class DOMStyle {
-    protected static DOMStyle consolidate(DOMStyle ... options) {
-        if (options == null)
-            return null;
+  protected static DOMStyle consolidate(DOMStyle ... options) {
+    if (options == null)
+      return null;
 
-        if (options.length == 0)
-            return DEFAULT;
+    if (options.length == 0)
+      return DEFAULT;
 
-        if (options.length == 1)
-            return options[0];
+    if (options.length == 1)
+      return options[0];
 
-        final DOMStyle consolidated = new DOMStyle(DEFAULT_MASK);
-        for (DOMStyle option : options)
-            consolidated.mask = consolidated.mask | option.mask;
+    final DOMStyle consolidated = new DOMStyle(DEFAULT_MASK);
+    for (DOMStyle option : options)
+      consolidated.mask = consolidated.mask | option.mask;
 
-        return consolidated;
-    }
+    return consolidated;
+  }
 
-    private static final int DEFAULT_MASK = 0x00;
-    private static final int INDENT_MASK = 0x01;
-    private static final int IGNORE_NAMESPACES_MASK = 0x10;
+  private static final int DEFAULT_MASK = 0x00;
+  private static final int INDENT_MASK = 0x01;
+  private static final int IGNORE_NAMESPACES_MASK = 0x10;
 
-    private static final DOMStyle DEFAULT = new DOMStyle(DEFAULT_MASK);
-    public static final DOMStyle INDENT = new DOMStyle(INDENT_MASK);
-    public static final DOMStyle IGNORE_NAMESPACES = new DOMStyle(IGNORE_NAMESPACES_MASK);
+  private static final DOMStyle DEFAULT = new DOMStyle(DEFAULT_MASK);
+  public static final DOMStyle INDENT = new DOMStyle(INDENT_MASK);
+  public static final DOMStyle IGNORE_NAMESPACES = new DOMStyle(IGNORE_NAMESPACES_MASK);
 
-    private int mask = 0;
+  private int mask = 0;
 
-    public DOMStyle(int mask) {
-        this.mask = mask;
-    }
+  public DOMStyle(int mask) {
+    this.mask = mask;
+  }
 
-    protected boolean isIndent() {
-        return (mask & INDENT_MASK) == INDENT_MASK;
-    }
+  protected boolean isIndent() {
+    return (mask & INDENT_MASK) == INDENT_MASK;
+  }
 
-    protected boolean isIgnoreNamespaces() {
-        return (mask & IGNORE_NAMESPACES_MASK) == IGNORE_NAMESPACES_MASK;
-    }
+  protected boolean isIgnoreNamespaces() {
+    return (mask & IGNORE_NAMESPACES_MASK) == IGNORE_NAMESPACES_MASK;
+  }
 
-    public int hashCode() {
-        return mask;
-    }
+  public int hashCode() {
+    return mask;
+  }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
 
-        if (!(obj instanceof DOMStyle))
-            return false;
+    if (!(obj instanceof DOMStyle))
+      return false;
 
-        return ((DOMStyle)obj).mask == mask;
-    }
+    return ((DOMStyle)obj).mask == mask;
+  }
 }

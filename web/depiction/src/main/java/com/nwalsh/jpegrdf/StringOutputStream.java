@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -35,21 +36,21 @@ import java.util.Vector;
  */
 public class StringOutputStream extends OutputStream
    implements Serializable {
-	
+  
 /**
  * The internal StringBuffer to contain all the data
  * written to this OutputStream.
  */
-	protected StringBuffer buf = null;
-	
+  protected StringBuffer buf = null;
+  
 /**
  * Creates a StringOutputStream.
  * Makes a new internal StringBuffer.
  */
-	public StringOutputStream(){
-		super();
-		buf = new StringBuffer();
-	}
+  public StringOutputStream(){
+    super();
+    buf = new StringBuffer();
+  }
 /**
  * Returns the content of the internal
  * StringBuffer, the result of all writing
@@ -57,9 +58,9 @@ public class StringOutputStream extends OutputStream
  * @return Returns the content of the internal
  * StringBuffer.
  */
-	public String toString(){
-		return buf.toString();
-	}
+  public String toString(){
+    return buf.toString();
+  }
 /**
  * Returns the content of the internal
  * StringBuffer, the result of all writing
@@ -67,22 +68,22 @@ public class StringOutputStream extends OutputStream
  * @return Returns the content of the internal
  * StringBuffer.
  */
-	public String getString(){
-		return buf.toString();
-	}
+  public String getString(){
+    return buf.toString();
+  }
 /**
  * Sets the internal StringBuffer to null.
  *
  */
-	public void close(){
-		buf = null;
-	}
+  public void close(){
+    buf = null;
+  }
 /**
  * Does nothing in StringOutputStream
  * due to all the data is self contained.
  */
-	public void flush(){ //does nothing.
-	}
+  public void flush(){ //does nothing.
+  }
 /**
  * Writes and appends a byte array to the 
  * internal StringBuffer.
@@ -91,9 +92,9 @@ public class StringOutputStream extends OutputStream
  * @param b the byte array to write to the
  * internal StringBuffer.
  */
-	public void write(byte[] b){
-		buf.append(convertBytesToString(b));
-	}
+  public void write(byte[] b){
+    buf.append(convertBytesToString(b));
+  }
 /**
  * Writes and appends a byte array to the 
  * internal StringBuffer.
@@ -106,17 +107,17 @@ public class StringOutputStream extends OutputStream
  * @param len the number of bytes from byte array
  * b to read into internal StringBuffer.
  */
-	public void write(byte[] b, int off, int len){
-		if (off < 0 || len < 0 || off + len > b.length)
-			throw new IndexOutOfBoundsException(
-				"StringOutputStream.write: Parameters out of bounds.");
-		byte[] bytes = new byte[len];
-		int start = off;
-		for(int i=0; i<bytes.length; i++){
-			bytes[i] = b[start++];
-		}
-		buf.append(convertBytesToString(bytes));
-	}
+  public void write(byte[] b, int off, int len){
+    if (off < 0 || len < 0 || off + len > b.length)
+      throw new IndexOutOfBoundsException(
+        "StringOutputStream.write: Parameters out of bounds.");
+    byte[] bytes = new byte[len];
+    int start = off;
+    for(int i=0; i<bytes.length; i++){
+      bytes[i] = b[start++];
+    }
+    buf.append(convertBytesToString(bytes));
+  }
 /**
  * Writes and appends a single byte as an int to the 
  * internal StringBuffer.
@@ -126,9 +127,9 @@ public class StringOutputStream extends OutputStream
  * internal StringBuffer, taking the lower
  * eight bits of the int as the value of the char.
  */
-	public void write(int b){
-		buf.append((char) (b & 255)); //gets the eight low order bits of the int.
-	}
+  public void write(int b){
+    buf.append((char) (b & 255)); //gets the eight low order bits of the int.
+  }
 /**
  * Converts a String to a byte array, taking the
  * eight lower bits of each char as the eight bits of the bytes
@@ -136,15 +137,15 @@ public class StringOutputStream extends OutputStream
  * @param Str the String to convert to byte array.
  * @return the new byte array converted from a String.
  */
-	public static byte[] convertStringToBytes(String Str){
-		char[] NewChr = Str.toCharArray();
-		byte[] NewByt = new byte[NewChr.length];
-		for (int i=0; i < NewByt.length; i++){
-			int Ci = NewChr[i] & 255;
-			NewByt[i] = (byte) Ci;
-		}
-		return NewByt;	
-	}
+  public static byte[] convertStringToBytes(String Str){
+    char[] NewChr = Str.toCharArray();
+    byte[] NewByt = new byte[NewChr.length];
+    for (int i=0; i < NewByt.length; i++){
+      int Ci = NewChr[i] & 255;
+      NewByt[i] = (byte) Ci;
+    }
+    return NewByt;	
+  }
 /**
  * Converts a byte array to a String, taking the
  * eight bits of each byte as the lower eight bits of the chars
@@ -152,23 +153,23 @@ public class StringOutputStream extends OutputStream
  * @param bytes the byte array to convert to char array.
  * @return the new String converted from a byte array.
  */
-	public static String convertBytesToString(byte[] bytes){
-		return new String(convertBytesToChars(bytes));
-	}
+  public static String convertBytesToString(byte[] bytes){
+    return new String(convertBytesToChars(bytes));
+  }
 /**
  * Converts a byte array to a char array, taking the
  * eight bits of each byte as the lower eight bits of the char.
  * @param bytes the byte array to convert to char array.
  * @return the new char array converted from a byte array.
  */
-	public static char[] convertBytesToChars(byte[] bytes){
-		char[] NewChr = new char[bytes.length];
-		for (int i=0; i < NewChr.length; i++){
-			int Ci = bytes[i] & 255;
-			NewChr[i] = (char) Ci;
-		}
-		return NewChr;	
-	}
+  public static char[] convertBytesToChars(byte[] bytes){
+    char[] NewChr = new char[bytes.length];
+    for (int i=0; i < NewChr.length; i++){
+      int Ci = bytes[i] & 255;
+      NewChr[i] = (char) Ci;
+    }
+    return NewChr;	
+  }
 /**
  * Replaces all occurences of char of one type with another 
  * char in a given byte array and returns it.
@@ -181,13 +182,13 @@ public class StringOutputStream extends OutputStream
  * lower eight bits, ignoring the higher eight bits. 
  * @return the changed byte array.
  */
-	public static byte[] replaceBytes(byte[] Bytes, char Old, char New){
-		for(int i = 0; i < Bytes.length; i++){
-			int bint = Bytes[i] & 255; //full byte is byte & 255 - converts to int
-			if (bint == (Old & 127)) Bytes[i] = (byte)(New & 127); //ASCII is char & 127
-		}			
-		return Bytes;
-	}
+  public static byte[] replaceBytes(byte[] Bytes, char Old, char New){
+    for(int i = 0; i < Bytes.length; i++){
+      int bint = Bytes[i] & 255; //full byte is byte & 255 - converts to int
+      if (bint == (Old & 127)) Bytes[i] = (byte)(New & 127); //ASCII is char & 127
+    }			
+    return Bytes;
+  }
 /**
  * Replaces one String with another where it occurs of a byte array
  * making a new array due to the possibility of different size.
@@ -200,116 +201,116 @@ public class StringOutputStream extends OutputStream
  * @param New the new String to replace Old String with.
  * @return the new byte array with replacements done.
  */
-	public static byte[] replaceBytes(byte[] Bytes, String Old, String New){
-		String NewStr = replace(new String(Bytes), Old, New);
-		char[] NewChr = NewStr.toCharArray();
-		byte[] NewByt = new byte[NewChr.length];
-		for (int i=0; i < NewByt.length; i++){
-			int Ci = NewChr[i] & 255;
-			NewByt[i] = (byte) Ci;
-		}
-		return NewByt;
-	}
-	/**
-	 * <P>Convenience method for writing bytes to an OutputStream.
-	 * Closes resources within a try finally block.
-	 * 
-	 * @param OPut           OutputStream to write to.
-	 * 
-	 * @param bbuf           The contents to write to the OutputStream, OPut.
-	 *
-	 * @throws Exception     Probably an IO Exception if any.
-	 */
+  public static byte[] replaceBytes(byte[] Bytes, String Old, String New){
+    String NewStr = replace(new String(Bytes), Old, New);
+    char[] NewChr = NewStr.toCharArray();
+    byte[] NewByt = new byte[NewChr.length];
+    for (int i=0; i < NewByt.length; i++){
+      int Ci = NewChr[i] & 255;
+      NewByt[i] = (byte) Ci;
+    }
+    return NewByt;
+  }
+  /**
+   * <P>Convenience method for writing bytes to an OutputStream.
+   * Closes resources within a try finally block.
+   * 
+   * @param OPut           OutputStream to write to.
+   * 
+   * @param bbuf           The contents to write to the OutputStream, OPut.
+   *
+   * @throws Exception     Probably an IO Exception if any.
+   */
 
-	public static void writeBytes(FileOutputStream OPut, byte[] bbuf) throws Exception{
-		try{
-			OPut.write(bbuf, 0, bbuf.length);
-			OPut.flush();		
-		}
-		catch(Exception ex){
-			throw ex;
-		}
-		finally{
-			OPut.close();
-		}
-	}
+  public static void writeBytes(FileOutputStream OPut, byte[] bbuf) throws Exception{
+    try{
+      OPut.write(bbuf, 0, bbuf.length);
+      OPut.flush();		
+    }
+    catch(Exception ex){
+      throw ex;
+    }
+    finally{
+      OPut.close();
+    }
+  }
 
-	/**
-	 * <P>Convenience method for reading bytes from an InputStream.
-	 * Closes resources within a try finally block.
-	 * 
-	 * @param IPut           InputStream to read from.
-	 * 
-	 * @return               The contents read from the InputStream, IPut.
-	 *
-	 * @throws Exception     Probably an IO Exception if any.
-	 */
+  /**
+   * <P>Convenience method for reading bytes from an InputStream.
+   * Closes resources within a try finally block.
+   * 
+   * @param IPut           InputStream to read from.
+   * 
+   * @return               The contents read from the InputStream, IPut.
+   *
+   * @throws Exception     Probably an IO Exception if any.
+   */
 
-	public static byte[] readBytes(InputStream IPut) throws Exception {
-		Vector BytArrsV = new Vector();
-		int size=0;
-		byte[] FinalVal = new byte[0];
-		int read=0;
-		try{
-			int i=0;
-			byte[] bbuf = new byte[1024];
-			while ((read  = IPut.read(bbuf, 0, bbuf.length)) > -1){
-				byte[] bbuf2 = new byte[read];
-				for (i=0; i < bbuf2.length; i++){
-					bbuf2[i] = bbuf[i];
-				}
-				BytArrsV.addElement(bbuf2);
-				size += read;
-			}
-			FinalVal = new byte[size];
-			int j = 0;
-			for (i = 0; i < BytArrsV.size(); i++){
-				byte[] byarr = (byte[]) BytArrsV.elementAt(i);
-				for (int k = 0; k < byarr.length; k++){
-					FinalVal[j++] = byarr[k];
-				}
-			}
-		}
-		catch(Exception ex){
-			throw ex;
-		}
-		finally{
-			IPut.close();
-		}
-		return FinalVal;
-	}
+  public static byte[] readBytes(InputStream IPut) throws Exception {
+    Vector BytArrsV = new Vector();
+    int size=0;
+    byte[] FinalVal = new byte[0];
+    int read=0;
+    try{
+      int i=0;
+      byte[] bbuf = new byte[1024];
+      while ((read  = IPut.read(bbuf, 0, bbuf.length)) > -1){
+        byte[] bbuf2 = new byte[read];
+        for (i=0; i < bbuf2.length; i++){
+          bbuf2[i] = bbuf[i];
+        }
+        BytArrsV.addElement(bbuf2);
+        size += read;
+      }
+      FinalVal = new byte[size];
+      int j = 0;
+      for (i = 0; i < BytArrsV.size(); i++){
+        byte[] byarr = (byte[]) BytArrsV.elementAt(i);
+        for (int k = 0; k < byarr.length; k++){
+          FinalVal[j++] = byarr[k];
+        }
+      }
+    }
+    catch(Exception ex){
+      throw ex;
+    }
+    finally{
+      IPut.close();
+    }
+    return FinalVal;
+  }
 
-	/**
-	 * <P>Used to replace one String segment with
-	 * another String segment inside a String.
-	 * Similar to the replace method in String but instead of using
-	 * char it uses String for replacing old with new.
-	 * 
-	 * 
-	 * @param Text          The String from which is produced the new String 
-	 *                      with which replacement has occurred.
-	 *
-	 * @param Old           The old String that is replaced by the new one
-	 *                      in The Text String.
-	 *
-	 * @param New           The new String to replace the old String 
-	 *                      in the Text String.
-	 *
-	 * @return              The new String with replacement having occurred.
-	 *
-	 */
+  /**
+   * <P>Used to replace one String segment with
+   * another String segment inside a String.
+   * Similar to the replace method in String but instead of using
+   * char it uses String for replacing old with new.
+   * 
+   * 
+   * @param Text          The String from which is produced the new String 
+   *                      with which replacement has occurred.
+   *
+   * @param Old           The old String that is replaced by the new one
+   *                      in The Text String.
+   *
+   * @param New           The new String to replace the old String 
+   *                      in the Text String.
+   *
+   * @return              The new String with replacement having occurred.
+   *
+   */
 
-	public static String replace(String Text, String Old, String New){
-		if (Old.length() == 0) return Text;
-		StringBuffer buf = new StringBuffer();
-		int i=0, j=0;
-		while((i = Text.indexOf(Old, j)) > -1){
-			buf.append(Text.substring(j,i) + New);
-			j = i + Old.length();
-		}
-		if (j < Text.length())
-			buf.append(Text.substring(j));
-		return buf.toString();
-	}
+  public static String replace(String Text, String Old, String New){
+    if (Old.length() == 0) return Text;
+    StringBuffer buf = new StringBuffer();
+    int i=0, j=0;
+    while((i = Text.indexOf(Old, j)) > -1){
+      buf.append(Text.substring(j,i) + New);
+      j = i + Old.length();
+    }
+    if (j < Text.length())
+      buf.append(Text.substring(j));
+    return buf.toString();
+  }
 }
 

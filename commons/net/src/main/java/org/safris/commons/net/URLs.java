@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.net;
@@ -24,115 +25,115 @@ import java.util.regex.Pattern;
 import org.safris.commons.lang.Paths;
 
 public final class URLs {
-    private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
+  private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
 
-    private static String formatWindowsPath(String absolutePath) {
-        return absolutePath.replace('\\', '/');
+  private static String formatWindowsPath(String absolutePath) {
+    return absolutePath.replace('\\', '/');
+  }
+
+  public static boolean isAbsolute(String path) {
+    if (path == null)
+      throw new NullPointerException();
+
+    if (path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
+      return true;
+
+    return URL_PATTERN.matcher(path).find();
+  }
+
+  public static URL makeUrlFromPath(String absolutePath) throws MalformedURLException {
+    if (absolutePath == null)
+      return null;
+
+    URL url;
+    if (absolutePath.contains("://"))
+      url = new URL(absolutePath);
+    else {
+      if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
+        absolutePath = formatWindowsPath(absolutePath);
+
+      if (absolutePath.charAt(0) != '/')
+        absolutePath = "/" + absolutePath;
+
+      url = new URL("file", "", absolutePath);
     }
 
-    public static boolean isAbsolute(String path) {
-        if (path == null)
-            throw new NullPointerException();
+    return URLs.canonicalizeURL(url);
+  }
 
-        if (path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
-            return true;
+  public static URL makeUrlFromPath(String basedir, String path) throws MalformedURLException {
+    if (basedir == null || path == null)
+      return null;
 
-        return URL_PATTERN.matcher(path).find();
+    if (basedir.length() == 0)
+      return makeUrlFromPath(path);
+
+    if (path.length() == 0)
+      return makeUrlFromPath(basedir);
+
+    if (basedir.endsWith("/") || basedir.endsWith("\\")) {
+      if (path.startsWith(File.separator))
+        return makeUrlFromPath(basedir + path.substring(1));
+
+      return makeUrlFromPath(basedir + path);
     }
 
-    public static URL makeUrlFromPath(String absolutePath) throws MalformedURLException {
-        if (absolutePath == null)
-            return null;
+    return makeUrlFromPath(basedir + File.separator + path);
+  }
 
-        URL url;
-        if (absolutePath.contains("://"))
-            url = new URL(absolutePath);
-        else {
-            if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
-                absolutePath = formatWindowsPath(absolutePath);
+  public static String toExternalForm(URL url) throws MalformedURLException {
+    if (url == null)
+      return null;
 
-            if (absolutePath.charAt(0) != '/')
-                absolutePath = "/" + absolutePath;
+    try {
+      return url.toURI().toASCIIString();
+    }
+    catch (URISyntaxException e) {
+      throw new MalformedURLException(url.toString() + e.getMessage());
+    }
+  }
 
-            url = new URL("file", "", absolutePath);
-        }
+  public static boolean exists(URL url) {
+    try {
+      if ("file".equals(url.getProtocol()))
+        return new File(url.getFile()).exists();
 
-        return URLs.canonicalizeURL(url);
+      url.openStream().close();
+    }
+    catch (IOException e) {
+      return false;
     }
 
-    public static URL makeUrlFromPath(String basedir, String path) throws MalformedURLException {
-        if (basedir == null || path == null)
-            return null;
+    return true;
+  }
 
-        if (basedir.length() == 0)
-            return makeUrlFromPath(path);
+  public static URL canonicalizeURL(URL url) throws MalformedURLException {
+    if (url == null)
+      return null;
 
-        if (path.length() == 0)
-            return makeUrlFromPath(basedir);
+    final String path = Paths.canonicalize(url.toString());
+    if (path == null)
+      return null;
 
-        if (basedir.endsWith("/") || basedir.endsWith("\\")) {
-            if (path.startsWith(File.separator))
-                return makeUrlFromPath(basedir + path.substring(1));
+    return new URL(path);
+  }
 
-            return makeUrlFromPath(basedir + path);
-        }
+  public static String getName(URL url) {
+    return Paths.getName(url.toString());
+  }
 
-        return makeUrlFromPath(basedir + File.separator + path);
+  public static URL getParent(URL url) {
+    if (url == null)
+      return null;
+
+    try {
+      return new URL(Paths.getParent(url.toString()));
     }
-
-    public static String toExternalForm(URL url) throws MalformedURLException {
-        if (url == null)
-            return null;
-
-        try {
-            return url.toURI().toASCIIString();
-        }
-        catch (URISyntaxException e) {
-            throw new MalformedURLException(url.toString() + e.getMessage());
-        }
+    catch (MalformedURLException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    public static boolean exists(URL url) {
-        try {
-            if ("file".equals(url.getProtocol()))
-                return new File(url.getFile()).exists();
-
-            url.openStream().close();
-        }
-        catch (IOException e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static URL canonicalizeURL(URL url) throws MalformedURLException {
-        if (url == null)
-            return null;
-
-        final String path = Paths.canonicalize(url.toString());
-        if (path == null)
-            return null;
-
-        return new URL(path);
-    }
-
-    public static String getName(URL url) {
-        return Paths.getName(url.toString());
-    }
-
-    public static URL getParent(URL url) {
-        if (url == null)
-            return null;
-
-        try {
-            return new URL(Paths.getParent(url.toString()));
-        }
-        catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private URLs() {
-    }
+  private URLs() {
+  }
 }

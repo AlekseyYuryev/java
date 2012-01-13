@@ -1,50 +1,51 @@
 <!--
-	Copyright 2010 Safris Technologies Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-			http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+  Copyright Safris Software 2006
+  
+  This code is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <invoice xmlns="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd ../xsd/invoice.xsd">
-	<number>1458</number>
-	<date>2003-01-07</date>
-	<billingAddress>
-		<name>Ian Barking</name>
-		<address>123 Kennel Street</address>
-		<city>Dachshund City</city>
-		<postalCode>98765</postalCode>
-		<country>US</country>
-	</billingAddress>
-	<shippingAddress>
-		<name>Retail Dept.</name>
-		<address>888 Dogbowl Street</address>
-		<city>Pet City</city>
-		<postalCode>98765</postalCode>
-		<country>US</country>
-	</shippingAddress>
-	<billedItems>
-		<item>
-			<description>Studded Collar</description>
-			<code>45342</code>
-			<quantity>10</quantity>
-			<price>11.95</price>
-		</item>
-		<item>
-			<description>K9 Pet Coat</description>
-			<code>25233</code>
-			<quantity>5</quantity>
-			<price>25.01</price>
-		</item>
-	</billedItems>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xml.safris.org/toolkit/tutorial/binding/beginner/invoice.xsd ../xsd/invoice.xsd">
+  <number>1458</number>
+  <date>2003-01-07</date>
+  <billingAddress>
+    <name>Ian Barking</name>
+    <address>123 Kennel Street</address>
+    <city>Dachshund City</city>
+    <postalCode>98765</postalCode>
+    <country>US</country>
+  </billingAddress>
+  <shippingAddress>
+    <name>Retail Dept.</name>
+    <address>888 Dogbowl Street</address>
+    <city>Pet City</city>
+    <postalCode>98765</postalCode>
+    <country>US</country>
+  </shippingAddress>
+  <billedItems>
+    <item>
+      <description>Studded Collar</description>
+      <code>45342</code>
+      <quantity>10</quantity>
+      <price>11.95</price>
+    </item>
+    <item>
+      <description>K9 Pet Coat</description>
+      <code>25233</code>
+      <quantity>5</quantity>
+      <price>25.01</price>
+    </item>
+  </billedItems>
 </invoice>

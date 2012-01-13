@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // Jpeg.java
@@ -26,57 +27,57 @@ package org.w3c.tools.jpeg;
  */
 public interface Jpeg {
 
-    /* Start Of Frame N */
-    public int M_SOF0  = 0xC0;  
+  /* Start Of Frame N */
+  public int M_SOF0  = 0xC0;  
 
-    /* N indicates which compression process */
-    public int M_SOF1  = 0xC1;  
+  /* N indicates which compression process */
+  public int M_SOF1  = 0xC1;  
 
-    /* Only SOF0-SOF2 are now in common use */
-    public int M_SOF2  = 0xC2;  
-    public int M_SOF3  = 0xC3;
+  /* Only SOF0-SOF2 are now in common use */
+  public int M_SOF2  = 0xC2;  
+  public int M_SOF3  = 0xC3;
 
-    /* NB: codes C4 and CC are NOT SOF markers */
-    public int M_SOF5  = 0xC5;  
-    public int M_SOF6  = 0xC6;
-    public int M_SOF7  = 0xC7;
-    public int M_SOF9  = 0xC9;
-    public int M_SOF10 = 0xCA;
-    public int M_SOF11 = 0xCB;
-    public int M_SOF13 = 0xCD;
-    public int M_SOF14 = 0xCE;
-    public int M_SOF15 = 0xCF;
+  /* NB: codes C4 and CC are NOT SOF markers */
+  public int M_SOF5  = 0xC5;  
+  public int M_SOF6  = 0xC6;
+  public int M_SOF7  = 0xC7;
+  public int M_SOF9  = 0xC9;
+  public int M_SOF10 = 0xCA;
+  public int M_SOF11 = 0xCB;
+  public int M_SOF13 = 0xCD;
+  public int M_SOF14 = 0xCE;
+  public int M_SOF15 = 0xCF;
 
-    /* Start Of Image (beginning of datastream) */
-    public int M_SOI   = 0xD8;	
+  /* Start Of Image (beginning of datastream) */
+  public int M_SOI   = 0xD8;	
 
-    /* End Of Image (end of datastream) */
-    public int M_EOI   = 0xD9;	
+  /* End Of Image (end of datastream) */
+  public int M_EOI   = 0xD9;	
 
-    /* Start Of Scan (begins compressed data) */
-    public int M_SOS   = 0xDA;	
+  /* Start Of Scan (begins compressed data) */
+  public int M_SOS   = 0xDA;	
 
    
-    /* Application-specific marker, type N */
-    public int M_APP0  = 0xE0;	
-    public int M_APP1  = 0xE1;
-    public int M_APP2  = 0xE2;
-    public int M_APP3  = 0xE3;
-    public int M_APP4  = 0xE4;
-    public int M_APP5  = 0xE5;
-    public int M_APP6  = 0xE6;
-    public int M_APP7  = 0xE7;
-    public int M_APP8  = 0xE8;
-    public int M_APP9  = 0xE9;
-    public int M_APP10 = 0xEA;
-    public int M_APP11 = 0xEB;
-    public int M_APP12 = 0xEC;	
-    public int M_APP13 = 0xED;
-    public int M_APP14 = 0xEE;
-    public int M_APP15 = 0xEF;
+  /* Application-specific marker, type N */
+  public int M_APP0  = 0xE0;	
+  public int M_APP1  = 0xE1;
+  public int M_APP2  = 0xE2;
+  public int M_APP3  = 0xE3;
+  public int M_APP4  = 0xE4;
+  public int M_APP5  = 0xE5;
+  public int M_APP6  = 0xE6;
+  public int M_APP7  = 0xE7;
+  public int M_APP8  = 0xE8;
+  public int M_APP9  = 0xE9;
+  public int M_APP10 = 0xEA;
+  public int M_APP11 = 0xEB;
+  public int M_APP12 = 0xEC;	
+  public int M_APP13 = 0xED;
+  public int M_APP14 = 0xEE;
+  public int M_APP15 = 0xEF;
 
-    public int M_COM   = 0xFE;
-    /* The maximal comment length */
-    public int M_MAX_COM_LENGTH = 65500;
+  public int M_COM   = 0xFE;
+  /* The maximal comment length */
+  public int M_MAX_COM_LENGTH = 65500;
 
 }

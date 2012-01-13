@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.maven.plugin.xml.validator;
@@ -26,35 +27,35 @@ import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 
 public class ValidatorEntityResolver implements XMLEntityResolver {
-    private final File basedir;
+  private final File basedir;
 
-    public ValidatorEntityResolver(File basedir) {
-        this.basedir = basedir;
+  public ValidatorEntityResolver(File basedir) {
+    this.basedir = basedir;
+  }
+
+  public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
+    final String systemId = resourceIdentifier.getLiteralSystemId();
+    if (systemId == null)
+      return null;
+
+    final URL url;
+    if (!URLs.isAbsolute(systemId)) {
+      final String parentBaseId;
+      if (resourceIdentifier.getBaseSystemId() != null)
+        parentBaseId = Paths.getParent(resourceIdentifier.getBaseSystemId());
+      else
+        parentBaseId = basedir.getAbsolutePath();
+
+      url = URLs.makeUrlFromPath(parentBaseId, systemId);
     }
+    else
+      url = URLs.makeUrlFromPath(systemId);
 
-    public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
-        final String systemId = resourceIdentifier.getLiteralSystemId();
-        if (systemId == null)
-            return null;
+    if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
+      resourceIdentifier.setLiteralSystemId(url.getPath());
 
-        final URL url;
-        if (!URLs.isAbsolute(systemId)) {
-            final String parentBaseId;
-            if (resourceIdentifier.getBaseSystemId() != null)
-                parentBaseId = Paths.getParent(resourceIdentifier.getBaseSystemId());
-            else
-                parentBaseId = basedir.getAbsolutePath();
-
-            url = URLs.makeUrlFromPath(parentBaseId, systemId);
-        }
-        else
-            url = URLs.makeUrlFromPath(systemId);
-
-        if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
-            resourceIdentifier.setLiteralSystemId(url.getPath());
-
-        final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
-        inputSource.setByteStream(url.openStream());
-        return inputSource;
-    }
+    final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
+    inputSource.setByteStream(url.openStream());
+    return inputSource;
+  }
 }

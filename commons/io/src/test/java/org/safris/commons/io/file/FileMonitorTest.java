@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2009
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.io.file;
@@ -20,24 +21,24 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class FileMonitorTest implements FileEventListener {
-    public void onModify(File file) {
-        System.out.println(file.getName() + " modified.");
-    }
+  public void onModify(File file) {
+    System.out.println(file.getName() + " modified.");
+  }
 
-    public void onDelete(File file) {
-        System.out.println(file.getName() + " deleted.");
-    }
+  public void onDelete(File file) {
+    System.out.println(file.getName() + " deleted.");
+  }
 
-    @Test
-    @Ignore
-    public void testFileMonitor() throws InterruptedException {
-        final File testFile = new File("/tmp/file-monitor-test");
-        testFile.deleteOnExit();
+  @Test
+  @Ignore
+  public void testFileMonitor() throws InterruptedException {
+    final File testFile = new File("/tmp/file-monitor-test");
+    testFile.deleteOnExit();
 
-        final FileMonitor monitor = new FileMonitor(testFile, 5000);
-        monitor.addListener(this);
-        monitor.start();
-        Thread.sleep(1000);
-        System.out.println("main done!");
-    }
+    final FileMonitor monitor = new FileMonitor(testFile, 5000);
+    monitor.addListener(this);
+    monitor.start();
+    Thread.sleep(1000);
+    System.out.println("main done!");
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.lang;
@@ -31,67 +32,67 @@ import sun.reflect.Reflection;
 import java.net.MalformedURLException;
 
 public final class ClassLoaders {
-    public static boolean isClassLoaded(ClassLoader classLoader, String name) {
-        if (classLoader == null)
-            throw new IllegalArgumentException("classLoader == null");
+  public static boolean isClassLoaded(ClassLoader classLoader, String name) {
+    if (classLoader == null)
+      throw new IllegalArgumentException("classLoader == null");
 
-        try {
-            final Method method = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
-            method.setAccessible(true);
-            return method.invoke(classLoader, name) != null;
+    try {
+      final Method method = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
+      method.setAccessible(true);
+      return method.invoke(classLoader, name) != null;
+    }
+    catch (InvocationTargetException e) {
+      return false;
+    }
+    catch (NoSuchMethodException e) {
+      return false;
+    }
+    catch (IllegalAccessException e) {
+      throw new SecurityException(e);
+    }
+  }
+
+  public static URL[] getClassPath() {
+    final Collection<URL> urls = new HashSet<URL>();
+    urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
+    urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
+    final Class callerClass = Reflection.getCallerClass(2);
+    final ClassLoader classLoader = callerClass.getClassLoader();
+    try {
+      // TODO: I dont know why, but when running forked JUnit tests
+      // TODO: the classpath is not available by calling the getURLs
+      // TODO: method. Instead, it is hidden deep inside the URLClassPath
+      final Field ucpField = URLClassLoader.class.getDeclaredField("ucp");
+      ucpField.setAccessible(true);
+      final URLClassPath ucp = (URLClassPath)ucpField.get(classLoader);
+      final Field lmapField = URLClassPath.class.getDeclaredField("lmap");
+      lmapField.setAccessible(true);
+      final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
+      for (String key : lmap.keySet())
+        urls.add(new URL(key));
+    }
+    catch (Exception e) {
+      // TODO: Oh well, try the regular approach
+      if (classLoader instanceof AntClassLoader) {
+        final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
+        if (fullClasspath != null) {
+          final String[] classpaths = fullClasspath.split(File.pathSeparator);
+          for (String classpath : classpaths) {
+            try {
+              urls.add(new File(classpath).toURL());
+            }
+            catch (MalformedURLException e2) {
+            }
+          }
         }
-        catch (InvocationTargetException e) {
-            return false;
-        }
-        catch (NoSuchMethodException e) {
-            return false;
-        }
-        catch (IllegalAccessException e) {
-            throw new SecurityException(e);
-        }
+      }
+      else if (classLoader instanceof URLClassLoader)
+        urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
     }
 
-    public static URL[] getClassPath() {
-        final Collection<URL> urls = new HashSet<URL>();
-        urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
-        urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
-        final Class callerClass = Reflection.getCallerClass(2);
-        final ClassLoader classLoader = callerClass.getClassLoader();
-        try {
-            // TODO: I dont know why, but when running forked JUnit tests
-            // TODO: the classpath is not available by calling the getURLs
-            // TODO: method. Instead, it is hidden deep inside the URLClassPath
-            final Field ucpField = URLClassLoader.class.getDeclaredField("ucp");
-            ucpField.setAccessible(true);
-            final URLClassPath ucp = (URLClassPath)ucpField.get(classLoader);
-            final Field lmapField = URLClassPath.class.getDeclaredField("lmap");
-            lmapField.setAccessible(true);
-            final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
-						for (String key : lmap.keySet())
-            	urls.add(new URL(key));
-        }
-        catch (Exception e) {
-            // TODO: Oh well, try the regular approach
-					if (classLoader instanceof AntClassLoader) {
-            final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
-						if (fullClasspath != null) {
-							final String[] classpaths = fullClasspath.split(File.pathSeparator);
-							for (String classpath : classpaths) {
-								try {
-									urls.add(new File(classpath).toURL());
-								}
-								catch (MalformedURLException e2) {
-								}
-							}
-						}
-					}
-					else if (classLoader instanceof URLClassLoader)
-						urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
-        }
+    return urls.toArray(new URL[urls.size()]);
+  }
 
-        return urls.toArray(new URL[urls.size()]);
-    }
-
-    private ClassLoaders() {
-    }
+  private ClassLoaders() {
+  }
 }

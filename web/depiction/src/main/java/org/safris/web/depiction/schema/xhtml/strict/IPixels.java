@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.web.depiction.schema.xhtml.strict;
@@ -23,94 +24,94 @@ package org.safris.web.depiction.schema.xhtml.strict;
 
 public abstract class IPixels<T extends org.safris.xml.bind.runtime.lang.BindingType> extends org.safris.xml.bind.runtime.types.NonNegativeIntegerType<T>
 {
-	private static final javax.xml.namespace.QName NAME = new javax.xml.namespace.QName("http://www.w3.org/1999/xhtml", "Pixels");
+  private static final javax.xml.namespace.QName NAME = new javax.xml.namespace.QName("http://www.w3.org/1999/xhtml", "Pixels");
 
-	protected static IPixels newInstance(final javax.xml.namespace.QName name)
-	{
-		return new IPixels()
-		{
-			protected javax.xml.namespace.QName _getName()
-			{
-				return name;
-			}
-		};
-	}
+  protected static IPixels newInstance(final javax.xml.namespace.QName name)
+  {
+    return new IPixels()
+    {
+      protected javax.xml.namespace.QName _getName()
+      {
+        return name;
+      }
+    };
+  }
 
-	static
-	{
-		getTypeBindings().put(NAME, org.safris.web.depiction.schema.xhtml.strict.IPixels.class.getName());
-	}
+  static
+  {
+    getTypeBindings().put(NAME, org.safris.web.depiction.schema.xhtml.strict.IPixels.class.getName());
+  }
 
-	protected IPixels(org.safris.xml.bind.runtime.types.NonNegativeIntegerType binding)
-	{
-		super(binding);
-	}
+  protected IPixels(org.safris.xml.bind.runtime.types.NonNegativeIntegerType binding)
+  {
+    super(binding);
+  }
 
-	protected IPixels(java.lang.Integer value)
-	{
-		super(value);
-	}
+  protected IPixels(java.lang.Integer value)
+  {
+    super(value);
+  }
 
-	protected IPixels(java.lang.String value)
-	{
-		super(value);
-	}
+  protected IPixels(java.lang.String value)
+  {
+    super(value);
+  }
 
-	protected IPixels()
-	{
-		super();
-	}
+  protected IPixels()
+  {
+    super();
+  }
 
-	public void setTEXT(java.lang.Integer text)
-	{
-		super.setTEXT(text);
-	}
+  public void setTEXT(java.lang.Integer text)
+  {
+    super.setTEXT(text);
+  }
 
-	public java.lang.Integer getTEXT()
-	{
-		return super.getTEXT();
-	}
+  public java.lang.Integer getTEXT()
+  {
+    return super.getTEXT();
+  }
 
-	protected javax.xml.namespace.QName _getTypeName()
-	{
-		return NAME;
-	}
+  protected javax.xml.namespace.QName _getTypeName()
+  {
+    return NAME;
+  }
 
-	protected org.w3c.dom.Attr marshalAttr(java.lang.String name, org.w3c.dom.Element parent) throws org.safris.xml.bind.runtime.lang.MarshalException
-	{
-		return super.marshalAttr(name, parent);
-	}
+  protected org.w3c.dom.Attr marshalAttr(java.lang.String name, org.w3c.dom.Element parent) throws org.safris.xml.bind.runtime.lang.MarshalException
+  {
+    return super.marshalAttr(name, parent);
+  }
 
-	protected org.w3c.dom.Element marshal() throws org.safris.xml.bind.runtime.lang.MarshalException, org.safris.xml.bind.runtime.lang.ValidationException
-	{
-		org.w3c.dom.Element root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());
-		return marshal(root, _getName(), _getTypeName());
-	}
+  protected org.w3c.dom.Element marshal() throws org.safris.xml.bind.runtime.lang.MarshalException, org.safris.xml.bind.runtime.lang.ValidationException
+  {
+    org.w3c.dom.Element root = createElementNS(_getName().getNamespaceURI(), _getName().getLocalPart());
+    return marshal(root, _getName(), _getTypeName());
+  }
 
-	protected org.w3c.dom.Element marshal(org.w3c.dom.Element parent, javax.xml.namespace.QName name, javax.xml.namespace.QName typeName) throws org.safris.xml.bind.runtime.lang.MarshalException
-	{
-		return super.marshal(parent, name, typeName);
-	}
+  protected org.w3c.dom.Element marshal(org.w3c.dom.Element parent, javax.xml.namespace.QName name, javax.xml.namespace.QName typeName) throws org.safris.xml.bind.runtime.lang.MarshalException
+  {
+    return super.marshal(parent, name, typeName);
+  }
 
-	public org.safris.web.depiction.schema.xhtml.strict.IPixels clone()
-	{
-		return new org.safris.web.depiction.schema.xhtml.strict.IPixels(this)
-		{
-			protected javax.xml.namespace.QName _getName()
-			{
-				return _getName();
-			}
-		};
-	}
+  public org.safris.web.depiction.schema.xhtml.strict.IPixels clone()
+  {
+    return new org.safris.web.depiction.schema.xhtml.strict.IPixels(this)
+    {
+      protected javax.xml.namespace.QName _getName()
+      {
+        return _getName();
+      }
+    };
+  }
 
-	public boolean equals(java.lang.Object obj)
-	{
-		return super.equals(obj);
-	}
+  public boolean equals(java.lang.Object obj)
+  {
+    return super.equals(obj);
+  }
 
-	public int hashCode()
-	{
-		java.lang.StringBuffer stringBuffer = new java.lang.StringBuffer(java.lang.String.valueOf(super.hashCode())).append("-");
-		return stringBuffer.toString().hashCode();
-	}
+  public int hashCode()
+  {
+    java.lang.StringBuffer stringBuffer = new java.lang.StringBuffer(java.lang.String.valueOf(super.hashCode())).append("-");
+    return stringBuffer.toString().hashCode();
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.processor.write;
@@ -28,63 +29,63 @@ import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
 
 public class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan,Writer> {
-    private final Writer root = new Writer()
-    {
-        protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendGetMethod(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendSetMethod(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendMarshal(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendParse(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendCopy(StringWriter writer, Plan plan, Plan parent, String variable) {
-        }
-
-        protected void appendEquals(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendHashCode(StringWriter writer, Plan plan, Plan parent) {
-        }
-
-        protected void appendClass(StringWriter writer, Plan plan, Plan parent) {
-        }
-    };
-
-    public Collection<Writer> process(GeneratorContext pipelineContext, Collection<Plan> documents, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
-        Writer.directory = directory;
-        tailRecurse(pipelineContext, documents, directory);
-        return null;
+  private final Writer root = new Writer()
+  {
+    protected void appendDeclaration(StringWriter writer, Plan plan, Plan parent) {
     }
 
-    protected final void tailRecurse(GeneratorContext pipelineContext, Collection<Plan> models, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
-        if (models == null || models.size() == 0)
-            return;
-
-        for (Plan model : models) {
-            if (model == null)
-                continue;
-
-            tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
-        }
+    protected void appendGetMethod(StringWriter writer, Plan plan, Plan parent) {
     }
 
-    protected Collection<Plan> disclose(GeneratorContext pipelineContext, Plan plan, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
-        if (!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
-            return null;
-
-        if (((Nameable)plan).getName().getNamespaceURI() == null)
-            throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
-
-        root.writeFile(((Writer)directory.getEntity(plan, null)), plan, pipelineContext.getDestDir());
-
-        return null;
+    protected void appendSetMethod(StringWriter writer, Plan plan, Plan parent) {
     }
+
+    protected void appendMarshal(StringWriter writer, Plan plan, Plan parent) {
+    }
+
+    protected void appendParse(StringWriter writer, Plan plan, Plan parent) {
+    }
+
+    protected void appendCopy(StringWriter writer, Plan plan, Plan parent, String variable) {
+    }
+
+    protected void appendEquals(StringWriter writer, Plan plan, Plan parent) {
+    }
+
+    protected void appendHashCode(StringWriter writer, Plan plan, Plan parent) {
+    }
+
+    protected void appendClass(StringWriter writer, Plan plan, Plan parent) {
+    }
+  };
+
+  public Collection<Writer> process(GeneratorContext pipelineContext, Collection<Plan> documents, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
+    Writer.directory = directory;
+    tailRecurse(pipelineContext, documents, directory);
+    return null;
+  }
+
+  protected final void tailRecurse(GeneratorContext pipelineContext, Collection<Plan> models, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
+    if (models == null || models.size() == 0)
+      return;
+
+    for (Plan model : models) {
+      if (model == null)
+        continue;
+
+      tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
+    }
+  }
+
+  protected Collection<Plan> disclose(GeneratorContext pipelineContext, Plan plan, PipelineDirectory<GeneratorContext,Plan,Writer> directory) {
+    if (!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
+      return null;
+
+    if (((Nameable)plan).getName().getNamespaceURI() == null)
+      throw new CompilerError("Cannot generate classes for schema with no targetNamespace.");
+
+    root.writeFile(((Writer)directory.getEntity(plan, null)), plan, pipelineContext.getDestDir());
+
+    return null;
+  }
 }

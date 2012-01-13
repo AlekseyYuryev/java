@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.processor.plan;
@@ -27,28 +28,28 @@ import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
 public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan> {
-    private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
-    private Plan root;
+  private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
+  private Plan root;
 
-    public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
-        root = new Plan(null, null){};
-        final Collection<Plan> plans = new ArrayList<Plan>();
-        for (Model model : documents) {
-            if (model.getChildren() == null || model.getChildren().size() == 0)
-                continue;
+  public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
+    root = new Plan(null, null){};
+    final Collection<Plan> plans = new ArrayList<Plan>();
+    for (Model model : documents) {
+      if (model.getChildren() == null || model.getChildren().size() == 0)
+        continue;
 
-            final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
-            logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
+      final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
+      logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
-            for (Model child : model.getChildren())
-                disclose(child, root, plans, pipelineContext, directory);
-        }
-
-        return plans;
+      for (Model child : model.getChildren())
+        disclose(child, root, plans, pipelineContext, directory);
     }
 
-    protected final void disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
-        final Plan plan = (Plan)directory.getEntity(model, parent);
-        plans.add(plan);
-    }
+    return plans;
+  }
+
+  protected final void disclose(Model model, Plan parent, Collection<Plan> plans, GeneratorContext pipelineContext, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
+    final Plan plan = (Plan)directory.getEntity(model, parent);
+    plans.add(plan);
+  }
 }

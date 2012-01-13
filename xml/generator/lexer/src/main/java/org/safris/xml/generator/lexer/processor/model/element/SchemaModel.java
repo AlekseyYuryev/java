@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.processor.model.element;
@@ -28,84 +29,84 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class SchemaModel extends Model {
-    private Form attributeFormDefault = Form.UNQUALIFIED;
-    private BlockDefault blockDefault = null;
-    private Form elementFormDefault = Form.UNQUALIFIED;
-    private FinalDefault finalDefault = null;
-    private String lang = null;
-    private NamespaceURI targetNamespace = null;
-    private String version = null;
-    private URL url = null;
+  private Form attributeFormDefault = Form.UNQUALIFIED;
+  private BlockDefault blockDefault = null;
+  private Form elementFormDefault = Form.UNQUALIFIED;
+  private FinalDefault finalDefault = null;
+  private String lang = null;
+  private NamespaceURI targetNamespace = null;
+  private String version = null;
+  private URL url = null;
 
-    protected SchemaModel(Node node, Model parent) {
-        // NOTE: A SchemaModel does not have a parent.
-        super(node, null);
-        final NamedNodeMap attributes = node.getAttributes();
-        for (int i = 0; i < attributes.getLength(); i++) {
-            final Node attribute = attributes.item(i);
-            if ("attributeFormDefault".equals(attribute.getLocalName()))
-                attributeFormDefault = Form.parseForm(attribute.getNodeValue());
-            else if ("blockDefault".equals(attribute.getLocalName()))
-                blockDefault = BlockDefault.parseBlockDefault(attribute.getNodeValue());
-            else if ("elementFormDefault".equals(attribute.getLocalName()))
-                elementFormDefault = Form.parseForm(attribute.getNodeValue());
-            else if ("finalDefault".equals(attribute.getLocalName()))
-                finalDefault = FinalDefault.parseFinalDefault(attribute.getNodeValue());
-            else if ("lang".equals(attribute.getLocalName()))
-                lang = attribute.getNodeValue();
-            else if ("targetNamespace".equals(attribute.getLocalName()))
-                setTargetNamespace(NamespaceURI.getInstance(attribute.getNodeValue()));
-            else if ("version".equals(attribute.getLocalName()))
-                version = attribute.getNodeValue();
-        }
+  protected SchemaModel(Node node, Model parent) {
+    // NOTE: A SchemaModel does not have a parent.
+    super(node, null);
+    final NamedNodeMap attributes = node.getAttributes();
+    for (int i = 0; i < attributes.getLength(); i++) {
+      final Node attribute = attributes.item(i);
+      if ("attributeFormDefault".equals(attribute.getLocalName()))
+        attributeFormDefault = Form.parseForm(attribute.getNodeValue());
+      else if ("blockDefault".equals(attribute.getLocalName()))
+        blockDefault = BlockDefault.parseBlockDefault(attribute.getNodeValue());
+      else if ("elementFormDefault".equals(attribute.getLocalName()))
+        elementFormDefault = Form.parseForm(attribute.getNodeValue());
+      else if ("finalDefault".equals(attribute.getLocalName()))
+        finalDefault = FinalDefault.parseFinalDefault(attribute.getNodeValue());
+      else if ("lang".equals(attribute.getLocalName()))
+        lang = attribute.getNodeValue();
+      else if ("targetNamespace".equals(attribute.getLocalName()))
+        setTargetNamespace(NamespaceURI.getInstance(attribute.getNodeValue()));
+      else if ("version".equals(attribute.getLocalName()))
+        version = attribute.getNodeValue();
     }
+  }
 
-    public final void setURL(URL url) {
-        this.url = url;
-        final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
-        logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
-    }
+  public final void setURL(URL url) {
+    this.url = url;
+    final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
+    logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
+  }
 
-    public final URL getURL() {
-        return url;
-    }
+  public final URL getURL() {
+    return url;
+  }
 
-    public final Form getAttributeFormDefault() {
-        return attributeFormDefault;
-    }
+  public final Form getAttributeFormDefault() {
+    return attributeFormDefault;
+  }
 
-    public final BlockDefault getBlockDefault() {
-        return blockDefault;
-    }
+  public final BlockDefault getBlockDefault() {
+    return blockDefault;
+  }
 
-    public final Form getElementFormDefault() {
-        return elementFormDefault;
-    }
+  public final Form getElementFormDefault() {
+    return elementFormDefault;
+  }
 
-    public final FinalDefault getFinalDefault() {
-        return finalDefault;
-    }
+  public final FinalDefault getFinalDefault() {
+    return finalDefault;
+  }
 
-    public final String getLang() {
-        return lang;
-    }
+  public final String getLang() {
+    return lang;
+  }
 
-    public final void setTargetNamespace(NamespaceURI targetNamespace) {
-        if (targetNamespace == null)
-            throw new Error("NULL targetNamespace");
+  public final void setTargetNamespace(NamespaceURI targetNamespace) {
+    if (targetNamespace == null)
+      throw new Error("NULL targetNamespace");
 
-        this.targetNamespace = targetNamespace;
-    }
+    this.targetNamespace = targetNamespace;
+  }
 
-    public final NamespaceURI getTargetNamespace() {
-        return targetNamespace;
-    }
+  public final NamespaceURI getTargetNamespace() {
+    return targetNamespace;
+  }
 
-    public final String getVersion() {
-        return version;
-    }
+  public final String getVersion() {
+    return version;
+  }
 
-    public String toString() {
-        return UniqueQName.XS.getNamespaceURI() + " " + targetNamespace;
-    }
+  public String toString() {
+    return UniqueQName.XS.getNamespaceURI() + " " + targetNamespace;
+  }
 }

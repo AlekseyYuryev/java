@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // Exif.java
@@ -217,8 +218,8 @@ public class Exif {
   }
 
   protected void processExifDir(int dirStart,
-				int offsetBase,
-				int whichDir) {
+        int offsetBase,
+        int whichDir) {
 
     int numEntries = data.get16u(dirStart);
     //System.err.println("EXIF: numEntries: " + numEntries);
@@ -232,21 +233,21 @@ public class Exif {
 
       /*
       System.err.println("EXIF: entry: 0x" + Integer.toHexString(tag)
-			 + " " + format
-			 + " " + components);
+       + " " + format
+       + " " + components);
       */
 
       if (format < 0 || format > data.NUM_FORMATS) {
-	System.err.println("Bad number of formats in EXIF dir: " + format);
-	return;
+  System.err.println("Bad number of formats in EXIF dir: " + format);
+  return;
       }
 
       int byteCount = components * ExifData.bytesPerFormat[format];
       int valueOffset = dirOffset + 8;
 
       if (byteCount > 4) {
-	int offsetVal = data.get32u(dirOffset+8);
-	valueOffset = offsetBase + offsetVal;
+  int offsetVal = data.get32u(dirOffset+8);
+  valueOffset = offsetBase + offsetVal;
       }
 
       //System.err.println("valueOffset: " + valueOffset + " byteCount: " + byteCount);
@@ -254,109 +255,109 @@ public class Exif {
       Integer iTag = new Integer(tag);
 
       if (tag == TAG_EXIF_OFFSET
-	  || tag == TAG_GPS_OFFSET
-	  || tag == TAG_INTEROP_OFFSET) {
-	int subdirOffset = data.get32u(valueOffset);
+    || tag == TAG_GPS_OFFSET
+    || tag == TAG_INTEROP_OFFSET) {
+  int subdirOffset = data.get32u(valueOffset);
 
-	// System.err.println("offset: " + subdirOffset+":"+offsetBase+subdirOffset);
-	processExifDir(offsetBase+subdirOffset, offsetBase, tag);
+  // System.err.println("offset: " + subdirOffset+":"+offsetBase+subdirOffset);
+  processExifDir(offsetBase+subdirOffset, offsetBase, tag);
       } else {
-	String tagName = "BugBugBug";
-	boolean usedTag = false;
+  String tagName = "BugBugBug";
+  boolean usedTag = false;
 
-	Hashtable exifHash = exif;
+  Hashtable exifHash = exif;
 
-	// Some EXIF directories are special...
-	if (whichDir == TAG_GPS_OFFSET) {
-	  exifHash = gpsExif;
+  // Some EXIF directories are special...
+  if (whichDir == TAG_GPS_OFFSET) {
+    exifHash = gpsExif;
 
-	  if (gpsTags.containsKey(iTag)) {
-	    tagName = (String) gpsTags.get(iTag);
-	    usedTag = true;
-	  } else {
-	    tagName = ":unknowngps0x" + Integer.toHexString(iTag.intValue());
-	  }
-	} else {
-	  if (tags.containsKey(iTag)) {
-	    tagName = (String) tags.get(iTag);
-	    usedTag = true;
-	  } else {
-	    tagName = ":unknown0x" + Integer.toHexString(iTag.intValue());
-	  }
-	}
+    if (gpsTags.containsKey(iTag)) {
+      tagName = (String) gpsTags.get(iTag);
+      usedTag = true;
+    } else {
+      tagName = ":unknowngps0x" + Integer.toHexString(iTag.intValue());
+    }
+  } else {
+    if (tags.containsKey(iTag)) {
+      tagName = (String) tags.get(iTag);
+      usedTag = true;
+    } else {
+      tagName = ":unknown0x" + Integer.toHexString(iTag.intValue());
+    }
+  }
 
-	// The makerNote is a very special case. It has a format that is dependent
-	// on the Make and Model of the camera. So we do a little fiddling with the
-	// string that will be used to look up the decoder. Instead of using
-	// just the tag name, we use "tagName/make model". It may be possible for
-	// the makerNote to occur before the make and model, in which case this won't
-	// work. Hopefully that doesn't really happen.
-	String decoderKey = tagName;
-	if ("makerNote".equals(tagName)) {
-	  if (exif.containsKey("make") && exif.containsKey("model")) {
-	    String make = (String) exif.get("make");
-	    String model = (String) exif.get("model");
-	    if (decoders.containsKey(tagName + "/" + make + " " + model)) {
-	      decoderKey = tagName + "/" + make + " " + model;
-	    }
-	  } else {
-	    // FIXME: makerNote encountered before make and model.
-	    // We should loop back through at the end and check makernote
-	    // again! But hopefully, this never happens.
-	  }
-	}
+  // The makerNote is a very special case. It has a format that is dependent
+  // on the Make and Model of the camera. So we do a little fiddling with the
+  // string that will be used to look up the decoder. Instead of using
+  // just the tag name, we use "tagName/make model". It may be possible for
+  // the makerNote to occur before the make and model, in which case this won't
+  // work. Hopefully that doesn't really happen.
+  String decoderKey = tagName;
+  if ("makerNote".equals(tagName)) {
+    if (exif.containsKey("make") && exif.containsKey("model")) {
+      String make = (String) exif.get("make");
+      String model = (String) exif.get("model");
+      if (decoders.containsKey(tagName + "/" + make + " " + model)) {
+        decoderKey = tagName + "/" + make + " " + model;
+      }
+    } else {
+      // FIXME: makerNote encountered before make and model.
+      // We should loop back through at the end and check makernote
+      // again! But hopefully, this never happens.
+    }
+  }
 
-	if (decoders.containsKey(decoderKey)) {
-	  //System.err.println("Decoding " + tagName + " with " + decoderKey);
-	  TagDecoder decoder = (TagDecoder) decoders.get(decoderKey);
-	  decoder.decode(exifHash, data, format, valueOffset, byteCount);
-	} else {
-	  //System.err.println("Decoding " + tagName + " without decoder");
-	  switch (format) {
-	  case ExifData.FMT_UNDEFINED:
-	    // The UserComment field is special...
-	    if (tag == TAG_USERCOMMENT) {
-	      if (byteCount > 8) {
-		assignUndefined(exifHash, tagName, valueOffset, byteCount);
-	      } // else there's no actual data in the comment
-	    } else {
-	      assignUndefined(exifHash, tagName, valueOffset, byteCount);
-	    }
-	    break;
-	  case ExifData.FMT_STRING:
-	    assignString(exifHash, tagName, valueOffset, byteCount);
-	    break;
-	  case ExifData.FMT_SBYTE:
-	    assignSByte(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_BYTE:
-	    assignByte(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_USHORT:
-	    assignUShort(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_SSHORT:
-	    assignSShort(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_ULONG:
-	    assignULong(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_SLONG:
-	    assignSLong(exifHash, tagName, valueOffset);
-	    break;
-	  case ExifData.FMT_URATIONAL:
-	  case ExifData.FMT_SRATIONAL:
-	    if (whichDir == TAG_GPS_OFFSET &&
-		(tag == TAG_GPS_LATITUDE || tag == TAG_GPS_LONGITUDE)) {
-	      assignDMS(exifHash, tagName, valueOffset, byteCount);
-	    } else {
-	      assignRational(exifHash, tagName, valueOffset, byteCount);
-	    }
-	    break;
-	  default:
-	    //System.err.println("Unknown format " + format + " for " + tagName);
-	  }
-	}
+  if (decoders.containsKey(decoderKey)) {
+    //System.err.println("Decoding " + tagName + " with " + decoderKey);
+    TagDecoder decoder = (TagDecoder) decoders.get(decoderKey);
+    decoder.decode(exifHash, data, format, valueOffset, byteCount);
+  } else {
+    //System.err.println("Decoding " + tagName + " without decoder");
+    switch (format) {
+    case ExifData.FMT_UNDEFINED:
+      // The UserComment field is special...
+      if (tag == TAG_USERCOMMENT) {
+        if (byteCount > 8) {
+    assignUndefined(exifHash, tagName, valueOffset, byteCount);
+        } // else there's no actual data in the comment
+      } else {
+        assignUndefined(exifHash, tagName, valueOffset, byteCount);
+      }
+      break;
+    case ExifData.FMT_STRING:
+      assignString(exifHash, tagName, valueOffset, byteCount);
+      break;
+    case ExifData.FMT_SBYTE:
+      assignSByte(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_BYTE:
+      assignByte(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_USHORT:
+      assignUShort(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_SSHORT:
+      assignSShort(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_ULONG:
+      assignULong(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_SLONG:
+      assignSLong(exifHash, tagName, valueOffset);
+      break;
+    case ExifData.FMT_URATIONAL:
+    case ExifData.FMT_SRATIONAL:
+      if (whichDir == TAG_GPS_OFFSET &&
+    (tag == TAG_GPS_LATITUDE || tag == TAG_GPS_LONGITUDE)) {
+        assignDMS(exifHash, tagName, valueOffset, byteCount);
+      } else {
+        assignRational(exifHash, tagName, valueOffset, byteCount);
+      }
+      break;
+    default:
+      //System.err.println("Unknown format " + format + " for " + tagName);
+    }
+  }
       }
     }
   }
@@ -422,35 +423,35 @@ public class Exif {
 
       // This is a bit silly, I really ought to find a real GCD algorithm
       if (num % 10 == 0 && den % 10 == 0) {
-	num = num / 10;
-	den = den / 10;
+  num = num / 10;
+  den = den / 10;
       }
 
       if (num % 5 == 0 && den % 5 == 0) {
-	num = num / 5;
-	den = den / 5;
+  num = num / 5;
+  den = den / 5;
       }
 
       if (num % 3 == 0 && den % 3 == 0) {
-	num = num / 3;
-	den = den / 3;
+  num = num / 3;
+  den = den / 3;
       }
 
       if (num % 2 == 0 && den % 2 == 0) {
-	num = num / 2;
-	den = den / 2;
+  num = num / 2;
+  den = den / 2;
       }
 
       if (result != "") {
-	result += " ";
+  result += " ";
       }
 
       if (den == 0) {
-	result = "0";
+  result = "0";
       } else if (den == 1) {
-	result += num; // "" + int sure looks ugly...
+  result += num; // "" + int sure looks ugly...
       } else {
-	result += num + "/" + den;
+  result += num + "/" + den;
       }
     }
 
@@ -470,7 +471,7 @@ public class Exif {
       loffset += 8;
 
       if (den != 0) {
-	result += ((double) num / (double) den) / magnitude;
+  result += ((double) num / (double) den) / magnitude;
       }
 
       magnitude *= 60.0;

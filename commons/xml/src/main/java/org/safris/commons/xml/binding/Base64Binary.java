@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.xml.binding;
@@ -24,58 +25,58 @@ import sun.misc.BASE64Encoder;
  * http://www.w3.org/TR/xmlschema11-2/#base64Binary
  */
 public final class Base64Binary {
-    public static Base64Binary parseBase64Binary(String string) {
-        if (string == null)
-            return null;
+  public static Base64Binary parseBase64Binary(String string) {
+    if (string == null)
+      return null;
 
-        byte[] bytes = null;
-        try {
-            bytes = new BASE64Decoder().decodeBuffer(string);
-        }
-        catch (IOException e) {
-            final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
-            illegalArgumentException.setStackTrace(e.getStackTrace());
-            throw illegalArgumentException;
-        }
-
-        return new Base64Binary(bytes);
+    byte[] bytes = null;
+    try {
+      bytes = new BASE64Decoder().decodeBuffer(string);
+    }
+    catch (IOException e) {
+      final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
+      illegalArgumentException.setStackTrace(e.getStackTrace());
+      throw illegalArgumentException;
     }
 
-    private final byte[] bytes;
-    private String encoded = null;
+    return new Base64Binary(bytes);
+  }
 
-    public Base64Binary(byte[] bytes) {
-        this.bytes = bytes;
-    }
+  private final byte[] bytes;
+  private String encoded = null;
 
-    public byte[] getBytes() {
-        return bytes;
-    }
+  public Base64Binary(byte[] bytes) {
+    this.bytes = bytes;
+  }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+  public byte[] getBytes() {
+    return bytes;
+  }
 
-        if (!(obj instanceof Base64Binary))
-            return false;
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
 
-        final Base64Binary that = (Base64Binary)obj;
-        return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
-    }
+    if (!(obj instanceof Base64Binary))
+      return false;
 
-    public int hashCode() {
-        return bytes != null ? Arrays.hashCode(bytes) : -1;
-    }
+    final Base64Binary that = (Base64Binary)obj;
+    return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
+  }
 
-    /**
-     * Returns the base64 string representation of this object's byte[] data.
-     *
-     * @return  The base64 string.
-     */
-    public String toString() {
-        if (encoded == null)
-            encoded = new BASE64Encoder().encodeBuffer(bytes);
+  public int hashCode() {
+    return bytes != null ? Arrays.hashCode(bytes) : -1;
+  }
 
-        return encoded;
-    }
+  /**
+   * Returns the base64 string representation of this object's byte[] data.
+   *
+   * @return  The base64 string.
+   */
+  public String toString() {
+    if (encoded == null)
+      encoded = new BASE64Encoder().encodeBuffer(bytes);
+
+    return encoded;
+  }
 }

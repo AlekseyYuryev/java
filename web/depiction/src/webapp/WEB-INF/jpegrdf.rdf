@@ -9,7 +9,7 @@
          xmlns:gps='http://nwalsh.com/rdf/exif-gps#'
          xmlns:nikon='http://nwalsh.com/rdf/exif-nikon5700#'
          xmlns:nikon950='http://nwalsh.com/rdf/exif-nikon950#'
-	 xmlns:canon='http://nwalsh.com/rdf/exif-canon#'
+   xmlns:canon='http://nwalsh.com/rdf/exif-canon#'
          xmlns:jpegrdf='http://nwalsh.com/rdf/jpegrdf#'
          xmlns:foaf="http://xmlns.com/foaf/0.1/"
          xmlns:wn="http://xmlns.com/wordnet/1.6/"

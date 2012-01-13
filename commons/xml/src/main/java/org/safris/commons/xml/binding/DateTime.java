@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.xml.binding;
@@ -20,121 +21,121 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class DateTime {
-    public static DateTime parseDateTime(String string) {
-        if (string == null)
-            throw new NullPointerException("string == null");
+  public static DateTime parseDateTime(String string) {
+    if (string == null)
+      throw new NullPointerException("string == null");
 
-        string = string.trim();
-        if (string.length() < Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH + 1 + Time.HOUR_FRAG_MIN_LENGTH + 1 + Time.MINUTE_FRAG_MIN_LENGTH + 1 + Time.SECOND_FRAG_MIN_LENGTH)
-            throw new IllegalArgumentException(string);
+    string = string.trim();
+    if (string.length() < Year.YEAR_FRAG_MIN_LENGTH + 1 + Month.MONTH_FRAG_MIN_LENGTH + 1 + Day.DAY_FRAG_MIN_LENGTH + 1 + Time.HOUR_FRAG_MIN_LENGTH + 1 + Time.MINUTE_FRAG_MIN_LENGTH + 1 + Time.SECOND_FRAG_MIN_LENGTH)
+      throw new IllegalArgumentException(string);
 
-        final Date date = Date.parseDateFrag(string);
-        final int index = string.indexOf("T", Date.DATE_FRAG_MIN_LENGTH);
-        if (index == -1)
-            throw new IllegalArgumentException("dateTime == " + string);
+    final Date date = Date.parseDateFrag(string);
+    final int index = string.indexOf("T", Date.DATE_FRAG_MIN_LENGTH);
+    if (index == -1)
+      throw new IllegalArgumentException("dateTime == " + string);
 
-        final Time time = Time.parseTime(string.substring(index + 1));
-        return new DateTime(date, time);
-    }
+    final Time time = Time.parseTime(string.substring(index + 1));
+    return new DateTime(date, time);
+  }
 
-    protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+  protected static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
-    private final Date date;
-    private final Time time;
-    private final long epochTime;
+  private final Date date;
+  private final Time time;
+  private final long epochTime;
 
-    protected DateTime(Date date, Time time) {
-        if (date == null)
-            throw new NullPointerException("date == null");
+  protected DateTime(Date date, Time time) {
+    if (date == null)
+      throw new NullPointerException("date == null");
 
-        if (time == null)
-            throw new NullPointerException("time == null");
+    if (time == null)
+      throw new NullPointerException("time == null");
 
-        this.date = date;
-        this.time = time;
-        epochTime = java.util.Date.UTC(date.getYear() - 1900, date.getMonth() - 1, date.getDay(), time.getHour(), time.getMinute(), (int)time.getSecond()) + ((int)(time.getSecond() * 1000) - (int)time.getSecond() * 1000) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
-    }
+    this.date = date;
+    this.time = time;
+    epochTime = java.util.Date.UTC(date.getYear() - 1900, date.getMonth() - 1, date.getDay(), time.getHour(), time.getMinute(), (int)time.getSecond()) + ((int)(time.getSecond() * 1000) - (int)time.getSecond() * 1000) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
+  }
 
-    public DateTime(int year, int month, int day, int hour, int minute, float second, TimeZone timeZone) {
-        this(new Date(year, month, day, timeZone), new Time(hour, minute, second, timeZone));
-    }
+  public DateTime(int year, int month, int day, int hour, int minute, float second, TimeZone timeZone) {
+    this(new Date(year, month, day, timeZone), new Time(hour, minute, second, timeZone));
+  }
 
-    public DateTime(int year, int month, int day, int hour, int minute, float second) {
-        this(year, month, day, hour, minute, second, null);
-    }
+  public DateTime(int year, int month, int day, int hour, int minute, float second) {
+    this(year, month, day, hour, minute, second, null);
+  }
 
-    public DateTime(long time, TimeZone timeZone) {
-      this(new Date(time, timeZone), new Time(time, timeZone));
-    }
+  public DateTime(long time, TimeZone timeZone) {
+    this(new Date(time, timeZone), new Time(time, timeZone));
+  }
 
-    public DateTime(long time) {
-        this(new Date(time), new Time(time));
-    }
+  public DateTime(long time) {
+    this(new Date(time), new Time(time));
+  }
 
-    public DateTime() {
-        this(System.currentTimeMillis());
-    }
+  public DateTime() {
+    this(System.currentTimeMillis());
+  }
 
-    public int getYear() {
-        return date.getYear();
-    }
+  public int getYear() {
+    return date.getYear();
+  }
 
-    public int getMonth() {
-        return date.getMonth();
-    }
+  public int getMonth() {
+    return date.getMonth();
+  }
 
-    public int getDay() {
-        return date.getDay();
-    }
+  public int getDay() {
+    return date.getDay();
+  }
 
-    public int getHour() {
-        return time.getHour();
-    }
+  public int getHour() {
+    return time.getHour();
+  }
 
-    public int getMinute() {
-        return time.getMinute();
-    }
+  public int getMinute() {
+    return time.getMinute();
+  }
 
-    public float getSecond() {
-        return time.getSecond();
-    }
+  public float getSecond() {
+    return time.getSecond();
+  }
 
-    public TimeZone getTimeZone() {
-        return time.getTimeZone();
-    }
+  public TimeZone getTimeZone() {
+    return time.getTimeZone();
+  }
 
-    public long getTime() {
-      return epochTime;
-    }
+  public long getTime() {
+    return epochTime;
+  }
 
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+  public boolean equals(Object obj) {
+    if (obj == this)
+      return true;
 
-        if (!(obj instanceof DateTime))
-            return false;
+    if (!(obj instanceof DateTime))
+      return false;
 
-        final DateTime that = (DateTime)obj;
-        return (date != null ? date.equals(that.date) : that.date == null) && (time != null ? time.equals(that.time) : that.time == null);
-    }
+    final DateTime that = (DateTime)obj;
+    return (date != null ? date.equals(that.date) : that.date == null) && (time != null ? time.equals(that.time) : that.time == null);
+  }
 
-    public int hashCode() {
-        return (date != null ? date.hashCode() : -1) + (time != null ? time.hashCode() : -1);
-    }
+  public int hashCode() {
+    return (date != null ? date.hashCode() : -1) + (time != null ? time.hashCode() : -1);
+  }
 
-    protected String toEmbededString() {
-        final StringBuffer buffer = new StringBuffer();
-        if (date != null)
-            buffer.append(date.toEmbededString());
+  protected String toEmbededString() {
+    final StringBuffer buffer = new StringBuffer();
+    if (date != null)
+      buffer.append(date.toEmbededString());
 
-        buffer.append("T");
-        if (time != null)
-            buffer.append(time.toEmbededString());
+    buffer.append("T");
+    if (time != null)
+      buffer.append(time.toEmbededString());
 
-        return buffer.toString();
-    }
+    return buffer.toString();
+  }
 
-    public String toString() {
-        return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(getTimeZone())).toString();
-    }
+  public String toString() {
+    return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(getTimeZone())).toString();
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.lang;
@@ -22,39 +23,39 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PathsTest {
-    public static void main(String[] args) throws Exception {
-        final PathsTest pathsTest = new PathsTest();
-        pathsTest.testGetName();
-        pathsTest.testGetParent();
-    }
+  public static void main(String[] args) throws Exception {
+    final PathsTest pathsTest = new PathsTest();
+    pathsTest.testGetName();
+    pathsTest.testGetParent();
+  }
 
-    @Test
-    public void testGetName() throws Exception {
-        final Map<String,String> paths = new HashMap<String,String>();
-        paths.put("share", "file:///usr/share/../share");
-        paths.put("lib", "file:///usr/share/../share/../lib");
-        paths.put("var", "/usr/share/../share/../lib/../../var");
-        paths.put("var", "/usr/share/../share/../lib/../../var/");
-        paths.put("resolv.conf", "/etc/resolv.conf");
-        paths.put("name", "name");
+  @Test
+  public void testGetName() throws Exception {
+    final Map<String,String> paths = new HashMap<String,String>();
+    paths.put("share", "file:///usr/share/../share");
+    paths.put("lib", "file:///usr/share/../share/../lib");
+    paths.put("var", "/usr/share/../share/../lib/../../var");
+    paths.put("var", "/usr/share/../share/../lib/../../var/");
+    paths.put("resolv.conf", "/etc/resolv.conf");
+    paths.put("name", "name");
 
-        for (Map.Entry<String,String> entry : paths.entrySet())
-            assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
+    for (Map.Entry<String,String> entry : paths.entrySet())
+      assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
 
-        assertNull(Paths.getName(null));
-    }
+    assertNull(Paths.getName(null));
+  }
 
-    @Test
-    public void testGetParent() throws Exception {
-        final Map<String,String> urls = new HashMap<String,String>();
-        urls.put("file:///usr", "file:///usr/share/../share");
-        urls.put("/usr", "/usr/share/../share/..");
-        urls.put("/", "/usr/share/../share/../../");
-        urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
+  @Test
+  public void testGetParent() throws Exception {
+    final Map<String,String> urls = new HashMap<String,String>();
+    urls.put("file:///usr", "file:///usr/share/../share");
+    urls.put("/usr", "/usr/share/../share/..");
+    urls.put("/", "/usr/share/../share/../../");
+    urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
 
-        for (Map.Entry<String,String> entry : urls.entrySet())
-            assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
+    for (Map.Entry<String,String> entry : urls.entrySet())
+      assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
 
-        assertNull(Paths.getParent(null));
-    }
+    assertNull(Paths.getParent(null));
+  }
 }

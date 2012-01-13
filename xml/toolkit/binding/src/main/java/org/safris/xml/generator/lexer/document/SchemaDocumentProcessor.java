@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.document;
@@ -40,112 +41,112 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument> {
-    protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
+  protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
 
-    private static final String[] includeStrings = new String[] {
-        "include",
-        "redefine"
-    };
+  private static final String[] includeStrings = new String[] {
+    "include",
+    "redefine"
+  };
 
-    public Collection<SchemaDocument> process(GeneratorContext pipelineContext, Collection<SchemaReference> selectedSchemas, PipelineDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory) {
-        if (selectedSchemas == null || selectedSchemas.size() == 0)
-            return null;
+  public Collection<SchemaDocument> process(GeneratorContext pipelineContext, Collection<SchemaReference> selectedSchemas, PipelineDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory) {
+    if (selectedSchemas == null || selectedSchemas.size() == 0)
+      return null;
 
-        final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
-        final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();
-        final Map<NamespaceURI,Collection<URL>> includeLoopCheck = new HashMap<NamespaceURI,Collection<URL>>();
+    final Collection<SchemaDocument> schemas = new LinkedHashSet<SchemaDocument>();
+    final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();
+    final Map<NamespaceURI,Collection<URL>> includeLoopCheck = new HashMap<NamespaceURI,Collection<URL>>();
 
-        for (SchemaReference schemaReference : selectedSchemas) {
-            if (schemaReference == null)
-                continue;
+    for (SchemaReference schemaReference : selectedSchemas) {
+      if (schemaReference == null)
+        continue;
 
-            final Stack<SchemaDocument> schemasToGenerate = new Stack<SchemaDocument>();
+      final Stack<SchemaDocument> schemasToGenerate = new Stack<SchemaDocument>();
 
-            try {
-                URL url = URLs.canonicalizeURL(schemaReference.getURL());
-                // First we need to find all of the imports and includes
-                Collection<SchemaDocument> outer = new Stack<SchemaDocument>();
-                outer.add(AbstractGenerator.parse(schemaReference));
-                importLoopCheck.put(schemaReference.getNamespaceURI(), url);
-                while (outer.size() != 0) {
-                    schemasToGenerate.addAll(0, outer);
-                    Stack<SchemaDocument> inner = new Stack<SchemaDocument>();
-                    for (SchemaDocument entry : outer) {
-                        NodeList includeNodeList = null;
-                        for (String includeString : includeStrings) {
-                            includeNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
-                            for (int i = 0; i < includeNodeList.getLength(); i++) {
-                                final Element includeElement = (Element)includeNodeList.item(i);
-                                final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
+      try {
+        URL url = URLs.canonicalizeURL(schemaReference.getURL());
+        // First we need to find all of the imports and includes
+        Collection<SchemaDocument> outer = new Stack<SchemaDocument>();
+        outer.add(AbstractGenerator.parse(schemaReference));
+        importLoopCheck.put(schemaReference.getNamespaceURI(), url);
+        while (outer.size() != 0) {
+          schemasToGenerate.addAll(0, outer);
+          Stack<SchemaDocument> inner = new Stack<SchemaDocument>();
+          for (SchemaDocument entry : outer) {
+            NodeList includeNodeList = null;
+            for (String includeString : includeStrings) {
+              includeNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
+              for (int i = 0; i < includeNodeList.getLength(); i++) {
+                final Element includeElement = (Element)includeNodeList.item(i);
+                final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
 
-                                // Dont want to get into an infinite loop
-                                Collection<URL> duplicates = includeLoopCheck.get(entry.getSchemaReference().getNamespaceURI());
-                                if (schemaLocationURL.equals(entry.getSchemaReference().getURL()) || (duplicates != null && duplicates.contains(schemaLocationURL)))
-                                    continue;
+                // Dont want to get into an infinite loop
+                Collection<URL> duplicates = includeLoopCheck.get(entry.getSchemaReference().getNamespaceURI());
+                if (schemaLocationURL.equals(entry.getSchemaReference().getURL()) || (duplicates != null && duplicates.contains(schemaLocationURL)))
+                    continue;
 
-                                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, entry.getSchemaReference().getNamespaceURI(), entry.getSchemaReference().getPrefix());
-                                inner.insertElementAt(AbstractGenerator.parse(includeSchemaReference), 0);
-                                if (duplicates == null)
-                                    duplicates = new ArrayList<URL>();
+                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, entry.getSchemaReference().getNamespaceURI(), entry.getSchemaReference().getPrefix());
+                inner.insertElementAt(AbstractGenerator.parse(includeSchemaReference), 0);
+                if (duplicates == null)
+                    duplicates = new ArrayList<URL>();
 
-                                duplicates.add(schemaLocationURL);
-                                logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + entry.getSchemaReference().getNamespaceURI() + "}");
-                                includeLoopCheck.put(entry.getSchemaReference().getNamespaceURI(), duplicates);
-                            }
-                        }
-
-                        final NodeList importNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), "import");
-                        for (int i = 0; i < importNodeList.getLength(); i++) {
-                            final Element includeElement = (Element)importNodeList.item(i);
-                            final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
-
-                            // Check if we have two schemaReferences for a single targetNamespace
-                            // This should not happen for import, but can happen for include!
-                            final NamespaceURI importNamespaceURI = NamespaceURI.getInstance(includeElement.getAttribute("namespace"));
-                            final URL duplicate = importLoopCheck.get(importNamespaceURI);
-                            if (duplicate == null) {
-                                importLoopCheck.put(importNamespaceURI, schemaLocationURL);
-                                inner.insertElementAt(AbstractGenerator.parse(new SchemaReference(schemaLocationURL, importNamespaceURI)), 0);
-                                continue;
-                            }
-
-                            if (!duplicate.equals(schemaLocationURL)) {
-                                logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n" + duplicate + "\n" + schemaLocationURL);
-                                System.exit(1);
-                            }
-                        }
-                    }
-
-                    outer = inner;
-                }
+                duplicates.add(schemaLocationURL);
+                logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + entry.getSchemaReference().getNamespaceURI() + "}");
+                includeLoopCheck.put(entry.getSchemaReference().getNamespaceURI(), duplicates);
+              }
             }
-            catch (MalformedURLException e) {
-                logger.severe("Unknown URL format: " + schemaReference.getURL());
+
+            final NodeList importNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), "import");
+            for (int i = 0; i < importNodeList.getLength(); i++) {
+              final Element includeElement = (Element)importNodeList.item(i);
+              final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
+
+              // Check if we have two schemaReferences for a single targetNamespace
+              // This should not happen for import, but can happen for include!
+              final NamespaceURI importNamespaceURI = NamespaceURI.getInstance(includeElement.getAttribute("namespace"));
+              final URL duplicate = importLoopCheck.get(importNamespaceURI);
+              if (duplicate == null) {
+                importLoopCheck.put(importNamespaceURI, schemaLocationURL);
+                inner.insertElementAt(AbstractGenerator.parse(new SchemaReference(schemaLocationURL, importNamespaceURI)), 0);
+                continue;
+              }
+
+              if (!duplicate.equals(schemaLocationURL)) {
+                logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n" + duplicate + "\n" + schemaLocationURL);
                 System.exit(1);
+              }
             }
+          }
 
-            schemas.addAll(schemasToGenerate);
+          outer = inner;
         }
+      }
+      catch (MalformedURLException e) {
+        logger.severe("Unknown URL format: " + schemaReference.getURL());
+        System.exit(1);
+      }
 
-        for (SchemaDocument schema : schemas) {
-            final Collection<URL> includes = includeLoopCheck.get(schema.getSchemaReference().getNamespaceURI());
-            if (includes == null || includes.size() == 0)
-                continue;
-
-            final Collection<URL> externalIncludes = new ArrayList<URL>(includes.size());
-            for (URL include : includes)
-                if (!include.equals(schema.getSchemaReference().getURL()))
-                    externalIncludes.add(include);
-
-            if (externalIncludes.size() != 0)
-                schema.setIncludes(externalIncludes);
-        }
-
-        return schemas;
+      schemas.addAll(schemasToGenerate);
     }
 
-    private static URL getSchemaLocation(URL baseURL, Element element) throws MalformedURLException {
-        final String basedir = baseURL.getFile().substring(0, baseURL.getFile().lastIndexOf('/') + 1);
-        return URLs.makeUrlFromPath(basedir, element.getAttribute("schemaLocation"));
+    for (SchemaDocument schema : schemas) {
+      final Collection<URL> includes = includeLoopCheck.get(schema.getSchemaReference().getNamespaceURI());
+      if (includes == null || includes.size() == 0)
+        continue;
+
+      final Collection<URL> externalIncludes = new ArrayList<URL>(includes.size());
+      for (URL include : includes)
+        if (!include.equals(schema.getSchemaReference().getURL()))
+          externalIncludes.add(include);
+
+      if (externalIncludes.size() != 0)
+        schema.setIncludes(externalIncludes);
     }
+
+    return schemas;
+  }
+
+  private static URL getSchemaLocation(URL baseURL, Element element) throws MalformedURLException {
+    final String basedir = baseURL.getFile().substring(0, baseURL.getFile().lastIndexOf('/') + 1);
+    return URLs.makeUrlFromPath(basedir, element.getAttribute("schemaLocation"));
+  }
 }

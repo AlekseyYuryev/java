@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.processor.normalize.element;
@@ -26,69 +27,69 @@ import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
 public class ListNormalizer extends Normalizer<ListModel> {
-    private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
+  private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
 
-    public ListNormalizer(NormalizerDirectory directory) {
-        super(directory);
+  public ListNormalizer(NormalizerDirectory directory) {
+    super(directory);
+  }
+
+  protected void stage1(ListModel model) {
+  }
+
+  protected void stage2(ListModel model) {
+    final Collection<SimpleTypeModel> itemTypes = model.getItemType();
+    if (itemTypes == null || itemTypes.size() != 1)
+      throw new LexerError("This should not happen, right?!");
+
+    final SimpleTypeModel itemType = itemTypes.iterator().next();
+    SimpleTypeModel type = itemType;
+    if (type instanceof SimpleTypeModel.Reference) {
+      type = simpleTypeNormalizer.parseSimpleType(type.getName());
+      if (type == null) {
+        if (!UniqueQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
+          throw new LexerError("type == null for " + type.getName());
+
+        type = SimpleTypeModel.Undefined.parseSimpleType(itemType.getName());
+      }
+
+      model.setItemType(type);
     }
+  }
 
-    protected void stage1(ListModel model) {
+  protected void stage3(ListModel model) {
+  }
+
+  protected void stage4(ListModel model) {
+    if (model.getItemType() == null)
+      throw new LexerError("This cant happen.");
+
+    Model parent = model;
+    while ((parent = parent.getParent()) != null) {
+      // If there is a higher level union, then this list is one of the memberTypes
+      if (parent instanceof UnionModel) {
+        ((UnionModel)parent).getMemberTypes().addAll(model.getItemType());
+        break;
+      }
     }
+  }
 
-    protected void stage2(ListModel model) {
-        final Collection<SimpleTypeModel> itemTypes = model.getItemType();
-        if (itemTypes == null || itemTypes.size() != 1)
-            throw new LexerError("This should not happen, right?!");
+  protected void stage5(ListModel model) {
+  }
 
-        final SimpleTypeModel itemType = itemTypes.iterator().next();
-        SimpleTypeModel type = itemType;
-        if (type instanceof SimpleTypeModel.Reference) {
-            type = simpleTypeNormalizer.parseSimpleType(type.getName());
-            if (type == null) {
-                if (!UniqueQName.XS.getNamespaceURI().equals(itemType.getName().getNamespaceURI()))
-                    throw new LexerError("type == null for " + type.getName());
+  protected void stage6(ListModel model) {
+    if (model.getItemType() == null)
+      throw new LexerError("This can't happen.");
 
-                type = SimpleTypeModel.Undefined.parseSimpleType(itemType.getName());
-            }
-
-            model.setItemType(type);
-        }
+    Model parent = model;
+    while ((parent = parent.getParent()) != null) {
+      // If this list defines a named simpleType
+      if (parent instanceof SimpleTypeModel && ((SimpleTypeModel)parent).getName() != null) {
+        final SimpleTypeModel simpleTypeModel = (SimpleTypeModel)parent;
+        simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
+        simpleTypeModel.setItemTypes(model.getItemType());
+        simpleTypeModel.setList(true);
+        break;
+      }
     }
-
-    protected void stage3(ListModel model) {
-    }
-
-    protected void stage4(ListModel model) {
-        if (model.getItemType() == null)
-            throw new LexerError("This cant happen.");
-
-        Model parent = model;
-        while ((parent = parent.getParent()) != null) {
-            // If there is a higher level union, then this list is one of the memberTypes
-            if (parent instanceof UnionModel) {
-                ((UnionModel)parent).getMemberTypes().addAll(model.getItemType());
-                break;
-            }
-        }
-    }
-
-    protected void stage5(ListModel model) {
-    }
-
-    protected void stage6(ListModel model) {
-        if (model.getItemType() == null)
-            throw new LexerError("This can't happen.");
-
-        Model parent = model;
-        while ((parent = parent.getParent()) != null) {
-            // If this list defines a named simpleType
-            if (parent instanceof SimpleTypeModel && ((SimpleTypeModel)parent).getName() != null) {
-                final SimpleTypeModel simpleTypeModel = (SimpleTypeModel)parent;
-                simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
-                simpleTypeModel.setItemTypes(model.getItemType());
-                simpleTypeModel.setList(true);
-                break;
-            }
-        }
-    }
+  }
 }

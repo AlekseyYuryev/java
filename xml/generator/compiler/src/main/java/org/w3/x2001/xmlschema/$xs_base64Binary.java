@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.w3.x2001.xmlschema;
@@ -22,42 +23,42 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySimpleType<T> {
-    public $xs_base64Binary($xs_base64Binary<T> binding) {
-        super(binding);
-    }
+  public $xs_base64Binary($xs_base64Binary<T> binding) {
+    super(binding);
+  }
 
-    public $xs_base64Binary(Base64Binary value) {
-        super(value);
-    }
+  public $xs_base64Binary(Base64Binary value) {
+    super(value);
+  }
 
-    protected $xs_base64Binary() {
-        super();
-    }
+  protected $xs_base64Binary() {
+    super();
+  }
 
-    protected Base64Binary getText() {
-        return (Base64Binary)super.getText();
-    }
+  protected Base64Binary getText() {
+    return (Base64Binary)super.getText();
+  }
 
-    protected void setText(Base64Binary text) {
-        super.setText(text);
-    }
+  protected void setText(Base64Binary text) {
+    super.setText(text);
+  }
 
-    protected void _$$decode(Element parent, String value) throws ParseException {
-        super.setText(Base64Binary.parseBase64Binary(String.valueOf(value)));
-    }
+  protected void _$$decode(Element parent, String value) throws ParseException {
+    super.setText(Base64Binary.parseBase64Binary(String.valueOf(value)));
+  }
 
-    protected String _$$encode(Element parent) throws MarshalException {
-        if (super.getText() == null)
-            return "";
+  protected String _$$encode(Element parent) throws MarshalException {
+    if (super.getText() == null)
+      return "";
 
-        return super.getText().toString();
-    }
+    return super.getText().toString();
+  }
 
-    public $xs_base64Binary clone() {
-        return new $xs_base64Binary(this) {
-            protected $xs_base64Binary inherits() {
-                return this;
-            }
-        };
-    }
+  public $xs_base64Binary clone() {
+    return new $xs_base64Binary(this) {
+      protected $xs_base64Binary inherits() {
+        return this;
+      }
+    };
+  }
 }

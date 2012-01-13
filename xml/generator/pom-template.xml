@@ -1,44 +1,45 @@
 <!--
-	Copyright 2010 Safris Technologies Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-			http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+  Copyright Safris Software 2006
+  
+  This code is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.safris</groupId>
-		<artifactId>xml</artifactId>
-		<version>${dev:org.safris.xml}</version>
-	</parent>
-	<groupId>org.safris.xml</groupId>
-	<artifactId>generator</artifactId>
-	<version>${dev:org.safris.xml.generator}</version>
-	<packaging>pom</packaging>
-	<name>${groupId}.${artifactId}</name>
-	<description>
-		XML Toolkit is a comprehensive framework to facilitate the use of XML in software languages such as Java. This framework
-		intends to provide tools that will allow a developer to easily integrate XML interoperability, bind XML Schemas,
-		and analyze XML Schemas for use with any software. Currently there is only one language and one application
-		that is supported: XML Binding in Java. Next on the agenda is the development of analysis tools for XML Schema Documents.
-		For instance, imagine a tool that will allow you to determine whether an XSD complies to best-practices. This tool
-		will: 1) produce warnings for structures that do not comply to best-practices, 2) tell the developer whether the logical
-		structure can be transformed linearly to a form that complies to best-practices, and 3) to automatically produce an XSD
-		that maintains the logical structure of the original document but now fully complies to best-practices. This is just one of many
-		tools that will be available shortly. In the meantime, check out the binding application.
-	</description>
-	<modules>
-		<module>lexer</module>
-		<module>compiler</module>
-	</modules>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.safris</groupId>
+    <artifactId>xml</artifactId>
+    <version>${dev:org.safris.xml}</version>
+  </parent>
+  <groupId>org.safris.xml</groupId>
+  <artifactId>generator</artifactId>
+  <version>${dev:org.safris.xml.generator}</version>
+  <packaging>pom</packaging>
+  <name>${project.groupdId}.${project.artifactId}</name>
+  <description>
+    XML Toolkit is a comprehensive framework to facilitate the use of XML in software languages such as Java. This framework
+    intends to provide tools that will allow a developer to easily integrate XML interoperability, bind XML Schemas,
+    and analyze XML Schemas for use with any software. Currently there is only one language and one application
+    that is supported: XML Binding in Java. Next on the agenda is the development of analysis tools for XML Schema Documents.
+    For instance, imagine a tool that will allow you to determine whether an XSD complies to best-practices. This tool
+    will: 1) produce warnings for structures that do not comply to best-practices, 2) tell the developer whether the logical
+    structure can be transformed linearly to a form that complies to best-practices, and 3) to automatically produce an XSD
+    that maintains the logical structure of the original document but now fully complies to best-practices. This is just one of many
+    tools that will be available shortly. In the meantime, check out the binding application.
+  </description>
+  <modules>
+    <module>lexer</module>
+    <module>compiler</module>
+  </modules>
 </project>

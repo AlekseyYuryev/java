@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.io.scanner;
@@ -21,68 +22,68 @@ import java.util.List;
 import org.safris.commons.util.HashTree;
 
 public final class InputStreamScanner extends Thread {
-    private final InputStream in;
-    private List<HashTree.Node<ScannerHandler>> currentNodes;
+  private final InputStream in;
+  private List<HashTree.Node<ScannerHandler>> currentNodes;
 
-    public InputStreamScanner(InputStream in, HashTree<ScannerHandler> handlers) {
-        super(InputStreamScanner.class.getSimpleName());
-        this.in = in;
-        currentNodes = handlers != null ? handlers.getChildren() : null;
+  public InputStreamScanner(InputStream in, HashTree<ScannerHandler> handlers) {
+    super(InputStreamScanner.class.getSimpleName());
+    this.in = in;
+    currentNodes = handlers != null ? handlers.getChildren() : null;
+  }
+
+  private boolean onMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException {
+    boolean match = false;
+    for (HashTree.Node<ScannerHandler> node : nodes) {
+      if (node.getValue() != null) {
+        if (line.matches(node.getValue().getMatch())) {
+          match = true;
+          node.getValue().match(line);
+          if (node.hasChildren())
+            currentNodes = node.getChildren();
+        }
+      }
+      else {
+        for (HashTree.Node<ScannerHandler> child : node.getChildren())
+          onMatch(line, child.getChildren());
+      }
     }
 
-    private boolean onMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException {
-        boolean match = false;
-        for (HashTree.Node<ScannerHandler> node : nodes) {
-            if (node.getValue() != null) {
-                if (line.matches(node.getValue().getMatch())) {
-                    match = true;
-                    node.getValue().match(line);
-                    if (node.hasChildren())
-                        currentNodes = node.getChildren();
-                }
-            }
-            else {
-                for (HashTree.Node<ScannerHandler> child : node.getChildren())
-                    onMatch(line, child.getChildren());
-            }
-        }
+    return match;
+  }
 
-        return match;
+  public void run() {
+    String line = "";
+    try {
+      char ch = 0;
+      while ((ch = (char)in.read()) != -1) {
+        if (ch != '\n') {
+          if (ch == ' ' && line.length() == 0)
+            continue;
+
+          line += ch;
+        }
+        else
+          line = "";
+
+        if (currentNodes == null)
+          continue;
+
+        if (onMatch(line, currentNodes))
+          line = "";
+      }
     }
+    catch (Exception e) {
+      if ("Pipe broken".equals(e.getMessage()))
+        return;
 
-    public void run() {
-        String line = "";
-        try {
-            char ch = 0;
-            while ((ch = (char)in.read()) != -1) {
-                if (ch != '\n') {
-                    if (ch == ' ' && line.length() == 0)
-                        continue;
-
-                    line += ch;
-                }
-                else
-                    line = "";
-
-                if (currentNodes == null)
-                    continue;
-
-                if (onMatch(line, currentNodes))
-                    line = "";
-            }
-        }
-        catch (Exception e) {
-            if ("Pipe broken".equals(e.getMessage()))
-                return;
-
-            throw new RuntimeException(e);
-        }
-        finally {
-            try {
-                notifyAll();
-            }
-            catch (IllegalMonitorStateException e) {
-            }
-        }
+      throw new RuntimeException(e);
     }
+    finally {
+      try {
+        notifyAll();
+      }
+      catch (IllegalMonitorStateException e) {
+      }
+    }
+  }
 }

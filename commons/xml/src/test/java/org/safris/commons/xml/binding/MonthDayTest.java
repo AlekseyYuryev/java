@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.xml.binding;
@@ -20,161 +21,160 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MonthDayTest {
-    public static void main(String[] args) {
-        new MonthDayTest().testMonthDay();
+  public static void main(String[] args) {
+    new MonthDayTest().testMonthDay();
+  }
+
+  @Test
+  public void testMonthDay() {
+    try {
+      MonthDay.parseMonthDay(null);
+      fail("Expected a NullPointerException");
+    }
+    catch (NullPointerException e) {
     }
 
-    @Test
-    public void testMonthDay() {
-        try {
-            MonthDay.parseMonthDay(null);
-            fail("Expected a NullPointerException");
-        }
-        catch (NullPointerException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("---5");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("-5-30");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--A");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--00");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--13");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--4");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--04-32");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--04-00");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--04-7");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--02-30");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--04-31");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--06-31");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--09-31");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--11Z-");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--12-30-15:00");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--07-12+14:60");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        try {
-            MonthDay.parseMonthDay("--02-01+14:60.9");
-            fail("Expected a IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e) {
-        }
-
-        final String[] monthDays = new String[]
-        {
-            "--12-31",
-            "--04-30",
-            "--03-31",
-            "--02-29",
-            "--01-31",
-            "--01-12Z",
-            "--07-02+01:00",
-            "--09-12-01:00",
-            "--10-11Z",
-            "--11-15+12:00",
-            "--12-17-12:30"
-        };
-
-        for (String monthDay : monthDays)
-            assertEquals(monthDay, MonthDay.parseMonthDay(monthDay).toString());
+    try {
+      MonthDay.parseMonthDay("");
+      fail("Expected a IllegalArgumentException");
     }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("---5");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("-5-30");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--A");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--00");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--13");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--4");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--04-32");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--04-00");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--04-7");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--02-30");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--04-31");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--06-31");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--09-31");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--11Z-");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--12-30-15:00");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--07-12+14:60");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    try {
+      MonthDay.parseMonthDay("--02-01+14:60.9");
+      fail("Expected a IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+    }
+
+    final String[] monthDays = new String[] {
+      "--12-31Z",
+      "--04-30Z",
+      "--03-31Z",
+      "--02-29Z",
+      "--01-31Z",
+      "--01-12Z",
+      "--07-02+01:00",
+      "--09-12-01:00",
+      "--10-11Z",
+      "--11-15+12:00",
+      "--12-17-12:30"
+    };
+
+    for (String monthDay : monthDays)
+      assertEquals(monthDay, MonthDay.parseMonthDay(monthDay).toString());
+  }
 }

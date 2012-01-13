@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.lang;
@@ -26,72 +27,72 @@ import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 
 public class ElementWrapper extends Model implements Nameable {
-    public static LinkedHashSet<ElementWrapper> asSet(LinkedHashSet<MultiplicableModel> multiplicableModels) {
-        final LinkedHashSet<ElementWrapper> elementWrappers = new LinkedHashSet<ElementWrapper>();
-        asSet(multiplicableModels, elementWrappers, 1, 1, new HashSet<UniqueQName>());
-        return elementWrappers;
+  public static LinkedHashSet<ElementWrapper> asSet(LinkedHashSet<MultiplicableModel> multiplicableModels) {
+    final LinkedHashSet<ElementWrapper> elementWrappers = new LinkedHashSet<ElementWrapper>();
+    asSet(multiplicableModels, elementWrappers, 1, 1, new HashSet<UniqueQName>());
+    return elementWrappers;
+  }
+
+  private static void asSet(LinkedHashSet<MultiplicableModel> multiplicableModels, LinkedHashSet<ElementWrapper> elementWrappers, int min, int max, Collection<UniqueQName> redefines) {
+    for (MultiplicableModel multiplicableModel : multiplicableModels) {
+      // FIXME: the list used to track redefines seems BAD!!!
+      if (multiplicableModel instanceof RedefineableModel && ((RedefineableModel)multiplicableModel).getRedefine() != null && !redefines.contains(((Nameable)multiplicableModel).getName())) {
+        multiplicableModel = (MultiplicableModel)((RedefineableModel)multiplicableModel).getRedefine();
+        redefines.add(((Nameable)multiplicableModel).getName());
+      }
+
+      int maxOccurs = multiplicableModel.getMaxOccurs().getValue();
+      if (maxOccurs != Integer.MAX_VALUE)
+        maxOccurs *= max;
+
+      int minOccurs = multiplicableModel.getMinOccurs().getValue();
+      minOccurs *= min;
+
+      if (multiplicableModel instanceof ElementModel)
+        elementWrappers.add(new ElementWrapper((ElementModel)multiplicableModel, minOccurs, maxOccurs));
+      else
+        asSet(multiplicableModel.getMultiplicableModels(), elementWrappers, minOccurs, maxOccurs, redefines);
     }
+  }
 
-    private static void asSet(LinkedHashSet<MultiplicableModel> multiplicableModels, LinkedHashSet<ElementWrapper> elementWrappers, int min, int max, Collection<UniqueQName> redefines) {
-        for (MultiplicableModel multiplicableModel : multiplicableModels) {
-            // FIXME: the list used to track redefines seems BAD!!!
-            if (multiplicableModel instanceof RedefineableModel && ((RedefineableModel)multiplicableModel).getRedefine() != null && !redefines.contains(((Nameable)multiplicableModel).getName())) {
-                multiplicableModel = (MultiplicableModel)((RedefineableModel)multiplicableModel).getRedefine();
-                redefines.add(((Nameable)multiplicableModel).getName());
-            }
+  private final ElementModel elementModel;
+  private final int minOccurs;
+  private final int maxOccurs;
 
-            int maxOccurs = multiplicableModel.getMaxOccurs().getValue();
-            if (maxOccurs != Integer.MAX_VALUE)
-                maxOccurs *= max;
+  public ElementWrapper(ElementModel elementModel, int minOccurs, int maxOccurs) {
+    super(null, elementModel.getParent());
+    this.elementModel = elementModel;
+    this.minOccurs = minOccurs;
+    this.maxOccurs = maxOccurs;
+  }
 
-            int minOccurs = multiplicableModel.getMinOccurs().getValue();
-            minOccurs *= min;
+  public final ElementModel getElementModel() {
+    return elementModel;
+  }
 
-            if (multiplicableModel instanceof ElementModel)
-                elementWrappers.add(new ElementWrapper((ElementModel)multiplicableModel, minOccurs, maxOccurs));
-            else
-                asSet(multiplicableModel.getMultiplicableModels(), elementWrappers, minOccurs, maxOccurs, redefines);
-        }
-    }
+  public final int getMinOccurs() {
+    return minOccurs;
+  }
 
-    private final ElementModel elementModel;
-    private final int minOccurs;
-    private final int maxOccurs;
+  public final int getMaxOccurs() {
+    return maxOccurs;
+  }
 
-    public ElementWrapper(ElementModel elementModel, int minOccurs, int maxOccurs) {
-        super(null, elementModel.getParent());
-        this.elementModel = elementModel;
-        this.minOccurs = minOccurs;
-        this.maxOccurs = maxOccurs;
-    }
+  public UniqueQName getName() {
+    return elementModel.getName();
+  }
 
-    public final ElementModel getElementModel() {
-        return elementModel;
-    }
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
 
-    public final int getMinOccurs() {
-        return minOccurs;
-    }
+    if (!(obj instanceof ElementWrapper))
+      return false;
 
-    public final int getMaxOccurs() {
-        return maxOccurs;
-    }
+    return elementModel.equals(((ElementWrapper)obj).elementModel);
+  }
 
-    public UniqueQName getName() {
-        return elementModel.getName();
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-
-        if (!(obj instanceof ElementWrapper))
-            return false;
-
-        return elementModel.equals(((ElementWrapper)obj).elementModel);
-    }
-
-    public int hashCode() {
-        return elementModel.hashCode();
-    }
+  public int hashCode() {
+    return elementModel.hashCode();
+  }
 }

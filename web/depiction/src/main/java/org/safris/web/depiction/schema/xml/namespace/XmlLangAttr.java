@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.web.depiction.schema.xml.namespace;
@@ -27,51 +28,51 @@ package org.safris.web.depiction.schema.xml.namespace;
 
 public class XmlLangAttr extends org.safris.xml.bind.runtime.types.StringType<org.safris.xml.bind.runtime.lang.Attribute>
 {
-	private static final javax.xml.namespace.QName NAME = new javax.xml.namespace.QName("http://www.w3.org/XML/1998/namespace", "lang");
+  private static final javax.xml.namespace.QName NAME = new javax.xml.namespace.QName("http://www.w3.org/XML/1998/namespace", "lang");
 
-	public XmlLangAttr(java.lang.String value)
-	{
-		super(value);
-	}
+  public XmlLangAttr(java.lang.String value)
+  {
+    super(value);
+  }
 
-	public XmlLangAttr(org.safris.xml.bind.runtime.types.StringType binding)
-	{
-		super(binding);
-	}
+  public XmlLangAttr(org.safris.xml.bind.runtime.types.StringType binding)
+  {
+    super(binding);
+  }
 
-	public XmlLangAttr()
-	{
-		super();
-	}
+  public XmlLangAttr()
+  {
+    super();
+  }
 
-	public java.lang.String getValue()
-	{
-		return super.getTEXT();
-	}
+  public java.lang.String getValue()
+  {
+    return super.getTEXT();
+  }
 
-	public void setValue(java.lang.String value)
-	{
-		super.setTEXT(value);
-	}
+  public void setValue(java.lang.String value)
+  {
+    super.setTEXT(value);
+  }
 
-	protected javax.xml.namespace.QName _getName()
-	{
-		return NAME;
-	}
+  protected javax.xml.namespace.QName _getName()
+  {
+    return NAME;
+  }
 
-	public org.safris.web.depiction.schema.xml.namespace.XmlLangAttr clone()
-	{
-		return new org.safris.web.depiction.schema.xml.namespace.XmlLangAttr(this);
-	}
+  public org.safris.web.depiction.schema.xml.namespace.XmlLangAttr clone()
+  {
+    return new org.safris.web.depiction.schema.xml.namespace.XmlLangAttr(this);
+  }
 
-	public boolean equals(java.lang.Object obj)
-	{
-		return super.equals(obj);
-	}
+  public boolean equals(java.lang.Object obj)
+  {
+    return super.equals(obj);
+  }
 
-	public int hashCode()
-	{
-		java.lang.StringBuffer stringBuffer = new java.lang.StringBuffer(java.lang.String.valueOf(super.hashCode())).append("-");
-		return stringBuffer.toString().hashCode();
-	}
+  public int hashCode()
+  {
+    java.lang.StringBuffer stringBuffer = new java.lang.StringBuffer(java.lang.String.valueOf(super.hashCode())).append("-");
+    return stringBuffer.toString().hashCode();
+  }
 }

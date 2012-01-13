@@ -1,18 +1,17 @@
-#!/bin/sh
-#
-#  Copyright 2010 Safris Technologies Inc.
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+# Copyright Safris Software 2008
+# 
+# This code is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Define default values
 DEFAULT_POM_TEMPLATE="pom-template.xml"
@@ -94,230 +93,233 @@ updatePOM() {
 		[ "$DEBUG" ] && echo "\t2\tupdatePOM::if(newer_than($UP_POM_TEMPLATE $UP_POM))"
 		[ "$DEBUG" ] && echo "\t2\tupdatePOM::if(newer_than($FP_POM_TEMPLATE_PROPERTIES $UP_POM))"
 
-		# Read pom-template.properties and sort the contents by the number of "."
-		# characters in the name of each name=value pair (in descending order).
-		# PROPERTIES=`awk -F\. '{print NF " " $0} ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v '^$\|^\S*#'`
-		PROPERTIES=`sed 's/^ *//g' $FP_POM_TEMPLATE_PROPERTIES | grep -v '^$\|^\S*#' | sed '1!G;h;$!d'`
+    # Read pom-template.properties and sort the contents by the number of "."
+    # characters in the name of each name=value pair (in descending order).
+    # PROPERTIES=`awk -F\. '{print NF " " $0} ' $FP_POM_TEMPLATE_PROPERTIES | sort -r | awk '{print $2}' | grep -v '^$\|^\S*#'`
+    PROPERTIES=`sed 's/^ *//g' $FP_POM_TEMPLATE_PROPERTIES | grep -v '^$\|^\S*#' | sed '1!G;h;$!d'`
 
-		# Generate a script to replace all occurances of each property with its value
-		# such that ${name} gets replaced with value. Also replace all references to
-		# POM-TEMPLATE with POM
-#		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
-		UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/[-\.a-zA-Z]*\\\\}\/\2\/g/g' | sed 's/\( \)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed 's/\(^\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
-		[ "$DEBUG" ] && echo "\t2\tupdatePOM::`pwd`/$UP_POM"
-		echo $UPDATE_CMD | xargs sed > $UP_POM
-		echo "Updated: $UP_POM"
-	fi
+    # Generate a script to replace all occurances of each property with its value
+    # such that ${name} gets replaced with value. Also replace all references to
+    # POM-TEMPLATE with POM
+    # UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\(\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\|\\\\\\\\\\\\\\\\\\\\([-\.a-zA-Z]*\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\)\\\\\\\\\\\\\\\\\\\\}\/\2\/g/g' | sed 's/\(\( \)\|\(^\)\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\4/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+    # This worked for linux, and all of a sudden stopped working for mac
+    # UPDATE_CMD="`echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/[-\.a-zA-Z]*\\\\}\/\2\/g/g' | sed 's/\( \)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed 's/\(^\)\([a-zA-Z0-9]*\)/\1\-e \\\\s\/\\\\\\$\\\\{\2/g' | sed \s/\^/\-e\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /` $UP_POM_TEMPLATE"
+    UPDATE_CMD="sed `echo \"$PROPERTIES\" | sed 's/$/ DELIMITER_STRING/' | xargs echo | sed 's/\(\s*=\s*\)\([^ ]*\)\( DELIMITER_STRING\)/[-\.a-zA-Z]*\\\\}\/\2\/g/g' | sed 's/\( \)\([a-zA-Z0-9]*\)/\1\| sed \\\\s\/\\\\\\$\\\\{\2/g' | sed 's/\(^\)\([a-zA-Z0-9]*\)/\1\| sed \\\\s\/\\\\\\$\\\\{\2/g' | sed \s/\^/\\ \'s\\\/$UP_PARENT_POM_TEMPLATE\\\/$UP_PARENT_POM\\\/g\'\ /`"
+    [ "$DEBUG" ] && echo "\t2\tupdatePOM::`pwd`/$UP_POM"
+    sh -c "cat $UP_POM_TEMPLATE | $UPDATE_CMD" > $UP_POM
+    # echo $UPDATE_CMD | xargs sed > $UP_POM
+    echo "Updated: $UP_POM"
+  fi
 }
 
 scanUpdatePOMs() {
-	SUPOM_TEMPLATE=$1
-	[ "$DEBUG" ] && echo "\t1\tscanUpdatePOMs($SUPOM_TEMPLATE)"
+  SUPOM_TEMPLATE=$1
+  [ "$DEBUG" ] && echo "\t1\tscanUpdatePOMs($SUPOM_TEMPLATE)"
 
-	SUPOM_ROOT=*
-	[ "$SUPOM_TEMPLATE" != "$DEFAULT_POM_TEMPLATE" ] && SUPOM_ROOT="`dirname $SUPOM_TEMPLATE`"
+  SUPOM_ROOT=*
+  [ "$SUPOM_TEMPLATE" != "$DEFAULT_POM_TEMPLATE" ] && SUPOM_ROOT="`dirname $SUPOM_TEMPLATE`"
 
-	# Find all pom*-template.xml files and write them to pom.xml.
-	SUP_TEMPLATES=`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\{1,\} //'`
-	for POM_TEMPLATE in $SUP_TEMPLATES; do
-		[ "$DEBUG" ] && echo "\t2\tscanUpdatePOMs()::for($POM_TEMPLATE)"
+  # Find all pom*-template.xml files and write them to pom.xml.
+  SUP_TEMPLATES=`find $SUPOM_ROOT -name 'pom*-template.xml' | awk -F\/ '{ print NF " " $0 } ' | sort | sed 's/^[0-9]\{1,\} //'`
+  for POM_TEMPLATE in $SUP_TEMPLATES; do
+    [ "$DEBUG" ] && echo "\t2\tscanUpdatePOMs()::for($POM_TEMPLATE)"
 
-		getBaseDir true
+    getBaseDir true
 
-		# Update all parent POMs
-		updateParentPOMs $POM_TEMPLATE
+    # Update all parent POMs
+    updateParentPOMs $POM_TEMPLATE
 
-		# Update all child POMs
-		updateChildPOMs $POM_TEMPLATE
-	done
+    # Update all child POMs
+    updateChildPOMs $POM_TEMPLATE
+  done
 }
 
 updateParentPOMs() {
-	UPP_POM_TEMPLATE="$1"
-	[ "$DEBUG" ] && echo "\t1\tupdateParentPOMs($UPP_POM_TEMPLATE)"
-	UPP_PARENT_POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
-	UPP_RELATIVE_DIR="`dirname $UPP_POM_TEMPLATE`"
+  UPP_POM_TEMPLATE="$1"
+  [ "$DEBUG" ] && echo "\t1\tupdateParentPOMs($UPP_POM_TEMPLATE)"
+  UPP_PARENT_POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
+  UPP_RELATIVE_DIR="`dirname $UPP_POM_TEMPLATE`"
 
-	# While there exists a parent POM-TEMPLATE
-	while [ -f $UPP_POM_TEMPLATE ]; do
-		[ "$DEBUG" ] && echo "\t2\tupdateParentPOMs::while(-f $UPP_POM_TEMPLATE)"
-		UPP_PARENT_POM_TEMPLATE="../$UPP_PARENT_POM_TEMPLATE"
+  # While there exists a parent POM-TEMPLATE
+  while [ -f $UPP_POM_TEMPLATE ]; do
+    [ "$DEBUG" ] && echo "\t2\tupdateParentPOMs::while(-f $UPP_POM_TEMPLATE)"
+    UPP_PARENT_POM_TEMPLATE="../$UPP_PARENT_POM_TEMPLATE"
 
-		# If a <relativePath/> tag exists, set the next parent using the relative path
-		# FIXME: The relativePath string can occur anywhere in the document, so
-		# this may lead to a false positive
-		if [ "`cat $UPP_POM_TEMPLATE | grep relativePath`" ]; then
-			UPP_PARENT_POM_TEMPLATE="`cat $UPP_POM_TEMPLATE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//'`"
-		fi
-		updatePOM $UPP_POM_TEMPLATE $UPP_PARENT_POM_TEMPLATE
-		UPP_POM_TEMPLATE="$UPP_RELATIVE_DIR/$UPP_PARENT_POM_TEMPLATE"
-	done
+    # If a <relativePath/> tag exists, set the next parent using the relative path
+    # FIXME: The relativePath string can occur anywhere in the document, so
+    # this may lead to a false positive
+    if [ "`cat $UPP_POM_TEMPLATE | grep relativePath`" ]; then
+      UPP_PARENT_POM_TEMPLATE="`cat $UPP_POM_TEMPLATE | sed 's/<relativePath>//' | sed 's/<\/relativePath>//'`"
+    fi
+    updatePOM $UPP_POM_TEMPLATE $UPP_PARENT_POM_TEMPLATE
+    UPP_POM_TEMPLATE="$UPP_RELATIVE_DIR/$UPP_PARENT_POM_TEMPLATE"
+  done
 }
 
 updateChildPOMs() {
-	UCP_FILE_NAME="$1"
-	UCP_OUTER_MODULES=$POM_TEMPLATE_DIR
-	[ "$POM_TEMPLATE_DIR" = "./" ] && POM_TEMPLATE_DIR=""
-	UCP_ALL_MODULES=""
-	UCP_INNER_MODULES=""
+  UCP_FILE_NAME="$1"
+  UCP_OUTER_MODULES=$POM_TEMPLATE_DIR
+  [ "$POM_TEMPLATE_DIR" = "./" ] && POM_TEMPLATE_DIR=""
+  UCP_ALL_MODULES=""
+  UCP_INNER_MODULES=""
 
-	[ "$DEBUG" ] && echo "\t1\tupdateChildPOMs($UCP_FILE_NAME)"
-	# While there are modules to process
-	while [ -n "$UCP_OUTER_MODULES" ]; do
-		[ "$DEBUG" ] && echo "\t2\tupdateChildPOMs::while($UCP_OUTER_MODULES)"
+  [ "$DEBUG" ] && echo "\t1\tupdateChildPOMs($UCP_FILE_NAME)"
+  # While there are modules to process
+  while [ -n "$UCP_OUTER_MODULES" ]; do
+    [ "$DEBUG" ] && echo "\t2\tupdateChildPOMs::while($UCP_OUTER_MODULES)"
 
-		# For each module in the OUTER modules list
-		for UCP_CHILD_MODULE in $UCP_OUTER_MODULES; do
-			[ "$DEBUG" ] && echo "\t3\tupdateChildPOMs::while::for($UCP_CHILD_MODULE)"
-			# Make sure that the POM-TEMPLATE file exists in the module
-			if [ -f ${UCP_CHILD_MODULE}${UCP_FILE_NAME} ]; then
-				[ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::while::for::if(-f ${UCP_CHILD_MODULE}${UCP_FILE_NAME})"
-				# Get all module entries and remove <module>, </module> and <!--.*-->
-				UCP_UCP_CHILD_MODULE_MODULES="`grep '<module>' ${UCP_CHILD_MODULE}${UCP_FILE_NAME} | sed -e 's/<\/*module>//g' -e 's/<!--.*-->//g' | xargs echo`"
+    # For each module in the OUTER modules list
+    for UCP_CHILD_MODULE in $UCP_OUTER_MODULES; do
+      [ "$DEBUG" ] && echo "\t3\tupdateChildPOMs::while::for($UCP_CHILD_MODULE)"
+      # Make sure that the POM-TEMPLATE file exists in the module
+      if [ -f ${UCP_CHILD_MODULE}${UCP_FILE_NAME} ]; then
+        [ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::while::for::if(-f ${UCP_CHILD_MODULE}${UCP_FILE_NAME})"
+        # Get all module entries and remove <module>, </module> and <!--.*-->
+        UCP_UCP_CHILD_MODULE_MODULES="`grep '<module>' ${UCP_CHILD_MODULE}${UCP_FILE_NAME} | sed -e 's/<\/*module>//g' -e 's/<!--.*-->//g' | xargs echo`"
 
-				# If the module has modules of its own
-				if [ "$UCP_UCP_CHILD_MODULE_MODULES" != "" ]; then
-					[ "$DEBUG" ] && echo "\t5\tupdateChildPOMs::while::for::if::if($UCP_UCP_CHILD_MODULE_MODULES)"
-					# Define the dir that the module is in, and escape the "/"
-					ESCAPED_DIR="`echo "$UCP_CHILD_MODULE/" | sed 's/\//\\\\\//g'`"
-					[ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::ESCAPED_DIR = $ESCAPED_DIR"
-					# Prepend all module names with the appropriate parent module dir
-					[ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::UCP_UCP_CHILD_MODULE_MODULES = $UCP_UCP_CHILD_MODULE_MODULES"
-					UCP_UCP_CHILD_MODULE_MODULES=`echo "$UCP_UCP_CHILD_MODULE_MODULES" | sed -e \s/\\\\\(\ \\\\\)/\\\\1$ESCAPED_DIR/g -e \s/\\\\\(\^\\\\\)/\\\\1$ESCAPED_DIR/g`
-					[ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::UCP_UCP_CHILD_MODULE_MODULES = $UCP_UCP_CHILD_MODULE_MODULES"
+        # If the module has modules of its own
+        if [ "$UCP_UCP_CHILD_MODULE_MODULES" != "" ]; then
+          [ "$DEBUG" ] && echo "\t5\tupdateChildPOMs::while::for::if::if($UCP_UCP_CHILD_MODULE_MODULES)"
+          # Define the dir that the module is in, and escape the "/"
+          ESCAPED_DIR="`echo "$UCP_CHILD_MODULE/" | sed 's/\//\\\\\//g'`"
+          [ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::ESCAPED_DIR = $ESCAPED_DIR"
+          # Prepend all module names with the appropriate parent module dir
+          [ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::UCP_UCP_CHILD_MODULE_MODULES = $UCP_UCP_CHILD_MODULE_MODULES"
+          UCP_UCP_CHILD_MODULE_MODULES=`echo "$UCP_UCP_CHILD_MODULE_MODULES" | sed -e \s/\\\\\(\ \\\\\)/\\\\1$ESCAPED_DIR/g -e \s/\\\\\(\^\\\\\)/\\\\1$ESCAPED_DIR/g`
+          [ "$DEBUG" ] && echo "\t4\tupdateChildPOMs::UCP_UCP_CHILD_MODULE_MODULES = $UCP_UCP_CHILD_MODULE_MODULES"
 
-					# Append the module names to the INNER list and continue
-					# iterating through the OUTER list
-					UCP_INNER_MODULES="$UCP_INNER_MODULES $UCP_UCP_CHILD_MODULE_MODULES"
-				fi
-			fi
-		done
+          # Append the module names to the INNER list and continue
+          # iterating through the OUTER list
+          UCP_INNER_MODULES="$UCP_INNER_MODULES $UCP_UCP_CHILD_MODULE_MODULES"
+        fi
+      fi
+    done
 
-		# Overwrite the UCP_FILE_NAME to the default POM-TEMPLATE
-		UCP_FILE_NAME="/$DEFAULT_POM_TEMPLATE"
+    # Overwrite the UCP_FILE_NAME to the default POM-TEMPLATE
+    UCP_FILE_NAME="/$DEFAULT_POM_TEMPLATE"
 
-		# Append the UCP_INNER_MODULES list to UCP_ALL_MODULES
-		UCP_ALL_MODULES="$UCP_ALL_MODULES $UCP_INNER_MODULES"
+    # Append the UCP_INNER_MODULES list to UCP_ALL_MODULES
+    UCP_ALL_MODULES="$UCP_ALL_MODULES $UCP_INNER_MODULES"
 
-		# Replace the UCP_OUTER_MODULES list as the UCP_INNER_MODULES list
-		# so that it we can iterate through it next
-		UCP_OUTER_MODULES="$UCP_INNER_MODULES"
+    # Replace the UCP_OUTER_MODULES list as the UCP_INNER_MODULES list
+    # so that it we can iterate through it next
+    UCP_OUTER_MODULES="$UCP_INNER_MODULES"
 
-		# Empty out the UCP_INNER_MODULES list
-		UCP_INNER_MODULES=""
-	done
+    # Empty out the UCP_INNER_MODULES list
+    UCP_INNER_MODULES=""
+  done
 
-	# Remove all ".//" substrings.
-	UCP_ALL_MODULES="`echo "$UCP_ALL_MODULES" | sed 's/\.\/\///g'`"
+  # Remove all ".//" substrings.
+  UCP_ALL_MODULES="`echo "$UCP_ALL_MODULES" | sed 's/\.\/\///g'`"
 
-	# Iterate through the UCP_ALL_MODULES list
-	for UCP_POM_TEMPLATE in $UCP_ALL_MODULES; do
-		[ "$DEBUG" ] && echo "\t5\tupdateChildPOMs::for($UCP_POM_TEMPLATE)"
+  # Iterate through the UCP_ALL_MODULES list
+  for UCP_POM_TEMPLATE in $UCP_ALL_MODULES; do
+    [ "$DEBUG" ] && echo "\t5\tupdateChildPOMs::for($UCP_POM_TEMPLATE)"
 
-		# Call updatePOM with the default POM-TEMPLATE as the parent pom
-		updatePOM $POM_TEMPLATE_DIR$UCP_POM_TEMPLATE/$DEFAULT_POM_TEMPLATE $DEFAULT_POM_TEMPLATE
-	done
+    # Call updatePOM with the default POM-TEMPLATE as the parent pom
+    updatePOM $POM_TEMPLATE_DIR$UCP_POM_TEMPLATE/$DEFAULT_POM_TEMPLATE $DEFAULT_POM_TEMPLATE
+  done
 }
 
 # Parse the arguments
 ARGS=""
 POM_TEMPLATE=$DEFAULT_POM_TEMPLATE
 while [ -n "$1" ]; do
-	case "$1" in
-		-ds) DEPENDENCY_SCAN=true
-			shift;
-			continue;
-			;;
-		--dependency-scan) DEPENDENCY_SCAN=true
-			shift;
-			continue;
-			;;
-		-ut) UPDATE_TEMPLATES=true
-			shift;
-			continue;
-			;;
-		--update-templates) UPDATE_TEMPLATES=true
-			shift;
-			continue;
-			;;
-		-sut) SCAN_UPDATE_TEMPLATES=true
-			shift;
-			continue;
-			;;
-		--scan-update-templates) SCAN_UPDATE_TEMPLATES=true
-			shift;
-			continue;
-			;;
-		-ft)
-			if [ $# -gt 1 ]; then
-				POM_TEMPLATE="$2"
-				shift
-			fi
-			shift;
-			continue;
-			;;
-		--file-template)
-			if [ $# -gt 1 ]; then
-				POM_TEMPLATE="$2"
-				shift
-			fi
-			shift;
-			continue;
-			;;
-		--help) HELP=true
-			;;
-		clean) CLEAN=true
-			;;
-	esac
-	ARGS="$ARGS \"$1\""
-	shift
+  case "$1" in
+    -ds) DEPENDENCY_SCAN=true
+      shift;
+      continue;
+      ;;
+    --dependency-scan) DEPENDENCY_SCAN=true
+      shift;
+      continue;
+      ;;
+    -ut) UPDATE_TEMPLATES=true
+      shift;
+      continue;
+      ;;
+    --update-templates) UPDATE_TEMPLATES=true
+      shift;
+      continue;
+      ;;
+    -sut) SCAN_UPDATE_TEMPLATES=true
+      shift;
+      continue;
+      ;;
+    --scan-update-templates) SCAN_UPDATE_TEMPLATES=true
+      shift;
+      continue;
+      ;;
+    -ft)
+      if [ $# -gt 1 ]; then
+        POM_TEMPLATE="$2"
+        shift
+      fi
+      shift;
+      continue;
+      ;;
+    --file-template)
+      if [ $# -gt 1 ]; then
+        POM_TEMPLATE="$2"
+        shift
+      fi
+      shift;
+      continue;
+      ;;
+    --help) HELP=true
+      ;;
+    clean) CLEAN=true
+      ;;
+  esac
+  ARGS="$ARGS \"$1\""
+  shift
 done
 
 # Find the original mvn script
 THIS_MVN="`which mvn`"
 MVN="`which -a mvn | sed -n '2p'`"
 if [ ! -f "$MVN" ] || [ "$MVN" = "$THIS_MVN" ]; then
-	if [ -z "$M2_HOME" ]; then
-		echo "Error: M2_HOME is not defined."
-		exit 1
-	fi
+  if [ -z "$M2_HOME" ]; then
+    echo "Error: M2_HOME is not defined."
+    exit 1
+  fi
 
-	MVN="$M2_HOME/bin/mvn"
-	if [ ! -f "$MVN" ]; then
-		echo "Error: M2_HOME is not defined correctly."
-		exit 1
-	fi
+  MVN="$M2_HOME/bin/mvn"
+  if [ ! -f "$MVN" ]; then
+    echo "Error: M2_HOME is not defined correctly."
+    exit 1
+  fi
 fi
 
 # Get help from the original mvn and then print our additional options
 if [ $HELP ]; then
-	sh -c "$MVN $ARGS"
-	echo
-	echo "Additional options:"
-	echo " -ds,--dependency-scan         Scan updated modules and find their"
-	echo "                               dependents needing a version update"
-	echo " -ut,--update-templates        Update POM files from POM-TEMPLATE"
-	echo "                               files in project."
-	echo " -sut,--scan-update-templates  Scan child directories and update"
-	echo "                               POM files from POM-TEMPLATE files"
-	echo "                               of the pattern: pom-*-template.xml"
-	echo " -ft,--file-template           Force the use of an alternate POM-TEMPLATE"
-	echo "                               file."
-	exit
+  sh -c "$MVN $ARGS"
+  echo
+  echo "Additional options:"
+  echo " -ds,--dependency-scan         Scan updated modules and find their"
+  echo "                               dependents needing a version update"
+  echo " -ut,--update-templates        Update POM files from POM-TEMPLATE"
+  echo "                               files in project."
+  echo " -sut,--scan-update-templates  Scan child directories and update"
+  echo "                               POM files from POM-TEMPLATE files"
+  echo "                               of the pattern: pom-*-template.xml"
+  echo " -ft,--file-template           Force the use of an alternate POM-TEMPLATE"
+  echo "                               file."
+  exit
 fi
 
 if [ $DEPENDENCY_SCAN ]; then
-	PWD="`pwd`"
-	MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e 's/^[?A-Z]\s\{1,\}//' -e 's/\/src.*//' | xargs -L 1 echo $PWD~~~~ | sed -e 's/~~~~ /\//' -e 's/^.*trunk\///' -e 's/^/org.safris./' -e 's/\//./g' | xargs echo | sed 's/ /:\\\|/g'`
-	echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
-	echo 'Key: MODULE_1 --> MODULE_2'
-	$MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\{1,\}:[^:]\{1,\}\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '
-	exit 0
+  PWD="`pwd`"
+  MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e 's/^[?A-Z]\s\{1,\}//' -e 's/\/src.*//' | xargs -L 1 echo $PWD~~~~ | sed -e 's/~~~~ /\//' -e 's/^.*trunk\///' -e 's/^/org.safris./' -e 's/\//./g' | xargs echo | sed 's/ /:\\\|/g'`
+  echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
+  echo 'Key: MODULE_1 --> MODULE_2'
+  $MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\{1,\}:[^:]\{1,\}\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '
+  exit 0
 fi
 
 if [ $SCAN_UPDATE_TEMPLATES ]; then
-	scanUpdatePOMs $POM_TEMPLATE
-	exit 0
+  scanUpdatePOMs $POM_TEMPLATE
+  exit 0
 fi
 
 # Update all parent POMs

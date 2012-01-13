@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.runtime;
@@ -31,46 +32,46 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public class BindingValidator extends Validator {
-    private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
+  private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
-    protected URL lookupSchemaLocation(String namespaceURI) {
-        return schemaReferences.get(namespaceURI);
+  protected URL lookupSchemaLocation(String namespaceURI) {
+    return schemaReferences.get(namespaceURI);
+  }
+
+  protected URL getSchemaLocation(String namespaceURI) {
+    return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
+  }
+
+  protected void parse(Element element) throws IOException, ValidationException {
+    final SAXParser saxParser;
+    try {
+      saxParser = SAXParsers.createParser();
+
+      saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
+      saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
+      saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
+      saxParser.setFeature(SAXFeature.NAMESPACES, true);
+      saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
+      saxParser.setFeature(SAXFeature.VALIDATION, true);
+
+      saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
+      saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new BindingEntityResolver());
+
+      saxParser.setErrorHandler(BindingErrorHandler.getInstance());
+    }
+    catch (Exception e) {
+      throw new ValidationException(e);
     }
 
-    protected URL getSchemaLocation(String namespaceURI) {
-        return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
+    final String output = DOMs.domToString(element);
+    try {
+      saxParser.parse(new InputSource(new StringReader(output)));
     }
-
-    protected void parse(Element element) throws IOException, ValidationException {
-        final SAXParser saxParser;
-        try {
-            saxParser = SAXParsers.createParser();
-
-            saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
-            saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
-            saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
-            saxParser.setFeature(SAXFeature.NAMESPACES, true);
-            saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
-            saxParser.setFeature(SAXFeature.VALIDATION, true);
-
-            saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
-            saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new BindingEntityResolver());
-
-            saxParser.setErrorHandler(BindingErrorHandler.getInstance());
-        }
-        catch (Exception e) {
-            throw new ValidationException(e);
-        }
-
-        final String output = DOMs.domToString(element);
-        try {
-            saxParser.parse(new InputSource(new StringReader(output)));
-        }
-        catch (IOException e) {
-            throw e;
-        }
-        catch (Exception e) {
-            throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
-        }
+    catch (IOException e) {
+      throw e;
     }
+    catch (Exception e) {
+      throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
+    }
+  }
 }

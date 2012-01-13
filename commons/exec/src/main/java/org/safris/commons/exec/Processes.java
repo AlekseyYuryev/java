@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.exec;
@@ -32,227 +33,227 @@ import org.safris.commons.io.Streams;
 import org.safris.commons.lang.ClassLoaders;
 
 public final class Processes {
-    public static Class getExecutedClass() {
-        try {
-            final Field field = ClassLoader.class.getDeclaredField("classes");
-            field.setAccessible(true);
-            final Vector<Class> classes = (Vector<Class>)field.get(ClassLoader.getSystemClassLoader());
-            for (Class cls : classes)  {
-                if ((cls.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT && cls.getName().startsWith("com.barclaysglobal"))
-                    return cls;
-            }
-        }
-        catch (Exception e) {
-        }
-
-        return null;
+  public static Class getExecutedClass() {
+    try {
+      final Field field = ClassLoader.class.getDeclaredField("classes");
+      field.setAccessible(true);
+      final Vector<Class> classes = (Vector<Class>)field.get(ClassLoader.getSystemClassLoader());
+      for (Class cls : classes)  {
+        if ((cls.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT && cls.getName().startsWith("com.barclaysglobal"))
+          return cls;
+      }
+    }
+    catch (Exception e) {
     }
 
-    public static int getPID() {
-        final String pidAtHost = ManagementFactory.getRuntimeMXBean().getName();
-        if (pidAtHost == null)
-            return -1;
+    return null;
+  }
 
-        try {
-            return Integer.parseInt(pidAtHost.substring(0, pidAtHost.indexOf("@")));
-        }
-        catch (NumberFormatException e) {
-            return -1;
-        }
+  public static int getPID() {
+    final String pidAtHost = ManagementFactory.getRuntimeMXBean().getName();
+    if (pidAtHost == null)
+      return -1;
+
+    try {
+      return Integer.parseInt(pidAtHost.substring(0, pidAtHost.indexOf("@")));
+    }
+    catch (NumberFormatException e) {
+      return -1;
+    }
+  }
+
+  public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException {
+    final Collection<String> notNullArgs = new ArrayList<String>(args.length);
+    for (String arg : args)
+      if (arg != null)
+        notNullArgs.add(arg);
+
+    if (notNullArgs.size() == 0)
+      throw new IllegalArgumentException("empty argument list");
+
+    final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
+    OutputStream teeStdin = null;
+    if (stdin != null) {
+      final OutputStream processStdin = process.getOutputStream();
+      teeStdin = Streams.tee(processStdin, stdin, stdout);
     }
 
-    public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException {
-        final Collection<String> notNullArgs = new ArrayList<String>(args.length);
-        for (String arg : args)
-            if (arg != null)
-                notNullArgs.add(arg);
-
-        if (notNullArgs.size() == 0)
-            throw new IllegalArgumentException("empty argument list");
-
-        final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
-        OutputStream teeStdin = null;
-        if (stdin != null) {
-            final OutputStream processStdin = process.getOutputStream();
-            teeStdin = Streams.tee(processStdin, stdin, stdout);
-        }
-
-        InputStream teeStdout = null;
-        if (stdout != null) {
-            final InputStream processStdout = process.getInputStream();
-            teeStdout = Streams.tee(processStdout, stdout);
-        }
-
-        InputStream teeStderr = null;
-        if (stderr != null) {
-            final InputStream processStderr = process.getErrorStream();
-            teeStderr = Streams.tee(processStderr, stderr);
-        }
-
-        return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
+    InputStream teeStdout = null;
+    if (stdout != null) {
+      final InputStream processStdout = process.getInputStream();
+      teeStdout = Streams.tee(processStdout, stdout);
     }
 
-    public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException {
-        final Collection<String> notNullArgs = new ArrayList<String>(args.length);
-        for (String arg : args)
-            if (arg != null)
-                notNullArgs.add(arg);
-
-        if (notNullArgs.size() == 0)
-            throw new IllegalArgumentException("empty argument list");
-
-        final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
-        OutputStream teeStdin = null;
-        if (stdin != null) {
-            final OutputStream processStdin = process.getOutputStream();
-            teeStdin = Streams.tee(processStdin, stdin, stdout);
-        }
-
-        InputStream teeStdout = null;
-        if (stdout != null) {
-            final InputStream processStdout = process.getInputStream();
-            teeStdout = processStdout;
-            Streams.pipe(processStdout, stdout);
-        }
-
-        InputStream teeStderr = null;
-        if (stderr != null) {
-            final InputStream processStderr = process.getErrorStream();
-            teeStderr = processStderr;
-            Streams.pipe(processStderr, stderr);
-        }
-
-        final Process subProcess = new PipedProcess(process, teeStdin, teeStdout, teeStderr);
-        subProcess.waitFor();
-        return subProcess;
+    InputStream teeStderr = null;
+    if (stderr != null) {
+      final InputStream processStderr = process.getErrorStream();
+      teeStderr = Streams.tee(processStderr, stderr);
     }
 
-    public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
-        final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
-        return process;
+    return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
+  }
+
+  public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException {
+    final Collection<String> notNullArgs = new ArrayList<String>(args.length);
+    for (String arg : args)
+      if (arg != null)
+        notNullArgs.add(arg);
+
+    if (notNullArgs.size() == 0)
+      throw new IllegalArgumentException("empty argument list");
+
+    final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
+    OutputStream teeStdin = null;
+    if (stdin != null) {
+      final OutputStream processStdin = process.getOutputStream();
+      teeStdin = Streams.tee(processStdin, stdin, stdout);
     }
 
-    public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
-        final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
-        return process;
+    InputStream teeStdout = null;
+    if (stdout != null) {
+      final InputStream processStdout = process.getInputStream();
+      teeStdout = processStdout;
+      Streams.pipe(processStdout, stdout);
     }
 
-    public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException {
-        return forkAsync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+    InputStream teeStderr = null;
+    if (stderr != null) {
+      final InputStream processStderr = process.getErrorStream();
+      teeStderr = processStderr;
+      Streams.pipe(processStderr, stderr);
     }
 
-    public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException {
-        return forkAsync(stdin, stdout, stderr, null, getSystemProperties(), clazz, args);
+    final Process subProcess = new PipedProcess(process, teeStdin, teeStdout, teeStderr);
+    subProcess.waitFor();
+    return subProcess;
+  }
+
+  public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
+    final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
+    return process;
+  }
+
+  public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
+    final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
+    return process;
+  }
+
+  public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException {
+    return forkAsync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+  }
+
+  public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException {
+    return forkAsync(stdin, stdout, stderr, null, getSystemProperties(), clazz, args);
+  }
+
+  public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
+    final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
+    process.waitFor();
+    return process;
+  }
+
+  public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
+    final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
+    process.waitFor();
+    return process;
+  }
+
+  public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException {
+    return forkSync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+  }
+
+  public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException {
+    return forkSync(stdin, stdout, stderr, getSystemProperties(), clazz, args);
+  }
+
+  private static String[] createJavaCommand(String[] vmArgs, Map<String,String> props, Class clazz, String ... args) {
+    final URL[] classpathURLs = ClassLoaders.getClassPath();
+    final StringBuffer classpath = new StringBuffer();
+    if (classpathURLs != null && classpathURLs.length != 0)
+      for (URL url : classpathURLs)
+        classpath.append(File.pathSeparatorChar).append(url.getPath());
+
+    final String[] options = new String[(args != null ? args.length : 0) + (vmArgs != null ? vmArgs.length : 0) + (props != null ? props.size() : 0) + 4];
+    int i = -1;
+    options[++i] = "java";
+    if (vmArgs != null && vmArgs.length != 0)
+      for (String vmArg : vmArgs)
+        options[++i] = vmArg;
+
+    if (props != null && props.size() != 0)
+      for (Map.Entry<String,String> property : props.entrySet())
+        options[++i] = "-D" + property.getKey() + "=" + property.getValue();
+
+    options[++i] = "-cp";
+    options[++i] = classpath.length() != 0 ? classpath.substring(1) : "";
+    options[++i] = clazz.getName();
+    System.arraycopy(args, 0, options, ++i, args.length);
+
+    return options;
+  }
+
+  private static Map<String,String> getSystemProperties() {
+    if (System.getProperties().size() == 0)
+      return new HashMap<String,String>(0);
+
+    final Map<String,String> properties = new HashMap<String,String>(7);
+    for (Map.Entry property : System.getProperties().entrySet()) {
+      final String key = (String)property.getKey();
+      final String value = (String)property.getValue();
+      if (value.trim().length() != 0 && !value.contains(" ") && !key.contains(" "))
+        properties.put(key, value.trim());
     }
 
-    public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
-        final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
-        process.waitFor();
-        return process;
+    return properties;
+  }
+
+  private static final class PipedProcess extends Process {
+    private final Process process;
+    private final OutputStream stdin;
+    private final InputStream stdout;
+    private final InputStream stderr;
+
+    public PipedProcess(Process process, OutputStream stdin, InputStream stdout, InputStream stderr) {
+      this.process = process;
+      this.stdin = stdin;
+      this.stdout = stdout;
+      this.stderr = stderr;
     }
 
-    public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Map<String,String> props, Class clazz, String ... args) throws IOException, InterruptedException {
-        final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
-        process.waitFor();
-        return process;
+    public OutputStream getOutputStream() {
+      if (stdin != null)
+        return stdin;
+      else
+        return process.getOutputStream();
     }
 
-    public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String[] vmArgs, Class clazz, String ... args) throws IOException, InterruptedException {
-        return forkSync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
+    public InputStream getInputStream() {
+      if (stdout != null)
+        return stdout;
+      else
+        return process.getInputStream();
     }
 
-    public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, Class clazz, String ... args) throws IOException, InterruptedException {
-        return forkSync(stdin, stdout, stderr, getSystemProperties(), clazz, args);
+    public InputStream getErrorStream() {
+      if (stderr != null)
+        return stderr;
+      else
+        return process.getErrorStream();
     }
 
-    private static String[] createJavaCommand(String[] vmArgs, Map<String,String> props, Class clazz, String ... args) {
-        final URL[] classpathURLs = ClassLoaders.getClassPath();
-        final StringBuffer classpath = new StringBuffer();
-        if (classpathURLs != null && classpathURLs.length != 0)
-            for (URL url : classpathURLs)
-                classpath.append(File.pathSeparatorChar).append(url.getPath());
-
-        final String[] options = new String[(args != null ? args.length : 0) + (vmArgs != null ? vmArgs.length : 0) + (props != null ? props.size() : 0) + 4];
-        int i = -1;
-        options[++i] = "java";
-        if (vmArgs != null && vmArgs.length != 0)
-            for (String vmArg : vmArgs)
-                options[++i] = vmArg;
-
-        if (props != null && props.size() != 0)
-            for (Map.Entry<String,String> property : props.entrySet())
-                options[++i] = "-D" + property.getKey() + "=" + property.getValue();
-
-        options[++i] = "-cp";
-        options[++i] = classpath.length() != 0 ? classpath.substring(1) : "";
-        options[++i] = clazz.getName();
-        System.arraycopy(args, 0, options, ++i, args.length);
-
-        return options;
+    public int waitFor() throws InterruptedException {
+      return process.waitFor();
     }
 
-    private static Map<String,String> getSystemProperties() {
-        if (System.getProperties().size() == 0)
-            return new HashMap<String,String>(0);
-
-        final Map<String,String> properties = new HashMap<String,String>(7);
-        for (Map.Entry property : System.getProperties().entrySet()) {
-            final String key = (String)property.getKey();
-            final String value = (String)property.getValue();
-            if (value.trim().length() != 0 && !value.contains(" ") && !key.contains(" "))
-                properties.put(key, value.trim());
-        }
-
-        return properties;
+    public int exitValue() {
+      return process.exitValue();
     }
 
-    private static final class PipedProcess extends Process {
-        private final Process process;
-        private final OutputStream stdin;
-        private final InputStream stdout;
-        private final InputStream stderr;
-
-        public PipedProcess(Process process, OutputStream stdin, InputStream stdout, InputStream stderr) {
-            this.process = process;
-            this.stdin = stdin;
-            this.stdout = stdout;
-            this.stderr = stderr;
-        }
-
-        public OutputStream getOutputStream() {
-            if (stdin != null)
-                return stdin;
-            else
-                return process.getOutputStream();
-        }
-
-        public InputStream getInputStream() {
-            if (stdout != null)
-                return stdout;
-            else
-                return process.getInputStream();
-        }
-
-        public InputStream getErrorStream() {
-            if (stderr != null)
-                return stderr;
-            else
-                return process.getErrorStream();
-        }
-
-        public int waitFor() throws InterruptedException {
-            return process.waitFor();
-        }
-
-        public int exitValue() {
-            return process.exitValue();
-        }
-
-        public void destroy() {
-            process.destroy();
-        }
+    public void destroy() {
+      process.destroy();
     }
+  }
 
-    private Processes() {
-    }
+  private Processes() {
+  }
 }

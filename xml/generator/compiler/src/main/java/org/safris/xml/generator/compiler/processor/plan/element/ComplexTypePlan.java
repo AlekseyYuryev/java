@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.processor.plan.element;
@@ -37,85 +38,85 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
 public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan {
-    private final Boolean mixed;
+  private final Boolean mixed;
 
-    private Boolean mixedType = null;
-    private boolean simpleContent = false;
+  private Boolean mixedType = null;
+  private boolean simpleContent = false;
 
-    private LinkedHashSet<AttributePlan> attributes;
-    private LinkedHashSet<ElementPlan> elements;
+  private LinkedHashSet<AttributePlan> attributes;
+  private LinkedHashSet<ElementPlan> elements;
 
-    public ElementPlan elementRefExistsInParent(UniqueQName name) {
-        // FIXME: This is slow!
-        if (getElements() != null)
-            for (ElementPlan element : getElements())
-                if (element.getName() != null && element.getName().equals(name))
-                    return element;
+  public ElementPlan elementRefExistsInParent(UniqueQName name) {
+    // FIXME: This is slow!
+    if (getElements() != null)
+      for (ElementPlan element : getElements())
+        if (element.getName() != null && element.getName().equals(name))
+          return element;
 
-        if (getSuperType() == null)
-            return null;
+    if (getSuperType() == null)
+      return null;
 
-        return getSuperType().elementRefExistsInParent(name);
+    return getSuperType().elementRefExistsInParent(name);
+  }
+
+  public ComplexTypePlan(T model, Plan parent) {
+    super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
+    mixed = getModel().getMixed();
+    for (Model child : model.getChildren()) {
+      if (child instanceof SimpleContentModel) {
+        simpleContent = true;
+        break;
+      }
+    }
+  }
+
+  public final boolean hasSimpleContent() {
+    return simpleContent;
+  }
+
+  public final LinkedHashSet<AttributePlan> getAttributes() {
+    if (attributes != null)
+      return attributes;
+
+    return attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this);
+  }
+
+  public final LinkedHashSet<ElementPlan> getElements() {
+    if (elements != null)
+      return elements;
+
+    return elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this);
+  }
+
+  public final Boolean getMixed() {
+    return mixed;
+  }
+
+  public final Boolean getMixedType() {
+    if (mixedType != null)
+      return mixedType;
+
+    // this flag may be a HACK. I am using it to see if I have a restriction in the chain of
+    // dependencies. If I do, then mixed="true" has to be stated explicitly.
+    boolean isEverRestriction = false;
+    TypeableModel parent = getModel();
+    boolean restriction = getModel().isRestriction();
+    while ((parent = parent.getSuperType()) != null) {
+      if (parent instanceof MixableModel && !restriction && ((MixableModel)parent).getMixed() != null && ((MixableModel)parent).getMixed())
+        return mixedType = true;
+
+      restriction = ((SimpleTypeModel)parent).isRestriction();
+      isEverRestriction = isEverRestriction || restriction;
     }
 
-    public ComplexTypePlan(T model, Plan parent) {
-        super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
-        mixed = getModel().getMixed();
-        for (Model child : model.getChildren()) {
-            if (child instanceof SimpleContentModel) {
-                simpleContent = true;
-                break;
-            }
-        }
-    }
+    parent = getModel();
+    while ((parent = parent.getSuperType()) != null)
+      if (parent instanceof MixableModel && ((MixableModel)parent).getMixed() != null)
+        return mixedType = ((MixableModel)parent).getMixed();
 
-    public final boolean hasSimpleContent() {
-        return simpleContent;
-    }
+    if (!isEverRestriction && XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
+      return mixedType = true;
 
-    public final LinkedHashSet<AttributePlan> getAttributes() {
-        if (attributes != null)
-            return attributes;
-
-        return attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this);
-    }
-
-    public final LinkedHashSet<ElementPlan> getElements() {
-        if (elements != null)
-            return elements;
-
-        return elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this);
-    }
-
-    public final Boolean getMixed() {
-        return mixed;
-    }
-
-    public final Boolean getMixedType() {
-        if (mixedType != null)
-            return mixedType;
-
-        // this flag may be a HACK. I am using it to see if I have a restriction in the chain of
-        // dependencies. If I do, then mixed="true" has to be stated explicitly.
-        boolean isEverRestriction = false;
-        TypeableModel parent = getModel();
-        boolean restriction = getModel().isRestriction();
-        while ((parent = parent.getSuperType()) != null) {
-            if (parent instanceof MixableModel && !restriction && ((MixableModel)parent).getMixed() != null && ((MixableModel)parent).getMixed())
-                return mixedType = true;
-
-            restriction = ((SimpleTypeModel)parent).isRestriction();
-            isEverRestriction = isEverRestriction || restriction;
-        }
-
-        parent = getModel();
-        while ((parent = parent.getSuperType()) != null)
-            if (parent instanceof MixableModel && ((MixableModel)parent).getMixed() != null)
-                return mixedType = ((MixableModel)parent).getMixed();
-
-        if (!isEverRestriction && XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(getBaseXSItemTypeName()))
-            return mixedType = true;
-
-        return mixedType = false;
-    }
+    return mixedType = false;
+  }
 }

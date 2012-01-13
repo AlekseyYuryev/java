@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.lang;
@@ -23,60 +24,60 @@ import sun.reflect.Reflection;
 import static org.junit.Assert.*;
 
 public class PackageLoaderTest {
-    public static void main(String[] args) throws Exception {
-        new PackageLoaderTest().testPackageLoader();
+  public static void main(String[] args) throws Exception {
+    new PackageLoaderTest().testPackageLoader();
+  }
+
+  private static boolean isClassLoaded(String name) {
+    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+    if (ClassLoaders.isClassLoaded(classLoader, name))
+      return true;
+
+    classLoader = Thread.currentThread().getContextClassLoader();
+    if (ClassLoaders.isClassLoaded(classLoader, name))
+      return true;
+
+    final Class callerClass = Reflection.getCallerClass(2);
+    classLoader = callerClass.getClassLoader();
+    if (ClassLoaders.isClassLoaded(classLoader, name))
+      return true;
+
+    return false;
+  }
+
+  @Test
+  public void testPackageLoader() throws Exception {
+    final String[] testClasses = new String[]{
+      "org.junit.experimental.results.ResultMatchers",
+      "org.junit.experimental.theories.internal.TheoryMethod",
+      "org.junit.experimental.theories.suppliers.TestedOnSupplier",
+      "org.junit.matchers.Each",
+      "org.junit.runners.Enclosed",
+      "org.junit.runners.Parameterized",
+      "org.junit.runners.Suite",
+      "org.junit.PackageLoaderClass1",
+      "org.junit.PackageLoaderClass2",
+      "org.junit.PackageLoaderClass3"
+    };
+
+    for (String testClass : testClasses)
+      assertFalse(isClassLoaded(testClass));
+
+    final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
+    final Set<String> classNames = new HashSet<String>();
+    for (Class<?> loadedClass : loadedClasses)
+      classNames.add(loadedClass.getName());
+
+    for (String testClass : testClasses) {
+      assertTrue(classNames.contains(testClass));
+      assertTrue(isClassLoaded(testClass));
     }
 
-    private static boolean isClassLoaded(String name) {
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        if (ClassLoaders.isClassLoaded(classLoader, name))
-            return true;
-
-        classLoader = Thread.currentThread().getContextClassLoader();
-        if (ClassLoaders.isClassLoaded(classLoader, name))
-            return true;
-
-        final Class callerClass = Reflection.getCallerClass(2);
-        classLoader = callerClass.getClassLoader();
-        if (ClassLoaders.isClassLoaded(classLoader, name))
-            return true;
-
-        return false;
+    try {
+      PackageLoader.getSystemPackageLoader().loadPackage(null);
+      fail("Expected a PackageNotFoundException");
     }
-
-    @Test
-    public void testPackageLoader() throws Exception {
-        final String[] testClasses = new String[]{
-            "org.junit.experimental.results.ResultMatchers",
-            "org.junit.experimental.theories.internal.TheoryMethod",
-            "org.junit.experimental.theories.suppliers.TestedOnSupplier",
-            "org.junit.matchers.Each",
-            "org.junit.runners.Enclosed",
-            "org.junit.runners.Parameterized",
-            "org.junit.runners.Suite",
-            "org.junit.PackageLoaderClass1",
-            "org.junit.PackageLoaderClass2",
-            "org.junit.PackageLoaderClass3"
-        };
-
-        for (String testClass : testClasses)
-            assertFalse(isClassLoaded(testClass));
-
-        final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
-        final Set<String> classNames = new HashSet<String>();
-        for (Class<?> loadedClass : loadedClasses)
-            classNames.add(loadedClass.getName());
-
-        for (String testClass : testClasses) {
-            assertTrue(classNames.contains(testClass));
-            assertTrue(isClassLoaded(testClass));
-        }
-
-        try {
-            PackageLoader.getSystemPackageLoader().loadPackage(null);
-            fail("Expected a PackageNotFoundException");
-        }
-        catch (PackageNotFoundException e) {
-        }
+    catch (PackageNotFoundException e) {
     }
+  }
 }

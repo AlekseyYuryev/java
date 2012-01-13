@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.logging;
@@ -27,229 +28,229 @@ import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
 public final class Logger {
-    public static final Logger global = new Logger(ConfigurableLogger.getLogger().global);
-    private static final Map<String,Logger> instances = new HashMap<String,Logger>();
+  public static final Logger global = new Logger(ConfigurableLogger.getLogger().global);
+  private static final Map<String,Logger> instances = new HashMap<String,Logger>();
 
-    public static Logger getLogger(LoggerName name) {
-        return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName()));
+  public static Logger getLogger(LoggerName name) {
+    return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName()));
+  }
+
+  public static Logger getLogger(LoggerName name, String resourceBundleName) {
+    return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName(), resourceBundleName));
+  }
+
+  public static Logger getAnonymousLogger() {
+    return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger());
+  }
+
+  public static Logger getAnonymousLogger(String resourceBundleName) {
+    return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger(resourceBundleName));
+  }
+
+  private static Logger getLogger(java.util.logging.Logger logger) {
+    Logger instance = instances.get(logger.getName());
+    if (instance != null)
+      return instance;
+
+    synchronized (instances) {
+      instance = instances.get(logger.getName());
+      if (instance != null)
+        return instance;
+
+      instance = new Logger(logger);
+      instances.put(logger.getName(), instance);
+      return instance;
     }
+  }
 
-    public static Logger getLogger(LoggerName name, String resourceBundleName) {
-        return getLogger(ConfigurableLogger.getLogger().getLogger(name.getName(), resourceBundleName));
-    }
+  private final java.util.logging.Logger logger;
 
-    public static Logger getAnonymousLogger() {
-        return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger());
-    }
+  private Logger(java.util.logging.Logger logger) {
+    this.logger = logger;
+    reset(logger);
+  }
 
-    public static Logger getAnonymousLogger(String resourceBundleName) {
-        return getLogger(ConfigurableLogger.getLogger().getAnonymousLogger(resourceBundleName));
-    }
+  private void reset(java.util.logging.Logger logger) {
+    final Formatter formatter;
+    if (logger.getLevel() == null)
+      formatter = new ConsoleFormatter();
+    else
+      formatter = new SimpleFormatter();
 
-    private static Logger getLogger(java.util.logging.Logger logger) {
-        Logger instance = instances.get(logger.getName());
-        if (instance != null)
-            return instance;
+    java.util.logging.Logger parent = logger.getParent();
+    if (parent == null)
+      parent = logger;
 
-        synchronized (instances) {
-            instance = instances.get(logger.getName());
-            if (instance != null)
-                return instance;
+    for (Handler handler : parent.getHandlers())
+      parent.removeHandler(handler);
 
-            instance = new Logger(logger);
-            instances.put(logger.getName(), instance);
-            return instance;
-        }
-    }
+    final Handler handler = new ConsoleHandler();
+    handler.setFormatter(formatter);
+    parent.addHandler(handler);
+  }
 
-    private final java.util.logging.Logger logger;
+  public ResourceBundle getResourceBundle() {
+    return logger.getResourceBundle();
+  }
 
-    private Logger(java.util.logging.Logger logger) {
-        this.logger = logger;
-        reset(logger);
-    }
+  public String getResourceBundleName() {
+    return logger.getResourceBundleName();
+  }
 
-    private void reset(java.util.logging.Logger logger) {
-        final Formatter formatter;
-        if (logger.getLevel() == null)
-            formatter = new ConsoleFormatter();
-        else
-            formatter = new SimpleFormatter();
+  public void setFilter(Filter newFilter) throws SecurityException {
+    logger.setFilter(newFilter);
+  }
 
-        java.util.logging.Logger parent = logger.getParent();
-        if (parent == null)
-            parent = logger;
+  public Filter getFilter() {
+    return logger.getFilter();
+  }
 
-        for (Handler handler : parent.getHandlers())
-            parent.removeHandler(handler);
+  public void log(LogRecord record) {
+    logger.log(record);
+  }
 
-        final Handler handler = new ConsoleHandler();
-        handler.setFormatter(formatter);
-        parent.addHandler(handler);
-    }
+  public void log(Level level, String msg) {
+    logger.log(level, msg);
+  }
 
-    public ResourceBundle getResourceBundle() {
-        return logger.getResourceBundle();
-    }
+  public void log(Level level, String msg, Object param1) {
+    logger.log(level, msg, param1);
+  }
 
-    public String getResourceBundleName() {
-        return logger.getResourceBundleName();
-    }
+  public void log(Level level, String msg, Object[] params) {
+    logger.log(level, msg, params);
+  }
 
-    public void setFilter(Filter newFilter) throws SecurityException {
-        logger.setFilter(newFilter);
-    }
+  public void log(Level level, String msg, Throwable thrown) {
+    logger.log(level, msg, thrown);
+  }
 
-    public Filter getFilter() {
-        return logger.getFilter();
-    }
+  public void logp(Level level, String sourceClass, String sourceMethod, String msg) {
+    logger.logp(level, sourceClass, sourceMethod, msg);
+  }
 
-    public void log(LogRecord record) {
-        logger.log(record);
-    }
+  public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object param1) {
+    logger.logp(level, sourceClass, sourceMethod, msg, param1);
+  }
 
-    public void log(Level level, String msg) {
-        logger.log(level, msg);
-    }
+  public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object[] params) {
+    logger.logp(level, sourceClass, sourceMethod, msg, params);
+  }
 
-    public void log(Level level, String msg, Object param1) {
-        logger.log(level, msg, param1);
-    }
+  public void logp(Level level, String sourceClass, String sourceMethod, String msg, Throwable thrown) {
+    logger.logp(level, sourceClass, sourceMethod, msg, thrown);
+  }
 
-    public void log(Level level, String msg, Object[] params) {
-        logger.log(level, msg, params);
-    }
+  public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg) {
+    logger.logrb(level, sourceClass, sourceMethod, bundleName, msg);
+  }
 
-    public void log(Level level, String msg, Throwable thrown) {
-        logger.log(level, msg, thrown);
-    }
+  public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Object param1) {
+    logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, param1);
+  }
 
-    public void logp(Level level, String sourceClass, String sourceMethod, String msg) {
-        logger.logp(level, sourceClass, sourceMethod, msg);
-    }
+  public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Object[] params) {
+    logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, params);
+  }
 
-    public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object param1) {
-        logger.logp(level, sourceClass, sourceMethod, msg, param1);
-    }
+  public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Throwable thrown) {
+    logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, thrown);
+  }
 
-    public void logp(Level level, String sourceClass, String sourceMethod, String msg, Object[] params) {
-        logger.logp(level, sourceClass, sourceMethod, msg, params);
-    }
+  public void entering(String sourceClass, String sourceMethod) {
+    logger.entering(sourceClass, sourceMethod);
+  }
 
-    public void logp(Level level, String sourceClass, String sourceMethod, String msg, Throwable thrown) {
-        logger.logp(level, sourceClass, sourceMethod, msg, thrown);
-    }
+  public void entering(String sourceClass, String sourceMethod, Object param1) {
+    logger.entering(sourceClass, sourceMethod, param1);
+  }
 
-    public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg) {
-        logger.logrb(level, sourceClass, sourceMethod, bundleName, msg);
-    }
+  public void entering(String sourceClass, String sourceMethod, Object[] params) {
+    logger.entering(sourceClass, sourceMethod, params);
+  }
 
-    public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Object param1) {
-        logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, param1);
-    }
+  public void exiting(String sourceClass, String sourceMethod) {
+    logger.exiting(sourceClass, sourceMethod);
+  }
 
-    public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Object[] params) {
-        logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, params);
-    }
+  public void exiting(String sourceClass, String sourceMethod, Object result) {
+    logger.exiting(sourceClass, sourceMethod, result);
+  }
 
-    public void logrb(Level level, String sourceClass, String sourceMethod, String bundleName, String msg, Throwable thrown) {
-        logger.logrb(level, sourceClass, sourceMethod, bundleName, msg, thrown);
-    }
+  public void throwing(String sourceClass, String sourceMethod, Throwable thrown) {
+    logger.throwing(sourceClass, sourceMethod, thrown);
+  }
 
-    public void entering(String sourceClass, String sourceMethod) {
-        logger.entering(sourceClass, sourceMethod);
-    }
+  public void severe(String msg) {
+    logger.severe(msg);
+  }
 
-    public void entering(String sourceClass, String sourceMethod, Object param1) {
-        logger.entering(sourceClass, sourceMethod, param1);
-    }
+  public void warning(String msg) {
+    logger.warning(msg);
+  }
 
-    public void entering(String sourceClass, String sourceMethod, Object[] params) {
-        logger.entering(sourceClass, sourceMethod, params);
-    }
+  public void info(String msg) {
+    logger.info(msg);
+  }
 
-    public void exiting(String sourceClass, String sourceMethod) {
-        logger.exiting(sourceClass, sourceMethod);
-    }
+  public void config(String msg) {
+    logger.config(msg);
+  }
 
-    public void exiting(String sourceClass, String sourceMethod, Object result) {
-        logger.exiting(sourceClass, sourceMethod, result);
-    }
+  public void fine(String msg) {
+    logger.fine(msg);
+  }
 
-    public void throwing(String sourceClass, String sourceMethod, Throwable thrown) {
-        logger.throwing(sourceClass, sourceMethod, thrown);
-    }
+  public void finer(String msg) {
+    logger.finer(msg);
+  }
 
-    public void severe(String msg) {
-        logger.severe(msg);
-    }
+  public void finest(String msg) {
+    logger.finest(msg);
+  }
 
-    public void warning(String msg) {
-        logger.warning(msg);
-    }
+  public void setLevel(Level newLevel) throws SecurityException {
+    logger.setLevel(newLevel);
+    reset(logger);
+  }
 
-    public void info(String msg) {
-        logger.info(msg);
-    }
+  public Level getLevel() {
+    return logger.getLevel();
+  }
 
-    public void config(String msg) {
-        logger.config(msg);
-    }
+  public boolean isLoggable(Level level) {
+    return logger.isLoggable(level);
+  }
 
-    public void fine(String msg) {
-        logger.fine(msg);
-    }
+  public String getName() {
+    return logger.getName();
+  }
 
-    public void finer(String msg) {
-        logger.finer(msg);
-    }
+  public void addHandler(Handler handler) throws SecurityException {
+    logger.addHandler(handler);
+  }
 
-    public void finest(String msg) {
-        logger.finest(msg);
-    }
+  public void removeHandler(Handler handler) throws SecurityException {
+    logger.removeHandler(handler);
+  }
 
-    public void setLevel(Level newLevel) throws SecurityException {
-        logger.setLevel(newLevel);
-        reset(logger);
-    }
+  public Handler[] getHandlers() {
+    return logger.getHandlers();
+  }
 
-    public Level getLevel() {
-        return logger.getLevel();
-    }
+  public void setUseParentHandlers(boolean useParentHandlers) {
+    logger.setUseParentHandlers(useParentHandlers);
+  }
 
-    public boolean isLoggable(Level level) {
-        return logger.isLoggable(level);
-    }
+  public boolean getUseParentHandlers() {
+    return logger.getUseParentHandlers();
+  }
 
-    public String getName() {
-        return logger.getName();
-    }
+  public java.util.logging.Logger getParent() {
+    return logger.getParent();
+  }
 
-    public void addHandler(Handler handler) throws SecurityException {
-        logger.addHandler(handler);
-    }
-
-    public void removeHandler(Handler handler) throws SecurityException {
-        logger.removeHandler(handler);
-    }
-
-    public Handler[] getHandlers() {
-        return logger.getHandlers();
-    }
-
-    public void setUseParentHandlers(boolean useParentHandlers) {
-        logger.setUseParentHandlers(useParentHandlers);
-    }
-
-    public boolean getUseParentHandlers() {
-        return logger.getUseParentHandlers();
-    }
-
-    public java.util.logging.Logger getParent() {
-        return logger.getParent();
-    }
-
-    public void setParent(java.util.logging.Logger parent) {
-        logger.setParent(parent);
-    }
+  public void setParent(java.util.logging.Logger parent) {
+    logger.setParent(parent);
+  }
 }

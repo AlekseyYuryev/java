@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.runtime;
@@ -27,107 +28,107 @@ import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 
 public abstract class AbstractBinding implements Cloneable {
-    protected static final QName XSI_TYPE = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
-    protected static final QName XSI_NIL = new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "xsi");
-    protected static final QName XMLNS = new QName("http://www.w3.org/2000/xmlns/", "xmlns");
-    protected static final QName XML = new QName("http://www.w3.org/XML/1998/namespace", "xml");
+  protected static final QName XSI_TYPE = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
+  protected static final QName XSI_NIL = new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "xsi");
+  protected static final QName XMLNS = new QName("http://www.w3.org/2000/xmlns/", "xmlns");
+  protected static final QName XML = new QName("http://www.w3.org/XML/1998/namespace", "xml");
 
-    private static final Map<QName,Class<? extends Binding>> elementBindings = new HashMap<QName,Class<? extends Binding>>();
-    private static final Map<QName,Class<? extends Binding>> typeBindings = new HashMap<QName,Class<? extends Binding>>();
+  private static final Map<QName,Class<? extends Binding>> elementBindings = new HashMap<QName,Class<? extends Binding>>();
+  private static final Map<QName,Class<? extends Binding>> typeBindings = new HashMap<QName,Class<? extends Binding>>();
 
-    protected static void _$$registerSchemaLocation(String namespaceURI, Class className, String schemaReference) {
-        final String simpleName = className.getName().replace('.', '/') + ".class";
-        final Resource resource = Resources.getResource(simpleName);
-        if (resource == null)
-            throw new BindingError("Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
+  protected static void _$$registerSchemaLocation(String namespaceURI, Class className, String schemaReference) {
+    final String simpleName = className.getName().replace('.', '/') + ".class";
+    final Resource resource = Resources.getResource(simpleName);
+    if (resource == null)
+      throw new BindingError("Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
 
-        final URL parent = URLs.getParent(resource.getURL());
-        try {
-            BindingEntityResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
-        }
-        catch (MalformedURLException e) {
-            System.err.println("[ERROR] Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
-        }
+    final URL parent = URLs.getParent(resource.getURL());
+    try {
+      BindingEntityResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
+    }
+    catch (MalformedURLException e) {
+      System.err.println("[ERROR] Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
+    }
+  }
+
+  protected static void _$$registerElement(QName name, Class<? extends Binding> cls) {
+    elementBindings.put(name, cls);
+  }
+
+  private static void loadPackage(String namespaceURI) {
+    // FIXME: Look this over. Also make a dedicated RuntimeException for this.
+    try {
+      PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+    }
+    catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected static Class<? extends Binding> lookupElement(QName name) {
+    final Class<? extends Binding> clazz = elementBindings.get(name);
+    if (clazz != null)
+      return clazz;
+
+    loadPackage(name.getNamespaceURI());
+    return elementBindings.get(name);
+  }
+
+  protected static void _$$registerType(QName name, Class<? extends Binding> cls) {
+    typeBindings.put(name, cls);
+  }
+
+  protected static Class<? extends Binding> lookupType(QName name) {
+    final Class<? extends Binding> clazz = typeBindings.get(name);
+    if (clazz != null)
+      return clazz;
+
+    loadPackage(name.getNamespaceURI());
+    return typeBindings.get(name);
+  }
+
+  protected static Object _$$getTEXT(Binding<SimpleType> binding) {
+    return binding.getText();
+  }
+
+  protected static QName stringToQName(java.lang.String name) {
+    if (name == null || name.length() == 0)
+      return null;
+
+    int index = name.indexOf(":");
+    if (index != -1)
+      return new QName(null, name.substring(index + 1), name.substring(0, index));
+
+    return new QName(name);
+  }
+
+  protected static String parsePrefix(String name) {
+    if (name == null)
+      return null;
+
+    int index = name.indexOf(":");
+    if (index != -1)
+      return name.substring(0, index);
+
+    return null;
+  }
+
+  protected static String parseLocalName(String name) {
+    if (name == null)
+      return null;
+
+    int start = name.indexOf("{");
+    if (start != -1) {
+      int end = name.indexOf("}", start);
+      if (end != -1) {
+        return name.substring(end + 1);
+      }
     }
 
-    protected static void _$$registerElement(QName name, Class<? extends Binding> cls) {
-        elementBindings.put(name, cls);
-    }
+    start = name.indexOf(":");
+    if (start != -1)
+      return name.substring(start + 1);
 
-    private static void loadPackage(String namespaceURI) {
-        // FIXME: Look this over. Also make a dedicated RuntimeException for this.
-        try {
-            PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected static Class<? extends Binding> lookupElement(QName name) {
-        final Class<? extends Binding> clazz = elementBindings.get(name);
-        if (clazz != null)
-            return clazz;
-
-        loadPackage(name.getNamespaceURI());
-        return elementBindings.get(name);
-    }
-
-    protected static void _$$registerType(QName name, Class<? extends Binding> cls) {
-        typeBindings.put(name, cls);
-    }
-
-    protected static Class<? extends Binding> lookupType(QName name) {
-        final Class<? extends Binding> clazz = typeBindings.get(name);
-        if (clazz != null)
-            return clazz;
-
-        loadPackage(name.getNamespaceURI());
-        return typeBindings.get(name);
-    }
-
-    protected static Object _$$getTEXT(Binding<SimpleType> binding) {
-        return binding.getText();
-    }
-
-    protected static QName stringToQName(java.lang.String name) {
-        if (name == null || name.length() == 0)
-            return null;
-
-        int index = name.indexOf(":");
-        if (index != -1)
-            return new QName(null, name.substring(index + 1), name.substring(0, index));
-
-        return new QName(name);
-    }
-
-    protected static String parsePrefix(String name) {
-        if (name == null)
-            return null;
-
-        int index = name.indexOf(":");
-        if (index != -1)
-            return name.substring(0, index);
-
-        return null;
-    }
-
-    protected static String parseLocalName(String name) {
-        if (name == null)
-            return null;
-
-        int start = name.indexOf("{");
-        if (start != -1) {
-            int end = name.indexOf("}", start);
-            if (end != -1) {
-                return name.substring(end + 1);
-            }
-        }
-
-        start = name.indexOf(":");
-        if (start != -1)
-            return name.substring(start + 1);
-
-        return name;
-    }
+    return name;
+  }
 }

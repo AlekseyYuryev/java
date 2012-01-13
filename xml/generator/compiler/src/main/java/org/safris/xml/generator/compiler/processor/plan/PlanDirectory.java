@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.compiler.processor.plan;
@@ -112,76 +113,76 @@ import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 
 public class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,Plan> {
-    private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
-    private final Collection<Class<? extends Model>> keys;
-    private final PlanProcessor processor = new PlanProcessor();
+  private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
+  private final Collection<Class<? extends Model>> keys;
+  private final PlanProcessor processor = new PlanProcessor();
 
-    public PlanDirectory() {
-        classes.put(AllModel.class, AllPlan.class);
-        classes.put(AnnotationModel.class, AnnotationPlan.class);
-        classes.put(AnyAttributeModel.class, AnyAttributePlan.class);
-        classes.put(AnyModel.class, AnyPlan.class);
-        classes.put(AppinfoModel.class, AppinfoPlan.class);
-        classes.put(AttributeGroupModel.class, AttributeGroupPlan.class);
-        classes.put(AttributeModel.class, AttributePlan.class);
-        classes.put(ChoiceModel.class, ChoicePlan.class);
-        classes.put(ComplexContentModel.class, ComplexContentPlan.class);
-        classes.put(ComplexTypeModel.class, ComplexTypePlan.class);
-        classes.put(DocumentationModel.class, DocumentationPlan.class);
-        classes.put(ElementModel.class, ElementPlan.class);
-        classes.put(EnumerationModel.class, EnumerationPlan.class);
-        classes.put(ExtensionModel.class, ExtensionPlan.class);
-        classes.put(FieldModel.class, FieldPlan.class);
-        classes.put(FractionDigitsModel.class, FractionDigitsPlan.class);
-        classes.put(GroupModel.class, GroupPlan.class);
-        classes.put(HasFacetModel.class, HasFacetPlan.class);
-        classes.put(HasPropertyModel.class, HasPropertyPlan.class);
-        classes.put(ImportModel.class, ImportPlan.class);
-        classes.put(IncludeModel.class, IncludePlan.class);
-        classes.put(KeyModel.class, KeyPlan.class);
-        classes.put(KeyrefModel.class, KeyrefPlan.class);
-        classes.put(LengthModel.class, LengthPlan.class);
-        classes.put(ListModel.class, ListPlan.class);
-        classes.put(MaxInclusiveModel.class, MaxInclusivePlan.class);
-        classes.put(MaxLengthModel.class, MaxLengthPlan.class);
-        classes.put(MinExclusiveModel.class, MinExclusivePlan.class);
-        classes.put(MinInclusiveModel.class, MinInclusivePlan.class);
-        classes.put(MinLengthModel.class, MinLengthPlan.class);
-        classes.put(NotationModel.class, NotationPlan.class);
-        classes.put(PatternModel.class, PatternPlan.class);
-        classes.put(RedefineModel.class, RedefinePlan.class);
-        classes.put(RestrictionModel.class, RestrictionPlan.class);
-        classes.put(SchemaModel.class, SchemaPlan.class);
-        classes.put(SelectorModel.class, SelectorPlan.class);
-        classes.put(SequenceModel.class, SequencePlan.class);
-        classes.put(SimpleContentModel.class, SimpleContentPlan.class);
-        classes.put(SimpleTypeModel.class, SimpleTypePlan.class);
-        classes.put(UnionModel.class, UnionPlan.class);
-        classes.put(UniqueModel.class, UniquePlan.class);
-        classes.put(WhiteSpaceModel.class, WhiteSpacePlan.class);
-        keys = classes.keySet();
+  public PlanDirectory() {
+    classes.put(AllModel.class, AllPlan.class);
+    classes.put(AnnotationModel.class, AnnotationPlan.class);
+    classes.put(AnyAttributeModel.class, AnyAttributePlan.class);
+    classes.put(AnyModel.class, AnyPlan.class);
+    classes.put(AppinfoModel.class, AppinfoPlan.class);
+    classes.put(AttributeGroupModel.class, AttributeGroupPlan.class);
+    classes.put(AttributeModel.class, AttributePlan.class);
+    classes.put(ChoiceModel.class, ChoicePlan.class);
+    classes.put(ComplexContentModel.class, ComplexContentPlan.class);
+    classes.put(ComplexTypeModel.class, ComplexTypePlan.class);
+    classes.put(DocumentationModel.class, DocumentationPlan.class);
+    classes.put(ElementModel.class, ElementPlan.class);
+    classes.put(EnumerationModel.class, EnumerationPlan.class);
+    classes.put(ExtensionModel.class, ExtensionPlan.class);
+    classes.put(FieldModel.class, FieldPlan.class);
+    classes.put(FractionDigitsModel.class, FractionDigitsPlan.class);
+    classes.put(GroupModel.class, GroupPlan.class);
+    classes.put(HasFacetModel.class, HasFacetPlan.class);
+    classes.put(HasPropertyModel.class, HasPropertyPlan.class);
+    classes.put(ImportModel.class, ImportPlan.class);
+    classes.put(IncludeModel.class, IncludePlan.class);
+    classes.put(KeyModel.class, KeyPlan.class);
+    classes.put(KeyrefModel.class, KeyrefPlan.class);
+    classes.put(LengthModel.class, LengthPlan.class);
+    classes.put(ListModel.class, ListPlan.class);
+    classes.put(MaxInclusiveModel.class, MaxInclusivePlan.class);
+    classes.put(MaxLengthModel.class, MaxLengthPlan.class);
+    classes.put(MinExclusiveModel.class, MinExclusivePlan.class);
+    classes.put(MinInclusiveModel.class, MinInclusivePlan.class);
+    classes.put(MinLengthModel.class, MinLengthPlan.class);
+    classes.put(NotationModel.class, NotationPlan.class);
+    classes.put(PatternModel.class, PatternPlan.class);
+    classes.put(RedefineModel.class, RedefinePlan.class);
+    classes.put(RestrictionModel.class, RestrictionPlan.class);
+    classes.put(SchemaModel.class, SchemaPlan.class);
+    classes.put(SelectorModel.class, SelectorPlan.class);
+    classes.put(SequenceModel.class, SequencePlan.class);
+    classes.put(SimpleContentModel.class, SimpleContentPlan.class);
+    classes.put(SimpleTypeModel.class, SimpleTypePlan.class);
+    classes.put(UnionModel.class, UnionPlan.class);
+    classes.put(UniqueModel.class, UniquePlan.class);
+    classes.put(WhiteSpaceModel.class, WhiteSpacePlan.class);
+    keys = classes.keySet();
+  }
+
+  public PipelineEntity<Plan> getEntity(Model entity, Plan parent) {
+    if (!keys.contains(entity.getClass()))
+      throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
+
+    final Class<? extends Plan> parserClass = classes.get(entity.getClass());
+    Plan plan = null;
+    try {
+      final Constructor<? extends Plan> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
+      plan = constructor.newInstance(entity, parent);
+      return plan;
     }
-
-    public PipelineEntity<Plan> getEntity(Model entity, Plan parent) {
-        if (!keys.contains(entity.getClass()))
-            throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
-
-        final Class<? extends Plan> parserClass = classes.get(entity.getClass());
-        Plan plan = null;
-        try {
-            final Constructor<? extends Plan> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
-            plan = constructor.newInstance(entity, parent);
-            return plan;
-        }
-        catch (Exception e) {
-            throw new CompilerError(e);
-        }
+    catch (Exception e) {
+      throw new CompilerError(e);
     }
+  }
 
-    public PipelineProcessor<GeneratorContext,Model,Plan> getProcessor() {
-        return processor;
-    }
+  public PipelineProcessor<GeneratorContext,Model,Plan> getProcessor() {
+    return processor;
+  }
 
-    public void clear() {
-    }
+  public void clear() {
+  }
 }

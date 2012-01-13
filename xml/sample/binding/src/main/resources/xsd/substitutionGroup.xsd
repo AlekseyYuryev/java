@@ -1,96 +1,97 @@
 <!--
-	Copyright 2010 Safris Technologies Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-			http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+  Copyright Safris Software 2006
+  
+  This code is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <xs:schema elementFormDefault="qualified"
-	targetNamespace="http://xml.safris.org/toolkit/sample/binding/substitutionGroup.xsd"
-	xmlns:sg="http://xml.safris.org/toolkit/sample/binding/substitutionGroup.xsd"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	
-	<xs:element name="stockList">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="sg:product" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	
-	<xs:element name="product" type="sg:productType" abstract="true"/>
-	
-	<xs:complexType name="productType">
-		<xs:sequence>
-			<xs:element name="amount" type="xs:positiveInteger"/>
-			<xs:element name="name" type="xs:string"/>
-		</xs:sequence>
-	</xs:complexType>
+  targetNamespace="http://xml.safris.org/toolkit/sample/binding/substitutionGroup.xsd"
+  xmlns:sg="http://xml.safris.org/toolkit/sample/binding/substitutionGroup.xsd"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:element name="stockList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="sg:product" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="product" type="sg:productType" abstract="true"/>
+  
+  <xs:complexType name="productType">
+    <xs:sequence>
+      <xs:element name="amount" type="xs:positiveInteger"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 
-	<xs:element name="shirt" substitutionGroup="sg:product">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="sg:productType">
-					<xs:sequence>
-						<xs:element name="size" type="sg:shirtSizeType"/>
-						<xs:element name="color" type="sg:colorType"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	
-	<xs:element name="hat" substitutionGroup="sg:product">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="sg:productType">
-					<xs:sequence>
-						<xs:element name="size" type="sg:hatSizeType"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	
-	<xs:element name="umbrella" substitutionGroup="sg:product"/>
+  <xs:element name="shirt" substitutionGroup="sg:product">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sg:productType">
+          <xs:sequence>
+            <xs:element name="size" type="sg:shirtSizeType"/>
+            <xs:element name="color" type="sg:colorType"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="hat" substitutionGroup="sg:product">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sg:productType">
+          <xs:sequence>
+            <xs:element name="size" type="sg:hatSizeType"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="umbrella" substitutionGroup="sg:product"/>
 
-	<xs:simpleType name="shirtSizeType">
-		<xs:restriction base="xs:nonNegativeInteger">
-			<xs:enumeration value="0"/>
-			<xs:enumeration value="2"/>
-			<xs:enumeration value="4"/>
-			<xs:enumeration value="6"/>
-			<xs:enumeration value="8"/>
-			<xs:enumeration value="10"/>
-			<xs:enumeration value="12"/>
-			<xs:enumeration value="14"/>
-		</xs:restriction>
-	</xs:simpleType>
+  <xs:simpleType name="shirtSizeType">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="4"/>
+      <xs:enumeration value="6"/>
+      <xs:enumeration value="8"/>
+      <xs:enumeration value="10"/>
+      <xs:enumeration value="12"/>
+      <xs:enumeration value="14"/>
+    </xs:restriction>
+  </xs:simpleType>
 
-	<xs:simpleType name="hatSizeType">
-		<xs:restriction base="xs:Name">
-			<xs:enumeration value="S"/>
-			<xs:enumeration value="M"/>
-			<xs:enumeration value="L"/>
-		</xs:restriction>
-	</xs:simpleType>
+  <xs:simpleType name="hatSizeType">
+    <xs:restriction base="xs:Name">
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="M"/>
+      <xs:enumeration value="L"/>
+    </xs:restriction>
+  </xs:simpleType>
 
-	<xs:simpleType name="colorType">
-		<xs:restriction base="xs:Name">
-			<xs:enumeration value="BLACK"/>
-			<xs:enumeration value="WHITE"/>
-			<xs:enumeration value="BLUE"/>
-			<xs:enumeration value="RED"/>
-		</xs:restriction>
-	</xs:simpleType>
-	
+  <xs:simpleType name="colorType">
+    <xs:restriction base="xs:Name">
+      <xs:enumeration value="BLACK"/>
+      <xs:enumeration value="WHITE"/>
+      <xs:enumeration value="BLUE"/>
+      <xs:enumeration value="RED"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
 </xs:schema>

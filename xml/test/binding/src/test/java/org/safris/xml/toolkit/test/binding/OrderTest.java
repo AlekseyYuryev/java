@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.toolkit.test.binding;
@@ -32,87 +33,87 @@ import org.xml.sax.InputSource;
 import static org.junit.Assert.*;
 
 public class OrderTest extends AbstractTest {
-    public static void main(String[] args) throws Exception {
-        final OrderTest orderTest = new OrderTest();
-        orderTest.testExample();
-    }
+  public static void main(String[] args) throws Exception {
+    final OrderTest orderTest = new OrderTest();
+    orderTest.testExample();
+  }
 
-    @Test
-    public void testExample() throws Exception {
-        or_A a = new or_A();
-        a.add_innerA(new or_A._innerA("hello first time"));
-        a.add_innerB(new or_A._innerB(1));
-        a.add_innerC(new or_A._innerC((byte)'0'));
+  @Test
+  public void testExample() throws Exception {
+    or_A a = new or_A();
+    a.add_innerA(new or_A._innerA("hello first time"));
+    a.add_innerB(new or_A._innerB(1));
+    a.add_innerC(new or_A._innerC((byte)'0'));
 
-        or_B b = new or_B();
-        b.add_innerA(new or_A._innerA("hi!!"));
-        b.add_innerB(new or_A._innerB(2));
-        b.add_innerC(new or_A._innerC((byte)'9'));
-        b.add_A(a);
-        b.add_innerE(new or_B._innerE(true));
-        b.add_innerF(new or_B._innerF(5.3f));
+    or_B b = new or_B();
+    b.add_innerA(new or_A._innerA("hi!!"));
+    b.add_innerB(new or_A._innerB(2));
+    b.add_innerC(new or_A._innerC((byte)'9'));
+    b.add_A(a);
+    b.add_innerE(new or_B._innerE(true));
+    b.add_innerF(new or_B._innerF(5.3f));
 
-        or_C c = new or_C();
-        c.add_innerA(new or_A._innerA("yo, what's up!?"));
-        or_A._innerB keepMe = new or_A._innerB(3);
-        c.add_innerB(keepMe);
-        or_A._innerB removeMe1 = new or_A._innerB(69);
-        c.add_innerC(new or_A._innerC((byte)'4'));
-        c.add_A(a);
-        c.add_innerE(new or_B._innerE(false));
-        c.add_innerF(new or_B._innerF(4f));
-        or_A._innerB removeMe2 = new or_A._innerB(-69);
-        c.add_B(b);
-        or_C._innerA removeMe3 = new or_C._innerA("removeMe");
-        c.add_innerA(removeMe3);
-        c.add_innerG(new or_C._innerG(-99d));
-        c.get_innerA().add(new or_C._innerA("again"));
-        c.add_innerB(removeMe1);
-        c.add_innerB(removeMe2);
-        c.get_innerF().add(new or_C._innerF(54f));
-        c.get_innerF().add(new or_C._innerF(55f));
-        c.get_innerF().add(new or_C._innerF(56f));
-        c.add_innerG(new or_C._innerG(99d));
+    or_C c = new or_C();
+    c.add_innerA(new or_A._innerA("yo, what's up!?"));
+    or_A._innerB keepMe = new or_A._innerB(3);
+    c.add_innerB(keepMe);
+    or_A._innerB removeMe1 = new or_A._innerB(69);
+    c.add_innerC(new or_A._innerC((byte)'4'));
+    c.add_A(a);
+    c.add_innerE(new or_B._innerE(false));
+    c.add_innerF(new or_B._innerF(4f));
+    or_A._innerB removeMe2 = new or_A._innerB(-69);
+    c.add_B(b);
+    or_C._innerA removeMe3 = new or_C._innerA("removeMe");
+    c.add_innerA(removeMe3);
+    c.add_innerG(new or_C._innerG(-99d));
+    c.get_innerA().add(new or_C._innerA("again"));
+    c.add_innerB(removeMe1);
+    c.add_innerB(removeMe2);
+    c.get_innerF().add(new or_C._innerF(54f));
+    c.get_innerF().add(new or_C._innerF(55f));
+    c.get_innerF().add(new or_C._innerF(56f));
+    c.add_innerG(new or_C._innerG(99d));
 
-        // These lines assert that the element removal code works properly.
-        assertFalse(c.get_innerA().remove(keepMe));
-        assertTrue(c.get_innerA().remove(removeMe3));
-        assertTrue(c.get_innerB().removeAll(Arrays.<or_A._innerB>asList(new or_A._innerB[]{removeMe1, removeMe2})));
+    // These lines assert that the element removal code works properly.
+    assertFalse(c.get_innerA().remove(keepMe));
+    assertTrue(c.get_innerA().remove(removeMe3));
+    assertTrue(c.get_innerB().removeAll(Arrays.<or_A._innerB>asList(new or_A._innerB[]{removeMe1, removeMe2})));
 
-        or_root root = new or_root();
-        root.addor_A(a);
-        root.addor_B(b);
-        root.addor_C(c);
+    or_root root = new or_root();
+    root.addor_A(a);
+    root.addor_B(b);
+    root.addor_C(c);
 
-        assertTrue(verifyBinding(root));
+    assertTrue(verifyBinding(root));
 
-        // This tests that our elementIterator() works
-        final Iterator<Binding> elementIterator = root.elementIterator();
-        assertTrue(elementIterator.hasNext());
-        Binding child = elementIterator.next();
-        assertTrue(child instanceof or_A);
-        child = elementIterator.next();
-        assertTrue(child instanceof or_B);
-        child = elementIterator.next();
-        assertTrue(child instanceof or_C);
+    // This tests that our elementIterator() works
+    final Iterator<Binding> elementIterator = root.elementIterator();
+    assertTrue(elementIterator.hasNext());
+    Binding child = elementIterator.next();
+    assertTrue(child instanceof or_A);
+    child = elementIterator.next();
+    assertTrue(child instanceof or_B);
+    child = elementIterator.next();
+    assertTrue(child instanceof or_C);
 
-        // Write the xml we've constructed in the code to a string
-        String xmlFromObjects = DOMs.domToString(root.marshal());
+    // Write the xml we've constructed in the code to a string
+    String xmlFromObjects = DOMs.domToString(root.marshal());
 
-        final File file = new File("src/test/resources/xml/unit/order.xml");
-        if (!file.exists())
-            throw new Error("File " + file.getAbsolutePath() + " does not exist.");
+    final File file = new File("src/test/resources/xml/unit/order.xml");
+    if (!file.exists())
+      throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 
-        if (!file.canRead())
-            throw new Error("File " + file.getAbsolutePath() + " is not readable.");
+    if (!file.canRead())
+      throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
-        or_root root2 = (or_root)Bindings.parse(new InputSource(new FileInputStream(file)));
-        assertTrue(verifyBinding(root2));
+    or_root root2 = (or_root)Bindings.parse(new InputSource(new FileInputStream(file)));
+    assertTrue(verifyBinding(root2));
 
-        // Write the xml we parsed from the file to a string
-        String xmlFromFile = DOMs.domToString(root2.marshal());
+    // Write the xml we parsed from the file to a string
+    String xmlFromFile = DOMs.domToString(root2.marshal());
 
-        // The two xml strings should be equal
-        assertEquals(xmlFromObjects, xmlFromFile);
-    }
+    // The two xml strings should be equal
+    assertEquals(xmlFromObjects, xmlFromFile);
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.commons.io;
@@ -24,94 +25,94 @@ import java.io.PipedOutputStream;
 import org.safris.commons.io.output.TeeOutputStream;
 
 public final class Streams {
-    /**
-     * Reads all bytes from the input stream and returns the resulting buffer
-     * array. This method blocks until all contents have been read, end of
-     * file is detected, or an exception is thrown.
-     *
-     * <p> If the InputStream <code>in</code> is <code>null</code>, then null
-     * is returned; otherwise, a byte[] of at least size 0 will be returned.
-     *
-     * @param      in   the input stream to read from.
-     * @return     the byte[] containing all bytes that were read from the
-     *             InputStream <code>in</code> until an end of file is detected.
-     * @exception  IOException  If the first byte cannot be read for any reason
-     * other than the end of the file, if the input stream has been closed, or
-     * if some other I/O error occurs.
-     * @see        java.io.InputStream#read(byte[])
-     */
-    public static byte[] getBytes(InputStream in) throws IOException {
-        if (in == null)
-            return null;
+  /**
+   * Reads all bytes from the input stream and returns the resulting buffer
+   * array. This method blocks until all contents have been read, end of
+   * file is detected, or an exception is thrown.
+   *
+   * <p> If the InputStream <code>in</code> is <code>null</code>, then null
+   * is returned; otherwise, a byte[] of at least size 0 will be returned.
+   *
+   * @param      in   the input stream to read from.
+   * @return     the byte[] containing all bytes that were read from the
+   *             InputStream <code>in</code> until an end of file is detected.
+   * @exception  IOException  If the first byte cannot be read for any reason
+   * other than the end of the file, if the input stream has been closed, or
+   * if some other I/O error occurs.
+   * @see        java.io.InputStream#read(byte[])
+   */
+  public static byte[] getBytes(InputStream in) throws IOException {
+    if (in == null)
+      return null;
 
-        final int BUFFER_SIZE = 1024;
-        final ByteArrayOutputStream buffer = new ByteArrayOutputStream(BUFFER_SIZE);
-        final byte[] data = new byte[BUFFER_SIZE];
-        int length = -1;
-        while ((length = in.read(data)) != -1)
-            buffer.write(data, 0, length);
+    final int BUFFER_SIZE = 1024;
+    final ByteArrayOutputStream buffer = new ByteArrayOutputStream(BUFFER_SIZE);
+    final byte[] data = new byte[BUFFER_SIZE];
+    int length = -1;
+    while ((length = in.read(data)) != -1)
+      buffer.write(data, 0, length);
 
-        return buffer.toByteArray();
+    return buffer.toByteArray();
+  }
+
+  public static OutputStream tee(final OutputStream src, final InputStream snkIn, final OutputStream snkOut) throws IOException {
+    pipe(snkIn, src, false);
+    return new TeeOutputStream(src, snkOut);
+  }
+
+  public static InputStream tee(final InputStream src, final OutputStream snk) throws IOException {
+    return pipe(src, snk, true);
+  }
+
+  public static void pipe(final OutputStream src, final InputStream snk) throws IOException {
+    pipe(snk, src, false);
+  }
+
+  public static void pipe(final InputStream src, final OutputStream snk) throws IOException {
+    pipe(src, snk, false);
+  }
+
+  private static InputStream pipe(final InputStream src, final OutputStream snk, final boolean tee) throws IOException {
+    final PipedOutputStream pipedOut;
+    final InputStream pipedIn;
+    if (tee) {
+      pipedOut = new PipedOutputStream();
+      pipedIn = new PipedInputStream(pipedOut);
+    }
+    else {
+      pipedOut = null;
+      pipedIn = null;
     }
 
-    public static OutputStream tee(final OutputStream src, final InputStream snkIn, final OutputStream snkOut) throws IOException {
-        pipe(snkIn, src, false);
-        return new TeeOutputStream(src, snkOut);
-    }
-
-    public static InputStream tee(final InputStream src, final OutputStream snk) throws IOException {
-        return pipe(src, snk, true);
-    }
-
-    public static void pipe(final OutputStream src, final InputStream snk) throws IOException {
-        pipe(snk, src, false);
-    }
-
-    public static void pipe(final InputStream src, final OutputStream snk) throws IOException {
-        pipe(src, snk, false);
-    }
-
-    private static InputStream pipe(final InputStream src, final OutputStream snk, final boolean tee) throws IOException {
-        final PipedOutputStream pipedOut;
-        final InputStream pipedIn;
-        if (tee) {
-            pipedOut = new PipedOutputStream();
-            pipedIn = new PipedInputStream(pipedOut);
-        }
-        else {
-            pipedOut = null;
-            pipedIn = null;
-        }
-
-        final int BUFFER_SIZE = 1024;
-        new Thread(tee ? "tee" : "pipe")
-        {
-            public void run() {
-                int length = 0;
-                final byte[] bytes = new byte[BUFFER_SIZE];
-                try {
-                    while ((length = src.read(bytes)) != -1) {
-                        if (tee) {
-                            pipedOut.write(bytes, 0, length);
-                            pipedOut.flush();
-                        }
-
-                        snk.write(bytes, 0, length);
-                        snk.flush();
-                    }
-                }
-                catch (IOException e) {
-                    if ("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage()))
-                        return;
-
-                    e.printStackTrace();
-                }
+    final int BUFFER_SIZE = 1024;
+    new Thread(tee ? "tee" : "pipe")
+    {
+      public void run() {
+        int length = 0;
+        final byte[] bytes = new byte[BUFFER_SIZE];
+        try {
+          while ((length = src.read(bytes)) != -1) {
+            if (tee) {
+              pipedOut.write(bytes, 0, length);
+              pipedOut.flush();
             }
-        }.start();
 
-        return pipedIn;
-    }
+            snk.write(bytes, 0, length);
+            snk.flush();
+          }
+        }
+        catch (IOException e) {
+          if ("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage()))
+            return;
 
-    private Streams() {
-    }
+          e.printStackTrace();
+        }
+      }
+    }.start();
+
+    return pipedIn;
+  }
+
+  private Streams() {
+  }
 }

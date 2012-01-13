@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.toolkit.test.binding.regression;
@@ -32,52 +33,52 @@ import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
 
 public class XPathTest {
-    private static String xpath = null;
+  private static String xpath = null;
 
-    protected static boolean isTextNode(Node node) {
-        if (node == null)
-            return false;
+  protected static boolean isTextNode(Node node) {
+    if (node == null)
+      return false;
 
-        final short nodeType = node.getNodeType();
-        return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
-    }
+    final short nodeType = node.getNodeType();
+    return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
+  }
 
-    public static void main(String[] args) throws Exception {
-        xpath = args[0];
-        new XPathTest().testXPath();
-    }
+  public static void main(String[] args) throws Exception {
+    xpath = args[0];
+    new XPathTest().testXPath();
+  }
 
-    @Ignore("Finish implementing this test!")
-    @Test
-    public void testXPath() throws Exception {
-        pp_Query._QueryItem queryItem = new pp_Query._QueryItem();
+  @Ignore("Finish implementing this test!")
+  @Test
+  public void testXPath() throws Exception {
+    pp_Query._QueryItem queryItem = new pp_Query._QueryItem();
 //      queryItem.setSelect(new QueryType.QueryItem.Select(xpath));
 
-        pp_Query query = new pp_Query();
-        query.add_QueryItem(queryItem);
+    pp_Query query = new pp_Query();
+    query.add_QueryItem(queryItem);
 
-        Element element = query.marshal();
-        System.out.println(DOMs.domToString(element, DOMStyle.INDENT));
+    Element element = query.marshal();
+    System.out.println(DOMs.domToString(element, DOMStyle.INDENT));
 
-        Transformer serializer = TransformerFactory.newInstance().newTransformer();
-        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    Transformer serializer = TransformerFactory.newInstance().newTransformer();
+    serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-        NodeIterator nodeIterator = XPathAPI.selectNodeIterator(element, xpath);
-        Node node = null;
-        while ((node = nodeIterator.nextNode()) != null) {
-            if (isTextNode(node)) {
-                // DOM may have more than one node corresponding to a
-                // single XPath text node.  Coalesce all contiguous text nodes
-                // at this level
-                final StringBuffer stringBuffer = new StringBuffer(node.getNodeValue());
-                for (Node nextNode = node.getNextSibling(); isTextNode(nextNode); nextNode = nextNode.getNextSibling())
-                    stringBuffer.append(nextNode.getNodeValue());
+    NodeIterator nodeIterator = XPathAPI.selectNodeIterator(element, xpath);
+    Node node = null;
+    while ((node = nodeIterator.nextNode()) != null) {
+      if (isTextNode(node)) {
+        // DOM may have more than one node corresponding to a
+        // single XPath text node.  Coalesce all contiguous text nodes
+        // at this level
+        final StringBuffer stringBuffer = new StringBuffer(node.getNodeValue());
+        for (Node nextNode = node.getNextSibling(); isTextNode(nextNode); nextNode = nextNode.getNextSibling())
+          stringBuffer.append(nextNode.getNodeValue());
 
-                System.out.print(stringBuffer);
-            }
-            else {
-                serializer.transform(new DOMSource(node), new StreamResult(new OutputStreamWriter(System.out)));
-            }
-        }
+        System.out.print(stringBuffer);
+      }
+      else {
+        serializer.transform(new DOMSource(node), new StreamResult(new OutputStreamWriter(System.out)));
+      }
     }
+  }
 }

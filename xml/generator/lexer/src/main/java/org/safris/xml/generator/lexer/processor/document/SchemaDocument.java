@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.xml.generator.lexer.processor.document;
@@ -22,43 +23,43 @@ import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.w3c.dom.Document;
 
 public class SchemaDocument implements PipelineEntity {
-    private final SchemaReference schemaReference;
-    private final Document document;
-    private Collection<URL> includes;
+  private final SchemaReference schemaReference;
+  private final Document document;
+  private Collection<URL> includes;
 
-    public SchemaDocument(SchemaReference schemaReference, Document document) {
-        this.schemaReference = schemaReference;
-        this.document = document;
-    }
+  public SchemaDocument(SchemaReference schemaReference, Document document) {
+    this.schemaReference = schemaReference;
+    this.document = document;
+  }
 
-    public SchemaReference getSchemaReference() {
-        return schemaReference;
-    }
+  public SchemaReference getSchemaReference() {
+    return schemaReference;
+  }
 
-    public Document getDocument() {
-        return document;
-    }
+  public Document getDocument() {
+    return document;
+  }
 
-    public Collection<URL> getIncludes() {
-        return includes;
-    }
+  public Collection<URL> getIncludes() {
+    return includes;
+  }
 
-    public void setIncludes(Collection<URL> includes) {
-        this.includes = includes;
-    }
+  public void setIncludes(Collection<URL> includes) {
+    this.includes = includes;
+  }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
 
-        if (!(obj instanceof SchemaDocument))
-            return false;
+    if (!(obj instanceof SchemaDocument))
+      return false;
 
-        final SchemaDocument that = (SchemaDocument)obj;
-        return schemaReference.equals(that.schemaReference);
-    }
+    final SchemaDocument that = (SchemaDocument)obj;
+    return schemaReference.equals(that.schemaReference);
+  }
 
-    public int hashCode() {
-        return (schemaReference != null ? schemaReference.hashCode() : -1) + (document != null ? 1 : -1);
-    }
+  public int hashCode() {
+    return (schemaReference != null ? schemaReference.hashCode() : -1) + (document != null ? 1 : -1);
+  }
 }

@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2008
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.maven.plugin.codeguide.javaproj;
@@ -116,7 +117,7 @@ public class JavaProject {
 
             final File javaprojXML = new File(getDir(), getShortName() + ".javaproj");
             try {
-				final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(_javaProject3.class.getPackage().getName());
+        final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(_javaProject3.class.getPackage().getName());
                 if (javaprojXML.exists()) {
                     final _javaProject3 javaProject3 = (_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
                     if (javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
@@ -124,7 +125,7 @@ public class JavaProject {
                 }
             }
             catch (Exception e) {
-				throw new MojoExecutionException(e.getMessage(), e);
+        throw new MojoExecutionException(e.getMessage(), e);
             }
             finally {
                 startingPointsSearched = true;
@@ -142,21 +143,21 @@ public class JavaProject {
         return solution;
     }
 
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
+  public boolean equals(Object obj) {
+    if (obj == this)
+      return true;
 
-		if(!(obj instanceof JavaProject))
-			return false;
+    if(!(obj instanceof JavaProject))
+      return false;
 
-		final JavaProject that = (JavaProject)obj;
-		return (name != null ? name.equals(that.name) : that.name == null) && (dir != null ? dir.equals(that.dir) : that.dir == null);
-	}
+    final JavaProject that = (JavaProject)obj;
+    return (name != null ? name.equals(that.name) : that.name == null) && (dir != null ? dir.equals(that.dir) : that.dir == null);
+  }
 
-	public int hashCode() {
-		int hashCode = 7;
-		hashCode ^= name != null ? name.hashCode() : -1;
-		hashCode ^= dir != null ? dir.hashCode() : -1;
-		return hashCode;
-	}
+  public int hashCode() {
+    int hashCode = 7;
+    hashCode ^= name != null ? name.hashCode() : -1;
+    hashCode ^= dir != null ? dir.hashCode() : -1;
+    return hashCode;
+  }
 }

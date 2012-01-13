@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.w3c.tools.jpeg;
@@ -32,26 +33,26 @@ import java.util.Map;
  */
 public interface TagDecoder
 {
-	/** Returns the namespace that should be used for fields added by this class.
-	 *
-	 * Implementations <em>must</em> define a namespace URI.
-	 */
-	public String getNamespace();
+  /** Returns the namespace that should be used for fields added by this class.
+   *
+   * Implementations <em>must</em> define a namespace URI.
+   */
+  public String getNamespace();
 
-	/** Sets the prefix that should be used for fields added by this class.
-	 *
-	 * If no prefix is specified, unqualified names must be used.
-	 */
-	public void setPrefix(String prefix);
+  /** Sets the prefix that should be used for fields added by this class.
+   *
+   * If no prefix is specified, unqualified names must be used.
+   */
+  public void setPrefix(String prefix);
 
-	/** Decodes a field from the EXIF data and possibly augments the exif hash.
-	 *
-	 * @param exif The hash of field name/value pairs. This method should update
-	 *             this has with information extracted from data.
-	 * @param data The EXIF data.
-	 * @param format The EXIF format value for the field to be decoded.
-	 * @param offset The offset of the start of the field in the EXIF data.
-	 * @param length The length of the field.
-	 */
-	public void decode(Map<String,String> exif, ExifData data, int format, int offset, int length);
+  /** Decodes a field from the EXIF data and possibly augments the exif hash.
+   *
+   * @param exif The hash of field name/value pairs. This method should update
+   *             this has with information extracted from data.
+   * @param data The EXIF data.
+   * @param format The EXIF format value for the field to be decoded.
+   * @param offset The offset of the start of the field in the EXIF data.
+   * @param length The length of the field.
+   */
+  public void decode(Map<String,String> exif, ExifData data, int format, int offset, int length);
 }

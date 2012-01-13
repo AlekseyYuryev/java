@@ -1,361 +1,362 @@
 <!--
-	Copyright 2010 Safris Technologies Inc.
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-			http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+  Copyright Safris Software 2006
+  
+  This code is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <xs:schema
-	targetNamespace="http://www.safris.com/schema/test"
-	xmlns:te="http://www.safris.com/schema/test"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  targetNamespace="http://www.safris.com/schema/test"
+  xmlns:te="http://www.safris.com/schema/test"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<xs:include
-		schemaLocation="liberty/liberty-utility-v2.0.xsd"/>
+  <xs:include
+    schemaLocation="liberty/liberty-utility-v2.0.xsd"/>
 
-	<xs:import
-		namespace="http://www.safris.com/schema/testtwo"
-		schemaLocation="test2.xsd"/>
+  <xs:import
+    namespace="http://www.safris.com/schema/testtwo"
+    schemaLocation="test2.xsd"/>
 
-	<xs:element
-		name="simt"
-		type="te:in_simpleA"/>
+  <xs:element
+    name="simt"
+    type="te:in_simpleA"/>
 
-	<xs:simpleType
-		name="in_simpleA">
-		<xs:restriction
-			base="xs:string">
-			<xs:pattern
-				value=".*"/>
-			<xs:enumeration
-				value="hi"/>
-		</xs:restriction>
-	</xs:simpleType>
+  <xs:simpleType
+    name="in_simpleA">
+    <xs:restriction
+      base="xs:string">
+      <xs:pattern
+        value=".*"/>
+      <xs:enumeration
+        value="hi"/>
+    </xs:restriction>
+  </xs:simpleType>
 
-	<xs:complexType
-		name="complexRootA">
-		<xs:sequence>
-			<xs:any/>
-			<xs:group
-				ref="te:groupTwo"/>
-		</xs:sequence>
-		<xs:attributeGroup
-			ref="te:agThree"/>
-		<xs:anyAttribute/>
-	</xs:complexType>
+  <xs:complexType
+    name="complexRootA">
+    <xs:sequence>
+      <xs:any/>
+      <xs:group
+        ref="te:groupTwo"/>
+    </xs:sequence>
+    <xs:attributeGroup
+      ref="te:agThree"/>
+    <xs:anyAttribute/>
+  </xs:complexType>
 
-	<xs:complexType
-		name="complexRootB">
-		<xs:complexContent>
-			<xs:extension
-				base="te:complexRootA">
-				<xs:choice>
-					<xs:element
-						name="innerA"
-						type="te:complexA"/>
-					<xs:sequence>
-						<xs:element
-							ref="te:elemB"/>
-						<xs:choice>
-							<xs:element
-								ref="te:elemC"/>
-							<xs:sequence>
-								<xs:element
-									ref="te:elemE"/>
-								<xs:element
-									ref="te:simpleElemA"/>
-							</xs:sequence>
-						</xs:choice>
-					</xs:sequence>
-				</xs:choice>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    name="complexRootB">
+    <xs:complexContent>
+      <xs:extension
+        base="te:complexRootA">
+        <xs:choice>
+          <xs:element
+            name="innerA"
+            type="te:complexA"/>
+          <xs:sequence>
+            <xs:element
+              ref="te:elemB"/>
+            <xs:choice>
+              <xs:element
+                ref="te:elemC"/>
+              <xs:sequence>
+                <xs:element
+                	ref="te:elemE"/>
+                <xs:element
+                	ref="te:simpleElemA"/>
+              </xs:sequence>
+            </xs:choice>
+          </xs:sequence>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:element
-		name="root"
-		type="te:complexRootB"/>
+  <xs:element
+    name="root"
+    type="te:complexRootB"/>
 
-	<xs:complexType
-		name="complexA">
-		<xs:attribute
-			name="a_attr1"
-			type="xs:string"/>
-		<xs:attribute
-			name="a_attr2"
-			type="xs:string"/>
-	</xs:complexType>
+  <xs:complexType
+    name="complexA">
+    <xs:attribute
+      name="a_attr1"
+      type="xs:string"/>
+    <xs:attribute
+      name="a_attr2"
+      type="xs:string"/>
+  </xs:complexType>
 
-	<xs:complexType
-		name="complexB">
-		<xs:complexContent>
-			<xs:restriction
-				base="te:complexA"/>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    name="complexB">
+    <xs:complexContent>
+      <xs:restriction
+        base="te:complexA"/>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:attribute
-		name="in_simpleA"/>
+  <xs:attribute
+    name="in_simpleA"/>
 
-	<xs:complexType
-		mixed="true"
-		name="complexC">
-		<xs:complexContent>
-			<xs:extension
-				base="te:complexB">
-				<xs:attribute
-					name="c_attr1"
-					type="xs:string"/>
-				<xs:attribute
-					name="c_attr2"
-					type="xs:string"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    mixed="true"
+    name="complexC">
+    <xs:complexContent>
+      <xs:extension
+        base="te:complexB">
+        <xs:attribute
+          name="c_attr1"
+          type="xs:string"/>
+        <xs:attribute
+          name="c_attr2"
+          type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:complexType
-		name="complexD">
-		<xs:complexContent
-			mixed="true">
-			<xs:extension
-				base="te:complexC">
-				<xs:sequence
-					minOccurs="0"> </xs:sequence>
-				<xs:attribute
-					name="d_attr1"
-					type="xs:string"/>
-				<xs:attribute
-					name="d_attr2"
-					type="xs:string"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    name="complexD">
+    <xs:complexContent
+      mixed="true">
+      <xs:extension
+        base="te:complexC">
+        <xs:sequence
+          minOccurs="0"> </xs:sequence>
+        <xs:attribute
+          name="d_attr1"
+          type="xs:string"/>
+        <xs:attribute
+          name="d_attr2"
+          type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:complexType
-		mixed="true"
-		name="complexE">
-		<xs:complexContent>
-			<xs:extension
-				base="te:complexD">
-				<xs:attribute
-					name="E_attr1"
-					type="xs:string"/>
-				<xs:attribute
-					name="E_attr2"
-					type="xs:string"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    mixed="true"
+    name="complexE">
+    <xs:complexContent>
+      <xs:extension
+        base="te:complexD">
+        <xs:attribute
+          name="E_attr1"
+          type="xs:string"/>
+        <xs:attribute
+          name="E_attr2"
+          type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:complexType
-		mixed="true"
-		name="complexF">
-		<xs:complexContent>
-			<xs:extension
-				base="te:complexE">
-				<xs:attribute
-					name="F_attr1"
-					type="xs:string"/>
-				<xs:attribute
-					name="F_attr2"
-					type="xs:string"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
+  <xs:complexType
+    mixed="true"
+    name="complexF">
+    <xs:complexContent>
+      <xs:extension
+        base="te:complexE">
+        <xs:attribute
+          name="F_attr1"
+          type="xs:string"/>
+        <xs:attribute
+          name="F_attr2"
+          type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
-	<xs:simpleType
-		name="simpleA">
-		<xs:restriction
-			base="xs:double"/>
-	</xs:simpleType>
-	
-	<xs:simpleType name="listTest">
-		<xs:list itemType="xs:QName"/>
-	</xs:simpleType>
-	
-	<xs:element name="listElement">
-		<xs:simpleType>
-			<xs:list itemType="xs:QName"/>
-		</xs:simpleType>
-	</xs:element>
-	
-	<xs:simpleType
-		name="simpleB">
-		<xs:restriction
-			base="te:simpleA"/>
-	</xs:simpleType>
+  <xs:simpleType
+    name="simpleA">
+    <xs:restriction
+      base="xs:double"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="listTest">
+    <xs:list itemType="xs:QName"/>
+  </xs:simpleType>
+  
+  <xs:element name="listElement">
+    <xs:simpleType>
+      <xs:list itemType="xs:QName"/>
+    </xs:simpleType>
+  </xs:element>
+  
+  <xs:simpleType
+    name="simpleB">
+    <xs:restriction
+      base="te:simpleA"/>
+  </xs:simpleType>
 
-	<xs:simpleType
-		name="simpleC">
-		<xs:restriction
-			base="te:simpleB"/>
-	</xs:simpleType>
+  <xs:simpleType
+    name="simpleC">
+    <xs:restriction
+      base="te:simpleB"/>
+  </xs:simpleType>
 
-	<xs:element
-		name="elemB"
-		type="te:complexB"/>
+  <xs:element
+    name="elemB"
+    type="te:complexB"/>
 
-	<xs:element
-		name="elemC"
-		type="te:complexC"/>
+  <xs:element
+    name="elemC"
+    type="te:complexC"/>
 
-	<xs:element
-		name="elemD">
-		<xs:complexType>
-			<xs:complexContent mixed="true">
-				<xs:extension base="te:complexD">
-					<xs:sequence>
-						<xs:element ref="te:elemC" minOccurs="0"/>	
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
+  <xs:element
+    name="elemD">
+    <xs:complexType>
+      <xs:complexContent mixed="true">
+        <xs:extension base="te:complexD">
+          <xs:sequence>
+            <xs:element ref="te:elemC" minOccurs="0"/>	
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
 
-	<xs:element
-		name="elemE">
-		<xs:complexType>
-			<xs:complexContent
-				mixed="true">
-				<xs:extension
-					base="te:complexA">
-					<xs:sequence>
-						<xs:sequence>
-							<xs:sequence
-								maxOccurs="3"
-								minOccurs="0">
-								<xs:group
-									maxOccurs="2"
-									minOccurs="1"
-									ref="te:groupThree"/>
-								<xs:element
-									maxOccurs="unbounded"
-									name="testElement">
-									<xs:complexType
-										mixed="true">
-										<xs:complexContent>
-											<xs:extension
-												base="te:complexB">
-												<xs:attribute
-													name="testwha1"
-													type="xs:double"/>
-												<xs:attribute
-													name="testwha2"
-													type="xs:double"/>
-												<xs:attributeGroup
-													ref="te:agTwo"/>
-											</xs:extension>
-										</xs:complexContent>
-									</xs:complexType>
-								</xs:element>
-							</xs:sequence>
-						</xs:sequence>
-					</xs:sequence>
-					<xs:attribute
-						name="test1"
-						type="xs:double"/>
-					<xs:attribute
-						name="test2"
-						type="xs:double"/>
-					<xs:attributeGroup
-						ref="te:agFour"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
+  <xs:element
+    name="elemE">
+    <xs:complexType>
+      <xs:complexContent
+        mixed="true">
+        <xs:extension
+          base="te:complexA">
+          <xs:sequence>
+            <xs:sequence>
+              <xs:sequence
+                maxOccurs="3"
+                minOccurs="0">
+                <xs:group
+                	maxOccurs="2"
+                	minOccurs="1"
+                	ref="te:groupThree"/>
+                <xs:element
+                	maxOccurs="unbounded"
+                	name="testElement">
+                	<xs:complexType
+                		mixed="true">
+                		<xs:complexContent>
+                			<xs:extension
+                				base="te:complexB">
+                				<xs:attribute
+                					name="testwha1"
+                					type="xs:double"/>
+                				<xs:attribute
+                					name="testwha2"
+                					type="xs:double"/>
+                				<xs:attributeGroup
+                					ref="te:agTwo"/>
+                			</xs:extension>
+                		</xs:complexContent>
+                	</xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:sequence>
+          </xs:sequence>
+          <xs:attribute
+            name="test1"
+            type="xs:double"/>
+          <xs:attribute
+            name="test2"
+            type="xs:double"/>
+          <xs:attributeGroup
+            ref="te:agFour"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
 
-	<xs:element
-		name="simpleElemA"
-		type="te:simpleA"/>
+  <xs:element
+    name="simpleElemA"
+    type="te:simpleA"/>
 
-	<xs:element
-		name="simpleElemB"
-		type="te:simpleB"/>
+  <xs:element
+    name="simpleElemB"
+    type="te:simpleB"/>
 
-	<xs:attributeGroup
-		name="agOne">
-		<xs:attribute
-			name="agOneAt"/>
-		<xs:attribute
-			name="agOneAtAt"/>
-	</xs:attributeGroup>
+  <xs:attributeGroup
+    name="agOne">
+    <xs:attribute
+      name="agOneAt"/>
+    <xs:attribute
+      name="agOneAtAt"/>
+  </xs:attributeGroup>
 
-	<xs:attributeGroup
-		name="agTwo">
-		<xs:attribute
-			name="agTwoAt"/>
-		<xs:attribute
-			name="agTwoAtAt"/>
-		<xs:attributeGroup
-			ref="te:agOne"/>
-	</xs:attributeGroup>
+  <xs:attributeGroup
+    name="agTwo">
+    <xs:attribute
+      name="agTwoAt"/>
+    <xs:attribute
+      name="agTwoAtAt"/>
+    <xs:attributeGroup
+      ref="te:agOne"/>
+  </xs:attributeGroup>
 
-	<xs:attributeGroup
-		name="agThree">
-		<xs:attribute
-			name="agThreeAt"/>
-		<xs:attribute
-			name="agThreeAtAt"/>
-		<xs:attributeGroup
-			ref="te:agTwo"/>
-	</xs:attributeGroup>
+  <xs:attributeGroup
+    name="agThree">
+    <xs:attribute
+      name="agThreeAt"/>
+    <xs:attribute
+      name="agThreeAtAt"/>
+    <xs:attributeGroup
+      ref="te:agTwo"/>
+  </xs:attributeGroup>
 
-	<xs:attributeGroup
-		name="agFour">
-		<xs:attribute
-			name="agFourAt"/>
-		<xs:attribute
-			name="agFourAtAt"/>
-		<xs:attributeGroup
-			ref="te:agThree"/>
-	</xs:attributeGroup>
+  <xs:attributeGroup
+    name="agFour">
+    <xs:attribute
+      name="agFourAt"/>
+    <xs:attribute
+      name="agFourAtAt"/>
+    <xs:attributeGroup
+      ref="te:agThree"/>
+  </xs:attributeGroup>
 
-	<xs:group
-		name="groupOne">
-		<xs:choice>
-			<xs:element
-				ref="te:elemC"/>
-			<xs:element
-				name="groupElementOne"
-				type="te:complexD"/>
-		</xs:choice>
-	</xs:group>
+  <xs:group
+    name="groupOne">
+    <xs:choice>
+      <xs:element
+        ref="te:elemC"/>
+      <xs:element
+        name="groupElementOne"
+        type="te:complexD"/>
+    </xs:choice>
+  </xs:group>
 
-	<xs:group
-		name="groupTwo">
-		<xs:choice>
-			<xs:group
-				ref="te:groupOne"/>
-			<xs:element
-				ref="te:simpleElemB"/>
-			<xs:element
-				name="groupElementTwo"
-				type="te:complexC"/>
-		</xs:choice>
-	</xs:group>
+  <xs:group
+    name="groupTwo">
+    <xs:choice>
+      <xs:group
+        ref="te:groupOne"/>
+      <xs:element
+        ref="te:simpleElemB"/>
+      <xs:element
+        name="groupElementTwo"
+        type="te:complexC"/>
+    </xs:choice>
+  </xs:group>
 
-	<xs:group
-		name="groupThree">
-		<xs:choice>
-			<xs:element
-				maxOccurs="100"
-				minOccurs="11"
-				ref="te:simpleElemA"/>
-			<xs:group
-				ref="te:groupTwo"/>
-			<xs:element
-				name="groupElementThree"
-				type="te:complexA"/>
-		</xs:choice>
-	</xs:group>
+  <xs:group
+    name="groupThree">
+    <xs:choice>
+      <xs:element
+        maxOccurs="100"
+        minOccurs="11"
+        ref="te:simpleElemA"/>
+      <xs:group
+        ref="te:groupTwo"/>
+      <xs:element
+        name="groupElementThree"
+        type="te:complexA"/>
+    </xs:choice>
+  </xs:group>
 
 </xs:schema>

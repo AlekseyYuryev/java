@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.safris.web.depiction;
@@ -25,72 +26,72 @@ import org.safris.web.depiction.Comment;
 
 public class Comment
 {
-	private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-	private static final Comparator dateComparator = new DateComparator();
-	private final Date date;
-	private final String submitter;
-	private final String text;
-	
-	public static String encode(Comment comment)
-	{
-		return comment.getDate().getTime() + " " + comment.getSubmitter() + ": " + comment.getText();
-	}
-	
-	public static Comment decode(String string)
-	{
-		int index3 = string.indexOf(' ');
-		Date date = new Date(new Long(string.substring(0, index3)));
-		int index4 = string.indexOf(": ");
-		String submitter = string.substring(index3 + 1, index4);
-		String text = string.substring(index4 + 2, string.length());
-		return new Comment(date, submitter, text);
-	}
-	
-	public Comment(Date date, String submitter, String text)
-	{
-		this.date = date;
-		this.submitter = submitter;
-		this.text = text;
-	}
-	
-	public Date getDate()
-	{
-		return date;
-	}
-	
-	public String getSubmitter()
-	{
-		return submitter;
-	}
-	
-	public String getText()
-	{
-		return text;
-	}
-	
-	public static List<Comment> sortByDate(List<Comment> list)
-	{
-		Comment[] comments = list.toArray(new Comment[list.size()]);
-		Arrays.sort(comments, dateComparator);
-		return Arrays.asList(comments);
-	}
-	
-	public String toString()
-	{
-		return dateFormat.format(date) + " " + submitter + ": " + text;
-	}
-	
-	static class DateComparator implements Comparator<Comment>
-	{
-		public int compare(Comment o1, Comment o2)
-		{
-			if(o1.getDate().before(o2.getDate()))
-				return -1;
-			
-			if(o1.getDate().after(o2.getDate()))
-				return 1;
-			
-			return 0;
-		}
-	}
+  private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+  private static final Comparator dateComparator = new DateComparator();
+  private final Date date;
+  private final String submitter;
+  private final String text;
+  
+  public static String encode(Comment comment)
+  {
+    return comment.getDate().getTime() + " " + comment.getSubmitter() + ": " + comment.getText();
+  }
+  
+  public static Comment decode(String string)
+  {
+    int index3 = string.indexOf(' ');
+    Date date = new Date(new Long(string.substring(0, index3)));
+    int index4 = string.indexOf(": ");
+    String submitter = string.substring(index3 + 1, index4);
+    String text = string.substring(index4 + 2, string.length());
+    return new Comment(date, submitter, text);
+  }
+  
+  public Comment(Date date, String submitter, String text)
+  {
+    this.date = date;
+    this.submitter = submitter;
+    this.text = text;
+  }
+  
+  public Date getDate()
+  {
+    return date;
+  }
+  
+  public String getSubmitter()
+  {
+    return submitter;
+  }
+  
+  public String getText()
+  {
+    return text;
+  }
+  
+  public static List<Comment> sortByDate(List<Comment> list)
+  {
+    Comment[] comments = list.toArray(new Comment[list.size()]);
+    Arrays.sort(comments, dateComparator);
+    return Arrays.asList(comments);
+  }
+  
+  public String toString()
+  {
+    return dateFormat.format(date) + " " + submitter + ": " + text;
+  }
+  
+  static class DateComparator implements Comparator<Comment>
+  {
+    public int compare(Comment o1, Comment o2)
+    {
+      if(o1.getDate().before(o2.getDate()))
+        return -1;
+      
+      if(o1.getDate().after(o2.getDate()))
+        return 1;
+      
+      return 0;
+    }
+  }
 }

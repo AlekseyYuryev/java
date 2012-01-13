@@ -1,16 +1,17 @@
-/*  Copyright 2010 Safris Technologies Inc.
+/*  Copyright Safris Software 2006
+ *  
+ *  This code is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.w3.x2001.xmlschema;
@@ -27,49 +28,49 @@ import org.w3c.dom.Element;
  * @see <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">Definition</a>
  */
 public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleType<T> {
-    public $xs_dateTime($xs_dateTime<T> binding) {
-        super(binding);
-    }
+  public $xs_dateTime($xs_dateTime<T> binding) {
+    super(binding);
+  }
 
-    public $xs_dateTime(DateTime value) {
-        super(value);
-    }
+  public $xs_dateTime(DateTime value) {
+    super(value);
+  }
 
-    /**
-     * Allocates a <code>Date</code> object and initializes it so that it
-     * represents the time at which it was allocated. Milliseconds are
-     * <b>NOT</b> significant figures and are not represented.
-     *
-     * @see java.lang.System#currentTimeMillis()
-     */
-    protected $xs_dateTime() {
-        super();
-    }
+  /**
+   * Allocates a <code>Date</code> object and initializes it so that it
+   * represents the time at which it was allocated. Milliseconds are
+   * <b>NOT</b> significant figures and are not represented.
+   *
+   * @see java.lang.System#currentTimeMillis()
+   */
+  protected $xs_dateTime() {
+    super();
+  }
 
-    protected DateTime getText() {
-        return (DateTime)super.getText();
-    }
+  protected DateTime getText() {
+    return (DateTime)super.getText();
+  }
 
-    protected void setText(DateTime text) {
-        super.setText(text);
-    }
+  protected void setText(DateTime text) {
+    super.setText(text);
+  }
 
-    protected void _$$decode(Element parent, String value) throws ParseException {
-        super.setText(DateTime.parseDateTime(value));
-    }
+  protected void _$$decode(Element parent, String value) throws ParseException {
+    super.setText(DateTime.parseDateTime(value));
+  }
 
-    protected String _$$encode(Element parent) throws MarshalException {
-        if (super.getText() == null)
-            return "";
+  protected String _$$encode(Element parent) throws MarshalException {
+    if (super.getText() == null)
+      return "";
 
-        return super.getText().toString();
-    }
+    return super.getText().toString();
+  }
 
-    public $xs_dateTime clone() {
-        return new $xs_dateTime(this) {
-            protected $xs_dateTime inherits() {
-                return this;
-            }
-        };
-    }
+  public $xs_dateTime clone() {
+    return new $xs_dateTime(this) {
+      protected $xs_dateTime inherits() {
+        return this;
+      }
+    };
+  }
 }
