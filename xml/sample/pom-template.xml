@@ -29,7 +29,7 @@
   <artifactId>sample</artifactId>
   <version>${dev:org.safris.xml.sample}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The samples of the XML Toolkit framework. This is where all sample code will reside.
   </description>

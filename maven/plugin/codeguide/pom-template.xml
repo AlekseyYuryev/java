@@ -28,7 +28,7 @@
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>codeguide</artifactId>
   <version>${dev:org.safris.maven.plugin.codeguide}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <packaging>maven-plugin</packaging>
   <description>
     Generates javaproj and sln files for the CodeGuide IDE.

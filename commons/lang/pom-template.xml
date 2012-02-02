@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>lang</artifactId>
   <version>${dev:org.safris.commons.lang}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Provides extra functionality for classes in the java.lang package.
   </description>

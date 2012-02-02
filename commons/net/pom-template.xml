@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>net</artifactId>
   <version>${dev:org.safris.commons.net}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The purpose of the library is to provide fundamental protocol access of many basic Internet protocols.
   </description>

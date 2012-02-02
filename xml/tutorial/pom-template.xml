@@ -29,7 +29,7 @@
   <artifactId>tutorial</artifactId>
   <version>${dev:org.safris.xml.tutorial}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The tutorial of the XML Toolkit framework. This is where all tutorial code will reside.
   </description>

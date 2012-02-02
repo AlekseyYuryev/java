@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,7 +22,7 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_language<T extends BindingType> extends $xs_token<T> {
+public abstract class $xs_language<T extends BindingType> extends $xs_anySimpleType<T> {
   public $xs_language($xs_language<T> binding) {
     super(binding);
   }
@@ -35,11 +35,11 @@ public abstract class $xs_language<T extends BindingType> extends $xs_token<T> {
     super();
   }
 
-  protected Language getText() {
+  public Language getText() {
     return (Language)super.getText();
   }
 
-  protected void setText(Language text) {
+  public void setText(Language text) {
     super.setText(text);
   }
 

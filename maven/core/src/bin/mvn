@@ -309,8 +309,7 @@ if [ $HELP ]; then
 fi
 
 if [ $DEPENDENCY_SCAN ]; then
-  PWD="`pwd`"
-  MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e 's/^[?A-Z]\s\{1,\}//' -e 's/\/src.*//' | xargs -L 1 echo $PWD~~~~ | sed -e 's/~~~~ /\//' -e 's/^.*trunk\///' -e 's/^/org.safris./' -e 's/\//./g' | xargs echo | sed 's/ /:\\\|/g'`
+  MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e \s/[^\ ]\ */org.safris./ -e 's/\/src\/.*//' -e 's/\//./g' | uniq | xargs echo | sed 's/ /\\\\|/g'`
   echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
   echo 'Key: MODULE_1 --> MODULE_2'
   $MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\{1,\}:[^:]\{1,\}\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '

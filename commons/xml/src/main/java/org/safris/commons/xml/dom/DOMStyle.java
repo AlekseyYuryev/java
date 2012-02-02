@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,7 +17,7 @@
 package org.safris.commons.xml.dom;
 
 public class DOMStyle {
-  protected static DOMStyle consolidate(DOMStyle ... options) {
+  protected static DOMStyle consolidate(final DOMStyle ... options) {
     if (options == null)
       return null;
 
@@ -34,18 +34,24 @@ public class DOMStyle {
     return consolidated;
   }
 
-  private static final int DEFAULT_MASK = 0x00;
-  private static final int INDENT_MASK = 0x01;
-  private static final int IGNORE_NAMESPACES_MASK = 0x10;
+  private static final int DEFAULT_MASK = 0x000;
+  private static final int INDENT_MASK = 0x001;
+  private static final int INDENT_ATTRS_MASK = 0x010;
+  private static final int IGNORE_NAMESPACES_MASK = 0x100;
 
   private static final DOMStyle DEFAULT = new DOMStyle(DEFAULT_MASK);
   public static final DOMStyle INDENT = new DOMStyle(INDENT_MASK);
+  public static final DOMStyle INDENT_ATTRS = new DOMStyle(INDENT_ATTRS_MASK);
   public static final DOMStyle IGNORE_NAMESPACES = new DOMStyle(IGNORE_NAMESPACES_MASK);
 
   private int mask = 0;
 
-  public DOMStyle(int mask) {
+  private DOMStyle(final int mask) {
     this.mask = mask;
+  }
+
+  protected boolean isIndentAttributes() {
+    return (mask & INDENT_ATTRS_MASK) == INDENT_ATTRS_MASK;
   }
 
   protected boolean isIndent() {
@@ -60,7 +66,7 @@ public class DOMStyle {
     return mask;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

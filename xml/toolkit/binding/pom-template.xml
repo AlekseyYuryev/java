@@ -28,7 +28,7 @@
   <groupId>org.safris.xml.toolkit</groupId>
   <artifactId>binding</artifactId>
   <version>${dev:org.safris.xml.toolkit.binding}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Binding is an application wrapper for the technology for accessing XML by binding the XSD of the XML to
     Java classes. But what makes XML Binding different from any other binding technology available

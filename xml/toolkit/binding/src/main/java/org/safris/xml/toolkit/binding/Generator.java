@@ -28,6 +28,7 @@ import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.Pipeline;
+import org.safris.commons.util.Resolver;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
@@ -105,7 +106,7 @@ public class Generator extends AbstractGenerator {
     this.schemas = schemas;
   }
 
-  public Generator(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver) {
+  public Generator(File basedir, Element bindingsElement, long lastModified, Resolver<String> resolver) {
     this.schemas = new HashSet<SchemaReference>();
     this.generatorContext = parseConfig(basedir, bindingsElement, lastModified, resolver);
   }
@@ -118,7 +119,7 @@ public class Generator extends AbstractGenerator {
     return schemas;
   }
 
-  public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, PropertyResolver resolver) {
+  public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, Resolver<String> resolver) {
     if (!"manifest".equals(bindingsElement.getNodeName()))
       throw new IllegalArgumentException("Invalid manifest element!");
 

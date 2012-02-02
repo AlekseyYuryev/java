@@ -33,10 +33,6 @@
       <buildAction>COMPILE</buildAction>
       <incPathSpec>src/main/java/org/safris/maven/cert/InstallCert.java</incPathSpec>
     </javaFile2>
-    <javaFile2>
-      <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/main/org/safris/maven/cert/CertMojo.java</incPathSpec>
-    </javaFile2>
   </includedFiles>
   <name>org.safris.maven.plugin:cert</name>
   <projectReferences>

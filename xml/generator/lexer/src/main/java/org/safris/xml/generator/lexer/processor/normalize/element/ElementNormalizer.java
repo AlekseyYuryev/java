@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -83,8 +83,9 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
         model.setSuperType(type);
       }
     }
-    else
+    else {
       throw new LexerError("element type not handled");
+    }
   }
 
   protected void stage3(ElementModel model) {
@@ -95,6 +96,14 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
     while ((parent = parent.getParent()) != null) {
       if (parent instanceof ElementableModel) {
         ((ElementableModel)parent).addMultiplicableModel(model);
+        break;
+      }
+    }
+
+    parent = model;
+    while ((parent = parent.getParent()) != null) {
+      if (parent instanceof ElementModel) {
+        ((ElementModel)parent).setExtension(true);
         break;
       }
     }

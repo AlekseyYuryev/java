@@ -29,7 +29,7 @@
   <artifactId>xml</artifactId>
   <version>${dev:org.safris.ant.task.xml}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The Builder module is to organize code used by build frameworks like Ant and Maven.
     Currently, only Ant tasks and Maven plugins have been implemented. Soon to come: an

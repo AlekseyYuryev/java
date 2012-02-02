@@ -29,7 +29,7 @@
   <artifactId>maven</artifactId>
   <version>${dev:org.safris.maven}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Maven artifacts.
   </description>

@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -145,8 +145,12 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
     return schemas;
   }
 
-  private static URL getSchemaLocation(URL baseURL, Element element) throws MalformedURLException {
+  private static URL getSchemaLocation(final URL baseURL, final Element element) throws MalformedURLException {
     final String basedir = baseURL.getFile().substring(0, baseURL.getFile().lastIndexOf('/') + 1);
-    return URLs.makeUrlFromPath(basedir, element.getAttribute("schemaLocation"));
+    final String schemaLocation = element.getAttribute("schemaLocation");
+    if (URLs.isAbsolute(schemaLocation))
+      return new URL(schemaLocation);
+
+    return URLs.makeUrlFromPath(basedir, schemaLocation);
   }
 }

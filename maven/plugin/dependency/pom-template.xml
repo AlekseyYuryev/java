@@ -28,7 +28,7 @@
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dependency</artifactId>
   <version>${dev:org.safris.maven.plugin.dependency}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <packaging>maven-plugin</packaging>
   <description>
     Provides the capability to introspect on dependencies of artifacts.

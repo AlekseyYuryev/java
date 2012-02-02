@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,9 +39,8 @@ import java.util.jar.JarFile;
  */
 public abstract class PackageLoader extends ClassLoader {
   private static final PackageLoader instance = new PackageLoader(){};
-  private static final FileFilter classFileFilter = new FileFilter()
-  {
-    public boolean accept(File pathname) {
+  private static final FileFilter classFileFilter = new FileFilter() {
+    public boolean accept(final File pathname) {
       return pathname.getName().endsWith(".class");
     }
   };
@@ -69,7 +68,7 @@ public abstract class PackageLoader extends ClassLoader {
    * @exception   PackageNotFoundException    Gets thrown for a package name
    * that cannot be found in any classpath resources.
    */
-  public Set<Class<?>> loadPackage(String name) throws PackageNotFoundException {
+  public Set<Class<?>> loadPackage(final String name) throws PackageNotFoundException {
     if (name == null || name.length() == 0)
       throw new PackageNotFoundException(name);
 

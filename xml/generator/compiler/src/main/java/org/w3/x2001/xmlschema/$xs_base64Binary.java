@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -35,11 +35,11 @@ public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySim
     super();
   }
 
-  protected Base64Binary getText() {
+  public Base64Binary getText() {
     return (Base64Binary)super.getText();
   }
 
-  protected void setText(Base64Binary text) {
+  public void setText(Base64Binary text) {
     super.setText(text);
   }
 

@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,16 +17,16 @@
 package org.safris.maven.plugin.xml.binding;
 
 import org.apache.maven.project.MavenProject;
-import org.safris.xml.toolkit.binding.PropertyResolver;
+import org.safris.commons.util.Resolver;
 
-public class MavenPropertyResolver implements PropertyResolver {
+public class MavenPropertyResolver implements Resolver<String> {
   private final MavenProject project;
 
-  public MavenPropertyResolver(MavenProject project) {
+  public MavenPropertyResolver(final MavenProject project) {
     this.project = project;
   }
 
-  public String resolve(String string) {
+  public String resolve(final String string) {
     if (string == null)
       return null;
 
@@ -45,7 +45,7 @@ public class MavenPropertyResolver implements PropertyResolver {
     return string.substring(0, start) + resolved + resolve(string.substring(end + 1, string.length()));
   }
 
-  private String getProperty(String string) {
+  private String getProperty(final String string) {
     if ("basedir".equals(string))
       return project.getBasedir().getAbsolutePath();
 

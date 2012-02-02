@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,7 +21,7 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_unsignedInt<T extends BindingType> extends $xs_unsignedLong<T> {
+public abstract class $xs_unsignedInt<T extends BindingType> extends $xs_nonNegativeInteger<T> {
   public $xs_unsignedInt($xs_unsignedInt<T> binding) {
     super(binding);
   }
@@ -38,11 +38,11 @@ public abstract class $xs_unsignedInt<T extends BindingType> extends $xs_unsigne
     super();
   }
 
-  protected Object getText() {
-    return super.getText();
+  public Integer getText() {
+    return (Integer)super.getText();
   }
 
-  protected void setText(Integer text) {
+  public void setText(Integer text) {
     super.setText(text);
   }
 

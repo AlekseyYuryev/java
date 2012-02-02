@@ -24,7 +24,7 @@ public class CertMojo extends AbstractMojo {
   private List<Repository> repositories;
 
   /**
-   * Scope to include. An Empty string indicates all scopes (default).
+   * Repositories used by the POB.
    */
   public List<Repository> getRepositories() {
     return repositories;
@@ -52,7 +52,7 @@ public class CertMojo extends AbstractMojo {
           System.exit(0);
         }
         catch (Exception e) {
-            throw new MojoExecutionException("Failure due to InstallCert", e);
+          throw new MojoExecutionException("Failure due to InstallCert", e);
         }
       }
     }

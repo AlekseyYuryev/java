@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -42,15 +42,13 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
  */
 public class JavaProjectMojo extends CodeGuideMojo {
   private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
-  private static final FileFilter resourceFileFilter = new FileFilter()
-  {
+  private static final FileFilter resourceFileFilter = new FileFilter() {
     public boolean accept(File pathname) {
       return !pathname.isDirectory() && !pathname.getAbsolutePath().contains(".svn");
     }
   };
 
-  private static final FileFilter sourceFileFilter = new FileFilter()
-  {
+  private static final FileFilter sourceFileFilter = new FileFilter() {
     public boolean accept(File pathname) {
       return pathname.getName().endsWith(".java");
     }

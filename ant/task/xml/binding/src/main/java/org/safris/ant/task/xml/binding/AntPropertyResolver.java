@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,16 +17,16 @@
 package org.safris.ant.task.xml.binding;
 
 import org.apache.tools.ant.Project;
-import org.safris.xml.toolkit.binding.PropertyResolver;
+import org.safris.commons.util.Resolver;
 
-public class AntPropertyResolver implements PropertyResolver {
+public class AntPropertyResolver implements Resolver<String> {
   private final Project project;
 
-  public AntPropertyResolver(Project project) {
+  public AntPropertyResolver(final Project project) {
     this.project = project;
   }
 
-  public String resolve(String string) {
+  public String resolve(final String string) {
     if (string == null)
       return null;
 

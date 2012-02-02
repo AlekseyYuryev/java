@@ -28,7 +28,7 @@
   <groupId>org.safris.xml.sample</groupId>
   <artifactId>binding</artifactId>
   <version>${dev:org.safris.xml.sample.binding}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>This module contains sample code of the XML Binding application that may be used by developers as a tutorial.</description>
   <build>
     <plugins>

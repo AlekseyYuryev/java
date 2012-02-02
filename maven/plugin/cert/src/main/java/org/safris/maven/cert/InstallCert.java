@@ -51,7 +51,6 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 public class InstallCert {
-
   public static void main(String[] args) throws Exception {
     String host;
     int port;

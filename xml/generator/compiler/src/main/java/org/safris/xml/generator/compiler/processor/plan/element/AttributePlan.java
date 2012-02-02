@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,7 +28,6 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.RestrictablePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
@@ -58,7 +57,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
   private boolean nested = false;
   private Form formDefault = null;
 
-  public AttributePlan(AttributeModel model, Plan parent) {
+  public AttributePlan(final AttributeModel model, final Plan parent) {
     super(model, parent);
     ref = (attribute = getModel()) != model;
     restriction = model.getRestrictionOwner() != null;
@@ -98,12 +97,12 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return fixed;
   }
 
-  public final String getDefaultInstance(Plan parent) {
+  public final String getDefaultInstance(final Plan parent) {
     if (getDefault() == null)
       return null;
 
     String _default = XSTypeDirectory.QNAME.getNativeBinding().getName().equals(getBaseXSItemTypeName()) ? getDefault().toString() : getDefault().getLocalPart();
-    if (hasEnumerations())
+    if (hasEnumerations() && (!(getSuperType() instanceof SimpleTypePlan) || !((SimpleTypePlan)getSuperType()).isUnion()))
       _default = getClassName(parent) + "." + EnumerationPlan.getDeclarationName(getDefault());
     else
       _default = "\"" + _default + "\"";
@@ -117,15 +116,15 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return defaultInstance;
   }
 
-  public final String getFixedInstanceCall(Plan parent) {
+  public final String getFixedInstanceCall(final Plan parent) {
     if (!fixed)
       return "";
 
     String defaultInstance = getDefaultInstance(parent);
     if (isRestriction())
       return "super.set" + getDeclarationRestrictionSimpleName() + "(" + defaultInstance + ");\n";
-    else
-      return "_$$setAttribute(" + getInstanceName() + ", this, " + defaultInstance + ");\n";
+
+    return "_$$setAttribute(" + getInstanceName() + ", this, " + defaultInstance + ");\n";
   }
 
   public final QName getDefault() {
@@ -148,33 +147,27 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return ref;
   }
 
-  public final String getThisClassNameWithType(Plan parent) {
+  public final String getThisClassNameWithType(final Plan parent) {
     if (thisClassNameWithType != null)
       return thisClassNameWithType;
 
-    final AliasModel model;
-    if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-      model = getModel().getSuperType();
-    else
-      model = getModel();
+    //if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    final AliasModel model = !getModel().isRestriction() ? getModel().getSuperType() : getModel();
 
     return AliasPlan.getClassName(getModel(), parent.getModel());
   }
 
-  public final String getThisClassNameWithTypeWithInconvertible(Plan parent) {
+  public final String getThisClassNameWithTypeWithInconvertible(final Plan parent) {
     if (thisClassNameWithType != null)
       return thisClassNameWithType;
 
-    final AliasModel model;
-    if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
-      model = getModel().getSuperType();
-    else
-      model = getModel();
+    //if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    final AliasModel model = !getModel().isRestriction() ? getModel().getSuperType() : getModel();
 
     return AliasPlan.getClassNameWithInconvertible(getModel(), parent.getModel());
   }
 
-  public final String getDeclarationRestrictionGeneric(Plan parent) {
+  public final String getDeclarationRestrictionGeneric(final Plan parent) {
     if (!isRestriction())
       return getThisClassNameWithTypeWithInconvertible(parent);
 
@@ -209,15 +202,14 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return superClassNameWithType;
   }
 
-  public final String getCopyClassName(Plan parent) {
+  public final String getCopyClassName(final Plan parent) {
     if (!getModel().getSuperType().getName().equals(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName()))
       return AliasPlan.getClassName(getModel().getSuperType(), null);
-    else {
-      if (getModel().getRef() != null && getModel().getRef().getName() != null)
-        return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
-      else
-        return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
-    }
+
+    if (getModel().getRef() != null && getModel().getRef().getName() != null)
+      return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
+
+    return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
   }
 
   public final boolean isNested() {

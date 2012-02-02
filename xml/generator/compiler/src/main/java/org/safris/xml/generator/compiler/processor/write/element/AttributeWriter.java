@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -18,6 +18,7 @@ package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
 import javax.xml.namespace.QName;
+import org.safris.xml.generator.compiler.annotation.AttributeSpec;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
@@ -58,6 +59,7 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
       writer.write("}\n");
     }
 
+    writer.write("@" + AttributeSpec.class.getName() + "(use=\"" + plan.getUse().getValue() + "\")\n");
     writer.write("public void set" + plan.getClassSimpleName() + "(" + plan.getThisClassNameWithType(parent) + " " + plan.getInstanceName() + ")\n");
     writer.write("{\n");
     if (plan.isRestriction())

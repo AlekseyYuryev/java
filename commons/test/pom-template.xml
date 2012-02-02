@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>test</artifactId>
   <version>${dev:org.safris.commons.test}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Wrappers for common test patterns.
   </description>

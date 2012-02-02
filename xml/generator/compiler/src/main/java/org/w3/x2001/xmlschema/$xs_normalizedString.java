@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,7 +26,7 @@ public abstract class $xs_normalizedString<T extends BindingType> extends $xs_st
     super(binding);
   }
 
-  public $xs_normalizedString(CharSequence value) {
+  public $xs_normalizedString(String value) {
     super(value);
   }
 
@@ -34,15 +34,15 @@ public abstract class $xs_normalizedString<T extends BindingType> extends $xs_st
     super();
   }
 
-  protected CharSequence getText() {
+  public String getText() {
     return super.getText();
   }
 
-  protected void setText(CharSequence text) {
+  public void setText(String text) {
     super.setText(text);
   }
 
-  protected void _$$decode(CharSequence element, CharSequence value) throws ParseException {
+  protected void _$$decode(String element, String value) throws ParseException {
     super.setText(value);
   }
 

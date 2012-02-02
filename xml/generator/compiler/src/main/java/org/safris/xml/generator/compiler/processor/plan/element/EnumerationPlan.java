@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,10 +27,15 @@ public class EnumerationPlan extends Plan<EnumerationModel> {
 
   public static String getDeclarationName(QName value) {
     String string = null;
-    if (47 < value.getLocalPart().charAt(0) && value.getLocalPart().charAt(0) < 58)
-      string = "_" + value.getLocalPart();
-    else
-      string = value.getLocalPart();
+    try {
+      if (47 < value.getLocalPart().charAt(0) && value.getLocalPart().charAt(0) < 58)
+        string = "_" + value.getLocalPart();
+      else
+        string = value.getLocalPart();
+    }
+    catch (Throwable e) {
+      e.printStackTrace();
+    }
 
     if (value.getPrefix() != null && value.getPrefix().toString().length() != 0)
       string = value.getPrefix() + "_" + string;

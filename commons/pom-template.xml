@@ -29,7 +29,7 @@
   <artifactId>commons</artifactId>
   <version>${dev:org.safris.commons}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Commons source.
   </description>

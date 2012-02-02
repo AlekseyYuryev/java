@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,7 +39,8 @@ public class ListNormalizer extends Normalizer<ListModel> {
   protected void stage2(ListModel model) {
     final Collection<SimpleTypeModel> itemTypes = model.getItemType();
     if (itemTypes == null || itemTypes.size() != 1)
-      throw new LexerError("This should not happen, right?!");
+      return;
+      //throw new LexerError("This should not happen, right?!"); // This happens in XMLSchema.xsd .. returning may not be a good idea, as UnionModel and ListModel have intricate relationship wrt the stages in the normalizers
 
     final SimpleTypeModel itemType = itemTypes.iterator().next();
     SimpleTypeModel type = itemType;
@@ -57,11 +58,14 @@ public class ListNormalizer extends Normalizer<ListModel> {
   }
 
   protected void stage3(ListModel model) {
+    // FIXME: This is done here because XMLSchema has a construct that does not comply with other situations I've seen
+    stage2(model);
   }
 
   protected void stage4(ListModel model) {
     if (model.getItemType() == null)
-      throw new LexerError("This cant happen.");
+      return;
+    // throw new LexerError("This can't happen."); // This happens in XMLSchema.xsd .. returning may not be a good idea, as UnionModel and ListModel have intricate relationship wrt the stages in the normalizers
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
@@ -74,6 +78,8 @@ public class ListNormalizer extends Normalizer<ListModel> {
   }
 
   protected void stage5(ListModel model) {
+    // FIXME: This is done here because XMLSchema has a construct that does not comply with other situations I've seen
+    stage4(model);
   }
 
   protected void stage6(ListModel model) {

@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -68,7 +68,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
   private int minOccurs = 1;
   private int maxOccurs = 1;
 
-  public ElementPlan(ElementModel model, Plan parent) {
+  public ElementPlan(final ElementModel model, final Plan parent) {
     super(model, parent);
     ref = (element = getModel()) != model;
     _abstract = model.getAbstract();
@@ -113,13 +113,10 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 
     nested = ref || !(element.getParent() instanceof SchemaModel);
 
-    if (!ref)
-      formDefault = element.getFormDefault();
-    else
-      formDefault = Form.QUALIFIED;
+    formDefault = !ref ? element.getFormDefault() : Form.QUALIFIED;
   }
 
-  private boolean isComplexType(SimpleTypeModel simpleType) {
+  private boolean isComplexType(final SimpleTypeModel simpleType) {
     return XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(simpleType.getName()) || (simpleType instanceof ComplexTypeModel && !isRestriction());
   }
 
@@ -149,7 +146,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return _abstract;
   }
 
-  public final void setMinOccurs(int minOccurs) {
+  public final void setMinOccurs(final int minOccurs) {
     this.minOccurs = minOccurs;
   }
 
@@ -165,7 +162,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return _default;
   }
 
-  public final String getDefaultInstance(Plan parent) {
+  public final String getDefaultInstance(final Plan parent) {
     if (getDefault() == null)
       return null;
 
@@ -186,7 +183,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return defaultInstance;
   }
 
-  private static boolean testNativeFactory(String nativeFactory, String defaultValue) {
+  private static boolean testNativeFactory(final String nativeFactory, final String defaultValue) {
     final int index = nativeFactory.lastIndexOf(".");
     final String nativeFactoryClass = nativeFactory.substring(0, index);
     final String nativeFactoryMethod = nativeFactory.substring(index + 1);
@@ -215,7 +212,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return super.getModel().getRef() != null ? super.getModel().getRef() : super.getModel();
   }
 
-  public final void getSuperClassNameWithoutType(String superClassNameWithoutType) {
+  public final void getSuperClassNameWithoutType(final String superClassNameWithoutType) {
     this.superClassNameWithoutType = superClassNameWithoutType;
   }
 
@@ -249,12 +246,13 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return typeName;
   }
 
-  public final String getDeclarationGeneric(Plan parent) {
+  public final String getDeclarationGeneric(final Plan parent) {
     if (declarationGeneric != null)
       return declarationGeneric;
 
     final AliasModel model;
-    if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    //if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    if (!getModel().isExtension() && !getModel().isRestriction())
       model = getModel().getSuperType();
     else
       model = getModel();
@@ -262,12 +260,13 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return AliasPlan.getClassName(model, parent.getModel());
   }
 
-  public final String getDeclarationGenericWithInconvertible(Plan parent) {
+  public final String getDeclarationGenericWithInconvertible(final Plan parent) {
     if (declarationGeneric != null)
       return declarationGeneric;
 
     final AliasModel model;
-    if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    //if (!UniqueQName.XS.getNamespaceURI().equals(getModel().getSuperType().getName().getNamespaceURI()))
+    if (!getModel().isExtension() && !getModel().isRestriction())
       model = getModel().getSuperType();
     else
       model = getModel();
@@ -275,7 +274,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return AliasPlan.getClassNameWithInconvertible(model, parent.getModel());
   }
 
-  public final String getDeclarationRestrictionGeneric(Plan parent) {
+  public final String getDeclarationRestrictionGeneric(final Plan parent) {
     if (!isRestriction())
       return getDeclarationGenericWithInconvertible(parent);
 
@@ -296,15 +295,14 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return superClassNameWithType;
   }
 
-  public final String getCopyClassName(Plan parent) {
+  public final String getCopyClassName(final Plan parent) {
     if (!getModel().getSuperType().getName().equals(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName()))
       return AliasPlan.getClassName(getModel().getSuperType(), null);
-    else {
-      if (getModel().getRef() != null && getModel().getRef().getName() != null)
-        return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
-      else
-        return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
-    }
+
+    if (getModel().getRef() != null && getModel().getRef().getName() != null)
+      return AliasPlan.getClassName(getModel().getRef(), parent != null ? parent.getModel() : null);
+
+    return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
   }
 
   public final boolean isNested() {

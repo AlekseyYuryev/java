@@ -28,7 +28,7 @@
   <groupId>org.safris.maven</groupId>
   <artifactId>core</artifactId>
   <version>${dev:org.safris.maven.core}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Maven core.
   </description>

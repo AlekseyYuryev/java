@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -36,7 +36,7 @@ public abstract class AbstractBinding implements Cloneable {
   private static final Map<QName,Class<? extends Binding>> elementBindings = new HashMap<QName,Class<? extends Binding>>();
   private static final Map<QName,Class<? extends Binding>> typeBindings = new HashMap<QName,Class<? extends Binding>>();
 
-  protected static void _$$registerSchemaLocation(String namespaceURI, Class className, String schemaReference) {
+  protected static void _$$registerSchemaLocation(final String namespaceURI, final Class className, final String schemaReference) {
     final String simpleName = className.getName().replace('.', '/') + ".class";
     final Resource resource = Resources.getResource(simpleName);
     if (resource == null)
@@ -51,7 +51,7 @@ public abstract class AbstractBinding implements Cloneable {
     }
   }
 
-  protected static void _$$registerElement(QName name, Class<? extends Binding> cls) {
+  protected static void _$$registerElement(final QName name, final Class<? extends Binding> cls) {
     elementBindings.put(name, cls);
   }
 
@@ -65,7 +65,7 @@ public abstract class AbstractBinding implements Cloneable {
     }
   }
 
-  protected static Class<? extends Binding> lookupElement(QName name) {
+  protected static Class<? extends Binding> lookupElement(final QName name) {
     final Class<? extends Binding> clazz = elementBindings.get(name);
     if (clazz != null)
       return clazz;
@@ -74,11 +74,11 @@ public abstract class AbstractBinding implements Cloneable {
     return elementBindings.get(name);
   }
 
-  protected static void _$$registerType(QName name, Class<? extends Binding> cls) {
+  protected static void _$$registerType(final QName name, final Class<? extends Binding> cls) {
     typeBindings.put(name, cls);
   }
 
-  protected static Class<? extends Binding> lookupType(QName name) {
+  protected static Class<? extends Binding> lookupType(final QName name) {
     final Class<? extends Binding> clazz = typeBindings.get(name);
     if (clazz != null)
       return clazz;
@@ -87,11 +87,11 @@ public abstract class AbstractBinding implements Cloneable {
     return typeBindings.get(name);
   }
 
-  protected static Object _$$getTEXT(Binding<SimpleType> binding) {
+  protected static Object _$$getTEXT(final Binding<SimpleType> binding) {
     return binding.getText();
   }
 
-  protected static QName stringToQName(java.lang.String name) {
+  protected static QName stringToQName(final java.lang.String name) {
     if (name == null || name.length() == 0)
       return null;
 
@@ -102,7 +102,7 @@ public abstract class AbstractBinding implements Cloneable {
     return new QName(name);
   }
 
-  protected static String parsePrefix(String name) {
+  protected static String parsePrefix(final String name) {
     if (name == null)
       return null;
 
@@ -113,7 +113,7 @@ public abstract class AbstractBinding implements Cloneable {
     return null;
   }
 
-  protected static String parseLocalName(String name) {
+  protected static String parseLocalName(final String name) {
     if (name == null)
       return null;
 

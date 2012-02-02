@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -19,7 +19,10 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 import java.util.HashMap;
 import java.util.Map;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.safris.xml.generator.lexer.processor.Nameable;
+import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
+import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
@@ -45,6 +48,13 @@ public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel> {
   }
 
   protected void stage2(ComplexTypeModel model) {
+    Model parent = model;
+    while ((parent = parent.getParent()) != null) {
+      if (parent instanceof ElementModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+        ((ElementModel)parent).setExtension(true);
+        break;
+      }
+    }
   }
 
   protected void stage3(ComplexTypeModel model) {

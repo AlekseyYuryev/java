@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -143,8 +143,7 @@ public abstract class Model implements PipelineEntity<Model> {
     int i = nodeValue.indexOf(":");
     if (i == -1) {
       Node xs = null;
-      do
-      {
+      do {
         if (parent.getAttributes() == null)
           return new QName(getTargetNamespace().toString(), nodeValue);
 
@@ -163,7 +162,7 @@ public abstract class Model implements PipelineEntity<Model> {
     }
 
     final String prefix = nodeValue.substring(0, i);
-    final NamespaceURI namespaceURI = NamespaceURI.getInstance(parent.lookupNamespaceURI(prefix));
+    final NamespaceURI namespaceURI = NamespaceURI.getInstance(NamespaceURI.lookupNamespaceURI(parent, prefix));
     return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
   }
 

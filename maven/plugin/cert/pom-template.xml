@@ -28,7 +28,7 @@
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>cert</artifactId>
   <version>${dev:org.safris.maven.plugin.cert}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <packaging>maven-plugin</packaging>
   <dependencies>
     <dependency>

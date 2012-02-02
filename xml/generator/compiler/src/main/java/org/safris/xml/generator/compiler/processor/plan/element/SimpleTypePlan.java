@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -40,7 +40,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 
 public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan {
-  private static SimpleTypeModel getGreatestCommonType(Collection<SimpleTypeModel> types, boolean includeEnums) {
+  private static SimpleTypeModel getGreatestCommonType(final Collection<SimpleTypeModel> types, final boolean includeEnums) {
     if (types == null || types.size() == 0)
       return null;
 
@@ -55,7 +55,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return gct;
   }
 
-  private static SimpleTypeModel getGreatestCommonType(SimpleTypeModel model1, SimpleTypeModel model2, boolean includeEnums) {
+  private static SimpleTypeModel getGreatestCommonType(final SimpleTypeModel model1, final SimpleTypeModel model2, final boolean includeEnums) {
     if (model1 == null || model2 == null)
       return null;
 
@@ -78,15 +78,13 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
 
     // Second try to see if we can match using the knowledge of type inheritance
     SimpleTypeModel type1 = model1;
-    do
-    {
+    do {
       name1 = type1.getName();
       if (name1 == null)
         name1 = NamedModel.getNameOfRestrictionBase(type1);
 
       SimpleTypeModel type2 = model2;
-      do
-      {
+      do {
         name2 = type2.getName();
         if (name2 == null)
           name2 = NamedModel.getNameOfRestrictionBase(type2);
@@ -101,7 +99,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return null;
   }
 
-  private static boolean digList(SimpleTypeModel model) {
+  private static boolean digList(final SimpleTypeModel model) {
     boolean list = model.isList();
     if (!list) {
       SimpleTypeModel type = model;
@@ -113,11 +111,10 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return list;
   }
 
-  private static SimpleTypeModel digBaseXSItemTypeName(SimpleTypeModel model, boolean includeEnums) {
+  private static SimpleTypeModel digBaseXSItemTypeName(final SimpleTypeModel model, final boolean includeEnums) {
     SimpleTypeModel itemType;
     SimpleTypeModel type = model;
-    do
-    {
+    do {
       itemType = getGreatestCommonType(type.getItemTypes(), includeEnums);
       if (itemType == null)
         continue;
@@ -126,7 +123,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       if (itemName == null)
         itemName = NamedModel.getNameOfRestrictionBase(itemType);
 
-      if (UniqueQName.XS.getNamespaceURI().equals(itemName.getNamespaceURI()))
+      if (XSTypeDirectory.parseType(itemName) != null)
         return itemType;
     }
     while((type = type.getSuperType()) != null);
@@ -134,12 +131,11 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return null;
   }
 
-  private static SimpleTypeModel digBaseNonXSType(SimpleTypeModel model) {
+  private static SimpleTypeModel digBaseNonXSType(final SimpleTypeModel model) {
     SimpleTypeModel type = model;
     SimpleTypeModel retval = null;
-    do
-    {
-      if (type.getName() != null && UniqueQName.XS.getNamespaceURI().equals(type.getName().getNamespaceURI()))
+    do {
+      if (type.getName() != null && XSTypeDirectory.parseType(type.getName()) != null)
         break;
 
       retval = type;
@@ -177,24 +173,29 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
   private boolean parsedSuperType = false;
   private NamedPlan superType = null;
 
-  private boolean isUnionWithNonEnumeration;
+  private boolean isUnion = false;
+  private boolean isUnionWithNonEnumeration = false;
 
-  private void digItemTypes(SimpleTypeModel baseNonXSType) {
+  private void digItemTypes(final SimpleTypeModel baseNonXSType) {
     SimpleTypeModel baseXSItemType = digBaseXSItemTypeName(getModel(), true);
     SimpleTypeModel baseXSNonEnumItemType = digBaseXSItemTypeName(getModel(), false);
 
     if (baseXSItemType != null)
       baseXSItemTypeName = getItemName(baseXSItemType);
-    else
+    else if (baseNonXSType != null && baseNonXSType.getSuperType() != null)
       baseXSItemTypeName = getItemName(baseNonXSType.getSuperType());
+    else if (XSTypeDirectory.parseType(getModel().getSuperType().getName()) != null)
+      baseXSItemTypeName = getModel().getSuperType().getName();
 
     if (baseXSNonEnumItemType != null)
       baseXSNonEnumItemTypeName = getItemName(baseXSNonEnumItemType);
-    else
+    else if (baseNonXSType != null && baseNonXSType.getSuperType() != null)
       baseXSNonEnumItemTypeName = getItemName(baseNonXSType.getSuperType());
+    else if (XSTypeDirectory.parseType(getModel().getSuperType().getName()) != null)
+      baseXSNonEnumItemTypeName = getModel().getSuperType().getName();
   }
 
-  private static UniqueQName getItemName(SimpleTypeModel model) {
+  private static UniqueQName getItemName(final SimpleTypeModel model) {
     UniqueQName name = model.getName();
     if (name == null)
       name = NamedModel.getNameOfRestrictionBase(model);
@@ -202,7 +203,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return name;
   }
 
-  public SimpleTypePlan(T model, Plan parent) {
+  public SimpleTypePlan(final T model, final Plan parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     if (model instanceof AnyableModel)
       return;
@@ -226,15 +227,17 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     if (baseXSItemTypeDirectory == null)
       throw new CompilerError("Should always be able to resolve the type for name: " + getName());
 
-    if (this.list = baseXSItemTypeDirectory.getNativeBinding().isList())
+    if (this.list = baseXSItemTypeDirectory.getNativeBinding().isList()) {
       nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getType().getName();
+    }
     else {
       this.list = digList(getModel());
       nativeItemClassName = baseXSItemTypeDirectory.getNativeBinding().getNativeClass().getCls().getName();
     }
 
-    if (this.list = baseXSNonEnumItemTypeDirectory.getNativeBinding().isList())
+    if (this.list = baseXSNonEnumItemTypeDirectory.getNativeBinding().isList()) {
       nativeNonEnumItemClassName = baseXSNonEnumItemTypeDirectory.getNativeBinding().getNativeClass().getType().getName();
+    }
     else {
       this.list = digList(getModel());
       nativeNonEnumItemClassName = baseXSNonEnumItemTypeDirectory.getNativeBinding().getNativeClass().getCls().getName();
@@ -255,11 +258,16 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       nativeNonEnumImplementation = nativeNonEnumItemClassName;
     }
 
+    if (getName().getLocalPart().equals("fullDerivationSet")) {
+      int i = 0;
+    }
+
     isUnionWithNonEnumeration = getSuperType() != null && ((SimpleTypePlan)getSuperType()).isUnionWithNonEnumeration();
     for (Model child : model.getChildren()) {
       if (!(child instanceof UnionModel))
         continue;
 
+      isUnion = true;
       for (SimpleTypeModel memberType : ((UnionModel)child).getMemberTypes()) {
         if (memberType.getEnumerations().size() != 0)
           continue;
@@ -268,6 +276,10 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
         break;
       }
     }
+  }
+
+  public boolean isUnion() {
+    return isUnion;
   }
 
   public boolean isUnionWithNonEnumeration() {

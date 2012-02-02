@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -81,6 +81,14 @@ public final class Files {
 
   public static void deleteAll(File pathname) throws IOException {
     deleteAll(pathname, anyFilter, false);
+  }
+
+  public static String getBasename(final File file) throws IOException {
+    if (file == null)
+      throw new IllegalArgumentException("file == null");
+
+    final String filename = file.getName();
+    return filename.substring(0, filename.lastIndexOf("."));
   }
 
   public static File getCwd() {

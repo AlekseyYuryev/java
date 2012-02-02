@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -24,6 +24,7 @@ import java.util.StringTokenizer;
 import javax.xml.namespace.QName;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
+import org.safris.xml.generator.compiler.annotation.ElementSpec;
 import org.safris.xml.generator.compiler.processor.plan.EnumerablePlan;
 import org.safris.xml.generator.compiler.processor.plan.ExtensiblePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
@@ -76,6 +77,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     if (plan.getRepeatedExtension() != null)
       return;
 
+    writer.write("@" + ElementSpec.class.getName() + "(minOccurs=" + plan.getMinOccurs() + ",maxOccurs=" + plan.getMaxOccurs() + ")\n");
     writer.write("public void add" + plan.getClassSimpleName() + "(" + plan.getDeclarationGeneric(parent) + " " + plan.getInstanceName() + ")\n");
     writer.write("{\n");
     if (plan.isRestriction())
@@ -248,7 +250,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             restrictionClassName = "RESTRICTION";
 
           if (plan.isList()) {
-
             writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
             writer.write("{\n");
             writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
@@ -303,13 +304,13 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
           }
         }
 
-//			  if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
-//			  {
-//				  writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
-//				  writer.write("{\n");
-//				  writer.write("super.setText(text);\n");
-//				  writer.write("}\n");
-//			  }
+//        if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+//        {
+//          writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+//          writer.write("{\n");
+//          writer.write("super.setText(text);\n");
+//          writer.write("}\n");
+//        }
 
         writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
         writer.write("{\n");
@@ -390,15 +391,15 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write("return super.elementIterator();\n");
       writer.write("}\n");
 
-//		  writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator()\n");
-//		  writer.write("{\n");
-//		  writer.write("return super.elementListIterator();\n");
-//		  writer.write("}\n");
+//      writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator()\n");
+//      writer.write("{\n");
+//      writer.write("return super.elementListIterator();\n");
+//      writer.write("}\n");
 
-//		  writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator(int index)\n");
-//		  writer.write("{\n");
-//		  writer.write("return super.elementListIterator(index);\n");
-//		  writer.write("}\n");
+//      writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator(int index)\n");
+//      writer.write("{\n");
+//      writer.write("return super.elementListIterator(index);\n");
+//      writer.write("}\n");
     }
 
     // MARSHAL
@@ -431,10 +432,10 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       for (AttributePlan attribute : plan.getAttributes())
         Writer.writeMarshal(writer, attribute, plan);
 
-//		  if(plan.getElements().size() != 0)
-//			  writer.write("_$$marshalElements(node);\n");
-//		  for(ElementPlan element : plan.getElements())
-//			  Writer.writeMarshal(writer, element, plan);
+//      if(plan.getElements().size() != 0)
+//        writer.write("_$$marshalElements(node);\n");
+//      for(ElementPlan element : plan.getElements())
+//        Writer.writeMarshal(writer, element, plan);
 
       writer.write("return node;\n");
       writer.write("}\n");
@@ -609,8 +610,8 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     writer.write("{\n");
     writer.write("int hashCode = super.hashCode();\n");
     writer.write("hashCode += NAME.hashCode();\n");
-//	  if(plan.getMixed() != null && plan.getMixed())
-//		  writer.write("hashCode += text != null ? text.hashCode() : -1;\n");
+//    if(plan.getMixed() != null && plan.getMixed())
+//      writer.write("hashCode += text != null ? text.hashCode() : -1;\n");
     for (AttributePlan attribute : plan.getAttributes())
       Writer.writeHashCode(writer, attribute, plan);
     for (ElementPlan element : plan.getElements())

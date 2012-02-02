@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -37,11 +37,11 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  protected List<String> getText() {
+  public List<String> getText() {
     return (List<String>)super.getText();
   }
 
-  protected void setText(List<String> text) {
+  public void setText(List<String> text) {
     super.setText(text);
   }
 

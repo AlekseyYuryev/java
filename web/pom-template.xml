@@ -29,7 +29,7 @@
   <artifactId>web</artifactId>
   <version>${dev:org.safris.web}</version>
   <packaging>pom</packaging>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Web projects.
   </description>

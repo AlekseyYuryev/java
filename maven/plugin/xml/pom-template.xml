@@ -28,7 +28,7 @@
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xml</artifactId>
   <version>${dev:org.safris.maven.plugin.xml}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <packaging>pom</packaging>
   <description>
     All xml related plugins.

@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,12 +31,12 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
+import org.safris.commons.util.Resolver;
 import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.toolkit.binding.Generator;
-import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Document;
@@ -45,7 +45,7 @@ import org.w3c.dom.Document;
  * @goal generate
  */
 public class GeneratorMojo extends AbstractMojo {
-  public static void main(String[] args) throws MojoFailureException {
+  public static void main(final String[] args) throws MojoFailureException {
     if (args.length != 1)
       usage();
 
@@ -61,8 +61,7 @@ public class GeneratorMojo extends AbstractMojo {
     System.exit(1);
   }
 
-  private static final FileFilter classesFilter = new FileFilter()
-  {
+  private static final FileFilter classesFilter = new FileFilter() {
     public boolean accept(File pathname) {
       final String name = pathname.getName();
       return name != null && !name.endsWith(".class") && !name.endsWith(".java");
@@ -90,8 +89,6 @@ public class GeneratorMojo extends AbstractMojo {
    */
   private Manifest manifest;
 
-  private PropertyResolver resolver = null;
-
   public void execute() throws MojoExecutionException, MojoFailureException {
     String href = null;
     boolean explodeJars = false;
@@ -99,9 +96,9 @@ public class GeneratorMojo extends AbstractMojo {
     if (project == null)
       throw new MojoFailureException("project == null");
 
+    final Resolver<String> resolver = new MavenPropertyResolver(project);
     final Build build = project.getBuild();
     if (build != null && build.getPlugins() != null) {
-      resolver = new MavenPropertyResolver(project);
       for (Plugin plugin : (List<Plugin>)build.getPlugins()) {
         if (!"binding".equals(plugin.getArtifactId()))
           continue;
@@ -122,14 +119,14 @@ public class GeneratorMojo extends AbstractMojo {
                 String attributeName = null;
                 final String[] names = link.getAttributeNames();
                 for (String name : names) {
-                    if (name.endsWith("href")) {
-                        attributeName = name;
-                        break;
-                    }
+                  if (name.endsWith("href")) {
+                    attributeName = name;
+                    break;
+                  }
                 }
 
                 if (attributeName == null)
-                    throw new MojoFailureException("There is an error in your manifest xml. Please consult the manifest.xsd for proper usage.");
+                  throw new MojoFailureException("There is an error in your manifest xml. Please consult the manifest.xsd for proper usage.");
 
                 href = link.getAttribute(attributeName);
                 break;
@@ -139,17 +136,17 @@ public class GeneratorMojo extends AbstractMojo {
                 String overwriteName = null;
                 final String[] names = link.getAttributeNames();
                 for (String name : names) {
-                    if (name.endsWith("explodeJars"))
-                        explodeJarsName = name;
-                    else if (name.endsWith("overwrite"))
-                        overwriteName = name;
+                  if (name.endsWith("explodeJars"))
+                    explodeJarsName = name;
+                  else if (name.endsWith("overwrite"))
+                    overwriteName = name;
                 }
 
                 if (explodeJarsName != null)
-                    explodeJars = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
+                  explodeJars = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
 
                 if (overwriteName != null)
-                    overwrite = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
+                  overwrite = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
 
                 break;
               }
@@ -228,7 +225,7 @@ public class GeneratorMojo extends AbstractMojo {
     addCompileSourceRoot(generator.getGeneratorContext().getDestDir().getAbsolutePath(), bundles);
   }
 
-  private void addCompileSourceRoot(String path, Collection<Bundle> bundles) throws MojoExecutionException {
+  private void addCompileSourceRoot(final String path, final Collection<Bundle> bundles) throws MojoExecutionException {
     if (bundles == null || path == null || project == null || !(project instanceof MavenProject))
       return;
 
@@ -237,17 +234,17 @@ public class GeneratorMojo extends AbstractMojo {
         for (String element : (List<String>)project.getTestClasspathElements()) {
           final File elementFile = new File(element);
           if (!elementFile.isFile()) {
-      elementFile.delete();
+            elementFile.delete();
             Zips.unzip(bundle.getFile(), elementFile, classesFilter);
-      }
+          }
         }
 
         for (String element : (List<String>)project.getCompileClasspathElements()) {
           final File elementFile = new File(element);
           if (!elementFile.isFile()) {
-      elementFile.delete();
+            elementFile.delete();
             Zips.unzip(bundle.getFile(), elementFile, classesFilter);
-      }
+          }
         }
       }
     }

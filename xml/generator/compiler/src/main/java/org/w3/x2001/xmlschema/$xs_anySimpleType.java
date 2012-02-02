@@ -30,17 +30,17 @@ import org.w3c.dom.Text;
 public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T> {
   private Object text = null;
 
-  private $xs_anySimpleType($xs_anySimpleType<T> binding) {
+  private $xs_anySimpleType(final $xs_anySimpleType<T> binding) {
     super(binding);
     this.text = binding.text;
   }
 
-  public $xs_anySimpleType(Object text) {
+  public $xs_anySimpleType(final Object text) {
     super();
     this.text = text;
   }
 
-  protected $xs_anySimpleType(String text) {
+  protected $xs_anySimpleType(final String text) {
     super();
     this.text = text;
   }
@@ -49,7 +49,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     super();
   }
 
-  protected void setText(Object text) {
+  protected void setText(final Object text) {
     this.text = text;
   }
 
@@ -57,11 +57,11 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     return text;
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     this.text = value;
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     // FIXME: Is it right to return "" for a null getText()?
     if (getText() == null)
       return "";
@@ -78,7 +78,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
 
   private transient Element parent = null;
 
-  protected Element marshal(Element parent, QName name, QName typeName) throws MarshalException {
+  protected Element marshal(final Element parent, final QName name, final QName typeName) throws MarshalException {
     this.parent = parent;
     final Element element = super.marshal(parent, name, typeName);
     if (text != null)
@@ -87,14 +87,14 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     return element;
   }
 
-  protected Attr marshalAttr(String name, Element parent) throws MarshalException {
+  protected Attr marshalAttr(final String name, final Element parent) throws MarshalException {
     this.parent = parent;
     final Attr attr = parent.getOwnerDocument().createAttribute(name);
     attr.setNodeValue(String.valueOf(_$$encode(parent)));
     return attr;
   }
 
-  protected void parseText(Text text) throws ParseException, ValidationException {
+  protected void parseText(final Text text) throws ParseException, ValidationException {
     // Ignore all attributes that have a xsi prefix because these are
     // controlled implicitly by the framework
     if (XSI_NIL.getPrefix().equals(text.getPrefix()))
@@ -126,7 +126,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     };
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

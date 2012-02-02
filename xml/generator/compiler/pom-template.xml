@@ -27,7 +27,7 @@
   <groupId>org.safris.xml.generator</groupId>
   <artifactId>compiler</artifactId>
   <version>${dev:org.safris.xml.generator.compiler}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The compiler module that performs the planning and writing mechanism of the Binding appilcation.
   </description>

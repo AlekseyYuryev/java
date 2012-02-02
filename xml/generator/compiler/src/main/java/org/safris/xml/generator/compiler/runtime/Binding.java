@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -162,8 +162,8 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
     if (classBinding == null) {
       if (namespaceURI != null)
         throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
-      else
-        throw new ParseException("Unable to find class binding for <" + localName + "/>");
+
+      throw new ParseException("Unable to find class binding for <" + localName + "/>");
     }
 
     return Binding._$$parseAttr(classBinding, element, node);
@@ -207,8 +207,8 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
         if (xsiBinding == null) {
           if (namespaceURI != null)
             throw new ParseException("Unable to find class binding for xsi:type <" + xsiTypeName + " xmlns=\"" + namespaceURI + "\">");
-          else
-            throw new ParseException("Unable to find class binding for xsi:type <" + xsiTypeName + "/>");
+
+          throw new ParseException("Unable to find class binding for xsi:type <" + xsiTypeName + "/>");
         }
 
         Method method = null;
@@ -227,8 +227,8 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
       if (binding == null) {
         if (namespaceURI != null)
           throw new ParseException("Unable to find class binding for <" + localName + " xmlns=\"" + namespaceURI + "\">");
-        else
-          throw new ParseException("Unable to find class binding for <" + localName + "/>");
+
+        throw new ParseException("Unable to find class binding for <" + localName + "/>");
       }
 
       Binding.parse(binding, node);

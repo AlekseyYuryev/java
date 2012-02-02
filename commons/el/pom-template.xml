@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>el</artifactId>
   <version>${dev:org.safris.commons.el}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     Expression Language tools.
   </description>

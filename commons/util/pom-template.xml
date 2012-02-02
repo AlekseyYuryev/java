@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>util</artifactId>
   <version>${dev:org.safris.commons.util}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     A utilities component that contains random utilities that are used by numerous modules.
   </description>

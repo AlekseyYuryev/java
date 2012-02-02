@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,16 +48,12 @@ public class PackageLoaderTest {
   @Test
   public void testPackageLoader() throws Exception {
     final String[] testClasses = new String[]{
-      "org.junit.experimental.results.ResultMatchers",
-      "org.junit.experimental.theories.internal.TheoryMethod",
-      "org.junit.experimental.theories.suppliers.TestedOnSupplier",
-      "org.junit.matchers.Each",
-      "org.junit.runners.Enclosed",
-      "org.junit.runners.Parameterized",
-      "org.junit.runners.Suite",
       "org.junit.PackageLoaderClass1",
       "org.junit.PackageLoaderClass2",
-      "org.junit.PackageLoaderClass3"
+      "org.junit.PackageLoaderClass3",
+      "org.junit.internal.matchers.Each",
+      "org.junit.runners.Suite",
+      "org.junit.runners.Parameterized"
     };
 
     for (String testClass : testClasses)

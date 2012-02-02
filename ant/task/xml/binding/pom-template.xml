@@ -28,7 +28,7 @@
   <groupId>org.safris.ant.task.xml</groupId>
   <artifactId>binding</artifactId>
   <version>${dev:org.safris.ant.task.xml.binding}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The Ant builder is an Ant task that can be used in a build.xml definition for the
     generation of classes bound to a particular XSD.

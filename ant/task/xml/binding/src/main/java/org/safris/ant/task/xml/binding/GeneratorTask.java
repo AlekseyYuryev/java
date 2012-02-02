@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,11 +27,11 @@ import org.apache.tools.ant.DynamicElement;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
+import org.safris.commons.util.Resolver;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.toolkit.binding.Generator;
-import org.safris.xml.toolkit.binding.PropertyResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -154,7 +154,7 @@ public class GeneratorTask extends Task implements DynamicElement {
   }
 
   public void execute() throws BuildException {
-    final PropertyResolver resolver = new AntPropertyResolver(getProject());
+    final Resolver<String> resolver = new AntPropertyResolver(getProject());
     final String buildLocation = getLocation().getFileName();
     final File buildFile = new File(buildLocation);
     if (!buildFile.exists())

@@ -28,7 +28,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>pipeline</artifactId>
   <version>${dev:org.safris.commons.pipeline}</version>
-  <name>${project.groupdId}.${project.artifactId}</name>
+  <name>${project.groupId}.${project.artifactId}</name>
   <description>
     An implementation of a strongly-typed pipeline of processes and entities.
   </description>
