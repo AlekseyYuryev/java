@@ -254,8 +254,9 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
   private Binding inherits;
   private $xs_anySimpleType<BindingType> owner;
 
-  protected Binding(Binding binding) {
+  protected Binding(final Binding<T> copy) {
     this();
+    merge(copy);
   }
 
   protected Binding() {
@@ -278,11 +279,16 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
       throw new IllegalArgumentException("Invalid inheritance hierarchy.");
   }
 
+  protected void merge(final Binding copy) {
+    this.elementDirectory = copy.elementDirectory.clone();
+    this.owner = owner;
+  }
+
   protected $xs_anySimpleType<BindingType> _$$getOwner() {
     return owner;
   }
 
-  protected void _$$setOwner($xs_anySimpleType<BindingType> owner) {
+  protected void _$$setOwner(final $xs_anySimpleType<BindingType> owner) {
     this.owner = owner;
   }
 
@@ -290,7 +296,7 @@ public abstract class Binding<T extends BindingType> extends AbstractBinding {
     return elementDirectory != null && elementDirectory.size() != 0;
   }
 
-  protected final void _$$marshalElements(Element parent) throws MarshalException {
+  protected final void _$$marshalElements(final Element parent) throws MarshalException {
     if (elementDirectory == null || elementDirectory.size() == 0)
       return;
 

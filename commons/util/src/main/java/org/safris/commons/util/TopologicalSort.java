@@ -23,6 +23,10 @@ import java.util.Set;
 
 public class TopologicalSort<T> {
   public static <T>List<T> sort(final Map<T,Set<T>> graph) {
+    for (Map.Entry<T,Set<T>> entry : graph.entrySet())
+      if (entry.getValue() != null)
+        entry.getValue().remove(entry.getKey());
+
     final List<T> sorted = new ArrayList<T>();
     while (true) {
       T key = null;

@@ -27,11 +27,19 @@
   <includedFiles>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/CreateDDLMojo.java</incPathSpec>
+      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/DDLTransformMojo.java</incPathSpec>
     </javaFile2>
     <javaFile2>
       <buildAction>COMPILE</buildAction>
-      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/CreateXSDMojo.java</incPathSpec>
+      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/JPABeanTransformMojo.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/XDLTransformerMojo.java</incPathSpec>
+    </javaFile2>
+    <javaFile2>
+      <buildAction>COMPILE</buildAction>
+      <incPathSpec>src/main/java/org/safris/maven/plugin/xdb/XSDTransformMojo.java</incPathSpec>
     </javaFile2>
   </includedFiles>
   <name>org.safris.maven.plugin:xdb</name>

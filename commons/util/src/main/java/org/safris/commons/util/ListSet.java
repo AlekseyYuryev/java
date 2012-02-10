@@ -32,7 +32,7 @@ public class ListSet<E> implements List<E>, Set<E> {
   private final Set<E> set;
   private final Map<E,Integer> map = new HashMap<E,Integer>();
 
-  public ListSet(final Class<? extends List<E>> listClass, final Class<? extends Set<E>> setClass, Collection<E> c) {
+  public ListSet(final Class<? extends List<E>> listClass, final Class<? extends Set<E>> setClass, final Collection<E> c) {
     this(listClass, setClass);
     addAll(c);
   }
@@ -250,7 +250,7 @@ public class ListSet<E> implements List<E>, Set<E> {
       return iterator.previousIndex();
     }
 
-    public void set(E e) {
+    public void set(final E e) {
       if (last == null)
         return;
 
@@ -261,7 +261,7 @@ public class ListSet<E> implements List<E>, Set<E> {
       last = null;
     }
 
-    public void add(E e) {
+    public void add(final E e) {
       throw new UnsupportedOperationException();
     }
   }

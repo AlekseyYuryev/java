@@ -24,28 +24,23 @@ import org.apache.maven.project.MavenProject;
 import org.safris.commons.util.Resolver;
 import org.safris.maven.plugin.xml.binding.Manifest;
 import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
-import org.safris.xdb.xdl.XSDCreator;
 
-/**
- * @goal xsd
- * @phase generate-resources
- */
-public class CreateXSDMojo extends AbstractMojo {
+public abstract class XDLTransformerMojo extends AbstractMojo {
   /**
    * @parameter default-value="${project}"
    * @required
    */
-  private MavenProject project = null;
+  protected MavenProject project = null;
 
   /**
    * @parameter default-value="${basedir}"
    */
-  private String basedir = null;
+  protected String basedir = null;
 
   /**
    * @parameter
    */
-  private Manifest manifest;
+  protected Manifest manifest;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     String href = null;
@@ -77,7 +72,9 @@ public class CreateXSDMojo extends AbstractMojo {
           throw new MojoExecutionException("Unable to create directory: " + outDirFile.getAbsolutePath());
       }
 
-      XSDCreator.createXSD(xdlFile, outDirFile);
+      transform(xdlFile, outDirFile);
     }
   }
+
+  public abstract void transform(final File xdlFile, final File outDir);
 }

@@ -27,11 +27,18 @@ public class AttributeAudit<T> {
   private final boolean required;
   private T value = null;
 
-  public AttributeAudit(T _default, QName name, boolean qualified, boolean required) {
+  public AttributeAudit(final T _default, final QName name, final boolean qualified, final boolean required) {
     this._default = _default;
     this.name = name;
     this.qualified = qualified;
     this.required = required;
+  }
+
+  public AttributeAudit(final AttributeAudit<T> copy) {
+    this._default = copy._default;
+    this.name = copy.name;
+    this.qualified = copy.qualified;
+    this.required = copy.required;
   }
 
   public T getDefault() {
@@ -50,7 +57,7 @@ public class AttributeAudit<T> {
     return required;
   }
 
-  public boolean setAttribute(T value) {
+  public boolean setAttribute(final T value) {
     this.value = value;
     return true;
   }
@@ -59,17 +66,10 @@ public class AttributeAudit<T> {
     return value != null ? value : getDefault();
   }
 
-  public void marshal(Element parent) throws MarshalException {
-    Object value = getAttribute();
-    if (value == null) {
-      if (getDefault() == null)
+  public void marshal(final Element parent) throws MarshalException {
+    final Object value = getAttribute();
+    if (value == null || value.equals(getDefault()))
         return;
-
-      if (!isRequired())
-        return;
-
-      value = getDefault();
-    }
 
     if (value instanceof Collection) {
       String name = null;
@@ -83,7 +83,7 @@ public class AttributeAudit<T> {
       for (Object object : (Collection)value) {
         Binding binding = (Binding)object;
         if (name == null) {
-          QName actualName = Binding._$$getName(binding);
+          final QName actualName = Binding._$$getName(binding);
           if (isQualified())
             name = Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart();
           else
@@ -98,7 +98,7 @@ public class AttributeAudit<T> {
       if (name == null)
         name = ((Binding)value)._$$getName();
 
-      String marshalName = null;
+      final String marshalName;
       if (isQualified())
         marshalName = Binding._$$getPrefix(parent, name) + ":" + name.getLocalPart();
       else
@@ -108,7 +108,11 @@ public class AttributeAudit<T> {
     }
   }
 
-  public boolean equals(Object obj) {
+  public AttributeAudit<T> clone() {
+    return new AttributeAudit<T>(this);
+  }
+
+  public boolean equals(final Object obj) {
     if (obj != null)
       return obj.equals(value);
 

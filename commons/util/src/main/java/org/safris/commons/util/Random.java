@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2009
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,7 +21,7 @@ public class Random {
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
 
-  private static String random(int length, char[] chars) {
+  private static String random(final int length, final char[] chars) {
     if (length <= 0)
       throw new IllegalArgumentException("length <= 0");
 
@@ -32,15 +32,15 @@ public class Random {
     return new String(random);
   }
 
-  public static String alpha(int length) {
+  public static String alpha(final int length) {
     return random(length, ALPHA);
   }
 
-  public static String numeric(int length) {
+  public static String numeric(final int length) {
     return random(length, NUMERIC);
   }
 
-  public static String alphaNumeric(int length) {
+  public static String alphaNumeric(final int length) {
     return random(length, ALPHA_NUMERIC);
   }
 }

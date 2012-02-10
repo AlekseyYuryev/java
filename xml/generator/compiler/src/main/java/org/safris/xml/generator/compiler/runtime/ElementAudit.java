@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -41,6 +41,18 @@ public final class ElementAudit<T extends Binding> {
     this.nillable = nillable;
     this.minOccurs = minOccurs;
     this.maxOccurs = maxOccurs;
+  }
+
+  public ElementAudit(final Binding parent, final ElementAudit<T> copy) {
+    this.parent = parent;
+    this._default = copy._default;
+    this.name = copy.name;
+    this.typeName = copy.typeName;
+    this.qualified = copy.qualified;
+    this.nillable = copy.nillable;
+    this.minOccurs = copy.minOccurs;
+    this.maxOccurs = copy.maxOccurs;
+    this.value = copy.value.clone(this);
   }
 
   protected Binding getParent() {
@@ -117,6 +129,10 @@ public final class ElementAudit<T extends Binding> {
       node.setPrefix(null);
 
     parent.appendChild(node);
+  }
+
+  public ElementAudit<T> clone(final Binding parent) {
+    return new ElementAudit<T>(parent, this);
   }
 
   public boolean equals(Object obj) {

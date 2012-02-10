@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,12 +16,19 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
+import java.io.StringReader;
+import org.safris.commons.xml.XMLException;
+import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public abstract class Bindings {
+  public static Binding clone(Binding<?> binding) throws XMLException {
+    return Bindings.parse(new InputSource(new StringReader(DOMs.domToString(binding.marshal()))));
+  }
+
   /**
    * Marshals a Binding instance to an Element object.
    *

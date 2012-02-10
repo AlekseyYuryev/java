@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,15 +17,21 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 final class CompositeElementStore {
   private final List<Binding> elements;
   private final List<ElementAudit<Binding>> elementAudits;
 
-  protected CompositeElementStore(int initialCapacity) {
+  protected CompositeElementStore(final int initialCapacity) {
     this.elements = new GeneralElementList<Binding>(this, initialCapacity);
     this.elementAudits = new ArrayList<ElementAudit<Binding>>(initialCapacity);
+  }
+
+  protected CompositeElementStore(final CompositeElementStore copy) {
+    this.elements = new GeneralElementList<Binding>(this);
+    this.elementAudits = new ArrayList<ElementAudit<Binding>>(copy.elementAudits);
   }
 
   protected CompositeElementStore() {
@@ -41,15 +47,15 @@ final class CompositeElementStore {
     return elements;
   }
 
-  protected Binding getElement(int index) {
+  protected Binding getElement(final int index) {
     return elements.get(index);
   }
 
-  protected ElementAudit<Binding> getElementAudits(int index) {
+  protected ElementAudit<Binding> getElementAudits(final int index) {
     return elementAudits.get(index);
   }
 
-  protected boolean add(Binding element, ElementAudit<Binding> elementAudit, boolean addToAudit) {
+  protected boolean add(final Binding element, final ElementAudit<Binding> elementAudit, final boolean addToAudit) {
     synchronized (elements) {
       if (!elements.add(element))
         throw new RuntimeBindingException("Addition of element should have modified the elements list!");
@@ -64,7 +70,7 @@ final class CompositeElementStore {
     return true;
   }
 
-  protected void addBefore(Binding before, Binding element, ElementAudit<Binding> elementAudit) {
+  protected void addBefore(final Binding before, final Binding element, final ElementAudit<Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(before);
       elements.add(index, element);
@@ -72,7 +78,7 @@ final class CompositeElementStore {
     }
   }
 
-  protected void addAfter(Binding after, Binding element, ElementAudit<Binding> elementAudit) {
+  protected void addAfter(final Binding after, final Binding element, final ElementAudit<Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(after);
       elements.add(index + 1, element);
@@ -80,7 +86,7 @@ final class CompositeElementStore {
     }
   }
 
-  protected void replace(Binding original, Binding element, ElementAudit<Binding> elementAudit) {
+  protected void replace(final Binding original, final Binding element, final ElementAudit<Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(original);
       elements.set(index, element);
@@ -88,7 +94,7 @@ final class CompositeElementStore {
     }
   }
 
-  protected boolean remove(Binding element) {
+  protected boolean remove(final Binding element) {
     synchronized (elements) {
       final int index = elements.indexOf(element);
       if (index < 0)
@@ -107,7 +113,7 @@ final class CompositeElementStore {
     return true;
   }
 
-  protected boolean remove(int index, Binding element) {
+  protected boolean remove(final int index, final Binding element) {
     synchronized (elements) {
       final ElementAudit elementAudit = elementAudits.remove(index);
       if (elementAudit != null)
@@ -124,7 +130,11 @@ final class CompositeElementStore {
     }
   }
 
-  public boolean equals(Object obj) {
+  public CompositeElementStore clone() {
+    return new CompositeElementStore(this);
+  }
+
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

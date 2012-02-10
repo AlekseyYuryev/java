@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,7 +20,7 @@ public final class Strings {
   private static final char[] alpha = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
   private static final char[] alphaNumeric = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-  private static String getRandomString(int length, boolean alphanumeric) {
+  private static String getRandomString(final int length, final boolean alphanumeric) {
     if (length < 0)
       throw new IllegalArgumentException("length = " + length);
 
@@ -40,7 +40,7 @@ public final class Strings {
     return new String(array);
   }
 
-  public static String getRandomAlphaNumericString(int length) {
+  public static String getRandomAlphaNumericString(final int length) {
     return getRandomString(length, true);
   }
 
@@ -48,7 +48,7 @@ public final class Strings {
     return getRandomString(length, false);
   }
 
-  private static String changeCase(String string, boolean upper, int beginIndex, int endIndex) {
+  private static String changeCase(final String string, final boolean upper, final int beginIndex, final int endIndex) {
     if (string == null || string.length() == 0)
       return string;
 
@@ -82,24 +82,97 @@ public final class Strings {
     return upper ? beginString + caseString.toUpperCase() + endString : beginString + caseString.toLowerCase() + endString;
   }
 
-  public static String toLowerCase(String string, int beginIndex, int endIndex) {
+  public static String toLowerCase(final String string, final int beginIndex, final int endIndex) {
     return changeCase(string, false, beginIndex, endIndex);
   }
 
-  public static String toLowerCase(String string, int beginIndex) {
+  public static String toLowerCase(final String string, final int beginIndex) {
     return changeCase(string, false, beginIndex, string.length());
   }
 
-  public static String toUpperCase(String string, int beginIndex, int endIndex) {
+  public static String toUpperCase(final String string, final int beginIndex, final int endIndex) {
     return changeCase(string, true, beginIndex, endIndex);
   }
 
-  public static String toUpperCase(String string, int beginIndex) {
+  public static String toUpperCase(final String string, final int beginIndex) {
     return changeCase(string, true, beginIndex, string.length());
   }
 
-  public static String getRandomString(int length) {
+  public static String getRandomString(final int length) {
     return getRandomString(length, false);
+  }
+
+  public static String toInstanceCase(String string) {
+    if (string == null)
+      return null;
+
+    if (string.length() == 1)
+      return string.toLowerCase();
+
+    string = toCamelCase(string);
+    int index = 0;
+    char[] chars = string.toCharArray();
+    for (int i = 0; i < chars.length; i++) {
+      index = i;
+      if (('0' <= chars[i] && chars[i] <= '9') || 'a' <= chars[i] && chars[i] <= 'z')
+        break;
+    }
+
+    if (index == 1)
+      return string.substring(0, 1).toLowerCase() + string.substring(1, string.length());
+
+    if (index == string.length() - 1)
+      return string.toLowerCase();
+
+    if (index > 1)
+      return string.substring(0, index - 1).toLowerCase() + string.substring(index - 1, string.length());
+
+    return string;
+  }
+
+  public static String toTitleCase(String string) {
+    if (string == null)
+      return null;
+
+    string = toCamelCase(string);
+
+    // make sure that the fully qualified names are not changed
+    if (string.indexOf(".") != -1)
+      return string;
+
+    return string.substring(0, 1).toUpperCase() + string.substring(1, string.length());
+  }
+
+  private static final String[] discardTokens = new String[]{"_", "-", ".", "/", "#", "@", "!", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", "\\", "|", "~", "`", ":", ";", "\"", "'", "<", ">", ",", ".", "?"};
+
+  public static String toCamelCase(String string) {
+    if (string == null)
+      return null;
+
+    int start = 0;
+    int end = 0;
+    for (String token : discardTokens) {
+      while (start < (end = string.indexOf(token, start))) {
+        if (end != -1)
+          string = string.substring(0, end) + string.substring(end + 1, end + 2).toUpperCase() + string.substring(end + 2, string.length());
+
+        start = end + 1;
+      }
+    }
+
+    return string;
+  }
+
+  public static String toClassCase(String string) {
+    if (string.length() == 0)
+      return string;
+
+    return Character.toUpperCase(string.charAt(0)) + toCamelCase(string).substring(1);
+  }
+
+  // FIXME: This means that there can be name collisions!
+  public static String toJavaCase(final String string) {
+    return string.replace('-', '_').replace('.', '_').replace("#", "");
   }
 
   private Strings() {

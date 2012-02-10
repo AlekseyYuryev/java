@@ -30,19 +30,17 @@ import org.w3c.dom.Text;
 public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T> {
   private Object text = null;
 
-  private $xs_anySimpleType(final $xs_anySimpleType<T> binding) {
-    super(binding);
-    this.text = binding.text;
+  private $xs_anySimpleType(final $xs_anySimpleType<T> copy) {
+    super(copy);
+    this.text = copy.text;
   }
 
   public $xs_anySimpleType(final Object text) {
     super();
-    this.text = text;
-  }
-
-  protected $xs_anySimpleType(final String text) {
-    super();
-    this.text = text;
+    if (text instanceof $xs_anySimpleType)
+      merge(($xs_anySimpleType)text);
+    else
+      this.text = text;
   }
 
   protected $xs_anySimpleType() {

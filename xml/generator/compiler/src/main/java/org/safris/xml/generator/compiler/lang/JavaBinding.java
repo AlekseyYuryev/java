@@ -16,9 +16,8 @@
 
 package org.safris.xml.generator.compiler.lang;
 
-import org.safris.commons.xml.PackageName;
+import org.safris.commons.lang.Strings;
 import org.safris.commons.xml.Prefix;
-import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.ReferableModel;
@@ -40,13 +39,16 @@ public final class JavaBinding {
 
     final Prefix prefix = JavaBinding.getPrefix(model);
     if (model instanceof AttributeModel)
-      return "_" + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart()) + ATTRIBUTE_SUFFIX;
-    else if (model instanceof ElementModel)
-      return "_" + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
-    else if (model instanceof NotationModel)
-      return "_" + prefix.toString() + "_" + NOTATION_MIDFIX + legalizeForJava(((NotationModel)model).getName().getLocalPart());
-    else if (model instanceof SimpleTypeModel)
-      return "_" + COMPLEXTYPE_PREFIX.toLowerCase() + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
+      return "_" + prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart()) + ATTRIBUTE_SUFFIX;
+
+    if (model instanceof ElementModel)
+      return "_" + prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart());
+
+    if (model instanceof NotationModel)
+      return "_" + prefix.toString() + "_" + NOTATION_MIDFIX + Strings.toJavaCase(((NotationModel)model).getName().getLocalPart());
+
+    if (model instanceof SimpleTypeModel)
+      return "_" + COMPLEXTYPE_PREFIX.toLowerCase() + prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart());
 
     throw new CompilerError("model is not instanceof {AttributeModel,ElementModel,NotationModel,SimpleTypeModel}");
   }
@@ -81,88 +83,19 @@ public final class JavaBinding {
 
     final Prefix prefix = JavaBinding.getPrefix(model);
     if (model instanceof AttributeModel)
-      return prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart()) + ATTRIBUTE_SUFFIX;
-    else if (model instanceof ElementModel)
-      return prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
-    else if (model instanceof NotationModel)
-      return prefix.toString() + "_" + NOTATION_MIDFIX + legalizeForJava(((NotationModel)model).getName().getLocalPart());
-    else if (model instanceof SimpleTypeModel)
-      return COMPLEXTYPE_PREFIX + prefix.toString() + "_" + legalizeForJava(((SimpleTypeModel)model).getName().getLocalPart());
+      return prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart()) + ATTRIBUTE_SUFFIX;
+
+    if (model instanceof ElementModel)
+      return prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart());
+
+    if (model instanceof NotationModel)
+      return prefix.toString() + "_" + NOTATION_MIDFIX + Strings.toJavaCase(((NotationModel)model).getName().getLocalPart());
+
+    if (model instanceof SimpleTypeModel)
+      return COMPLEXTYPE_PREFIX + prefix.toString() + "_" + Strings.toJavaCase(((SimpleTypeModel)model).getName().getLocalPart());
 
     throw new CompilerError("model is not instanceof {AttributeModel,ElementModel,NotationModel,SimpleTypeModel}");
   }
-
-//  protected static String toLowerCase(String string)
-//  {
-//      string = javaCase(string);
-//
-//      if(string.length() == 1)
-//          return string.toLowerCase();
-//
-//      int index = 0;
-//      char[] chars = string.toCharArray();
-//      for(int i = 0; i < chars.length; i++)
-//      {
-//          index = i;
-//          if(('0' <= chars[i] && chars[i] <= '9') || 'a' <= chars[i] && chars[i] <= 'z')
-//              break;
-//      }
-//
-//      if(index == 1)
-//          return string.substring(0, 1).toLowerCase() + string.substring(1, string.length());
-//      else if(index == string.length() - 1)
-//          return string.toLowerCase();
-//      else if(index > 1)
-//          return string.substring(0, index - 1).toLowerCase() + string.substring(index - 1, string.length());
-//      else
-//          return string;
-//  }
-//
-//  protected static String toTitleCase(String string)
-//  {
-//      if(string == null)
-//          return null;
-//
-//      string = javaCase(string);
-//
-//      // make sure that the fully qualified names are not changed
-//      if(string.indexOf(".") != -1)
-//          return string;
-//
-//      return string.substring(0, 1).toUpperCase() + string.substring(1, string.length());
-//  }
-
-  // FIXME: This means that there can be name collisions!
-  private static String legalizeForJava(String string) {
-    return string.replace('-', '_').replace('.', '_').replace("#", "");
-  }
-
-//  private static String javaCase(String string)
-//  {
-//      if(string == null)
-//          return null;
-//
-//      int start = 0;
-//      int end = 0;
-//      while(start < (end = string.indexOf("-", start)))
-//      {
-//          if(end != -1)
-//              string = string.substring(0, end) + string.substring(end + 1, end + 2).toUpperCase() + string.substring(end + 2, string.length());
-//
-//          start = end + 1;
-//      }
-//
-//      start = 0;
-//      while(start < (end = string.indexOf(".", start)))
-//      {
-//          if(end != -1)
-//              string = string.substring(0, end) + string.substring(end + 1, end + 2).toUpperCase() + string.substring(end + 2, string.length());
-//
-//          start = end + 1;
-//      }
-//
-//      return legalizeForJava(string);
-//  }
 
   private JavaBinding() {
   }
