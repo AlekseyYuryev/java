@@ -52,6 +52,9 @@ public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType
 
   protected String _$$encode(final Element parent) throws MarshalException {
     final QName value = (QName)super.getText();
+    if (value == null)
+      return "";
+
     if (parent != null && value.getNamespaceURI() != null)
       return _$$getPrefix(parent, value) + ":" + value.getLocalPart();
 
