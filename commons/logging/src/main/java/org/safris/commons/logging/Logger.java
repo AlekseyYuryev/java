@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
-public final class Logger {
+public final class Logger extends java.util.logging.Logger {
   public static final Logger global = new Logger(ConfigurableLogger.getLogger().global);
   private static final Map<String,Logger> instances = new HashMap<String,Logger>();
 
@@ -66,6 +66,7 @@ public final class Logger {
   private final java.util.logging.Logger logger;
 
   private Logger(java.util.logging.Logger logger) {
+    super(logger.getName(), logger.getResourceBundleName());
     this.logger = logger;
     reset(logger);
   }
