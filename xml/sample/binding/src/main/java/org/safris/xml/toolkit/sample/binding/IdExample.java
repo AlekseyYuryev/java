@@ -43,18 +43,18 @@ public class IdExample {
     id_directory directory = (id_directory)Bindings.parse(new InputSource(new FileInputStream(file)));
     List<$id_bookType<? extends ComplexType>> books = directory.get_book();
     for ($id_bookType<? extends ComplexType> book : books) {
-      String shortName = book.get_author().get(0).getText();
+      String shortName = book.get_author(0).getText();
       id_directory._author._id$ authorId = id_directory._author._id$.lookupId(shortName);
       id_directory._author author = (id_directory._author)authorId.owner();
-      System.out.print(author.get_name().get(0).getText() + " is the author of " + book.get_title().get(0).getText() + ".");
+      System.out.print(author.get_name(0).getText() + " is the author of " + book.get_title(0).getText() + ".");
       if (book.get_co_authors() != null) {
-        $xs_IDREFS co_authors = book.get_co_authors().get(0);
+        $xs_IDREFS co_authors = book.get_co_authors(0);
         if (co_authors.getText() != null) {
           StringBuffer buffer = new StringBuffer();
           for (Object co_authorHandle : co_authors.getText()) {
             id_directory._author._id$ co_authorId = id_directory._author._id$.lookupId((String)co_authorHandle);
             id_directory._author co_author = (id_directory._author)co_authorId.owner();
-            buffer.append(", ").append(co_author.get_name().get(0).getText());
+            buffer.append(", ").append(co_author.get_name(0).getText());
           }
 
           System.out.print(" " + buffer.substring(2));

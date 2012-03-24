@@ -161,11 +161,11 @@ public class JavaProjectWriter {
 
   private static _javaProject3._startingPoints._startingPoint createStartingPoint(_javaProject3._startingPoints._startingPoint startingPoint) {
     final _javaProject3._startingPoints._startingPoint point = new _javaProject3._startingPoints._startingPoint();
-    point.add_commandLineArguments(new _javaProject3._startingPoints._startingPoint._commandLineArguments(startingPoint.get_commandLineArguments().get(0).getText()));
-    point.add_name(new _javaProject3._startingPoints._startingPoint._name(startingPoint.get_name().get(0).getText()));
-    point.add_target(new _javaProject3._startingPoints._startingPoint._target(startingPoint.get_target().get(0).getText()));
-    point.add_vmOtherOptions(new _javaProject3._startingPoints._startingPoint._vmOtherOptions(startingPoint.get_vmOtherOptions().get(0).getText()));
-    point.add_workingDir(new _javaProject3._startingPoints._startingPoint._workingDir(startingPoint.get_workingDir().get(0).getText()));
+    point.add_commandLineArguments(new _javaProject3._startingPoints._startingPoint._commandLineArguments(startingPoint.get_commandLineArguments(0).getText()));
+    point.add_name(new _javaProject3._startingPoints._startingPoint._name(startingPoint.get_name(0).getText()));
+    point.add_target(new _javaProject3._startingPoints._startingPoint._target(startingPoint.get_target(0).getText()));
+    point.add_vmOtherOptions(new _javaProject3._startingPoints._startingPoint._vmOtherOptions(startingPoint.get_vmOtherOptions(0).getText()));
+    point.add_workingDir(new _javaProject3._startingPoints._startingPoint._workingDir(startingPoint.get_workingDir(0).getText()));
 
     return point;
   }

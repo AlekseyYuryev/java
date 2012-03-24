@@ -121,7 +121,7 @@ public class JavaProject {
                 if (javaprojXML.exists()) {
                     final _javaProject3 javaProject3 = (_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
                     if (javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
-                        this.startingPoints = javaProject3.get_startingPoints().get(0).get_startingPoint();
+                        this.startingPoints = javaProject3.get_startingPoints(0).get_startingPoint();
                 }
             }
             catch (Exception e) {

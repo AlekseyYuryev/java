@@ -40,7 +40,7 @@ public final class Expect {
   public static void start(InputStream in, OutputStream out, OutputStream err, final ExpectCallback callback, File scriptFile) throws Exception {
     final ex_script script = (ex_script)Bindings.parse(new InputSource(new FileInputStream(scriptFile)));
 
-    final $ex_processType<?> processType = script.get_process().get(0);
+    final $ex_processType<?> processType = script.get_process(0);
     final String exec = processType.get_exec$().getText().trim();
     final Map<String,String> variables = callback.process(exec);
     final Process process;
@@ -113,7 +113,7 @@ public final class Expect {
         firstTreeNode = treeNode;
     }
 
-    final List<$ex_processType<?>._tree._node> nodes = processType.get_tree().get(0).get_node();
+    final List<$ex_processType<?>._tree._node> nodes = processType.get_tree(0).get_node();
     for ($ex_processType<?>._tree._node node : nodes) {
       final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node.get_rule$().getText());
       final $ex_processType._tree._node._children$ children = node.get_children$();

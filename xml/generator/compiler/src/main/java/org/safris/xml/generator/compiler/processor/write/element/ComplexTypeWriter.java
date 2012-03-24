@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -174,6 +174,12 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
         writer.write("public " + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> getText()\n");
         writer.write("{\n");
         writer.write("return (" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + ">)super.getText();\n");
+        writer.write("}\n");
+
+        writer.write("public " + plan.getNativeItemClassNameInterface() + " getText(final int index)\n");
+        writer.write("{\n");
+        writer.write("final " + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> values = getText();\n");
+        writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
         writer.write("}\n");
 
         writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");

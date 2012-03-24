@@ -35,10 +35,10 @@ public class ListExample {
   }
 
   private static void printCommon($li_staffType<?> staffType) {
-    String name = staffType.get_name().get(0).getText();
+    String name = staffType.get_name(0).getText();
     System.out.println("Name: " + name);
 
-    List<String> workDays = staffType.get_workDays().get(0).getText();
+    List<String> workDays = staffType.get_workDays(0).getText();
     System.out.println("Work Days: " + name);
     for (String workDay : workDays)
       System.out.println("\t" + workDay);
@@ -54,14 +54,14 @@ public class ListExample {
 
     li_roster roster = (li_roster)Bindings.parse(new InputSource(new FileInputStream(file)));
     if (roster.get_employees() != null && roster.get_employees().size() != -1) {
-      List<$li_employeeType<?>> employees = roster.get_employees().get(0).get_employee();
+      List<$li_employeeType<?>> employees = roster.get_employees(0).get_employee();
       for ($li_employeeType<?> employee : employees) {
         printCommon(employee);
 
-        String position = employee.get_position().get(0).getText();
+        String position = employee.get_position(0).getText();
         System.out.println("Position: " + position);
 
-        List<Date> vacationDates = employee.get_vacationDates().get(0).getText();
+        List<Date> vacationDates = employee.get_vacationDates(0).getText();
         System.out.println("Vacation Dates:");
         for (Date vacationDate : vacationDates)
           System.out.println("\t" + vacationDate);
@@ -76,11 +76,11 @@ public class ListExample {
     }
 
     if (roster.get_volunteers() != null && roster.get_volunteers().size() != -1) {
-      List<$li_volunteerType<?>> volunteers = roster.get_volunteers().get(0).get_volunteer();
+      List<$li_volunteerType<?>> volunteers = roster.get_volunteers(0).get_volunteer();
       for ($li_volunteerType<?> volunteer : volunteers) {
         printCommon(volunteer);
 
-        List<Time> breakTimes = volunteer.get_breakTimes().get(0).getText();
+        List<Time> breakTimes = volunteer.get_breakTimes(0).getText();
         System.out.println("Break Times:");
         for (Time breakTime : breakTimes)
           System.out.println("\t" + breakTime);

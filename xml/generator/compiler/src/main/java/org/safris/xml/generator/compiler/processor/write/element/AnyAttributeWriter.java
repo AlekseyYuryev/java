@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -35,9 +35,15 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan> {
   }
 
   protected void appendGetMethod(StringWriter writer, AnyAttributePlan plan, Plan parent) {
-    writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<" + Attribute.class.getName() + ">> getANYATTR()\n");
+    writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<" + Attribute.class.getName() + ">> getAny$()\n");
     writer.write("{\n");
     writer.write("return anyAttribute.getAttribute();\n");
+    writer.write("}\n");
+
+    writer.write("public " + Binding.class.getName() + "<" + Attribute.class.getName() + "> getAny$(final int index)\n");
+    writer.write("{\n");
+    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + "> values = getAny$();\n");
+    writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
     writer.write("}\n");
   }
 

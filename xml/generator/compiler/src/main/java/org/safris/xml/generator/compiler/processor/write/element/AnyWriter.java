@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,10 +39,16 @@ public class AnyWriter extends ElementWriter<AnyPlan> {
 //      if(plan.getMaxOccurs() > 1)
     writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> getAny()\n");
 //      else
-//          writer.write("public " + Binding.class.getName() + " getANY()\n");
+//          writer.write("public " + Binding.class.getName() + " getAny()\n");
 
     writer.write("{\n");
     writer.write("return any.getElements();\n");
+    writer.write("}\n");
+
+    writer.write("public " + Binding.class.getName() + "<? extends " + BindingType.class.getName() + "> getAny(final int index)\n");
+    writer.write("{\n");
+    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> values = getAny();\n");
+    writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
     writer.write("}\n");
   }
 
@@ -50,7 +56,7 @@ public class AnyWriter extends ElementWriter<AnyPlan> {
 //      if(plan.getMaxOccurs() > 1)
     writer.write("public void addAny(" +  Binding.class.getName() + " any)\n");
 //      else
-//          writer.write("public void setANY(" +  Binding.class.getName() + " any)\n");
+//          writer.write("public void setAny(" +  Binding.class.getName() + " any)\n");
 
     writer.write("{\n");
 //      if(plan.getMaxOccurs() > 1)

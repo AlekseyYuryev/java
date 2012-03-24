@@ -47,15 +47,15 @@ public class SubstitutionGroupExample {
     for ($sg_productType<? extends ComplexType> product : products) {
       if (product instanceof sg_shirt) {
         sg_shirt shirt = (sg_shirt)product;
-        System.out.println("There are " + shirt.get_amount().get(0).getText() + " of '" + shirt.get_name().get(0).getText() + "' shirts colored " + shirt.get_color().get(0).getText() + ", size " + shirt.get_size().get(0).getText());
+        System.out.println("There are " + shirt.get_amount(0).getText() + " of '" + shirt.get_name(0).getText() + "' shirts colored " + shirt.get_color(0).getText() + ", size " + shirt.get_size(0).getText());
       }
       else if (product instanceof sg_hat) {
         sg_hat hat = (sg_hat)product;
-        System.out.println("There are " + hat.get_amount().get(0).getText() + " of '" + hat.get_name().get(0).getText() + "' hats, size " + hat.get_size().get(0).getText());
+        System.out.println("There are " + hat.get_amount(0).getText() + " of '" + hat.get_name(0).getText() + "' hats, size " + hat.get_size(0).getText());
       }
       else if (product instanceof sg_umbrella) {
         sg_umbrella umbrella = (sg_umbrella)product;
-        System.out.println("There are " + umbrella.get_amount().get(0).getText() + " of '" + umbrella.get_name().get(0).getText() + "' umbrellas");
+        System.out.println("There are " + umbrella.get_amount(0).getText() + " of '" + umbrella.get_name(0).getText() + "' umbrellas");
       }
     }
 

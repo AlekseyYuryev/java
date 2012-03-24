@@ -71,6 +71,12 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     else
       writer.write("return " + plan.getInstanceName() + ".getElements();\n");
     writer.write("}\n");
+
+    writer.write("public " + plan.getDeclarationRestrictionGeneric(parent) + " get" + plan.getClassSimpleName() + "(final int index)\n");
+    writer.write("{\n");
+    writer.write("final " + List.class.getName() + "<" + plan.getDeclarationRestrictionGeneric(parent) + "> values = get" + plan.getClassSimpleName() + "();\n");
+    writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
+    writer.write("}\n");
   }
 
   protected void appendSetMethod(StringWriter writer, T plan, Plan parent) {
@@ -319,6 +325,14 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
         else
           writer.write("return super.getText();\n");
         writer.write("}\n");
+
+        if (plan.isList()) {
+          writer.write("public " + plan.getNativeItemClassName() + " getText(final int index)\n");
+          writer.write("{\n");
+          writer.write("final " + List.class.getName() + "<" + plan.getNativeNonEnumItemClassName() + "> values = getText();\n");
+          writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
+          writer.write("}\n");
+        }
       }
       else if (plan.getMixed() != null && plan.getMixed()) {
         writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");

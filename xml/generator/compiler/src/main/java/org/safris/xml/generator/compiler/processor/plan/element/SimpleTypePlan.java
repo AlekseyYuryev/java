@@ -258,10 +258,6 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       nativeNonEnumImplementation = nativeNonEnumItemClassName;
     }
 
-    if (getName().getLocalPart().equals("fullDerivationSet")) {
-      int i = 0;
-    }
-
     isUnionWithNonEnumeration = getSuperType() != null && ((SimpleTypePlan)getSuperType()).isUnionWithNonEnumeration();
     for (Model child : model.getChildren()) {
       if (!(child instanceof UnionModel))

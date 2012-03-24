@@ -340,6 +340,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
         writer.write("return super.getText();\n");
       writer.write("}\n");
 
+      if (plan.isList()) {
+        writer.write("public " + plan.getNativeItemClassName() + " getText(final int index)\n");
+        writer.write("{\n");
+        writer.write("final " + plan.getNativeItemClassNameInterface() + " values = getText();\n");
+        writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
+        writer.write("}\n");
+      }
+
       if (plan.hasEnumerations()) {
         if (plan.isList()) {
           writer.write("public void setText(" + List.class.getName() + "<" + plan.getClassName(parent) + ".RESTRICTION> restriction)\n");
