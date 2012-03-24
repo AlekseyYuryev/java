@@ -571,6 +571,17 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       else
         writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.getText()).add(tokenizer.nextToken());\n");
       writer.write("}\n");
+
+      writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
+      writer.write("{\n");
+      writer.write("if(super.getText() == null || ((" + List.class.getName() + ")super.getText()).size() == 0)\n");
+      writer.write("return null;\n");
+      writer.write("String text = \"\";\n");
+      writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.getText())\n");
+      writer.write("if(temp != null)\n");
+      writer.write("text += \" \" + temp;\n");
+      writer.write("return text.substring(1);\n");
+      writer.write("}\n");
     }
 
     // CLONE
