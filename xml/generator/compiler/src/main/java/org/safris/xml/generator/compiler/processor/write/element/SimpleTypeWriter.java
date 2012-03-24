@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -381,7 +381,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
 
     // DECODE & ENCODE
     if (plan.isList()) {
-      writer.write("protected void _decode(" + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
+      writer.write("protected void _$$decode(" + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
       writer.write("{\n");
       writer.write("if(value == null || value.length() == 0)\n");
       writer.write("return;\n");
@@ -395,7 +395,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
       writer.write("((" + List.class.getName() + ")super.getText()).add(" + factoryEntry + ");\n");
       writer.write("}\n");
 
-      writer.write("protected " + String.class.getName() + " _encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
+      writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
       writer.write("if(super.getText() == null || ((" + List.class.getName() + ")super.getText()).size() == 0)\n");
       writer.write("return null;\n");

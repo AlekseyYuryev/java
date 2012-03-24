@@ -64,14 +64,10 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     if (getText() == null)
       return "";
 
-    if (!(getText() instanceof Collection))
-      return getText().toString();
+    if (getText() instanceof Collection)
+      throw new Error("Why is this a Collection?");
 
-    final StringBuffer stringBuffer = new StringBuffer();
-    for (Object obj : (Collection)getText())
-      stringBuffer.append(" ").append(obj.toString());
-
-    return stringBuffer.substring(1);
+    return getText().toString();
   }
 
   private transient Element parent = null;

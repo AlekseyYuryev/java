@@ -90,7 +90,7 @@ public class ListSet<E> implements List<E>, Set<E> {
   private boolean addAt(final int index, final E element) {
     final Integer exists = map.get(element);
     if (exists != null)
-      list.remove(exists);
+      list.remove(exists.intValue());
     else
       set.add(element);
 
@@ -111,7 +111,7 @@ public class ListSet<E> implements List<E>, Set<E> {
   public boolean remove(final Object o) {
     final boolean removed = set.remove(o);
     if (removed)
-      list.remove(map.remove(o));
+      list.remove(map.remove(o).intValue());
 
     return removed;
   }
@@ -142,7 +142,7 @@ public class ListSet<E> implements List<E>, Set<E> {
     for (Object obj : c) {
       index = map.remove(c);
       if (index != null) {
-        list.remove(index);
+        list.remove(index.intValue());
         set.remove(index);
       }
     }
