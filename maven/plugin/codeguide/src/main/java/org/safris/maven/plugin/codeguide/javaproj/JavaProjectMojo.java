@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.maven.artifact.Artifact;
@@ -125,11 +126,11 @@ public class JavaProjectMojo extends CodeGuideMojo {
     return resourceFiles;
   }
 
-  private Set<File> filterClasspathReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes) {
+  private LinkedHashSet<File> filterClasspathReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes) {
     if (dependencies == null)
       return null;
 
-    final Set<File> filteredDependencies = new HashSet<File>();
+    final LinkedHashSet<File> filteredDependencies = new LinkedHashSet<File>();
     if (excludes != null) {
       for (GroupArtifact dependency : dependencies)
         if (!excludes.contains(dependency))
@@ -143,7 +144,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     return filteredDependencies;
   }
 
-  private void addJarAndSourceDependency(Set<File> dependencies, GroupArtifact dependency) {
+  private void addJarAndSourceDependency(LinkedHashSet<File> dependencies, GroupArtifact dependency) {
     final File jarFile = DependencyMojo.getFile(dependency, getLocal(), getRepositoryPath());
     final File sourceFile = new File(jarFile.getAbsolutePath().replace(".jar", "-sources.jar"));
     // If the source file does not exist, try to download it
@@ -159,14 +160,15 @@ public class JavaProjectMojo extends CodeGuideMojo {
       }
     }
 
-    dependencies.add(jarFile);
     if (sourcesExist)
       dependencies.add(sourceFile);
+
+    dependencies.add(jarFile);
   }
 
   private void resolveDependencies(JavaProject project, StateManager stateManager) {
     // Filter the classpath reference by excluding the other projects
-    final Set<File> filteredDependencies = filterClasspathReferences(project.getDependencies(), stateManager.getGroupArtifacts());
+    final LinkedHashSet<File> filteredDependencies = filterClasspathReferences(project.getDependencies(), stateManager.getGroupArtifacts());
     project.setClasspathReferences(filteredDependencies);
 
     final Set<GroupArtifact> excludes = new HashSet<GroupArtifact>();
