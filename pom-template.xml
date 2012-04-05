@@ -358,14 +358,10 @@
         <version>RELEASE</version>
       </dependency>
       <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
+        <groupId>javax</groupId> 
+        <artifactId>javaee-api</artifactId> 
         <version>RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.ow2.easybeans.osgi</groupId>
-        <artifactId>easybeans-modules-persistence-eclipselink-1.x</artifactId>
-        <version>RELEASE</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>javax.validation</groupId>
