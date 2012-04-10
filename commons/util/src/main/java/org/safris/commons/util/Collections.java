@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,16 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 public final class Collections {
-  public static <K,V> boolean putUnmodifiableMap(Map<? super K,? super V> map, K key, V value) {
+  public static <K,V>boolean putUnmodifiableMap(final Map<? super K,? super V> map, final K key, final V value) {
     try {
       final Field mField = map.getClass().getDeclaredField("m");
       mField.setAccessible(true);
       final Map<? super K,? super V> m = (Map)mField.get(map);
       m.put(key, value);
       return true;
-    }
-    catch (RuntimeException e) {
-      return false;
     }
     catch (Exception e) {
       return false;
@@ -51,13 +48,14 @@ public final class Collections {
    *         list-iterator does not support the <tt>set</tt> operation.
    * @see java.util.Collections#sort(List)
    */
-  public static <T extends Comparable<? super T>> void sort(List<T> list) {
+  public static <T extends Comparable<? super T>>void sort(final List<T> list) {
     if (list.remove(null)) {
       java.util.Collections.<T>sort(list);
       list.add(0, null);
     }
-    else
+    else {
       java.util.Collections.<T>sort(list);
+    }
   }
 
   /**
@@ -76,14 +74,32 @@ public final class Collections {
    *         list-iterator does not support the <tt>set</tt> operation.
    * @see java.util.Collections#sort(List, Comparator)
    */
-  public static <T> void sort(List<T> list, Comparator<? super T> c) {
+  public static <T>void sort(final List<T> list, final Comparator<? super T> c) {
     if (list.remove(null)) {
       java.util.Collections.<T>sort(list, c);
       list.add(0, null);
     }
-    else
+    else {
       java.util.Collections.<T>sort(list, c);
+    }
+  }
 
+  /**
+   * Returns a mutable list containing the specified object.
+   *
+   * @param clazz the class type of the List.
+   * @param o the object to be stored in the returned list.
+   * @return a mutable list containing the specified object.
+   */
+  public static <T>List<T> singletonList(final Class<? extends List> clazz, final T o) {
+    try {
+      final List<T> list = clazz.newInstance();
+      list.add(o);
+      return list;
+    }
+    catch (Exception e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   private Collections() {
