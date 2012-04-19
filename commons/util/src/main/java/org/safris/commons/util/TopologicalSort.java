@@ -17,6 +17,9 @@
 package org.safris.commons.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,5 +49,32 @@ public class TopologicalSort<T> {
         if (value != null)
           value.remove(key);
     }
+  }
+
+  public static <T>List<T> sort(final Collection<T> set, final Rule<T> policy) {
+    final Map<Object,T> idToValue = new HashMap<Object,T>();
+    final Map<T,Set<T>> graph = new HashMap<T,Set<T>>();
+    for (T t : set)
+      idToValue.put(policy.getSelfId(t), t);
+
+    for (T t : set) {
+      final Set<Object> linkIds = policy.getLinkIds(t);
+      Set<T> dependents = graph.get(t);
+      if (dependents == null)
+        graph.put(t, dependents = new HashSet<T>());
+
+      for (Object linkId : linkIds) {
+        final T value = idToValue.get(linkId);
+        if (value != null)
+          dependents.add(value);
+      }
+    }
+
+    return sort(graph);
+  }
+
+  public static interface Rule<T> {
+    public Set<Object> getLinkIds(final T o);
+    public Object getSelfId(final T o);
   }
 }
