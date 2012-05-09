@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,6 +15,8 @@
  */
 
 package org.safris.commons.math;
+
+import java.math.BigInteger;
 
 public final class Functions {
   /**
@@ -1527,6 +1529,22 @@ public final class Functions {
 
     for (int i = 0; i < data.length; i++)
       data[i] = (data[i] - mean) / scale;
+  }
+
+  /**
+   * Calculate the binomial coefficient of the expression (n choose k)
+   *
+   * @param n Pool size
+   * @param k Selection size
+   *
+   * @return The binomial coefficient of (n choose k)
+   */
+  public static BigInteger binomial(final int n, final int k) {
+    BigInteger binomial = BigInteger.ONE;
+    for (int i = 0; i < k; i++)
+      binomial = binomial.multiply(BigInteger.valueOf(n - i)).divide(BigInteger.valueOf(i + 1));
+
+    return binomial;
   }
 
   private Functions() {
