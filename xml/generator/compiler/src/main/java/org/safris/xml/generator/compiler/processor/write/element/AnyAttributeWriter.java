@@ -42,7 +42,7 @@ public class AnyAttributeWriter extends Writer<AnyAttributePlan> {
 
     writer.write("public " + Binding.class.getName() + "<" + Attribute.class.getName() + "> getAny$(final int index)\n");
     writer.write("{\n");
-    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + "> values = getAny$();\n");
+    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "<" + Attribute.class.getName() + ">> values = getAny$();\n");
     writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
     writer.write("}\n");
   }

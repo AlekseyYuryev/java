@@ -21,7 +21,7 @@ import org.safris.xdb.xdl.DDLTransform;
 
 /**
  * @goal ddl
- * @phase generate-resources
+ * @phase generate-sources
  */
 public class DDLTransformMojo extends XDLTransformerMojo {
   public void transform(final File xdlFile, final File outDir) {
