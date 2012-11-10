@@ -17,11 +17,26 @@
 package org.safris.commons.util;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 public final class Collections {
+  public static String toString(final Collection<?> collection, String delimiter) {
+    if (collection == null)
+      return null;
+
+    if (delimiter == null)
+      delimiter = "";
+
+    final StringBuffer buffer = new StringBuffer();
+    for (final Object obj : collection)
+      buffer.append(delimiter).append(String.valueOf(obj));
+
+    return buffer.substring(delimiter.length());
+  }
+
   public static <K,V>boolean putUnmodifiableMap(final Map<? super K,? super V> map, final K key, final V value) {
     try {
       final Field mField = map.getClass().getDeclaredField("m");

@@ -192,6 +192,9 @@ public class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("super();\n");
     writer.write("}\n");
 
+    // DECODE & ENCODE
+    getEncodeDecode(writer, plan, parent);
+
     // INHERITS
     writer.write("protected " + plan.getClassSimpleName() + " inherits()\n");
     writer.write("{\n");

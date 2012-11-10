@@ -65,7 +65,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
       return "";
 
     if (getText() instanceof Collection)
-      throw new Error("Why is this a Collection?");
+      throw new Error("Why is this a Collection? The collection logic should be in the appropriate subclass.");
 
     return getText().toString();
   }

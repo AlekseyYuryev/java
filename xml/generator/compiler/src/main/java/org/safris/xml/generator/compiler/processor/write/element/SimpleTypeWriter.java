@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import javax.xml.namespace.QName;
+import org.safris.commons.util.Collections;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
@@ -214,6 +215,30 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
     }
   }
 
+  protected static void getEncodeDecode(StringWriter writer, SimpleTypePlan plan, Plan parent) {
+    // DECODE & ENCODE
+    if (plan.isList()) {
+      writer.write("protected void _$$decode(" + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
+      writer.write("{\n");
+      writer.write("if(value == null || value.length() == 0)\n");
+      writer.write("return;\n");
+      writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+      writer.write(StringTokenizer.class.getName() + " tokenizer = new " + StringTokenizer.class.getName() + "(value);\n");
+      writer.write("while(tokenizer.hasMoreTokens())\n");
+      String factoryEntry = "tokenizer.nextToken()";
+      if (plan.getNativeFactory() != null)
+        factoryEntry = plan.getNativeFactory() + "(" + factoryEntry + ")";
+
+      writer.write("((" + List.class.getName() + ")super.getText()).add(" + factoryEntry + ");\n");
+      writer.write("}\n");
+
+      writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
+      writer.write("{\n");
+      writer.write("return super.getText() != null && ((" + List.class.getName() + ")super.getText()).size() != 0 ? " + Collections.class.getName() + ".toString((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.getText(), \" \") : null;\n");
+      writer.write("}\n");
+    }
+  }
+
   protected void appendDeclaration(StringWriter writer, T plan, Plan parent) {
     throw new CompilerError("simpleType cannot have a declaration");
   }
@@ -273,7 +298,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
     if (plan.getName() == null)
       throw new CompilerError("Why are we trying to write a class that has no name?");
 
-  writer.write("package " + plan.getPackageName() + ";\n");
+    writer.write("package " + plan.getPackageName() + ";\n");
 
     writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
     writer.write("public abstract class " + plan.getClassSimpleName() + "<T extends " + BindingType.class.getName() + "> extends " + plan.getSuperClassNameWithType() + "\n");
@@ -388,32 +413,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
     }
 
     // DECODE & ENCODE
-    if (plan.isList()) {
-      writer.write("protected void _$$decode(" + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
-      writer.write("{\n");
-      writer.write("if(value == null || value.length() == 0)\n");
-      writer.write("return;\n");
-      writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-      writer.write(StringTokenizer.class.getName() + " tokenizer = new " + StringTokenizer.class.getName() + "(value);\n");
-      writer.write("while(tokenizer.hasMoreTokens())\n");
-      String factoryEntry = "tokenizer.nextToken()";
-      if (plan.getNativeFactory() != null)
-        factoryEntry = plan.getNativeFactory() + "(" + factoryEntry + ")";
-
-      writer.write("((" + List.class.getName() + ")super.getText()).add(" + factoryEntry + ");\n");
-      writer.write("}\n");
-
-      writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
-      writer.write("{\n");
-      writer.write("if(super.getText() == null || ((" + List.class.getName() + ")super.getText()).size() == 0)\n");
-      writer.write("return null;\n");
-      writer.write("String text = \"\";\n");
-      writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.getText())\n");
-      writer.write("if(temp != null)\n");
-      writer.write("text += \" \" + temp;\n");
-      writer.write("return text.substring(1);\n");
-      writer.write("}\n");
-    }
+    getEncodeDecode(writer, plan, parent);
 
     // INHERITS
     writer.write("protected abstract " + plan.getBaseNonXSTypeClassName() + " inherits();\n");

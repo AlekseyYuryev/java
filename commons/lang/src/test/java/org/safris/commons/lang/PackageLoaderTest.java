@@ -51,7 +51,6 @@ public class PackageLoaderTest {
       "org.junit.PackageLoaderClass1",
       "org.junit.PackageLoaderClass2",
       "org.junit.PackageLoaderClass3",
-      "org.junit.internal.matchers.Each",
       "org.junit.runners.Suite",
       "org.junit.runners.Parameterized"
     };
@@ -65,6 +64,7 @@ public class PackageLoaderTest {
       classNames.add(loadedClass.getName());
 
     for (String testClass : testClasses) {
+      System.out.println(testClass);
       assertTrue(classNames.contains(testClass));
       assertTrue(isClassLoaded(testClass));
     }
