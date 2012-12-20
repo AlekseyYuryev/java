@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -55,7 +55,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
       javaSources.add(javaFile);
     }
 
-    Collection<File> classpath = new ArrayList<File>(2);
+    final Collection<File> classpath = new ArrayList<File>(2);
     final File bindingLocationBase = Resources.getLocationBase(Binding.class);
     if (bindingLocationBase != null)
       classpath.add(bindingLocationBase);

@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2006
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -34,7 +34,7 @@ public final class JavaCompiler {
   private final File destDir;
   private final Jar destJar;
 
-  public JavaCompiler(File destDir, Collection<File> classpath) {
+  public JavaCompiler(final File destDir, final Collection<File> classpath) {
     this.classpathFiles = classpath;
     if (destDir == null)
       throw new IllegalArgumentException("dir cannot be null");
@@ -46,7 +46,7 @@ public final class JavaCompiler {
     this.destJar = null;
   }
 
-  public JavaCompiler(Jar destJar, Collection<File> classpath) {
+  public JavaCompiler(final Jar destJar, final Collection<File> classpath) {
     this.classpathFiles = classpath;
     this.destDir = null;
     if (destJar == null)
@@ -58,14 +58,14 @@ public final class JavaCompiler {
     this.destJar = destJar;
   }
 
-  public void compile(Collection<File> javaSources) throws Exception {
+  public void compile(final Collection<File> javaSources) throws Exception {
     if (destDir != null)
       toDir(destDir, javaSources);
     else
       toJar(destJar, javaSources);
   }
 
-  private void toJar(Jar destJar, Collection<File> javaSources) throws Exception {
+  private void toJar(final Jar destJar, final Collection<File> javaSources) throws Exception {
     if (javaSources == null || javaSources.size() == 0)
       return;
 
@@ -96,7 +96,7 @@ public final class JavaCompiler {
     }
   }
 
-  private void toDir(File destDir, Collection<File> javaSources) throws Exception {
+  private void toDir(final File destDir, final Collection<File> javaSources) throws Exception {
     if (javaSources == null || javaSources.size() == 0)
       return;
 
