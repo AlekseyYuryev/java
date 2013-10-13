@@ -1,10 +1,10 @@
 /*  Copyright Safris Software 2008
- *  
+ *
  *  This code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,6 +17,23 @@
 package org.safris.commons.lang;
 
 public final class Numbers {
+  public static int pow(int base, int exp) {
+    int result = 1;
+    while (exp != 0) {
+      if ((exp & 1) != 0)
+        result *= base;
+
+      exp >>= 1;
+      base *= base;
+    }
+
+    return result;
+  }
+
+  public static int rotateBits(final int value, final int sizeof, final int distance) {
+    return (distance == 0 ? value : (distance < 0 ? value << -distance | value >> (sizeof + distance) : value >> distance | value << (sizeof - distance))) & (pow(2, sizeof) - 1);
+  }
+
   public static boolean isNumber(String s) {
     if (s == null || (s = s.trim()).length() == 0)
       return false;
@@ -57,7 +74,7 @@ public final class Numbers {
     return true;
   }
 
-  public static String roundInsignificant(String value) {
+  public static String roundInsignificant(final String value) {
     if (value == null)
       return null;
 
