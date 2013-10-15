@@ -579,4 +579,12 @@ public class CallableStatementProxy extends PreparedStatementProxy implements Ca
   public void setNClob(String parameterName, Reader reader) throws SQLException {
     getStatement().setNClob(parameterName, reader);
   }
+
+  public <T>T getObject(int parameterIndex, Class<T> type) throws SQLException {
+    return getStatement().getObject(parameterIndex, type);
+  }
+
+  public <T>T getObject(String parameterName, Class<T> type) throws SQLException {
+    return getStatement().getObject(parameterName, type);
+  }
 }

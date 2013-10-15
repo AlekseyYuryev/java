@@ -35,6 +35,7 @@ import java.sql.Struct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 public final class ConnectionProxy implements Connection {
   public static Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
@@ -141,11 +142,11 @@ public final class ConnectionProxy implements Connection {
     return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
   }
 
-  public Map<String, Class<?>> getTypeMap() throws SQLException {
+  public Map<String,Class<?>> getTypeMap() throws SQLException {
     return connection.getTypeMap();
   }
 
-  public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+  public void setTypeMap(Map<String,Class<?>> map) throws SQLException {
     connection.setTypeMap(map);
   }
 
@@ -241,11 +242,31 @@ public final class ConnectionProxy implements Connection {
     return connection.createStruct(typeName, attributes);
   }
 
-  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(Class<T> iface) throws SQLException {
     return connection.unwrap(iface);
   }
 
   public boolean isWrapperFor(Class<?> iface) throws SQLException {
     return connection.isWrapperFor(iface);
+  }
+
+  public void setSchema(String schema) throws SQLException {
+    connection.setSchema(schema);
+  }
+
+  public String getSchema() throws SQLException {
+    return connection.getSchema();
+  }
+
+  public void abort(Executor executor) throws SQLException {
+    connection.abort(executor);
+  }
+
+  public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+    connection.setNetworkTimeout(executor, milliseconds);
+  }
+
+  public int getNetworkTimeout() throws SQLException {
+    return connection.getNetworkTimeout();
   }
 }

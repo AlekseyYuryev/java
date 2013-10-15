@@ -994,11 +994,19 @@ public class ResultSetProxy implements ResultSet {
     resultSet.updateNClob(columnLabel, reader);
   }
 
-  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(Class<T> iface) throws SQLException {
     return resultSet.unwrap(iface);
   }
 
   public boolean isWrapperFor(Class<?> iface) throws SQLException {
     return resultSet.isWrapperFor(iface);
+  }
+
+  public <T>T getObject(int columnIndex, Class<T> type) throws SQLException {
+    return resultSet.getObject(columnIndex, type);
+  }
+
+  public <T>T getObject(String columnLabel, Class<T> type) throws SQLException {
+    return resultSet.getObject(columnLabel, type);
   }
 }

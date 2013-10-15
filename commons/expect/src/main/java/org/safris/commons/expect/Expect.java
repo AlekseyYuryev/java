@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
 import org.safris.commons.el.ELs;
 import org.safris.commons.el.ExpressionFormatException;
 import org.safris.commons.exec.Processes;
@@ -113,8 +114,8 @@ public final class Expect {
         firstTreeNode = treeNode;
     }
 
-    final List<$ex_processType<?>._tree._node> nodes = processType.get_tree(0).get_node();
-    for ($ex_processType<?>._tree._node node : nodes) {
+    final List<$ex_processType._tree._node> nodes = processType.get_tree(0).get_node();
+    for ($ex_processType._tree._node node : nodes) {
       final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node.get_rule$().getText());
       final $ex_processType._tree._node._children$ children = node.get_children$();
       if (children == null)

@@ -23,6 +23,7 @@ import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.logging.Level;
+
 import org.safris.commons.logging.Logger;
 
 public class StatementProxy implements Statement {
@@ -288,11 +289,19 @@ public class StatementProxy implements Statement {
     return statement.isPoolable();
   }
 
-  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(Class<T> iface) throws SQLException {
     return statement.unwrap(iface);
   }
 
   public boolean isWrapperFor(Class<?> iface) throws SQLException {
     return statement.isWrapperFor(iface);
+  }
+
+  public void closeOnCompletion() throws SQLException {
+    statement.closeOnCompletion();
+  }
+
+  public boolean isCloseOnCompletion() throws SQLException {
+    return statement.isCloseOnCompletion();
   }
 }
