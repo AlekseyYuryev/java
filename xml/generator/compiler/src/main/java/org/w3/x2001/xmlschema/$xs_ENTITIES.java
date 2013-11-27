@@ -60,7 +60,7 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
       return null;
 
     String value = "";
-    for (String temp : (List<String>)super.getText())
+    for (final String temp : (List<String>)super.getText())
       value += " " + temp;
 
     return value.substring(1);

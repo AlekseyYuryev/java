@@ -185,7 +185,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
 
     // handle all attributes
     final Collection<AttributeModel> restrictionAttributes = findChildAttributes(model.getChildren());
-    for (AttributeModel restrictionAttribute : restrictionAttributes) {
+    for (final AttributeModel restrictionAttribute : restrictionAttributes) {
       final RestrictionPair<AttributeModel> baseAttributePair = findBaseAttribute(restrictionAttribute.getName(), model.getBase());
       if (baseAttributePair == null)
         throw new LexerError("we should have found an attribute we're restricting! what's goin on?");
@@ -197,7 +197,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     // find all elements declared in this restriction
     final Collection<ElementModel> restrictionElements = new ArrayList<ElementModel>();
     findChildElements(restrictionElements, model.getChildren());
-    for (ElementModel restrictionElement : restrictionElements) {
+    for (final ElementModel restrictionElement : restrictionElements) {
       final RestrictionPair<ElementModel> baseElementPair = findBaseElement(restrictionElement.getName(), model.getBase());
       if (baseElementPair == null)
         throw new LexerError("we should have found an element we're restricting! what's goin on?");
@@ -212,7 +212,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
 
   private static Collection<AttributeModel> findChildAttributes(Collection<Model> children) {
     Collection<AttributeModel> attributes = new ArrayList<AttributeModel>();
-    for (Model model : children)
+    for (final Model model : children)
       if (model instanceof AttributeModel)
         attributes.add((AttributeModel)model);
 
@@ -225,7 +225,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
 
     // FIXME: Can I equate on just the localPart of the QName???
     if (typeModel instanceof ComplexTypeModel)
-      for (AttributeModel attribute : ((AttributableModel)typeModel).getAttributes())
+      for (final AttributeModel attribute : ((AttributableModel)typeModel).getAttributes())
         if (name.getLocalPart().equals(attribute.getName().getLocalPart()))
           return new RestrictionPair<AttributeModel>(attribute, typeModel);
 
@@ -233,7 +233,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
   }
 
   private static void findChildElements(Collection<ElementModel> elements, Collection<Model> children) {
-    for (Model model : children) {
+    for (final Model model : children) {
       if (model instanceof ElementModel) {
         elements.add((ElementModel)model);
         continue;
@@ -253,7 +253,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
       findChildElements(elements, typeModel.getChildren());
 
       // FIXME: Can I equate on just the localPart of the QName???
-      for (ElementModel element : elements)
+      for (final ElementModel element : elements)
         if (name.getLocalPart().equals(element.getName().getLocalPart()))
           return new RestrictionPair<ElementModel>(element, typeModel);
     }

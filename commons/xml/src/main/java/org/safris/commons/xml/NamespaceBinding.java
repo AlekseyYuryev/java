@@ -238,7 +238,7 @@ outer:
     }
 
     final StringBuffer buffer = new StringBuffer();
-    for (String result : results) {
+    for (final String result : results) {
       final String part = nonJavaKeyword(lowerCamelCase(result, useJaxRpcRules, true));
       if (part.length() > 0) {
         buffer.append(part);

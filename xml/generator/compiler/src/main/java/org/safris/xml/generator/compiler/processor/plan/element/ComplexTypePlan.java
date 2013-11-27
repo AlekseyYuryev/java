@@ -49,7 +49,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
   public ElementPlan elementRefExistsInParent(UniqueQName name) {
     // FIXME: This is slow!
     if (getElements() != null)
-      for (ElementPlan element : getElements())
+      for (final ElementPlan element : getElements())
         if (element.getName() != null && element.getName().equals(name))
           return element;
 
@@ -62,7 +62,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
   public ComplexTypePlan(T model, Plan parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     mixed = getModel().getMixed();
-    for (Model child : model.getChildren()) {
+    for (final Model child : model.getChildren()) {
       if (child instanceof SimpleContentModel) {
         simpleContent = true;
         break;

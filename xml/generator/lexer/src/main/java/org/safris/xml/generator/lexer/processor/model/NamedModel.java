@@ -62,7 +62,7 @@ public abstract class NamedModel extends Model implements Nameable<Model> {
     if (model == null)
       return null;
 
-    for (Model child : model.getChildren()) {
+    for (final Model child : model.getChildren()) {
       if (!(child instanceof RestrictionModel))
         continue;
 

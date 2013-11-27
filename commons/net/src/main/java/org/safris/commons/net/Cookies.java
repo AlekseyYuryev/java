@@ -36,7 +36,7 @@ public final class Cookies {
     if (cookies == null)
       return null;
 
-    for (Cookie cookie : cookies)
+    for (final Cookie cookie : cookies)
       if (cookie != null && name.equals(cookie.getName()))
         return cookie.getValue();
 
@@ -71,7 +71,7 @@ public final class Cookies {
 
   public static Map.Entry<String,String> createCookieHeader(Collection<String> cookies) {
     final StringBuffer cookieStringBuffer = new StringBuffer();
-    for (String cookie : cookies)
+    for (final String cookie : cookies)
       cookieStringBuffer.append("; ").append(cookie);
 
     final String value = cookieStringBuffer.length() != 0 ? cookieStringBuffer.substring(2) : "";

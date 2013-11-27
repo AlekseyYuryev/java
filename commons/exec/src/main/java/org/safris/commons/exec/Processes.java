@@ -38,7 +38,7 @@ public final class Processes {
       final Field field = ClassLoader.class.getDeclaredField("classes");
       field.setAccessible(true);
       final Vector<Class> classes = (Vector<Class>)field.get(ClassLoader.getSystemClassLoader());
-      for (Class cls : classes)  {
+      for (final Class cls : classes)  {
         if ((cls.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT && cls.getName().startsWith("com.barclaysglobal"))
           return cls;
       }
@@ -64,7 +64,7 @@ public final class Processes {
 
   public static Process forkAsync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException {
     final Collection<String> notNullArgs = new ArrayList<String>(args.length);
-    for (String arg : args)
+    for (final String arg : args)
       if (arg != null)
         notNullArgs.add(arg);
 
@@ -95,7 +95,7 @@ public final class Processes {
 
   public static Process forkSync(InputStream stdin, OutputStream stdout, OutputStream stderr, String ... args) throws IOException, InterruptedException {
     final Collection<String> notNullArgs = new ArrayList<String>(args.length);
-    for (String arg : args)
+    for (final String arg : args)
       if (arg != null)
         notNullArgs.add(arg);
 
@@ -170,18 +170,18 @@ public final class Processes {
     final URL[] classpathURLs = ClassLoaders.getClassPath();
     final StringBuffer classpath = new StringBuffer();
     if (classpathURLs != null && classpathURLs.length != 0)
-      for (URL url : classpathURLs)
+      for (final URL url : classpathURLs)
         classpath.append(File.pathSeparatorChar).append(url.getPath());
 
     final String[] options = new String[(args != null ? args.length : 0) + (vmArgs != null ? vmArgs.length : 0) + (props != null ? props.size() : 0) + 4];
     int i = -1;
     options[++i] = "java";
     if (vmArgs != null && vmArgs.length != 0)
-      for (String vmArg : vmArgs)
+      for (final String vmArg : vmArgs)
         options[++i] = vmArg;
 
     if (props != null && props.size() != 0)
-      for (Map.Entry<String,String> property : props.entrySet())
+      for (final Map.Entry<String,String> property : props.entrySet())
         options[++i] = "-D" + property.getKey() + "=" + property.getValue();
 
     options[++i] = "-cp";
@@ -197,7 +197,7 @@ public final class Processes {
       return new HashMap<String,String>(0);
 
     final Map<String,String> properties = new HashMap<String,String>(7);
-    for (Map.Entry property : System.getProperties().entrySet()) {
+    for (final Map.Entry property : System.getProperties().entrySet()) {
       final String key = (String)property.getKey();
       final String value = (String)property.getValue();
       if (value.trim().length() != 0 && !value.contains(" ") && !key.contains(" "))

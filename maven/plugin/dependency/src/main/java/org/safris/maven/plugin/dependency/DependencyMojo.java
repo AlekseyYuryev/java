@@ -48,7 +48,7 @@ public class DependencyMojo extends PropertiesMojo {
     final Set<Artifact> resolvedDependencies = DependencyFilter.getResolvedDependencies(properties);
     final List<Artifact> artifactList = new ArrayList<Artifact>(resolvedDependencies);
     final Set<GroupArtifact> dependencies = new HashSet<GroupArtifact>(artifactList.size());
-    for (Artifact artifact : artifactList)
+    for (final Artifact artifact : artifactList)
       dependencies.add(new GroupArtifact(artifact));
 
     return dependencies;
@@ -97,7 +97,7 @@ public class DependencyMojo extends PropertiesMojo {
     }
 
     final StringBuffer buffer = new StringBuffer();
-    for (GroupArtifact dependency : dependencies) {
+    for (final GroupArtifact dependency : dependencies) {
       buffer.append(pathSeparator);
       final File file = getFile(dependency, getLocal(), getRepositoryPath());
       if (file == null)

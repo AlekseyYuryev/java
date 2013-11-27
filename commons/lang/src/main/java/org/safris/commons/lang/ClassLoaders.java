@@ -68,7 +68,7 @@ public final class ClassLoaders {
       final Field lmapField = URLClassPath.class.getDeclaredField("lmap");
       lmapField.setAccessible(true);
       final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
-      for (String key : lmap.keySet())
+      for (final String key : lmap.keySet())
         urls.add(new URL(key));
     }
     catch (Exception e) {
@@ -77,7 +77,7 @@ public final class ClassLoaders {
         final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
         if (fullClasspath != null) {
           final String[] classpaths = fullClasspath.split(File.pathSeparator);
-          for (String classpath : classpaths) {
+          for (final String classpath : classpaths) {
             try {
               urls.add(new File(classpath).toURL());
             }

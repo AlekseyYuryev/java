@@ -62,18 +62,18 @@ public class JavaProjectMojo extends CodeGuideMojo {
     final Set<GroupArtifact> filteredReferences = new HashSet<GroupArtifact>();
     if (inlcudes != null) {
       if (excludes != null) {
-        for (GroupArtifact dependency : dependencies)
+        for (final GroupArtifact dependency : dependencies)
           if (inlcudes.contains(dependency) && !excludes.contains(dependency))
             filteredReferences.add(dependency);
       }
       else {
-        for (GroupArtifact dependency : dependencies)
+        for (final GroupArtifact dependency : dependencies)
           if (inlcudes.contains(dependency))
             filteredReferences.add(dependency);
       }
     }
     else if (excludes != null) {
-      for (GroupArtifact dependency : dependencies)
+      for (final GroupArtifact dependency : dependencies)
         if (!excludes.contains(dependency))
           filteredReferences.add(dependency);
     }
@@ -117,7 +117,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     if (testResources != null)
       resources.addAll(testResources);
 
-    for (Resource resource : resources) {
+    for (final Resource resource : resources) {
       final Collection<File> directoryFiles = Files.listAll(new File(resource.getDirectory()), resourceFileFilter);
       if (directoryFiles != null)
         resourceFiles.addAll(directoryFiles);
@@ -132,12 +132,12 @@ public class JavaProjectMojo extends CodeGuideMojo {
 
     final LinkedHashSet<File> filteredDependencies = new LinkedHashSet<File>();
     if (excludes != null) {
-      for (GroupArtifact dependency : dependencies)
+      for (final GroupArtifact dependency : dependencies)
         if (!excludes.contains(dependency))
           addJarAndSourceDependency(filteredDependencies, dependency);
     }
     else {
-      for (GroupArtifact dependency : dependencies)
+      for (final GroupArtifact dependency : dependencies)
         addJarAndSourceDependency(filteredDependencies, dependency);
     }
 
@@ -176,7 +176,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
 
     final Set<GroupArtifact> filteredReferences = filterProjectReferences(project.getDependencies(), stateManager.getGroupArtifacts(), excludes);
     final Set<JavaProject> references = new HashSet<JavaProject>();
-    for (GroupArtifact reference : filteredReferences)
+    for (final GroupArtifact reference : filteredReferences)
       references.add(stateManager.getJavaProject(reference));
 
     project.setProjectReferences(references);
@@ -204,7 +204,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
       sourcesMap.put(Files.relativePath(javaProject.getDir(), file), file);
 
     final Set<String> addedSources = getStateManager().getAddedSources(javaProject.getProjectReferences());
-    for (String addedSource : addedSources)
+    for (final String addedSource : addedSources)
       if (addedSource.endsWith(".java"))
         sourcesMap.remove(addedSource);
 
@@ -236,7 +236,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
 
     // Write the JavaProject files
     try {
-      for (JavaProject project : stateManager.getJavaProjects()) {
+      for (final JavaProject project : stateManager.getJavaProjects()) {
         resolveDependencies(project, stateManager);
         // For the sources, we dont want to add the same relative
         if (project == javaProject)

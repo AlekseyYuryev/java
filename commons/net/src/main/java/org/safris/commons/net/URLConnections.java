@@ -28,7 +28,7 @@ public final class URLConnections {
     if (properties == null)
       throw new NullPointerException("properties == null");
 
-    for (Map.Entry entry : properties.entrySet())
+    for (final Map.Entry entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
 

@@ -145,7 +145,7 @@ public abstract class PackageLoader extends ClassLoader {
           }
         }
 
-        for (Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet()) {
+        for (final Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet()) {
           try {
             loadedClasses.add(Class.forName(entry.getKey(), true, entry.getValue()));
           }

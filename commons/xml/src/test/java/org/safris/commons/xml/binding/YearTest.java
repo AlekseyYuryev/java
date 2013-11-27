@@ -111,7 +111,7 @@ public class YearTest {
       "1112-12:30"
     };
 
-    for (String year : years)
+    for (final String year : years)
       assertEquals(year, Year.parseYear(year).toString());
   }
 }

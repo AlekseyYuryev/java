@@ -259,12 +259,12 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     }
 
     isUnionWithNonEnumeration = getSuperType() != null && ((SimpleTypePlan)getSuperType()).isUnionWithNonEnumeration();
-    for (Model child : model.getChildren()) {
+    for (final Model child : model.getChildren()) {
       if (!(child instanceof UnionModel))
         continue;
 
       isUnion = true;
-      for (SimpleTypeModel memberType : ((UnionModel)child).getMemberTypes()) {
+      for (final SimpleTypeModel memberType : ((UnionModel)child).getMemberTypes()) {
         if (memberType.getEnumerations().size() != 0)
           continue;
 

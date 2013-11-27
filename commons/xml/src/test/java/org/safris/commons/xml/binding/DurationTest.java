@@ -211,7 +211,7 @@ public class DurationTest {
       "P1D"
     };
 
-    for (String duration : durations)
+    for (final String duration : durations)
       assertEquals(duration, Duration.parseDuration(duration).toString());
   }
 }

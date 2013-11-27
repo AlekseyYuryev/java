@@ -124,7 +124,7 @@ public class MonthTest {
       "--12-12:30"
     };
 
-    for (String month : months)
+    for (final String month : months)
       assertEquals(month, Month.parseMonth(month).toString());
   }
 }

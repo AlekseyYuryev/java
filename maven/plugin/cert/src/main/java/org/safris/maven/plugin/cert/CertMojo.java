@@ -62,7 +62,7 @@ public class CertMojo extends AbstractMojo {
   }
 
   public void execute() throws MojoExecutionException, MojoFailureException {
-    for (Repository repository : getRepositories()) {
+    for (final Repository repository : getRepositories()) {
       if (repository.getUrl().startsWith("https") && !checkedURLs.contains(repository.getUrl())) {
         try {
           final URL url = new URL(repository.getUrl());

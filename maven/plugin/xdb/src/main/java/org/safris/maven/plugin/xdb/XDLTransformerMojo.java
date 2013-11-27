@@ -56,7 +56,7 @@ public abstract class XDLTransformerMojo extends AbstractMojo {
       throw new MojoExecutionException("Destdir must be specified.");
 
     final Resolver<String> resolver = new MavenPropertyResolver(project);
-    for (String spec : manifest.getSchemas()) {
+    for (final String spec : manifest.getSchemas()) {
       final File xdlFile = new File(resolver.resolve(spec));
       if (!xdlFile.exists())
         throw new MojoExecutionException("XDL file does not exist: " + xdlFile.getAbsolutePath());

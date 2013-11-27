@@ -80,7 +80,7 @@ public class AttributeAudit<T> {
           name = getName().getLocalPart();
       }
 
-      for (Object object : (Collection)value) {
+      for (final Object object : (Collection)value) {
         Binding binding = (Binding)object;
         if (name == null) {
           final QName actualName = Binding._$$getName(binding);

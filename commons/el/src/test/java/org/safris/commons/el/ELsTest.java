@@ -39,7 +39,7 @@ public class ELsTest {
     map.put("${left} token here", "LEFT token here");
     map.put("something in the ${middle} of this string", "something in the MIDDLE of this string");
 
-    for (Map.Entry<String,String> entry : map.entrySet())
+    for (final Map.Entry<String,String> entry : map.entrySet())
       assertEquals(ELs.dereference(entry.getKey(), variables), entry.getValue());
 
     assertNull(ELs.dereference(null, variables));

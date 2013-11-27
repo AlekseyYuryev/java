@@ -122,7 +122,7 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
     }
 
     boolean def = false;
-    for (Model child : model.getChildren()) {
+    for (final Model child : model.getChildren()) {
       if (child instanceof ComplexTypeModel || child instanceof SimpleTypeModel) {
         def = true;
         break;

@@ -32,7 +32,7 @@ public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,M
     if (models == null || models.size() == 0)
       return;
 
-    for (Model model : models) {
+    for (final Model model : models) {
       if (model == null)
         continue;
 
@@ -57,7 +57,7 @@ public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,M
   public Collection<Normalizer> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Normalizer> directory) {
     int stages = 0;
     Method[] methods = Normalizer.class.getDeclaredMethods();
-    for (Method method : methods)
+    for (final Method method : methods)
       if (method.getName().startsWith("stage"))
         stages++;
 

@@ -73,7 +73,7 @@ public abstract class $xs_boolean<T extends BindingType> extends $xs_anySimpleTy
     if (_$$getPattern() == null)
       return String.valueOf(super.getText());
 
-    for (String pattern : _$$getPattern()) {
+    for (final String pattern : _$$getPattern()) {
       String[] ret = valueMap.get(super.getText());
       for (int i = 0; i < ret.length; i++) {
         if (ret[i].matches(pattern))

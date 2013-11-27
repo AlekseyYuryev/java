@@ -47,7 +47,7 @@ public class FileMonitor {
     final FileMonitorRunner monitorThread = new FileMonitorRunner();
     Thread mainThread = null;
     final Set<Thread> threads = Thread.getAllStackTraces().keySet();
-    for (Thread thread : threads) {
+    for (final Thread thread : threads) {
       if ("main".equals(thread.getName())) {
         mainThread = thread;
         break;

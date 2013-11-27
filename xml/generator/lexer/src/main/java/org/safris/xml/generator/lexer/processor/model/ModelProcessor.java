@@ -40,7 +40,7 @@ public class ModelProcessor implements PipelineProcessor<GeneratorContext,Schema
     // Then we parse all of the schemas that have been included and imported
     final Collection<Model> schemaModels = new ArrayList<Model>();
 
-    for (SchemaComposite schemaComposite : documents) {
+    for (final SchemaComposite schemaComposite : documents) {
       final SchemaModelComposite schemaModelComposite = (SchemaModelComposite)schemaComposite;
       final SchemaDocument schemaDocument = schemaModelComposite.getSchemaDocument();
       final SchemaModel model = recurse(root, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getDocument().getChildNodes(), schemaDocument.getSchemaReference().getURL(), directory);

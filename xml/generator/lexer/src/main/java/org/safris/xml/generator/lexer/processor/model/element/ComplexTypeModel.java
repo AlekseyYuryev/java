@@ -74,7 +74,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
   }
 
   public final Boolean getMixed() {
-    for (Model model : getChildren()) {
+    for (final Model model : getChildren()) {
       if (model instanceof ComplexContentModel && ((ComplexContentModel)model).getMixed() != null)
         return ((ComplexContentModel)model).getMixed();
       else if (model instanceof ComplexTypeModel && ((ComplexTypeModel)model).getMixed() != null)

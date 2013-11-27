@@ -108,7 +108,7 @@ public class Language implements CharSequence {
       return encoded = "";
 
     final StringBuffer buffer = new StringBuffer();
-    for (String string : language)
+    for (final String string : language)
       buffer.append("-").append(string);
 
     return encoded = buffer.substring(1);

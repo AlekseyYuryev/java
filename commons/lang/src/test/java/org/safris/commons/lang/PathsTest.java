@@ -39,7 +39,7 @@ public class PathsTest {
     paths.put("resolv.conf", "/etc/resolv.conf");
     paths.put("name", "name");
 
-    for (Map.Entry<String,String> entry : paths.entrySet())
+    for (final Map.Entry<String,String> entry : paths.entrySet())
       assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
 
     assertNull(Paths.getName(null));
@@ -53,7 +53,7 @@ public class PathsTest {
     urls.put("/", "/usr/share/../share/../../");
     urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
 
-    for (Map.Entry<String,String> entry : urls.entrySet())
+    for (final Map.Entry<String,String> entry : urls.entrySet())
       assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
 
     assertNull(Paths.getParent(null));

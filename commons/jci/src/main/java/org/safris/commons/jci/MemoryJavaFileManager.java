@@ -49,7 +49,7 @@ public class MemoryJavaFileManager extends ForwardingJavaFileManager {
   }
 
   public Collection<MemoryJavaFileObject> outputClasses(final File dir) throws IOException {
-    for (Map.Entry<String,MemoryJavaFileObject> entry : map.entrySet()) {
+    for (final Map.Entry<String,MemoryJavaFileObject> entry : map.entrySet()) {
       final File file = new File(dir, entry.getKey().replace('.', File.separatorChar) + ".class");
       if (!file.getParentFile().exists())
         file.getParentFile().mkdirs();

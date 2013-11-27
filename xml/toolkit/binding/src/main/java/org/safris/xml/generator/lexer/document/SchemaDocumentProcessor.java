@@ -56,7 +56,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
     final Map<NamespaceURI,URL> importLoopCheck = new HashMap<NamespaceURI,URL>();
     final Map<NamespaceURI,Collection<URL>> includeLoopCheck = new HashMap<NamespaceURI,Collection<URL>>();
 
-    for (SchemaReference schemaReference : selectedSchemas) {
+    for (final SchemaReference schemaReference : selectedSchemas) {
       if (schemaReference == null)
         continue;
 
@@ -71,9 +71,9 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
         while (outer.size() != 0) {
           schemasToGenerate.addAll(0, outer);
           Stack<SchemaDocument> inner = new Stack<SchemaDocument>();
-          for (SchemaDocument entry : outer) {
+          for (final SchemaDocument entry : outer) {
             NodeList includeNodeList = null;
-            for (String includeString : includeStrings) {
+            for (final String includeString : includeStrings) {
               includeNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
               for (int i = 0; i < includeNodeList.getLength(); i++) {
                 final Element includeElement = (Element)includeNodeList.item(i);
@@ -128,13 +128,13 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
       schemas.addAll(schemasToGenerate);
     }
 
-    for (SchemaDocument schema : schemas) {
+    for (final SchemaDocument schema : schemas) {
       final Collection<URL> includes = includeLoopCheck.get(schema.getSchemaReference().getNamespaceURI());
       if (includes == null || includes.size() == 0)
         continue;
 
       final Collection<URL> externalIncludes = new ArrayList<URL>(includes.size());
-      for (URL include : includes)
+      for (final URL include : includes)
         if (!include.equals(schema.getSchemaReference().getURL()))
           externalIncludes.add(include);
 

@@ -110,7 +110,7 @@ public final class HTTP {
     urlConnection.setDoOutput(true); // Triggers POST.
 //        urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
     if (properties != null)
-      for (Map.Entry property : properties.entrySet())
+      for (final Map.Entry property : properties.entrySet())
         urlConnection.setRequestProperty((String)property.getKey(), (String)property.getValue());
 
     if (cookies != null) {
@@ -152,12 +152,12 @@ public final class HTTP {
       return "";
 
     final StringBuilder query = new StringBuilder();
-    for (Map.Entry<String,String[]> entry : parameters.entrySet()) {
+    for (final Map.Entry<String,String[]> entry : parameters.entrySet()) {
       final String name = entry.getKey();
       final String[] values = entry.getValue();
       query.append("&");
       final StringBuilder temp = new StringBuilder();
-      for (String value : values) {
+      for (final String value : values) {
         temp.append("&");
         temp.append(URLEncoder.encode(name, charset));
         temp.append("=");

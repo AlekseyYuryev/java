@@ -60,7 +60,7 @@ public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleTyp
       return null;
 
     String value = "";
-    for (String temp : (List<String>)super.getText())
+    for (final String temp : (List<String>)super.getText())
       value += " " + temp;
 
     return value.substring(1);

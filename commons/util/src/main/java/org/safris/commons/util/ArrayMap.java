@@ -168,7 +168,7 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     if (t == null)
       throw new NullPointerException("t == null");
 
-    for (Map.Entry<? extends K, ? extends V> entry : t.entrySet())
+    for (final Map.Entry<? extends K, ? extends V> entry : t.entrySet())
       put(entry.getKey(), entry.getValue());
   }
 

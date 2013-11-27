@@ -94,10 +94,10 @@ public class URLsTest {
     relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com", "webhp"});
     relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com", "/webhp"});
     relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com/", "/webhp"});
-    for (Map.Entry<URL,String> entry : absolute.entrySet())
+    for (final Map.Entry<URL,String> entry : absolute.entrySet())
       assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()));
 
-    for (Map.Entry<URL,String[]> entry : relative.entrySet())
+    for (final Map.Entry<URL,String[]> entry : relative.entrySet())
       assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
 
     assertNull(URLs.makeUrlFromPath(null));
@@ -136,7 +136,7 @@ public class URLsTest {
     map.put(new URL("file:///usr/lib"), new URL("file:///usr/share/../share/../lib"));
     map.put(new URL("file:///var"), new URL("file:///usr/share/../share/../lib/../../var"));
 
-    for (Map.Entry<URL,URL> entry : map.entrySet())
+    for (final Map.Entry<URL,URL> entry : map.entrySet())
       assertEquals(entry.getKey(), URLs.canonicalizeURL(entry.getValue()));
 
     assertNull(URLs.canonicalizeURL(null));
@@ -150,7 +150,7 @@ public class URLsTest {
     urls.put("var", new URL("file:///usr/share/../share/../lib/../../var"));
     urls.put("resolv.conf", new URL("file:///etc/resolv.conf"));
 
-    for (Map.Entry<String,URL> entry : urls.entrySet())
+    for (final Map.Entry<String,URL> entry : urls.entrySet())
       assertEquals(entry.getKey(), URLs.getName(entry.getValue()));
 
     assertNull(URLs.canonicalizeURL(null));
@@ -162,7 +162,7 @@ public class URLsTest {
     urls.put(new URL("file:///usr"), new URL("file:///usr/share/../share"));
     urls.put(new URL("file:///usr/local"), new URL("file:///usr/local/bin/../lib/../bin"));
 
-    for (Map.Entry<URL,URL> entry : urls.entrySet())
+    for (final Map.Entry<URL,URL> entry : urls.entrySet())
       assertEquals(entry.getKey(), URLs.getParent((entry.getValue())));
 
     assertNull(URLs.getParent(null));

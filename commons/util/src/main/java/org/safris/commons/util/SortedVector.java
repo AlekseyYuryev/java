@@ -31,7 +31,7 @@ public class SortedVector<E extends Comparable> extends Vector<E> {
     if (elementData.length < newSize)
       setSize(newSize);
 
-    for (E e : c)
+    for (final E e : c)
       addElement(e);
 
     return true;
@@ -69,7 +69,7 @@ public class SortedVector<E extends Comparable> extends Vector<E> {
   }
 
   public synchronized boolean containsAll(final Collection<?> c) {
-    for (Object o : c)
+    for (final Object o : c)
       if (!contains(o))
         return false;
 

@@ -77,7 +77,7 @@ public class ExpectSimulator {
     }
 
     public void printAnswers() {
-      for (String answer : answers)
+      for (final String answer : answers)
         System.out.println(answer);
     }
   }
@@ -117,7 +117,7 @@ public class ExpectSimulator {
       prompt = prompt.getNext(line);
     }
 
-    for (Prompt p : prompts)
+    for (final Prompt p : prompts)
       p.printAnswers();
 
     System.out.println("Thanks for playing!");

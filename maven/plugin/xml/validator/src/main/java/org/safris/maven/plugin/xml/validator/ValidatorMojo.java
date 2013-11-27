@@ -138,7 +138,7 @@ public class ValidatorMojo extends AbstractMojo {
       return;
 
     final Collection<File> files = new ArrayList<File>();
-    for (Resource resource : resources) {
+    for (final Resource resource : resources) {
       final Collection<File> xmlFiles = Files.listAll(new File(resource.getDirectory()), xmlFileFilter);
       if (xmlFiles != null)
         files.addAll(xmlFiles);

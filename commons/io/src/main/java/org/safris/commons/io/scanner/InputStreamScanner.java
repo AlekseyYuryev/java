@@ -33,7 +33,7 @@ public final class InputStreamScanner extends Thread {
 
   private boolean onMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException {
     boolean match = false;
-    for (HashTree.Node<ScannerHandler> node : nodes) {
+    for (final HashTree.Node<ScannerHandler> node : nodes) {
       if (node.getValue() != null) {
         if (line.matches(node.getValue().getMatch())) {
           match = true;
@@ -43,7 +43,7 @@ public final class InputStreamScanner extends Thread {
         }
       }
       else {
-        for (HashTree.Node<ScannerHandler> child : node.getChildren())
+        for (final HashTree.Node<ScannerHandler> child : node.getChildren())
           onMatch(line, child.getChildren());
       }
     }

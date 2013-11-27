@@ -34,14 +34,14 @@ public final class PlanProcessor implements PipelineProcessor<GeneratorContext,M
   public final Collection<Plan> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Plan> directory) {
     root = new Plan(null, null){};
     final Collection<Plan> plans = new ArrayList<Plan>();
-    for (Model model : documents) {
+    for (final Model model : documents) {
       if (model.getChildren() == null || model.getChildren().size() == 0)
         continue;
 
       final String display = Files.relativePath(Files.getCwd(), new File(model.getSchema().getURL().getFile()).getAbsoluteFile());
       logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
-      for (Model child : model.getChildren())
+      for (final Model child : model.getChildren())
         disclose(child, root, plans, pipelineContext, directory);
     }
 

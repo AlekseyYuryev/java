@@ -82,7 +82,7 @@ public final class Logger extends java.util.logging.Logger {
     if (parent == null)
       parent = logger;
 
-    for (Handler handler : parent.getHandlers())
+    for (final Handler handler : parent.getHandlers())
       parent.removeHandler(handler);
 
     final Handler handler = new ConsoleHandler();

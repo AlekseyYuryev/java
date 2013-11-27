@@ -115,14 +115,14 @@ public final class Expect {
     }
 
     final List<$ex_processType._tree._node> nodes = processType.get_tree(0).get_node();
-    for ($ex_processType._tree._node node : nodes) {
+    for (final $ex_processType._tree._node node : nodes) {
       final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node.get_rule$().getText());
       final $ex_processType._tree._node._children$ children = node.get_children$();
       if (children == null)
         continue;
 
       final List<String> childIds = children.getText();
-      for (String childId : childIds)
+      for (final String childId : childIds)
         treeNode.addChild(treeNodeMap.get(childId));
     }
 

@@ -26,14 +26,14 @@ import java.util.Set;
 
 public class TopologicalSort<T> {
   public static <T>List<T> sort(final Map<T,Set<T>> graph) {
-    for (Map.Entry<T,Set<T>> entry : graph.entrySet())
+    for (final Map.Entry<T,Set<T>> entry : graph.entrySet())
       if (entry.getValue() != null)
         entry.getValue().remove(entry.getKey());
 
     final List<T> sorted = new ArrayList<T>();
     while (true) {
       T key = null;
-      for (Map.Entry<T,Set<T>> entry : graph.entrySet()) {
+      for (final Map.Entry<T,Set<T>> entry : graph.entrySet()) {
         if (entry.getValue() == null || entry.getValue().size() == 0) {
           key = entry.getKey();
           break;
@@ -45,7 +45,7 @@ public class TopologicalSort<T> {
 
       sorted.add(key);
       graph.remove(key);
-      for (Set<T> value : graph.values())
+      for (final Set<T> value : graph.values())
         if (value != null)
           value.remove(key);
     }
@@ -54,16 +54,16 @@ public class TopologicalSort<T> {
   public static <T>List<T> sort(final Collection<T> set, final Rule<T> policy) {
     final Map<Object,T> idToValue = new HashMap<Object,T>();
     final Map<T,Set<T>> graph = new HashMap<T,Set<T>>();
-    for (T t : set)
+    for (final T t : set)
       idToValue.put(policy.getSelfId(t), t);
 
-    for (T t : set) {
+    for (final T t : set) {
       final Set<Object> linkIds = policy.getLinkIds(t);
       Set<T> dependents = graph.get(t);
       if (dependents == null)
         graph.put(t, dependents = new HashSet<T>());
 
-      for (Object linkId : linkIds) {
+      for (final Object linkId : linkIds) {
         final T value = idToValue.get(linkId);
         if (value != null)
           dependents.add(value);

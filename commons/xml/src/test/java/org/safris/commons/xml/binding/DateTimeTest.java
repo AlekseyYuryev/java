@@ -236,7 +236,7 @@ public class DateTimeTest {
       "1112-01-11T12:34:56.789-12:30"
     };
 
-    for (String dateTime : dateTimes)
+    for (final String dateTime : dateTimes)
       assertEquals(dateTime, DateTime.parseDateTime(dateTime).toString());
   }
 }

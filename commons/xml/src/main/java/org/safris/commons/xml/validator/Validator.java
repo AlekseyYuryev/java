@@ -74,7 +74,7 @@ public abstract class Validator {
     }
 
     String namespaceLocations = "";
-    for (String namespaceURI : namespaceURIs) {
+    for (final String namespaceURI : namespaceURIs) {
       if (namespaceURI == null || namespaceURI.length() == 0 || XSI.getNamespaceURI().equals(namespaceURI))
         continue;
 

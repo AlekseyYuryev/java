@@ -174,7 +174,7 @@ public class DateTest {
       "1112-11-11-12:30"
     };
 
-    for (String date : dates)
+    for (final String date : dates)
       assertEquals(date, Date.parseDate(date).toString());
   }
 }

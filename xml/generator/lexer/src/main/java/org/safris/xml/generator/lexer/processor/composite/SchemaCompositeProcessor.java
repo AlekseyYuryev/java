@@ -27,7 +27,7 @@ import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 public final class SchemaCompositeProcessor implements PipelineEntity<SchemaComposite>, PipelineProcessor<GeneratorContext,SchemaDocument,SchemaComposite> {
   public Collection<SchemaComposite> process(GeneratorContext pipelineContext, Collection<SchemaDocument> documents, PipelineDirectory<GeneratorContext,SchemaDocument,SchemaComposite> directory) {
     final Collection<SchemaComposite> selectors = new ArrayList<SchemaComposite>();
-    for (SchemaDocument schemaDocument : documents)
+    for (final SchemaDocument schemaDocument : documents)
       selectors.add(new SchemaModelComposite(schemaDocument));
 
     return selectors;

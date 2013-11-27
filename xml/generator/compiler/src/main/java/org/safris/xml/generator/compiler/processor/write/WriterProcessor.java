@@ -69,7 +69,7 @@ public class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan,
     if (models == null || models.size() == 0)
       return;
 
-    for (Plan model : models) {
+    for (final Plan model : models) {
       if (model == null)
         continue;
 

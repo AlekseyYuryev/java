@@ -44,7 +44,7 @@ public class SolutionWriter {
     buffer.append("\tEndGlobalSection\n");
     buffer.append("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n");
 
-    for (JavaProject javaProject : solution.getJavaProjects()) {
+    for (final JavaProject javaProject : solution.getJavaProjects()) {
       buffer.append("\t\t{" + javaProject.getUUID() + "}.Debug|Any CPU.ActiveCfg = Debug\n");
       buffer.append("\t\t{" + javaProject.getUUID() + "}.Debug|Any CPU.Build.0 = Debug\n");
       buffer.append("\t\t{" + javaProject.getUUID() + "}.Release|Any CPU.ActiveCfg = Release\n");

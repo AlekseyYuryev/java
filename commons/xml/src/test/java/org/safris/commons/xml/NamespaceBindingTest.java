@@ -85,7 +85,7 @@ public class NamespaceBindingTest {
 
   @Test
   public void testNamespaceToPackage() {
-    for (Map.Entry<String,String> entry : map.entrySet())
+    for (final Map.Entry<String,String> entry : map.entrySet())
       assertEquals(NamespaceBinding.getPackageFromNamespace(entry.getKey()), entry.getValue());
   }
 }

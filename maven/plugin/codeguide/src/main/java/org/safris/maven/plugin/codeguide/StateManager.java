@@ -62,7 +62,7 @@ public class StateManager {
 
   public Set<String> getAddedSources(Set<JavaProject> javaProjects) {
     final Set<String> addedSources = new HashSet<String>();
-    for (JavaProject javaProject : javaProjects) {
+    for (final JavaProject javaProject : javaProjects) {
       final Set<String> sources = sourcesMap.get(javaProject);
       if (sources != null)
         addedSources.addAll(sources);

@@ -37,7 +37,7 @@ public final class TestRuntime {
     if (isInTest != null)
       return isInTest;
 
-    for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
+    for (final StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace())
       if ("junit.framework.TestCase".equals(stackTraceElement.getClassName()) || "org.junit.internal.runners.MethodRoadie".equals(stackTraceElement.getClassName()))
         return isInTest = true;
 

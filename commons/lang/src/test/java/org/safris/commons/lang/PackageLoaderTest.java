@@ -55,15 +55,15 @@ public class PackageLoaderTest {
       "org.junit.runners.Parameterized"
     };
 
-    for (String testClass : testClasses)
+    for (final String testClass : testClasses)
       assertFalse(isClassLoaded(testClass));
 
     final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
     final Set<String> classNames = new HashSet<String>();
-    for (Class<?> loadedClass : loadedClasses)
+    for (final Class<?> loadedClass : loadedClasses)
       classNames.add(loadedClass.getName());
 
-    for (String testClass : testClasses) {
+    for (final String testClass : testClasses) {
       System.out.println(testClass);
       assertTrue(classNames.contains(testClass));
       assertTrue(isClassLoaded(testClass));

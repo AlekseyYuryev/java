@@ -134,7 +134,7 @@ public final class Zips {
     WHILE:
     while ((entry = in.getNextEntry()) != null) {
       final String name = entry.getName();
-      for (CachedFile fileWrapper : files)
+      for (final CachedFile fileWrapper : files)
         if (fileWrapper.getPath().equals(name))
           break WHILE;
 
@@ -149,7 +149,7 @@ public final class Zips {
     // Close the streams
     in.close();
     // Compress the files
-    for (CachedFile cachedFile : files) {
+    for (final CachedFile cachedFile : files) {
       // Add ZIP entry to output stream.
       out.putNextEntry(new ZipEntry(cachedFile.getPath()));
       // Transfer bytes from the file to the ZIP file

@@ -122,7 +122,7 @@ public class ListSet<E> implements List<E>, Set<E> {
 
   public boolean addAll(final Collection<? extends E> c) {
     boolean changed = false;
-    for (E e : c)
+    for (final E e : c)
       changed = add(e) || changed;
 
     return changed;
@@ -130,7 +130,7 @@ public class ListSet<E> implements List<E>, Set<E> {
 
   public boolean addAll(int index, final Collection<? extends E> c) {
     boolean changed = false;
-    for (E e : c)
+    for (final E e : c)
       changed = addAt(index++, e) || changed;
 
     return changed;
@@ -139,7 +139,7 @@ public class ListSet<E> implements List<E>, Set<E> {
   public boolean removeAll(final Collection<?> c) {
     final int origSize = size();
     Integer index;
-    for (Object obj : c) {
+    for (final Object obj : c) {
       index = map.remove(c);
       if (index != null) {
         list.remove(index.intValue());

@@ -63,7 +63,7 @@ public class RandomTest {
   }
 
   private void assertInSpace(char[] chars, char[] space) {
-    for (char ch : chars)
+    for (final char ch : chars)
       assertFalse(Arrays.binarySearch(space, ch) == -1);
   }
 }

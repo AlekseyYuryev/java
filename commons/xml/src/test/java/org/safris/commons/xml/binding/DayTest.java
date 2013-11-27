@@ -139,7 +139,7 @@ public class DayTest {
       "---12-12:30"
     };
 
-    for (String day : days)
+    for (final String day : days)
       assertEquals(day, Day.parseDay(day).toString());
   }
 }

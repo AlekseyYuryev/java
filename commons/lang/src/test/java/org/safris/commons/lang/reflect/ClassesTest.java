@@ -54,7 +54,7 @@ public class ClassesTest {
 
   @Test
   public void testGreatestCommonClass() throws Exception {
-    for (Map.Entry<Class[],Class> entry : classes.entrySet())
+    for (final Map.Entry<Class[],Class> entry : classes.entrySet())
       assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
 
     assertNull(Classes.getGreatestCommonSuperclass(null));

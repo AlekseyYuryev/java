@@ -69,7 +69,7 @@ public class IdentityArrayList<E> extends ArrayList<E> {
       return false;
 
     final int size = size();
-    for (Object o : c)
+    for (final Object o : c)
       remove(o);
 
     return size != size();

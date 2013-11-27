@@ -161,7 +161,7 @@ public class LanguageTest {
       "zh-yue"
     };
 
-    for (String language : languages)
+    for (final String language : languages)
       assertEquals(language, Language.parseLanguage(language).toString());
   }
 }

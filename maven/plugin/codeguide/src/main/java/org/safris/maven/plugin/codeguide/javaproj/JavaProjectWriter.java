@@ -120,7 +120,7 @@ public class JavaProjectWriter {
   private static _javaProject3._projectReferences createProjectReferences(JavaProject javaProject) {
     final _javaProject3._projectReferences projectReferences = new _javaProject3._projectReferences();
     if (javaProject.getProjectReferences() != null && javaProject.getProjectReferences().size() != 0)
-      for (JavaProject projectReference : javaProject.getProjectReferences())
+      for (final JavaProject projectReference : javaProject.getProjectReferences())
         projectReferences.add_projectReference(createProjectReference(projectReference));
 
     return projectReferences;
@@ -153,7 +153,7 @@ public class JavaProjectWriter {
   private static _javaProject3._startingPoints createStartingPoints(JavaProject javaProject) throws MojoExecutionException {
     final _javaProject3._startingPoints startingPoints = new _javaProject3._startingPoints();
     if (javaProject.getStartingPoints() != null)
-      for (_javaProject3._startingPoints._startingPoint startingPoint : javaProject.getStartingPoints())
+      for (final _javaProject3._startingPoints._startingPoint startingPoint : javaProject.getStartingPoints())
         startingPoints.add_startingPoint(createStartingPoint(startingPoint));
 
     return startingPoints;

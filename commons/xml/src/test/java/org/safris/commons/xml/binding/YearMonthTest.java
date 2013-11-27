@@ -132,7 +132,7 @@ public class YearMonthTest {
       "1112-11-12:30"
     };
 
-    for (String yearMonth : yearMonths)
+    for (final String yearMonth : yearMonths)
       assertEquals(yearMonth, YearMonth.parseYearMonth(yearMonth).toString());
   }
 }

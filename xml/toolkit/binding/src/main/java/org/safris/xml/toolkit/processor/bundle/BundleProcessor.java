@@ -66,7 +66,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
       classpath.add(namespaceBindingBase);
 
 
-    for (URL url : ClassLoaders.getClassPath())
+    for (final URL url : ClassLoaders.getClassPath())
       classpath.add(new File(url.toURI()));
 
     new JavaCompiler(destDir, classpath).compile(javaSources);
@@ -77,7 +77,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
     final Map<NamespaceURI,SchemaModelComposite> namespaceToSchemaComposite = new HashMap<NamespaceURI,SchemaModelComposite>();
     final Collection<String> packagePaths = new ArrayList<String>();
 
-    for (SchemaComposite schemaComposite : schemaComposites) {
+    for (final SchemaComposite schemaComposite : schemaComposites) {
       final SchemaModelComposite schemaModelComposite = (SchemaModelComposite)schemaComposite;
       // The order of the schemas in schemaDocuments is specific! With it we know
       // which schemas originate the targetNamespace. This is important because
@@ -91,7 +91,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
     }
 
     final Collection<File> files = new ArrayList<File>();
-    for (String packagePath : packagePaths) {
+    for (final String packagePath : packagePaths) {
       final Collection<File> list = Files.listAll(new File(destDir, packagePath));
       if (list != null)
         files.addAll(list);
@@ -110,7 +110,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
       if (jar == null) {
         SchemaModelComposite schemaComposite = null;
         NamespaceURI namespaceURI = null;
-        for (Map.Entry<NamespaceURI,SchemaModelComposite> entry : namespaceToSchemaComposite.entrySet()) {
+        for (final Map.Entry<NamespaceURI,SchemaModelComposite> entry : namespaceToSchemaComposite.entrySet()) {
           if (pkg.equals(entry.getKey().getPackageName().toString())) {
             namespaceURI = entry.getKey();
             schemaComposite = entry.getValue();
@@ -147,7 +147,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
 
         final Collection<URL> includes = schemaComposite.getSchemaDocument().getIncludes();
         if (includes != null) {
-          for (URL include : includes) {
+          for (final URL include : includes) {
             final String includeXsdName = pkgDir + File.separator + URLs.getName(include);
             bytes = Streams.getBytes(include.openStream());
             jar.addEntry(includeXsdName, bytes);
@@ -164,7 +164,7 @@ public final class BundleProcessor implements PipelineEntity<Bundle>, PipelinePr
     }
 
     // Finalize the jar files.
-    for (Jar jar : packageToJar.values())
+    for (final Jar jar : packageToJar.values())
       jar.close();
 
     return jars;

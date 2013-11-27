@@ -135,7 +135,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
     boolean hasSuperEnumerations = ((EnumerablePlan)plan).hasSuperEnumerations();
 
     if (hasEnumerations) {
-      for (EnumerationPlan enumeration : ((EnumerablePlan)plan).getEnumerations()) {
+      for (final EnumerationPlan enumeration : ((EnumerablePlan)plan).getEnumerations()) {
         if (XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
           writer.write("public static final RESTRICTION " + enumeration.getDeclarationName() + " = new RESTRICTION(\"" +  enumeration.getValue() + "\");\n");
         else
@@ -280,7 +280,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan> extends Writer<T> {
     writer.write("return new " + String.class.getName() + "[]\n");
     writer.write("{\n");
     String buf = "";
-    for (PatternPlan pattern : patterns)
+    for (final PatternPlan pattern : patterns)
       buf += ",\n\"" + pattern.getValue() + "\"";
     writer.write(buf.substring(2) + "\n");
     writer.write("};\n");

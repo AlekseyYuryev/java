@@ -28,7 +28,7 @@ public class DOMStyle {
       return options[0];
 
     final DOMStyle consolidated = new DOMStyle(DEFAULT_MASK);
-    for (DOMStyle option : options)
+    for (final DOMStyle option : options)
       consolidated.mask = consolidated.mask | option.mask;
 
     return consolidated;

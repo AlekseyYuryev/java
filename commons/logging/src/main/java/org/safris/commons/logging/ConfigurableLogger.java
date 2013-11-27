@@ -71,7 +71,7 @@ public final class ConfigurableLogger implements FileEventListener {
         return logger.getWrappedLogger();
 
       logger = new ConfigurableLogger();
-      for (LogRecord record : constructRecord)
+      for (final LogRecord record : constructRecord)
         logger.getLogger().log(record);
     }
 
@@ -173,7 +173,7 @@ public final class ConfigurableLogger implements FileEventListener {
 
           final java.util.logging.Logger logger = LogManager.getLogManager().getLogger(loggerName);
           final Handler[] handlers = logger.getHandlers();
-          for (Handler handler : handlers) {
+          for (final Handler handler : handlers) {
             handler.setFormatter(formatter);
             if (!(handler instanceof FileHandler))
               continue;

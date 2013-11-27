@@ -151,7 +151,7 @@ public final class Strings {
 
     int start = 0;
     int end = 0;
-    for (String token : discardTokens) {
+    for (final String token : discardTokens) {
       while (start < (end = string.indexOf(token, start))) {
         if (end != -1)
           string = string.substring(0, end) + string.substring(end + 1, end + 2).toUpperCase() + string.substring(end + 2, string.length());

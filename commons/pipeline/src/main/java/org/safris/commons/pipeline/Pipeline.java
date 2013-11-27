@@ -65,7 +65,7 @@ public class Pipeline<C extends PipelineContext> {
   public void begin() {
     final Collection<PipelineDirectory> directories = new ArrayList<PipelineDirectory>();
     synchronized (entries) {
-      for (Entry modulePair : entries) {
+      for (final Entry modulePair : entries) {
         directories.add(modulePair.getDirectory());
         final Collection output = modulePair.getProcessor().process(pipelineContext, modulePair.getInput(), modulePair.getDirectory());
         if (output != null && modulePair.getOutput() != null)
@@ -73,7 +73,7 @@ public class Pipeline<C extends PipelineContext> {
       }
     }
 
-    for (PipelineDirectory directory : directories)
+    for (final PipelineDirectory directory : directories)
       directory.clear();
   }
 }

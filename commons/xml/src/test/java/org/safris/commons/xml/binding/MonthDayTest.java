@@ -174,7 +174,7 @@ public class MonthDayTest {
       "--12-17-12:30"
     };
 
-    for (String monthDay : monthDays)
+    for (final String monthDay : monthDays)
       assertEquals(monthDay, MonthDay.parseMonthDay(monthDay).toString());
   }
 }

@@ -42,7 +42,7 @@ public class UnionNormalizer extends Normalizer<UnionModel> {
     final Collection<SimpleTypeModel> resolvedMemberTypes = new ArrayList<SimpleTypeModel>(memberTypes.size());
     SimpleTypeModel resolvedMemberType;
     if (memberTypes != null) {
-      for (SimpleTypeModel memberType : memberTypes) {
+      for (final SimpleTypeModel memberType : memberTypes) {
         if (memberType instanceof SimpleTypeModel.Reference) {
           resolvedMemberType = simpleTypeNormalizer.parseSimpleType(memberType.getName());
           if (resolvedMemberType == null) {
