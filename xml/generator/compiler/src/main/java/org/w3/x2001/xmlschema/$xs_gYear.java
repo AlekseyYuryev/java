@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_gYear<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_gYear($xs_gYear<T> binding) {
+  public $xs_gYear(final $xs_gYear<T> binding) {
     super(binding);
   }
 
-  public $xs_gYear(Year value) {
+  public $xs_gYear(final Year value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_gYear<T extends BindingType> extends $xs_anySimpleType
     return (Year)super.getText();
   }
 
-  public void setText(Year text) {
+  public void setText(final Year text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Year.parseYear(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_gYear clone() {
-    return new $xs_gYear(this) {
-      protected $xs_gYear inherits() {
+  public $xs_gYear<T> clone() {
+    return new $xs_gYear<T>(this) {
+      protected $xs_gYear<T> inherits() {
         return this;
       }
     };

@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_language<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_language($xs_language<T> binding) {
+  public $xs_language(final $xs_language<T> binding) {
     super(binding);
   }
 
-  public $xs_language(Language value) {
+  public $xs_language(final Language value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_language<T extends BindingType> extends $xs_anySimpleT
     return (Language)super.getText();
   }
 
-  public void setText(Language text) {
+  public void setText(final Language text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Language.parseLanguage(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_language clone() {
-    return new $xs_language(this) {
-      protected $xs_language inherits() {
+  public $xs_language<T> clone() {
+    return new $xs_language<T>(this) {
+      protected $xs_language<T> inherits() {
         return this;
       }
     };

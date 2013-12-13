@@ -197,7 +197,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan> extends SimpleTypeWrit
         writer.write("}\n");
 
         if (plan.hasEnumerations()) {
-          writer.write("public void setText(RESTRICTION restriction)\n");
+          writer.write("public void setText(final RESTRICTION restriction)\n");
           writer.write("{\n");
           writer.write("super.setText(restriction.getText());\n");
           writer.write("}\n");

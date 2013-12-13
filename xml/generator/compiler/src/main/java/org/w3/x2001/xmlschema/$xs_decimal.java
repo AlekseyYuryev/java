@@ -23,15 +23,15 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_decimal<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_decimal($xs_decimal<T> binding) {
+  public $xs_decimal(final $xs_decimal<T> binding) {
     super(binding);
   }
 
-  public $xs_decimal(Decimal value) {
+  public $xs_decimal(final Decimal value) {
     super(value);
   }
 
-  protected $xs_decimal(Number value) {
+  protected $xs_decimal(final Number value) {
     super(value);
   }
 
@@ -43,24 +43,24 @@ public abstract class $xs_decimal<T extends BindingType> extends $xs_anySimpleTy
     return (Number)super.getText();
   }
 
-  public void setText(Number text) {
+  public void setText(final Number text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Decimal.parseDecimal(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_decimal clone() {
-    return new $xs_decimal(this) {
-      protected $xs_decimal inherits() {
+  public $xs_decimal<T> clone() {
+    return new $xs_decimal<T>(this) {
+      protected $xs_decimal<T> inherits() {
         return this;
       }
     };

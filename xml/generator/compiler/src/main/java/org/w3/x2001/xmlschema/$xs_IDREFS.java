@@ -19,17 +19,18 @@ package org.w3.x2001.xmlschema;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_IDREFS($xs_IDREFS<T> binding) {
+  public $xs_IDREFS(final $xs_IDREFS<T> binding) {
     super(binding);
   }
 
-  public $xs_IDREFS(List<String> value) {
+  public $xs_IDREFS(final List<String> value) {
     super(value);
   }
 
@@ -41,11 +42,11 @@ public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleTyp
     return (List<String>)super.getText();
   }
 
-  public void setText(List<String> text) {
+  public void setText(final List<String> text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     if (value == null || value.length() == 0)
       return;
 
@@ -55,8 +56,8 @@ public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleTyp
       ((List<String>)super.getText()).add(tokenizer.nextToken());
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
-    if (super.getText() == null || ((List)super.getText()).size() == 0)
+  protected String _$$encode(final Element parent) throws MarshalException {
+    if (super.getText() == null || ((List<String>)super.getText()).size() == 0)
       return null;
 
     String value = "";
@@ -66,9 +67,9 @@ public abstract class $xs_IDREFS<T extends BindingType> extends $xs_anySimpleTyp
     return value.substring(1);
   }
 
-  public $xs_IDREFS clone() {
-    return new $xs_IDREFS(this) {
-      protected $xs_IDREFS inherits() {
+  public $xs_IDREFS<T> clone() {
+    return new $xs_IDREFS<T>(this) {
+      protected $xs_IDREFS<T> inherits() {
         return this;
       }
     };

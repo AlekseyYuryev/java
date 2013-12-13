@@ -259,7 +259,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
             writer.write("{\n");
             writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for(" + restrictionClassName + " temp : text)\n");
+            writer.write("for (" + restrictionClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
             writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
             writer.write("}\n");
@@ -267,7 +267,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             writer.write("public void setText(" + restrictionClassName + " ... text)\n");
             writer.write("{\n");
             writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for(" + restrictionClassName + " temp : text)\n");
+            writer.write("for (" + restrictionClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
             writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
             writer.write("}\n");
@@ -276,7 +276,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
               writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + "> text)\n");
               writer.write("{\n");
               writer.write("super.setText(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
-              writer.write("for(" + restrictionClassName + " temp : text)\n");
+              writer.write("for (" + restrictionClassName + " temp : text)\n");
               writer.write("if(temp != null)\n");
               writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
               writer.write("}\n");

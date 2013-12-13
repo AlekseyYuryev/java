@@ -45,19 +45,17 @@ public class DocumentationPlan extends Plan<DocumentationModel> {
     text = text.replace("\n", " ");
     text = text.replace("^^^^", "\n\n");
     String fixedSpaces = null;
-    do
-    {
+    do {
       fixedSpaces = text;
       text = fixedSpaces.replace("  ", " ");
     }
-    while(!text.equals(fixedSpaces));
+    while (!text.equals(fixedSpaces));
 
-    do
-    {
+    do {
       fixedSpaces = text;
       text = fixedSpaces.replace("\n\n", "\n \n *");
     }
-    while(!text.equals(fixedSpaces));
+    while (!text.equals(fixedSpaces));
 
     text = text.trim();
     String formatted = "\t/**\n";
@@ -75,19 +73,17 @@ public class DocumentationPlan extends Plan<DocumentationModel> {
 
     preparedDocumentation = formatted + "\t * " + text.substring(start, text.length()).replace(" * ", "") + "\n\n *\n" + getMetaDocumentation() + "\t */\n";
     preparedDocumentation = preparedDocumentation.replaceAll("\n[ \t]*\n", "\n");
-    do
-    {
+    do {
       fixedSpaces = preparedDocumentation;
       preparedDocumentation = fixedSpaces.replace("* *", "*");
     }
-    while(!preparedDocumentation.equals(fixedSpaces));
+    while (!preparedDocumentation.equals(fixedSpaces));
 
-    do
-    {
+    do {
       fixedSpaces = preparedDocumentation;
       preparedDocumentation = fixedSpaces.replace(" *\n *\n", " *\n");
     }
-    while(!preparedDocumentation.equals(fixedSpaces));
+    while (!preparedDocumentation.equals(fixedSpaces));
 
     return preparedDocumentation;
   }

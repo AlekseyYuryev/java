@@ -124,7 +124,7 @@ public final class DOMs {
    * @param textToConvert the String containing invalid entities.
    * @return String with expanded entities.
    */
-  private static void entityConvert(StringBuffer stringBuffer, String entity) {
+  private static void entityConvert(final StringBuffer stringBuffer, String entity) {
     if (entity == null)
       return;
 

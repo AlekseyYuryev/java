@@ -17,6 +17,7 @@
 package org.w3.x2001.xmlschema;
 
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
@@ -61,9 +62,9 @@ public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType
     return value.getLocalPart();
   }
 
-  public $xs_QName clone() {
-    return new $xs_QName(this) {
-      protected $xs_QName inherits() {
+  public $xs_QName<T> clone() {
+    return new $xs_QName<T>(this) {
+      protected $xs_QName<T> inherits() {
         return this;
       }
     };

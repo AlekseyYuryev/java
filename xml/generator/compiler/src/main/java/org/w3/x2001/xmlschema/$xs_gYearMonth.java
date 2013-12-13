@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_gYearMonth<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_gYearMonth($xs_gYearMonth<T> binding) {
+  public $xs_gYearMonth(final $xs_gYearMonth<T> binding) {
     super(binding);
   }
 
-  public $xs_gYearMonth(YearMonth value) {
+  public $xs_gYearMonth(final YearMonth value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_gYearMonth<T extends BindingType> extends $xs_anySimpl
     return (YearMonth)super.getText();
   }
 
-  public void setText(YearMonth text) {
+  public void setText(final YearMonth text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(YearMonth.parseYearMonth(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_gYearMonth clone() {
-    return new $xs_gYearMonth(this) {
-      protected $xs_gYearMonth inherits() {
+  public $xs_gYearMonth<T> clone() {
+    return new $xs_gYearMonth<T>(this) {
+      protected $xs_gYearMonth<T> inherits() {
         return this;
       }
     };

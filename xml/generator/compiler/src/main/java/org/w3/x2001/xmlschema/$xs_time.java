@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_time<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_time($xs_time<T> binding) {
+  public $xs_time(final $xs_time<T> binding) {
     super(binding);
   }
 
-  public $xs_time(Time value) {
+  public $xs_time(final Time value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_time<T extends BindingType> extends $xs_anySimpleType<
     return (Time)super.getText();
   }
 
-  protected void setText(Time text) {
+  protected void setText(final Time text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Time.parseTime(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_time clone() {
-    return new $xs_time(this) {
-      protected $xs_time inherits() {
+  public $xs_time<T> clone() {
+    return new $xs_time<T>(this) {
+      protected $xs_time<T> inherits() {
         return this;
       }
     };

@@ -17,7 +17,9 @@
 package org.w3.x2001.xmlschema;
 
 import java.util.Collection;
+
 import javax.xml.namespace.QName;
+
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingType;
@@ -38,7 +40,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
   public $xs_anySimpleType(final Object text) {
     super();
     if (text instanceof $xs_anySimpleType)
-      merge(($xs_anySimpleType)text);
+      merge(($xs_anySimpleType<?>)text);
     else
       this.text = text;
   }
@@ -112,9 +114,9 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     return null;
   }
 
-  public $xs_anySimpleType clone() {
-    return new $xs_anySimpleType(this) {
-      protected $xs_anySimpleType inherits() {
+  public $xs_anySimpleType<T> clone() {
+    return new $xs_anySimpleType<T>(this) {
+      protected $xs_anySimpleType<T> inherits() {
         return this;
       }
     };
@@ -127,7 +129,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     if (!(obj instanceof $xs_anySimpleType))
       return false;
 
-    final $xs_anySimpleType that = ($xs_anySimpleType)obj;
+    final $xs_anySimpleType<?> that = ($xs_anySimpleType<?>)obj;
     try {
       final String thisEncoded = _$$encode(parent);
       final String thatEncoded = that._$$encode(parent);

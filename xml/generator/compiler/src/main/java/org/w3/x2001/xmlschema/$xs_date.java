@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_date<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_date($xs_date<T> binding) {
+  public $xs_date(final $xs_date<T> binding) {
     super(binding);
   }
 
-  public $xs_date(Date value) {
+  public $xs_date(final Date value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_date<T extends BindingType> extends $xs_anySimpleType<
     return (Date)super.getText();
   }
 
-  public void setText(Date text) {
+  public void setText(final Date text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Date.parseDate(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_date clone() {
-    return new $xs_date(this) {
-      protected $xs_date inherits() {
+  public $xs_date<T> clone() {
+    return new $xs_date<T>(this) {
+      protected $xs_date<T> inherits() {
         return this;
       }
     };

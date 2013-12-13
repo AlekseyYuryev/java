@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_hexBinary<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_hexBinary($xs_hexBinary<T> binding) {
+  public $xs_hexBinary(final $xs_hexBinary<T> binding) {
     super(binding);
   }
 
-  public $xs_hexBinary(HexBinary value) {
+  public $xs_hexBinary(final HexBinary value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_hexBinary<T extends BindingType> extends $xs_anySimple
     return (HexBinary)super.getText();
   }
 
-  public void setText(HexBinary text) {
+  public void setText(final HexBinary text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(HexBinary.parseHexBinary(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_hexBinary clone() {
-    return new $xs_hexBinary(this) {
-      protected $xs_hexBinary inherits() {
+  public $xs_hexBinary<T> clone() {
+    return new $xs_hexBinary<T>(this) {
+      protected $xs_hexBinary<T> inherits() {
         return this;
       }
     };

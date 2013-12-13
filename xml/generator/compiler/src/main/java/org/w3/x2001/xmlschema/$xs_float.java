@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_float($xs_float<T> binding) {
+  public $xs_float(final $xs_float<T> binding) {
     super(binding);
   }
 
-  public $xs_float(Float value) {
+  public $xs_float(final Float value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType
     return (Float)super.getText();
   }
 
-  public void setText(Float text) {
+  public void setText(final Float text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Float.parseFloat(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return Numbers.roundInsignificant(super.getText().toString());
   }
 
-  public $xs_float clone() {
-    return new $xs_float(this) {
-      protected $xs_float inherits() {
+  public $xs_float<T> clone() {
+    return new $xs_float<T>(this) {
+      protected $xs_float<T> inherits() {
         return this;
       }
     };

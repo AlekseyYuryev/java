@@ -22,11 +22,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_positiveInteger<T extends BindingType> extends $xs_integer<T> {
-  public $xs_positiveInteger($xs_positiveInteger<T> binding) {
+  public $xs_positiveInteger(final $xs_positiveInteger<T> binding) {
     super(binding);
   }
 
-  public $xs_positiveInteger(Integer value) {
+  public $xs_positiveInteger(final Integer value) {
     super(value);
   }
 
@@ -38,24 +38,24 @@ public abstract class $xs_positiveInteger<T extends BindingType> extends $xs_int
     return (Integer)super.getText();
   }
 
-  public void setText(Integer text) {
+  public void setText(final Integer text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Integer.parseInt(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_positiveInteger clone() {
-    return new $xs_positiveInteger(this) {
-      protected $xs_positiveInteger inherits() {
+  public $xs_positiveInteger<T> clone() {
+    return new $xs_positiveInteger<T>(this) {
+      protected $xs_positiveInteger<T> inherits() {
         return this;
       }
     };

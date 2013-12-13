@@ -19,17 +19,18 @@ package org.w3.x2001.xmlschema;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_ENTITIES($xs_ENTITIES<T> binding) {
+  public $xs_ENTITIES(final $xs_ENTITIES<T> binding) {
     super(binding);
   }
 
-  public $xs_ENTITIES(List<String> value) {
+  public $xs_ENTITIES(final List<String> value) {
     super(value);
   }
 
@@ -41,11 +42,11 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
     return (List<String>)super.getText();
   }
 
-  public void setText(List<String> text) {
+  public void setText(final List<String> text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     if (value == null || value.length() == 0)
       return;
 
@@ -55,7 +56,7 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
       ((List<String>)super.getText()).add(tokenizer.nextToken());
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null || ((List)super.getText()).size() == 0)
       return null;
 
@@ -66,9 +67,9 @@ public abstract class $xs_ENTITIES<T extends BindingType> extends $xs_anySimpleT
     return value.substring(1);
   }
 
-  public $xs_ENTITIES clone() {
-    return new $xs_ENTITIES(this) {
-      protected $xs_ENTITIES inherits() {
+  public $xs_ENTITIES<T> clone() {
+    return new $xs_ENTITIES<T>(this) {
+      protected $xs_ENTITIES<T> inherits() {
         return this;
       }
     };

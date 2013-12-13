@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_monthDay<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_monthDay($xs_monthDay<T> binding) {
+  public $xs_monthDay(final $xs_monthDay<T> binding) {
     super(binding);
   }
 
-  public $xs_monthDay(MonthDay value) {
+  public $xs_monthDay(final MonthDay value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_monthDay<T extends BindingType> extends $xs_anySimpleT
     return (MonthDay)super.getText();
   }
 
-  public void setText(MonthDay text) {
+  public void setText(final MonthDay text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(MonthDay.parseMonthDay(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_monthDay clone() {
-    return new $xs_monthDay(this) {
-      protected $xs_monthDay inherits() {
+  public $xs_monthDay<T> clone() {
+    return new $xs_monthDay<T>(this) {
+      protected $xs_monthDay<T> inherits() {
         return this;
       }
     };

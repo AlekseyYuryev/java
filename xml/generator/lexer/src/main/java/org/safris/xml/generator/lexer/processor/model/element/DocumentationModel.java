@@ -42,7 +42,7 @@ public class DocumentationModel extends Model {
 
     final NodeList nodes = node.getChildNodes();
     for (int i = 0; i < nodes.getLength(); i++)
-      if (Node.TEXT_NODE == nodes.item(i).getNodeType() && nodes.item(i).getNodeValue().trim().length() != 0)
+      if (Node.TEXT_NODE == nodes.item(i).getNodeType() && nodes.item(i).getNodeValue().length() != 0)
         text += "\n" + nodes.item(i).getNodeValue();
 
     if (text.length() > 1)

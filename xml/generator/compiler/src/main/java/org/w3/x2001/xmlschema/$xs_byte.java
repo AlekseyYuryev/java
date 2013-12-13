@@ -22,11 +22,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_byte<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_byte($xs_byte<T> binding) {
+  public $xs_byte(final $xs_byte<T> binding) {
     super(binding);
   }
 
-  public $xs_byte(Byte value) {
+  public $xs_byte(final Byte value) {
     super(value);
   }
 
@@ -38,24 +38,24 @@ public abstract class $xs_byte<T extends BindingType> extends $xs_anySimpleType<
     return (Byte)super.getText();
   }
 
-  public void setText(Byte text) {
+  public void setText(final Byte text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Byte.parseByte(String.valueOf(value)));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_byte clone() {
-    return new $xs_byte(this) {
-      protected $xs_byte inherits() {
+  public $xs_byte<T> clone() {
+    return new $xs_byte<T>(this) {
+      protected $xs_byte<T> inherits() {
         return this;
       }
     };

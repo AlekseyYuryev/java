@@ -28,11 +28,11 @@ import org.w3c.dom.Element;
  * @see <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">Definition</a>
  */
 public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_dateTime($xs_dateTime<T> binding) {
+  public $xs_dateTime(final $xs_dateTime<T> binding) {
     super(binding);
   }
 
-  public $xs_dateTime(DateTime value) {
+  public $xs_dateTime(final DateTime value) {
     super(value);
   }
 
@@ -51,24 +51,24 @@ public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleT
     return (DateTime)super.getText();
   }
 
-  public void setText(DateTime text) {
+  public void setText(final DateTime text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(DateTime.parseDateTime(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_dateTime clone() {
-    return new $xs_dateTime(this) {
-      protected $xs_dateTime inherits() {
+  public $xs_dateTime<T> clone() {
+    return new $xs_dateTime<T>(this) {
+      protected $xs_dateTime<T> inherits() {
         return this;
       }
     };

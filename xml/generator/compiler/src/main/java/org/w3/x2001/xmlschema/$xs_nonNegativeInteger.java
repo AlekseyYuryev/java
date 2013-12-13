@@ -22,15 +22,15 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_nonNegativeInteger<T extends BindingType> extends $xs_integer<T> {
-  public $xs_nonNegativeInteger($xs_nonNegativeInteger<T> binding) {
+  public $xs_nonNegativeInteger(final $xs_nonNegativeInteger<T> binding) {
     super(binding);
   }
 
-  public $xs_nonNegativeInteger(Integer value) {
+  public $xs_nonNegativeInteger(final Integer value) {
     super(value);
   }
 
-  protected $xs_nonNegativeInteger(Number value) {
+  protected $xs_nonNegativeInteger(final Number value) {
     super(value);
   }
 
@@ -42,24 +42,24 @@ public abstract class $xs_nonNegativeInteger<T extends BindingType> extends $xs_
     return (Integer)super.getText();
   }
 
-  public void setText(Integer text) {
+  public void setText(final Integer text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Integer.parseInt(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_nonNegativeInteger clone() {
-    return new $xs_nonNegativeInteger(this) {
-      protected $xs_nonNegativeInteger inherits() {
+  public $xs_nonNegativeInteger<T> clone() {
+    return new $xs_nonNegativeInteger<T>(this) {
+      protected $xs_nonNegativeInteger<T> inherits() {
         return this;
       }
     };

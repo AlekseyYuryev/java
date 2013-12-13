@@ -26,11 +26,11 @@ public abstract class $xs_unsignedLong<T extends BindingType> extends $xs_decima
     super(binding);
   }
 
-  public $xs_unsignedLong(Long value) {
+  public $xs_unsignedLong(final Long value) {
     super(value);
   }
 
-  protected $xs_unsignedLong(Number value) {
+  protected $xs_unsignedLong(final Number value) {
     super(value);
   }
 
@@ -42,24 +42,24 @@ public abstract class $xs_unsignedLong<T extends BindingType> extends $xs_decima
     return (Long)super.getText();
   }
 
-  protected void setText(Long text) {
+  protected void setText(final Long text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Long.parseLong(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_unsignedLong clone() {
-    return new $xs_unsignedLong(this) {
-      protected $xs_unsignedLong inherits() {
+  public $xs_unsignedLong<T> clone() {
+    return new $xs_unsignedLong<T>(this) {
+      protected $xs_unsignedLong<T> inherits() {
         return this;
       }
     };

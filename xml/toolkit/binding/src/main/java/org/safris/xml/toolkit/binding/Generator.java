@@ -23,7 +23,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+
 import javax.xml.parsers.DocumentBuilder;
+
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
@@ -141,7 +143,7 @@ public class Generator extends AbstractGenerator {
 
           NodeList text = schemaNode.getChildNodes();
           for (int k = 0; k < text.getLength(); k++) {
-            Node node = text.item(k);
+            final Node node = text.item(k);
             if (node.getNodeType() != Node.TEXT_NODE)
               continue;
 

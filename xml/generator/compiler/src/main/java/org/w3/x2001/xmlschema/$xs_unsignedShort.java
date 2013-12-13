@@ -22,15 +22,15 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_unsignedShort<T extends BindingType> extends $xs_decimal<T> {
-  public $xs_unsignedShort($xs_unsignedShort<T> binding) {
+  public $xs_unsignedShort(final $xs_unsignedShort<T> binding) {
     super(binding);
   }
 
-  public $xs_unsignedShort(Short value) {
+  public $xs_unsignedShort(final Short value) {
     super(value);
   }
 
-  protected $xs_unsignedShort(Number value) {
+  protected $xs_unsignedShort(final Number value) {
     super(value);
   }
 
@@ -42,24 +42,24 @@ public abstract class $xs_unsignedShort<T extends BindingType> extends $xs_decim
     return (Short)super.getText();
   }
 
-  public void setText(Short text) {
+  public void setText(final Short text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Short.parseShort(value));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_unsignedShort clone() {
-    return new $xs_unsignedShort(this) {
-      protected $xs_unsignedShort inherits() {
+  public $xs_unsignedShort<T> clone() {
+    return new $xs_unsignedShort<T>(this) {
+      protected $xs_unsignedShort<T> inherits() {
         return this;
       }
     };

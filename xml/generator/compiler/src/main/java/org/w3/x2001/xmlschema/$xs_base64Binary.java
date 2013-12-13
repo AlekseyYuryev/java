@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_base64Binary($xs_base64Binary<T> binding) {
+  public $xs_base64Binary(final $xs_base64Binary<T> binding) {
     super(binding);
   }
 
-  public $xs_base64Binary(Base64Binary value) {
+  public $xs_base64Binary(final Base64Binary value) {
     super(value);
   }
 
@@ -39,24 +39,24 @@ public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySim
     return (Base64Binary)super.getText();
   }
 
-  public void setText(Base64Binary text) {
+  public void setText(final Base64Binary text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Base64Binary.parseBase64Binary(String.valueOf(value)));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_base64Binary clone() {
-    return new $xs_base64Binary(this) {
-      protected $xs_base64Binary inherits() {
+  public $xs_base64Binary<T> clone() {
+    return new $xs_base64Binary<T>(this) {
+      protected $xs_base64Binary<T> inherits() {
         return this;
       }
     };

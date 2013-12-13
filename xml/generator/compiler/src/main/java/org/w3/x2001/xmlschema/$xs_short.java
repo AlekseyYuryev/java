@@ -22,15 +22,15 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_short<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_short($xs_short<T> binding) {
+  public $xs_short(final $xs_short<T> binding) {
     super(binding);
   }
 
-  public $xs_short(Short value) {
+  public $xs_short(final Short value) {
     super(value);
   }
 
-  protected $xs_short(Number value) {
+  protected $xs_short(final Number value) {
     super(value);
   }
 
@@ -42,24 +42,24 @@ public abstract class $xs_short<T extends BindingType> extends $xs_anySimpleType
     return (Short)super.getText();
   }
 
-  public void setText(Short text) {
+  public void setText(final Short text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Short.parseShort(String.valueOf(value)));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_short clone() {
-    return new $xs_short(this) {
-      protected $xs_short inherits() {
+  public $xs_short<T> clone() {
+    return new $xs_short<T>(this) {
+      protected $xs_short<T> inherits() {
         return this;
       }
     };

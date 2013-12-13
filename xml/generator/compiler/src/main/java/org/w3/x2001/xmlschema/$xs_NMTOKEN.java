@@ -22,11 +22,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_NMTOKEN<T extends BindingType> extends $xs_token<T> {
-  public $xs_NMTOKEN($xs_NMTOKEN<T> binding) {
+  public $xs_NMTOKEN(final $xs_NMTOKEN<T> binding) {
     super(binding);
   }
 
-  public $xs_NMTOKEN(String value) {
+  public $xs_NMTOKEN(final String value) {
     super(value);
   }
 
@@ -38,24 +38,24 @@ public abstract class $xs_NMTOKEN<T extends BindingType> extends $xs_token<T> {
     return super.getText();
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(value);
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_NMTOKEN clone() {
-    return new $xs_NMTOKEN(this) {
-      protected $xs_NMTOKEN inherits() {
+  public $xs_NMTOKEN<T> clone() {
+    return new $xs_NMTOKEN<T>(this) {
+      protected $xs_NMTOKEN<T> inherits() {
         return this;
       }
     };

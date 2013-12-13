@@ -22,11 +22,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_Name<T extends BindingType> extends $xs_token<T> {
-  public $xs_Name($xs_Name<T> binding) {
+  public $xs_Name(final $xs_Name<T> binding) {
     super(binding);
   }
 
-  public $xs_Name(String value) {
+  public $xs_Name(final String value) {
     super(value);
   }
 
@@ -38,24 +38,24 @@ public abstract class $xs_Name<T extends BindingType> extends $xs_token<T> {
     return (String)super.getText();
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(value);
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_Name clone() {
-    return new $xs_Name(this) {
-      protected $xs_Name inherits() {
+  public $xs_Name<T> clone() {
+    return new $xs_Name<T>(this) {
+      protected $xs_Name<T> inherits() {
         return this;
       }
     };

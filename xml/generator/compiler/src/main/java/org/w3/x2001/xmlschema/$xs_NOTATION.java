@@ -23,11 +23,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_NOTATION<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_NOTATION($xs_NOTATION<T> binding) {
+  public $xs_NOTATION(final $xs_NOTATION<T> binding) {
     super(binding);
   }
 
-  public $xs_NOTATION(NotationType value) {
+  public $xs_NOTATION(final NotationType value) {
     super(value);
   }
 
@@ -39,26 +39,26 @@ public abstract class $xs_NOTATION<T extends BindingType> extends $xs_anySimpleT
     return (NotationType)super.getText();
   }
 
-  public void setText(NotationType text) {
+  public void setText(final NotationType text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(NotationType.parseNotation(value));
     if (super.getText() == null)
       throw new ParseException("Notation \"" + value + "\" is not registered. The code that instantiates the Notation binding for \"" + value + "\" must be run before it is possible for the Binding engine to have to know about it.");
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_NOTATION clone() {
-    return new $xs_NOTATION(this) {
-      protected $xs_NOTATION inherits() {
+  public $xs_NOTATION<T> clone() {
+    return new $xs_NOTATION<T>(this) {
+      protected $xs_NOTATION<T> inherits() {
         return this;
       }
     };

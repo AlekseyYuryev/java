@@ -18,6 +18,7 @@ package org.safris.commons.xml.binding;
 
 import java.io.IOException;
 import java.util.Arrays;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

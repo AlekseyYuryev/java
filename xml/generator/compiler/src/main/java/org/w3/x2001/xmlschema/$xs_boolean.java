@@ -42,11 +42,11 @@ public abstract class $xs_boolean<T extends BindingType> extends $xs_anySimpleTy
     valueMap.put(false, new String[]{"false", "0"});
   }
 
-  public $xs_boolean($xs_boolean<T> binding) {
+  public $xs_boolean(final $xs_boolean<T> binding) {
     super(binding);
   }
 
-  public $xs_boolean(Boolean value) {
+  public $xs_boolean(final Boolean value) {
     super(value);
   }
 
@@ -58,15 +58,15 @@ public abstract class $xs_boolean<T extends BindingType> extends $xs_anySimpleTy
     return (Boolean)super.getText();
   }
 
-  public void setText(Boolean text) {
+  public void setText(final Boolean text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(Boolean.valueOf("true".equals(value) || "1".equals(value)));
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
@@ -84,9 +84,9 @@ public abstract class $xs_boolean<T extends BindingType> extends $xs_anySimpleTy
     throw new MarshalException("No valid return type. Schema error!!!");
   }
 
-  public $xs_boolean clone() {
-    return new $xs_boolean(this) {
-      protected $xs_boolean inherits() {
+  public $xs_boolean<T> clone() {
+    return new $xs_boolean<T>(this) {
+      protected $xs_boolean<T> inherits() {
         return this;
       }
     };

@@ -22,11 +22,11 @@ import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 public abstract class $xs_IDREF<T extends BindingType> extends $xs_NCName<T> {
-  public $xs_IDREF($xs_IDREF<T> binding) {
+  public $xs_IDREF(final $xs_IDREF<T> binding) {
     super(binding);
   }
 
-  public $xs_IDREF(String value) {
+  public $xs_IDREF(final String value) {
     super(value);
   }
 
@@ -38,24 +38,24 @@ public abstract class $xs_IDREF<T extends BindingType> extends $xs_NCName<T> {
     return super.getText();
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(value);
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_IDREF clone() {
-    return new $xs_IDREF(this) {
-      protected $xs_IDREF inherits() {
+  public $xs_IDREF<T> clone() {
+    return new $xs_IDREF<T>(this) {
+      protected $xs_IDREF<T> inherits() {
         return this;
       }
     };

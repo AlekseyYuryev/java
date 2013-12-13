@@ -20,14 +20,13 @@ import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public abstract class $xs_ENTITY<T extends BindingType> extends $xs_NCName<T> {
-  public $xs_ENTITY($xs_ENTITY<T> binding) {
+  public $xs_ENTITY(final $xs_ENTITY<T> binding) {
     super(binding);
   }
 
-  public $xs_ENTITY(String value) {
+  public $xs_ENTITY(final String value) {
     super(value);
   }
 
@@ -39,24 +38,24 @@ public abstract class $xs_ENTITY<T extends BindingType> extends $xs_NCName<T> {
     return super.getText();
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     super.setText(text);
   }
 
-  protected void _$$decode(Element parent, String value) throws ParseException {
+  protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.setText(value);
   }
 
-  protected String _$$encode(Element parent) throws MarshalException {
+  protected String _$$encode(final Element parent) throws MarshalException {
     if (super.getText() == null)
       return "";
 
     return super.getText().toString();
   }
 
-  public $xs_ENTITY clone() {
-    return new $xs_ENTITY(this) {
-      protected $xs_ENTITY inherits() {
+  public $xs_ENTITY<T> clone() {
+    return new $xs_ENTITY<T>(this) {
+      protected $xs_ENTITY<T> inherits() {
         return this;
       }
     };

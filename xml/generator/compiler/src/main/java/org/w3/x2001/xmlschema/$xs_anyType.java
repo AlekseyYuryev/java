@@ -18,7 +18,9 @@ package org.w3.x2001.xmlschema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.compiler.runtime.Attribute;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.BindingType;
@@ -28,15 +30,15 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
   private final List<Binding<? extends BindingType>> anys = new ArrayList<Binding<? extends BindingType>>(7);
   private final List<Binding<? extends Attribute>> anys$ = new ArrayList<Binding<? extends Attribute>>(7);
 
-  public $xs_anyType($xs_anyType<T> binding) {
+  public $xs_anyType(final $xs_anyType<T> binding) {
     super(binding);
   }
 
-  public $xs_anyType(Object text) {
+  public $xs_anyType(final Object text) {
     super(text);
   }
 
-  protected $xs_anyType(String text) {
+  protected $xs_anyType(final String text) {
     super();
   }
 
@@ -44,7 +46,7 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
     super();
   }
 
-  public void addAny$(Binding<? extends Attribute> any) {
+  public void addAny$(final Binding<? extends Attribute> any) {
     this.anys$.add(any);
   }
 
@@ -52,7 +54,7 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
     return anys$;
   }
 
-  public void addAny(Binding<? extends BindingType> any) {
+  public void addAny(final Binding<? extends BindingType> any) {
     this.anys.add(any);
   }
 
@@ -60,37 +62,39 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
     return anys;
   }
 
-  public $xs_anyType clone() {
-    return new $xs_anyType(this) {
+  public $xs_anyType<T> clone() {
+    return new $xs_anyType<T>(this) {
       protected QName _$$getName() {
         return this._$$getName();
       }
 
-      protected $xs_anyType inherits() {
+      protected $xs_anyType<T> inherits() {
         return this;
       }
     };
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 
     if (!(obj instanceof $xs_anyType))
       return false;
 
-    final $xs_anyType that = ($xs_anyType)obj;
+    final $xs_anyType<?> that = ($xs_anyType<?>)obj;
     if (anys != null) {
       if (that.anys != null && anys.size() == that.anys.size()) {
         for (int i = 0; i < anys.size(); i++)
           if (!anys.get(i).equals(that.anys.get(i)))
             return false;
       }
-      else
+      else {
         return false;
+      }
     }
-    else if (that.anys != null)
+    else if (that.anys != null) {
       return false;
+    }
 
     if (anys$ != null) {
       if (that.anys$ != null && anys$.size() == that.anys$.size()) {
@@ -98,11 +102,13 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
           if (!anys$.get(i).equals(that.anys$.get(i)))
             return false;
       }
-      else
+      else {
         return false;
+      }
     }
-    else if (that.anys$ != null)
+    else if (that.anys$ != null) {
       return false;
+    }
 
     return true;
   }
