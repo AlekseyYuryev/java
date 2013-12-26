@@ -23,13 +23,46 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import sun.reflect.Reflection;
+
 public final class Classes {
+  public static Class<?> forName(final String className, final boolean initialize) {
+    if (className == null || className.length() == 0)
+      return null;
+
+    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+    
+    classLoader = Thread.currentThread().getContextClassLoader();
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+
+    final Class<?> callerClass = Reflection.getCallerClass(2);
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+
+    return null;
+  }
+
+  public static Class<?> forName(final String className) {
+    return Classes.forName(className, false);
+  }
+
   /**
-   * Find declared Field(s) in the clazz that have an annotation annotationType,
-   * executing a comparator callback for content matching.
+   * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
    * 
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there
-   * if no match, and 1 if there is a match & to return Field retuls after this match.
+   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field retuls after this
+   * match.
    * 
    * @param clazz
    * @param annotationType
@@ -80,7 +113,7 @@ public final class Classes {
 
     final List<Field> fields = new ArrayList<Field>();
     do
-      fields.addAll(Arrays.<Field> asList(clazz.getFields()));
+      fields.addAll(Arrays.<Field>asList(clazz.getFields()));
     while ((clazz = clazz.getSuperclass()) != null);
     return fields;
   }
@@ -91,7 +124,7 @@ public final class Classes {
 
     final List<Field> fields = new ArrayList<Field>();
     do
-      fields.addAll(Arrays.<Field> asList(clazz.getDeclaredFields()));
+      fields.addAll(Arrays.<Field>asList(clazz.getDeclaredFields()));
     while ((clazz = clazz.getSuperclass()) != null);
     return fields;
   }

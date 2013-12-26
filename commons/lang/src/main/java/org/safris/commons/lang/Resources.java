@@ -24,10 +24,11 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
 import sun.reflect.Reflection;
 
 public final class Resources {
-  public static File getLocationBase(Class clazz) {
+  public static File getLocationBase(final Class<?> clazz) {
     if (clazz == null)
       return null;
 
@@ -47,7 +48,7 @@ public final class Resources {
     return new File(classFile);
   }
 
-  public static Resource getResource(String name) {
+  public static Resource getResource(final String name) {
     if (name == null || name.length() == 0)
       return null;
 
@@ -61,7 +62,7 @@ public final class Resources {
     if (url != null)
       return new Resource(url, classLoader);
 
-    final Class callerClass = Reflection.getCallerClass(2);
+    final Class<?> callerClass = Reflection.getCallerClass(2);
     url = callerClass.getResource(name);
     if (url != null)
       return new Resource(url, classLoader);
@@ -69,7 +70,7 @@ public final class Resources {
     return null;
   }
 
-  public static Enumeration<Resource> getResources(String name) throws IOException {
+  public static Enumeration<Resource> getResources(final String name) throws IOException {
     if (name == null || name.length() == 0)
       return null;
 
@@ -83,7 +84,7 @@ public final class Resources {
     urls = classLoader.getResources(name);
     combineResources(urls, classLoader, history, resources);
 
-    final Class callerClass = Reflection.getCallerClass(2);
+    final Class<?> callerClass = Reflection.getCallerClass(2);
     classLoader = callerClass.getClassLoader();
     urls = classLoader.getResources(name);
     combineResources(urls, classLoader, history, resources);
@@ -91,7 +92,7 @@ public final class Resources {
     return resources.elements();
   }
 
-  private static void combineResources(Enumeration<URL> urls, ClassLoader classLoader, Set<URL> history, Collection<Resource> resources) {
+  private static void combineResources(final Enumeration<URL> urls, final ClassLoader classLoader, final Set<URL> history, final Collection<Resource> resources) {
     if (urls == null)
       return;
 
