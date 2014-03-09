@@ -26,7 +26,7 @@ public class WhiteSpaceModel extends NamedModel {
   private Boolean fixed = null;
   private Value value = null;
 
-  protected WhiteSpaceModel(Node node, Model parent) {
+  protected WhiteSpaceModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

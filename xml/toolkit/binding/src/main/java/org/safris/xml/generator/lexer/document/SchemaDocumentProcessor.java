@@ -70,39 +70,39 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
         importLoopCheck.put(schemaReference.getNamespaceURI(), url);
         while (outer.size() != 0) {
           schemasToGenerate.addAll(0, outer);
-          Stack<SchemaDocument> inner = new Stack<SchemaDocument>();
-          for (final SchemaDocument entry : outer) {
+          final Stack<SchemaDocument> inner = new Stack<SchemaDocument>();
+          for (final SchemaDocument schemaDocument : outer) {
             NodeList includeNodeList = null;
             for (final String includeString : includeStrings) {
-              includeNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
+              includeNodeList = schemaDocument.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), includeString);
               for (int i = 0; i < includeNodeList.getLength(); i++) {
                 final Element includeElement = (Element)includeNodeList.item(i);
-                final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
+                final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(schemaDocument.getSchemaReference().getURL(), includeElement);
 
-                // Dont want to get into an infinite loop
-                Collection<URL> duplicates = includeLoopCheck.get(entry.getSchemaReference().getNamespaceURI());
-                if (schemaLocationURL.equals(entry.getSchemaReference().getURL()) || (duplicates != null && duplicates.contains(schemaLocationURL)))
+                // Don't want to get into an infinite loop
+                Collection<URL> duplicates = includeLoopCheck.get(schemaDocument.getSchemaReference().getNamespaceURI());
+                if (schemaLocationURL.equals(schemaDocument.getSchemaReference().getURL()) || (duplicates != null && duplicates.contains(schemaLocationURL)))
                     continue;
 
-                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, entry.getSchemaReference().getNamespaceURI(), entry.getSchemaReference().getPrefix());
+                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getSchemaReference().getPrefix());
                 inner.insertElementAt(AbstractGenerator.parse(includeSchemaReference), 0);
                 if (duplicates == null)
                     duplicates = new ArrayList<URL>();
 
                 duplicates.add(schemaLocationURL);
-                logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + entry.getSchemaReference().getNamespaceURI() + "}");
-                includeLoopCheck.put(entry.getSchemaReference().getNamespaceURI(), duplicates);
+                logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + schemaDocument.getSchemaReference().getNamespaceURI() + "}");
+                includeLoopCheck.put(schemaDocument.getSchemaReference().getNamespaceURI(), duplicates);
               }
             }
 
-            final NodeList importNodeList = entry.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), "import");
+            final NodeList importNodeList = schemaDocument.getDocument().getElementsByTagNameNS(UniqueQName.XS.getNamespaceURI().toString(), "import");
             for (int i = 0; i < importNodeList.getLength(); i++) {
-              final Element includeElement = (Element)importNodeList.item(i);
-              final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(url, includeElement);
+              final Element importElement = (Element)importNodeList.item(i);
+              final URL schemaLocationURL = SchemaDocumentProcessor.getSchemaLocation(schemaDocument.getSchemaReference().getURL(), importElement);
 
               // Check if we have two schemaReferences for a single targetNamespace
               // This should not happen for import, but can happen for include!
-              final NamespaceURI importNamespaceURI = NamespaceURI.getInstance(includeElement.getAttribute("namespace"));
+              final NamespaceURI importNamespaceURI = NamespaceURI.getInstance(importElement.getAttribute("namespace"));
               final URL duplicate = importLoopCheck.get(importNamespaceURI);
               if (duplicate == null) {
                 importLoopCheck.put(importNamespaceURI, schemaLocationURL);
@@ -111,7 +111,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
               }
 
               if (!duplicate.equals(schemaLocationURL)) {
-                logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n" + duplicate + "\n" + schemaLocationURL);
+                logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n[x] " + schemaDocument.getSchemaReference().getURL() + "\n[1] " + duplicate + "\n[2] " + schemaLocationURL);
                 System.exit(1);
               }
             }

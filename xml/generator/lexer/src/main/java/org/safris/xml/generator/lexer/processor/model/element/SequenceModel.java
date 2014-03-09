@@ -17,6 +17,7 @@
 package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.LinkedHashSet;
+
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;

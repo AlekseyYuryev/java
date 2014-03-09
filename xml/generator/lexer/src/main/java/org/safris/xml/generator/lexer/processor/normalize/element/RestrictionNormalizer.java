@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -232,7 +233,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     return findBaseAttribute(name, typeModel.getSuperType());
   }
 
-  private static void findChildElements(Collection<ElementModel> elements, Collection<Model> children) {
+  private static void findChildElements(final Collection<ElementModel> elements, final Collection<Model> children) {
     for (final Model model : children) {
       if (model instanceof ElementModel) {
         elements.add((ElementModel)model);
@@ -244,13 +245,15 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     }
   }
 
-  private static RestrictionPair<ElementModel> findBaseElement(UniqueQName name, SimpleTypeModel typeModel) {
+  private static RestrictionPair<ElementModel> findBaseElement(final UniqueQName name, final SimpleTypeModel typeModel) {
     if (name == null || typeModel == null || UniqueQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
       return null;
 
     if (typeModel instanceof ComplexTypeModel) {
       final Collection<ElementModel> elements = new ArrayList<ElementModel>();
       findChildElements(elements, typeModel.getChildren());
+      for (final MultiplicableModel multiplicableModel : ((ComplexTypeModel<?>)typeModel).getMultiplicableModels())
+        findChildElements(elements, ((Model)multiplicableModel).getChildren());
 
       // FIXME: Can I equate on just the localPart of the QName???
       for (final ElementModel element : elements)

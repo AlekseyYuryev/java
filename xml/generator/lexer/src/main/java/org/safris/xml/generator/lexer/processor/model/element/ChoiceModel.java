@@ -17,6 +17,7 @@
 package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.LinkedHashSet;
+
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.schema.attribute.Occurs;
@@ -29,7 +30,7 @@ public class ChoiceModel extends Model implements MultiplicableModel {
   private Occurs maxOccurs = Occurs.parseOccurs("1");
   private Occurs minOccurs = Occurs.parseOccurs("1");
 
-  protected ChoiceModel(Node node, Model parent) {
+  protected ChoiceModel(final Node node, final Model parent) {
     super(node, parent);
     NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -41,7 +42,7 @@ public class ChoiceModel extends Model implements MultiplicableModel {
     }
   }
 
-  public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
+  public final void addMultiplicableModel(final MultiplicableModel multiplicableModel) {
     if (!this.equals(multiplicableModel))
       this.multiplicableModels.add(multiplicableModel);
   }

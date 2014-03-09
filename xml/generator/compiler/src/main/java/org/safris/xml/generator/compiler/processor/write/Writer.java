@@ -82,7 +82,8 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
       final File directory = new File(destDir, pkg.replace('.', '/'));
       directory.mkdirs();
 
-      final String absoluteFilePath = directory.getAbsolutePath() + File.separator + JavaBinding.getClassSimpleName(plan.getModel()) + ".java";
+      final String fileName = JavaBinding.getClassSimpleName(plan.getModel()) + ".java";
+      final String absoluteFilePath = directory.getAbsolutePath() + File.separator + fileName;
       final StringWriter stringWriter = new StringWriter();
       writer.appendClass(stringWriter, plan, null);
       final String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());

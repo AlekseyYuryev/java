@@ -18,12 +18,12 @@ package org.safris.xml.generator.lexer.processor.normalize;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
-import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 
 public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,Model,Normalizer> {
   private int stage = 0;
@@ -32,12 +32,9 @@ public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,M
     if (models == null || models.size() == 0)
       return;
 
-    for (final Model model : models) {
-      if (model == null)
-        continue;
-
-      tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
-    }
+    for (final Model model : models)
+      if (model != null)
+        tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
   }
 
   private Collection<Model> disclose(GeneratorContext pipelineContext, Model model, PipelineDirectory<GeneratorContext,Model,Normalizer> directory) {

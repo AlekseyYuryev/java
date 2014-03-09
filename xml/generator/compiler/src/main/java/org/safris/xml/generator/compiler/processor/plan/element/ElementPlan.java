@@ -17,7 +17,9 @@
 package org.safris.xml.generator.compiler.processor.plan.element;
 
 import java.lang.reflect.InvocationTargetException;
+
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;

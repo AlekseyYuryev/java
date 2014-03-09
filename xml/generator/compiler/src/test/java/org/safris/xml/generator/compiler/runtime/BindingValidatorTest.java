@@ -16,7 +16,10 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
+
 import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.junit.Test;
@@ -24,8 +27,6 @@ import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.commons.xml.validator.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import static org.junit.Assert.*;
 
 public class BindingValidatorTest {
   public static void main(String[] args) throws Exception {

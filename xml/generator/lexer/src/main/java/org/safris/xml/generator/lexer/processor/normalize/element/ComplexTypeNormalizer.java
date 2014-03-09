@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;

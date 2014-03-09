@@ -26,7 +26,7 @@ public class DocumentationModel extends Model {
   private String lang = null;
   private String text = " ";
 
-  protected DocumentationModel(Node node, Model parent) {
+  protected DocumentationModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -61,7 +61,7 @@ public class DocumentationModel extends Model {
     return lang;
   }
 
-  public final void merge(DocumentationModel model) {
+  public final void merge(final DocumentationModel model) {
     this.text += "\n" + model.text;
   }
 }

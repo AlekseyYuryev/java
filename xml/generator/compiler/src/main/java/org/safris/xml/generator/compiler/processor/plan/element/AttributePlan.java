@@ -17,6 +17,7 @@
 package org.safris.xml.generator.compiler.processor.plan.element;
 
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
@@ -26,7 +27,6 @@ import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.RestrictablePlan;
-import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;

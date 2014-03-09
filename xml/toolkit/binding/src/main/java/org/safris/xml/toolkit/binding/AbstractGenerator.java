@@ -20,7 +20,9 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
+
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
@@ -32,23 +34,24 @@ import org.w3c.dom.Document;
 public abstract class AbstractGenerator {
   private static final Map<String,SchemaDocument> parsedDocuments = new HashMap<String,SchemaDocument>();
 
-  public static SchemaDocument parse(SchemaReference schemaReference) {
+  public static SchemaDocument parse(final SchemaReference schemaReference) {
     URL url = null;
     SchemaDocument parsedDocument = null;
     Document document = null;
     try {
       url = URLs.canonicalizeURL(schemaReference.getURL());
-      parsedDocuments.get(schemaReference.getNamespaceURI() + url.toString());
-      if (parsedDocument != null)
-        return parsedDocument;
 
       final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
+      if (url.toString().equals("file:/Users/seva/Work/Smartplane/src/xml/src/main/resources/dynamicFeature.xsd")) {
+        int i = 0;
+      }
+
       document = documentBuilder.parse(url.toString());
     }
-    catch (FileNotFoundException e) {
+    catch (final FileNotFoundException e) {
       throw new BindingError(e.getMessage());
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
 

@@ -20,14 +20,16 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.safris.commons.logging.Logger;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
+import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
-import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.AllModel;
 import org.safris.xml.generator.lexer.processor.model.element.AnnotationModel;
 import org.safris.xml.generator.lexer.processor.model.element.AnyAttributeModel;
@@ -69,15 +71,19 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
+import org.safris.xml.generator.lexer.processor.model.element.UnknownModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 import org.w3c.dom.Node;
 
 public class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
+  protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
+
   private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
   private final Collection<String> keys;
   private final ModelProcessor processor = new ModelProcessor();
 
   public ModelDirectory() {
+    classes.put(null, UnknownModel.class);
     classes.put("all", AllModel.class);
     classes.put("annotation", AnnotationModel.class);
     classes.put("anyAttribute", AnyAttributeModel.class);
@@ -123,17 +129,19 @@ public class ModelDirectory implements PipelineDirectory<GeneratorContext,Schema
     keys = classes.keySet();
   }
 
-  public PipelineEntity<Model> getEntity(SchemaComposite entity, Model parent) {
+  public PipelineEntity<Model> getEntity(final SchemaComposite entity, final Model parent) {
     if (!(entity instanceof SchemaNodeComposite))
       return null;
 
     final SchemaNodeComposite schemaNodeComposite = (SchemaNodeComposite)entity;
-    final String elementName = schemaNodeComposite.getNode().getLocalName();
+    String elementName = schemaNodeComposite.getNode().getLocalName();
     if (elementName == null)
       throw new IllegalArgumentException("Node key without local name");
 
-    if (!keys.contains(elementName))
-      throw new IllegalArgumentException("Unknown key: " + elementName);
+    if (!keys.contains(elementName)) {
+      logger.warning("Unknown schema element <" + (schemaNodeComposite.getNode().getPrefix() != null ? schemaNodeComposite.getNode().getPrefix() + ":" : "") + elementName + ">");
+      elementName = null;
+    }
 
     final Class<? extends Model> modelClass = classes.get(elementName);
     Model handler = null;
@@ -143,7 +151,7 @@ public class ModelDirectory implements PipelineDirectory<GeneratorContext,Schema
       handler = constructor.newInstance(schemaNodeComposite.getNode(), parent);
       return handler;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new LexerError(e);
     }
   }

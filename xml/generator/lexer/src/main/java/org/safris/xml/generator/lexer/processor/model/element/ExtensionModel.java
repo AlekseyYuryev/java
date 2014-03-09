@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 public class ExtensionModel extends Model {
   private SimpleTypeModel base = null;
 
-  protected ExtensionModel(Node node, Model parent) {
+  protected ExtensionModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -42,7 +42,7 @@ public class ExtensionModel extends Model {
     }
   }
 
-  public final void setBase(SimpleTypeModel base) {
+  public final void setBase(final SimpleTypeModel base) {
     this.base = base;
   }
 

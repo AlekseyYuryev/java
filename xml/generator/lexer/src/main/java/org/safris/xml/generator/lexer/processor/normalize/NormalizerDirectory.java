@@ -20,6 +20,7 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
@@ -67,8 +68,8 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
+import org.safris.xml.generator.lexer.processor.model.element.UnknownModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
-import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AllNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AnnotationNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.AnyAttributeNormalizer;
@@ -110,6 +111,7 @@ import org.safris.xml.generator.lexer.processor.normalize.element.SimpleContentN
 import org.safris.xml.generator.lexer.processor.normalize.element.SimpleTypeNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.UnionNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.UniqueNormalizer;
+import org.safris.xml.generator.lexer.processor.normalize.element.UnknownNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.WhiteSpaceNormalizer;
 
 public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer> {
@@ -119,6 +121,7 @@ public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,M
   private final NormalizerProcessor processor = new NormalizerProcessor();
 
   public NormalizerDirectory() {
+    classes.put(UnknownModel.class, UnknownNormalizer.class);
     classes.put(AllModel.class, AllNormalizer.class);
     classes.put(AnnotationModel.class, AnnotationNormalizer.class);
     classes.put(AnyAttributeModel.class, AnyAttributeNormalizer.class);

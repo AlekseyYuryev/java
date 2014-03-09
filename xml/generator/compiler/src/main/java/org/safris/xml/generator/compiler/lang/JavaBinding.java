@@ -33,7 +33,7 @@ public final class JavaBinding {
   private final static String NOTATION_MIDFIX = "$";
   private final static String COMPLEXTYPE_PREFIX = "$";
 
-  public static String getInstanceName(Model model) {
+  public static String getInstanceName(final Model model) {
     if (!(model instanceof Nameable) || ((Nameable)model).getName() == null)
       throw new CompilerError("Method being called on a model with no name");
 
@@ -53,7 +53,7 @@ public final class JavaBinding {
     throw new CompilerError("model is not instanceof {AttributeModel,ElementModel,NotationModel,SimpleTypeModel}");
   }
 
-  public static String getClassName(Model model) {
+  public static String getClassName(final Model model) {
     if (model == null)
       return null;
 
@@ -65,19 +65,19 @@ public final class JavaBinding {
     return pkg + "." + simpleName;
   }
 
-  private static boolean isRef(Model model) {
+  private static boolean isRef(final Model model) {
     return model instanceof ReferableModel && ((ReferableModel)model).getRef() != null;
   }
 
-  private static boolean isNested(Model model) {
+  private static boolean isNested(final Model model) {
     return !(model.getParent() instanceof SchemaModel || (model.getParent() instanceof RedefineModel && model.getParent().getParent() instanceof SchemaModel) || (model instanceof Nameable && XSTypeDirectory.parseType(((Nameable)model).getName()) != null));
   }
 
-  private static Prefix getPrefix(Model model) {
+  private static Prefix getPrefix(final Model model) {
     return !JavaBinding.isNested(model) || JavaBinding.isRef(model) ? ((Nameable)model).getName().getPrefix() : Prefix.EMPTY;
   }
 
-  public static String getClassSimpleName(Model model) {
+  public static String getClassSimpleName(final Model model) {
     if (!(model instanceof Nameable) || ((Nameable)model).getName() == null)
       throw new CompilerError("Method being called on a model with no name");
 

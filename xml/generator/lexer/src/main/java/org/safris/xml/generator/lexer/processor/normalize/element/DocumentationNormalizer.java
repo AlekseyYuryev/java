@@ -24,20 +24,20 @@ import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
 public class DocumentationNormalizer extends Normalizer<DocumentationModel> {
-  public DocumentationNormalizer(NormalizerDirectory directory) {
+  public DocumentationNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(DocumentationModel model) {
+  protected void stage1(final DocumentationModel model) {
   }
 
-  protected void stage2(DocumentationModel model) {
+  protected void stage2(final DocumentationModel model) {
   }
 
-  protected void stage3(DocumentationModel model) {
+  protected void stage3(final DocumentationModel model) {
   }
 
-  protected void stage4(DocumentationModel model) {
+  protected void stage4(final DocumentationModel model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
       if (parent instanceof DocumentableModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
@@ -52,9 +52,9 @@ public class DocumentationNormalizer extends Normalizer<DocumentationModel> {
     }
   }
 
-  protected void stage5(DocumentationModel model) {
+  protected void stage5(final DocumentationModel model) {
   }
 
-  protected void stage6(DocumentationModel model) {
+  protected void stage6(final DocumentationModel model) {
   }
 }

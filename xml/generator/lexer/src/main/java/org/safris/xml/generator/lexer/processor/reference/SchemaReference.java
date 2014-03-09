@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineEntity;
@@ -39,7 +40,7 @@ import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class SchemaReference implements PipelineEntity<SchemaReference> {
+public final class SchemaReference implements PipelineEntity<SchemaReference> {
   private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
@@ -53,11 +54,11 @@ public class SchemaReference implements PipelineEntity<SchemaReference> {
   private long lastModified = Long.MIN_VALUE;
   private InputStream inputStream = null;
 
-  public SchemaReference(String location) {
+  public SchemaReference(final String location) {
     this(null, location);
   }
 
-  public SchemaReference(String basedir, String location) {
+  public SchemaReference(final String basedir, final String location) {
     if (location == null)
       throw new IllegalArgumentException("location cannot be null");
 
@@ -67,14 +68,14 @@ public class SchemaReference implements PipelineEntity<SchemaReference> {
       else
         this.location = new URL(location);
     }
-    catch (MalformedURLException e) {
+    catch (final MalformedURLException e) {
       try {
         if (basedir != null)
           this.location = new File(basedir, location).toURL();
         else
           this.location = new File(location).toURL();
       }
-      catch (MalformedURLException ex) {
+      catch (final MalformedURLException ex) {
         throw new IllegalArgumentException("Unknown URL format: " + location);
       }
     }
@@ -82,19 +83,19 @@ public class SchemaReference implements PipelineEntity<SchemaReference> {
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
-  public SchemaReference(URL location) {
+  public SchemaReference(final URL location) {
     this.location = location;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
-  public SchemaReference(URL location, NamespaceURI namespaceURI, Prefix prefix) {
+  public SchemaReference(final URL location, final NamespaceURI namespaceURI, final Prefix prefix) {
     this.location = location;
     this.namespaceURI = namespaceURI;
     this.prefix = prefix;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\", \"" + prefix + "\")");
   }
 
-  public SchemaReference(URL location, NamespaceURI namespaceURI) {
+  public SchemaReference(final URL location, final NamespaceURI namespaceURI) {
     this.location = location;
     this.namespaceURI = namespaceURI;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\")");
@@ -199,11 +200,11 @@ public class SchemaReference implements PipelineEntity<SchemaReference> {
           this.inputStream = connection.getInputStream();
           logger.fine("opened connection to: " + location.toExternalForm());
         }
-        catch (FileNotFoundException e) {
+        catch (final FileNotFoundException e) {
           logger.info("File not found: " + location.toExternalForm());
           System.exit(1);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
           if ("Connection refused".equals(e.getMessage()) && tryCount == 10)
             throw new LexerError("Connection refused: " + location);
 
@@ -227,7 +228,7 @@ public class SchemaReference implements PipelineEntity<SchemaReference> {
     return location;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

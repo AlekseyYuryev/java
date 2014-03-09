@@ -17,6 +17,7 @@
 package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.LinkedHashSet;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -151,8 +152,9 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
             redefine.getAttributes().clear();
             redefine.getAttributes().addAll(attributes);
           }
-          else
+          else {
             redefine.getAttributes().addAll(((ComplexTypeModel)model.getBase()).getAttributes());
+          }
 
           if (redefine.getMultiplicableModels().size() != 0) {
             final LinkedHashSet multiplicableModels = (LinkedHashSet)((ComplexTypeModel)model.getBase()).getMultiplicableModels().clone();
@@ -160,8 +162,9 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
             redefine.getMultiplicableModels().clear();
             redefine.getMultiplicableModels().addAll(multiplicableModels);
           }
-          else
+          else {
             redefine.getMultiplicableModels().addAll(((ComplexTypeModel)model.getBase()).getMultiplicableModels());
+          }
         }
 
         break;
