@@ -170,7 +170,7 @@ public class ValidatorMojo extends AbstractMojo {
     // Set the httpProxy if it was specified.
     setHttpProxy();
     
-    final File directory = new File(getDirectory());
+    final File directory = new File(getDirectory(), "validator");
     final boolean validateAll = !directory.exists();
 
     try {
