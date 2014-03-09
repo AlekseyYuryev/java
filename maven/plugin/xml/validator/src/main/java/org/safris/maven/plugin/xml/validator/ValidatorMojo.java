@@ -22,7 +22,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -44,9 +47,8 @@ import org.xml.sax.SAXException;
 public class ValidatorMojo extends AbstractMojo {
   private static final String delimeter = "://";
 
-  private static final FileFilter xmlFileFilter = new FileFilter()
-  {
-    public boolean accept(File pathname) {
+  private static final FileFilter xmlFileFilter = new FileFilter() {
+    public boolean accept(final File pathname) {
       return pathname.isFile() && (pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd"));
     }
   };
@@ -78,7 +80,18 @@ public class ValidatorMojo extends AbstractMojo {
     return testResources;
   }
 
-  protected static void validate(File file, Log log) throws IOException, SAXException {
+  /**
+   * @parameter default-value="${project.build.directory}"
+   * @readonly
+   * @required
+   */
+  private String directory = null;
+
+  protected String getDirectory() {
+    return directory;
+  }
+
+  protected static void validate(final File dir, final File file, final Log log) throws IOException, SAXException {
     final SAXParser saxParser = SAXParsers.createParser();
     // Set the features.
     saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
@@ -97,6 +110,12 @@ public class ValidatorMojo extends AbstractMojo {
 
     // Set the ErrorHandler.
     saxParser.setErrorHandler(ValidatorErrorHandler.getInstance(log));
+
+    final String fileName = file.getAbsolutePath().substring(dir.getAbsolutePath().length() + 1);
+    if (log != null)
+      log.info("Validating file: " + fileName);
+    else
+      System.out.println("Validating file: " + fileName);
 
     // Parse.
     saxParser.parse(new InputSource(new FileInputStream(file)));
@@ -137,11 +156,12 @@ public class ValidatorMojo extends AbstractMojo {
     if (resources.size() == 0)
       return;
 
-    final Collection<File> files = new ArrayList<File>();
+    final Map<File,Collection<File>> files = new HashMap<File,Collection<File>>();
     for (final Resource resource : resources) {
-      final Collection<File> xmlFiles = Files.listAll(new File(resource.getDirectory()), xmlFileFilter);
+      final File dir = new File(resource.getDirectory());
+      final Collection<File> xmlFiles = Files.listAll(dir, xmlFileFilter);
       if (xmlFiles != null)
-        files.addAll(xmlFiles);
+        files.put(dir, xmlFiles);
     }
 
     if (files.size() == 0)
@@ -149,18 +169,34 @@ public class ValidatorMojo extends AbstractMojo {
 
     // Set the httpProxy if it was specified.
     setHttpProxy();
+    
+    final File directory = new File(getDirectory());
+    final boolean validateAll = !directory.exists();
 
     try {
-      for (File file : files) {
-        try {
-          validate(file, getLog());
-        }
-        catch (SAXException e) {
-          throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
+      final Log log = getLog();
+      long maxModified = System.currentTimeMillis();
+      for (final Map.Entry<File,Collection<File>> entry : files.entrySet()) {
+        log.info("Resource directory: " + entry.getKey().getAbsolutePath());
+        for (final File file : entry.getValue()) {
+          maxModified = Math.max(maxModified, file.lastModified());
+          if (validateAll || directory.lastModified() < file.lastModified()) {
+            try {
+              validate(entry.getKey(), file, log);
+            }
+            catch (final SAXException e) {
+              throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
+            }
+          }
         }
       }
+      
+      if (validateAll)
+        directory.mkdirs();
+      
+      directory.setLastModified(maxModified);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

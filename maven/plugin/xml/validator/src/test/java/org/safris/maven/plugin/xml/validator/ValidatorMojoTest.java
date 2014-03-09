@@ -16,11 +16,12 @@
 
 package org.safris.maven.plugin.xml.validator;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
-
-import static org.junit.Assert.*;
 
 public class ValidatorMojoTest {
   public static void main(String[] args) throws Exception {

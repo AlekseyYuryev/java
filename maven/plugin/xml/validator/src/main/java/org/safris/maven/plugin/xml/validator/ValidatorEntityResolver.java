@@ -16,15 +16,17 @@
 
 package org.safris.maven.plugin.xml.validator;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import org.safris.commons.lang.Paths;
+import org.safris.commons.net.URLs;
+
 import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
 import com.sun.org.apache.xerces.internal.xni.XNIException;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import org.safris.commons.lang.Paths;
-import org.safris.commons.net.URLs;
 
 public class ValidatorEntityResolver implements XMLEntityResolver {
   private final File basedir;
@@ -48,8 +50,9 @@ public class ValidatorEntityResolver implements XMLEntityResolver {
 
       url = URLs.makeUrlFromPath(parentBaseId, systemId);
     }
-    else
+    else {
       url = URLs.makeUrlFromPath(systemId);
+    }
 
     if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
       resourceIdentifier.setLiteralSystemId(url.getPath());
