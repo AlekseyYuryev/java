@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class OpenBracketModule extends FormatModule {
-  String format(String formated, String token) {
+public final class OpenBracketModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().lastIndexOf(";") != token.trim().length() - 1) {
       if (token.trim().indexOf("{") == 0) {
         /*for (int i = 0; i < getDepth(); i++) {

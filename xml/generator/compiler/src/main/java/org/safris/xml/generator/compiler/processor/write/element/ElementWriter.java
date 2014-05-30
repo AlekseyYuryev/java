@@ -21,7 +21,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.xml.namespace.QName;
+
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
 import org.safris.xml.generator.compiler.annotation.ElementSpec;
@@ -34,9 +36,13 @@ import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.Binding;
+import org.safris.xml.generator.compiler.runtime.BindingList;
+import org.safris.xml.generator.compiler.runtime.BindingRuntimeException;
+import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.generator.compiler.runtime.ElementAudit;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
+import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Attr;
@@ -44,7 +50,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
-  protected static void writeNilMarshal(StringWriter writer) {
+  protected static void writeNilMarshal(final StringWriter writer) {
     writer.write("if(nil != null && !node.hasAttributeNS(XSI_NIL.getNamespaceURI(), XSI_NIL.getLocalPart()))\n");
     writer.write("{\n");
     writer.write("node.setAttributeNS(XSI_NIL.getNamespaceURI(), XSI_NIL.getPrefix() + \":\" + XSI_NIL.getLocalPart(), " + String.class.getName() + ".valueOf(nil));\n");
@@ -53,83 +59,85 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     writer.write("}\n");
   }
 
-  protected void appendDeclaration(StringWriter writer, T plan, Plan parent) {
+  protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
     writer.write("private " + ElementAudit.class.getName() + "<" + plan.getDeclarationGenericWithInconvertible(parent) + "> " + plan.getInstanceName() + " = new " + ElementAudit.class.getName() + "<" + plan.getDeclarationGenericWithInconvertible(parent) + ">(this, " + plan.getDefaultInstance(parent) + ", new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\"), new " + QName.class.getName() + "(\"" + plan.getTypeName().getNamespaceURI() + "\", \"" + plan.getTypeName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\"), " + (!plan.isNested() || Form.QUALIFIED.equals(plan.getFormDefault())) + ", " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
   }
 
-  protected void appendGetMethod(StringWriter writer, T plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.getRepeatedExtension() != null)
       return;
 
-    writer.write("public " + List.class.getName() + "<" + plan.getDeclarationRestrictionGeneric(parent) + "> get" + plan.getClassSimpleName() + "()\n");
+    writeQualifiedName(writer, plan);
+    writer.write("public " + BindingList.class.getName() + "<" + plan.getDeclarationRestrictionGeneric(parent) + "> " + plan.getClassSimpleName() + "()\n");
     writer.write("{\n");
     if (plan.isRestriction())
-      writer.write("return super.get" + plan.getClassSimpleName() + "();\n");
+      writer.write("return super." + plan.getClassSimpleName() + "();\n");
     else
       writer.write("return " + plan.getInstanceName() + ".getElements();\n");
     writer.write("}\n");
 
-    writer.write("public " + plan.getDeclarationRestrictionGeneric(parent) + " get" + plan.getClassSimpleName() + "(final int index)\n");
+    writer.write("public " + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getClassSimpleName() + "(final int index)\n");
     writer.write("{\n");
-    writer.write("final " + List.class.getName() + "<" + plan.getDeclarationRestrictionGeneric(parent) + "> values = get" + plan.getClassSimpleName() + "();\n");
-    writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
+    writer.write("final " + List.class.getName() + "<" + plan.getDeclarationRestrictionGeneric(parent) + "> values = " + plan.getClassSimpleName() + "();\n");
+    writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : (" + plan.getClassName(parent) + ")NULL(" + plan.getClassName(parent) + ".class);\n");
     writer.write("}\n");
   }
 
-  protected void appendSetMethod(StringWriter writer, T plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.getRepeatedExtension() != null)
       return;
 
-    writer.write("@" + ElementSpec.class.getName() + "(minOccurs=" + plan.getMinOccurs() + ",maxOccurs=" + plan.getMaxOccurs() + ")\n");
-    writer.write("public void add" + plan.getClassSimpleName() + "(" + plan.getDeclarationGeneric(parent) + " " + plan.getInstanceName() + ")\n");
+    writer.write("@" + ElementSpec.class.getName() + "(minOccurs=" + plan.getMinOccurs() + ", maxOccurs=" + plan.getMaxOccurs() + ")\n");
+    writeQualifiedName(writer, plan);
+    writer.write("public void " + plan.getClassSimpleName() + "(" + plan.getDeclarationGeneric(parent) + " " + plan.getInstanceName() + ")\n");
     writer.write("{\n");
     if (plan.isRestriction())
-      writer.write("super.add" + plan.getClassSimpleName() + "(" + plan.getInstanceName() + ");\n");
+      writer.write("super." + plan.getClassSimpleName() + "(" + plan.getInstanceName() + ");\n");
     else
       writer.write("_$$addElement(this." + plan.getInstanceName() + ", " + plan.getInstanceName() + ");\n");
     writer.write("}\n");
   }
 
-  protected void appendMarshal(StringWriter writer, T plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final T plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, T plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
     if (!plan.isNested() || Form.QUALIFIED.equals(plan.getFormDefault())) {
       if("".equals(plan.getName().getNamespaceURI().toString()))
-        writer.write("else if(element.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+        writer.write("if(element.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
       else
-        writer.write("else if(\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+        writer.write("if(\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
 
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
       writer.write("}\n");
-      writer.write("else if(" + Binding.class.getName() + "._$$iSsubstitutionGroup(new " + QName.class.getName() + "(element.getNamespaceURI(), element.getLocalName()), \"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
+      writer.write("if(" + Binding.class.getName() + "._$$iSsubstitutionGroup(new " + QName.class.getName() + "(element.getNamespaceURI(), element.getLocalName()), \"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element));\n");
       writer.write("}\n");
     }
     else {
-      writer.write("else if(\"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+      writer.write("if(\"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
       writer.write("}\n");
     }
   }
 
-  public void appendCopy(StringWriter writer, T plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final T plan, Plan<?> parent, final String variable) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
     writer.write("this." + plan.getInstanceName() + " = " + variable + "." + plan.getInstanceName() + ";\n");
   }
 
-  protected void appendEquals(StringWriter writer, T plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
@@ -137,35 +145,35 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     writer.write("return _$$failEquals();\n");
   }
 
-  protected void appendHashCode(StringWriter writer, T plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
     writer.write("hashCode += " + plan.getInstanceName() + " != null ? " + plan.getInstanceName() + ".hashCode() : -1;\n");
   }
 
-  protected void appendClass(StringWriter writer, T plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRef() || plan.getRepeatedExtension() != null)
       return;
 
     if (!plan.isNested())
       writer.write("package " + plan.getPackageName() + ";\n");
 
-    writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
+    writeQualifiedName(writer, plan);
     writer.write("public ");
     if (plan.isNested())
       writer.write("static ");
     else if (plan.isAbstract())
       writer.write("abstract ");
 
-    writer.write("class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + "\n");
+    writer.write("class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + (plan.isComplexType() ? ComplexType.class.getName() : SimpleType.class.getName()) + "\n");
     writer.write("{\n");
 
     writer.write("private static final " + QName.class.getName() + " NAME = new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\");\n");
 
     // SUBSTITUTION GROUP
     if (plan.getSubstitutionGroup() != null)
-      writer.write("private static final " + QName.class.getName() + " SUBSTITUTION_GROUP =  new " + QName.class.getName() + "(\"" + plan.getSubstitutionGroup().getNamespaceURI() + "\", \"" + plan.getSubstitutionGroup().getLocalPart() + "\");\n");
+      writer.write("private static final " + QName.class.getName() + " SUBSTITUTION_GROUP = new " + QName.class.getName() + "(\"" + plan.getSubstitutionGroup().getNamespaceURI() + "\", \"" + plan.getSubstitutionGroup().getLocalPart() + "\");\n");
 
     if (!plan.isNested()) {
       writer.write("static\n");
@@ -231,19 +239,19 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     // MIXED CONSTRUCTOR
     if (!plan.isComplexType() || (plan.getMixed() == null && plan.getMixedType()) || (plan.getMixed() != null && plan.getMixed())) {
       if (plan.getMixedType()) {
-        writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
+        writer.write("public " + plan.getClassSimpleName() + "(final " + String.class.getName() + " text)\n");
         writer.write("{\n");
         writer.write("super(text);\n");
         writer.write("}\n");
 
-        writer.write("public " + String.class.getName() + " getText()\n");
+        writer.write("public " + String.class.getName() + " text()\n");
         writer.write("{\n");
-        writer.write("return (" + String.class.getName() + ")super.getText();\n");
+        writer.write("return (" + String.class.getName() + ")super.text();\n");
         writer.write("}\n");
 
-        writer.write("public void setText(" + String.class.getName() + " text)\n");
+        writer.write("public void text(final " + String.class.getName() + " text)\n");
         writer.write("{\n");
-        writer.write("super.setText(text);\n");
+        writer.write("super.text(text);\n");
         writer.write("}\n");
       }
       else if (plan.getNativeItemClassNameInterface() != null) {
@@ -256,104 +264,106 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             restrictionClassName = "RESTRICTION";
 
           if (plan.isList()) {
-            writer.write("public void setText(" + List.class.getName() + "<" + restrictionClassName + "> text)\n");
+            writer.write("public void text(final " + List.class.getName() + "<" + restrictionClassName + "> text)\n");
             writer.write("{\n");
-            writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+            writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
             writer.write("for (" + restrictionClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
-            writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+            writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
             writer.write("}\n");
 
-            writer.write("public void setText(" + restrictionClassName + " ... text)\n");
+            writer.write("public void text(final " + restrictionClassName + " ... text)\n");
             writer.write("{\n");
-            writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+            writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
             writer.write("for (" + restrictionClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
-            writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+            writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
             writer.write("}\n");
 
             if (plan.isUnionWithNonEnumeration()) {
-              writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + "> text)\n");
+              writer.write("public void text(final " + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + "> text)\n");
               writer.write("{\n");
-              writer.write("super.setText(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
+              writer.write("super.text(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
               writer.write("for (" + restrictionClassName + " temp : text)\n");
               writer.write("if(temp != null)\n");
-              writer.write("((" + List.class.getName() + ")super.getText()).add(temp.text);\n");
+              writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
               writer.write("}\n");
             }
           }
           else {
-            writer.write("public void setText(" + restrictionClassName + " restriction)\n");
+            writer.write("public void text(final " + restrictionClassName + " restriction)\n");
             writer.write("{\n");
-            writer.write("super.setText(restriction.text);\n");
+            writer.write("super.text(restriction.text());\n");
             writer.write("}\n");
 
             if (plan.isUnionWithNonEnumeration()) {
-              writer.write("public void setText(" + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
+              writer.write("public void text(final " + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
               writer.write("{\n");
-              writer.write("super.setText(text);\n");
+              writer.write("super.text(text);\n");
               writer.write("}\n");
             }
           }
         }
         else {
-          writer.write("public void setText(" + plan.getNativeItemClassNameInterface() + " text)\n");
+          writer.write("public void text(final " + plan.getNativeItemClassNameInterface() + " text)\n");
           writer.write("{\n");
-          writer.write("super.setText(text);\n");
+          writer.write("super.text(text);\n");
           writer.write("}\n");
 
           if (plan.isList()) {
-            writer.write("public void setText(" + plan.getNativeItemClassName() + " ... text)\n");
+            writer.write("public void text(" + plan.getNativeItemClassName() + " ... text)\n");
             writer.write("{\n");
-            writer.write("super.setText(" + Arrays.class.getName() + ".asList(text));\n");
+            writer.write("super.text(" + Arrays.class.getName() + ".asList(text));\n");
             writer.write("}\n");
           }
         }
 
 //        if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 //        {
-//          writer.write("public void setText(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
+//          writer.write("public void text(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
 //          writer.write("{\n");
-//          writer.write("super.setText(text);\n");
+//          writer.write("super.text(text);\n");
 //          writer.write("}\n");
 //        }
 
-        writer.write("public " + plan.getNativeItemClassNameInterface() + " getText()\n");
+        writer.write("public " + plan.getNativeItemClassNameInterface() + " text()\n");
         writer.write("{\n");
         if (!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
-          writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.getText();\n");
+          writer.write("return (" + plan.getNativeItemClassNameInterface() + ")super.text();\n");
         else
-          writer.write("return super.getText();\n");
+          writer.write("return super.text();\n");
         writer.write("}\n");
 
         if (plan.isList()) {
-          writer.write("public " + plan.getNativeItemClassName() + " getText(final int index)\n");
+          writer.write("public " + plan.getNativeItemClassName() + " text(final int index)\n");
           writer.write("{\n");
-          writer.write("final " + List.class.getName() + "<" + plan.getNativeNonEnumItemClassName() + "> values = getText();\n");
+          writer.write("final " + List.class.getName() + "<" + plan.getNativeNonEnumItemClassName() + "> values = text();\n");
           writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
           writer.write("}\n");
         }
       }
       else if (plan.getMixed() != null && plan.getMixed()) {
-        writer.write("public " + plan.getClassSimpleName() + "(" + String.class.getName() + " text)\n");
+        writer.write("public " + plan.getClassSimpleName() + "(final " + String.class.getName() + " text)\n");
         writer.write("{\n");
         writer.write("this.text = text;\n");
         writer.write("}\n");
 
-        writer.write("public " + String.class.getName() + " getText()\n");
+        writer.write("public " + String.class.getName() + " text()\n");
         writer.write("{\n");
         writer.write("return text;\n");
         writer.write("}\n");
 
-        writer.write("public void setText(" + String.class.getName() + " text)\n");
+        writer.write("public void text(final " + String.class.getName() + " text)\n");
         writer.write("{\n");
+        writer.write("if (isNull())\n");
+        writer.write("throw new " + BindingRuntimeException.class.getName() + "(\"NULL Object is immutable.\");\n");
         writer.write("this.text = text;\n");
         writer.write("}\n");
       }
       else if (plan.hasEnumerations()) {
-        writer.write("public " + String.class.getName() + " getText()\n");
+        writer.write("public " + String.class.getName() + " text()\n");
         writer.write("{\n");
-        writer.write("return (" + String.class.getName() + ")super.getText();\n");
+        writer.write("return (" + String.class.getName() + ")super.text();\n");
         writer.write("}\n");
       }
     }
@@ -390,7 +400,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     }
 
     // GETNAME
-    writer.write("protected " + QName.class.getName() + " _$$getName()\n");
+    writer.write("public " + QName.class.getName() + " name()\n");
     writer.write("{\n");
     writer.write("return NAME;\n");
     writer.write("}\n");
@@ -399,22 +409,25 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     appendPattern(writer, plan.getPatterns());
 
     // ELEMENT ITERATORS
-    if (plan.getElements() != null && plan.getElements().size() != 0) {
-      writer.write("public " + Iterator.class.getName() + "<" + Binding.class.getName() + "> elementIterator()\n");
-      writer.write("{\n");
-      writer.write("return super.elementIterator();\n");
-      writer.write("}\n");
+    writer.write("public " + Iterator.class.getName() + "<" + Binding.class.getName() + "> elementIterator()\n");
+    writer.write("{\n");
+    writer.write("return super.elementIterator();\n");
+    writer.write("}\n");
 
-//      writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator()\n");
-//      writer.write("{\n");
-//      writer.write("return super.elementListIterator();\n");
-//      writer.write("}\n");
+    writer.write("public " + BindingList.class.getName() + "<? extends " + Binding.class.getName() + "> fetchChild(final " + QName.class.getName() + " name)\n");
+    writer.write("{\n");
+    writer.write("return super.fetchChild(name);\n");
+    writer.write("}\n");
 
-//      writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator(int index)\n");
-//      writer.write("{\n");
-//      writer.write("return super.elementListIterator(index);\n");
-//      writer.write("}\n");
-    }
+//  writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator()\n");
+//  writer.write("{\n");
+//  writer.write("return super.elementListIterator();\n");
+//  writer.write("}\n");
+
+//  writer.write("public " + ListIterator.class.getName() + "<" + Binding.class.getName() + "> elementListIterator(final int index)\n");
+//  writer.write("{\n");
+//  writer.write("return super.elementListIterator(index);\n");
+//  writer.write("}\n");
 
     // MARSHAL
     if (plan.getElements().size() != 0 || plan.getAttributes().size() != 0) {
@@ -425,8 +438,8 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
       writer.write(Element.class.getName() + " marshal() throws " + MarshalException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write(Element.class.getName() + " root = createElementNS(_$$getName().getNamespaceURI(), _$$getName().getLocalPart());\n");
-      writer.write(Element.class.getName() + " node = marshal(root, _$$getName(), _$$getTypeName(_$$inheritsInstance()));\n");
+      writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
+      writer.write(Element.class.getName() + " node = marshal(root, name(), typeName(_$$inheritsInstance()));\n");
       writer.write("_$$marshalElements(node);\n");
       writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
       writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
@@ -448,7 +461,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
 //      if(plan.getElements().size() != 0)
 //        writer.write("_$$marshalElements(node);\n");
-//      for(ElementPlan element : plan.getElements())
+//      for(final ElementPlan element : plan.getElements())
 //        Writer.writeMarshal(writer, element, plan);
 
       writer.write("return node;\n");
@@ -468,8 +481,8 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
       writer.write(Element.class.getName() + " marshal() throws " + MarshalException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write(Element.class.getName() + " root = createElementNS(_$$getName().getNamespaceURI(), _$$getName().getLocalPart());\n");
-      writer.write(Element.class.getName() + " node = marshal(root, _$$getName(), _$$getTypeName(_$$inheritsInstance()));\n");
+      writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
+      writer.write(Element.class.getName() + " node = marshal(root, name(), typeName(_$$inheritsInstance()));\n");
       writer.write("_$$marshalElements(node);\n");
       writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
       writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
@@ -511,10 +524,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
         writer.write("}\n");
       }
 
-      writer.write("else\n");
-      writer.write("{\n");
       writer.write("return super.parseAttribute(attribute);\n");
-      writer.write("}\n");
       writer.write("}\n");
 
       if (any != null) {
@@ -542,12 +552,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
         writer.write("return true;\n");
         writer.write("}\n");
       }
-      else {
-        writer.write("if(false)\n");
-        writer.write("{\n");
-        writer.write("return false;\n");
-        writer.write("}\n");
-      }
 
       ElementPlan any = null;
       for (final ElementPlan element : plan.getElements()) {
@@ -557,10 +561,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
           Writer.writeParse(writer, element, plan);
       }
 
-      writer.write("else\n");
-      writer.write("{\n");
       writer.write("return super.parseElement(element);\n");
-      writer.write("}\n");
       writer.write("}\n");
 
       if (any != null) {
@@ -577,26 +578,29 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write("if(value == null || value.length() == 0)\n");
       writer.write("return;\n");
 
-      writer.write("super.setText(new " + plan.getNativeItemClassNameImplementation() + "());\n");
+      writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write("final " + StringTokenizer.class.getName() + " tokenizer = new " + StringTokenizer.class.getName() + "(value);\n");
       writer.write("while(tokenizer.hasMoreTokens())\n");
       if (plan.getNativeFactory() != null)
-        writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.getText()).add(" + plan.getNativeFactory() + "(tokenizer.nextToken()));\n");
+        writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.text()).add(" + plan.getNativeFactory() + "(tokenizer.nextToken()));\n");
       else
-        writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.getText()).add(tokenizer.nextToken());\n");
+        writer.write("((" + plan.getNativeItemClassNameInterface() + ")super.text()).add(tokenizer.nextToken());\n");
       writer.write("}\n");
 
       writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(super.getText() == null || ((" + List.class.getName() + ")super.getText()).size() == 0)\n");
+      writer.write("if(super.text() == null || ((" + List.class.getName() + ")super.text()).size() == 0)\n");
       writer.write("return null;\n");
       writer.write("String text = \"\";\n");
-      writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.getText())\n");
+      writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text())\n");
       writer.write("if(temp != null)\n");
       writer.write("text += \" \" + temp;\n");
       writer.write("return text.substring(1);\n");
       writer.write("}\n");
     }
+
+    // IS_NULL
+    //writeIsNull(writer, plan);
 
     // CLONE
     writer.write("public " + plan.getClassName(parent) + " clone()\n");

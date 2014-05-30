@@ -16,18 +16,19 @@
 
 package org.safris.commons.util;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class TopologicalSortTest {
-  public static void main(String[] args) {
+public final class TopologicalSortTest {
+  public static void main(final String[] args) {
     new TopologicalSortTest().testSort();
   }
 

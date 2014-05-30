@@ -16,11 +16,11 @@
 
 package org.safris.commons.math;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class MovingNormalTest {
+public final class MovingNormalTest {
   public static void main(final String[] args) {
     new MovingNormalTest().testMovingNormal();
   }

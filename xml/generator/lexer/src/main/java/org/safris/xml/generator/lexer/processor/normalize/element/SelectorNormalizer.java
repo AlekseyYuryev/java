@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.SelectorModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class SelectorNormalizer extends Normalizer<SelectorModel> {
-  public SelectorNormalizer(NormalizerDirectory directory) {
+public final class SelectorNormalizer extends Normalizer<SelectorModel> {
+  public SelectorNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(SelectorModel model) {
+  protected void stage1(final SelectorModel model) {
   }
 
-  protected void stage2(SelectorModel model) {
+  protected void stage2(final SelectorModel model) {
   }
 
-  protected void stage3(SelectorModel model) {
+  protected void stage3(final SelectorModel model) {
   }
 
-  protected void stage4(SelectorModel model) {
+  protected void stage4(final SelectorModel model) {
   }
 
-  protected void stage5(SelectorModel model) {
+  protected void stage5(final SelectorModel model) {
   }
 
-  protected void stage6(SelectorModel model) {
+  protected void stage6(final SelectorModel model) {
   }
 }

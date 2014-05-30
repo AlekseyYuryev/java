@@ -21,7 +21,7 @@ import java.util.TimeZone;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gDay
  */
-public class Day {
+public final class Day {
   public static Day parseDay(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -35,7 +35,7 @@ public class Day {
     return new Day(day, timeZone);
   }
 
-  protected static int parseDayFrag(String string) {
+  protected static int parseDayFrag(final String string) {
     if (string == null)
       throw new NullPointerException("string == null");
 
@@ -65,7 +65,7 @@ public class Day {
     try {
       day = Integer.parseInt(dayString);
     }
-    catch (NumberFormatException e) {
+    catch (final NumberFormatException e) {
       throw new IllegalArgumentException(string, e);
     }
 
@@ -78,7 +78,7 @@ public class Day {
   private final int day;
   private final TimeZone timeZone;
 
-  public Day(int day, TimeZone timeZone) {
+  public Day(final int day, final TimeZone timeZone) {
     this.day = day;
     if (day < 0 || 31 < day)
       throw new IllegalArgumentException("day == " + day);
@@ -86,11 +86,11 @@ public class Day {
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
   }
 
-  public Day(int day) {
+  public Day(final int day) {
     this(day, null);
   }
 
-  public Day(long time) {
+  public Day(final long time) {
     final java.util.Date date = new java.util.Date(time);
     this.day = date.getDate();
     this.timeZone = TimeZone.getDefault();
@@ -108,7 +108,7 @@ public class Day {
     return timeZone;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

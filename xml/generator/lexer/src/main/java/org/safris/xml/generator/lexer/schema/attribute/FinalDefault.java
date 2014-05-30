@@ -27,13 +27,13 @@ public final class FinalDefault {
   public static final FinalDefault RESTRICTION = new FinalDefault("restriction");
   public static final FinalDefault SUBSTITUTION = new FinalDefault("substitution");
 
-  public static FinalDefault parseFinalDefault(String value) {
+  public static FinalDefault parseFinalDefault(final String value) {
     return enums.get(value);
   }
 
   private String value;
 
-  private FinalDefault(String value) {
+  private FinalDefault(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -42,7 +42,7 @@ public final class FinalDefault {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof FinalDefault))
       return false;
 

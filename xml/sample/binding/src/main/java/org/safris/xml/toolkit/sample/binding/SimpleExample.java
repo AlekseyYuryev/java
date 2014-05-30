@@ -21,26 +21,26 @@ import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
 import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
 
 public class SimpleExample {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new SimpleExample().runExample();
   }
 
   public Binding runExample() {
     simple_fruit strawberry = new simple_fruit();
-    strawberry.set_name$(new simple_fruit._name$("strawberry"));
-    strawberry.set_sweet$(new simple_fruit._sweet$(true));
+    strawberry._name$(new simple_fruit._name$("strawberry"));
+    strawberry._sweet$(new simple_fruit._sweet$(true));
 
     simple_fruit jackfruit = new simple_fruit();
-    jackfruit.set_name$(new simple_fruit._name$("jackfruit"));
-    jackfruit.set_sweet$(new simple_fruit._sweet$(false));
-    jackfruit.set_dry$(new simple_fruit._dry$(false));
+    jackfruit._name$(new simple_fruit._name$("jackfruit"));
+    jackfruit._sweet$(new simple_fruit._sweet$(false));
+    jackfruit._dry$(new simple_fruit._dry$(false));
 
     simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
-    fruits.addsimple_fruit(strawberry);
-    fruits.addsimple_fruit(jackfruit);
+    fruits.simple_fruit(strawberry);
+    fruits.simple_fruit(jackfruit);
 
     simple_fruitBasket genericBasket = new simple_fruitBasket();
-    genericBasket.add_fruits(fruits);
+    genericBasket._fruits(fruits);
 
     // Now verify the integrity of the code representing this XML structure.
     return genericBasket;

@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.AllModel;
 
-public class AllPlan extends Plan<AllModel> {
-  public AllPlan(AllModel model, Plan parent) {
+public final class AllPlan extends Plan<AllModel> {
+  public AllPlan(final AllModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

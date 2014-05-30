@@ -19,13 +19,13 @@ package org.safris.commons.pipeline;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Pipeline<C extends PipelineContext> {
+public final class Pipeline<C extends PipelineContext> {
   private final class Entry<I extends PipelineEntity,O extends PipelineEntity> {
     private final Collection<I> input;
     private final Collection<O> output;
     private final PipelineDirectory<C,I,O> directory;
 
-    public Entry(Collection<I> input, Collection<O> output, PipelineDirectory<C,I,O> directory) {
+    public Entry(final Collection<I> input, final Collection<O> output, final PipelineDirectory<C,I,O> directory) {
       this.input = input;
       this.output = output;
       this.directory = directory;
@@ -48,14 +48,14 @@ public class Pipeline<C extends PipelineContext> {
     }
   }
 
-  private final Collection<Entry> entries = new ArrayList<Entry>();
+  private final Collection<Entry<?,?>> entries = new ArrayList<Entry<?,?>>();
   private final C pipelineContext;
 
-  public Pipeline(C pipelineContext) {
+  public Pipeline(final C pipelineContext) {
     this.pipelineContext = pipelineContext;
   }
 
-  public <I extends PipelineEntity,O extends PipelineEntity>void addProcessor(Collection<I> input, Collection<O> output, PipelineDirectory<C,I,O> handlerDirectory) {
+  public <I extends PipelineEntity,O extends PipelineEntity> void addProcessor(final Collection<I> input, final Collection<O> output, final PipelineDirectory<C,I,O> handlerDirectory) {
     synchronized (entries) {
       final Entry<I,O> modulePair = new Entry<I,O>(input, output, handlerDirectory);
       entries.add(modulePair);
@@ -63,17 +63,17 @@ public class Pipeline<C extends PipelineContext> {
   }
 
   public void begin() {
-    final Collection<PipelineDirectory> directories = new ArrayList<PipelineDirectory>();
+    final Collection<PipelineDirectory<?,?,?>> directories = new ArrayList<PipelineDirectory<?,?,?>>();
     synchronized (entries) {
       for (final Entry modulePair : entries) {
         directories.add(modulePair.getDirectory());
-        final Collection output = modulePair.getProcessor().process(pipelineContext, modulePair.getInput(), modulePair.getDirectory());
+        final Collection<?> output = modulePair.getProcessor().process(pipelineContext, modulePair.getInput(), modulePair.getDirectory());
         if (output != null && modulePair.getOutput() != null)
           modulePair.getOutput().addAll(output);
       }
     }
 
-    for (final PipelineDirectory directory : directories)
+    for (final PipelineDirectory<?,?,?> directory : directories)
       directory.clear();
   }
 }

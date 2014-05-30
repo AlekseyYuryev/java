@@ -19,14 +19,16 @@ package org.safris.commons.xml.binding;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#decimal
  */
-public class Decimal extends Number {
-  public static Decimal parseDecimal(String string) {
+public final class Decimal extends Number {
+  private static final long serialVersionUID = -1301674537295759648L;
+
+  public static Decimal parseDecimal(final String string) {
     return new Decimal(Double.parseDouble(string));
   }
 
   private final Number value;
 
-  public Decimal(Number value) {
+  public Decimal(final Number value) {
     this.value = value;
   }
 

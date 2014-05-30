@@ -18,7 +18,7 @@ package org.safris.commons.xml.dom;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
 
-public class DOMFeature {
+public final class DOMFeature {
   /**
    * Comments.
    */
@@ -50,8 +50,7 @@ public class DOMFeature {
   public static final DOMFeature DOM_COMMENTS = new DOMFeature(Constants.SAX_FEATURE_PREFIX + Constants.DOM_COMMENTS);
 
   /**
-   * Charset overrides xml encoding.
-   * REVISIT: this feature seems to have no effect for Xerces.
+   * Charset overrides xml encoding. REVISIT: this feature seems to have no effect for Xerces.
    */
   public static final DOMFeature DOM_CHARSET_OVERRIDES_XML_ENCODING = new DOMFeature(Constants.SAX_FEATURE_PREFIX + Constants.DOM_CHARSET_OVERRIDES_XML_ENCODING);
 
@@ -167,7 +166,7 @@ public class DOMFeature {
 
   private final String feature;
 
-  public DOMFeature(String feature) {
+  public DOMFeature(final String feature) {
     this.feature = feature;
   }
 
@@ -179,7 +178,7 @@ public class DOMFeature {
     return feature.hashCode();
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

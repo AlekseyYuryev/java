@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.AnnotationModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class AnnotationNormalizer extends Normalizer<AnnotationModel> {
-  public AnnotationNormalizer(NormalizerDirectory directory) {
+public final class AnnotationNormalizer extends Normalizer<AnnotationModel> {
+  public AnnotationNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(AnnotationModel model) {
+  protected void stage1(final AnnotationModel model) {
   }
 
-  protected void stage2(AnnotationModel model) {
+  protected void stage2(final AnnotationModel model) {
   }
 
-  protected void stage3(AnnotationModel model) {
+  protected void stage3(final AnnotationModel model) {
   }
 
-  protected void stage4(AnnotationModel model) {
+  protected void stage4(final AnnotationModel model) {
   }
 
-  protected void stage5(AnnotationModel model) {
+  protected void stage5(final AnnotationModel model) {
   }
 
-  protected void stage6(AnnotationModel model) {
+  protected void stage6(final AnnotationModel model) {
   }
 }

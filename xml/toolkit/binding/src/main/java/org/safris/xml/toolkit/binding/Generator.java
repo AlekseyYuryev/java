@@ -42,6 +42,7 @@ import org.safris.xml.generator.lexer.document.SchemaDocumentDirectory;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaCompositeDirectory;
+import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.ModelDirectory;
@@ -59,9 +60,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Generator extends AbstractGenerator {
+public final class Generator extends AbstractGenerator {
   private static void usage() {
-    System.err.println("Usage: Generator [OPTIONS] <-d <destDir>> <schema.xsd>");
+    System.err.println("Usage: Generator [OPTIONS] <-d DEST_DIR> <SCHEMA_XSD>");
     System.err.println("");
     System.err.println("Mandatory arguments:");
     System.err.println("  -d <destDir>    Specify the destination directory.");
@@ -72,7 +73,7 @@ public class Generator extends AbstractGenerator {
     System.exit(1);
   }
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     if (args.length == 0 || args[0] == null || args[0].length() == 0)
       usage();
 
@@ -88,7 +89,7 @@ public class Generator extends AbstractGenerator {
       else if ("-d".equals(args[i]) && i < args.length)
         destDir = new File(args[++i]).getAbsoluteFile();
       else
-        schemas.add(new SchemaReference(args[i]));
+        schemas.add(new SchemaReference(args[i], false));
     }
 
     if (destDir == null)
@@ -103,12 +104,12 @@ public class Generator extends AbstractGenerator {
   private final GeneratorContext generatorContext;
   private final Collection<SchemaReference> schemas;
 
-  public Generator(GeneratorContext generatorContext, Collection<SchemaReference> schemas) {
+  public Generator(final GeneratorContext generatorContext, final Collection<SchemaReference> schemas) {
     this.generatorContext = generatorContext;
     this.schemas = schemas;
   }
 
-  public Generator(File basedir, Element bindingsElement, long lastModified, Resolver<String> resolver) {
+  public Generator(final File basedir, final Element bindingsElement, long lastModified, final Resolver<String> resolver) {
     this.schemas = new HashSet<SchemaReference>();
     this.generatorContext = parseConfig(basedir, bindingsElement, lastModified, resolver);
   }
@@ -121,7 +122,7 @@ public class Generator extends AbstractGenerator {
     return schemas;
   }
 
-  public GeneratorContext parseConfig(File basedir, Element bindingsElement, long lastModified, Resolver<String> resolver) {
+  public GeneratorContext parseConfig(final File basedir, final Element bindingsElement, long lastModified, final Resolver<String> resolver) {
     if (!"manifest".equals(bindingsElement.getNodeName()))
       throw new IllegalArgumentException("Invalid manifest element!");
 
@@ -154,7 +155,7 @@ public class Generator extends AbstractGenerator {
           if (schemaReference.length() != 0 && !Paths.isAbsolute(schemaReference))
             schemaReference = basedir.getAbsolutePath() + File.separator + schemaReference;
 
-          schemas.add(new SchemaReference(resolver.resolve(schemaReference)));
+          schemas.add(new SchemaReference(resolver.resolve(schemaReference), false));
         }
       }
       else if (destDir == null && "destdir".equals(child.getLocalName())) {
@@ -192,7 +193,7 @@ public class Generator extends AbstractGenerator {
           else
             hrefURL = URLs.makeUrlFromPath(href);
         }
-        catch (MalformedURLException e) {
+        catch (final MalformedURLException e) {
           throw new CompilerError(e);
         }
       }
@@ -212,7 +213,7 @@ public class Generator extends AbstractGenerator {
         modified = connection.getLastModified();
         document = documentBuilder.parse(connection.getInputStream());
       }
-      catch (Exception e) {
+      catch (final Exception e) {
         throw new CompilerError(e);
       }
 
@@ -242,14 +243,14 @@ public class Generator extends AbstractGenerator {
     pipeline.<SchemaComposite,Model>addProcessor(schemaComposites, models, new ModelDirectory());
 
     // normalize the models
-    pipeline.<Model,Normalizer>addProcessor(models, null, new NormalizerDirectory());
+    pipeline.<Model,Normalizer<?>>addProcessor(models, null, new NormalizerDirectory());
 
     // plan the schema elements using Plan objects
-    final Collection<Plan> plans = new ArrayList<Plan>();
-    pipeline.<Model,Plan>addProcessor(models, plans, new PlanDirectory());
+    final Collection<Plan<?>> plans = new ArrayList<Plan<?>>();
+    pipeline.<Model,Plan<?>>addProcessor(models, plans, new PlanDirectory());
 
     // write the plans to files
-    pipeline.<Plan,Writer>addProcessor(plans, null, new WriterDirectory());
+    pipeline.<Plan<?>,Writer<?>>addProcessor(plans, null, new WriterDirectory());
 
     // compile and jar the bindings
     final Collection<Bundle> bundles = new ArrayList<Bundle>();

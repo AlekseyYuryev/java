@@ -18,26 +18,26 @@ package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
 import java.util.List;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyPlan;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.safris.xml.generator.compiler.runtime.ElementAudit;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class AnyWriter extends ElementWriter<AnyPlan> {
-  protected void appendDeclaration(StringWriter writer, AnyPlan plan, Plan parent) {
+public final class AnyWriter extends ElementWriter<AnyPlan> {
+  protected void appendDeclaration(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
-    writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(this, " + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
+    writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + ">(this, " + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
 //      else
-//          writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">>(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
+//          writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + ">(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
   }
 
-  protected void appendGetMethod(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
-    writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> getAny()\n");
+    writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "> getAny()\n");
 //      else
 //          writer.write("public " + Binding.class.getName() + " getAny()\n");
 
@@ -45,14 +45,14 @@ public class AnyWriter extends ElementWriter<AnyPlan> {
     writer.write("return any.getElements();\n");
     writer.write("}\n");
 
-    writer.write("public " + Binding.class.getName() + "<? extends " + BindingType.class.getName() + "> getAny(final int index)\n");
+    writer.write("public " + Binding.class.getName() + " any(final int index)\n");
     writer.write("{\n");
-    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "<? extends " + BindingType.class.getName() + ">> values = getAny();\n");
+    writer.write("final " + List.class.getName() + "<" + Binding.class.getName() + "> values = getAny();\n");
     writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
     writer.write("}\n");
   }
 
-  protected void appendSetMethod(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
     writer.write("public void addAny(" +  Binding.class.getName() + " any)\n");
 //      else
@@ -73,11 +73,11 @@ public class AnyWriter extends ElementWriter<AnyPlan> {
     writer.write("}\n");
   }
 
-  protected void appendMarshal(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      writer.write("any.marshal(element);\n");
   }
 
-  protected void appendParse(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
 //      {
     writer.write("if(element.getNodeType() != " + Node.class.getName() + ".ELEMENT_NODE)\n");
@@ -88,19 +88,19 @@ public class AnyWriter extends ElementWriter<AnyPlan> {
 //          writer.write("this.any.$value(" + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")childNode));\n");
   }
 
-  public void appendCopy(StringWriter writer, AnyPlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final AnyPlan plan, Plan<?> parent, final String variable) {
     writer.write("this.any = " + variable + ".any;\n");
   }
 
-  protected void appendEquals(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
     writer.write("if(any != null ? !any.equals(that.any) : that.any != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 
-  protected void appendHashCode(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
     writer.write("hashCode += any != null ? any.hashCode() : -1;\n");
   }
 
-  protected void appendClass(StringWriter writer, AnyPlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
   }
 }

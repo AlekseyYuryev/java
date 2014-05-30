@@ -18,6 +18,7 @@ package org.safris.maven.plugin.dependency;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.dependency.utils.DependencyStatusSets;
@@ -43,7 +44,7 @@ public final class DependencyFilter {
    * @return  A HashSet of artifacts
    * @throws  MojoExecutionException  if an error occured.
    */
-  public static Set<Artifact> getResolvedDependencies(DependencyProperties properties) throws MojoExecutionException {
+  public static Set<Artifact> getResolvedDependencies(final DependencyProperties properties) throws MojoExecutionException {
     final DependencyStatusSets status = getDependencySets(properties);
     return status.getResolvedDependencies();
   }
@@ -58,11 +59,11 @@ public final class DependencyFilter {
    *          on the projects dependencies
    * @throws  MojoExecutionException
    */
-  protected static DependencyStatusSets getDependencySets(DependencyProperties properties) throws MojoExecutionException {
+  protected static DependencyStatusSets getDependencySets(final DependencyProperties properties) throws MojoExecutionException {
     // start with all artifacts.
     Set<Artifact> artifacts = new HashSet<Artifact>(properties.getProject().getArtifacts());
 
-    // add filters in well known order, lezast specific to most specific
+    // add filters in well known order, least specific to most specific
     final FilterArtifacts filter = new FilterArtifacts();
     filter.addFilter(new TransitivityFilter(properties.getProject().getDependencyArtifacts(), properties.getExcludeTransitive()));
     filter.addFilter(new ScopeFilter(properties.getIncludeScope(), properties.getExcludeScope()));
@@ -94,7 +95,7 @@ public final class DependencyFilter {
    *          information on the projects dependencies
    * @throws  MojoExecutionException
    */
-  protected static DependencyStatusSets getClassifierTranslatedDependencies(Set<Artifact> artifacts, DependencyProperties properties) throws MojoExecutionException {
+  protected static DependencyStatusSets getClassifierTranslatedDependencies(Set<Artifact> artifacts, final DependencyProperties properties) throws MojoExecutionException {
     final Set<Artifact> unResolvedArtifacts = new HashSet<Artifact>();
     Set<Artifact> resolvedArtifacts = artifacts;
     DependencyStatusSets status = new DependencyStatusSets();
@@ -108,7 +109,7 @@ public final class DependencyFilter {
 
       status = filterMarkedDependencies(artifacts, properties.getLog());
 
-      // the unskipped artifacts are in the resolved set.
+      // the not skipped artifacts are in the resolved set.
       artifacts = status.getResolvedDependencies();
 
       // resolve the rest of the artifacts
@@ -134,7 +135,7 @@ public final class DependencyFilter {
    * @return  DependencyStatusSets
    * @throws  MojoExecutionException
    */
-  protected static DependencyStatusSets filterMarkedDependencies(Set<Artifact> artifacts, Log log) throws MojoExecutionException {
+  protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts, final Log log) throws MojoExecutionException {
     // remove files that have markers already
     final FilterArtifacts filter = new FilterArtifacts();
     filter.clearFilters();

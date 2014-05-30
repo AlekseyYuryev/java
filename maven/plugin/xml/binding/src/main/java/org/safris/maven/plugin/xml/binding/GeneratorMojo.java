@@ -99,7 +99,7 @@ public class GeneratorMojo extends AbstractMojo {
     final Resolver<String> resolver = new MavenPropertyResolver(project);
     final Build build = project.getBuild();
     if (build != null && build.getPlugins() != null) {
-      for (Plugin plugin : (List<Plugin>)build.getPlugins()) {
+      for (final Plugin plugin : (List<Plugin>)build.getPlugins()) {
         if (!"binding".equals(plugin.getArtifactId()))
           continue;
 
@@ -206,11 +206,11 @@ public class GeneratorMojo extends AbstractMojo {
     final String destDir = manifest.getDestdir();
     final Collection<SchemaReference> generatorBindings = new ArrayList<SchemaReference>(7);
 
-    for (String schema : manifest.getSchemas()) {
+    for (final String schema : manifest.getSchemas()) {
       if (URLs.isAbsolute(schema))
-        generatorBindings.add(new SchemaReference(schema));
+        generatorBindings.add(new SchemaReference(schema, false));
       else
-        generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema));
+        generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema, false));
     }
 
     if (destDir == null || destDir.length() == 0)
@@ -230,8 +230,8 @@ public class GeneratorMojo extends AbstractMojo {
       return;
 
     try {
-      for (Bundle bundle : bundles) {
-        for (String element : (List<String>)project.getTestClasspathElements()) {
+      for (final Bundle bundle : bundles) {
+        for (final String element : (List<String>)project.getTestClasspathElements()) {
           final File elementFile = new File(element);
           if (!elementFile.isFile()) {
             elementFile.delete();
@@ -239,7 +239,7 @@ public class GeneratorMojo extends AbstractMojo {
           }
         }
 
-        for (String element : (List<String>)project.getCompileClasspathElements()) {
+        for (final String element : (List<String>)project.getCompileClasspathElements()) {
           final File elementFile = new File(element);
           if (!elementFile.isFile()) {
             elementFile.delete();
@@ -248,7 +248,7 @@ public class GeneratorMojo extends AbstractMojo {
         }
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
 

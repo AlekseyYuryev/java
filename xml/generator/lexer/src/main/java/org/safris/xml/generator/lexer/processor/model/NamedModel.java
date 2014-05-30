@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 public abstract class NamedModel extends Model implements Nameable<Model> {
   private UniqueQName name = null;
 
-  protected NamedModel(Node node, Model parent) {
+  protected NamedModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -38,7 +38,7 @@ public abstract class NamedModel extends Model implements Nameable<Model> {
     }
   }
 
-  protected final void setName(UniqueQName name) {
+  protected final void setName(final UniqueQName name) {
     this.name = name;
   }
 
@@ -46,7 +46,7 @@ public abstract class NamedModel extends Model implements Nameable<Model> {
     return name;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 
@@ -58,7 +58,7 @@ public abstract class NamedModel extends Model implements Nameable<Model> {
   }
 
   // FIXME: This is dirty!!
-  public static UniqueQName getNameOfRestrictionBase(NamedModel model) {
+  public static UniqueQName getNameOfRestrictionBase(final NamedModel model) {
     if (model == null)
       return null;
 

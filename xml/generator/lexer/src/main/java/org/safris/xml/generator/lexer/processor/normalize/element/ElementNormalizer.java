@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.ElementableModel;
@@ -30,20 +31,20 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class ElementNormalizer extends Normalizer<ElementModel> {
+public final class ElementNormalizer extends Normalizer<ElementModel> {
   private final Map<UniqueQName,ElementModel> all = new HashMap<UniqueQName,ElementModel>();
   private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
   private final ComplexTypeNormalizer complexTypeNormalizer = (ComplexTypeNormalizer)getDirectory().lookup(ComplexTypeModel.class);
 
-  public ElementNormalizer(NormalizerDirectory directory) {
+  public ElementNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  public final ElementModel parseElement(UniqueQName name) {
+  public final ElementModel parseElement(final UniqueQName name) {
     return all.get(name);
   }
 
-  protected void stage1(ElementModel model) {
+  protected void stage1(final ElementModel model) {
     if (model.getName() == null || !(model.getParent() instanceof SchemaModel))
       return;
 
@@ -51,7 +52,7 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
       all.put(model.getName(), model);
   }
 
-  protected void stage2(ElementModel model) {
+  protected void stage2(final ElementModel model) {
     // First set the elementFormDefault
     Model schema = model.getParent();
     if (schema != null)
@@ -69,7 +70,7 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
     }
     else if (model.getName() != null) {
       if (model.getSuperType() instanceof ComplexTypeModel.Reference) {
-        SimpleTypeModel type = complexTypeNormalizer.parseComplexType(model.getSuperType().getName());
+        SimpleTypeModel<?> type = complexTypeNormalizer.parseComplexType(model.getSuperType().getName());
         if (type == null)
           type = simpleTypeNormalizer.parseSimpleType(model.getSuperType().getName());
 
@@ -88,10 +89,10 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
     }
   }
 
-  protected void stage3(ElementModel model) {
+  protected void stage3(final ElementModel model) {
   }
 
-  protected void stage4(ElementModel model) {
+  protected void stage4(final ElementModel model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
       if (parent instanceof ElementableModel) {
@@ -109,10 +110,10 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
     }
   }
 
-  protected void stage5(ElementModel model) {
+  protected void stage5(final ElementModel model) {
   }
 
-  protected void stage6(ElementModel model) {
+  protected void stage6(final ElementModel model) {
     if (model.getName() == null || model.getRef() != null || model.getSuperType() != null)
       return;
 
@@ -129,12 +130,13 @@ public class ElementNormalizer extends Normalizer<ElementModel> {
       }
     }
 
-    if (def)
+    if (def) {
       model.setSuperType(ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
+    }
     else {
-      final SimpleTypeModel type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anyType"));
+      final SimpleTypeModel<?> type = ComplexTypeModel.Undefined.parseComplexType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anyType"));
       model.setSuperType(type);
-      model.setItemTypes(Arrays.<SimpleTypeModel>asList(type));
+      model.setItemTypes(Arrays.<SimpleTypeModel<?>>asList(type));
     }
   }
 }

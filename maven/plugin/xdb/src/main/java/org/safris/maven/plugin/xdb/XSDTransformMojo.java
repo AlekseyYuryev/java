@@ -17,13 +17,14 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
+
 import org.safris.xdb.xdl.XSDTransform;
 
 /**
  * @goal xsd
  * @phase generate-sources
  */
-public class XSDTransformMojo extends XDLTransformerMojo {
+public final class XSDTransformMojo extends XDLTransformerMojo {
   public void transform(final File xdlFile, final File outDir) {
     XSDTransform.createXSD(xdlFile, outDir);
   }

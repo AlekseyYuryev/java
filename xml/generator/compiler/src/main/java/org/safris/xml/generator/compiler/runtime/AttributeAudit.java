@@ -17,17 +17,22 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.util.Collection;
+
 import javax.xml.namespace.QName;
+
+import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3c.dom.Element;
 
-public class AttributeAudit<T> {
+public final class AttributeAudit<T> {
+  private final $xs_anySimpleType parent;
   private final T _default;
   private final QName name;
   private final boolean qualified;
   private final boolean required;
   private T value = null;
 
-  public AttributeAudit(final T _default, final QName name, final boolean qualified, final boolean required) {
+  public AttributeAudit(final $xs_anySimpleType parent, final T _default, final QName name, final boolean qualified, final boolean required) {
+    this.parent = parent;
     this._default = _default;
     this.name = name;
     this.qualified = qualified;
@@ -35,6 +40,7 @@ public class AttributeAudit<T> {
   }
 
   public AttributeAudit(final AttributeAudit<T> copy) {
+    this.parent = copy.parent;
     this._default = copy._default;
     this.name = copy.name;
     this.qualified = copy.qualified;
@@ -58,6 +64,9 @@ public class AttributeAudit<T> {
   }
 
   public boolean setAttribute(final T value) {
+    if (parent.isNull())
+      throw new BindingRuntimeException("NULL Object is immutable.");
+    
     this.value = value;
     return true;
   }
@@ -73,21 +82,14 @@ public class AttributeAudit<T> {
 
     if (value instanceof Collection) {
       String name = null;
-      if (getName() != null) {
-        if (isQualified())
-          name = Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart();
-        else
-          name = getName().getLocalPart();
-      }
+      if (getName() != null)
+        name = isQualified() ? Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart() : getName().getLocalPart();
 
-      for (final Object object : (Collection)value) {
+      for (final Object object : (Collection<?>)value) {
         Binding binding = (Binding)object;
         if (name == null) {
-          final QName actualName = Binding._$$getName(binding);
-          if (isQualified())
-            name = Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart();
-          else
-            name = actualName.getLocalPart();
+          final QName actualName = Binding.name(binding);
+          name = isQualified() ? Binding._$$getPrefix(parent, getName()) + ":" + getName().getLocalPart() : actualName.getLocalPart();
         }
 
         parent.setAttributeNodeNS(binding.marshalAttr(name, parent));
@@ -96,14 +98,9 @@ public class AttributeAudit<T> {
     else {
       QName name = getName();
       if (name == null)
-        name = ((Binding)value)._$$getName();
+        name = ((Binding)value).name();
 
-      final String marshalName;
-      if (isQualified())
-        marshalName = Binding._$$getPrefix(parent, name) + ":" + name.getLocalPart();
-      else
-        marshalName = name.getLocalPart();
-
+      final String marshalName = isQualified() ? Binding._$$getPrefix(parent, name) + ":" + name.getLocalPart() :  name.getLocalPart();
       parent.setAttributeNodeNS(((Binding)value).marshalAttr(marshalName, parent));
     }
   }
@@ -113,26 +110,14 @@ public class AttributeAudit<T> {
   }
 
   public boolean equals(final Object obj) {
-    if (obj != null)
-      return obj.equals(value);
-
-    if (value == null)
-      return true;
-
-    return false;
+    return obj != null ? obj.equals(value) : value == null;
   }
 
   public int hashCode() {
-    if (value == null)
-      return 0;
-
-    return value.hashCode();
+    return value != null ? value.hashCode() : 0;
   }
 
   public String toString() {
-    if (value == null)
-      return super.toString();
-
-    return value.toString();
+    return value != null ? value.toString() : super.toString();
   }
 }

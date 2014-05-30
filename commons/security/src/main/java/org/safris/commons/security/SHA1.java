@@ -18,21 +18,22 @@ package org.safris.commons.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import org.safris.commons.util.Hexadecimal;
 
-public class SHA1 {
+public final class SHA1 {
   private static MessageDigest messageDigest = null;
 
   static {
     try {
       messageDigest = MessageDigest.getInstance("SHA");
     }
-    catch (NoSuchAlgorithmException e) {
+    catch (final NoSuchAlgorithmException e) {
       throw new ExceptionInInitializerError(e);
     }
   }
 
-  public static Hexadecimal encode(String string) {
+  public static Hexadecimal encode(final String string) {
     messageDigest.update(string.getBytes());
     final byte[] digest = messageDigest.digest();
     return new Hexadecimal(digest);

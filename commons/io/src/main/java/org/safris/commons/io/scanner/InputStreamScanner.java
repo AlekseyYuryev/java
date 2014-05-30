@@ -19,19 +19,20 @@ package org.safris.commons.io.scanner;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
 import org.safris.commons.util.HashTree;
 
 public final class InputStreamScanner extends Thread {
   private final InputStream in;
   private List<HashTree.Node<ScannerHandler>> currentNodes;
 
-  public InputStreamScanner(InputStream in, HashTree<ScannerHandler> handlers) {
+  public InputStreamScanner(final InputStream in, final HashTree<ScannerHandler> handlers) {
     super(InputStreamScanner.class.getSimpleName());
     this.in = in;
     currentNodes = handlers != null ? handlers.getChildren() : null;
   }
 
-  private boolean onMatch(String line, List<HashTree.Node<ScannerHandler>> nodes) throws IOException {
+  private boolean onMatch(final String line, final List<HashTree.Node<ScannerHandler>> nodes) throws IOException {
     boolean match = false;
     for (final HashTree.Node<ScannerHandler> node : nodes) {
       if (node.getValue() != null) {
@@ -57,13 +58,12 @@ public final class InputStreamScanner extends Thread {
       char ch = 0;
       while ((ch = (char)in.read()) != -1) {
         if (ch != '\n') {
-          if (ch == ' ' && line.length() == 0)
-            continue;
-
-          line += ch;
+          if (ch != ' ' || line.length() != 0)
+            line += ch;
         }
-        else
+        else {
           line = "";
+        }
 
         if (currentNodes == null)
           continue;
@@ -72,7 +72,7 @@ public final class InputStreamScanner extends Thread {
           line = "";
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       if ("Pipe broken".equals(e.getMessage()))
         return;
 
@@ -82,7 +82,7 @@ public final class InputStreamScanner extends Thread {
       try {
         notifyAll();
       }
-      catch (IllegalMonitorStateException e) {
+      catch (final IllegalMonitorStateException e) {
       }
     }
   }

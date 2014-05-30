@@ -64,7 +64,7 @@ public final class ValidatorErrorHandler implements ErrorHandler {
 
   private final Log log;
 
-  // ignore fatal errors (an exception is guaranteed)
+  // ignore fatal errors (final an exception is guaranteed)
   public void fatalError(final SAXParseException e) throws SAXException {
   }
 

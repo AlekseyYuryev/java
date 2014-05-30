@@ -18,21 +18,23 @@ package org.safris.xml.generator.compiler.runtime;
 
 import org.safris.commons.xml.XMLError;
 
-public class BindingError extends XMLError {
+public final class BindingError extends XMLError {
+  private static final long serialVersionUID = 3337621621621474582L;
+
   public BindingError() {
     super();
   }
 
-  public BindingError(String message) {
+  public BindingError(final String message) {
     super(message);
   }
 
-  public BindingError(Throwable cause) {
+  public BindingError(final Throwable cause) {
     super(cause);
     init(cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName(), cause);
   }
 
-  public BindingError(String message, Throwable cause) {
+  public BindingError(final String message, final Throwable cause) {
     super(message, cause);
     init(message != null ? message : (cause.getMessage() != null ? cause.getMessage() : cause.getClass().getSimpleName()), cause);
   }

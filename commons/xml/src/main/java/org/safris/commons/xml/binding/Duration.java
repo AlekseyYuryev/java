@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#duration
  */
-public class Duration {
+public final class Duration {
   public static Duration parseDuration(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -44,7 +44,7 @@ public class Duration {
     }
 
     if (string.charAt(offset) != P)
-      throw new IllegalArgumentException("Invalid duration: " + string + " (must start with P, +P, or -P)");
+      throw new IllegalArgumentException("Invalid duration: " + string + " (must start with P, +P, final or -P)");
 
     long years = -1;
     long months = -1;
@@ -76,7 +76,7 @@ public class Duration {
           try {
             digits = Long.parseLong(buffer.toString());
           }
-          catch (NumberFormatException e) {
+          catch (final NumberFormatException e) {
             throw new IllegalArgumentException("Invalid duration: "  + string + " (max long value exceeded by " + buffer + ")");
           }
 
@@ -189,27 +189,27 @@ public class Duration {
     this(false, 0, 0, 0, 0, 0, 0);
   }
 
-  public Duration(boolean isNegative, int years) {
+  public Duration(final boolean isNegative, final int years) {
     this(isNegative, years, 0, 0, 0, 0, 0);
   }
 
-  public Duration(boolean isNegative, long years, long months) {
+  public Duration(final boolean isNegative, final long years, final long months) {
     this(isNegative, years, months, 0, 0, 0, 0);
   }
 
-  public Duration(boolean isNegative, long years, long months, long days) {
+  public Duration(final boolean isNegative, final long years, long months, final long days) {
     this(isNegative, years, months, days, 0, 0, 0);
   }
 
-  public Duration(boolean isNegative, long years, long months, long days, long hours) {
+  public Duration(final boolean isNegative, final long years, long months, final long days, final long hours) {
     this(isNegative, years, months, days, hours, 0, 0);
   }
 
-  public Duration(boolean isNegative, long years, long months, long days, long hours, long minutes) {
+  public Duration(final boolean isNegative, final long years, long months, final long days, long hours, final long minutes) {
     this(isNegative, years, months, days, hours, minutes, 0);
   }
 
-  public Duration(boolean isNegative, long years, long months, long days, long hours, long minutes, float seconds) {
+  public Duration(final boolean isNegative, final long years, long months, final long days, long hours, final long minutes, final float seconds) {
     this.isNegative = isNegative;
     this.years = years;
     this.months = months;
@@ -219,7 +219,7 @@ public class Duration {
     this.seconds = seconds;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

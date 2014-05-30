@@ -19,6 +19,7 @@ package org.safris.xml.generator.compiler.processor.write;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
@@ -66,7 +67,6 @@ import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UnionPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.UniquePlan;
 import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
-import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.processor.write.element.AllWriter;
 import org.safris.xml.generator.compiler.processor.write.element.AnnotationWriter;
 import org.safris.xml.generator.compiler.processor.write.element.AnyAttributeWriter;
@@ -111,7 +111,7 @@ import org.safris.xml.generator.compiler.processor.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.processor.write.element.WhiteSpaceWriter;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 
-public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,Writer> {
+public final class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> {
   private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
   private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
   private final Collection<Class<? extends Plan>> keys;
@@ -163,7 +163,7 @@ public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,
     keys = classes.keySet();
   }
 
-  public PipelineEntity<Writer> getEntity(Plan entity, Writer parent) {
+  public PipelineEntity getEntity(final Plan<?> entity, final Writer<?> parent) {
     if (!keys.contains(entity.getClass()))
       throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
@@ -176,12 +176,12 @@ public class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan,
       instances.put(entity.getClass(), writerInstance = writerClass.newInstance());
       return writerInstance;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
   }
 
-  public PipelineProcessor<GeneratorContext,Plan,Writer> getProcessor() {
+  public PipelineProcessor<GeneratorContext,Plan<?>,Writer<?>> getProcessor() {
     return processor;
   }
 

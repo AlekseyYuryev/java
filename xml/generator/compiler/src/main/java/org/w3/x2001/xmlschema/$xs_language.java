@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Language;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_language<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_language(final $xs_language<T> binding) {
+public abstract class $xs_language extends $xs_anySimpleType {
+  public $xs_language(final $xs_language binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_language<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  public Language getText() {
-    return (Language)super.getText();
+  public Language text() {
+    return (Language)super.text();
   }
 
-  public void setText(final Language text) {
-    super.setText(text);
+  public void text(final Language text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Language.parseLanguage(value));
+    super.text(Language.parseLanguage(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_language<T> clone() {
-    return new $xs_language<T>(this) {
-      protected $xs_language<T> inherits() {
+  public $xs_language clone() {
+    return new $xs_language(this) {
+      protected $xs_language inherits() {
         return this;
       }
     };

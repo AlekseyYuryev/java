@@ -18,20 +18,22 @@ package org.safris.commons.xml.validator;
 
 import org.safris.commons.xml.XMLError;
 
-public class ValidatorError extends XMLError {
+public final class ValidatorError extends XMLError {
+  private static final long serialVersionUID = 1330762778984203337L;
+
   public ValidatorError() {
     super();
   }
 
-  public ValidatorError(String message) {
+  public ValidatorError(final String message) {
     super(message);
   }
 
-  public ValidatorError(Throwable cause) {
+  public ValidatorError(final Throwable cause) {
     super(cause);
   }
 
-  public ValidatorError(String message, Throwable cause) {
+  public ValidatorError(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ExpectSimulator {
+public final class ExpectSimulator {
   private static List<Prompt> prompts = new ArrayList<Prompt>();
-  private static class Prompt {
+  
+  private static final class Prompt {
     private List<String> answers = new ArrayList<String>();
     private String prompt;
     private String matchLeft;
@@ -30,7 +31,7 @@ public class ExpectSimulator {
     private String matchRight;
     private Prompt right;
 
-    public Prompt(String prompt, String matchLeft, Prompt left, String matchRight, Prompt right) {
+    public Prompt(final String prompt, final String matchLeft, Prompt left, final String matchRight, final Prompt right) {
       this.prompt = prompt;
       this.matchLeft = matchLeft;
       this.left = left;
@@ -39,7 +40,7 @@ public class ExpectSimulator {
       prompts.add(this);
     }
 
-    public void setPrompt(String prompt) {
+    public void setPrompt(final String prompt) {
       this.prompt = prompt;
     }
 
@@ -47,7 +48,7 @@ public class ExpectSimulator {
       return prompt;
     }
 
-    public void setLeft(Prompt left) {
+    public void setLeft(final Prompt left) {
       this.left = left;
     }
 
@@ -55,7 +56,7 @@ public class ExpectSimulator {
       return left;
     }
 
-    public void setRight(Prompt right) {
+    public void setRight(final Prompt right) {
       this.right = right;
     }
 
@@ -63,12 +64,13 @@ public class ExpectSimulator {
       return right;
     }
 
-    public Prompt getNext(String line) {
+    public Prompt getNext(final String line) {
       if (line.matches(matchLeft)) {
         answers.add(line);
         return left;
       }
-      else if (line.matches(matchRight)) {
+      
+      if (line.matches(matchRight)) {
         answers.add(line);
         return right;
       }
@@ -97,14 +99,13 @@ public class ExpectSimulator {
   private static final Prompt r3 = new Prompt("Is ${person} an adult or a child?", "[aA]", r4, "[cC]", r6);
   private static final Prompt r1 = new Prompt("Would you like to create a roster?", "[yY]", r2, "[nN]", r14);
 
-  static
-  {
+  static {
     r2.setLeft(r3);
     r2.setRight(r3);
     r14.setRight(r1);
   }
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     if (args.length != 1)
       System.exit(1);
 
@@ -114,6 +115,7 @@ public class ExpectSimulator {
       System.out.print(prompt.getPrompt() + " ");
       final Scanner input = new Scanner(System.in);
       final String line = input.nextLine().trim();
+      input.close();
       prompt = prompt.getNext(line);
     }
 

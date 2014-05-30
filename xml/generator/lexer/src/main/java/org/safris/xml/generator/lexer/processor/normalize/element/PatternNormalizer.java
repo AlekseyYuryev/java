@@ -23,33 +23,33 @@ import org.safris.xml.generator.lexer.processor.model.element.PatternModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class PatternNormalizer extends Normalizer<PatternModel> {
-  public PatternNormalizer(NormalizerDirectory directory) {
+public final class PatternNormalizer extends Normalizer<PatternModel> {
+  public PatternNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(PatternModel model) {
+  protected void stage1(final PatternModel model) {
   }
 
-  protected void stage2(PatternModel model) {
+  protected void stage2(final PatternModel model) {
   }
 
-  protected void stage3(PatternModel model) {
+  protected void stage3(final PatternModel model) {
   }
 
-  protected void stage4(PatternModel model) {
+  protected void stage4(final PatternModel model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof PatternableModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof PatternableModel && parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         ((PatternableModel)parent).addPattern(model);
         break;
       }
     }
   }
 
-  protected void stage5(PatternModel model) {
+  protected void stage5(final PatternModel model) {
   }
 
-  protected void stage6(PatternModel model) {
+  protected void stage6(final PatternModel model) {
   }
 }

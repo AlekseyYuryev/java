@@ -22,8 +22,8 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class RestrictionModel extends ElementModel {
-  private SimpleTypeModel base = null;
+public final class RestrictionModel extends ElementModel {
+  private SimpleTypeModel<?> base = null;
 
   protected RestrictionModel(final Node node, final Model parent) {
     super(node, parent);
@@ -42,7 +42,7 @@ public class RestrictionModel extends ElementModel {
     }
   }
 
-  public final void setBase(final SimpleTypeModel base) {
+  public final void setBase(final SimpleTypeModel<?> base) {
     this.base = base;
   }
 

@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexContentModel;
 
-public class ComplexContentPlan extends Plan<ComplexContentModel> {
-  public ComplexContentPlan(ComplexContentModel model, Plan parent) {
+public final class ComplexContentPlan extends Plan<ComplexContentModel> {
+  public ComplexContentPlan(final ComplexContentModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

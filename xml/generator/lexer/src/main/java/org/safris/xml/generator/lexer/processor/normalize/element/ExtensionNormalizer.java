@@ -22,6 +22,8 @@ import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
+import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
+import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 import org.safris.xml.generator.lexer.processor.model.element.ExtensionModel;
@@ -31,21 +33,21 @@ import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
+public final class ExtensionNormalizer extends Normalizer<ExtensionModel> {
   private final ElementNormalizer elementNormalizer = (ElementNormalizer)getDirectory().lookup(ElementModel.class);
   private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
   private final ComplexTypeNormalizer complexTypeNormalizer = (ComplexTypeNormalizer)getDirectory().lookup(ComplexTypeModel.class);
 
-  public ExtensionNormalizer(NormalizerDirectory directory) {
+  public ExtensionNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(ExtensionModel model) {
+  protected void stage1(final ExtensionModel model) {
   }
 
-  protected void stage2(ExtensionModel model) {
+  protected void stage2(final ExtensionModel model) {
     // First de-reference the base
-    SimpleTypeModel base = null;
+    SimpleTypeModel<?> base = null;
     if (model.getBase() instanceof SimpleTypeModel.Reference) {
       base = simpleTypeNormalizer.parseSimpleType(model.getBase().getName());
       if (base == null)
@@ -75,12 +77,12 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         if (parent instanceof ElementModel) {
           // We do not want to dereference nested elements because there are name collisions
           ElementModel element = (ElementModel)parent;
           if (element.getParent() instanceof SchemaModel)
-            element = elementNormalizer.parseElement(((Nameable)parent).getName());
+            element = elementNormalizer.parseElement(((Nameable<?>)parent).getName());
 
           if (element == null)
             throw new LexerError("element == null");
@@ -88,12 +90,12 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
           element.setSuperType(base);
         }
         else if (parent instanceof SimpleTypeModel) {
-          SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
+          SimpleTypeModel<?> type = simpleTypeNormalizer.parseSimpleType(((Nameable<?>)parent).getName());
           if (type == null)
-            type = complexTypeNormalizer.parseComplexType(((Nameable)parent).getName());
+            type = complexTypeNormalizer.parseComplexType(((Nameable<?>)parent).getName());
 
           if (type == null)
-            throw new LexerError("type == null for " + ((Nameable)parent).getName());
+            throw new LexerError("type == null for " + ((Nameable<?>)parent).getName());
 
           // NOTE: This occurs when we're doing a <redefine/>
           if (type == base)
@@ -103,10 +105,10 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
           type.setSuperType(base);
 
           // Update the superType and restriction flag of this model
-          ((SimpleTypeModel)parent).setSuperType(base);
+          ((SimpleTypeModel<?>)parent).setSuperType(base);
         }
         else {
-          throw new LexerError(((Nameable)parent).getName().toString());
+          throw new LexerError(((Nameable<?>)parent).getName().toString());
         }
 
         break;
@@ -114,56 +116,56 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
     }
   }
 
-  protected void stage3(ExtensionModel model) {
+  protected void stage3(final ExtensionModel model) {
     if (model.getBase() == null || model.getBase().getName() == null)
       return;
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable)parent).getName()) && parent.getParent() instanceof RedefineModel) {
-        model.getBase().setRedefine((SimpleTypeModel)parent);
+      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable<?>)parent).getName()) && parent.getParent() instanceof RedefineModel) {
+        model.getBase().setRedefine((SimpleTypeModel<?>)parent);
 
         if (parent instanceof SimpleTypeModel) {
-          SimpleTypeModel redefine = (SimpleTypeModel)parent;
+          SimpleTypeModel<?> redefine = (SimpleTypeModel<?>)parent;
           redefine.setSuperType(model.getBase().getSuperType());
         }
       }
     }
   }
 
-  protected void stage4(ExtensionModel model) {
+  protected void stage4(final ExtensionModel model) {
   }
 
-  protected void stage5(ExtensionModel model) {
+  protected void stage5(final ExtensionModel model) {
     if (model.getBase() == null || model.getBase().getName() == null)
       return;
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable)parent).getName()) && parent.getParent() instanceof RedefineModel) {
+      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable<?>)parent).getName()) && parent.getParent() instanceof RedefineModel) {
         if (parent instanceof ComplexTypeModel) {
           if (!(model.getBase() instanceof ComplexTypeModel))
             throw new LexerError("complexType redefinition done by something other than a complexType");
 
-          ComplexTypeModel redefine = (ComplexTypeModel)parent;
+          ComplexTypeModel<?> redefine = (ComplexTypeModel<?>)parent;
           if (redefine.getAttributes().size() != 0) {
-            final LinkedHashSet attributes = (LinkedHashSet)((ComplexTypeModel)model.getBase()).getAttributes().clone();
+            final LinkedHashSet<AttributeModel> attributes = (LinkedHashSet<AttributeModel>)((ComplexTypeModel<?>)model.getBase()).getAttributes().clone();
             attributes.addAll(redefine.getAttributes());
             redefine.getAttributes().clear();
             redefine.getAttributes().addAll(attributes);
           }
           else {
-            redefine.getAttributes().addAll(((ComplexTypeModel)model.getBase()).getAttributes());
+            redefine.getAttributes().addAll(((ComplexTypeModel<?>)model.getBase()).getAttributes());
           }
 
           if (redefine.getMultiplicableModels().size() != 0) {
-            final LinkedHashSet multiplicableModels = (LinkedHashSet)((ComplexTypeModel)model.getBase()).getMultiplicableModels().clone();
+            final LinkedHashSet<MultiplicableModel> multiplicableModels = (LinkedHashSet<MultiplicableModel>)((ComplexTypeModel<?>)model.getBase()).getMultiplicableModels().clone();
             multiplicableModels.addAll(redefine.getMultiplicableModels());
             redefine.getMultiplicableModels().clear();
             redefine.getMultiplicableModels().addAll(multiplicableModels);
           }
           else {
-            redefine.getMultiplicableModels().addAll(((ComplexTypeModel)model.getBase()).getMultiplicableModels());
+            redefine.getMultiplicableModels().addAll(((ComplexTypeModel<?>)model.getBase()).getMultiplicableModels());
           }
         }
 
@@ -172,6 +174,6 @@ public class ExtensionNormalizer extends Normalizer<ExtensionModel> {
     }
   }
 
-  protected void stage6(ExtensionModel model) {
+  protected void stage6(final ExtensionModel model) {
   }
 }

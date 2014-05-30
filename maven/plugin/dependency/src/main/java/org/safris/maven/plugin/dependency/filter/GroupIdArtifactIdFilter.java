@@ -19,12 +19,12 @@ package org.safris.maven.plugin.dependency.filter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.dependency.utils.filters.AbstractArtifactFeatureFilter;
 
-public class GroupIdArtifactIdFilter extends AbstractArtifactFeatureFilter {
-  public GroupIdArtifactIdFilter(String include, String exclude) {
+public final class GroupIdArtifactIdFilter extends AbstractArtifactFeatureFilter {
+  public GroupIdArtifactIdFilter(final String include, final String exclude) {
     super(include, exclude, "Artifact");
   }
 
-  protected String getArtifactFeature(Artifact artifact) {
+  protected String getArtifactFeature(final Artifact artifact) {
     return artifact.getGroupId() + ":" + artifact.getArtifactId();
   }
 }

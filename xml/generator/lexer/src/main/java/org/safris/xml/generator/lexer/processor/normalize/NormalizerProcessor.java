@@ -25,10 +25,10 @@ import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
-public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,Model,Normalizer> {
+public final class NormalizerProcessor implements PipelineProcessor<GeneratorContext,Model,Normalizer<?>> {
   private int stage = 0;
 
-  protected final void tailRecurse(GeneratorContext pipelineContext, Collection<Model> models, PipelineDirectory<GeneratorContext,Model,Normalizer> directory) {
+  protected final void tailRecurse(final GeneratorContext pipelineContext, final Collection<Model> models, final PipelineDirectory<GeneratorContext,Model,Normalizer<?>> directory) {
     if (models == null || models.size() == 0)
       return;
 
@@ -37,23 +37,23 @@ public class NormalizerProcessor implements PipelineProcessor<GeneratorContext,M
         tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
   }
 
-  private Collection<Model> disclose(GeneratorContext pipelineContext, Model model, PipelineDirectory<GeneratorContext,Model,Normalizer> directory) {
-    final Normalizer normalizer = (Normalizer)directory.getEntity(model, null);
+  private Collection<Model> disclose(final GeneratorContext pipelineContext, final Model model, final PipelineDirectory<GeneratorContext,Model,Normalizer<?>> directory) {
+    final Normalizer<?> normalizer = (Normalizer<?>)directory.getEntity(model, null);
     try {
       final Method method = normalizer.getClass().getDeclaredMethod("stage" + (stage + 1), Model.class);
       method.setAccessible(true);
       method.invoke(normalizer, model);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new LexerError(e);
     }
 
     return model.getChildren();
   }
 
-  public Collection<Normalizer> process(GeneratorContext pipelineContext, Collection<Model> documents, PipelineDirectory<GeneratorContext,Model,Normalizer> directory) {
+  public Collection<Normalizer<?>> process(final GeneratorContext pipelineContext, final Collection<Model> documents, final PipelineDirectory<GeneratorContext,Model,Normalizer<?>> directory) {
     int stages = 0;
-    Method[] methods = Normalizer.class.getDeclaredMethods();
+    final Method[] methods = Normalizer.class.getDeclaredMethods();
     for (final Method method : methods)
       if (method.getName().startsWith("stage"))
         stages++;

@@ -18,20 +18,22 @@ package org.safris.xml.generator.compiler.lang;
 
 import org.safris.commons.xml.XMLError;
 
-public class CompilerError extends XMLError {
+public final class CompilerError extends XMLError {
+  private static final long serialVersionUID = -4619096950067417903L;
+
   public CompilerError() {
     super();
   }
 
-  public CompilerError(String message) {
+  public CompilerError(final String message) {
     super(message);
   }
 
-  public CompilerError(Throwable cause) {
+  public CompilerError(final Throwable cause) {
     super(cause);
   }
 
-  public CompilerError(String message, Throwable cause) {
+  public CompilerError(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

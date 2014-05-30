@@ -23,7 +23,7 @@ import java.io.File;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-public class ValidatorMojoTest {
+public final class ValidatorMojoTest {
   public static void main(final String[] args) throws Exception {
     new ValidatorMojoTest().testValidate();
   }

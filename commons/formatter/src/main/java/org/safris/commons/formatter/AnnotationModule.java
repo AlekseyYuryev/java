@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class AnnotationModule extends FormatModule {
-  String format(String formated, String token) {
+public final class AnnotationModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().indexOf("@") == 0) {
       for (int i = 0; i < getDepth(); i++)
         token = "\t" + token;

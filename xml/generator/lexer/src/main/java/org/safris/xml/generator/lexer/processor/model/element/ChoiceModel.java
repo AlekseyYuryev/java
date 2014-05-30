@@ -24,7 +24,7 @@ import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ChoiceModel extends Model implements MultiplicableModel {
+public final class ChoiceModel extends Model implements MultiplicableModel {
   private final LinkedHashSet<MultiplicableModel> multiplicableModels = new LinkedHashSet<MultiplicableModel>();
 
   private Occurs maxOccurs = Occurs.parseOccurs("1");

@@ -18,21 +18,22 @@ package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 
-public class NativeBinding {
+public final class NativeBinding {
   private final UniqueQName name;
   private final GenericClass baseClass;
   private final GenericClass nativeClass;
   private final Method factoryMethod;
   private final boolean list;
 
-  public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass, Method factoryMethod) {
+  public NativeBinding(final UniqueQName name, final GenericClass baseClass, GenericClass nativeClass, final Method factoryMethod) {
     if (name == null)
       throw new NullPointerException("name == null");
 
     if (baseClass == null)
-      throw new NullPointerException("baseClass == null");
+      throw new NullPointerException("baseClass<?> == null");
 
     this.name = name;
     this.baseClass = baseClass;
@@ -41,11 +42,11 @@ public class NativeBinding {
     this.list = nativeClass != null ? nativeClass.isList() : false;
   }
 
-  public NativeBinding(UniqueQName name, GenericClass baseClass, GenericClass nativeClass) {
+  public NativeBinding(final UniqueQName name, final GenericClass baseClass, final GenericClass nativeClass) {
     this(name, baseClass, nativeClass, null);
   }
 
-  public NativeBinding(UniqueQName name, GenericClass baseClass) {
+  public NativeBinding(final UniqueQName name, final GenericClass baseClass) {
     this(name, baseClass, null, null);
   }
 
@@ -69,7 +70,7 @@ public class NativeBinding {
     return factoryMethod;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 
@@ -88,12 +89,12 @@ public class NativeBinding {
     return name.toString() + "\n" + baseClass.toString() + "\n" + nativeClass.toString();
   }
 
-  public static class GenericClass {
-    private final Class cls;
-    private final Class type;
+  public static final class GenericClass {
+    private final Class<?> cls;
+    private final Class<?> type;
     private Boolean list = null;
 
-    public GenericClass(Class cls, Class type) {
+    public GenericClass(final Class<?> cls, final Class<?> type) {
       if (cls == null)
         throw new NullPointerException("cls == null");
 
@@ -101,26 +102,23 @@ public class NativeBinding {
       this.type = type;
     }
 
-    public GenericClass(Class cls) {
+    public GenericClass(final Class<?> cls) {
       this(cls, null);
     }
 
-    public Class getCls() {
+    public final Class<?> getCls() {
       return cls;
     }
 
-    public Class getType() {
+    public final Class<?> getType() {
       return type;
     }
 
     protected boolean isList() {
-      if (list != null)
-        return list;
-
-      return list = List.class.isAssignableFrom(cls);
+      return list == null ? list = List.class.isAssignableFrom(cls) : list;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
       if (obj == this)
         return true;
 
@@ -136,10 +134,7 @@ public class NativeBinding {
     }
 
     public String toString() {
-      if (type != null)
-        return cls.getName() + "<" + type.getName() + ">";
-
-      return cls.getName();
+      return type != null ? cls.getName() + "<" + type.getName() + ">" : cls.getName();
     }
   }
 }

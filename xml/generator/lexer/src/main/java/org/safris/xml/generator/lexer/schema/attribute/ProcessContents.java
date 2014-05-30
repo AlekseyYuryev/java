@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.ProcessContents;
 
 public final class ProcessContents {
   private static final Map<String,ProcessContents> enums = new HashMap<String,ProcessContents>();
@@ -27,13 +26,13 @@ public final class ProcessContents {
   public static final ProcessContents SKIP = new ProcessContents("skip");
   public static final ProcessContents STRICT = new ProcessContents("strict");
 
-  public static ProcessContents parseProcessContents(String value) {
+  public static ProcessContents parseProcessContents(final String value) {
     return enums.get(value);
   }
 
   private final String value;
 
-  private ProcessContents(String value) {
+  private ProcessContents(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -42,7 +41,7 @@ public final class ProcessContents {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof ProcessContents))
       return false;
 

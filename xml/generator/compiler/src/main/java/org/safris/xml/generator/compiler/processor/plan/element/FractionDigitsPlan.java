@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.FractionDigitsModel;
 
-public class FractionDigitsPlan extends Plan<FractionDigitsModel> {
-  public FractionDigitsPlan(FractionDigitsModel model, Plan parent) {
+public final class FractionDigitsPlan extends Plan<FractionDigitsModel> {
+  public FractionDigitsPlan(final FractionDigitsModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

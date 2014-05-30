@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.MinInclusiveModel;
 
-public class MinInclusivePlan extends Plan<MinInclusiveModel> {
-  public MinInclusivePlan(MinInclusiveModel model, Plan parent) {
+public final class MinInclusivePlan extends Plan<MinInclusiveModel> {
+  public MinInclusivePlan(final MinInclusiveModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

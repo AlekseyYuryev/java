@@ -31,7 +31,7 @@ public final class Jar {
   private final JarOutputStream out;
   private final Collection<JarEntry> entries = new HashSet<JarEntry>();
 
-  public Jar(File file) throws IOException {
+  public Jar(final File file) throws IOException {
     this.jarFile = file;
     if (!file.getParentFile().exists())
       file.getParentFile().mkdirs();
@@ -44,7 +44,7 @@ public final class Jar {
     return jarFile;
   }
 
-  public void addEntry(String fileName, byte[] bytes) throws IOException {
+  public void addEntry(final String fileName, final byte[] bytes) throws IOException {
     synchronized (out) {
       // Add archive entry
       final JarEntry jarEntry = new JarEntry(fileName);
@@ -56,7 +56,7 @@ public final class Jar {
         out.putNextEntry(jarEntry);
         out.write(bytes);
       }
-      catch (IOException e) {
+      catch (final IOException e) {
         if ("no current ZIP entry".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()))
           return;
       }

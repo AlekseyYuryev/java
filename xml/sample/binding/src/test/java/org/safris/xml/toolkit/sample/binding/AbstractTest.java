@@ -17,6 +17,7 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import java.io.StringReader;
+
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.validator.Validator;

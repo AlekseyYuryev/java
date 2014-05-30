@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
  * @requiresDependencyResolution test
  * @phase compile
  */
-public class ValidatorMojo extends AbstractMojo {
+public final class ValidatorMojo extends AbstractMojo {
   private static final String delimeter = "://";
 
   private static final FileFilter xmlFileFilter = new FileFilter() {
@@ -79,6 +79,24 @@ public class ValidatorMojo extends AbstractMojo {
   public List<Resource> getTestResources() {
     return testResources;
   }
+  
+  /**
+   * @parameter
+   */
+  private List<String> includes;
+
+  public List<String> getIncludes() {
+    return includes;
+  }
+
+  /**
+   * @parameter
+   */
+  private List<String> excludes;
+
+  public List<String> getExcludes() {
+    return excludes;
+  }
 
   /**
    * @parameter default-value="${project.build.directory}"
@@ -111,7 +129,7 @@ public class ValidatorMojo extends AbstractMojo {
     // Set the ErrorHandler.
     saxParser.setErrorHandler(ValidatorErrorHandler.getInstance(log));
 
-    final String fileName = file.getAbsolutePath().substring(dir.getAbsolutePath().length() + 1);
+    final String fileName = Files.relativePath(dir.getAbsoluteFile(), file.getAbsoluteFile());
     if (log != null)
       log.info("Validating file: " + fileName);
     else
@@ -169,20 +187,21 @@ public class ValidatorMojo extends AbstractMojo {
 
     // Set the httpProxy if it was specified.
     setHttpProxy();
-    
-    final File directory = new File(getDirectory(), "validator");
-    final boolean validateAll = !directory.exists();
+
+    final File recordDir = new File(getDirectory(), "validator");
+    recordDir.mkdirs();
 
     try {
       final Log log = getLog();
-      long maxModified = System.currentTimeMillis();
       for (final Map.Entry<File,Collection<File>> entry : files.entrySet()) {
         log.info("Resource directory: " + entry.getKey().getAbsolutePath());
         for (final File file : entry.getValue()) {
-          maxModified = Math.max(maxModified, file.lastModified());
-          if (validateAll || directory.lastModified() < file.lastModified()) {
+          final File recordFile = new File(recordDir, file.getName());
+          if (!recordFile.exists() || recordFile.lastModified() < file.lastModified()) {
             try {
               validate(entry.getKey(), file, log);
+              if (!recordFile.createNewFile())
+                recordFile.setLastModified(file.lastModified());
             }
             catch (final SAXException e) {
               throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
@@ -190,11 +209,6 @@ public class ValidatorMojo extends AbstractMojo {
           }
         }
       }
-      
-      if (validateAll)
-        directory.mkdirs();
-      
-      directory.setLastModified(maxModified);
     }
     catch (final IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);

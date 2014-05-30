@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class CloseBracketModule extends FormatModule {
-  String format(String formated, String token) {
+public final class CloseBracketModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().lastIndexOf(";") != token.trim().length() - 1 || "};".equals(token.trim())) {
       if (token.trim().indexOf("}") == 0) {
         decreaseDepth();

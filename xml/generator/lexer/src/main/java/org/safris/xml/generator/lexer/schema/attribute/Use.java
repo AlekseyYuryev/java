@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.Use;
 
 public final class Use {
   private static final Map<String,Use> enums = new HashMap<String,Use>();
@@ -27,13 +26,13 @@ public final class Use {
   public static final Use PROHIBITED = new Use("prohibited");
   public static final Use REQUIRED = new Use("required");
 
-  public static Use parseUse(String value) {
+  public static Use parseUse(final String value) {
     return enums.get(value);
   }
 
   private final String value;
 
-  private Use(String value) {
+  private Use(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -42,7 +41,7 @@ public final class Use {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Use))
       return false;
 

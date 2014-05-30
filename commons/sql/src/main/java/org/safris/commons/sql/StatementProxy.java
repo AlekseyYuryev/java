@@ -27,35 +27,37 @@ import java.util.logging.Level;
 import org.safris.commons.logging.Logger;
 
 public class StatementProxy implements Statement {
-  private final Statement statement;
+  private static final Logger logger = Logger.getLogger(StatementProxy.class.getName());
 
-  public StatementProxy(Statement statement) {
+  protected final Statement statement;
+
+  public StatementProxy(final Statement statement) {
     this.statement = statement;
   }
 
-  public ResultSet executeQuery(String sql) throws SQLException {
+  public ResultSet executeQuery(final String sql) throws SQLException {
     final long time = System.currentTimeMillis();
     final ResultSetProxy resultSet = new ResultSetProxy(statement.executeQuery(sql));
 
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeQuery(\n");
       buffer.append(sql);
       buffer.append("\n) -> " + resultSet.getSize() + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return resultSet;
   }
 
-  public int executeUpdate(String sql) throws SQLException {
+  public int executeUpdate(final String sql) throws SQLException {
     final long time = System.currentTimeMillis();
     int count = statement.executeUpdate(sql);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeUpdate(\n");
       buffer.append(sql);
 
       buffer.append("\n) -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return count;
@@ -65,7 +67,7 @@ public class StatementProxy implements Statement {
     try {
       statement.close();
     }
-    catch (SQLException e) {
+    catch (final SQLException e) {
       if (e.getMessage() != null && !"Connection is closed.".equals(e.getMessage()))
         throw e;
     }
@@ -75,7 +77,7 @@ public class StatementProxy implements Statement {
     return statement.getMaxFieldSize();
   }
 
-  public void setMaxFieldSize(int max) throws SQLException {
+  public void setMaxFieldSize(final int max) throws SQLException {
     statement.setMaxFieldSize(max);
   }
 
@@ -83,11 +85,11 @@ public class StatementProxy implements Statement {
     return statement.getMaxRows();
   }
 
-  public void setMaxRows(int max) throws SQLException {
+  public void setMaxRows(final int max) throws SQLException {
     statement.setMaxRows(max);
   }
 
-  public void setEscapeProcessing(boolean enable) throws SQLException {
+  public void setEscapeProcessing(final boolean enable) throws SQLException {
     statement.setEscapeProcessing(enable);
   }
 
@@ -95,7 +97,7 @@ public class StatementProxy implements Statement {
     return statement.getQueryTimeout();
   }
 
-  public void setQueryTimeout(int seconds) throws SQLException {
+  public void setQueryTimeout(final int seconds) throws SQLException {
     statement.setQueryTimeout(seconds);
   }
 
@@ -111,20 +113,21 @@ public class StatementProxy implements Statement {
     statement.clearWarnings();
   }
 
-  public void setCursorName(String name) throws SQLException {
+  public void setCursorName(final String name) throws SQLException {
     statement.setCursorName(name);
   }
 
-  public boolean execute(String sql) throws SQLException {
+  public boolean execute(final String sql) throws SQLException {
     final long time = System.currentTimeMillis();
     final boolean result = statement.execute(sql);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].execute(\n");
       buffer.append(sql);
 
       buffer.append("\n) -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
+    
     return result;
   }
 
@@ -140,7 +143,7 @@ public class StatementProxy implements Statement {
     return statement.getMoreResults();
   }
 
-  public void setFetchDirection(int direction) throws SQLException {
+  public void setFetchDirection(final int direction) throws SQLException {
     statement.setFetchDirection(direction);
   }
 
@@ -148,7 +151,7 @@ public class StatementProxy implements Statement {
     return statement.getFetchDirection();
   }
 
-  public void setFetchSize(int rows) throws SQLException {
+  public void setFetchSize(final int rows) throws SQLException {
     statement.setFetchSize(rows);
   }
 
@@ -164,7 +167,7 @@ public class StatementProxy implements Statement {
     return statement.getResultSetType();
   }
 
-  public void addBatch(String sql) throws SQLException {
+  public void addBatch(final String sql) throws SQLException {
     statement.addBatch(sql);
   }
 
@@ -180,7 +183,7 @@ public class StatementProxy implements Statement {
     return statement.getConnection();
   }
 
-  public boolean getMoreResults(int current) throws SQLException {
+  public boolean getMoreResults(final int current) throws SQLException {
     return statement.getMoreResults(current);
   }
 
@@ -188,86 +191,86 @@ public class StatementProxy implements Statement {
     return new ResultSetProxy(statement.getGeneratedKeys());
   }
 
-  public int executeUpdate(String sql, int autoGeneratedKeys) throws SQLException {
+  public int executeUpdate(final String sql, final int autoGeneratedKeys) throws SQLException {
     final long time = System.currentTimeMillis();
     final int count = statement.executeUpdate(sql, autoGeneratedKeys);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeUpdate(\n");
       buffer.append(sql);
 
       buffer.append("\n, " + autoGeneratedKeys + ") -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return count;
   }
 
-  public int executeUpdate(String sql, int[] columnIndexes) throws SQLException {
+  public int executeUpdate(final String sql, final int[] columnIndexes) throws SQLException {
     final long time = System.currentTimeMillis();
     final int count = statement.executeUpdate(sql, columnIndexes);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeUpdate(\n");
       buffer.append(sql);
 
       buffer.append("\n, [" + Arrays.toString(columnIndexes) + "]) -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return count;
   }
 
-  public int executeUpdate(String sql, String[] columnNames) throws SQLException {
+  public int executeUpdate(final String sql, final String[] columnNames) throws SQLException {
     final long time = System.currentTimeMillis();
     final int count = statement.executeUpdate(sql, columnNames);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeUpdate(\n");
       buffer.append(sql);
 
       buffer.append("\n, " + Arrays.toString(columnNames) + ") -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return count;
   }
 
-  public boolean execute(String sql, int autoGeneratedKeys) throws SQLException {
+  public boolean execute(final String sql, final int autoGeneratedKeys) throws SQLException {
     final long time = System.currentTimeMillis();
     final boolean result = statement.execute(sql, autoGeneratedKeys);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].execute(\n");
       buffer.append(sql);
 
       buffer.append("\n, " + autoGeneratedKeys + ") -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
 
     }
 
     return result;
   }
 
-  public boolean execute(String sql, int[] columnIndexes) throws SQLException {
+  public boolean execute(final String sql, final int[] columnIndexes) throws SQLException {
     final long time = System.currentTimeMillis();
     final boolean result = statement.execute(sql, columnIndexes);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].execute(\n");
       buffer.append(sql);
 
       buffer.append("\n, " + Arrays.toString(columnIndexes) + ") -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return result;
   }
 
-  public boolean execute(String sql, String[] columnNames) throws SQLException {
+  public boolean execute(final String sql, final String[] columnNames) throws SQLException {
     final long time = System.currentTimeMillis();
     final boolean result = statement.execute(sql, columnNames);
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].execute(\n");
       buffer.append(sql);
 
       buffer.append("\n, " + Arrays.toString(columnNames) + ") -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return result;
@@ -281,7 +284,7 @@ public class StatementProxy implements Statement {
     return statement.isClosed();
   }
 
-  public void setPoolable(boolean poolable) throws SQLException {
+  public void setPoolable(final boolean poolable) throws SQLException {
     statement.setPoolable(poolable);
   }
 
@@ -289,11 +292,11 @@ public class StatementProxy implements Statement {
     return statement.isPoolable();
   }
 
-  public <T extends Object>T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(final Class<T> iface) throws SQLException {
     return statement.unwrap(iface);
   }
 
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+  public boolean isWrapperFor(final Class<?> iface) throws SQLException {
     return statement.isWrapperFor(iface);
   }
 

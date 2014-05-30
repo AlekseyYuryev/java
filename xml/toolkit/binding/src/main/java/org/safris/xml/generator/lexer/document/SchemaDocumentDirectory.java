@@ -22,10 +22,10 @@ import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 
-public class SchemaDocumentDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> {
+public final class SchemaDocumentDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> {
   private final SchemaDocumentProcessor processor = new SchemaDocumentProcessor();
 
-  public SchemaDocumentProcessor getEntity(SchemaReference entity, SchemaDocument parent) {
+  public SchemaDocumentProcessor getEntity(final SchemaReference entity, final SchemaDocument parent) {
     return processor;
   }
 

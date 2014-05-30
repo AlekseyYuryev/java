@@ -19,33 +19,19 @@ package org.safris.commons.util;
 import java.util.Collection;
 
 public interface Tree<E> {
-//  int size();
-
-//  boolean isEmpty();
-
-//  boolean contains(Object o);
-
+  // int size();
+  // boolean isEmpty();
+  // boolean contains(final Object o);
   TreeIterator<E> iterator();
-
-//  Object[] toArray();
-
-//  <T> T[] toArray(T[] a);
-
-  boolean addChild(E p, E e);
-
-  boolean remove(Object o);
-
-  boolean containsAll(Collection<?> c);
-
+  // Object[] toArray();
+  // <T> T[] toArray(final T[] a);
+  boolean addChild(final E p, final E e);
+  boolean remove(final Object o);
+  boolean containsAll(final Collection<?> c);
   boolean addAll(Collection<? extends E> c);
-
-  boolean retainAll(Collection<?> c);
-
-  boolean removeAll(Collection<?> c);
-
+  boolean retainAll(final Collection<?> c);
+  boolean removeAll(final Collection<?> c);
   void clear();
-
-  boolean equals(Object o);
-
+  boolean equals(final Object o);
   int hashCode();
 }

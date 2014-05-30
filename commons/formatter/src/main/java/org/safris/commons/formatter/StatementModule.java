@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class StatementModule extends FormatModule {
-  String format(String formated, String token) {
+public final class StatementModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().lastIndexOf(";") == token.trim().length() - 1 || token.trim().lastIndexOf(")") == token.trim().length() - 1 || (token.trim().indexOf("else") == 0 && token.trim().indexOf("(") == -1)) {
       if (token.trim().indexOf("else") == 0) {
         for (int i = 0; i < getDepth(); i++)

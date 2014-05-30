@@ -18,13 +18,12 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class ClassLoaderTest {
-  public static void main(String[] args) throws Exception {
+public final class ClassLoaderTest {
+  public static void main(final String[] args) throws Exception {
     if (args == null || args.length == 0) {
       new ClassLoaderTest().testClassLoaders();
       return;
@@ -40,7 +39,7 @@ public class ClassLoaderTest {
     Runtime.getRuntime().gc();
   }
 
-  private static float testClassLoader(java.lang.ClassLoader classLoader) throws Exception {
+  private static float testClassLoader(final java.lang.ClassLoader classLoader) throws Exception {
     long freeMemoryBeforeLoad = Runtime.getRuntime().freeMemory();
 //      PackageLoader.getSystemPackageLoader().loadPackage("org.safris.xml.toolkit.component.runtime");
     long freeMemoryAfterLoad = Runtime.getRuntime().freeMemory();
@@ -77,7 +76,7 @@ public class ClassLoaderTest {
     //assertTrue("Custom classLoader is NOT more efficient than System classLoader!", weak < system);
   }
 
-  private static float fork(String loader) throws IOException {
+  private static float fork(final String loader) throws IOException {
     String classpath = "";
     String userDir = System.getProperty("user.dir");
     String localRepository = System.getProperty("localRepository");
@@ -114,7 +113,7 @@ public class ClassLoaderTest {
      {
      process.waitFor();
      }
-     catch(InterruptedException e)
+     catch(final InterruptedException e)
      {
      throw new Error(e);
      }

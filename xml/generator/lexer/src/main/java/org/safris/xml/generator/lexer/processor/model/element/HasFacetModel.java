@@ -20,8 +20,8 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.w3c.dom.Node;
 
-public class HasFacetModel extends NamedModel {
-  protected HasFacetModel(Node node, Model parent) {
+public final class HasFacetModel extends NamedModel {
+  protected HasFacetModel(final Node node, final Model parent) {
     super(node, parent);
   }
 }

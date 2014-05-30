@@ -25,11 +25,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
+  private static final long serialVersionUID = -7054980275015783040L;
+
   public static final class Entry<K extends Comparable<K>,V> implements Comparable<Entry<K,V>>, Map.Entry<K,V> {
     private final K key;
     private V value;
 
-    protected Entry(K key, V value) {
+    protected Entry(final K key, final V value) {
       super();
       this.key = key;
       this.value = value;
@@ -43,24 +45,24 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
       return value;
     }
 
-    public V setValue(V value) {
+    public V setValue(final V value) {
       final V oldValue = value;
       this.value = value;
       return oldValue;
     }
 
-    public int compareTo(Entry<K,V> o) {
+    public int compareTo(final Entry<K,V> o) {
       return key.compareTo(o.key);
     }
 
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
       if (this == o)
         return true;
 
       if (!(o instanceof Entry))
         return false;
 
-      final Entry that = (Entry)o;
+      final Entry<?,?> that = (Entry<?,?>)o;
       return (key != null ? key.equals(that.key) : that.value == null) && (value != null ? value.equals(that.value) : that.value == null);
     }
 
@@ -75,12 +77,12 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     entries = new ArrayList<Entry<K,V>>();
   }
 
-  public ArrayMap(Map<K,V> m) {
+  public ArrayMap(final Map<K,V> m) {
     this();
     putAll(m);
   }
 
-  public int indexOf(Object key) {
+  public int indexOf(final Object key) {
     if (key == null) {
       for (int i = 0; i < size(); i++)
         if (key == entries.get(i).getKey())
@@ -95,7 +97,7 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     return -1;
   }
 
-  public ArrayMap.Entry<K,V> getEntry(int i) {
+  public ArrayMap.Entry<K,V> getEntry(final int i) {
     return entries.get(i);
   }
 
@@ -103,13 +105,13 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     entries.clear();
   }
 
-  public boolean containsKey(Object key) {
+  public boolean containsKey(final Object key) {
     return indexOf(key) != -1;
   }
 
-  public boolean containsValue(Object value) {
+  public boolean containsValue(final Object value) {
     for (int i = 0; i < size(); i++)
-      if (value.equals(((Entry)entries.get(i)).value))
+      if (value.equals(((Entry<?,?>)entries.get(i)).value))
         return true;
 
     return false;
@@ -123,11 +125,11 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     return set;
   }
 
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     return o == this;
   }
 
-  public V get(Object key) {
+  public V get(final Object key) {
     final int index = indexOf(key);
     if (index == -1)
       return null;
@@ -138,7 +140,7 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
   public int hashCode() {
     int hashCode = 0;
     for (int i = 0; i < size(); i++)
-      hashCode ^= ((Entry)entries.get(i)).hashCode();
+      hashCode ^= ((Entry<?,?>)entries.get(i)).hashCode();
 
     return hashCode;
   }
@@ -155,7 +157,7 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
     return keys;
   }
 
-  public V put(K key, V value) {
+  public V put(final K key, final V value) {
     final int index = indexOf(key);
     if (index != -1)
       return entries.get(index).setValue(value);
@@ -172,7 +174,7 @@ public final class ArrayMap<K extends Comparable<K>,V> extends AbstractMap<K,V> 
       put(entry.getKey(), entry.getValue());
   }
 
-  public V remove(Object key) {
+  public V remove(final Object key) {
     final int i = indexOf(key);
     if (i == -1)
       return null;

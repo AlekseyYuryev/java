@@ -1,6 +1,247 @@
 package org.safris.commons.lang;
 
 public final class Bytes {
+  public static class Byte {
+    public static int indexOf(final byte[] bytes, final byte ... pattern) {
+      return indexOf(bytes, 0, pattern);
+    }
+
+    public static int indexOf(final byte[] bytes, final int fromIndex, final byte ... pattern) {
+      if (bytes == null)
+        throw new NullPointerException("data == null");
+
+      if (fromIndex < 0)
+        throw new IndexOutOfBoundsException("fromIndex < 0");
+
+      if (bytes.length <= fromIndex)
+        throw new IndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
+
+      for (int i = fromIndex; i < bytes.length; i++)
+        for (int j = 0; j < pattern.length; j++)
+          if (bytes[i] == pattern[j])
+            return i;
+
+      return -1;
+    }
+
+    public static IntArrayList indicesOf(final byte[] bytes, final char ... pattern) {
+      return indicesOf(bytes, 0, pattern);
+    }
+    
+    public static IntArrayList indicesOf(final byte[] bytes, final int fromIndex, final char ... pattern) {
+      if (bytes == null)
+        throw new NullPointerException("data == null");
+
+      int index = fromIndex - 1;
+      final IntArrayList indices = new IntArrayList();
+      while ((index = indexOf(bytes, index + 1, pattern)) != -1)
+        indices.add(index);
+      
+      return indices;
+    }
+    
+    public static int indexOf(final byte[] bytes, final char ... pattern) {
+      return indexOf(bytes, 0, pattern);
+    }
+
+    public static int indexOf(final byte[] bytes, final int fromIndex, final char ... pattern) {
+      if (bytes == null)
+        throw new NullPointerException("data == null");
+
+      if (fromIndex < 0)
+        throw new IndexOutOfBoundsException("fromIndex < 0");
+
+      if (bytes.length <= fromIndex)
+        throw new IndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
+
+      for (int i = fromIndex; i < bytes.length; i++)
+        for (int j = 0; j < pattern.length; j++)
+          if (bytes[i] == pattern[j])
+            return i;
+
+      return -1;
+    }
+  }
+  
+  public static void replaceAll(final byte[] bytes, final char target, final char replacement) {
+    replaceAll(bytes, (byte)target, (byte)replacement);
+  }
+
+  public static void replaceAll(final byte[] bytes, final byte target, final char replacement) {
+    replaceAll(bytes, target, (byte)replacement);
+  }
+
+  public static void replaceAll(final byte[] bytes, final char target, final byte replacement) {
+    replaceAll(bytes, (byte)target, replacement);
+  }
+
+  public static void replaceAll(final byte[] bytes, final byte target, final byte replacement) {
+    if (bytes == null)
+      throw new NullPointerException("bytes == null");
+
+    int index = 0;
+    while ((index = Byte.indexOf(bytes, index + 1, target)) != -1)
+      bytes[index] = replacement;
+  }
+
+  public static void replaceAll(final byte[] bytes, final byte[] target, final byte[] replacement) {
+    if (bytes == null)
+      throw new NullPointerException("bytes == null");
+
+    if (target == null)
+      throw new NullPointerException("target == null");
+
+    if (replacement == null)
+      throw new NullPointerException("replacement == null");
+
+    if (target.length != replacement.length)
+      throw new IllegalArgumentException("target.length != replacement.length");
+
+    if (bytes.length < target.length || target.length == 0)
+      return;
+
+    if (target.length == 1) {
+      replaceAll(bytes, target[0], replacement[0]);
+      return;
+    }
+
+    int index = -1;
+    while ((index = indexOf(bytes, index + 1, target)) != -1)
+      System.arraycopy(replacement, 0, bytes, index, replacement.length);
+  }
+
+  public static void replaceAll(final byte[] bytes, final char[] target, final char[] replacement) {
+    if (bytes == null)
+      throw new NullPointerException("bytes == null");
+
+    if (target == null)
+      throw new NullPointerException("target == null");
+
+    if (replacement == null)
+      throw new NullPointerException("replacement == null");
+
+    if (target.length != replacement.length)
+      throw new IllegalArgumentException("target.length != replacement.length");
+
+    if (bytes.length < target.length || target.length == 0)
+      return;
+
+    if (target.length == 1) {
+      replaceAll(bytes, target[0], replacement[0]);
+      return;
+    }
+
+    int index = -1;
+    while ((index = indexOf(bytes, index + 1, target)) != -1)
+      System.arraycopy(replacement, 0, bytes, index, replacement.length);
+  }
+
+  public static int indexOf(final byte[] bytes, final byte[] ... pattern) {
+    return indexOf(bytes, 0, pattern);
+  }
+
+  public static int indexOf(final byte[] bytes, final int fromIndex, final byte[] ... pattern) {
+    if (bytes == null)
+      throw new NullPointerException("data == null");
+
+    if (pattern == null)
+      throw new NullPointerException("pattern == null");
+
+    if (fromIndex < 0)
+      throw new IndexOutOfBoundsException("fromIndex < 0");
+
+    if (bytes.length <= fromIndex)
+      throw new IndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
+
+    final int[][] failure = computeFailure(pattern);
+    final int[] k = new int[pattern.length];
+    for (int i = fromIndex; i < bytes.length; i++) {
+      for (int j = 0; j < pattern.length; j++) {
+        while (k[j] > 0 && pattern[j][k[j]] != bytes[i])
+          k[j] = failure[j][k[j] - 1];
+
+        if (pattern[j][k[j]] == bytes[i])
+          k[j]++;
+
+        if (k[j] == pattern[j].length)
+          return i - pattern[j].length + 1;
+      }
+    }
+
+    return -1;
+  }
+
+  public static int indexOf(final byte[] bytes, final int fromIndex, final char[] ... pattern) {
+    if (bytes == null)
+      throw new NullPointerException("data == null");
+
+    if (pattern == null)
+      throw new NullPointerException("pattern == null");
+
+    if (fromIndex < 0)
+      throw new IndexOutOfBoundsException("fromIndex < 0");
+
+    if (bytes.length <= fromIndex)
+      throw new IndexOutOfBoundsException(bytes.length + " <= " + fromIndex);
+
+    final int[][] failure = computeFailure(pattern);
+    final int[] k = new int[pattern.length];
+    for (int i = fromIndex; i < bytes.length; i++) {
+      for (int j = 0; j < pattern.length; j++) {
+        while (k[j] > 0 && pattern[j][k[j]] != bytes[i])
+          k[j] = failure[j][k[j] - 1];
+
+        if (pattern[j][k[j]] == bytes[i])
+          k[j]++;
+
+        if (k[j] == pattern[j].length)
+          return i - pattern[j].length + 1;
+      }
+    }
+
+    return -1;
+  }
+
+  private static int[][] computeFailure(final byte[] ... pattern) {
+    final int[][] failure = new int[pattern.length][];
+
+    int k = 0;
+    for (int i = 0; i < pattern.length; i++) {
+      failure[i] = new int[pattern[i].length];
+      for (int j = 1; j < pattern[i].length; j++) {
+        while (k > 0 && pattern[i][k] != pattern[i][j])
+          k = failure[i][k - 1];
+
+        if (pattern[i][k] == pattern[i][j])
+          k++;
+
+        failure[i][j] = k;
+      }
+    }
+
+    return failure;
+  }
+  
+  private static int[][] computeFailure(final char[] ... pattern) {
+    final int[][] failure = new int[pattern.length][];
+
+    int k = 0;
+    for (int i = 0; i < pattern.length; i++) {
+      failure[i] = new int[pattern[i].length];
+      for (int j = 1; j < pattern[i].length; j++) {
+        while (k > 0 && pattern[i][k] != pattern[i][j])
+          k = failure[i][k - 1];
+
+        if (pattern[i][k] == pattern[i][j])
+          k++;
+
+        failure[i][j] = k;
+      }
+    }
+
+    return failure;
+  }
+  
   public static byte toByte(final short signedByte) {
     if (256 < signedByte || signedByte < 0)
       throw new IllegalArgumentException("256 < signedByte || signedByte < 0");
@@ -71,11 +312,11 @@ public final class Bytes {
   }
 
   /**
-   * Build a Java short from a 2-byte signed binary representation.
-   * Depending on machine type, byte orders are
-   * Big Endian (AS/400, Unix, System/390 byte-order) for signed binary representations, and
-   * Little Endian (Intel 80/86 reversed byte-order) for signed binary representations.
-   * @exception IllegalArgumentException if the specified byte order is not recognized.
+   * Build a Java short from a 2-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
+   * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
+   * 
+   * @exception IllegalArgumentException
+   *              if the specified byte order is not recognized.
    */
   public static short toShort(final byte[] bytes, final int offset, final boolean isBigEndian) {
     return (short)toShort(bytes, offset, isBigEndian, true);
@@ -87,11 +328,11 @@ public final class Bytes {
   }
 
   /**
-   * Build a Java int from a 4-byte signed binary representation.
-   * Depending on machine type, byte orders are
-   * Big Endian (AS/400, Unix, System/390 byte-order) for signed binary representations, and
-   * Little Endian (Intel 80/86 reversed byte-order) for signed binary representations.
-   * @exception IllegalArgumentException if the specified byte order is not recognized.
+   * Build a Java int from a 4-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
+   * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
+   * 
+   * @exception IllegalArgumentException
+   *              if the specified byte order is not recognized.
    */
   public static int toInt(final byte[] bytes, final int offset, final boolean isBigEndian) {
     return (int)toInt(bytes, offset, isBigEndian, true);
@@ -103,11 +344,11 @@ public final class Bytes {
   }
 
   /**
-   * Build a Java long from an 8-byte signed binary representation.
-   * Depending on machine type, byte orders are
-   * Big Endian (AS/400, Unix, System/390 byte-order) for signed binary representations, and
-   * Little Endian (Intel 80/86 reversed byte-order) for signed binary representations.
-   * @exception IllegalArgumentException if the specified byte order is not recognized.
+   * Build a Java long from an 8-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
+   * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
+   * 
+   * @exception IllegalArgumentException
+   *              if the specified byte order is not recognized.
    */
   // FIXME: Support unsigned
   public static long toLong(final byte[] bytes, final int offset, final boolean isBigEndian) {
@@ -119,7 +360,7 @@ public final class Bytes {
   }
 
   public static long toArbitraryType(final int byteLength, final byte[] bytes, final int offset, final boolean isBigEndian, final boolean signed) {
-    if (byteLength == Byte.SIZE / 8)
+    if (byteLength == java.lang.Byte.SIZE / 8)
       return bytes[offset];
 
     if (byteLength == Short.SIZE / 8)

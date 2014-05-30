@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class SourceFormat {
+public final class SourceFormat {
   public static SourceFormat getDefaultFormat() {
     return new SourceFormat();
   }
@@ -41,11 +41,11 @@ public class SourceFormat {
     addModule(new StatementModule());
   }
 
-  public void addModule(FormatModule module) {
+  public void addModule(final FormatModule module) {
     modules.add(module);
   }
 
-  public String format(String unformated) {
+  public String format(final String unformated) {
     if (unformated == null)
       return "";
 
@@ -60,7 +60,7 @@ public class SourceFormat {
         formated = modules(formated, token);
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new FormatError(e);
     }
 
@@ -73,7 +73,7 @@ public class SourceFormat {
       FormatModule module = modules.get(i);
       token = module.format(formated, token);
 
-      /*          if(FormatModule.getLastModule() instanceof OpenBracketModule && !formated.endsWith("\n") && !token.startsWith("\n"))
+      /*if(FormatModule.getLastModule() instanceof OpenBracketModule && !formated.endsWith("\n") && !token.startsWith("\n"))
        {
        for(int j = 0; j < module.getDepth(); j++)
        {

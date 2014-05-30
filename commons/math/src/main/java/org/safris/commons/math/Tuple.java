@@ -18,15 +18,15 @@ package org.safris.commons.math;
 
 import java.util.Comparator;
 
-public class Tuple<X extends Number,Y extends Number> {
-  public static final Comparator<Tuple> comparatorX = new Comparator<Tuple>() {
-    public int compare(Tuple o1, Tuple o2) {
+public final class Tuple<X extends Number,Y extends Number> {
+  public static final Comparator<Tuple<?,?>> comparatorX = new Comparator<Tuple<?,?>>() {
+    public int compare(final Tuple<?,?> o1, final Tuple<?,?> o2) {
       return Double.compare(o1.x.doubleValue(), o2.x.doubleValue());
     }
   };
 
-  public static final Comparator<Tuple> comparatorY = new Comparator<Tuple>() {
-    public int compare(Tuple o1, Tuple o2) {
+  public static final Comparator<Tuple<?,?>> comparatorY = new Comparator<Tuple<?,?>>() {
+    public int compare(final Tuple<?,?> o1, final Tuple<?,?> o2) {
       return Double.compare(o1.y.doubleValue(), o2.y.doubleValue());
     }
   };
@@ -34,7 +34,7 @@ public class Tuple<X extends Number,Y extends Number> {
   public final X x;
   public final Y y;
 
-  public Tuple(X x, Y y) {
+  public Tuple(final X x, final Y y) {
     this.x = x;
     this.y = y;
   }

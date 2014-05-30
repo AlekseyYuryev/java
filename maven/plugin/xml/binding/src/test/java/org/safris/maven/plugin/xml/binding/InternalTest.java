@@ -29,7 +29,7 @@ public class InternalTest {
 //  private static final String[] DEBUG_VM_ARGS = new String[]{"-Xdebug", "-Xnoagent", "-Djava.compiler=NONE", "-Xrunjdwp:transport=dt_socket,address=8000,server=y"};
     private static final String POM_PATH = "src/test/resources/xml/";
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         new InternalTest().testInternal();
     }
 

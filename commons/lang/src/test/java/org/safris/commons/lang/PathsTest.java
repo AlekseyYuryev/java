@@ -16,14 +16,16 @@
 
 package org.safris.commons.lang;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class PathsTest {
-  public static void main(String[] args) throws Exception {
+public final class PathsTest {
+  public static void main(final String[] args) throws Exception {
     final PathsTest pathsTest = new PathsTest();
     pathsTest.testGetName();
     pathsTest.testGetParent();

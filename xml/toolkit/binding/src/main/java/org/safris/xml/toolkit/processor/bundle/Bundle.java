@@ -17,12 +17,13 @@
 package org.safris.xml.toolkit.processor.bundle;
 
 import java.io.File;
+
 import org.safris.commons.pipeline.PipelineEntity;
 
-public final class Bundle implements PipelineEntity<Bundle> {
+public final class Bundle implements PipelineEntity {
   private final File file;
 
-  public Bundle(File file) {
+  public Bundle(final File file) {
     this.file = file;
   }
 

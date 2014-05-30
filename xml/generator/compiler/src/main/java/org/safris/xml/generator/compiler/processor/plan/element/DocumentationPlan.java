@@ -19,7 +19,7 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.DocumentationModel;
 
-public class DocumentationPlan extends Plan<DocumentationModel> {
+public final class DocumentationPlan extends Plan<DocumentationModel> {
   private final String text;
   private String preparedDocumentation = null;
 
@@ -27,7 +27,7 @@ public class DocumentationPlan extends Plan<DocumentationModel> {
     return " * @author Source generated with: <u>XML Toolkit for Java</u> by <b>Seva Safris &lt;seva@safris.org&gt;</b>\n";
   }
 
-  public DocumentationPlan(DocumentationModel model, Plan parent) {
+  public DocumentationPlan(final DocumentationModel model, final Plan<?> parent) {
     super(model, parent);
     this.text = model.getText();
   }

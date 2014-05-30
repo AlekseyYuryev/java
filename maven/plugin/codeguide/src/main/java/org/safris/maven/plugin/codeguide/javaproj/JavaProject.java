@@ -21,7 +21,9 @@ import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
+
 import noNamespace._javaProject3;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.maven.plugin.codeguide.sln.Solution;
@@ -29,7 +31,7 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
-public class JavaProject {
+public final class JavaProject {
   private final String name;
   private final String shortName;
   private final String uuid;
@@ -43,7 +45,7 @@ public class JavaProject {
   private boolean startingPointsSearched = false;
   private Solution solution = null;
 
-  public JavaProject(GroupArtifact address, File dir) {
+  public JavaProject(final GroupArtifact address, final File dir) {
     this.name = address.getGroupId() + ":" + address.getArtifactId();
     this.shortName = address.getArtifactId();
     this.uuid = UUID.nameUUIDFromBytes(name.getBytes()).toString().toUpperCase();
@@ -66,7 +68,7 @@ public class JavaProject {
     return dir;
   }
 
-  public void setSourceFiles(Set<File> sourceFiles) {
+  public void setSourceFiles(final Set<File> sourceFiles) {
     this.sourceFiles = sourceFiles;
   }
 
@@ -74,7 +76,7 @@ public class JavaProject {
     return sourceFiles;
   }
 
-  public void setResourceFiles(Set<File> resourceFiles) {
+  public void setResourceFiles(final Set<File> resourceFiles) {
     this.resourceFiles = resourceFiles;
   }
 
@@ -82,7 +84,7 @@ public class JavaProject {
     return resourceFiles;
   }
 
-  public void setDependencies(Set<GroupArtifact> dependencies) {
+  public void setDependencies(final Set<GroupArtifact> dependencies) {
     this.dependencies = dependencies;
   }
 
@@ -90,7 +92,7 @@ public class JavaProject {
     return dependencies;
   }
 
-  public void setClasspathReferences(Set<File> classpathReferences) {
+  public void setClasspathReferences(final Set<File> classpathReferences) {
     this.classpathReferences = classpathReferences;
   }
 
@@ -98,7 +100,7 @@ public class JavaProject {
     return classpathReferences;
   }
 
-  public void setProjectReferences(Set<JavaProject> projectReferences) {
+  public void setProjectReferences(final Set<JavaProject> projectReferences) {
     this.projectReferences = projectReferences;
   }
 
@@ -117,14 +119,14 @@ public class JavaProject {
 
       final File javaprojXML = new File(getDir(), getShortName() + ".javaproj");
       try {
-        final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(_javaProject3.class.getPackage().getName());
+        PackageLoader.getSystemPackageLoader().loadPackage(_javaProject3.class.getPackage().getName());
         if (javaprojXML.exists()) {
           final _javaProject3 javaProject3 = (_javaProject3)Bindings.parse(new InputSource(new FileInputStream(javaprojXML)));
-          if (javaProject3 != null && javaProject3.get_startingPoints() != null && javaProject3.get_startingPoints().size() != 0)
-            this.startingPoints = javaProject3.get_startingPoints(0).get_startingPoint();
+          if (javaProject3 != null && javaProject3._startingPoints() != null && javaProject3._startingPoints().size() != 0)
+            this.startingPoints = javaProject3._startingPoints(0)._startingPoint();
         }
       }
-      catch (Exception e) {
+      catch (final Exception e) {
         throw new MojoExecutionException(e.getMessage(), e);
       }
       finally {
@@ -135,7 +137,7 @@ public class JavaProject {
     return startingPoints;
   }
 
-  public void setSolution(Solution solution) {
+  public void setSolution(final Solution solution) {
     this.solution = solution;
   }
 
@@ -143,7 +145,7 @@ public class JavaProject {
     return solution;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

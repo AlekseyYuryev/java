@@ -26,7 +26,7 @@ public class GroupArtifactVersionType {
   private final String scope;
   private final String path;
 
-  public GroupArtifactVersionType(Artifact artifact) {
+  public GroupArtifactVersionType(final Artifact artifact) {
     this.groupId = artifact.getGroupId();
     this.artifactId = artifact.getArtifactId();
     this.version = artifact.getBaseVersion();
@@ -59,7 +59,7 @@ public class GroupArtifactVersionType {
     return path;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

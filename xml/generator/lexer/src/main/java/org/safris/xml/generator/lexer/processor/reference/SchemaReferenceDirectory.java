@@ -20,12 +20,11 @@ import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 
-public class SchemaReferenceDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> {
+public final class SchemaReferenceDirectory implements PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> {
   private final SchemaReferenceProcessor schemaReferenceProcessor = new SchemaReferenceProcessor();
 
-  public PipelineEntity<SchemaReference> getEntity(SchemaReference entity, SchemaReference parent) {
+  public PipelineEntity getEntity(final SchemaReference entity, final SchemaReference parent) {
     return schemaReferenceProcessor;
   }
 

@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_int<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_int(final $xs_int<T> binding) {
+public abstract class $xs_int extends $xs_anySimpleType {
+  public $xs_int(final $xs_int binding) {
     super(binding);
   }
 
@@ -38,28 +37,25 @@ public abstract class $xs_int<T extends BindingType> extends $xs_anySimpleType<T
     super();
   }
 
-  public Integer getText() {
-    return (Integer)super.getText();
+  public Integer text() {
+    return (Integer)super.text();
   }
 
-  public void setText(final Integer text) {
-    super.setText(text);
+  public void text(final Integer text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Integer.parseInt(String.valueOf(value)));
+    super.text(Integer.parseInt(String.valueOf(value)));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_int<T> clone() {
-    return new $xs_int<T>(this) {
-      protected $xs_int<T> inherits() {
+  public $xs_int clone() {
+    return new $xs_int(this) {
+      protected $xs_int inherits() {
         return this;
       }
     };

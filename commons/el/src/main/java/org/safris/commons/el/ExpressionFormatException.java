@@ -16,20 +16,22 @@
 
 package org.safris.commons.el;
 
-public class ExpressionFormatException extends RuntimeException {
+public final class ExpressionFormatException extends RuntimeException {
+  private static final long serialVersionUID = 4220959991784197879L;
+
   public ExpressionFormatException() {
     super();
   }
 
-  public ExpressionFormatException(String message) {
+  public ExpressionFormatException(final String message) {
     super(message);
   }
 
-  public ExpressionFormatException(String message, Throwable cause) {
+  public ExpressionFormatException(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public ExpressionFormatException(Throwable cause) {
+  public ExpressionFormatException(final Throwable cause) {
     super(cause);
   }
 }

@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_unsignedInt<T extends BindingType> extends $xs_nonNegativeInteger<T> {
-  public $xs_unsignedInt(final $xs_unsignedInt<T> binding) {
+public abstract class $xs_unsignedInt extends $xs_nonNegativeInteger {
+  public $xs_unsignedInt(final $xs_unsignedInt binding) {
     super(binding);
   }
 
@@ -38,28 +37,25 @@ public abstract class $xs_unsignedInt<T extends BindingType> extends $xs_nonNega
     super();
   }
 
-  public Integer getText() {
-    return (Integer)super.getText();
+  public Integer text() {
+    return (Integer)super.text();
   }
 
-  public void setText(final Integer text) {
-    super.setText(text);
+  public void text(final Integer text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Integer.parseInt(value));
+    super.text(Integer.parseInt(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_unsignedInt<T> clone() {
-    return new $xs_unsignedInt<T>(this) {
-      protected $xs_unsignedInt<T> inherits() {
+  public $xs_unsignedInt clone() {
+    return new $xs_unsignedInt(this) {
+      protected $xs_unsignedInt inherits() {
         return this;
       }
     };

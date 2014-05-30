@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -35,7 +36,7 @@ import org.safris.commons.lang.Paths;
  * @requiresDependencyResolution test
  * @phase generate-sources
  */
-public class DependencyMojo extends PropertiesMojo {
+public final class DependencyMojo extends PropertiesMojo {
   /**
    * Get dependencies given the <code>DependencyProperties</code> object
    * parameter.
@@ -44,7 +45,7 @@ public class DependencyMojo extends PropertiesMojo {
    * values injected by the maven runtime.
    * @return The set of <code>GroupArtifact</code> dependencies.
    */
-  public static Set<GroupArtifact> getDependencies(DependencyProperties properties) throws MojoExecutionException {
+  public static Set<GroupArtifact> getDependencies(final DependencyProperties properties) throws MojoExecutionException {
     final Set<Artifact> resolvedDependencies = DependencyFilter.getResolvedDependencies(properties);
     final List<Artifact> artifactList = new ArrayList<Artifact>(resolvedDependencies);
     final Set<GroupArtifact> dependencies = new HashSet<GroupArtifact>(artifactList.size());
@@ -66,7 +67,7 @@ public class DependencyMojo extends PropertiesMojo {
    * of the <code>localRepository</code> object.
    * @return The set of GroupArtifact dependencies.
    */
-  public static File getFile(GroupArtifact dependency, ArtifactRepository localRepository, String repositoryPath) {
+  public static File getFile(final GroupArtifact dependency, final ArtifactRepository localRepository, final String repositoryPath) {
     final String relativePath = Paths.relativePath(localRepository.getBasedir(), dependency.getPath());
     if (relativePath == null)
       return null;

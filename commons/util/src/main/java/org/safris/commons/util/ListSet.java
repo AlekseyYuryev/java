@@ -25,7 +25,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-public class ListSet<E> implements List<E>, Set<E> {
+public final class ListSet<E> implements List<E>, Set<E> {
   private final Class<? extends List<E>> listClass;
   private final Class<? extends Set<E>> setClass;
   private final List<E> list;
@@ -44,7 +44,7 @@ public class ListSet<E> implements List<E>, Set<E> {
       list = listClass.newInstance();
       set = setClass.newInstance();
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new IllegalArgumentException(e.getMessage());
     }
   }
@@ -140,7 +140,7 @@ public class ListSet<E> implements List<E>, Set<E> {
     final int origSize = size();
     Integer index;
     for (final Object obj : c) {
-      index = map.remove(c);
+      index = map.remove(obj);
       if (index != null) {
         list.remove(index.intValue());
         set.remove(index);
@@ -152,7 +152,7 @@ public class ListSet<E> implements List<E>, Set<E> {
 
   public boolean retainAll(final Collection<?> c) {
     final int origSize = size();
-    final Set s = new HashSet(c);
+    final Set<?> s = new HashSet<>(c);
     E e;
     int i = 0;
     while (i < size()) {

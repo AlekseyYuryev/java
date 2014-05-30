@@ -19,10 +19,10 @@ package org.safris.commons.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HashTree<T> {
+public final class HashTree<T> {
   private List<Node<T>> children = null;
 
-  public void setChildren(List<Node<T>> children) {
+  public void setChildren(final List<Node<T>> children) {
     this.children = children;
   }
 
@@ -34,22 +34,22 @@ public class HashTree<T> {
     return children != null;
   }
 
-  public void addChild(Node<T> node) {
+  public void addChild(final Node<T> node) {
     if (children == null)
       children = new ArrayList<Node<T>>();
 
     children.add(node);
   }
 
-  public Node<T> getChild(int index) {
+  public Node<T> getChild(final int index) {
     return children.get(index);
   }
 
-  public static class Node<T> {
+  public static final class Node<T> {
     private final T value;
     private List<Node<T>> children = null;
 
-    public Node(T value) {
+    public Node(final T value) {
       this.value = value;
     }
 
@@ -65,14 +65,14 @@ public class HashTree<T> {
       return value;
     }
 
-    public void addChild(Node<T> node) {
+    public void addChild(final Node<T> node) {
       if (children == null)
         children = new ArrayList<Node<T>>();
 
       children.add(node);
     }
 
-    public Node<T> getChild(int index) {
+    public Node<T> getChild(final int index) {
       return children.get(index);
     }
   }

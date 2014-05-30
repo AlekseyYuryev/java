@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class ImportModule extends FormatModule {
-  String format(String formated, String token) {
+public final class ImportModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().indexOf("import") == 0)
       token = "\n" + token;
 

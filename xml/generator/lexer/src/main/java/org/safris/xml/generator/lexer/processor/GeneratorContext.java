@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.safris.commons.pipeline.PipelineContext;
 
 public final class GeneratorContext implements PipelineContext {
@@ -26,13 +27,13 @@ public final class GeneratorContext implements PipelineContext {
   private final boolean explodeJars;
   private final boolean overwrite;
 
-  public GeneratorContext(long manifestLastModified, File destDir, boolean explodeJars, boolean overwrite) {
+  public GeneratorContext(final long manifestLastModified, final File destDir, boolean explodeJars, final boolean overwrite) {
     this.manifestLastModified = manifestLastModified;
     File tempDestDir;
     try {
       tempDestDir = destDir.getCanonicalFile();
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       tempDestDir = destDir;
     }
     this.destDir = tempDestDir;

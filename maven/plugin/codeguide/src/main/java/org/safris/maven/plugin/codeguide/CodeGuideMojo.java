@@ -17,6 +17,7 @@
 package org.safris.maven.plugin.codeguide;
 
 import java.util.List;
+
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
@@ -104,7 +105,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   }
 
   /**
-   * @parameter expression="${component.org.apache.maven.artifact.factory.ArtifactFactory}"
+   * @component role="org.apache.maven.artifact.factory.ArtifactFactory"
    * @required
    * @readonly
    */
@@ -118,7 +119,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   }
 
   /**
-   * @parameter expression="${component.org.apache.maven.artifact.resolver.ArtifactResolver}"
+   * @component role="org.apache.maven.artifact.resolver.ArtifactResolver"
    * @required
    * @readonly
    */
@@ -164,12 +165,12 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * @readonly
    * @required
    */
-  private List remoteRepos;
+  private List<ArtifactRepository> remoteRepos;
 
   /**
    * List of Remote Repositories used by the resolver
    */
-  public List getRemoteRepos() {
+  public List<ArtifactRepository> getRemoteRepos() {
     return remoteRepos;
   }
 
@@ -367,7 +368,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    */
   private String excludeGroupIdArtifactIds;
 
-  public void setExcludeGroupIdArtifactIds(String excludeGroupIdArtifactIds) {
+  public void setExcludeGroupIdArtifactIds(final String excludeGroupIdArtifactIds) {
     this.excludeGroupIdArtifactIds = excludeGroupIdArtifactIds;
   }
 

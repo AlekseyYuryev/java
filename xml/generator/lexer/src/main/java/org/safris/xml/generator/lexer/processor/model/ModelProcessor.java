@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.model;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.xml.NamespaceURI;
@@ -32,11 +33,11 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ModelProcessor implements PipelineProcessor<GeneratorContext,SchemaComposite,Model> {
+public final class ModelProcessor implements PipelineProcessor<GeneratorContext,SchemaComposite,Model> {
   private Model root;
 
-  public Collection<Model> process(GeneratorContext pipelineContext, Collection<SchemaComposite> documents, PipelineDirectory<GeneratorContext,SchemaComposite, Model> directory) {
-    root = new Model(null, null){};
+  public Collection<Model> process(final GeneratorContext pipelineContext, final Collection<SchemaComposite> documents, final PipelineDirectory<GeneratorContext,SchemaComposite,Model> directory) {
+    root = new Model(null, null) {};
     // Then we parse all of the schemas that have been included and imported
     final Collection<Model> schemaModels = new ArrayList<Model>();
 
@@ -54,7 +55,7 @@ public class ModelProcessor implements PipelineProcessor<GeneratorContext,Schema
     return schemaModels;
   }
 
-  private final SchemaModel recurse(Model model, NamespaceURI targetNamespace, NodeList children, URL url, PipelineDirectory<GeneratorContext,SchemaComposite,Model> directory) {
+  private final SchemaModel recurse(final Model model, final NamespaceURI targetNamespace, NodeList children, URL url, final PipelineDirectory<GeneratorContext,SchemaComposite,Model> directory) {
     if (children == null || children.getLength() == 0)
       return null;
 

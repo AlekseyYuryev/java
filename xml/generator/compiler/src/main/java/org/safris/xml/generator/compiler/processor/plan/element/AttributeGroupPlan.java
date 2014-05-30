@@ -20,8 +20,8 @@ import org.safris.xml.generator.compiler.processor.plan.NamedPlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeGroupModel;
 
-public class AttributeGroupPlan extends NamedPlan<AttributeGroupModel> {
-  public AttributeGroupPlan(AttributeGroupModel model, Plan parent) {
+public final class AttributeGroupPlan extends NamedPlan<AttributeGroupModel> {
+  public AttributeGroupPlan(final AttributeGroupModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

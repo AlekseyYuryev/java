@@ -23,21 +23,21 @@ import org.safris.xml.generator.lexer.processor.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class EnumerationNormalizer extends Normalizer<EnumerationModel> {
-  public EnumerationNormalizer(NormalizerDirectory directory) {
+public final class EnumerationNormalizer extends Normalizer<EnumerationModel> {
+  public EnumerationNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(EnumerationModel model) {
+  protected void stage1(final EnumerationModel model) {
   }
 
-  protected void stage2(EnumerationModel model) {
+  protected void stage2(final EnumerationModel model) {
   }
 
-  protected void stage3(EnumerationModel model) {
+  protected void stage3(final EnumerationModel model) {
   }
 
-  protected void stage4(EnumerationModel model) {
+  protected void stage4(final EnumerationModel model) {
     if (model.getValue() == null || model.getValue().getLocalPart().length() == 0)
       return;
 
@@ -45,15 +45,15 @@ public class EnumerationNormalizer extends Normalizer<EnumerationModel> {
     while ((parent = parent.getParent()) != null) {
       if (parent instanceof EnumerableModel && parent instanceof Nameable) {
         ((EnumerableModel)parent).addEnumeration(model);
-        if (((Nameable)parent).getName() != null)
+        if (((Nameable<?>)parent).getName() != null)
           break;
       }
     }
   }
 
-  protected void stage5(EnumerationModel model) {
+  protected void stage5(final EnumerationModel model) {
   }
 
-  protected void stage6(EnumerationModel model) {
+  protected void stage6(final EnumerationModel model) {
   }
 }

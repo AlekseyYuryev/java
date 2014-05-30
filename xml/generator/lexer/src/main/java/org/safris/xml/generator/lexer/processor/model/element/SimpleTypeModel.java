@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.Undefineable;
@@ -34,20 +35,20 @@ import org.safris.xml.generator.lexer.schema.attribute.Final;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel implements DocumentableModel, EnumerableModel, PatternableModel, RedefineableModel<T>, TypeableModel<T> {
+public class SimpleTypeModel<T extends SimpleTypeModel<?>> extends AliasModel implements DocumentableModel, EnumerableModel, PatternableModel, RedefineableModel<T>, TypeableModel<T> {
   private final LinkedHashSet<EnumerationModel> enumerations = new LinkedHashSet<EnumerationModel>();
   private final LinkedHashSet<PatternModel> patterns = new LinkedHashSet<PatternModel>();
 
   private T redefine = null;
-  private SimpleTypeModel superType = null;
-  private Collection<SimpleTypeModel> itemType = null;
+  private SimpleTypeModel<?> superType = null;
+  private Collection<SimpleTypeModel<?>> itemType = null;
 
   private boolean restriction = false;
   private boolean list = false;
 
   private Final _final = null;
 
-  protected SimpleTypeModel(Node node, Model parent) {
+  protected SimpleTypeModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -60,7 +61,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     }
   }
 
-  public final void setRedefine(T redefine) {
+  public final void setRedefine(final T redefine) {
     this.redefine = redefine;
   }
 
@@ -68,24 +69,24 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     return redefine;
   }
 
-  public final void setSuperType(SimpleTypeModel superType) {
+  public final void setSuperType(final SimpleTypeModel<?> superType) {
     if (!this.equals(superType))
       this.superType = superType;
   }
 
-  public SimpleTypeModel getSuperType() {
+  public SimpleTypeModel<?> getSuperType() {
     return superType;
   }
 
-  public final void setItemTypes(Collection<SimpleTypeModel> itemType) {
+  public final void setItemTypes(final Collection<SimpleTypeModel<?>> itemType) {
     this.itemType = itemType;
   }
 
-  public final Collection<SimpleTypeModel> getItemTypes() {
+  public final Collection<SimpleTypeModel<?>> getItemTypes() {
     return itemType;
   }
 
-  public final void setRestriction(boolean isRestriction) {
+  public final void setRestriction(final boolean isRestriction) {
     this.restriction = isRestriction;
   }
 
@@ -93,7 +94,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     return restriction;
   }
 
-  public final void setList(boolean list) {
+  public final void setList(final boolean list) {
     this.list = list;
   }
 
@@ -105,7 +106,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     return _final;
   }
 
-  public final void addEnumeration(EnumerationModel enumeration) {
+  public final void addEnumeration(final EnumerationModel enumeration) {
     if (!enumerations.contains(enumeration))
       enumerations.add(enumeration);
   }
@@ -114,7 +115,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     return enumerations;
   }
 
-  public final void addPattern(PatternModel pattern) {
+  public final void addPattern(final PatternModel pattern) {
     this.patterns.add(pattern);
   }
 
@@ -122,10 +123,10 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
     return patterns;
   }
 
-  public final static class Reference extends SimpleTypeModel implements Referenceable {
+  public static final class Reference extends SimpleTypeModel<SimpleTypeModel<?>> implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    public static Reference parseSimpleType(UniqueQName name) {
+    public static Reference parseSimpleType(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;
@@ -136,15 +137,15 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
       return type;
     }
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
   }
 
-  public final static class Undefined extends SimpleTypeModel implements Undefineable {
+  public static final class Undefined extends SimpleTypeModel<SimpleTypeModel<?>> implements Undefineable {
     private static final Map<UniqueQName,Undefined> all = new HashMap<UniqueQName,Undefined>();
 
-    public static Undefined parseSimpleType(UniqueQName name) {
+    public static Undefined parseSimpleType(final UniqueQName name) {
       Undefined type = all.get(name);
       if (type != null)
         return type;
@@ -155,7 +156,7 @@ public class SimpleTypeModel<T extends SimpleTypeModel> extends AliasModel imple
       return type;
     }
 
-    protected Undefined(Model parent) {
+    protected Undefined(final Model parent) {
       super(null, parent);
     }
   }

@@ -28,46 +28,46 @@ import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel> {
-  protected final Map<UniqueQName,ComplexTypeModel> all = new HashMap<UniqueQName,ComplexTypeModel>();
+public final class ComplexTypeNormalizer extends Normalizer<ComplexTypeModel<?>> {
+  protected final Map<UniqueQName,ComplexTypeModel<?>> all = new HashMap<UniqueQName,ComplexTypeModel<?>>();
 
-  public ComplexTypeNormalizer(NormalizerDirectory directory) {
+  public ComplexTypeNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  public ComplexTypeModel parseComplexType(UniqueQName name) {
+  public ComplexTypeModel<?> parseComplexType(final UniqueQName name) {
     return all.get(name);
   }
 
-  protected void stage1(ComplexTypeModel model) {
+  protected void stage1(final ComplexTypeModel<?> model) {
     if (model.getName() == null || model.getParent() instanceof RedefineModel)
       return;
 
-    ComplexTypeModel complexTypeModel = parseComplexType(model.getName());
+    final ComplexTypeModel<?> complexTypeModel = parseComplexType(model.getName());
     if (complexTypeModel == null)
       all.put(model.getName(), model);
   }
 
-  protected void stage2(ComplexTypeModel model) {
+  protected void stage2(final ComplexTypeModel<?> model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof ElementModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof ElementModel && parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         ((ElementModel)parent).setExtension(true);
         break;
       }
     }
   }
 
-  protected void stage3(ComplexTypeModel model) {
+  protected void stage3(final ComplexTypeModel<?> model) {
   }
 
-  protected void stage4(ComplexTypeModel model) {
+  protected void stage4(final ComplexTypeModel<?> model) {
   }
 
-  protected void stage5(ComplexTypeModel model) {
+  protected void stage5(final ComplexTypeModel<?> model) {
   }
 
-  protected void stage6(ComplexTypeModel model) {
+  protected void stage6(final ComplexTypeModel<?> model) {
     if (model.getName() == null)
       return;
 

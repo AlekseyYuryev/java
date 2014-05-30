@@ -38,7 +38,7 @@ public final class HTTP {
    * @throws MalformedURLException If the given URL is invalid.
    * @throws IOException If the given URL cannot be connected nor written.
    */
-  public static InputStream doGet(String url, Map<String,String[]> parameters) throws MalformedURLException, IOException {
+  public static InputStream doGet(final String url, final Map<String,String[]> parameters) throws MalformedURLException, IOException {
     return doGet(url, parameters, "UTF-8");
   }
 
@@ -53,7 +53,7 @@ public final class HTTP {
    * @throws IOException If the given URL cannot be connected nor written.
    * @throws UnsupportedEncodingException If the given charset is not supported.
    */
-  public static InputStream doGet(String url, Map<String,String[]> parameters, String charset) throws MalformedURLException, IOException, UnsupportedEncodingException {
+  public static InputStream doGet(final String url, Map<String,String[]> parameters, final String charset) throws MalformedURLException, IOException, UnsupportedEncodingException {
     final String query = createQuery(parameters, charset);
     final URLConnection urlConnection = new URL(url + "?" + query).openConnection();
     urlConnection.setUseCaches(false);
@@ -70,7 +70,7 @@ public final class HTTP {
    * @throws MalformedURLException If the given URL is invalid.
    * @throws IOException If the given URL cannot be connected nor written.
    */
-  public static InputStream doPost(URL url, Map<String,String[]> parameters) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, final Map<String,String[]> parameters) throws MalformedURLException, IOException {
     return doPost(url, parameters, null);
   }
 
@@ -84,7 +84,7 @@ public final class HTTP {
    * @throws MalformedURLException If the given URL is invalid.
    * @throws IOException If the given URL cannot be connected nor written.
    */
-  public static InputStream doPost(URL url, Map<String,String[]> parameters, Properties properties) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, Map<String,String[]> parameters, final Properties properties) throws MalformedURLException, IOException {
     return doPost(url, parameters, properties, null);
   }
 
@@ -99,7 +99,7 @@ public final class HTTP {
    * @throws MalformedURLException If the given URL is invalid.
    * @throws IOException If the given URL cannot be connected nor written.
    */
-  public static InputStream doPost(URL url, Map<String,String[]> parameters, Properties properties, List<String> cookies) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws MalformedURLException, IOException {
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
@@ -110,7 +110,7 @@ public final class HTTP {
     urlConnection.setDoOutput(true); // Triggers POST.
 //        urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
     if (properties != null)
-      for (final Map.Entry property : properties.entrySet())
+      for (final Map.Entry<Object,Object> property : properties.entrySet())
         urlConnection.setRequestProperty((String)property.getKey(), (String)property.getValue());
 
     if (cookies != null) {
@@ -128,7 +128,7 @@ public final class HTTP {
         try {
           writer.close();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
           final String message = "Closing URLConnection#getOutputStream() of " + url + " failed.";
           // Do your thing with the exception and the message. Print it, log it or mail it.
           System.err.println(message);
@@ -147,7 +147,7 @@ public final class HTTP {
    * @return The parameter map as query string.
    * @throws UnsupportedEncodingException If the given charset is not supported.
    */
-  public static String createQuery(Map<String,String[]> parameters, String charset) throws UnsupportedEncodingException {
+  public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
     if (parameters == null)
       return "";
 

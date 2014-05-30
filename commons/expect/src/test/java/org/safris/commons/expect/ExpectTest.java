@@ -19,11 +19,12 @@ package org.safris.commons.expect;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class ExpectTest {
-  public static void main(String[] args) throws Exception {
+public final class ExpectTest {
+  public static void main(final String[] args) throws Exception {
     new ExpectTest().testStart();
   }
 
@@ -35,12 +36,12 @@ public class ExpectTest {
       private final Map<String,String> variables = new HashMap<String,String>();
       private int index = -1;
 
-      public Map<String,String> process(String exec) {
+      public Map<String,String> process(final String exec) {
         variables.put("date", "080630");
         return variables;
       }
 
-      public Map<String,String> rule(String ruleId, String prompt, String response) {
+      public Map<String,String> rule(final String ruleId, final String prompt, final String response) {
         if (!"r2".equals(ruleId))
           return variables;
 

@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -44,18 +45,18 @@ import org.safris.maven.plugin.dependency.GroupArtifact;
 public class JavaProjectMojo extends CodeGuideMojo {
   private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
   private static final FileFilter resourceFileFilter = new FileFilter() {
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return !pathname.isDirectory() && !pathname.getAbsolutePath().contains(".svn");
     }
   };
 
   private static final FileFilter sourceFileFilter = new FileFilter() {
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return pathname.getName().endsWith(".java");
     }
   };
 
-  private static Set<GroupArtifact> filterProjectReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> inlcudes, Set<GroupArtifact> excludes) {
+  private static Set<GroupArtifact> filterProjectReferences(final Collection<GroupArtifact> dependencies, final Set<GroupArtifact> inlcudes, final Set<GroupArtifact> excludes) {
     if (dependencies == null)
       return null;
 
@@ -126,7 +127,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     return resourceFiles;
   }
 
-  private LinkedHashSet<File> filterClasspathReferences(Collection<GroupArtifact> dependencies, Set<GroupArtifact> excludes) {
+  private LinkedHashSet<File> filterClasspathReferences(final Collection<GroupArtifact> dependencies, final Set<GroupArtifact> excludes) {
     if (dependencies == null)
       return null;
 
@@ -144,7 +145,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     return filteredDependencies;
   }
 
-  private void addJarAndSourceDependency(LinkedHashSet<File> dependencies, GroupArtifact dependency) {
+  private void addJarAndSourceDependency(final LinkedHashSet<File> dependencies, final GroupArtifact dependency) {
     final File jarFile = DependencyMojo.getFile(dependency, getLocal(), getRepositoryPath());
     final File sourceFile = new File(jarFile.getAbsolutePath().replace(".jar", "-sources.jar"));
     // If the source file does not exist, try to download it
@@ -156,7 +157,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
         getResolver().resolve(artifact, getRemoteRepos(), getLocal());
         sourcesExist = true;
       }
-      catch (Exception e) {
+      catch (final Exception e) {
       }
     }
 
@@ -166,7 +167,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     dependencies.add(jarFile);
   }
 
-  private void resolveDependencies(JavaProject project, StateManager stateManager) {
+  private void resolveDependencies(final JavaProject project, final StateManager stateManager) {
     // Filter the classpath reference by excluding the other projects
     final LinkedHashSet<File> filteredDependencies = filterClasspathReferences(project.getDependencies(), stateManager.getGroupArtifacts());
     project.setClasspathReferences(filteredDependencies);
@@ -198,9 +199,9 @@ public class JavaProjectMojo extends CodeGuideMojo {
    * is why this code sits here where we first resolve the dependencies and
    * project references.
    */
-  private Set<File> filterDuplicateSources(JavaProject javaProject, Set<File> sources) {
+  private Set<File> filterDuplicateSources(final JavaProject javaProject, final Set<File> sources) {
     final Map<String,File> sourcesMap = new HashMap<String,File>();
-    for (File file : sources)
+    for (final File file : sources)
       sourcesMap.put(Files.relativePath(javaProject.getDir(), file), file);
 
     final Set<String> addedSources = getStateManager().getAddedSources(javaProject.getProjectReferences());
@@ -245,7 +246,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
         JavaProjectWriter.write(project);
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

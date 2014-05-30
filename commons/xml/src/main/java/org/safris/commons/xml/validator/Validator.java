@@ -17,10 +17,14 @@
 package org.safris.commons.xml.validator;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.xml.namespace.QName;
+
+import org.safris.commons.net.URLs;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -37,13 +41,13 @@ public abstract class Validator {
     return validator;
   }
 
-  public static void setSystemValidator(Validator validator) {
+  public static void setSystemValidator(final Validator validator) {
     Validator.validator = validator;
   }
 
-  protected abstract URL lookupSchemaLocation(String namespaceURI);
+  protected abstract URL lookupSchemaLocation(final String namespaceURI);
 
-  public void setValidateOnMarshal(boolean validateOnMarshal) {
+  public void setValidateOnMarshal(final boolean validateOnMarshal) {
     this.validateOnMarshal = validateOnMarshal;
   }
 
@@ -51,7 +55,7 @@ public abstract class Validator {
     return validateOnMarshal;
   }
 
-  public void setValidateOnParse(boolean validateOnParse) {
+  public void setValidateOnParse(final boolean validateOnParse) {
     this.validateOnParse = validateOnParse;
   }
 
@@ -59,7 +63,7 @@ public abstract class Validator {
     return validateOnParse;
   }
 
-  public final void validate(Element element) throws ValidationException {
+  public final void validate(final Element element) throws ValidationException {
     // only do validation on the root element of the document
     if (element != element.getOwnerDocument().getDocumentElement())
       return;
@@ -78,7 +82,15 @@ public abstract class Validator {
       if (namespaceURI == null || namespaceURI.length() == 0 || XSI.getNamespaceURI().equals(namespaceURI))
         continue;
 
-      namespaceLocations += " " + namespaceURI + " " + getSchemaLocation(namespaceURI);
+      final URL schemaLocation = getSchemaLocation(namespaceURI);
+      if (schemaLocation != null) {
+        try {
+          namespaceLocations += " " + namespaceURI + " " + URLs.toExternalForm(schemaLocation);
+        }
+        catch (final MalformedURLException e) {
+          throw new ValidatorError(e);
+        }
+      }
     }
 
     element.setAttributeNS(XMLNS.getNamespaceURI(), XSI.getPrefix() + ":" + XSI.getLocalPart(), "http://www.w3.org/2001/XMLSchema-instance");
@@ -86,7 +98,7 @@ public abstract class Validator {
     try {
       parse(element);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new ValidationException(e);
     }
   }
@@ -100,16 +112,16 @@ public abstract class Validator {
    *
    * @return The schemaLocation <code>URL</code>.
    */
-  protected abstract URL getSchemaLocation(String namespaceURI);
+  protected abstract URL getSchemaLocation(final String namespaceURI);
 
-  protected abstract void parse(Element element) throws IOException, ValidationException;
+  protected abstract void parse(final Element element) throws IOException, ValidationException;
 
-  public void validateMarshal(Element element) throws ValidationException {
+  public void validateMarshal(final Element element) throws ValidationException {
     if (validateOnMarshal)
       validate(element);
   }
 
-  public void validateParse(Element element) throws ValidationException {
+  public void validateParse(final Element element) throws ValidationException {
     if (validateOnParse)
       validate(element);
   }

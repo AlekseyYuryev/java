@@ -1,8 +1,11 @@
 package org.safris.commons.jndi;
 
 import java.util.StringTokenizer;
+
 import javax.naming.Context;
+import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
+
 import tyrex.tm.RuntimeContext;
 
 public final class JNDIs {
@@ -25,7 +28,7 @@ public final class JNDIs {
    * @see javax.naming.directory.DirContext#bind(Name, Object,
    *      javax.naming.directory.Attributes)
    */
-  public static void bind(String name, Object obj) throws NamingException {
+  public static void bind(final String name, final Object obj) throws NamingException {
     if (name == null)
       throw new NullPointerException("name == null");
 

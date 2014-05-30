@@ -17,35 +17,36 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class WhiteSpaceWriter extends Writer<WhiteSpacePlan> {
-  protected void appendDeclaration(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+public final class WhiteSpaceWriter extends Writer<WhiteSpacePlan> {
+  protected void appendDeclaration(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendGetMethod(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendSetMethod(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendMarshal(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  public void appendCopy(StringWriter writer, WhiteSpacePlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final WhiteSpacePlan plan, Plan<?> parent, final String variable) {
   }
 
-  protected void appendEquals(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendHashCode(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendClass(StringWriter writer, WhiteSpacePlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final WhiteSpacePlan plan, final Plan<?> parent) {
   }
 }

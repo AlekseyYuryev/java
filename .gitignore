@@ -1,0 +1,7 @@
+.metadata/
+.settings/
+build/
+target/
+pom.xml
+*.javaproj
+*.sln

@@ -16,61 +16,66 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-import com.sun.org.apache.xerces.internal.impl.xs.XSDDescription;
-import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
-import com.sun.org.apache.xerces.internal.xni.XNIException;
-import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
-import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 import org.safris.commons.xml.validator.ValidatorError;
 
-public class BindingEntityResolver implements XMLEntityResolver {
-  public static void registerSchemaLocation(String namespaceURI, URL schemaReference) {
+import com.sun.org.apache.xerces.internal.impl.xs.XSDDescription;
+import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
+import com.sun.org.apache.xerces.internal.xni.XNIException;
+import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
+import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
+
+public final class BindingEntityResolver implements XMLEntityResolver {
+  public static void registerSchemaLocation(final String namespaceURI, final URL schemaReference) {
     final URL present = schemaReferences.get(namespaceURI);
-    if (present != null && !present.equals(schemaReference))
-      throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
+    if (present != null) {
+      if (!present.equals(schemaReference))
+        throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
+      
+      return;
+    }
 
     schemaReferences.put(namespaceURI, schemaReference);
   }
 
-  public static URL lookupSchemaLocation(String namespaceURI) {
+  public static URL lookupSchemaLocation(final String namespaceURI) {
     if (namespaceURI == null)
       return null;
 
-    URL schemaReference = schemaReferences.get(namespaceURI);
-    if (schemaReference == null) {
-      // The schemaReference may not have been registered yet
-      synchronized (namespaceURI) {
-        // When loading the classes, the static block of each binding will call the
-        // registerSchemaLocation() function.
-        // FIXME: Look this over. Also make a dedicated RuntimeException for this.
-        if (!schemaReferences.containsKey(namespaceURI)) {
-          try {
-            PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
-          }
-          catch (Exception e) {
-            throw new RuntimeException(e);
-          }
+    final URL schemaReference = schemaReferences.get(namespaceURI);
+    if (schemaReference != null)
+      return schemaReference;
+    
+    // The schemaReference may not have been registered yet
+    synchronized (namespaceURI) {
+      // When loading the classes, the static block of each binding will call the
+      // registerSchemaLocation() function.
+      // FIXME: Look this over. Also make a dedicated RuntimeException for this.
+      if (!schemaReferences.containsKey(namespaceURI)) {
+        try {
+          PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+        }
+        catch (final Exception e) {
+          throw new RuntimeException(e);
         }
       }
-
-      schemaReference = schemaReferences.get(namespaceURI);
     }
 
-    return schemaReference;
+    return schemaReferences.get(namespaceURI);
   }
 
   private static final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
-  public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
+  public XMLInputSource resolveEntity(final XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
     if (resourceIdentifier == null)
       return null;
 
@@ -89,8 +94,9 @@ public class BindingEntityResolver implements XMLEntityResolver {
         final String localName = Paths.getName(resourceIdentifier.getExpandedSystemId());
         schemaReference = new URL(Paths.getParent(baseId) + "/" + localName);
       }
-      else
+      else {
         schemaReference = lookupSchemaLocation(namespaceURI);
+      }
 
       if (schemaReference == null)
         throw new ValidatorError("The schemaReference for " + resourceIdentifier + " is null!");
@@ -99,7 +105,7 @@ public class BindingEntityResolver implements XMLEntityResolver {
       try {
         expandedSystemId = URLs.toExternalForm(schemaReference);
       }
-      catch (MalformedURLException e) {
+      catch (final MalformedURLException e) {
         final IOException ioException = new IOException("Cannot obtain externalForm of " + schemaReference);
         ioException.initCause(e);
         throw ioException;
@@ -112,10 +118,10 @@ public class BindingEntityResolver implements XMLEntityResolver {
       inputSource.setByteStream(schemaReference.openStream());
       return inputSource;
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw e;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new ValidatorError(resourceIdentifier.toString(), e);
     }
   }

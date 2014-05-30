@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#language
  */
-public class Language implements CharSequence {
+public final class Language implements CharSequence {
   public static Language parseLanguage(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -65,7 +65,7 @@ public class Language implements CharSequence {
     this.language = language;
   }
 
-  public Language(Collection<String> language) {
+  public Language(final Collection<String> language) {
     this(language != null ? language.toArray(new String[language.size()]) : null);
   }
 
@@ -77,15 +77,15 @@ public class Language implements CharSequence {
     return toString().length();
   }
 
-  public char charAt(int index) {
+  public char charAt(final int index) {
     return toString().charAt(index);
   }
 
-  public CharSequence subSequence(int start, int end) {
+  public CharSequence subSequence(final int start, final int end) {
     return toString().subSequence(start, end);
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

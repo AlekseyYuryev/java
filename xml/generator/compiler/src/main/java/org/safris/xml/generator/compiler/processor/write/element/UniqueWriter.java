@@ -17,35 +17,36 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.UniquePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class UniqueWriter extends Writer<UniquePlan> {
-  protected void appendDeclaration(StringWriter writer, UniquePlan plan, Plan parent) {
+public final class UniqueWriter extends Writer<UniquePlan> {
+  protected void appendDeclaration(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendGetMethod(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendSetMethod(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendMarshal(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  public void appendCopy(StringWriter writer, UniquePlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final UniquePlan plan, Plan<?> parent, final String variable) {
   }
 
-  protected void appendEquals(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendHashCode(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 
-  protected void appendClass(StringWriter writer, UniquePlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final UniquePlan plan, final Plan<?> parent) {
   }
 }

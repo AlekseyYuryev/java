@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Year;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_gYear<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_gYear(final $xs_gYear<T> binding) {
+public abstract class $xs_gYear extends $xs_anySimpleType {
+  public $xs_gYear(final $xs_gYear binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_gYear<T extends BindingType> extends $xs_anySimpleType
     super();
   }
 
-  public Year getText() {
-    return (Year)super.getText();
+  public Year text() {
+    return (Year)super.text();
   }
 
-  public void setText(final Year text) {
-    super.setText(text);
+  public void text(final Year text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Year.parseYear(value));
+    super.text(Year.parseYear(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_gYear<T> clone() {
-    return new $xs_gYear<T>(this) {
-      protected $xs_gYear<T> inherits() {
+  public $xs_gYear clone() {
+    return new $xs_gYear(this) {
+      protected $xs_gYear inherits() {
         return this;
       }
     };

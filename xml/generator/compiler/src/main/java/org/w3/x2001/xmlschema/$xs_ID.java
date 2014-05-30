@@ -19,80 +19,76 @@ package org.w3.x2001.xmlschema;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.w3c.dom.Element;
 
-public abstract class $xs_ID<T extends BindingType> extends $xs_NCName<T> {
-  protected static final Map<String,Map<Object,$xs_ID<? extends BindingType>>> namespaceIds = new HashMap<String,Map<Object,$xs_ID<? extends BindingType>>>();
+public abstract class $xs_ID extends $xs_NCName {
+  protected static final Map<String,Map<Object,$xs_ID>> namespaceIds = new HashMap<String,Map<Object,$xs_ID>>();
 
-  private static void persist(final String namespace, final Object value, final $xs_ID<? extends BindingType> id) {
-    Map<Object,$xs_ID<? extends BindingType>> idMap = namespaceIds.get(namespace);
+  private static void persist(final String namespace, final Object value, final $xs_ID id) {
+    Map<Object,$xs_ID> idMap = namespaceIds.get(namespace);
     if (idMap == null)
-      namespaceIds.put(namespace, idMap = new HashMap<Object,$xs_ID<? extends BindingType>>());
+      namespaceIds.put(namespace, idMap = new HashMap<Object,$xs_ID>());
 
     idMap.put(value, id);
   }
 
   private static void remove(final String namespace, final Object value) {
-    final Map<Object,$xs_ID<? extends BindingType>> ids = namespaceIds.get(namespace);
+    final Map<Object,$xs_ID> ids = namespaceIds.get(namespace);
     if (ids == null)
       return;
 
     ids.remove(value);
   }
 
-  public static $xs_ID<? extends BindingType> lookupId(final Object id) {
-    final Map<Object,$xs_ID<? extends BindingType>> ids = namespaceIds.get(UniqueQName.XS.getNamespaceURI().toString());
+  public static $xs_ID lookupId(final Object id) {
+    final Map<Object,$xs_ID> ids = namespaceIds.get(UniqueQName.XS.getNamespaceURI().toString());
     if (ids == null)
       return null;
 
     return ids.get(id);
   }
 
-  public $xs_ID(final $xs_ID<T> binding) {
+  public $xs_ID(final $xs_ID binding) {
     super(binding);
   }
 
   public $xs_ID(final String value) {
     super(value);
-    persist(_$$getName().getNamespaceURI(), value, this);
+    persist(name().getNamespaceURI(), value, this);
   }
 
   protected $xs_ID() {
     super();
   }
 
-  public String getText() {
-    return super.getText();
+  public String text() {
+    return super.text();
   }
 
-  public void setText(final String text) {
-    final Object old = getText();
-    super.setText(text);
+  public void text(final String text) {
+    final Object old = text();
+    super.text(text);
     if (old != null)
-      remove(_$$getName().getNamespaceURI(), old);
+      remove(name().getNamespaceURI(), old);
 
-    persist(_$$getName().getNamespaceURI(), text, this);
+    persist(name().getNamespaceURI(), text, this);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     persist(parent.getNamespaceURI(), value, this);
-    super.setText(value);
+    super.text(value);
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_ID<T> clone() {
-    return new $xs_ID<T>(this) {
-      protected $xs_ID<T> inherits() {
+  public $xs_ID clone() {
+    return new $xs_ID(this) {
+      protected $xs_ID inherits() {
         return this;
       }
     };

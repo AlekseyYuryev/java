@@ -18,23 +18,24 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
-public abstract class NotationType extends Binding<NotationType> implements BindingType {
+public abstract class NotationType extends Binding implements BindingType {
   private static final Map<String,NotationType> notations = new HashMap<String,NotationType>(7);
 
-  protected static void _$$registerNotation(NotationType notation) {
+  protected static void _$$registerNotation(final NotationType notation) {
     notations.put(notation.getName(), notation);
   }
 
-  public static NotationType parseNotation(String name) {
+  public static NotationType parseNotation(final String name) {
     return notations.get(name);
   }
 
   private final QName _$$name;
 
   protected NotationType() {
-    this._$$name = new QName(getName());
+    this._$$name = new QName(getName().intern());
     notations.put(getName(), this);
   }
 

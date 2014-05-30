@@ -18,14 +18,15 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.io.IOException;
 import java.net.URL;
+
 import org.safris.commons.xml.validator.ValidationException;
 import org.xml.sax.InputSource;
 
-public class BindingDocument {
+public final class BindingDocument {
   private final URL url;
   private final Binding document;
 
-  public BindingDocument(URL url) throws IOException, ParseException, ValidationException {
+  public BindingDocument(final URL url) throws IOException, ParseException, ValidationException {
     this.url = url;
     url.openConnection();
     document = Bindings.parse(new InputSource(url.openStream()));

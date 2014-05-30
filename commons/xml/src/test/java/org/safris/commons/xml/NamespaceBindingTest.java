@@ -16,17 +16,18 @@
 
 package org.safris.commons.xml;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class NamespaceBindingTest {
+public final class NamespaceBindingTest {
   private final Map<String,String> map = new HashMap<String,String>();
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     final NamespaceBindingTest namespaceBindingTest = new NamespaceBindingTest();
     namespaceBindingTest.setUp();
     namespaceBindingTest.testNamespaceToPackage();

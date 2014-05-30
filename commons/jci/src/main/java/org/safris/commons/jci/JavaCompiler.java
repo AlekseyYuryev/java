@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
+
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Resources;
@@ -72,7 +73,7 @@ public final class JavaCompiler {
     final File tempDir = new File(UUID.randomUUID().toString());
     toDir(tempDir, javaSources);
     final FileFilter fileFilter = new FileFilter() {
-      public boolean accept(File pathname) {
+      public boolean accept(final File pathname) {
         return true;
       }
     };
@@ -82,7 +83,7 @@ public final class JavaCompiler {
       toDir(tempDir, javaSources);
       final Collection<File> files = Files.listAll(tempDir);
       final Collection<CachedFile> selected = new ArrayList<CachedFile>();
-      for (File file : files) {
+      for (final File file : files) {
         if (!file.isFile() || !file.getName().endsWith(".class"))
           continue;
 
@@ -106,7 +107,7 @@ public final class JavaCompiler {
 
     String classpath = "";
     if (classpathFiles != null)
-      for (File classpathFile : classpathFiles)
+      for (final File classpathFile : classpathFiles)
         if (classpathFile != null)
           classpath += classpathFile + File.pathSeparator;
 
@@ -117,7 +118,7 @@ public final class JavaCompiler {
 
     final File tempFile = File.createTempFile("xml", ".tmp");
     final FileOutputStream out = new FileOutputStream(tempFile);
-    for (File javaSource : javaSources) {
+    for (final File javaSource : javaSources) {
       out.write(javaSource.getAbsolutePath().getBytes());
       out.write('\n');
     }
@@ -128,7 +129,7 @@ public final class JavaCompiler {
     final String[] args = new String[9];
     args[i++] = "javac";
     args[i++] = "-Xlint:none";
-    args[i++] = "-J-Xmx128m";
+    args[i++] = "-J-Xmx256m";
     args[i++] = "-J-XX:MaxPermSize=128m";
     args[i++] = "-d";
     args[i++] = destDir.getAbsolutePath();
@@ -136,7 +137,7 @@ public final class JavaCompiler {
     args[i++] = classpath;
     args[i++] = "@" + tempFile.getAbsolutePath();
 
-    final Process process = Processes.forkSync(null, System.out, System.err, args);
+    Processes.forkSync(null, System.out, System.err, args);
     tempFile.deleteOnExit();
   }
 }

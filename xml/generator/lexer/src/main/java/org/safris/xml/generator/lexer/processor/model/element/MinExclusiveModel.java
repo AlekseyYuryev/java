@@ -20,11 +20,11 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class MinExclusiveModel extends Model {
+public final class MinExclusiveModel extends Model {
   private Boolean fixed = false;
   private String value = null;
 
-  protected MinExclusiveModel(Node node, Model parent) {
+  protected MinExclusiveModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

@@ -17,6 +17,7 @@
 package org.safris.maven.plugin.dependency;
 
 import java.util.List;
+
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
@@ -53,7 +54,7 @@ public interface DependencyProperties {
   public ArtifactResolver getResolver();
 
   /**
-   * The prefix to preppend on each dependent artifact. If undefined, the
+   * The prefix to prepend on each dependent artifact. If undefined, the
    * paths refer to the actual files store in the local repository (the
    * stipVersion parameter does nothing then).
    */
@@ -67,7 +68,7 @@ public interface DependencyProperties {
   /**
    * List of Remote Repositories used by the resolver
    */
-  public List getRemoteRepos();
+  public List<ArtifactRepository> getRemoteRepos();
 
   /**
    * POM

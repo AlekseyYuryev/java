@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.Block;
 
 public final class Block {
   private static final Map<String,Block> enums = new HashMap<String,Block>();
@@ -28,13 +27,13 @@ public final class Block {
   public static final Block RESTRICTION = new Block("restriction");
   public static final Block SUBSTITUTION = new Block("substitution");
 
-  public static Block parseBlock(String value) {
+  public static Block parseBlock(final String value) {
     return enums.get(value);
   }
 
   private final String value;
 
-  private Block(String value) {
+  private Block(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -43,7 +42,7 @@ public final class Block {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Block))
       return false;
 

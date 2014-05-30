@@ -16,6 +16,9 @@
 
 package org.safris.commons.lang.reflect;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -28,19 +31,18 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class ClassesTest {
-  public static void main(String[] args) throws Exception {
+public final class ClassesTest {
+  public static void main(final String[] args) throws Exception {
     final ClassesTest classesTest = new ClassesTest();
     classesTest.setUp();
     classesTest.testGreatestCommonClass();
   }
 
-  private final Map<Class[],Class> classes = new HashMap<Class[],Class>();
+  private final Map<Class<?>[],Class<?>> classes = new HashMap<Class<?>[],Class<?>>();
 
   @Before
   public void setUp() {
@@ -54,7 +56,7 @@ public class ClassesTest {
 
   @Test
   public void testGreatestCommonClass() throws Exception {
-    for (final Map.Entry<Class[],Class> entry : classes.entrySet())
+    for (final Map.Entry<Class<?>[],Class<?>> entry : classes.entrySet())
       assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
 
     assertNull(Classes.getGreatestCommonSuperclass(null));

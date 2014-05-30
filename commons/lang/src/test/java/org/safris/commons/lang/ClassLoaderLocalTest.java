@@ -22,13 +22,12 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class ClassLoaderLocalTest {
-  public static void main(String[] args) throws Exception {
+public final class ClassLoaderLocalTest {
+  public static void main(final String[] args) throws Exception {
     new ClassLoaderLocalTest().testClassLoaderLocal();
   }
 
@@ -57,7 +56,7 @@ public class ClassLoaderLocalTest {
     print(classLoaderReference);
   }
 
-  private void print(WeakReference<URLClassLoader> classLoaderReference) {
+  private void print(final WeakReference<URLClassLoader> classLoaderReference) {
     System.out.println("----");
     if (classLoaderReference.get() != null)
       System.out.println("Weak: " + ClassLoaders.isClassLoaded(classLoaderReference.get(), className) + " " + classLoaderReference.get().getClass().getClassLoader());

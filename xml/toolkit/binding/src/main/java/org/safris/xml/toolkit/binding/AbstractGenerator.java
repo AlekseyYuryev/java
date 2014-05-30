@@ -40,12 +40,7 @@ public abstract class AbstractGenerator {
     Document document = null;
     try {
       url = URLs.canonicalizeURL(schemaReference.getURL());
-
       final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
-      if (url.toString().equals("file:/Users/seva/Work/Smartplane/src/xml/src/main/resources/dynamicFeature.xsd")) {
-        int i = 0;
-      }
-
       document = documentBuilder.parse(url.toString());
     }
     catch (final FileNotFoundException e) {

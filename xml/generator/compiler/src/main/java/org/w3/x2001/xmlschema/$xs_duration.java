@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Duration;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_duration<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_duration(final $xs_duration<T> binding) {
+public abstract class $xs_duration extends $xs_anySimpleType {
+  public $xs_duration(final $xs_duration binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_duration<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  protected Duration getText() {
-    return (Duration)super.getText();
+  public Duration text() {
+    return (Duration)super.text();
   }
 
-  protected void setText(final Duration text) {
-    super.setText(text);
+  protected void text(final Duration text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Duration.parseDuration(value));
+    super.text(Duration.parseDuration(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_duration<T> clone() {
-    return new $xs_duration<T>(this) {
-      protected $xs_duration<T> inherits() {
+  public $xs_duration clone() {
+    return new $xs_duration(this) {
+      protected $xs_duration inherits() {
         return this;
       }
     };

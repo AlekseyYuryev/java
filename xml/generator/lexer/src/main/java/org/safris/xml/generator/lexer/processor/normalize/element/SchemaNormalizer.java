@@ -17,19 +17,20 @@
 package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.io.File;
+
 import org.safris.commons.io.Files;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class SchemaNormalizer extends Normalizer<SchemaModel> {
+public final class SchemaNormalizer extends Normalizer<SchemaModel> {
   private static File CWD = null;
 
-  public SchemaNormalizer(NormalizerDirectory directory) {
+  public SchemaNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(SchemaModel model) {
+  protected void stage1(final SchemaModel model) {
     if (CWD == null)
       CWD = Files.getCwd();
 
@@ -40,18 +41,18 @@ public class SchemaNormalizer extends Normalizer<SchemaModel> {
     logger.info("Lexing {" + model.getTargetNamespace() + "} from " + display);
   }
 
-  protected void stage2(SchemaModel model) {
+  protected void stage2(final SchemaModel model) {
   }
 
-  protected void stage3(SchemaModel model) {
+  protected void stage3(final SchemaModel model) {
   }
 
-  protected void stage4(SchemaModel model) {
+  protected void stage4(final SchemaModel model) {
   }
 
-  protected void stage5(SchemaModel model) {
+  protected void stage5(final SchemaModel model) {
   }
 
-  protected void stage6(SchemaModel model) {
+  protected void stage6(final SchemaModel model) {
   }
 }

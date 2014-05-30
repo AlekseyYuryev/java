@@ -19,7 +19,7 @@ package org.safris.ant.task.xml.binding;
 import org.apache.tools.ant.Main;
 
 public final class AntLauncher {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     Main.main(args);
   }
 

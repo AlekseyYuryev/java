@@ -16,7 +16,7 @@
 
 package org.safris.commons.xml.dom;
 
-public class DOMStyle {
+public final class DOMStyle {
   protected static DOMStyle consolidate(final DOMStyle ... options) {
     if (options == null)
       return null;

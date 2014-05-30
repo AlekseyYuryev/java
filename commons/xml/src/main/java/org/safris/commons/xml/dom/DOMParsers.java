@@ -19,14 +19,15 @@ package org.safris.commons.xml.dom;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.safris.commons.xml.XMLError;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public final class DOMParsers {
-  private static final ErrorHandler defaultErrorHandler = new ErrorHandler()
-  {
-    // ignore fatal errors (an exception is guaranteed)
+  private static final ErrorHandler defaultErrorHandler = new ErrorHandler() {
+    // ignore fatal errors (final an exception is guaranteed)
     public void fatalError(final SAXParseException exception) throws SAXException {
     }
 
@@ -44,16 +45,22 @@ public final class DOMParsers {
     }
   };
 
-  public static DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+  public static DocumentBuilder newDocumentBuilder() {
     final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     documentBuilderFactory.setNamespaceAware(true);
     documentBuilderFactory.setIgnoringComments(true);
     documentBuilderFactory.setIgnoringElementContentWhitespace(true);
     documentBuilderFactory.setValidating(false);
 
-    final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    DocumentBuilder documentBuilder;
+    try {
+      documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    }
+    catch (ParserConfigurationException e) {
+      throw new XMLError(e);
+    }
+    
     documentBuilder.setErrorHandler(defaultErrorHandler);
-
     return documentBuilder;
   }
 

@@ -20,10 +20,10 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class AppinfoModel extends Model {
+public final class AppinfoModel extends Model {
   private String source = null;
 
-  protected AppinfoModel(Node node, Model parent) {
+  protected AppinfoModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

@@ -28,8 +28,8 @@ import org.safris.commons.xml.validator.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class BindingValidatorTest {
-  public static void main(String[] args) throws Exception {
+public final class BindingValidatorTest {
+  public static void main(final String[] args) throws Exception {
     new BindingValidatorTest().testSAXParser();
   }
 
@@ -53,7 +53,7 @@ public class BindingValidatorTest {
     try {
       new BindingValidator().parse(element);
     }
-    catch (ValidationException e) {
+    catch (final ValidationException e) {
       if (e.getMessage().startsWith(BindingEntityResolver.class.getName() + " cannot be cast to " + XMLEntityResolver.class.getName()))
         fail(e.getMessage());
       else if (e.getCause() == null || e.getCause().getMessage() == null || !e.getCause().getMessage().startsWith("cvc-elt.1: Cannot find the declaration of element"))

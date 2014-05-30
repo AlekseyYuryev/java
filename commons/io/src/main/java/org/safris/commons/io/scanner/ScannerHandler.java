@@ -21,7 +21,7 @@ import java.io.IOException;
 public abstract class ScannerHandler {
   private final String regex;
 
-  public ScannerHandler(String regex) {
+  public ScannerHandler(final String regex) {
     this.regex = regex;
   }
 
@@ -29,5 +29,5 @@ public abstract class ScannerHandler {
     return regex;
   }
 
-  public abstract void match(String match) throws IOException;
+  public abstract void match(final String match) throws IOException;
 }

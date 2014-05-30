@@ -17,25 +17,28 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.util.Iterator;
+
 import org.safris.commons.util.IdentityArrayList;
 
 final class GeneralElementList<E extends Binding> extends IdentityArrayList<E> {
+  private static final long serialVersionUID = 4251508116129047104L;
+
   private final CompositeElementStore directory;
 
-  protected GeneralElementList(CompositeElementStore directory, int initialCapacity) {
+  protected GeneralElementList(final CompositeElementStore directory, final int initialCapacity) {
     super(initialCapacity);
     this.directory = directory;
   }
 
-  protected GeneralElementList(CompositeElementStore directory) {
+  protected GeneralElementList(final CompositeElementStore directory) {
     this.directory = directory;
   }
 
-  public Iterator iterator() {
+  public Iterator<E> iterator() {
     return new ElementIterator();
   }
 
-  private class ElementIterator implements Iterator<E> {
+  private final class ElementIterator implements Iterator<E> {
     private final Iterator<E> iterator = GeneralElementList.super.iterator();
     private int cursor = 0;
     private int lastRet = -1;
@@ -60,6 +63,7 @@ final class GeneralElementList<E extends Binding> extends IdentityArrayList<E> {
 
       if (lastRet < cursor)
         cursor--;
+      
       lastRet = -1;
     }
   }

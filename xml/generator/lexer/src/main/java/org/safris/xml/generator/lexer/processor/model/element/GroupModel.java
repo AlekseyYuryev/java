@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.Referenceable;
@@ -38,7 +39,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
   private GroupModel ref = null;
   private GroupModel redefine = null;
 
-  protected GroupModel(Node node, Model parent) {
+  protected GroupModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -55,7 +56,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     }
   }
 
-  public final void setRedefine(GroupModel redefine) {
+  public final void setRedefine(final GroupModel redefine) {
     this.redefine = redefine;
   }
 
@@ -63,7 +64,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     return redefine;
   }
 
-  public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
+  public final void addMultiplicableModel(final MultiplicableModel multiplicableModel) {
     if (!this.equals(multiplicableModel))
       this.multiplicableModels.add(multiplicableModel);
   }
@@ -80,7 +81,7 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     return minOccurs;
   }
 
-  public final void setRef(GroupModel _ref) {
+  public final void setRef(final GroupModel _ref) {
     this.ref = _ref;
   }
 
@@ -96,14 +97,14 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     return super.toString().replace(TO_STRING_DELIMITER, "maxOccurs=\"" + maxOccurs + "\" minOccurs=\"" + minOccurs + "\" ref=\"" + ref + "\"");
   }
 
-  public static class Reference extends GroupModel implements Referenceable {
+  public static final class Reference extends GroupModel implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseGroup(UniqueQName name) {
+    public static Reference parseGroup(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;

@@ -17,6 +17,7 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -43,9 +44,6 @@ public abstract class XDLTransformerMojo extends AbstractMojo {
   protected Manifest manifest;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
-    String href = null;
-    boolean explodeJars = false;
-    boolean overwrite = false;
     if (manifest == null)
       return;
 

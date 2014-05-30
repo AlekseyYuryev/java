@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.reference;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
 import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
@@ -27,9 +28,8 @@ import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 
-public final class SchemaReferenceProcessor implements PipelineEntity<SchemaReference>, PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> {
+public final class SchemaReferenceProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> {
   private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
 
   // FIXME: There still exists a deadlock condition!!
@@ -37,7 +37,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity<SchemaRefe
     protected volatile int count = 0;
   }
 
-  public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
+  public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
     final File destDir = pipelineContext.getDestDir();
     logger.fine("destDir = " + destDir != null ? destDir.getAbsolutePath() : null);
 
@@ -58,34 +58,34 @@ public final class SchemaReferenceProcessor implements PipelineEntity<SchemaRefe
                 final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
                 logger.fine("checking whether directory is up-to-date: " + directory.getAbsolutePath());
                 if (pipelineContext.getOverwrite() || !directory.exists() || directory.lastModified() < pipelineContext.getManifestLastModified()) {
-                    logger.fine("adding: " + directory.getAbsolutePath());
-                    selectedSchemas.add(schemaReference);
+                  logger.fine("adding: " + directory.getAbsolutePath());
+                  selectedSchemas.add(schemaReference);
                 }
                 else {
-                    for (File file : directory.listFiles()) {
-                        logger.fine("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
-                        if (directory.lastModified() < file.lastModified() && schemaReference.getLastModified() < file.lastModified())
-                            continue;
+                  for (final File file : directory.listFiles()) {
+                    logger.fine("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
+                    if (directory.lastModified() < file.lastModified() && schemaReference.getLastModified() < file.lastModified())
+                      continue;
 
-                        logger.fine("adding: " + directory.getAbsolutePath());
-                        selectedSchemas.add(schemaReference);
-                        logger.fine("deleting files in: " + directory.getAbsolutePath());
-                        for (File deleteMe : directory.listFiles())
-                            deleteMe.delete();
+                    logger.fine("adding: " + directory.getAbsolutePath());
+                    selectedSchemas.add(schemaReference);
+                    logger.fine("deleting files in: " + directory.getAbsolutePath());
+                    for (final File deleteMe : directory.listFiles())
+                      deleteMe.delete();
 
-                        return;
-                    }
+                    return;
+                  }
 
-                    logger.info("Bindings for " + URLs.getName(schemaReference.getURL()) +  " are up-to-date.");
+                  logger.info("Bindings for " + URLs.getName(schemaReference.getURL()) + " are up-to-date.");
                 }
               }
-              catch (Exception e) {
+              catch (final Exception e) {
                 throw new LexerError(e);
               }
               finally {
                 synchronized (schemas) {
-                    ++counter.count;
-                    schemas.notify();
+                  ++counter.count;
+                  schemas.notify();
                 }
               }
             }
@@ -96,7 +96,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity<SchemaRefe
           schemas.wait();
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new LexerError(e);
     }
 

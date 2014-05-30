@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.ElementableModel;
@@ -27,18 +28,18 @@ import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class GroupNormalizer extends Normalizer<GroupModel> {
+public final class GroupNormalizer extends Normalizer<GroupModel> {
   private final Map<UniqueQName,GroupModel> all = new HashMap<UniqueQName,GroupModel>();
 
-  public GroupNormalizer(NormalizerDirectory directory) {
+  public GroupNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  public GroupModel parseGroup(UniqueQName name) {
+  public GroupModel parseGroup(final UniqueQName name) {
     return all.get(name);
   }
 
-  protected void stage1(GroupModel model) {
+  protected void stage1(final GroupModel model) {
     if (model.getName() == null)
       return;
 
@@ -46,7 +47,7 @@ public class GroupNormalizer extends Normalizer<GroupModel> {
       all.put(model.getName(), model);
   }
 
-  protected void stage2(GroupModel model) {
+  protected void stage2(final GroupModel model) {
     if (model.getRef() == null || !(model.getRef() instanceof GroupModel.Reference))
       return;
 
@@ -60,7 +61,7 @@ public class GroupNormalizer extends Normalizer<GroupModel> {
     model.setRef(ref);
   }
 
-  protected void stage3(GroupModel model) {
+  protected void stage3(final GroupModel model) {
     if (model.getRef() == null)
       return;
 
@@ -73,7 +74,7 @@ public class GroupNormalizer extends Normalizer<GroupModel> {
     }
   }
 
-  protected void stage4(GroupModel model) {
+  protected void stage4(final GroupModel model) {
     if (model.getRef() == null)
       return;
 
@@ -86,9 +87,9 @@ public class GroupNormalizer extends Normalizer<GroupModel> {
     }
   }
 
-  protected void stage5(GroupModel model) {
+  protected void stage5(final GroupModel model) {
   }
 
-  protected void stage6(GroupModel model) {
+  protected void stage6(final GroupModel model) {
   }
 }

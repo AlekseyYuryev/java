@@ -16,20 +16,22 @@
 
 package org.safris.commons.lang;
 
-public class ResourceException extends RuntimeException {
+public final class ResourceException extends RuntimeException {
+  private static final long serialVersionUID = 1249504943007262449L;
+
   public ResourceException() {
     super();
   }
 
-  public ResourceException(String message) {
+  public ResourceException(final String message) {
     super(message);
   }
 
-  public ResourceException(Throwable cause) {
+  public ResourceException(final Throwable cause) {
     super(cause);
   }
 
-  public ResourceException(String message, Throwable cause) {
+  public ResourceException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

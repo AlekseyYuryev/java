@@ -16,17 +16,20 @@
 
 package org.safris.commons.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
 import java.util.Arrays;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class RandomTest {
+public final class RandomTest {
   private static final char[] ALPHA = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new RandomTest().testRandom();
   }
 
@@ -36,14 +39,14 @@ public class RandomTest {
       Random.alpha(-1);
       fail("Expected IllegalArgumentException!");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Random.alphaNumeric(0);
       fail("Expected IllegalArgumentException!");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     final String alpha = Random.alpha(16);
@@ -62,7 +65,7 @@ public class RandomTest {
     assertInSpace(alphaNumeric.toCharArray(), ALPHA_NUMERIC);
   }
 
-  private void assertInSpace(char[] chars, char[] space) {
+  private void assertInSpace(final char[] chars, final char[] space) {
     for (final char ch : chars)
       assertFalse(Arrays.binarySearch(space, ch) == -1);
   }

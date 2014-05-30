@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TopologicalSort<T> {
+public final class TopologicalSort<T> {
   public static <T>List<T> sort(final Map<T,Set<T>> graph) {
     for (final Map.Entry<T,Set<T>> entry : graph.entrySet())
       if (entry.getValue() != null)
@@ -40,8 +40,12 @@ public class TopologicalSort<T> {
         }
       }
 
-      if (key == null)
+      if (key == null) {
+        final Set<T> remaining = new HashSet<T>(graph.keySet());
+        remaining.removeAll(sorted);
+        sorted.addAll(remaining);
         return sorted;
+      }
 
       sorted.add(key);
       graph.remove(key);

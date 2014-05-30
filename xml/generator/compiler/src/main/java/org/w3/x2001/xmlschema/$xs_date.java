@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Date;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_date<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_date(final $xs_date<T> binding) {
+public abstract class $xs_date extends $xs_anySimpleType {
+  public $xs_date(final $xs_date binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_date<T extends BindingType> extends $xs_anySimpleType<
     super();
   }
 
-  public Date getText() {
-    return (Date)super.getText();
+  public Date text() {
+    return (Date)super.text();
   }
 
-  public void setText(final Date text) {
-    super.setText(text);
+  public void text(final Date text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Date.parseDate(value));
+    super.text(Date.parseDate(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_date<T> clone() {
-    return new $xs_date<T>(this) {
-      protected $xs_date<T> inherits() {
+  public $xs_date clone() {
+    return new $xs_date(this) {
+      protected $xs_date inherits() {
         return this;
       }
     };

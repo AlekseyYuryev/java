@@ -19,6 +19,7 @@ package org.safris.commons.net;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +32,7 @@ public final class Cookies {
    * @param name The cookie name to retrieve the value for.
    * @return The cookie value associated with the given cookie name.
    */
-  public static String getCookieValue(HttpServletRequest request, String name) {
+  public static String getCookieValue(final HttpServletRequest request, final String name) {
     final Cookie[] cookies = request.getCookies();
     if (cookies == null)
       return null;
@@ -52,7 +53,7 @@ public final class Cookies {
    * @param maxAge The expiration interval in seconds. If this is set to 0,
    * then the cookie will immediately expire.
    */
-  public static void setCookieValue(HttpServletResponse response, String name, String value, int maxAge) {
+  public static void setCookieValue(final HttpServletResponse response, final String name, String value, final int maxAge) {
     final Cookie cookie = new Cookie(name, value);
     cookie.setMaxAge(maxAge);
     response.addCookie(cookie);
@@ -65,11 +66,11 @@ public final class Cookies {
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name of the cookie to be removed.
    */
-  public static void removeCookie(HttpServletResponse response, String name) {
+  public static void removeCookie(final HttpServletResponse response, final String name) {
     setCookieValue(response, name, null, 0);
   }
 
-  public static Map.Entry<String,String> createCookieHeader(Collection<String> cookies) {
+  public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
     final StringBuffer cookieStringBuffer = new StringBuffer();
     for (final String cookie : cookies)
       cookieStringBuffer.append("; ").append(cookie);

@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_NCName<T extends BindingType> extends $xs_Name<T> {
-  public $xs_NCName(final $xs_NCName<T> binding) {
+public abstract class $xs_NCName extends $xs_Name {
+  public $xs_NCName(final $xs_NCName binding) {
     super(binding);
   }
 
@@ -34,28 +33,25 @@ public abstract class $xs_NCName<T extends BindingType> extends $xs_Name<T> {
     super();
   }
 
-  public String getText() {
-    return super.getText();
+  public String text() {
+    return super.text();
   }
 
-  public void setText(final String text) {
-    super.setText(text);
+  public void text(final String text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(value);
+    super.text(value);
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_NCName<T> clone() {
-    return new $xs_NCName<T>(this) {
-      protected $xs_NCName<T> inherits() {
+  public $xs_NCName clone() {
+    return new $xs_NCName(this) {
+      protected $xs_NCName inherits() {
         return this;
       }
     };

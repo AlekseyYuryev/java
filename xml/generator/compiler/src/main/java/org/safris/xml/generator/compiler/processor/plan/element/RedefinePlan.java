@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 
-public class RedefinePlan extends Plan<RedefineModel> {
-  public RedefinePlan(RedefineModel model, Plan parent) {
+public final class RedefinePlan extends Plan<RedefineModel> {
+  public RedefinePlan(final RedefineModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

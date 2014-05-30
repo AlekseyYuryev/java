@@ -38,25 +38,25 @@ import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
+public final class RestrictionNormalizer extends Normalizer<RestrictionModel> {
   private final ElementNormalizer elementNormalizer = (ElementNormalizer)getDirectory().lookup(ElementModel.class);
   private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
   private final AttributeNormalizer attributeNormalizer = (AttributeNormalizer)getDirectory().lookup(AttributeModel.class);
   private final ComplexTypeNormalizer complexTypeNormalizer = (ComplexTypeNormalizer)getDirectory().lookup(ComplexTypeModel.class);
 
-  public RestrictionNormalizer(NormalizerDirectory directory) {
+  public RestrictionNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(RestrictionModel model) {
+  protected void stage1(final RestrictionModel model) {
   }
 
-  protected void stage2(RestrictionModel model) {
+  protected void stage2(final RestrictionModel model) {
     if (model.getBase() == null)
       return;
 
     // First de-reference the base
-    SimpleTypeModel base = null;
+    SimpleTypeModel<?> base = null;
     if (model.getBase() instanceof SimpleTypeModel.Reference) {
       base = simpleTypeNormalizer.parseSimpleType(model.getBase().getName());
       if (base == null)
@@ -98,17 +98,17 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
           // NOTE: modifying ALL such SimpleTypeModel.Undefined
           // NOTE: references.
 //                  ((NamedModel)model.getParent()).setName(base.getName());
-          ((UnionModel)parent).getMemberTypes().add((SimpleTypeModel)model.getParent());
+          ((UnionModel)parent).getMemberTypes().add((SimpleTypeModel<?>)model.getParent());
           break;
         }
       }
 
-      if (parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         if (parent instanceof ElementModel) {
           // We do not want to dereference nested elements because there are name collisions
           ElementModel element = (ElementModel)parent;
           if (element.getParent() instanceof SchemaModel)
-            element = elementNormalizer.parseElement(((Nameable)parent).getName());
+            element = elementNormalizer.parseElement(((Nameable<?>)parent).getName());
 
           if (element == null)
             throw new LexerError("element == null");
@@ -120,7 +120,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
           // We do not want to dereference nested attributes because there are name collisions
           AttributeModel attribute = (AttributeModel)parent;
           if (attribute.getParent() instanceof SchemaModel)
-            attribute = attributeNormalizer.parseAttribute(((Nameable)parent).getName());
+            attribute = attributeNormalizer.parseAttribute(((Nameable<?>)parent).getName());
 
           if (attribute == null)
             throw new LexerError("attribute == null");
@@ -129,12 +129,12 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
           attribute.setRestriction(true);
         }
         else if (parent instanceof SimpleTypeModel) {
-          SimpleTypeModel type = simpleTypeNormalizer.parseSimpleType(((Nameable)parent).getName());
+          SimpleTypeModel<?> type = simpleTypeNormalizer.parseSimpleType(((Nameable<?>)parent).getName());
           if (type == null)
-            type = complexTypeNormalizer.parseComplexType(((Nameable)parent).getName());
+            type = complexTypeNormalizer.parseComplexType(((Nameable<?>)parent).getName());
 
           if (type == null)
-            throw new LexerError("type == null for " + ((Nameable)parent).getName());
+            throw new LexerError("type == null for " + ((Nameable<?>)parent).getName());
 
           if (type instanceof ComplexTypeModel && type.getSuperType() != null)
             break;
@@ -144,28 +144,29 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
           type.setRestriction(true);
 
           // Update the superType and restriction flag of this model
-          ((SimpleTypeModel)parent).setSuperType(base);
-          ((SimpleTypeModel)parent).setRestriction(true);
+          ((SimpleTypeModel<?>)parent).setSuperType(base);
+          ((SimpleTypeModel<?>)parent).setRestriction(true);
         }
-        else
-          throw new LexerError(((Nameable)parent).getName().toString());
+        else {
+          throw new LexerError(((Nameable<?>)parent).getName().toString());
+        }
 
         break;
       }
     }
   }
 
-  protected void stage3(RestrictionModel model) {
+  protected void stage3(final RestrictionModel model) {
     if (model.getBase() == null || model.getBase().getName() == null)
       return;
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable)parent).getName()) && parent.getParent() instanceof RedefineModel) {
-        model.getBase().setRedefine((SimpleTypeModel)parent);
+      if (parent instanceof SimpleTypeModel && model.getBase().getName().equals(((Nameable<?>)parent).getName()) && parent.getParent() instanceof RedefineModel) {
+        model.getBase().setRedefine((SimpleTypeModel<?>)parent);
 
         if (parent instanceof SimpleTypeModel) {
-          final SimpleTypeModel redefine = (SimpleTypeModel)parent;
+          final SimpleTypeModel<?> redefine = (SimpleTypeModel<?>)parent;
           redefine.setSuperType(model.getBase().getSuperType());
         }
 
@@ -174,10 +175,10 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     }
   }
 
-  protected void stage4(RestrictionModel model) {
+  protected void stage4(final RestrictionModel model) {
   }
 
-  protected void stage5(RestrictionModel model) {
+  protected void stage5(final RestrictionModel model) {
     if (model.getBase() == null || UniqueQName.XS.getNamespaceURI().equals(model.getBase().getName().getNamespaceURI()))
       return;
 
@@ -208,10 +209,10 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     }
   }
 
-  protected void stage6(RestrictionModel model) {
+  protected void stage6(final RestrictionModel model) {
   }
 
-  private static Collection<AttributeModel> findChildAttributes(Collection<Model> children) {
+  private static Collection<AttributeModel> findChildAttributes(final Collection<Model> children) {
     Collection<AttributeModel> attributes = new ArrayList<AttributeModel>();
     for (final Model model : children)
       if (model instanceof AttributeModel)
@@ -220,7 +221,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     return attributes;
   }
 
-  private static RestrictionPair<AttributeModel> findBaseAttribute(UniqueQName name, SimpleTypeModel typeModel) {
+  private static RestrictionPair<AttributeModel> findBaseAttribute(final UniqueQName name, final SimpleTypeModel<?> typeModel) {
     if (name == null || typeModel == null || UniqueQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
       return null;
 
@@ -245,7 +246,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     }
   }
 
-  private static RestrictionPair<ElementModel> findBaseElement(final UniqueQName name, final SimpleTypeModel typeModel) {
+  private static RestrictionPair<ElementModel> findBaseElement(final UniqueQName name, final SimpleTypeModel<?> typeModel) {
     if (name == null || typeModel == null || UniqueQName.XS.getNamespaceURI().equals(typeModel.getName().getNamespaceURI()))
       return null;
 
@@ -264,11 +265,11 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
     return findBaseElement(name, typeModel.getSuperType());
   }
 
-  private static class RestrictionPair<T extends RestrictableModel> {
+  private static final class RestrictionPair<T extends RestrictableModel<?>> {
     private final T model;
-    private final SimpleTypeModel parent;
+    private final SimpleTypeModel<?> parent;
 
-    public RestrictionPair(T model, SimpleTypeModel parent) {
+    public RestrictionPair(final T model, final SimpleTypeModel<?> parent) {
       this.model = model;
       this.parent = parent;
     }
@@ -277,7 +278,7 @@ public class RestrictionNormalizer extends Normalizer<RestrictionModel> {
       return model;
     }
 
-    public SimpleTypeModel getParent() {
+    public SimpleTypeModel<?> getParent() {
       return parent;
     }
   }

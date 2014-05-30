@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.YearMonth;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_gYearMonth<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_gYearMonth(final $xs_gYearMonth<T> binding) {
+public abstract class $xs_gYearMonth extends $xs_anySimpleType {
+  public $xs_gYearMonth(final $xs_gYearMonth binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_gYearMonth<T extends BindingType> extends $xs_anySimpl
     super();
   }
 
-  public YearMonth getText() {
-    return (YearMonth)super.getText();
+  public YearMonth text() {
+    return (YearMonth)super.text();
   }
 
-  public void setText(final YearMonth text) {
-    super.setText(text);
+  public void text(final YearMonth text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(YearMonth.parseYearMonth(value));
+    super.text(YearMonth.parseYearMonth(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_gYearMonth<T> clone() {
-    return new $xs_gYearMonth<T>(this) {
-      protected $xs_gYearMonth<T> inherits() {
+  public $xs_gYearMonth clone() {
+    return new $xs_gYearMonth(this) {
+      protected $xs_gYearMonth inherits() {
         return this;
       }
     };

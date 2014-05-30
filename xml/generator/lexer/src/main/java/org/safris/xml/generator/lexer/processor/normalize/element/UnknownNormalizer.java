@@ -20,7 +20,7 @@ import org.safris.xml.generator.lexer.processor.model.element.UnknownModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class UnknownNormalizer extends Normalizer<UnknownModel> {
+public final class UnknownNormalizer extends Normalizer<UnknownModel> {
   public UnknownNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }

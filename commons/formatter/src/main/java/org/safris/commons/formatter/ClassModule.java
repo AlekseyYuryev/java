@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class ClassModule extends FormatModule {
-  String format(String formated, String token) {
+public final class ClassModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().indexOf("class ") != -1 || token.trim().indexOf("interface ") != -1) {
       for (int i = 0; i < getDepth(); i++)
         token = "\t" + token;

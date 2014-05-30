@@ -81,6 +81,8 @@ public final class Zips {
       in.close();
       out.close();
     }
+    
+    zip.close();
   }
 
   public static String gunzip(final InputStream inputStream) throws IOException {

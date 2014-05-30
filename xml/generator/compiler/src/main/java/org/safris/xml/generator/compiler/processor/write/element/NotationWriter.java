@@ -17,53 +17,54 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.NotationPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 
-public class NotationWriter extends Writer<NotationPlan> {
-  protected void appendDeclaration(StringWriter writer, NotationPlan plan, Plan parent) {
+public final class NotationWriter extends Writer<NotationPlan> {
+  protected void appendDeclaration(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a declaration");
   }
 
-  protected void appendGetMethod(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a get method");
   }
 
-  protected void appendSetMethod(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a set method");
   }
 
-  protected void appendMarshal(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a marshal method");
   }
 
-  protected void appendParse(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a parse method");
   }
 
-  public void appendCopy(StringWriter writer, NotationPlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final NotationPlan plan, Plan<?> parent, final String variable) {
     throw new CompilerError("notation cannot have a copy statement");
   }
 
-  protected void appendEquals(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a equals statement");
   }
 
-  protected void appendHashCode(StringWriter writer, NotationPlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a hashCode statement");
   }
 
-  protected void appendClass(StringWriter writer, NotationPlan plan, Plan parent) {
-  writer.write("package " + plan.getPackageName() + ";\n");
+  protected void appendClass(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
+    writer.write("package " + plan.getPackageName() + ";\n");
 
     // DOCUMENTATION
     writer.write(plan.getDocumentation());
 
-    writer.write("@" + SuppressWarnings.class.getSimpleName() + "(\"unchecked\")\n");
     writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
     writer.write("{\n");
 
@@ -75,7 +76,7 @@ public class NotationWriter extends Writer<NotationPlan> {
     writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
     writer.write("}\n");
 
-    writer.write("private final " + String.class.getName() + " _name = " + "\"" + plan.getName().getLocalPart() + "\";\n");
+    writer.write("private final " + String.class.getName() + " _name = \"" + plan.getName().getLocalPart() + "\";\n");
     writer.write("private final " + String.class.getName() + " _public = " + (plan.getPublic() != null ? "\"" + plan.getPublic() + "\"" : "null") + ";\n");
     writer.write("private final " + String.class.getName() + " _system = " + (plan.getSystem() != null ? "\"" + plan.getSystem() + "\"" : "null") + ";\n");
 
@@ -85,7 +86,7 @@ public class NotationWriter extends Writer<NotationPlan> {
     writer.write("}\n");
 
     // GETNAME
-    writer.write("protected " + QName.class.getName() + " _$$getName()\n");
+    writer.write("public " + QName.class.getName() + " name()\n");
     writer.write("{\n");
     writer.write("return NAME;\n");
     writer.write("}\n");

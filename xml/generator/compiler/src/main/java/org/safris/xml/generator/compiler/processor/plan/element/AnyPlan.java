@@ -20,8 +20,8 @@ import org.safris.xml.generator.compiler.processor.plan.AnyablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.AnyModel;
 
-public class AnyPlan extends ElementPlan implements AnyablePlan {
-  public AnyPlan(AnyModel model, Plan parent) {
+public final class AnyPlan extends ElementPlan implements AnyablePlan {
+  public AnyPlan(final AnyModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

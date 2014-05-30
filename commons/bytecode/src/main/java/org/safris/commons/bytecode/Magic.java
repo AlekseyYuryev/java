@@ -23,15 +23,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Magic {
+public final class Magic {
   private static final int[] validMagic = new int[]{0xca, 0xfe, 0xba, 0xbe};
 
-  public static void main(String[] args) throws IOException {
+  public static void main(final String[] args) throws IOException {
     for (int i = 0; i < args.length; i++)
       changeClassVersion(new File(args[i]), 47);
   }
 
-  private static void changeClassVersion(File file, int version) throws IOException {
+  private static void changeClassVersion(final File file, final int version) throws IOException {
     final File inFile = file;
     final File tempFile = new File(file + ".tmp");
     final DataInputStream in = new DataInputStream(new FileInputStream(inFile));

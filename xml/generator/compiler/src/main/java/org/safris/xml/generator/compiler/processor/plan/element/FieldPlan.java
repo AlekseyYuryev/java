@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.FieldModel;
 
-public class FieldPlan extends Plan<FieldModel> {
-  public FieldPlan(FieldModel model, Plan parent) {
+public final class FieldPlan extends Plan<FieldModel> {
+  public FieldPlan(final FieldModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

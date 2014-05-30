@@ -17,7 +17,7 @@
 package org.safris.commons.lang;
 
 public final class Paths {
-  public static boolean isAbsolute(String path) {
+  public static boolean isAbsolute(final String path) {
     if (path == null)
       throw new NullPointerException();
 
@@ -55,7 +55,7 @@ public final class Paths {
     return path;
   }
 
-  public static String relativePath(String dir, String file) {
+  public static String relativePath(final String dir, final String file) {
     if (dir == null || file == null)
       return null;
 

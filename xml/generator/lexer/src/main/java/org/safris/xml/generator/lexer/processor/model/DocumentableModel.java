@@ -19,6 +19,6 @@ package org.safris.xml.generator.lexer.processor.model;
 import org.safris.xml.generator.lexer.processor.model.element.DocumentationModel;
 
 public interface DocumentableModel {
-  public void setDocumentation(DocumentationModel documentation);
+  public void setDocumentation(final DocumentationModel documentation);
   public DocumentationModel getDocumentation();
 }

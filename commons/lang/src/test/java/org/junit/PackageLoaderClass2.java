@@ -16,6 +16,5 @@
 
 package org.junit;
 
-public class PackageLoaderClass2
-{
+public class PackageLoaderClass2 {
 }

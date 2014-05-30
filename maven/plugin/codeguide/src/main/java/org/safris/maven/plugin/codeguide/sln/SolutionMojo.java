@@ -33,7 +33,7 @@ public final class SolutionMojo extends JavaProjectMojo {
     try {
       SolutionWriter.write(getStateManager().getSolution());
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

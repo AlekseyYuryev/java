@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -27,22 +28,22 @@ import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class UnionNormalizer extends Normalizer<UnionModel> {
+public final class UnionNormalizer extends Normalizer<UnionModel> {
   private final SimpleTypeNormalizer simpleTypeNormalizer = (SimpleTypeNormalizer)getDirectory().lookup(SimpleTypeModel.class);
 
-  public UnionNormalizer(NormalizerDirectory directory) {
+  public UnionNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(UnionModel model) {
+  protected void stage1(final UnionModel model) {
   }
 
-  protected void stage2(UnionModel model) {
-    final Collection<SimpleTypeModel> memberTypes = model.getMemberTypes();
-    final Collection<SimpleTypeModel> resolvedMemberTypes = new ArrayList<SimpleTypeModel>(memberTypes.size());
-    SimpleTypeModel resolvedMemberType;
+  protected void stage2(final UnionModel model) {
+    final Collection<SimpleTypeModel<?>> memberTypes = model.getMemberTypes();
+    final Collection<SimpleTypeModel<?>> resolvedMemberTypes = new ArrayList<SimpleTypeModel<?>>(memberTypes.size());
+    SimpleTypeModel<?> resolvedMemberType;
     if (memberTypes != null) {
-      for (final SimpleTypeModel memberType : memberTypes) {
+      for (final SimpleTypeModel<?> memberType : memberTypes) {
         if (memberType instanceof SimpleTypeModel.Reference) {
           resolvedMemberType = simpleTypeNormalizer.parseSimpleType(memberType.getName());
           if (resolvedMemberType == null) {
@@ -63,13 +64,13 @@ public class UnionNormalizer extends Normalizer<UnionModel> {
     }
   }
 
-  protected void stage3(UnionModel model) {
+  protected void stage3(final UnionModel model) {
   }
 
-  protected void stage4(UnionModel model) {
+  protected void stage4(final UnionModel model) {
   }
 
-  protected void stage5(UnionModel model) {
+  protected void stage5(final UnionModel model) {
     if (model.getMemberTypes() == null || model.getMemberTypes().size() == 0)
       throw new LexerError("I dont think this can happen.");
 
@@ -91,15 +92,15 @@ public class UnionNormalizer extends Normalizer<UnionModel> {
     }
   }
 
-  protected void stage6(UnionModel model) {
+  protected void stage6(final UnionModel model) {
     if (model.getMemberTypes() == null || model.getMemberTypes().size() == 0)
       throw new LexerError("I dont think this can happen.");
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
       // If this union defines a named simpleType
-      if (parent instanceof SimpleTypeModel && ((SimpleTypeModel)parent).getName() != null) {
-        final SimpleTypeModel simpleTypeModel = (SimpleTypeModel)parent;
+      if (parent instanceof SimpleTypeModel && ((SimpleTypeModel<?>)parent).getName() != null) {
+        final SimpleTypeModel<?> simpleTypeModel = (SimpleTypeModel<?>)parent;
         simpleTypeModel.setSuperType(SimpleTypeModel.Undefined.parseSimpleType(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "anySimpleType")));
         simpleTypeModel.setItemTypes(model.getNormalizedMemberTypes());
         break;

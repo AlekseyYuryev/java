@@ -23,33 +23,33 @@ import org.safris.xml.generator.lexer.processor.model.element.AllModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class AllNormalizer extends Normalizer<AllModel> {
-  public AllNormalizer(NormalizerDirectory directory) {
+public final class AllNormalizer extends Normalizer<AllModel> {
+  public AllNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(AllModel model) {
+  protected void stage1(final AllModel model) {
   }
 
-  protected void stage2(AllModel model) {
+  protected void stage2(final AllModel model) {
   }
 
-  protected void stage3(AllModel model) {
+  protected void stage3(final AllModel model) {
   }
 
-  protected void stage4(AllModel model) {
+  protected void stage4(final AllModel model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof ElementableModel && (!(parent instanceof Nameable) || ((Nameable)parent).getName() != null)) {
+      if (parent instanceof ElementableModel && (!(parent instanceof Nameable) || ((Nameable<?>)parent).getName() != null)) {
         ((ElementableModel)parent).addMultiplicableModel(model);
         break;
       }
     }
   }
 
-  protected void stage5(AllModel model) {
+  protected void stage5(final AllModel model) {
   }
 
-  protected void stage6(AllModel model) {
+  protected void stage6(final AllModel model) {
   }
 }

@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
+
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
@@ -32,11 +33,10 @@ import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
 
-public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
+public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
   private static final StringBuffer license = new StringBuffer();
   protected static final Logger logger = Logger.getLogger(CompilerLoggerName.WRITE);
   private final Collection<String> messages = new HashSet<String>();
@@ -60,7 +60,7 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
     license.append(" */\n\n");
   }
 
-  protected void writeFile(Writer writer, Plan plan, File destDir) {
+  protected void writeFile(final Writer<T> writer, final T plan, final File destDir) {
     if (!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
       return;
 
@@ -71,11 +71,11 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
       messages.add(message);
     }
 
-    final Nameable nameable = (Nameable)plan;
+    final Nameable<?> nameable = (Nameable<?>)plan;
     try {
       final String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
       if (pkg == null) {
-        System.err.println("The binding configuration does not specify a package for " + ((Nameable)plan).getName().getNamespaceURI());
+        System.err.println("The binding configuration does not specify a package for " + ((Nameable<?>)plan).getName().getNamespaceURI());
         System.exit(1);
       }
 
@@ -93,56 +93,56 @@ public abstract class Writer<T extends Plan> implements PipelineEntity<Writer> {
       out.flush();
       out.close();
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
   }
 
-  public static void writeDeclaration(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeDeclaration(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendDeclaration(writer, plan, parent);
   }
 
-  public static void writeGetMethod(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeGetMethod(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendGetMethod(writer, plan, parent);
   }
 
-  public static void writeSetMethod(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeSetMethod(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendSetMethod(writer, plan, parent);
   }
 
-  public static void writeMarshal(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeMarshal(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendMarshal(writer, plan, parent);
   }
 
-  public static void writeParse(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeParse(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendParse(writer, plan, parent);
   }
 
-  public static void writeCopy(StringWriter writer, Plan plan, Plan parent, String variable) {
+  public static void writeCopy(final StringWriter writer, final Plan<?> plan, Plan<?> parent, final String variable) {
     ((Writer)directory.getEntity(plan, null)).appendCopy(writer, plan, parent, variable);
   }
 
-  public static void writeEquals(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeEquals(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendEquals(writer, plan, parent);
   }
 
-  public static void writeHashCode(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeHashCode(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendHashCode(writer, plan, parent);
   }
 
-  public static void writeClass(StringWriter writer, Plan plan, Plan parent) {
+  public static void writeClass(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     ((Writer)directory.getEntity(plan, null)).appendClass(writer, plan, parent);
   }
 
-  protected static PipelineDirectory<GeneratorContext,Plan,Writer> directory = null;
+  protected static PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> directory = null;
 
-  protected abstract void appendDeclaration(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendGetMethod(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendSetMethod(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendMarshal(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendParse(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendCopy(StringWriter writer, T plan, Plan parent, String variable);
-  protected abstract void appendEquals(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendHashCode(StringWriter writer, T plan, Plan parent);
-  protected abstract void appendClass(StringWriter writer, T plan, Plan parent);
+  protected abstract void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendGetMethod(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendSetMethod(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendMarshal(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendParse(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendCopy(final StringWriter writer, final T plan, final Plan<?> parent, final String variable);
+  protected abstract void appendEquals(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendHashCode(final StringWriter writer, final T plan, final Plan<?> parent);
+  protected abstract void appendClass(final StringWriter writer, final T plan, final Plan<?> parent);
 }

@@ -19,6 +19,7 @@ package org.safris.commons.sql;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.Blob;
@@ -35,6 +36,7 @@ import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -43,25 +45,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+
 import org.safris.commons.logging.Logger;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
-  private static final NumberFormat numberFormat = new DecimalFormat("###############.###########;-###############.###########");
-  private final PreparedStatement preparedStatement;
-  private final String sql;
-  private final Map<Integer, Object> parameterMap = new HashMap<Integer, Object>();
+  private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
 
-  protected final Map<Integer, Object> getParameterMap() {
-    return parameterMap;
-  }
+  private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
+    protected DateFormat initialValue() {
+      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
+  };
+  
+  private final ThreadLocal<NumberFormat> numberFormat = new ThreadLocal<NumberFormat>() {
+    protected NumberFormat initialValue() {
+      return new DecimalFormat("###############.###########;-###############.###########");
+    }
+  };
+
+  private final Map<Integer,Object> parameterMap = new HashMap<Integer,Object>();
+  private final String sql;
 
   protected PreparedStatement getStatement() {
-    return preparedStatement;
+    return (PreparedStatement)statement;
   }
 
-  public PreparedStatementProxy(PreparedStatement preparedStatement, String sql) {
-    super(preparedStatement);
-    this.preparedStatement = preparedStatement;
+  public PreparedStatementProxy(final PreparedStatement statement, final String sql) {
+    super(statement);
     this.sql = sql;
   }
 
@@ -71,11 +81,11 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     final ResultSet resultSetOriginal = statement.executeQuery();
     final ResultSetProxy resultSet = new ResultSetProxy(resultSetOriginal);
 
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
+    if (logger.getLevel() == Level.FINE) {
       final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeQuery() {\n");
       buffer.append(toString());
       buffer.append("\n} -> " + resultSet.getSize() + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
+      logger.fine(buffer.toString());
     }
 
     return resultSet;
@@ -88,149 +98,151 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     final long time = System.currentTimeMillis();
     final int count = getStatement().executeUpdate();
     buffer.append("\n} -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-    Logger.getAnonymousLogger().fine(buffer.toString());
+    logger.fine(buffer.toString());
     return count;
   }
 
-  public void setNull(int parameterIndex, int sqlType) throws SQLException {
+  public void setNull(final int parameterIndex, final int sqlType) throws SQLException {
     getStatement().setNull(parameterIndex, sqlType);
-    getParameterMap().put(parameterIndex, "NULL");
+    parameterMap.put(parameterIndex, "NULL");
   }
 
-  public void setBoolean(int parameterIndex, boolean x) throws SQLException {
+  public void setBoolean(final int parameterIndex, final boolean x) throws SQLException {
     getStatement().setBoolean(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setByte(int parameterIndex, byte x) throws SQLException {
+  public void setByte(final int parameterIndex, final byte x) throws SQLException {
     getStatement().setByte(parameterIndex, x);
-    getParameterMap().put(parameterIndex, "'" + x + "'");
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setShort(int parameterIndex, short x) throws SQLException {
+  public void setShort(final int parameterIndex, final short x) throws SQLException {
     getStatement().setShort(parameterIndex, x);
-    getParameterMap().put(parameterIndex, numberFormat.format(x));
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setInt(int parameterIndex, int x) throws SQLException {
+  public void setInt(final int parameterIndex, final int x) throws SQLException {
     getStatement().setInt(parameterIndex, x);
-    getParameterMap().put(parameterIndex, numberFormat.format(x));
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setLong(int parameterIndex, long x) throws SQLException {
+  public void setLong(final int parameterIndex, final long x) throws SQLException {
     getStatement().setLong(parameterIndex, x);
-    getParameterMap().put(parameterIndex, numberFormat.format(x));
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setFloat(int parameterIndex, float x) throws SQLException {
+  public void setFloat(final int parameterIndex, final float x) throws SQLException {
     getStatement().setFloat(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setDouble(int parameterIndex, double x) throws SQLException {
+  public void setDouble(final int parameterIndex, final double x) throws SQLException {
     getStatement().setDouble(parameterIndex, x);
-    getParameterMap().put(parameterIndex, numberFormat.format(x));
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setBigDecimal(int parameterIndex, BigDecimal x) throws SQLException {
+  public void setBigDecimal(final int parameterIndex, final BigDecimal x) throws SQLException {
     getStatement().setBigDecimal(parameterIndex, x);
-    getParameterMap().put(parameterIndex, numberFormat.format(x));
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setString(int parameterIndex, String x) throws SQLException {
+  public void setString(final int parameterIndex, final String x) throws SQLException {
     getStatement().setString(parameterIndex, x);
-    getParameterMap().put(parameterIndex, "'" + x + "'");
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setBytes(int parameterIndex, byte[] x) throws SQLException {
+  public void setBytes(final int parameterIndex, final byte[] x) throws SQLException {
     getStatement().setBytes(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setDate(int parameterIndex, Date x) throws SQLException {
+  public void setDate(final int parameterIndex, final Date x) throws SQLException {
     getStatement().setDate(parameterIndex, x);
-    getParameterMap().put(parameterIndex, "'" + new SimpleDateFormat("yyMMdd HH:mm:ss").format(x) + "'");
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setTime(int parameterIndex, Time x) throws SQLException {
+  public void setTime(final int parameterIndex, final Time x) throws SQLException {
     getStatement().setTime(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setTimestamp(int parameterIndex, Timestamp x) throws SQLException {
+  public void setTimestamp(final int parameterIndex, final Timestamp x) throws SQLException {
     getStatement().setTimestamp(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setAsciiStream(int parameterIndex, InputStream x, int length) throws SQLException {
+  public void setAsciiStream(final int parameterIndex, final InputStream x, final int length) throws SQLException {
     getStatement().setAsciiStream(parameterIndex, x, length);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setUnicodeStream(int parameterIndex, InputStream x, int length) throws SQLException {
+  /**
+   * @deprecated
+   */
+  public void setUnicodeStream(final int parameterIndex, final InputStream x, final int length) throws SQLException {
     getStatement().setUnicodeStream(parameterIndex, x, length);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setBinaryStream(int parameterIndex, InputStream x, int length) throws SQLException {
+  public void setBinaryStream(final int parameterIndex, final InputStream x, final int length) throws SQLException {
     getStatement().setBinaryStream(parameterIndex, x, length);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
   public void clearParameters() throws SQLException {
     getStatement().clearParameters();
   }
 
-  public void setObject(int parameterIndex, Object x, int targetSqlType, int scale) throws SQLException {
+  public void setObject(final int parameterIndex, final Object x, int targetSqlType, final int scale) throws SQLException {
     getStatement().setObject(parameterIndex, x, targetSqlType, scale);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setObject(int parameterIndex, Object x, int targetSqlType) throws SQLException {
+  public void setObject(final int parameterIndex, final Object x, final int targetSqlType) throws SQLException {
     getStatement().setObject(parameterIndex, x, targetSqlType);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setObject(int parameterIndex, Object x) throws SQLException {
+  public void setObject(final int parameterIndex, final Object x) throws SQLException {
     getStatement().setObject(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
   public boolean execute() throws SQLException {
     final long time = System.currentTimeMillis();
+    if (logger.getLevel() == Level.FINE)
+      logger.fine("[" + getStatement().toString() + "].execute() {\n" + toString());
+
     final boolean result = getStatement().execute();
-    if (Logger.getAnonymousLogger().getLevel().equals(Level.FINE)) {
-      final StringBuilder buffer = new StringBuilder("[" + getStatement().toString() + "].execute() {\n");
-      buffer.append(toString());
-      buffer.append("\n} -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      Logger.getAnonymousLogger().fine(buffer.toString());
-    }
+    if (logger.getLevel() == Level.FINE)
+      logger.fine("} -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
 
     return result;
   }
 
   public void addBatch() throws SQLException {
-    Logger.getAnonymousLogger().fine(toString());
+    logger.fine(toString());
     getStatement().addBatch();
   }
 
-  public void setCharacterStream(int parameterIndex, Reader reader, int length) throws SQLException {
+  public void setCharacterStream(final int parameterIndex, final Reader reader, final int length) throws SQLException {
     getStatement().setCharacterStream(parameterIndex, reader, length);
   }
 
-  public void setRef(int i, Ref x) throws SQLException {
+  public void setRef(final int i, final Ref x) throws SQLException {
     getStatement().setRef(i, x);
   }
 
-  public void setBlob(int i, Blob x) throws SQLException {
+  public void setBlob(final int i, final Blob x) throws SQLException {
     getStatement().setBlob(i, x);
   }
 
-  public void setClob(int i, Clob x) throws SQLException {
+  public void setClob(final int i, final Clob x) throws SQLException {
     getStatement().setClob(i, x);
   }
 
-  public void setArray(int i, Array x) throws SQLException {
+  public void setArray(final int i, final Array x) throws SQLException {
     getStatement().setArray(i, x);
   }
 
@@ -238,102 +250,102 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     return getStatement().getMetaData();
   }
 
-  public void setDate(int parameterIndex, Date x, Calendar cal) throws SQLException {
+  public void setDate(final int parameterIndex, final Date x, final Calendar cal) throws SQLException {
     getStatement().setDate(parameterIndex, x, cal);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setTime(int parameterIndex, Time x, Calendar cal) throws SQLException {
+  public void setTime(final int parameterIndex, final Time x, final Calendar cal) throws SQLException {
     getStatement().setTime(parameterIndex, x, cal);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
-  public void setTimestamp(int parameterIndex, Timestamp x, Calendar cal) throws SQLException {
+  public void setTimestamp(final int parameterIndex, final Timestamp x, final Calendar cal) throws SQLException {
     getStatement().setTimestamp(parameterIndex, x, cal);
   }
 
-  public void setNull(int paramIndex, int sqlType, String typeName) throws SQLException {
+  public void setNull(final int paramIndex, final int sqlType, final String typeName) throws SQLException {
     getStatement().setNull(paramIndex, sqlType, typeName);
   }
 
-  public void setURL(int parameterIndex, URL x) throws SQLException {
+  public void setURL(final int parameterIndex, final URL x) throws SQLException {
     getStatement().setURL(parameterIndex, x);
-    getParameterMap().put(parameterIndex, x);
+    parameterMap.put(parameterIndex, x);
   }
 
   public ParameterMetaData getParameterMetaData() throws SQLException {
     return getStatement().getParameterMetaData();
   }
 
-  public void setRowId(int parameterIndex, RowId x) throws SQLException {
+  public void setRowId(final int parameterIndex, final RowId x) throws SQLException {
     getStatement().setRowId(parameterIndex, x);
   }
 
-  public void setNString(int parameterIndex, String value) throws SQLException {
+  public void setNString(final int parameterIndex, final String value) throws SQLException {
     getStatement().setNString(parameterIndex, value);
   }
 
-  public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException {
+  public void setNCharacterStream(final int parameterIndex, final Reader value, final long length) throws SQLException {
     getStatement().setNCharacterStream(parameterIndex, value, length);
   }
 
-  public void setNClob(int parameterIndex, NClob value) throws SQLException {
+  public void setNClob(final int parameterIndex, final NClob value) throws SQLException {
     getStatement().setNClob(parameterIndex, value);
   }
 
-  public void setClob(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setClob(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setClob(parameterIndex, reader, length);
   }
 
-  public void setBlob(int parameterIndex, InputStream inputStream, long length) throws SQLException {
+  public void setBlob(final int parameterIndex, final InputStream inputStream, final long length) throws SQLException {
     getStatement().setBlob(parameterIndex, inputStream, length);
   }
 
-  public void setNClob(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setNClob(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setNClob(parameterIndex, reader, length);
   }
 
-  public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException {
+  public void setSQLXML(final int parameterIndex, final SQLXML xmlObject) throws SQLException {
     getStatement().setSQLXML(parameterIndex, xmlObject);
   }
 
-  public void setAsciiStream(int parameterIndex, InputStream x, long length) throws SQLException {
+  public void setAsciiStream(final int parameterIndex, final InputStream x, final long length) throws SQLException {
     getStatement().setAsciiStream(parameterIndex, x, length);
   }
 
-  public void setBinaryStream(int parameterIndex, InputStream x, long length) throws SQLException {
+  public void setBinaryStream(final int parameterIndex, final InputStream x, final long length) throws SQLException {
     getStatement().setBinaryStream(parameterIndex, x, length);
   }
 
-  public void setCharacterStream(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setCharacterStream(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setCharacterStream(parameterIndex, reader, length);
   }
 
-  public void setAsciiStream(int parameterIndex, InputStream x) throws SQLException {
+  public void setAsciiStream(final int parameterIndex, final InputStream x) throws SQLException {
     getStatement().setAsciiStream(parameterIndex, x);
   }
 
-  public void setBinaryStream(int parameterIndex, InputStream x) throws SQLException {
+  public void setBinaryStream(final int parameterIndex, final InputStream x) throws SQLException {
     getStatement().setBinaryStream(parameterIndex, x);
   }
 
-  public void setCharacterStream(int parameterIndex, Reader reader) throws SQLException {
+  public void setCharacterStream(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setCharacterStream(parameterIndex, reader);
   }
 
-  public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException {
+  public void setNCharacterStream(final int parameterIndex, final Reader value) throws SQLException {
     getStatement().setNCharacterStream(parameterIndex, value);
   }
 
-  public void setClob(int parameterIndex, Reader reader) throws SQLException {
+  public void setClob(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setClob(parameterIndex, reader);
   }
 
-  public void setBlob(int parameterIndex, InputStream inputStream) throws SQLException {
+  public void setBlob(final int parameterIndex, final InputStream inputStream) throws SQLException {
     getStatement().setBlob(parameterIndex, inputStream);
   }
 
-  public void setNClob(int parameterIndex, Reader reader) throws SQLException {
+  public void setNClob(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setNClob(parameterIndex, reader);
   }
 
@@ -341,7 +353,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     return getStatement().isClosed();
   }
 
-  public void setPoolable(boolean poolable) throws SQLException {
+  public void setPoolable(final boolean poolable) throws SQLException {
     getStatement().setPoolable(poolable);
   }
 
@@ -349,11 +361,11 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     return getStatement().isPoolable();
   }
 
-  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(final Class<T> iface) throws SQLException {
     return getStatement().unwrap(iface);
   }
 
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+  public boolean isWrapperFor(final Class<?> iface) throws SQLException {
     return getStatement().isWrapperFor(iface);
   }
 
@@ -363,19 +375,27 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     int index = 0;
     while (tokenizer.hasMoreTokens()) {
       buffer.append(tokenizer.nextToken());
-      final Object value = getParameterMap().get(++index);
-      if (value != null)
+      final Object value = parameterMap.get(++index);
+      if (value instanceof Date)
+        buffer.append("'" + dateFormat.get().format((Date)value) + "'");
+      else if (value instanceof String || value instanceof Byte)
+        buffer.append("'" + value + "'");
+      else if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof BigInteger)
+        buffer.append(numberFormat.get().format(value));
+      else if (value != null)
         buffer.append(value);
+      else
+        buffer.append("?");
     }
 
     final String display = buffer.toString();
-//        String display = null;
-//        try {
-//            display = SQLFormat.format(buffer.toString());
-//        }
-//        catch (ParseException e) {
-//            throw new RuntimeException(buffer.toString(), e);
-//        }
+    // String display = null;
+    // try {
+    // display = SQLFormat.format(buffer.toString());
+    // }
+    // catch (final ParseException e) {
+    // throw new RuntimeException(buffer.toString(), e);
+    // }
 
     return display;
   }

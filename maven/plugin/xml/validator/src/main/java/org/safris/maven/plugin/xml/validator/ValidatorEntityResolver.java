@@ -28,14 +28,14 @@ import com.sun.org.apache.xerces.internal.xni.XNIException;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 
-public class ValidatorEntityResolver implements XMLEntityResolver {
+public final class ValidatorEntityResolver implements XMLEntityResolver {
   private final File basedir;
 
-  public ValidatorEntityResolver(File basedir) {
+  public ValidatorEntityResolver(final File basedir) {
     this.basedir = basedir;
   }
 
-  public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
+  public XMLInputSource resolveEntity(final XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
     final String systemId = resourceIdentifier.getLiteralSystemId();
     if (systemId == null)
       return null;

@@ -18,16 +18,17 @@ package org.safris.xml.generator.lexer.processor.document;
 
 import java.net.URL;
 import java.util.Collection;
+
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.w3c.dom.Document;
 
-public class SchemaDocument implements PipelineEntity {
+public final class SchemaDocument implements PipelineEntity {
   private final SchemaReference schemaReference;
   private final Document document;
   private Collection<URL> includes;
 
-  public SchemaDocument(SchemaReference schemaReference, Document document) {
+  public SchemaDocument(final SchemaReference schemaReference, final Document document) {
     this.schemaReference = schemaReference;
     this.document = document;
   }
@@ -44,11 +45,11 @@ public class SchemaDocument implements PipelineEntity {
     return includes;
   }
 
-  public void setIncludes(Collection<URL> includes) {
+  public void setIncludes(final Collection<URL> includes) {
     this.includes = includes;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 
@@ -56,7 +57,7 @@ public class SchemaDocument implements PipelineEntity {
       return false;
 
     final SchemaDocument that = (SchemaDocument)obj;
-    return schemaReference.equals(that.schemaReference);
+    return schemaReference != null ? schemaReference.equals(that.schemaReference) : that.schemaReference == null;
   }
 
   public int hashCode() {

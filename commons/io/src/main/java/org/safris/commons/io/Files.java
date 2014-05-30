@@ -26,61 +26,70 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.safris.commons.lang.Paths;
 
 public final class Files {
-  private static final File CWD = new File("").getAbsoluteFile();
+  private static File CWD;
+  private static File TEMP_DIR;
+
+  public static File getCwd() {
+    return CWD == null ? CWD = new File("").getAbsoluteFile() : CWD;
+  }
+
+  public static File getTempDir() {
+    return TEMP_DIR == null ? TEMP_DIR = new File(System.getProperty("java.io.tmpdir")) : TEMP_DIR;
+  }
 
   private static final FileFilter anyFilter = new FileFilter() {
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return true;
     }
   };
 
-  private static class DirectoryFileFilter implements FileFilter {
+  private static final class DirectoryFileFilter implements FileFilter {
     private final FileFilter original;
 
-    public DirectoryFileFilter(FileFilter original) {
+    public DirectoryFileFilter(final FileFilter original) {
       this.original = original;
     }
 
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return original.accept(pathname) || pathname.isDirectory();
     }
   }
-
+  
   // FIXME: Implement this iteratively
-  private static void deleteAll(File pathname, FileFilter filter, boolean onExit) throws IOException {
-    if (pathname == null)
-      return;
+  private static boolean deleteAll(final File file, final FileFilter filter, final boolean onExit) throws IOException {
+    if (file == null)
+      return false;
 
-    if (onExit)
-      pathname.deleteOnExit();
-    else
-      pathname.delete();
+    boolean deleted = true;
+    if (file.isDirectory())
+      for (final File child : file.listFiles())
+        deleted = deleteAll(child, filter, onExit) && deleted;
+    
+    if (!onExit)
+      return file.delete();
 
-    if (!pathname.isDirectory())
-      return;
-
-    final File[] files = pathname.listFiles(filter);
-    for (File file : files)
-      deleteAll(file, filter, onExit);
+    file.deleteOnExit();
+    return false;
   }
 
-  public static void deleteAllOnExit(File pathname, FileFilter filter) throws IOException {
+  public static void deleteAllOnExit(final File pathname, final FileFilter filter) throws IOException {
     deleteAll(pathname, filter, true);
   }
 
-  public static void deleteAll(File pathname, FileFilter filter) throws IOException {
-    deleteAll(pathname, filter, false);
+  public static boolean deleteAll(final File pathname, final FileFilter filter) throws IOException {
+    return deleteAll(pathname, filter, false);
   }
 
-  public static void deleteAllOnExit(File pathname) throws IOException {
+  public static void deleteAllOnExit(final File pathname) throws IOException {
     deleteAll(pathname, anyFilter, true);
   }
 
-  public static void deleteAll(File pathname) throws IOException {
-    deleteAll(pathname, anyFilter, false);
+  public static boolean deleteAll(final File pathname) throws IOException {
+    return deleteAll(pathname, anyFilter, false);
   }
 
   public static String getBasename(final File file) throws IOException {
@@ -91,11 +100,7 @@ public final class Files {
     return filename.substring(0, filename.lastIndexOf("."));
   }
 
-  public static File getCwd() {
-    return CWD;
-  }
-
-  public static List<File> listAll(File directory) {
+  public static List<File> listAll(final File directory) {
     if (!directory.isDirectory())
       return null;
 
@@ -104,7 +109,7 @@ public final class Files {
     List<File> inner;
     while (outer.size() != 0) {
       inner = new ArrayList<File>();
-      for (File file : outer)
+      for (final File file : outer)
         if (file.isDirectory())
           inner.addAll(Arrays.asList(file.listFiles()));
 
@@ -115,7 +120,7 @@ public final class Files {
     return files;
   }
 
-  public static List<File> listAll(File directory, FileFilter fileFilter) {
+  public static List<File> listAll(final File directory, final FileFilter fileFilter) {
     if (!directory.isDirectory())
       return null;
 
@@ -125,7 +130,7 @@ public final class Files {
     List<File> inner;
     while (outer.size() != 0) {
       inner = new ArrayList<File>();
-      for (File file : outer)
+      for (final File file : outer)
         if (file.isDirectory())
           inner.addAll(Arrays.asList(file.listFiles(directoryFilter)));
 
@@ -134,7 +139,7 @@ public final class Files {
     }
 
     final List<File> result = new ArrayList<File>();
-    for (File file : files)
+    for (final File file : files)
       if (fileFilter.accept(file))
         result.add(file);
 
@@ -149,15 +154,16 @@ public final class Files {
    *
    * @exception IOException If there is an error handling either the from file, or the to file.
    */
-  public static void copy(File from, File to) throws IOException {
+  public static void copy(final File from, final File to) throws IOException {
     if (from == null)
       throw new NullPointerException("from == null");
 
     if (to == null)
       throw new NullPointerException("to == null");
 
-    if (from.isFile())
+    if (from.isFile()) {
       copyFile(from, to);
+    }
     else if (from.isDirectory()) {
       if (to.isFile())
         throw new IllegalArgumentException("trying to copy a directory to a file");
@@ -166,7 +172,7 @@ public final class Files {
         to.mkdir();
 
       final List<File> files = Files.listAll(from.getAbsoluteFile());
-      for (File file : files) {
+      for (final File file : files) {
         final String relativePath = Paths.relativePath(from.getAbsolutePath(), file.getAbsolutePath());
         final File toFile = new File(to, relativePath);
         if (file.isFile())
@@ -177,11 +183,12 @@ public final class Files {
           throw new IllegalArgumentException(file.getAbsolutePath() + " does not exist");
       }
     }
-    else
+    else {
       throw new IllegalArgumentException("from does not exist");
+    }
   }
 
-  private static void copyFile(File from, File to) throws IOException {
+  private static void copyFile(final File from, final File to) throws IOException {
     final FileChannel sourceChannel = new FileInputStream(from).getChannel();
     final FileChannel destinationChannel = new FileOutputStream(to).getChannel();
     sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
@@ -189,15 +196,12 @@ public final class Files {
     destinationChannel.close();
   }
 
-  public static String relativePath(File dir, File file) {
-    if (dir == null || file == null)
-      return null;
-
+  public static String relativePath(final File dir, final File file) {
     // FIXME: Should this be getAbsolutePath() instead?
-    return Paths.relativePath(dir.getPath(), file.getPath());
+    return dir != null && file != null ? Paths.relativePath(dir.getPath(), file.getPath()) : null;
   }
 
-  public static byte[] getBytes(File file) throws IOException {
+  public static byte[] getBytes(final File file) throws IOException {
     final InputStream in = new FileInputStream(file);
 
     // Get the size of the file
@@ -231,19 +235,19 @@ public final class Files {
     return bytes;
   }
 
-  public static void writeFile(File file, byte[] bytes) throws IOException {
+  public static void writeFile(final File file, final byte[] bytes) throws IOException {
     final FileOutputStream out = new FileOutputStream(file);
     out.write(bytes);
     out.close();
   }
 
-  public static File commonality(File[] files) throws IOException {
+  public static File commonality(final File[] files) throws IOException {
     if (files == null || files.length == 0)
       return null;
 
     if (files.length > 1) {
       int length = Integer.MAX_VALUE;
-      for (File file : files)
+      for (final File file : files)
         if (file.getCanonicalPath().length() < length)
           length = file.getCanonicalPath().length();
 

@@ -22,27 +22,27 @@ import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
 import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
 
 public class EnumsExample {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new EnumsExample().runExample();
   }
 
   public Binding runExample() {
     simple_fruit strawberry = new simple_fruit();
-    strawberry.set_name$(new simple_fruit._name$("strawberry"));
-    strawberry.set_sweet$(new simple_fruit._sweet$(true));
+    strawberry._name$(new simple_fruit._name$("strawberry"));
+    strawberry._sweet$(new simple_fruit._sweet$(true));
 
     simple_fruit jackfruit = new simple_fruit();
-    jackfruit.set_name$(new simple_fruit._name$("jackfruit"));
-    jackfruit.set_sweet$(new simple_fruit._sweet$(false));
-    jackfruit.set_dry$(new simple_fruit._dry$(false));
+    jackfruit._name$(new simple_fruit._name$("jackfruit"));
+    jackfruit._sweet$(new simple_fruit._sweet$(false));
+    jackfruit._dry$(new simple_fruit._dry$(false));
 
     enums_coloredFruitBasket._fruits simple_fruits = new enums_coloredFruitBasket._fruits();
-    simple_fruits.addsimple_fruit(strawberry);
-    simple_fruits.addsimple_fruit(jackfruit);
+    simple_fruits.simple_fruit(strawberry);
+    simple_fruits.simple_fruit(jackfruit);
 
     enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
-    coloredBasket.setenums_color$(new enums_color$(enums_color$.BLUE));
-    coloredBasket.add_fruits(simple_fruits);
+    coloredBasket.enums_color$(new enums_color$(enums_color$.BLUE));
+    coloredBasket._fruits(simple_fruits);
 
     // Now verify the integrity of the code representing this XML structure.
     return coloredBasket;

@@ -16,12 +16,13 @@
 
 package org.safris.commons.xml.binding;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class DayTest {
-  public static void main(String[] args) {
+public final class DayTest {
+  public static void main(final String[] args) {
     new DayTest().testDay();
   }
 
@@ -31,112 +32,102 @@ public class DayTest {
       Day.parseDay(null);
       fail("Expected a NullPointerException");
     }
-    catch (NullPointerException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Day.parseDay("");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("--5");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---A");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("----4");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("----4");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---0");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---32");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---00");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---31Z-");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---1Z-");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---27-15:00");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---27+14:60");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Day.parseDay("---27+14:60.9");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     final String[] days = new String[] {
-      "---25Z",
-      "---14Z",
-      "---03Z",
-      "---02Z",
-      "---31Z",
-      "---01Z",
-      "---07+01:00",
-      "---17-01:00",
-      "---27Z",
-      "---02+12:00",
-      "---12-12:30"
+    "---25Z", "---14Z", "---03Z", "---02Z", "---31Z", "---01Z", "---07+01:00", "---17-01:00", "---27Z", "---02+12:00", "---12-12:30"
     };
 
     for (final String day : days)

@@ -1,14 +1,15 @@
 package org.safris.commons.jndi;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class JNDIsTest {
-  public static void main(String[] args) throws NamingException {
+public final class JNDIsTest {
+  public static void main(final String[] args) throws NamingException {
     new JNDIsTest().testJNDIs();
   }
 

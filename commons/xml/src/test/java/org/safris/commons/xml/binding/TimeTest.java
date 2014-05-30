@@ -16,14 +16,15 @@
 
 package org.safris.commons.xml.binding;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.TimeZone;
+
 import org.junit.Test;
-import org.safris.commons.xml.binding.Time;
 
-import static org.junit.Assert.*;
-
-public class TimeTest {
-  public static void main(String[] args) {
+public final class TimeTest {
+  public static void main(final String[] args) {
     new TimeTest().testTime();
   }
 
@@ -33,77 +34,77 @@ public class TimeTest {
       Time.parseTime(null);
       fail("Expected a NullPointerException");
     }
-    catch (NullPointerException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Time.parseTime("25:30:10Z");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("22:60:10");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("22:59:60");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("22:59:60.0000Z");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("2:59:59.99999Z");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("23:9:59.99999Z");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("23:59:9.99999Z");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("23:59:59.99999-15:00");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("23:59:59.99999+14:60");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Time.parseTime("23:59:59.99999+14:60.9");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     assertEquals(new Time(9, 30, 10, TimeZone.getTimeZone("GMT")), Time.parseTime("09:30:10Z"));

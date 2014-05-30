@@ -18,7 +18,7 @@ package org.safris.commons.xml.dom;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
 
-public class DOMProperty {
+public final class DOMProperty {
   /**
    * DOM node.
    */
@@ -65,13 +65,13 @@ public class DOMProperty {
   public static final DOMProperty CURRENT_ELEMENT_NODE = new DOMProperty(Constants.XERCES_PROPERTY_PREFIX + Constants.CURRENT_ELEMENT_NODE_PROPERTY);
 
   /**
-   * Document class name.
+   * Document final class name.
    */
   public static final DOMProperty DOCUMENT_CLASS_NAME = new DOMProperty(Constants.XERCES_PROPERTY_PREFIX + Constants.DOCUMENT_CLASS_NAME_PROPERTY);
 
   private final String property;
 
-  protected DOMProperty(String property) {
+  protected DOMProperty(final String property) {
     this.property = property;
   }
 
@@ -83,7 +83,7 @@ public class DOMProperty {
     return property.hashCode();
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

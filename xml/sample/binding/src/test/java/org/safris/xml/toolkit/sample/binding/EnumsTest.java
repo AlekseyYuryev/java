@@ -16,12 +16,12 @@
 
 package org.safris.xml.toolkit.sample.binding;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class EnumsTest extends AbstractTest {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new EnumsTest().testExample();
   }
 

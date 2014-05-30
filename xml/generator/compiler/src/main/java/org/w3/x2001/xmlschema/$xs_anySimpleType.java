@@ -22,25 +22,25 @@ import javax.xml.namespace.QName;
 
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingType;
+import org.safris.xml.generator.compiler.runtime.BindingRuntimeException;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T> {
+public abstract class $xs_anySimpleType extends Binding {
   private Object text = null;
 
-  private $xs_anySimpleType(final $xs_anySimpleType<T> copy) {
+  public $xs_anySimpleType(final $xs_anySimpleType copy) {
     super(copy);
     this.text = copy.text;
   }
 
   public $xs_anySimpleType(final Object text) {
     super();
-    if (text instanceof $xs_anySimpleType)
-      merge(($xs_anySimpleType<?>)text);
+    if (text instanceof $xs_anySimpleType && (($xs_anySimpleType)text)._$$hasElements())
+      merge(($xs_anySimpleType)text);
     else
       this.text = text;
   }
@@ -49,11 +49,14 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     super();
   }
 
-  protected void setText(final Object text) {
+  public void text(final Object text) {
+    if (isNull())
+      throw new BindingRuntimeException("NULL Object is immutable.");
+    
     this.text = text;
   }
 
-  protected Object getText() {
+  public Object text() {
     return text;
   }
 
@@ -62,14 +65,13 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    // FIXME: Is it right to return "" for a null getText()?
-    if (getText() == null)
+    if (text() == null)
       return "";
 
-    if (getText() instanceof Collection)
+    if (text() instanceof Collection)
       throw new Error("Why is this a Collection? The collection logic should be in the appropriate subclass.");
 
-    return getText().toString();
+    return text().toString();
   }
 
   private transient Element parent = null;
@@ -96,27 +98,25 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     if (XSI_NIL.getPrefix().equals(text.getPrefix()))
       return;
 
-    final StringBuffer value = new StringBuffer("");
+    String value = "";
     if (text.getNodeValue() != null)
-      value.append(text.getNodeValue().trim());
+      value += text.getNodeValue().trim();
 
-    if (value.length() == 0)
-      return;
-
-    _$$decode((Element)text.getParentNode(), value.toString());
+    if (value.length() != 0)
+      _$$decode((Element)text.getParentNode(), value);
   }
 
-  protected QName _$$getName() {
-    return _$$getName(inherits());
+  public QName name() {
+    return name(inherits());
   }
 
-  protected QName _$$getTypeName() {
+  protected QName typeName() {
     return null;
   }
 
-  public $xs_anySimpleType<T> clone() {
-    return new $xs_anySimpleType<T>(this) {
-      protected $xs_anySimpleType<T> inherits() {
+  public $xs_anySimpleType clone() {
+    return new $xs_anySimpleType(this) {
+      protected $xs_anySimpleType inherits() {
         return this;
       }
     };
@@ -129,13 +129,13 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     if (!(obj instanceof $xs_anySimpleType))
       return false;
 
-    final $xs_anySimpleType<?> that = ($xs_anySimpleType<?>)obj;
+    final $xs_anySimpleType that = ($xs_anySimpleType)obj;
     try {
       final String thisEncoded = _$$encode(parent);
       final String thatEncoded = that._$$encode(parent);
       return thisEncoded != null ? thisEncoded.equals(thatEncoded) : thatEncoded == null;
     }
-    catch (MarshalException e) {
+    catch (final MarshalException e) {
       return false;
     }
   }
@@ -145,7 +145,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     try {
       value = _$$encode(parent);
     }
-    catch (MarshalException e) {
+    catch (final MarshalException e) {
       return super.hashCode();
     }
 
@@ -159,7 +159,7 @@ public abstract class $xs_anySimpleType<T extends BindingType> extends Binding<T
     try {
       return String.valueOf(_$$encode(parent));
     }
-    catch (MarshalException e) {
+    catch (final MarshalException e) {
       return super.toString();
     }
   }

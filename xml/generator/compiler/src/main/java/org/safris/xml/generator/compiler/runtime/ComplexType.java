@@ -16,5 +16,11 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
+import java.util.Iterator;
+
+import javax.xml.namespace.QName;
+
 public interface ComplexType extends BindingType {
+  public Iterator<Binding> elementIterator();
+  public BindingList<? extends Binding> fetchChild(final QName name);
 }

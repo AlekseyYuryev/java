@@ -19,10 +19,10 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.PatternModel;
 
-public class PatternPlan extends Plan<PatternModel> {
+public final class PatternPlan extends Plan<PatternModel> {
   private final String value;
 
-  public PatternPlan(PatternModel model, Plan parent) {
+  public PatternPlan(final PatternModel model, final Plan<?> parent) {
     super(model, parent);
     this.value = model.getValue();
   }

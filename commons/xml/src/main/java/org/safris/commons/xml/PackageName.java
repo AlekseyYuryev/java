@@ -16,17 +16,17 @@
 
 package org.safris.commons.xml;
 
-public class PackageName {
+public final class PackageName {
   private final String packageName;
 
-  public PackageName(String packageName) {
-  if (packageName == null)
-    throw new NullPointerException("packageName == null");
+  public PackageName(final String packageName) {
+    if (packageName == null)
+      throw new NullPointerException("packageName == null");
 
     this.packageName = packageName;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

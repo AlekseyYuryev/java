@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 
-public class UnionPlan extends Plan<UnionModel> {
-  public UnionPlan(UnionModel model, Plan parent) {
+public final class UnionPlan extends Plan<UnionModel> {
+  public UnionPlan(final UnionModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

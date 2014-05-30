@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.AppinfoModel;
 
-public class AppinfoPlan extends Plan<AppinfoModel> {
-  public AppinfoPlan(AppinfoModel model, Plan parent) {
+public final class AppinfoPlan extends Plan<AppinfoModel> {
+  public AppinfoPlan(final AppinfoModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

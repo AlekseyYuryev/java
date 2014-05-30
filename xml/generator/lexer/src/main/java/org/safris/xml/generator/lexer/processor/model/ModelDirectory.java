@@ -75,7 +75,7 @@ import org.safris.xml.generator.lexer.processor.model.element.UnknownModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 import org.w3c.dom.Node;
 
-public class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
+public final class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
   protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
 
   private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
@@ -129,7 +129,7 @@ public class ModelDirectory implements PipelineDirectory<GeneratorContext,Schema
     keys = classes.keySet();
   }
 
-  public PipelineEntity<Model> getEntity(final SchemaComposite entity, final Model parent) {
+  public PipelineEntity getEntity(final SchemaComposite entity, final Model parent) {
     if (!(entity instanceof SchemaNodeComposite))
       return null;
 

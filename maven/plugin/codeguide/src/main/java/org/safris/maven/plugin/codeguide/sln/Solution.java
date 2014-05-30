@@ -22,14 +22,14 @@ import java.util.Set;
 import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
-public class Solution {
+public final class Solution {
   private final LinkedHashSet<JavaProject> javaProjects = new LinkedHashSet<JavaProject>();
   private final String name;
   private final String shortName;
   private final String uuid;
   private final File dir;
 
-  public Solution(GroupArtifact address, File dir) {
+  public Solution(final GroupArtifact address, final File dir) {
     this.name = address.getGroupId() + ":" + address.getArtifactId();
     this.shortName = address.getArtifactId();
     // FIXME: Figure out what the fuck is up with this crap!
@@ -53,7 +53,7 @@ public class Solution {
     return dir;
   }
 
-  public void addJavaProject(JavaProject javaProject) {
+  public void addJavaProject(final JavaProject javaProject) {
     javaProjects.add(javaProject);
   }
 

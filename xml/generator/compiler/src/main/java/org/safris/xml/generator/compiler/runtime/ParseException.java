@@ -16,20 +16,22 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-public class ParseException extends BindingException {
+public final class ParseException extends BindingException {
+  private static final long serialVersionUID = -1115503587680711757L;
+
   public ParseException() {
     super();
   }
 
-  public ParseException(String message) {
+  public ParseException(final String message) {
     super(message);
   }
 
-  public ParseException(Throwable cause) {
+  public ParseException(final Throwable cause) {
     super(cause);
   }
 
-  public ParseException(String message, Throwable cause) {
+  public ParseException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

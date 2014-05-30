@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.AnnotationModel;
 
-public class AnnotationPlan extends Plan<AnnotationModel> {
-  public AnnotationPlan(AnnotationModel model, Plan parent) {
+public final class AnnotationPlan extends Plan<AnnotationModel> {
+  public AnnotationPlan(final AnnotationModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

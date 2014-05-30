@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_unsignedByte<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_unsignedByte(final $xs_unsignedByte<T> binding) {
+public abstract class $xs_unsignedByte extends $xs_anySimpleType {
+  public $xs_unsignedByte(final $xs_unsignedByte binding) {
     super(binding);
   }
 
@@ -34,28 +33,25 @@ public abstract class $xs_unsignedByte<T extends BindingType> extends $xs_anySim
     super();
   }
 
-  public Byte getText() {
-    return (Byte)super.getText();
+  public Byte text() {
+    return (Byte)super.text();
   }
 
-  public void setText(final Byte text) {
-    super.setText(text);
+  public void text(final Byte text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Byte.parseByte(value));
+    super.text(Byte.parseByte(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_unsignedByte<T> clone() {
-    return new $xs_unsignedByte<T>(this) {
-      protected $xs_unsignedByte<T> inherits() {
+  public $xs_unsignedByte clone() {
+    return new $xs_unsignedByte(this) {
+      protected $xs_unsignedByte inherits() {
         return this;
       }
     };

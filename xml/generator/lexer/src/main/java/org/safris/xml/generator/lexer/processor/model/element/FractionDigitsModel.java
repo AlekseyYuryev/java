@@ -20,11 +20,11 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class FractionDigitsModel extends Model {
+public final class FractionDigitsModel extends Model {
   private String fixed = null;
   private String value = null;
 
-  protected FractionDigitsModel(Node node, Model parent) {
+  protected FractionDigitsModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

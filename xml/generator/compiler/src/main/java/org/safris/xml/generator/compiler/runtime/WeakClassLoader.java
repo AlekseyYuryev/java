@@ -24,9 +24,10 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.SecureClassLoader;
+
 import org.safris.commons.io.Files;
 
-public class WeakClassLoader extends SecureClassLoader {
+public final class WeakClassLoader extends SecureClassLoader {
   private final java.lang.ClassLoader parent;
 
   public WeakClassLoader() {
@@ -34,16 +35,16 @@ public class WeakClassLoader extends SecureClassLoader {
     this.parent = null;
   }
 
-  public WeakClassLoader(java.lang.ClassLoader parent) {
+  public WeakClassLoader(final java.lang.ClassLoader parent) {
     super(parent);
     this.parent = parent;
   }
 
-  public Class loadClass(String name) throws ClassNotFoundException {
+  public final Class<?> loadClass(final String name) throws ClassNotFoundException {
     return loadClass(name, false);
   }
 
-  public synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+  public synchronized final Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
     final WeakReference<Class<?>> ref = new WeakReference<Class<?>>(findClass(name));
     final Class<?> cls = ref.get();
     if (resolve)
@@ -52,13 +53,9 @@ public class WeakClassLoader extends SecureClassLoader {
     return cls;
   }
 
-  protected Class<?> findClass(String name) throws ClassNotFoundException {
-    if (Binding.class.getName().equals(name)) {
-      if (parent != null)
-        return parent.loadClass(name);
-      else
-        return WeakClassLoader.getSystemClassLoader().loadClass(name);
-    }
+  protected Class<?> findClass(final String name) throws ClassNotFoundException {
+    if (Binding.class.getName().equals(name))
+      return parent != null ? parent.loadClass(name) : WeakClassLoader.getSystemClassLoader().loadClass(name);
 
     String fileName = name;
     fileName = fileName.replace('.', '/');
@@ -71,7 +68,7 @@ public class WeakClassLoader extends SecureClassLoader {
     try {
       decodedUrl = URLDecoder.decode(url.getFile(), "UTF-8");
     }
-    catch (UnsupportedEncodingException e) {
+    catch (final UnsupportedEncodingException e) {
       System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
     }
 
@@ -80,13 +77,10 @@ public class WeakClassLoader extends SecureClassLoader {
       byte[] bytes = Files.getBytes(new File(decodedUrl + fileName));
       bindingClass = defineClass(name, bytes, 0, bytes.length);
     }
-    catch (FileNotFoundException e) {
-      if (parent != null)
-        return parent.loadClass(name);
-      else
-        return WeakClassLoader.getSystemClassLoader().loadClass(name);
+    catch (final FileNotFoundException e) {
+      return parent != null ? parent.loadClass(name) : WeakClassLoader.getSystemClassLoader().loadClass(name);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
     }
 

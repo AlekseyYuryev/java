@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.LengthModel;
 
-public class LengthPlan extends Plan<LengthModel> {
-  public LengthPlan(LengthModel model, Plan parent) {
+public final class LengthPlan extends Plan<LengthModel> {
+  public LengthPlan(final LengthModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.LengthModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class LengthNormalizer extends Normalizer<LengthModel> {
-  public LengthNormalizer(NormalizerDirectory directory) {
+public final class LengthNormalizer extends Normalizer<LengthModel> {
+  public LengthNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(LengthModel model) {
+  protected void stage1(final LengthModel model) {
   }
 
-  protected void stage2(LengthModel model) {
+  protected void stage2(final LengthModel model) {
   }
 
-  protected void stage3(LengthModel model) {
+  protected void stage3(final LengthModel model) {
   }
 
-  protected void stage4(LengthModel model) {
+  protected void stage4(final LengthModel model) {
   }
 
-  protected void stage5(LengthModel model) {
+  protected void stage5(final LengthModel model) {
   }
 
-  protected void stage6(LengthModel model) {
+  protected void stage6(final LengthModel model) {
   }
 }

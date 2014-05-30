@@ -18,12 +18,14 @@ package org.safris.xml.generator.lexer.lang;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.Prefix;
 
-public class UniqueQName {
+public final class UniqueQName {
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<QName,UniqueQName> instances = new HashMap<QName,UniqueQName>();
 
@@ -45,7 +47,7 @@ public class UniqueQName {
   }
 
   public static UniqueQName getInstance(final String namespaceURI, final String localPart) {
-    final QName name = new QName(namespaceURI, localPart);
+    final QName name = new QName(namespaceURI != null ? namespaceURI.intern() : null, localPart.intern());
     final UniqueQName bindingQName = new UniqueQName(name);
     UniqueQName instance = instances.get(name);
     if (instance == null)
@@ -55,8 +57,8 @@ public class UniqueQName {
   }
 
   public static UniqueQName getInstance(final NamespaceURI namespaceURI, final String localPart) {
-    final QName name = new QName(namespaceURI.toString(), localPart);
-    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString(), localPart));
+    final QName name = new QName(namespaceURI.toString().intern(), localPart.intern());
+    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString().intern(), localPart.intern()));
     UniqueQName instance = instances.get(name);
     if (instance == null)
       instances.put(name, instance = bindingQName);
@@ -65,8 +67,8 @@ public class UniqueQName {
   }
 
   public static UniqueQName getInstance(final String namespaceURI, final String localPart, final String prefix) {
-    final QName name = new QName(namespaceURI, localPart);
-    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI, localPart, prefix));
+    final QName name = new QName(namespaceURI != null ? namespaceURI.intern() : null, localPart.intern());
+    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI != null ? namespaceURI.intern() : null, localPart.intern(), prefix.intern()));
     UniqueQName instance = instances.get(name);
     if (instance == null)
       instances.put(name, instance = bindingQName);
@@ -75,8 +77,8 @@ public class UniqueQName {
   }
 
   public static UniqueQName getInstance(final NamespaceURI namespaceURI, final String localPart, final String prefix) {
-    final QName name = new QName(namespaceURI.toString(), localPart);
-    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString(), localPart, prefix));
+    final QName name = new QName(namespaceURI.toString().intern(), localPart.intern());
+    final UniqueQName bindingQName = new UniqueQName(new QName(namespaceURI.toString().intern(), localPart.intern(), prefix.intern()));
     UniqueQName instance = instances.get(name);
     if (instance == null)
       instances.put(name, instance = bindingQName);

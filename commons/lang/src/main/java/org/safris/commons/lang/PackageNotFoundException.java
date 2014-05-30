@@ -16,7 +16,7 @@
 
 package org.safris.commons.lang;
 
-public class PackageNotFoundException extends Exception {
+public final class PackageNotFoundException extends Exception {
   /**
    * use serialVersionUID from JDK 1.1.X for interoperability
    */
@@ -24,7 +24,7 @@ public class PackageNotFoundException extends Exception {
 
   /**
    * This field holds the exception cause if the
-   * PackageNotFoundException(String s, Throwable cause) constructor was
+   * PackageNotFoundException(final String s, final Throwable cause) constructor was
    * used to instantiate the object
    * @serial
    */
@@ -43,7 +43,7 @@ public class PackageNotFoundException extends Exception {
    *
    * @param   message   the detail message.
    */
-  public PackageNotFoundException(String message) {
+  public PackageNotFoundException(final String message) {
     super(message, null);  //  Disallow initCause
   }
 
@@ -55,7 +55,7 @@ public class PackageNotFoundException extends Exception {
    * @param message the detail message
    * @param cause the exception that was raised while loading the class
    */
-  public PackageNotFoundException(String message, Throwable cause) {
+  public PackageNotFoundException(final String message, final Throwable cause) {
     super(message, null);  //  Disallow initCause
     this.cause = cause;
   }
@@ -75,7 +75,7 @@ public class PackageNotFoundException extends Exception {
   }
 
   /**
-   * Returns the cause of this exception (the exception that was raised
+   * Returns the cause of this exception (final the exception that was raised
    * if an error occurred while attempting to load the class; otherwise
    * <tt>null</tt>).
    *

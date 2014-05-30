@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_anyURI<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_anyURI(final $xs_anyURI<T> binding) {
+public abstract class $xs_anyURI extends $xs_anySimpleType {
+  public $xs_anyURI(final $xs_anyURI binding) {
     super(binding);
   }
 
@@ -34,28 +33,25 @@ public abstract class $xs_anyURI<T extends BindingType> extends $xs_anySimpleTyp
     super();
   }
 
-  public String getText() {
-    return (String)super.getText();
+  public String text() {
+    return (String)super.text();
   }
 
-  public void setText(final String text) {
-    super.setText(text);
+  public void text(final String text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(value);
+    super.text(value);
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_anyURI<T> clone() {
-    return new $xs_anyURI<T>(this) {
-      protected $xs_anyURI<T> inherits() {
+  public $xs_anyURI clone() {
+    return new $xs_anyURI(this) {
+      protected $xs_anyURI inherits() {
         return this;
       }
     };

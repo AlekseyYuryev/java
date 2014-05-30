@@ -14,8 +14,6 @@ package org.safris.commons.jci;/*  Copyright Safris Software 2011
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,20 +21,20 @@ import java.security.SecureClassLoader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
+import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
-import org.safris.commons.jci.MemoryJavaFileManager;
-import org.safris.commons.jci.MemoryJavaFileObject;
 
-public class MemoryJavaFileManager extends ForwardingJavaFileManager {
+public final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
   private final Map<String,MemoryJavaFileObject> map = new HashMap<String,MemoryJavaFileObject>();
   /**
    * Instance of JavaClassObject that will store the
    * compiled bytecode of our class
    */
-  private MemoryJavaFileObject jclassObject;
+  //private MemoryJavaFileObject jclassObject;
 
   /**
    * Will initialize the manager with the specified
@@ -63,11 +61,11 @@ public class MemoryJavaFileManager extends ForwardingJavaFileManager {
   }
 
   /**
-   * Will be used by us to get the class loader for our
+   * Will be used by us to get the final class loader for our
    * compiled class. It creates an anonymous class
    * extending the SecureClassLoader which uses the
    * byte code created by the compiler and stored in
-   * the JavaClassObject, and returns the Class for it
+   * the JavaClassObject, and returns the final class for it
    */
   public ClassLoader getClassLoader(final Location location) {
     return new SecureClassLoader() {

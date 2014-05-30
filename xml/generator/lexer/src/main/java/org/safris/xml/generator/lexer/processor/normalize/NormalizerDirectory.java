@@ -114,9 +114,9 @@ import org.safris.xml.generator.lexer.processor.normalize.element.UniqueNormaliz
 import org.safris.xml.generator.lexer.processor.normalize.element.UnknownNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.WhiteSpaceNormalizer;
 
-public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer> {
-  private final Map<Class<? extends Model>,Class<? extends Normalizer>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer>>(39);
-  private final Map<Class<? extends Model>,Normalizer> instances = new HashMap<Class<? extends Model>,Normalizer>(39);
+public final class NormalizerDirectory implements PipelineDirectory<GeneratorContext,Model,Normalizer<?>> {
+  private final Map<Class<? extends Model>,Class<? extends Normalizer<?>>> classes = new HashMap<Class<? extends Model>,Class<? extends Normalizer<?>>>(39);
+  private final Map<Class<? extends Model>,Normalizer<?>> instances = new HashMap<Class<? extends Model>,Normalizer<?>>(39);
   private final Collection<Class<? extends Model>> keys;
   private final NormalizerProcessor processor = new NormalizerProcessor();
 
@@ -167,30 +167,30 @@ public class NormalizerDirectory implements PipelineDirectory<GeneratorContext,M
     keys = classes.keySet();
   }
 
-  public PipelineEntity<Normalizer> getEntity(Model entity, Normalizer parent) {
+  public PipelineEntity getEntity(final Model entity, final Normalizer<?> parent) {
     return lookup(entity.getClass());
   }
 
-  public PipelineEntity<Normalizer> lookup(Class<? extends Model> clazz) {
+  public PipelineEntity lookup(Class<? extends Model> clazz) {
     if (!keys.contains(clazz))
       throw new IllegalArgumentException("Unknown key: " + clazz.getSimpleName());
 
-    Normalizer normalizerInstance = instances.get(clazz);
+    Normalizer<?> normalizerInstance = instances.get(clazz);
     if (normalizerInstance != null)
       return normalizerInstance;
 
-    final Class<? extends Normalizer> normalizerClass = classes.get(clazz);
+    final Class<? extends Normalizer<?>> normalizerClass = classes.get(clazz);
     try {
-      final Constructor<? extends Normalizer> constructor = normalizerClass.getConstructor(NormalizerDirectory.class);
+      final Constructor<? extends Normalizer<?>> constructor = normalizerClass.getConstructor(NormalizerDirectory.class);
       instances.put(clazz, normalizerInstance = constructor.newInstance(this));
       return normalizerInstance;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new LexerError(e);
     }
   }
 
-  public PipelineProcessor<GeneratorContext,Model,Normalizer> getProcessor() {
+  public PipelineProcessor<GeneratorContext,Model,Normalizer<?>> getProcessor() {
     return processor;
   }
 

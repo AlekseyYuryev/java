@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class KeyrefNormalizer extends Normalizer<KeyrefModel> {
-  public KeyrefNormalizer(NormalizerDirectory directory) {
+public final class KeyrefNormalizer extends Normalizer<KeyrefModel> {
+  public KeyrefNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(KeyrefModel model) {
+  protected void stage1(final KeyrefModel model) {
   }
 
-  protected void stage2(KeyrefModel model) {
+  protected void stage2(final KeyrefModel model) {
   }
 
-  protected void stage3(KeyrefModel model) {
+  protected void stage3(final KeyrefModel model) {
   }
 
-  protected void stage4(KeyrefModel model) {
+  protected void stage4(final KeyrefModel model) {
   }
 
-  protected void stage5(KeyrefModel model) {
+  protected void stage5(final KeyrefModel model) {
   }
 
-  protected void stage6(KeyrefModel model) {
+  protected void stage6(final KeyrefModel model) {
   }
 }

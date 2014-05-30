@@ -20,10 +20,10 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SelectorModel extends Model {
+public final class SelectorModel extends Model {
   private String xpath = null;
 
-  protected SelectorModel(Node node, Model parent) {
+  protected SelectorModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

@@ -14,13 +14,12 @@ package org.safris.commons.jci;/*  Copyright Safris Software 2011
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 import java.net.URI;
 import java.nio.CharBuffer;
+
 import javax.tools.SimpleJavaFileObject;
 
-public class CharSequenceJavaFileObject extends SimpleJavaFileObject {
+public final class CharSequenceJavaFileObject extends SimpleJavaFileObject {
   /**
    * CharSequence representing the source code to be compiled
    */
@@ -29,10 +28,10 @@ public class CharSequenceJavaFileObject extends SimpleJavaFileObject {
   /**
    * This constructor will store the source code in the
    * internal "content" variable and register it as a
-   * source code, using a URI containing the class full name
+   * source code, using a URI containing the final class full name
    *
    * @param className
-   *            name of the public class in the source code
+   *            name of the public final class in the source code
    * @param content
    *            source code to compile
    */

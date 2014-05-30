@@ -19,8 +19,8 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class HexBinaryTest {
-  private static void assertEquals(String data, String base64) {
+public final class HexBinaryTest {
+  private static void assertEquals(final String data, final String base64) {
     final HexBinary hexBinary = new HexBinary(data.getBytes());
     final String hexString = hexBinary.toString();
     Assert.assertEquals(base64, hexString);
@@ -28,7 +28,7 @@ public class HexBinaryTest {
     Assert.assertEquals(data, new String(unmarshalled.getBytes()));
   }
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new HexBinaryTest().testHexBinary();
   }
 

@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.lang.Numbers;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_float(final $xs_float<T> binding) {
+public abstract class $xs_float extends $xs_anySimpleType {
+  public $xs_float(final $xs_float binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_float<T extends BindingType> extends $xs_anySimpleType
     super();
   }
 
-  public Float getText() {
-    return (Float)super.getText();
+  public Float text() {
+    return (Float)super.text();
   }
 
-  public void setText(final Float text) {
-    super.setText(text);
+  public void text(final Float text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Float.parseFloat(value));
+    super.text(Float.parseFloat(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return Numbers.roundInsignificant(super.getText().toString());
+    return super.text() != null ? Numbers.roundInsignificant(super.text().toString()) : "";
   }
 
-  public $xs_float<T> clone() {
-    return new $xs_float<T>(this) {
-      protected $xs_float<T> inherits() {
+  public $xs_float clone() {
+    return new $xs_float(this) {
+      protected $xs_float inherits() {
         return this;
       }
     };

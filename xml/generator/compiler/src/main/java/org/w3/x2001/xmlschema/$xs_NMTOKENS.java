@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_NMTOKENS<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_NMTOKENS(final $xs_NMTOKENS<T> binding) {
+@SuppressWarnings("unchecked")
+public abstract class $xs_NMTOKENS extends $xs_anySimpleType {
+  public $xs_NMTOKENS(final $xs_NMTOKENS binding) {
     super(binding);
   }
 
@@ -38,38 +38,38 @@ public abstract class $xs_NMTOKENS<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  public List<String> getText() {
-    return (List<String>)super.getText();
+  public List<String> text() {
+    return (List<String>)super.text();
   }
 
-  public void setText(final List<String> text) {
-    super.setText(text);
+  public void text(final List<String> text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     if (value == null || value.length() == 0)
       return;
 
-    super.setText(new ArrayList<String>());
-    final StringTokenizer tokenizer = new StringTokenizer(String.valueOf(value));
+    super.text(new ArrayList<String>());
+    final StringTokenizer tokenizer = new StringTokenizer(value);
     while (tokenizer.hasMoreTokens())
-      ((List<String>)super.getText()).add(tokenizer.nextToken());
+      ((List<String>)super.text()).add(tokenizer.nextToken());
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null || ((List<String>)super.getText()).size() == 0)
+    if (super.text() == null || ((List<String>)super.text()).size() == 0)
       return null;
 
     String value = "";
-    for (final String temp : (List<String>)super.getText())
+    for (final String temp : (List<String>)super.text())
       value += " " + temp;
 
     return value.substring(1);
   }
 
-  public $xs_NMTOKENS<T> clone() {
-    return new $xs_NMTOKENS<T>(this) {
-      protected $xs_NMTOKENS<T> inherits() {
+  public $xs_NMTOKENS clone() {
+    return new $xs_NMTOKENS(this) {
+      protected $xs_NMTOKENS inherits() {
         return this;
       }
     };

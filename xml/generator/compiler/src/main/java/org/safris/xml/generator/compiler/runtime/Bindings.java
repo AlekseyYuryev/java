@@ -17,6 +17,7 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.io.StringReader;
+
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.validator.ValidationException;
@@ -25,7 +26,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 public abstract class Bindings {
-  public static Binding clone(Binding<?> binding) throws XMLException {
+  public static Binding clone(final Binding binding) throws XMLException {
     return Bindings.parse(new InputSource(new StringReader(DOMs.domToString(binding.marshal()))));
   }
 
@@ -35,7 +36,7 @@ public abstract class Bindings {
    * @param binding Binding instance to marshal.
    * @return Element DOM object.
    */
-  public static Element marshal(Binding binding) throws MarshalException, ValidationException {
+  public static Element marshal(final Binding binding) throws MarshalException, ValidationException {
     if (binding.inherits() == null)
       throw new MarshalException("Binding must inherit from an instantiable element or attribute to be marshaled!");
 
@@ -48,7 +49,7 @@ public abstract class Bindings {
    * @param element Element object to parse.
    * @return Binding instance.
    */
-  public static Binding parse(Element element) throws ParseException, ValidationException {
+  public static Binding parse(final Element element) throws ParseException, ValidationException {
     final Binding binding = Binding.parseElement(element, null);
     if (Validator.getSystemValidator() != null)
       Validator.getSystemValidator().validateParse(element);
@@ -62,12 +63,12 @@ public abstract class Bindings {
    * @param inputSource InputSource pointing to xml.
    * @return Binding instance.
    */
-  public static Binding parse(InputSource inputSource) throws ParseException, ValidationException {
+  public static Binding parse(final InputSource inputSource) throws ParseException, ValidationException {
     final Element element;
     try {
       element = Binding.newDocumentBuilder().parse(inputSource).getDocumentElement();
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new ParseException(e);
     }
 

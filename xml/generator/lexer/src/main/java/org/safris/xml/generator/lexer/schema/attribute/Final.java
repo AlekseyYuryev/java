@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.Final;
 
 public final class Final {
   private static final Map<String,Final> enums = new HashMap<String,Final>();
@@ -28,13 +27,13 @@ public final class Final {
   public static final Final RESTRICTION = new Final("restriction");
   public static final Final SUBSTITUTION = new Final("substitution");
 
-  public static Final parseFinal(String value) {
+  public static Final parseFinal(final String value) {
     return enums.get(value);
   }
 
   private final String value;
 
-  private Final(String value) {
+  private Final(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -43,7 +42,7 @@ public final class Final {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Final))
       return false;
 

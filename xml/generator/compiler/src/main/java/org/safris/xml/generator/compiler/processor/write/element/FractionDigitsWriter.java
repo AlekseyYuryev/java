@@ -17,35 +17,36 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.FractionDigitsPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class FractionDigitsWriter extends Writer<FractionDigitsPlan> {
-  protected void appendDeclaration(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+public final class FractionDigitsWriter extends Writer<FractionDigitsPlan> {
+  protected void appendDeclaration(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendGetMethod(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendSetMethod(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendMarshal(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  public void appendCopy(StringWriter writer, FractionDigitsPlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final FractionDigitsPlan plan, Plan<?> parent, final String variable) {
   }
 
-  protected void appendEquals(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendHashCode(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendClass(StringWriter writer, FractionDigitsPlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final FractionDigitsPlan plan, final Plan<?> parent) {
   }
 }

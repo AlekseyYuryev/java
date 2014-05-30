@@ -18,13 +18,12 @@ package org.w3.x2001.xmlschema;
 
 import javax.xml.namespace.QName;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_QName(final $xs_QName<T> binding) {
+public abstract class $xs_QName extends $xs_anySimpleType {
+  public $xs_QName(final $xs_QName binding) {
     super(binding);
   }
 
@@ -36,23 +35,23 @@ public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType
     super();
   }
 
-  public QName getText() {
-    return (QName)super.getText();
+  public QName text() {
+    return (QName)super.text();
   }
 
-  public void setText(final QName text) {
-    super.setText(text);
+  public void text(final QName text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element element, final String value) throws ParseException {
     final QName temp = stringToQName(value);
-    super.setText(temp);
+    super.text(temp);
     if (element != null)
-      super.setText(new javax.xml.namespace.QName(element.getOwnerDocument().getDocumentElement().lookupNamespaceURI(temp.getPrefix()), temp.getLocalPart()));
+      super.text(new javax.xml.namespace.QName(element.getOwnerDocument().getDocumentElement().lookupNamespaceURI(temp.getPrefix()), temp.getLocalPart()));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    final QName value = (QName)super.getText();
+    final QName value = (QName)super.text();
     if (value == null)
       return "";
 
@@ -62,9 +61,9 @@ public abstract class $xs_QName<T extends BindingType> extends $xs_anySimpleType
     return value.getLocalPart();
   }
 
-  public $xs_QName<T> clone() {
-    return new $xs_QName<T>(this) {
-      protected $xs_QName<T> inherits() {
+  public $xs_QName clone() {
+    return new $xs_QName(this) {
+      protected $xs_QName inherits() {
         return this;
       }
     };

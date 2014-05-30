@@ -22,16 +22,17 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Pattern;
+
 import org.safris.commons.lang.Paths;
 
 public final class URLs {
   private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
 
-  private static String formatWindowsPath(String absolutePath) {
+  private static String formatWindowsPath(final String absolutePath) {
     return absolutePath.replace('\\', '/');
   }
 
-  public static boolean isAbsolute(String path) {
+  public static boolean isAbsolute(final String path) {
     if (path == null)
       throw new NullPointerException();
 
@@ -41,13 +42,18 @@ public final class URLs {
     return URL_PATTERN.matcher(path).find();
   }
 
+  public static boolean isLocal(final URL url) throws MalformedURLException {
+    return URLs.toExternalForm(url).startsWith("file:");
+  }
+  
   public static URL makeUrlFromPath(String absolutePath) throws MalformedURLException {
     if (absolutePath == null)
       return null;
 
     URL url;
-    if (absolutePath.contains("://"))
+    if (absolutePath.contains("://")) {
       url = new URL(absolutePath);
+    }
     else {
       if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
         absolutePath = formatWindowsPath(absolutePath);
@@ -59,6 +65,14 @@ public final class URLs {
     }
 
     return URLs.canonicalizeURL(url);
+  }
+  
+  public static URL makeUrlFromPath(final URL baseURL, final String path) throws MalformedURLException {
+    if (baseURL == null || path == null)
+      return null;
+    
+    final String externalForm = URLs.toExternalForm(baseURL);
+    return new URL(externalForm.endsWith("/") ? externalForm + path : externalForm + "/" + path);
   }
 
   public static URL makeUrlFromPath(final String basedir, final String path) throws MalformedURLException {
@@ -81,33 +95,33 @@ public final class URLs {
     return makeUrlFromPath(basedir + File.separator + path);
   }
 
-  public static String toExternalForm(URL url) throws MalformedURLException {
+  public static String toExternalForm(final URL url) throws MalformedURLException {
     if (url == null)
       return null;
 
     try {
       return url.toURI().toASCIIString();
     }
-    catch (URISyntaxException e) {
+    catch (final URISyntaxException e) {
       throw new MalformedURLException(url.toString() + e.getMessage());
     }
   }
 
-  public static boolean exists(URL url) {
+  public static boolean exists(final URL url) {
     try {
       if ("file".equals(url.getProtocol()))
         return new File(url.getFile()).exists();
 
       url.openStream().close();
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       return false;
     }
 
     return true;
   }
 
-  public static URL canonicalizeURL(URL url) throws MalformedURLException {
+  public static URL canonicalizeURL(final URL url) throws MalformedURLException {
     if (url == null)
       return null;
 
@@ -118,18 +132,18 @@ public final class URLs {
     return new URL(path);
   }
 
-  public static String getName(URL url) {
+  public static String getName(final URL url) {
     return Paths.getName(url.toString());
   }
 
-  public static URL getParent(URL url) {
+  public static URL getParent(final URL url) {
     if (url == null)
       return null;
 
     try {
       return new URL(Paths.getParent(url.toString()));
     }
-    catch (MalformedURLException e) {
+    catch (final MalformedURLException e) {
       throw new RuntimeException(e);
     }
   }

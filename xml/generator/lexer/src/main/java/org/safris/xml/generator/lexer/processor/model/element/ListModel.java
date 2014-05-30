@@ -18,16 +18,17 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ListModel extends SimpleTypeModel {
-  private SimpleTypeModel itemType = null;
+public final class ListModel extends SimpleTypeModel<SimpleTypeModel<?>> {
+  private SimpleTypeModel<?> itemType = null;
   private UnionModel unionType = null;
 
-  protected ListModel(Node node, Model parent) {
+  protected ListModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -37,20 +38,20 @@ public class ListModel extends SimpleTypeModel {
     }
   }
 
-  public final void setItemType(SimpleTypeModel itemType) {
+  public final void setItemType(final SimpleTypeModel<?> itemType) {
     this.itemType = itemType;
   }
 
-  public final void setItemType(UnionModel unionType) {
+  public final void setItemType(final UnionModel unionType) {
     this.unionType = unionType;
   }
 
-  public final Collection<SimpleTypeModel> getItemType() {
+  public final Collection<SimpleTypeModel<?>> getItemType() {
     if (unionType != null)
       return unionType.getNormalizedMemberTypes();
 
     if (itemType != null)
-      return Arrays.<SimpleTypeModel>asList(itemType);
+      return Arrays.<SimpleTypeModel<?>>asList(itemType);
 
     return null;
   }

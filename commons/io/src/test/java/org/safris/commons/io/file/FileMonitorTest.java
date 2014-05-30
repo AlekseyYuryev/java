@@ -17,15 +17,16 @@
 package org.safris.commons.io.file;
 
 import java.io.File;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class FileMonitorTest implements FileEventListener {
-  public void onModify(File file) {
+public final class FileMonitorTest implements FileEventListener {
+  public void onModify(final File file) {
     System.out.println(file.getName() + " modified.");
   }
 
-  public void onDelete(File file) {
+  public void onDelete(final File file) {
     System.out.println(file.getName() + " deleted.");
   }
 

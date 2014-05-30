@@ -19,55 +19,62 @@ package org.safris.xml.generator.compiler.runtime;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
+
 import org.safris.commons.util.IdentityArrayList;
 
-final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> {
-  private final ElementAudit elementAudit;
+final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> implements BindingList<E> {
+  private static final long serialVersionUID = 4802873640158426470L;
+  
+  private final ElementAudit<?> elementAudit;
 
-  protected SpecificElementList(ElementAudit elementAudit, int initialCapacity) {
+  protected SpecificElementList(final ElementAudit<?> elementAudit, final int initialCapacity) {
     super(initialCapacity);
     this.elementAudit = elementAudit;
   }
 
-  protected SpecificElementList(ElementAudit elementAudit, Collection<? extends E> c) {
+  protected SpecificElementList(final ElementAudit<?> elementAudit, Collection<? extends E> c) {
     super(c);
     this.elementAudit = elementAudit;
   }
 
-  protected SpecificElementList(ElementAudit elementAudit) {
+  protected SpecificElementList(final ElementAudit<?> elementAudit) {
     super();
     this.elementAudit = elementAudit;
   }
+  
+  public Binding getParent() {
+    return elementAudit.getParent();
+  }
 
-  protected boolean add(E o, boolean addWithAudit) {
+  protected boolean add(final E o, final boolean addWithAudit) {
     return addWithAudit ? elementAudit.getParent()._$$addElementNoAudit(elementAudit, o) && super.add(o) : super.add(o);
   }
 
-  public boolean add(E o) {
+  public boolean add(final E o) {
     final E after = get(size() - 1);
     elementAudit.getParent()._$$addElementAfter(after, elementAudit, o);
     return super.add(o);
   }
 
-  public E set(int index, E element) {
+  public E set(final int index, final E element) {
     final E original = get(index);
     elementAudit.getParent()._$$replaceElement(original, elementAudit, element);
     return super.set(index, element);
   }
 
-  public void add(int index, E element) {
+  public void add(final int index, final E element) {
     final E before = get(index);
     elementAudit.getParent()._$$addElementBefore(before, elementAudit, element);
     super.add(index, element);
   }
 
-  public E remove(int index) {
+  public E remove(final int index) {
     final E element = get(index);
     remove(element);
     return element;
   }
 
-  protected boolean remove(Object o, boolean removeFromAudit) {
+  protected boolean remove(final Object o, final boolean removeFromAudit) {
     if (!(o instanceof Binding) || !contains(o))
       return false;
 
@@ -79,10 +86,10 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     if (auditModified == listModified)
       return auditModified;
 
-    throw new RuntimeBindingException("Both lists should have been modified, or none at all.");
+    throw new BindingRuntimeException("Both lists should have been modified, or none at all.");
   }
 
-  public boolean remove(Object o) {
+  public boolean remove(final Object o) {
     final boolean retVal = remove(o, true);
     if (size() == 0)
       elementAudit.reset();
@@ -90,7 +97,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return retVal;
   }
 
-  public boolean removeAll(Collection<?> c) {
+  public boolean removeAll(final Collection<?> c) {
     final boolean retVal = super.removeAll(c);
     if (size() == 0)
       elementAudit.reset();
@@ -98,7 +105,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return retVal;
   }
 
-  public boolean retainAll(Collection<?> c) {
+  public boolean retainAll(final Collection<?> c) {
     final boolean retVal = super.retainAll(c);
     if (size() == 0)
       elementAudit.reset();
@@ -111,7 +118,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     elementAudit.reset();
   }
 
-  public Iterator iterator() {
+  public Iterator<E> iterator() {
     return new ElementIterator();
   }
 
@@ -126,11 +133,11 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return new ElementListIterator(index);
   }
 
-  public SpecificElementList<E> clone(final ElementAudit audit) {
-    return new SpecificElementList(audit, this);
+  public SpecificElementList<E> clone(final ElementAudit<?> audit) {
+    return new SpecificElementList<E>(audit, this);
   }
 
-  private class ElementIterator implements Iterator<E> {
+  private final class ElementIterator implements Iterator<E> {
     private final Iterator<E> iterator = SpecificElementList.super.iterator();
     private int cursor = 0;
     private int lastRet = -1;
@@ -159,10 +166,10 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     }
   }
 
-  private class ElementListIterator implements ListIterator<E> {
+  private final class ElementListIterator implements ListIterator<E> {
     private final ListIterator<E> listIterator;
 
-    protected ElementListIterator(int index) {
+    protected ElementListIterator(final int index) {
       listIterator = SpecificElementList.super.listIterator(index);
     }
 
@@ -195,12 +202,12 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
       SpecificElementList.this.remove(index);
     }
 
-    public void set(E o) {
+    public void set(final E o) {
       final int index = nextIndex() - 1;
       SpecificElementList.this.set(index, o);
     }
 
-    public void add(E o) {
+    public void add(final E o) {
       final int index = nextIndex() - 1;
       SpecificElementList.this.add(index, o);
     }

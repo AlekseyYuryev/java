@@ -41,11 +41,11 @@ public final class Collections {
     try {
       final Field mField = map.getClass().getDeclaredField("m");
       mField.setAccessible(true);
-      final Map<? super K,? super V> m = (Map)mField.get(map);
+      final Map<? super K,? super V> m = (Map<? super K,? super V>)mField.get(map);
       m.put(key, value);
       return true;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       return false;
     }
   }
@@ -102,17 +102,17 @@ public final class Collections {
   /**
    * Returns a mutable list containing the specified object.
    *
-   * @param clazz the class type of the List.
+   * @param clazz the final class type of the List.
    * @param o the object to be stored in the returned list.
    * @return a mutable list containing the specified object.
    */
-  public static <T>List<T> singletonList(final Class<? extends List> clazz, final T o) {
+  public static <T>List<T> singletonList(final Class<? extends List<?>> clazz, final T o) {
     try {
-      final List<T> list = clazz.newInstance();
+      final List<T> list = (List<T>)clazz.newInstance();
       list.add(o);
       return list;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new IllegalArgumentException(e);
     }
   }

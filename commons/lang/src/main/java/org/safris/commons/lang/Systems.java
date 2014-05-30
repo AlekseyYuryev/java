@@ -19,10 +19,11 @@ package org.safris.commons.lang;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
+
 import org.safris.commons.util.Collections;
 
 public final class Systems {
-  public static boolean setenv(String name, String value) {
+  public static boolean setenv(final String name, final String value) {
     Class<?> processEnvironmentClass;
     Field theEnvironmentField;
     Field theUnmodifiableEnvironmentField;
@@ -39,10 +40,10 @@ public final class Systems {
       theEnvironment = (Map)theEnvironmentField.get(null);
       theUnmodifiableEnvironment = (Map)theUnmodifiableEnvironmentField.get(null);
     }
-    catch (RuntimeException e) {
+    catch (final RuntimeException e) {
       return false;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       return false;
     }
 
@@ -69,10 +70,10 @@ public final class Systems {
         unmodifiableMapField.setAccessible(true);
         unmodifiableMap = (Map)unmodifiableMapField.get(theUnmodifiableEnvironment);
       }
-      catch (RuntimeException e) {
+      catch (final RuntimeException e) {
         return false;
       }
-      catch (Exception e) {
+      catch (final Exception e) {
         return false;
       }
 
@@ -85,32 +86,32 @@ public final class Systems {
     return false;
   }
 
-  private static Object createVariable(String name) {
+  private static Object createVariable(final String name) {
     try {
-      final Class clazz = Class.forName("java.lang.ProcessEnvironment$Variable");
-      final Constructor constructor = clazz.getDeclaredConstructor(String.class, byte[].class);
+      final Class<?> clazz = Class.forName("java.lang.ProcessEnvironment$Variable");
+      final Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, byte[].class);
       constructor.setAccessible(true);
       return constructor.newInstance(name, name.getBytes());
     }
-    catch (RuntimeException e) {
+    catch (final RuntimeException e) {
       return null;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       return null;
     }
   }
 
-  private static Object createValue(String value) {
+  private static Object createValue(final String value) {
     try {
-      final Class clazz = Class.forName("java.lang.ProcessEnvironment$Value");
-      final Constructor constructor = clazz.getDeclaredConstructor(String.class, byte[].class);
+      final Class<?> clazz = Class.forName("java.lang.ProcessEnvironment$Value");
+      final Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, byte[].class);
       constructor.setAccessible(true);
       return constructor.newInstance(value, value.getBytes());
     }
-    catch (RuntimeException e) {
+    catch (final RuntimeException e) {
       return null;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       return null;
     }
   }

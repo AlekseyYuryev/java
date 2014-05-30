@@ -19,6 +19,7 @@ package org.safris.xml.generator.compiler.lang;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -26,19 +27,20 @@ import org.safris.xml.generator.lexer.processor.model.MultiplicableModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.element.ElementModel;
 
-public class ElementWrapper extends Model implements Nameable {
-  public static LinkedHashSet<ElementWrapper> asSet(LinkedHashSet<MultiplicableModel> multiplicableModels) {
+@SuppressWarnings("rawtypes")
+public final class ElementWrapper extends Model implements Nameable {
+  public static LinkedHashSet<ElementWrapper> asSet(final LinkedHashSet<MultiplicableModel> multiplicableModels) {
     final LinkedHashSet<ElementWrapper> elementWrappers = new LinkedHashSet<ElementWrapper>();
     asSet(multiplicableModels, elementWrappers, 1, 1, new HashSet<UniqueQName>());
     return elementWrappers;
   }
 
-  private static void asSet(LinkedHashSet<MultiplicableModel> multiplicableModels, LinkedHashSet<ElementWrapper> elementWrappers, int min, int max, Collection<UniqueQName> redefines) {
+  private static void asSet(final LinkedHashSet<MultiplicableModel> multiplicableModels, final LinkedHashSet<ElementWrapper> elementWrappers, int min, final int max, final Collection<UniqueQName> redefines) {
     for (MultiplicableModel multiplicableModel : multiplicableModels) {
       // FIXME: the list used to track redefines seems BAD!!!
-      if (multiplicableModel instanceof RedefineableModel && ((RedefineableModel)multiplicableModel).getRedefine() != null && !redefines.contains(((Nameable)multiplicableModel).getName())) {
-        multiplicableModel = (MultiplicableModel)((RedefineableModel)multiplicableModel).getRedefine();
-        redefines.add(((Nameable)multiplicableModel).getName());
+      if (multiplicableModel instanceof RedefineableModel && ((RedefineableModel<?>)multiplicableModel).getRedefine() != null && !redefines.contains(((Nameable<?>)multiplicableModel).getName())) {
+        multiplicableModel = (MultiplicableModel)((RedefineableModel<?>)multiplicableModel).getRedefine();
+        redefines.add(((Nameable<?>)multiplicableModel).getName());
       }
 
       int maxOccurs = multiplicableModel.getMaxOccurs().getValue();
@@ -59,7 +61,7 @@ public class ElementWrapper extends Model implements Nameable {
   private final int minOccurs;
   private final int maxOccurs;
 
-  public ElementWrapper(ElementModel elementModel, int minOccurs, int maxOccurs) {
+  public ElementWrapper(final ElementModel elementModel, final int minOccurs, final int maxOccurs) {
     super(null, elementModel.getParent());
     this.elementModel = elementModel;
     this.minOccurs = minOccurs;
@@ -82,7 +84,7 @@ public class ElementWrapper extends Model implements Nameable {
     return elementModel.getName();
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

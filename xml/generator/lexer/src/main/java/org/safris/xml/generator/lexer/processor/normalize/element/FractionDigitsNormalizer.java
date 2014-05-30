@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.FractionDigitsMode
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class FractionDigitsNormalizer extends Normalizer<FractionDigitsModel> {
-  public FractionDigitsNormalizer(NormalizerDirectory directory) {
+public final class FractionDigitsNormalizer extends Normalizer<FractionDigitsModel> {
+  public FractionDigitsNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(FractionDigitsModel model) {
+  protected void stage1(final FractionDigitsModel model) {
   }
 
-  protected void stage2(FractionDigitsModel model) {
+  protected void stage2(final FractionDigitsModel model) {
   }
 
-  protected void stage3(FractionDigitsModel model) {
+  protected void stage3(final FractionDigitsModel model) {
   }
 
-  protected void stage4(FractionDigitsModel model) {
+  protected void stage4(final FractionDigitsModel model) {
   }
 
-  protected void stage5(FractionDigitsModel model) {
+  protected void stage5(final FractionDigitsModel model) {
   }
 
-  protected void stage6(FractionDigitsModel model) {
+  protected void stage6(final FractionDigitsModel model) {
   }
 }

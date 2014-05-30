@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.MaxLengthModel;
 
-public class MaxLengthPlan extends Plan<MaxLengthModel> {
-  public MaxLengthPlan(MaxLengthModel model, Plan parent) {
+public final class MaxLengthPlan extends Plan<MaxLengthModel> {
+  public MaxLengthPlan(final MaxLengthModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

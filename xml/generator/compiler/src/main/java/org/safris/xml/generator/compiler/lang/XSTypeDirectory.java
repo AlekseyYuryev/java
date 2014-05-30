@@ -19,7 +19,9 @@ package org.safris.xml.generator.compiler.lang;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
+
 import org.safris.commons.xml.binding.Base64Binary;
 import org.safris.commons.xml.binding.Date;
 import org.safris.commons.xml.binding.DateTime;
@@ -36,52 +38,53 @@ import org.safris.commons.xml.binding.YearMonth;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
+import org.w3.x2001.xmlschema.$xs_ENTITIES;
+import org.w3.x2001.xmlschema.$xs_ENTITY;
+import org.w3.x2001.xmlschema.$xs_ID;
+import org.w3.x2001.xmlschema.$xs_IDREF;
+import org.w3.x2001.xmlschema.$xs_IDREFS;
+import org.w3.x2001.xmlschema.$xs_NCName;
+import org.w3.x2001.xmlschema.$xs_NMTOKEN;
+import org.w3.x2001.xmlschema.$xs_NMTOKENS;
+import org.w3.x2001.xmlschema.$xs_NOTATION;
+import org.w3.x2001.xmlschema.$xs_Name;
+import org.w3.x2001.xmlschema.$xs_QName;
+import org.w3.x2001.xmlschema.$xs_anySimpleType;
 import org.w3.x2001.xmlschema.$xs_anyURI;
 import org.w3.x2001.xmlschema.$xs_base64Binary;
+import org.w3.x2001.xmlschema.$xs_boolean;
+import org.w3.x2001.xmlschema.$xs_byte;
 import org.w3.x2001.xmlschema.$xs_date;
 import org.w3.x2001.xmlschema.$xs_dateTime;
 import org.w3.x2001.xmlschema.$xs_decimal;
+import org.w3.x2001.xmlschema.$xs_double;
 import org.w3.x2001.xmlschema.$xs_duration;
-import org.w3.x2001.xmlschema.$xs_ENTITIES;
-import org.w3.x2001.xmlschema.$xs_ENTITY;
+import org.w3.x2001.xmlschema.$xs_float;
 import org.w3.x2001.xmlschema.$xs_gDay;
 import org.w3.x2001.xmlschema.$xs_gMonth;
 import org.w3.x2001.xmlschema.$xs_gMonthDay;
 import org.w3.x2001.xmlschema.$xs_gYear;
 import org.w3.x2001.xmlschema.$xs_gYearMonth;
 import org.w3.x2001.xmlschema.$xs_hexBinary;
-import org.w3.x2001.xmlschema.$xs_ID;
-import org.w3.x2001.xmlschema.$xs_IDREF;
-import org.w3.x2001.xmlschema.$xs_IDREFS;
 import org.w3.x2001.xmlschema.$xs_int;
+import org.w3.x2001.xmlschema.$xs_integer;
 import org.w3.x2001.xmlschema.$xs_language;
 import org.w3.x2001.xmlschema.$xs_long;
-import org.w3.x2001.xmlschema.$xs_NCName;
-import org.w3.x2001.xmlschema.$xs_NMTOKEN;
-import org.w3.x2001.xmlschema.$xs_NMTOKENS;
-import org.w3.x2001.xmlschema.$xs_NOTATION;
-import org.w3.x2001.xmlschema.$xs_Name;
 import org.w3.x2001.xmlschema.$xs_negativeInteger;
 import org.w3.x2001.xmlschema.$xs_nonNegativeInteger;
 import org.w3.x2001.xmlschema.$xs_nonPositiveInteger;
 import org.w3.x2001.xmlschema.$xs_normalizedString;
 import org.w3.x2001.xmlschema.$xs_positiveInteger;
-import org.w3.x2001.xmlschema.$xs_QName;
 import org.w3.x2001.xmlschema.$xs_short;
+import org.w3.x2001.xmlschema.$xs_string;
 import org.w3.x2001.xmlschema.$xs_time;
 import org.w3.x2001.xmlschema.$xs_token;
 import org.w3.x2001.xmlschema.$xs_unsignedByte;
 import org.w3.x2001.xmlschema.$xs_unsignedInt;
 import org.w3.x2001.xmlschema.$xs_unsignedLong;
 import org.w3.x2001.xmlschema.$xs_unsignedShort;
-import org.w3.x2001.xmlschema.$xs_anySimpleType;
-import org.w3.x2001.xmlschema.$xs_boolean;
-import org.w3.x2001.xmlschema.$xs_byte;
-import org.w3.x2001.xmlschema.$xs_double;
-import org.w3.x2001.xmlschema.$xs_float;
-import org.w3.x2001.xmlschema.$xs_integer;
-import org.w3.x2001.xmlschema.$xs_string;
 
+@SuppressWarnings("unused")
 public final class XSTypeDirectory {
   private static final Map<UniqueQName,XSTypeDirectory> defaultTypes = new HashMap<UniqueQName,XSTypeDirectory>();
   private static final Map<UniqueQName,UniqueQName> typeHierarchy = new HashMap<UniqueQName,UniqueQName>();
@@ -143,7 +146,7 @@ public final class XSTypeDirectory {
       final XSTypeDirectory unsignedShort = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "unsignedShort"), new NativeBinding.GenericClass($xs_unsignedShort.class), new NativeBinding.GenericClass(Short.class), Short.class.getDeclaredMethod("parseShort", String.class)), unsignedInt);
       final XSTypeDirectory unsignedByte = new XSTypeDirectory(new NativeBinding(UniqueQName.getInstance(UniqueQName.XS.getNamespaceURI(), "unsignedByte"), new NativeBinding.GenericClass($xs_unsignedByte.class), new NativeBinding.GenericClass(Byte.class), Byte.class.getDeclaredMethod("parseByte", String.class)), unsignedShort);
     }
-    catch (NoSuchMethodException e) {
+    catch (final NoSuchMethodException e) {
       throw new ExceptionInInitializerError(e);
     }
   }
@@ -153,10 +156,7 @@ public final class XSTypeDirectory {
   }
 
   public static UniqueQName lookupSuperType(final UniqueQName name) {
-    if (name == null)
-      return null;
-
-    return typeHierarchy.get(name);
+    return name != null ? typeHierarchy.get(name) : null;
   }
 
   private final NativeBinding nativeBinding;
@@ -172,10 +172,7 @@ public final class XSTypeDirectory {
 
   private XSTypeDirectory(final NativeBinding nativeBinding, final XSTypeDirectory superType) {
     this.nativeBinding = nativeBinding;
-    if (nativeBinding.getFactoryMethod() != null)
-      nativeFactory = nativeBinding.getFactoryMethod().getDeclaringClass().getName() + "." + nativeBinding.getFactoryMethod().getName();
-    else
-      nativeFactory = null;
+    this.nativeFactory = nativeBinding.getFactoryMethod() != null ? nativeBinding.getFactoryMethod().getDeclaringClass().getName() + "." + nativeBinding.getFactoryMethod().getName() : null;
 
     defaultTypes.put(nativeBinding.getName(), this);
     if (superType != null)

@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Time;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_time<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_time(final $xs_time<T> binding) {
+public abstract class $xs_time extends $xs_anySimpleType {
+  public $xs_time(final $xs_time binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_time<T extends BindingType> extends $xs_anySimpleType<
     super();
   }
 
-  protected Time getText() {
-    return (Time)super.getText();
+  public Time text() {
+    return (Time)super.text();
   }
 
-  protected void setText(final Time text) {
-    super.setText(text);
+  protected void text(final Time text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Time.parseTime(value));
+    super.text(Time.parseTime(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_time<T> clone() {
-    return new $xs_time<T>(this) {
-      protected $xs_time<T> inherits() {
+  public $xs_time clone() {
+    return new $xs_time(this) {
+      protected $xs_time inherits() {
         return this;
       }
     };

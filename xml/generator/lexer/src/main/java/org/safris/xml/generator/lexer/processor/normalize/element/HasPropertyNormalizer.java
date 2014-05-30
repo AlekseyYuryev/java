@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.HasPropertyModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class HasPropertyNormalizer extends Normalizer<HasPropertyModel> {
-  public HasPropertyNormalizer(NormalizerDirectory directory) {
+public final class HasPropertyNormalizer extends Normalizer<HasPropertyModel> {
+  public HasPropertyNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(HasPropertyModel model) {
+  protected void stage1(final HasPropertyModel model) {
   }
 
-  protected void stage2(HasPropertyModel model) {
+  protected void stage2(final HasPropertyModel model) {
   }
 
-  protected void stage3(HasPropertyModel model) {
+  protected void stage3(final HasPropertyModel model) {
   }
 
-  protected void stage4(HasPropertyModel model) {
+  protected void stage4(final HasPropertyModel model) {
   }
 
-  protected void stage5(HasPropertyModel model) {
+  protected void stage5(final HasPropertyModel model) {
   }
 
-  protected void stage6(HasPropertyModel model) {
+  protected void stage6(final HasPropertyModel model) {
   }
 }

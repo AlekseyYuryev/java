@@ -38,9 +38,9 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public final class ConnectionProxy implements Connection {
-  public static Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
+  private static final Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
 
-  public static ConnectionProxy getInstance(Connection connection) {
+  public static ConnectionProxy getInstance(final Connection connection) {
     ConnectionProxy connectionProxy;
     if ((connectionProxy = instances.get(connection)) == null)
       instances.put(connection, connectionProxy = new ConnectionProxy(connection));
@@ -50,7 +50,7 @@ public final class ConnectionProxy implements Connection {
 
   private final Connection connection;
 
-  private ConnectionProxy(Connection connection) {
+  private ConnectionProxy(final Connection connection) {
     this.connection = connection;
   }
 
@@ -58,19 +58,19 @@ public final class ConnectionProxy implements Connection {
     return new StatementProxy(connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY));
   }
 
-  public PreparedStatement prepareStatement(String sql) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), sql);
   }
 
-  public CallableStatement prepareCall(String sql) throws SQLException {
+  public CallableStatement prepareCall(final String sql) throws SQLException {
     return new CallableStatementProxy(connection.prepareCall(sql), sql);
   }
 
-  public String nativeSQL(String sql) throws SQLException {
+  public String nativeSQL(final String sql) throws SQLException {
     return connection.nativeSQL(sql);
   }
 
-  public void setAutoCommit(boolean autoCommit) throws SQLException {
+  public void setAutoCommit(final boolean autoCommit) throws SQLException {
     connection.setAutoCommit(autoCommit);
   }
 
@@ -98,7 +98,7 @@ public final class ConnectionProxy implements Connection {
     return connection.getMetaData();
   }
 
-  public void setReadOnly(boolean readOnly) throws SQLException {
+  public void setReadOnly(final boolean readOnly) throws SQLException {
     connection.setReadOnly(readOnly);
   }
 
@@ -106,7 +106,7 @@ public final class ConnectionProxy implements Connection {
     return connection.isReadOnly();
   }
 
-  public void setCatalog(String catalog) throws SQLException {
+  public void setCatalog(final String catalog) throws SQLException {
     connection.setCatalog(catalog);
   }
 
@@ -114,7 +114,7 @@ public final class ConnectionProxy implements Connection {
     return connection.getCatalog();
   }
 
-  public void setTransactionIsolation(int level) throws SQLException {
+  public void setTransactionIsolation(final int level) throws SQLException {
     connection.setTransactionIsolation(level);
   }
 
@@ -130,15 +130,15 @@ public final class ConnectionProxy implements Connection {
     connection.clearWarnings();
   }
 
-  public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
+  public Statement createStatement(final int resultSetType, final int resultSetConcurrency) throws SQLException {
     return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency));
   }
 
-  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
   }
 
-  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+  public CallableStatement prepareCall(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
     return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
   }
 
@@ -146,11 +146,11 @@ public final class ConnectionProxy implements Connection {
     return connection.getTypeMap();
   }
 
-  public void setTypeMap(Map<String,Class<?>> map) throws SQLException {
+  public void setTypeMap(final Map<String,Class<?>> map) throws SQLException {
     connection.setTypeMap(map);
   }
 
-  public void setHoldability(int holdability) throws SQLException {
+  public void setHoldability(final int holdability) throws SQLException {
     connection.setHoldability(holdability);
   }
 
@@ -162,39 +162,39 @@ public final class ConnectionProxy implements Connection {
     return connection.setSavepoint();
   }
 
-  public Savepoint setSavepoint(String name) throws SQLException {
+  public Savepoint setSavepoint(final String name) throws SQLException {
     return connection.setSavepoint(name);
   }
 
-  public void rollback(Savepoint savepoint) throws SQLException {
+  public void rollback(final Savepoint savepoint) throws SQLException {
     connection.rollback(savepoint);
   }
 
-  public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+  public void releaseSavepoint(final Savepoint savepoint) throws SQLException {
     connection.releaseSavepoint(savepoint);
   }
 
-  public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+  public Statement createStatement(final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
     return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability));
   }
 
-  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql, final int resultSetType, int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
   }
 
-  public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+  public CallableStatement prepareCall(final String sql, final int resultSetType, int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
     return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
   }
 
-  public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, autoGeneratedKeys), sql);
   }
 
-  public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql, final int[] columnIndexes) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, columnIndexes), sql);
   }
 
-  public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
+  public PreparedStatement prepareStatement(final String sql, final String[] columnNames) throws SQLException {
     return new PreparedStatementProxy(connection.prepareStatement(sql, columnNames), sql);
   }
 
@@ -214,19 +214,19 @@ public final class ConnectionProxy implements Connection {
     return connection.createSQLXML();
   }
 
-  public boolean isValid(int timeout) throws SQLException {
+  public boolean isValid(final int timeout) throws SQLException {
     return connection.isValid(timeout);
   }
 
-  public void setClientInfo(String name, String value) throws SQLClientInfoException {
+  public void setClientInfo(final String name, final String value) throws SQLClientInfoException {
     connection.setClientInfo(name, value);
   }
 
-  public void setClientInfo(Properties properties) throws SQLClientInfoException {
+  public void setClientInfo(final Properties properties) throws SQLClientInfoException {
     connection.setClientInfo(properties);
   }
 
-  public String getClientInfo(String name) throws SQLException {
+  public String getClientInfo(final String name) throws SQLException {
     return connection.getClientInfo(name);
   }
 
@@ -234,23 +234,23 @@ public final class ConnectionProxy implements Connection {
     return connection.getClientInfo();
   }
 
-  public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+  public Array createArrayOf(final String typeName, final Object[] elements) throws SQLException {
     return connection.createArrayOf(typeName, elements);
   }
 
-  public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+  public Struct createStruct(final String typeName, final Object[] attributes) throws SQLException {
     return connection.createStruct(typeName, attributes);
   }
 
-  public <T extends Object>T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object>T unwrap(final Class<T> iface) throws SQLException {
     return connection.unwrap(iface);
   }
 
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+  public boolean isWrapperFor(final Class<?> iface) throws SQLException {
     return connection.isWrapperFor(iface);
   }
 
-  public void setSchema(String schema) throws SQLException {
+  public void setSchema(final String schema) throws SQLException {
     connection.setSchema(schema);
   }
 
@@ -258,11 +258,11 @@ public final class ConnectionProxy implements Connection {
     return connection.getSchema();
   }
 
-  public void abort(Executor executor) throws SQLException {
+  public void abort(final Executor executor) throws SQLException {
     connection.abort(executor);
   }
 
-  public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+  public void setNetworkTimeout(final Executor executor, final int milliseconds) throws SQLException {
     connection.setNetworkTimeout(executor, milliseconds);
   }
 

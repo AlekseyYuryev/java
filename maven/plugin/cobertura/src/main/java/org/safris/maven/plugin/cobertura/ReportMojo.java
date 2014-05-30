@@ -17,7 +17,9 @@
 package org.safris.maven.plugin.cobertura;
 
 import java.io.File;
+
 import net.sourceforge.cobertura.ant.ReportTask;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.tools.ant.BuildException;
@@ -28,7 +30,7 @@ import org.apache.tools.ant.taskdefs.Java;
  * @goal report
  * @phase verify
  */
-public class ReportMojo extends CoberturaMojo {
+public final class ReportMojo extends CoberturaMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (getMavenTestSkip() != null && getMavenTestSkip())
       return;
@@ -60,7 +62,7 @@ public class ReportMojo extends CoberturaMojo {
     try {
       reportTask.execute();
     }
-    catch (BuildException e) {
+    catch (final BuildException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
 

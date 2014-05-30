@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.KeyModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class KeyNormalizer extends Normalizer<KeyModel> {
-  public KeyNormalizer(NormalizerDirectory directory) {
+public final class KeyNormalizer extends Normalizer<KeyModel> {
+  public KeyNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(KeyModel model) {
+  protected void stage1(final KeyModel model) {
   }
 
-  protected void stage2(KeyModel model) {
+  protected void stage2(final KeyModel model) {
   }
 
-  protected void stage3(KeyModel model) {
+  protected void stage3(final KeyModel model) {
   }
 
-  protected void stage4(KeyModel model) {
+  protected void stage4(final KeyModel model) {
   }
 
-  protected void stage5(KeyModel model) {
+  protected void stage5(final KeyModel model) {
   }
 
-  protected void stage6(KeyModel model) {
+  protected void stage6(final KeyModel model) {
   }
 }

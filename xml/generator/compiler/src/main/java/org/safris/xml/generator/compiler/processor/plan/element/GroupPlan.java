@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.GroupModel;
 
-public class GroupPlan extends Plan<GroupModel> {
-  public GroupPlan(GroupModel model, Plan parent) {
+public final class GroupPlan extends Plan<GroupModel> {
+  public GroupPlan(final GroupModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

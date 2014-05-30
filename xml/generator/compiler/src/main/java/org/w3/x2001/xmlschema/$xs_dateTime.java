@@ -17,18 +17,17 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.DateTime;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
 /**
- * This class represents the Java binding of the dateTime instance of time.
+ * This final class represents the Java binding of the dateTime instance of time.
  *
  * @see <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">Definition</a>
  */
-public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_dateTime(final $xs_dateTime<T> binding) {
+public abstract class $xs_dateTime extends $xs_anySimpleType {
+  public $xs_dateTime(final $xs_dateTime binding) {
     super(binding);
   }
 
@@ -47,28 +46,25 @@ public abstract class $xs_dateTime<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  public DateTime getText() {
-    return (DateTime)super.getText();
+  public DateTime text() {
+    return (DateTime)super.text();
   }
 
-  public void setText(final DateTime text) {
-    super.setText(text);
+  public void text(final DateTime text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(DateTime.parseDateTime(value));
+    super.text(DateTime.parseDateTime(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_dateTime<T> clone() {
-    return new $xs_dateTime<T>(this) {
-      protected $xs_dateTime<T> inherits() {
+  public $xs_dateTime clone() {
+    return new $xs_dateTime(this) {
+      protected $xs_dateTime inherits() {
         return this;
       }
     };

@@ -16,15 +16,17 @@
 
 package org.safris.commons.lang;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class StringsTest {
+public final class StringsTest {
   private static final String UPPER_CASE = "HELLO WORLD";
   private static final String LOWER_CASE = "hello world";
 
-  public static void main(String[] args) throws Exception {
+  public static void main(final String[] args) throws Exception {
     new StringsTest().testGetRandomAlphaString();
     new StringsTest().testGetRandomAlphaNumericString();
     new StringsTest().testChangeCase();
@@ -36,7 +38,7 @@ public class StringsTest {
       Strings.getRandomAlphaString(-1);
       fail("Expecting an IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     for (int length = 0; length < 100; length++) {
@@ -51,7 +53,7 @@ public class StringsTest {
       Strings.getRandomAlphaNumericString(-1);
       fail("Expecting an IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     for (int length = 0; length < 100; length++) {
@@ -65,49 +67,49 @@ public class StringsTest {
     try {
       Strings.toLowerCase(null, 0, 1);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(IllegalArgumentException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase("", 0, 0);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(IllegalArgumentException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase(UPPER_CASE, 10, 4);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(IllegalArgumentException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase(UPPER_CASE, 12, 13);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(StringIndexOutOfBoundsException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase(UPPER_CASE, -1, 1);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(StringIndexOutOfBoundsException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase(UPPER_CASE, -2, -1);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(StringIndexOutOfBoundsException.class, e.getClass());
     }
 
     try {
       Strings.toLowerCase(UPPER_CASE, 1, 12);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       assertSame(StringIndexOutOfBoundsException.class, e.getClass());
     }
 

@@ -17,19 +17,21 @@
 package org.safris.commons.xml;
 
 public class XMLException extends Exception {
+  private static final long serialVersionUID = 1244153460891393863L;
+
   public XMLException() {
     super();
   }
 
-  public XMLException(String message) {
+  public XMLException(final String message) {
     super(message);
   }
 
-  public XMLException(Throwable cause) {
+  public XMLException(final Throwable cause) {
     super(cause);
   }
 
-  public XMLException(String message, Throwable cause) {
+  public XMLException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

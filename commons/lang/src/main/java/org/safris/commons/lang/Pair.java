@@ -16,7 +16,7 @@
 
 package org.safris.commons.lang;
 
-public class Pair<A,B> {
+public final class Pair<A,B> {
   public final A a;
   public final B b;
 
@@ -32,7 +32,7 @@ public class Pair<A,B> {
     if (!(obj instanceof Pair))
       return false;
 
-    final Pair that = (Pair)obj;
+    final Pair<?,?> that = (Pair<?,?>)obj;
     return (a != null ? a.equals(that.a) : that.a == null) && (b != null ? b.equals(that.b) : that.b == null);
   }
 

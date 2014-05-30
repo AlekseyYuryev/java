@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class IdentityArrayList<E> extends ArrayList<E> {
+  private static final long serialVersionUID = -5056045452760154513L;
+
   private final Object mutex = new Object();
 
   public IdentityArrayList(final int initialCapacity) {
@@ -101,6 +103,6 @@ public class IdentityArrayList<E> extends ArrayList<E> {
   }
 
   public IdentityArrayList<E> clone() {
-    return new IdentityArrayList(this);
+    return new IdentityArrayList<E>(this);
   }
 }

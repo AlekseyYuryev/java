@@ -17,6 +17,7 @@
 package org.safris.xml.generator.compiler.processor.plan.element;
 
 import java.util.LinkedHashSet;
+
 import org.safris.xml.generator.compiler.lang.ElementWrapper;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.AttributablePlan;
@@ -26,9 +27,6 @@ import org.safris.xml.generator.compiler.processor.plan.ExtensiblePlan;
 import org.safris.xml.generator.compiler.processor.plan.MixablePlan;
 import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
-import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
-import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.MixableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -37,7 +35,7 @@ import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
-public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan {
+public class ComplexTypePlan<T extends ComplexTypeModel<?>> extends SimpleTypePlan<T> implements AttributablePlan, ElementablePlan, EnumerablePlan, ExtensiblePlan, MixablePlan, NativeablePlan {
   private final Boolean mixed;
 
   private Boolean mixedType = null;
@@ -46,7 +44,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
   private LinkedHashSet<AttributePlan> attributes;
   private LinkedHashSet<ElementPlan> elements;
 
-  public ElementPlan elementRefExistsInParent(UniqueQName name) {
+  public ElementPlan elementRefExistsInParent(final UniqueQName name) {
     // FIXME: This is slow!
     if (getElements() != null)
       for (final ElementPlan element : getElements())
@@ -59,7 +57,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
     return getSuperType().elementRefExistsInParent(name);
   }
 
-  public ComplexTypePlan(T model, Plan parent) {
+  public ComplexTypePlan(final T model, final Plan<?> parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     mixed = getModel().getMixed();
     for (final Model child : model.getChildren()) {
@@ -75,17 +73,11 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
   }
 
   public final LinkedHashSet<AttributePlan> getAttributes() {
-    if (attributes != null)
-      return attributes;
-
-    return attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this);
+    return attributes == null ? attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this) : attributes;
   }
 
   public final LinkedHashSet<ElementPlan> getElements() {
-    if (elements != null)
-      return elements;
-
-    return elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this);
+    return elements == null ? elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this) : elements;
   }
 
   public final Boolean getMixed() {
@@ -99,13 +91,13 @@ public class ComplexTypePlan<T extends ComplexTypeModel> extends SimpleTypePlan<
     // this flag may be a HACK. I am using it to see if I have a restriction in the chain of
     // dependencies. If I do, then mixed="true" has to be stated explicitly.
     boolean isEverRestriction = false;
-    TypeableModel parent = getModel();
+    TypeableModel<?> parent = getModel();
     boolean restriction = getModel().isRestriction();
     while ((parent = parent.getSuperType()) != null) {
       if (parent instanceof MixableModel && !restriction && ((MixableModel)parent).getMixed() != null && ((MixableModel)parent).getMixed())
         return mixedType = true;
 
-      restriction = ((SimpleTypeModel)parent).isRestriction();
+      restriction = ((SimpleTypeModel<?>)parent).isRestriction();
       isEverRestriction = isEverRestriction || restriction;
     }
 

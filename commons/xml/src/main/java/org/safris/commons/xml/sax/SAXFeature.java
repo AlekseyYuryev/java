@@ -18,7 +18,7 @@ package org.safris.commons.xml.sax;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
 
-public class SAXFeature {
+public final class SAXFeature {
   // SAX Features
 
   /**
@@ -242,7 +242,7 @@ public class SAXFeature {
 
   private final String feature;
 
-  public SAXFeature(String feature) {
+  public SAXFeature(final String feature) {
     this.feature = feature;
   }
 
@@ -254,7 +254,7 @@ public class SAXFeature {
     return feature.hashCode();
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

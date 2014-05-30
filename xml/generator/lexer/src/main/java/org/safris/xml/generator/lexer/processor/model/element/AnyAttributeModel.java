@@ -23,11 +23,11 @@ import org.safris.xml.generator.lexer.schema.attribute.ProcessContents;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class AnyAttributeModel extends AttributeModel implements AnyableModel {
+public final class AnyAttributeModel extends AttributeModel implements AnyableModel {
   private Namespace namespace = Namespace.ANY;
   private ProcessContents processContents = ProcessContents.STRICT;
 
-  protected AnyAttributeModel(Node node, Model parent) {
+  protected AnyAttributeModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -47,7 +47,7 @@ public class AnyAttributeModel extends AttributeModel implements AnyableModel {
     return processContents;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

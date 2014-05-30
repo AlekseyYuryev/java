@@ -16,20 +16,22 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-public class RuntimeBindingException extends RuntimeException {
-  public RuntimeBindingException() {
+public final class BindingRuntimeException extends RuntimeException {
+  private static final long serialVersionUID = 4144568519274692003L;
+
+  public BindingRuntimeException() {
     super();
   }
 
-  public RuntimeBindingException(String message) {
+  public BindingRuntimeException(final String message) {
     super(message);
   }
 
-  public RuntimeBindingException(Throwable cause) {
+  public BindingRuntimeException(final Throwable cause) {
     super(cause);
   }
 
-  public RuntimeBindingException(String message, Throwable cause) {
+  public BindingRuntimeException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

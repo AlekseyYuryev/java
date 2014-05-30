@@ -17,7 +17,6 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 final class CompositeElementStore {
@@ -58,13 +57,13 @@ final class CompositeElementStore {
   protected boolean add(final Binding element, final ElementAudit<Binding> elementAudit, final boolean addToAudit) {
     synchronized (elements) {
       if (!elements.add(element))
-        throw new RuntimeBindingException("Addition of element should have modified the elements list!");
+        throw new BindingRuntimeException("Addition of element should have modified the elements list!");
 
       if (!elementAudits.add(elementAudit))
-        throw new RuntimeBindingException("Addition of element should have modified the elementAudits list!");
+        throw new BindingRuntimeException("Addition of element should have modified the elementAudits list!");
 
       if (addToAudit && !elementAudit.addElement(element))
-        throw new RuntimeBindingException("Addition of element should have modified the elementAudit list!");
+        throw new BindingRuntimeException("Addition of element should have modified the elementAudit list!");
     }
 
     return true;
@@ -101,7 +100,7 @@ final class CompositeElementStore {
         return false;
 
       if (elements.remove(index) != element)
-        throw new RuntimeBindingException("Element identities do not match. Report this please.");
+        throw new BindingRuntimeException("Element identities do not match. Report this please.");
 
       // NOTE: The remove() method is initiated from the value list, which
       // NOTE: means that it is responsible for removing its own element
@@ -115,9 +114,9 @@ final class CompositeElementStore {
 
   protected boolean remove(final int index, final Binding element) {
     synchronized (elements) {
-      final ElementAudit elementAudit = elementAudits.remove(index);
+      final ElementAudit<?> elementAudit = elementAudits.remove(index);
       if (elementAudit != null)
-        return ((SpecificElementList)elementAudit.getElements()).remove(element, false);
+        return ((SpecificElementList<?>)elementAudit.getElements()).remove(element, false);
     }
 
     return false;

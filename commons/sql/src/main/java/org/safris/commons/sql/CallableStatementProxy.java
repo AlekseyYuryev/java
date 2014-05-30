@@ -35,8 +35,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
 
-public class CallableStatementProxy extends PreparedStatementProxy implements CallableStatement {
-  public CallableStatementProxy(CallableStatement callableStatement, String sql) {
+public final class CallableStatementProxy extends PreparedStatementProxy implements CallableStatement {
+  public CallableStatementProxy(final CallableStatement callableStatement, final String sql) {
     super(callableStatement, sql);
   }
 
@@ -44,11 +44,11 @@ public class CallableStatementProxy extends PreparedStatementProxy implements Ca
     return (CallableStatement)super.getStatement();
   }
 
-  public void registerOutParameter(int parameterIndex, int sqlType) throws SQLException {
+  public void registerOutParameter(final int parameterIndex, final int sqlType) throws SQLException {
     getStatement().registerOutParameter(parameterIndex, sqlType);
   }
 
-  public void registerOutParameter(int parameterIndex, int sqlType, int scale) throws SQLException {
+  public void registerOutParameter(final int parameterIndex, final int sqlType, final int scale) throws SQLException {
     getStatement().registerOutParameter(parameterIndex, sqlType, scale);
   }
 
@@ -56,387 +56,387 @@ public class CallableStatementProxy extends PreparedStatementProxy implements Ca
     return getStatement().wasNull();
   }
 
-  public String getString(int parameterIndex) throws SQLException {
+  public String getString(final int parameterIndex) throws SQLException {
     return getStatement().getString(parameterIndex);
   }
 
-  public boolean getBoolean(int parameterIndex) throws SQLException {
+  public boolean getBoolean(final int parameterIndex) throws SQLException {
     return getStatement().getBoolean(parameterIndex);
   }
 
-  public byte getByte(int parameterIndex) throws SQLException {
+  public byte getByte(final int parameterIndex) throws SQLException {
     return getStatement().getByte(parameterIndex);
   }
 
-  public short getShort(int parameterIndex) throws SQLException {
+  public short getShort(final int parameterIndex) throws SQLException {
     return getStatement().getShort(parameterIndex);
   }
 
-  public int getInt(int parameterIndex) throws SQLException {
+  public int getInt(final int parameterIndex) throws SQLException {
     return getStatement().getInt(parameterIndex);
   }
 
-  public long getLong(int parameterIndex) throws SQLException {
+  public long getLong(final int parameterIndex) throws SQLException {
     return getStatement().getLong(parameterIndex);
   }
 
-  public float getFloat(int parameterIndex) throws SQLException {
+  public float getFloat(final int parameterIndex) throws SQLException {
     return getStatement().getFloat(parameterIndex);
   }
 
-  public double getDouble(int parameterIndex) throws SQLException {
+  public double getDouble(final int parameterIndex) throws SQLException {
     return getStatement().getDouble(parameterIndex);
   }
 
-  public BigDecimal getBigDecimal(int parameterIndex, int scale) throws SQLException {
+  public BigDecimal getBigDecimal(final int parameterIndex, final int scale) throws SQLException {
     return getStatement().getBigDecimal(parameterIndex);
   }
 
-  public byte[] getBytes(int parameterIndex) throws SQLException {
+  public byte[] getBytes(final int parameterIndex) throws SQLException {
     return getStatement().getBytes(parameterIndex);
   }
 
-  public Date getDate(int parameterIndex) throws SQLException {
+  public Date getDate(final int parameterIndex) throws SQLException {
     return getStatement().getDate(parameterIndex);
   }
 
-  public Time getTime(int parameterIndex) throws SQLException {
+  public Time getTime(final int parameterIndex) throws SQLException {
     return getStatement().getTime(parameterIndex);
   }
 
-  public Timestamp getTimestamp(int parameterIndex) throws SQLException {
+  public Timestamp getTimestamp(final int parameterIndex) throws SQLException {
     return getStatement().getTimestamp(parameterIndex);
   }
 
-  public Object getObject(int parameterIndex) throws SQLException {
+  public Object getObject(final int parameterIndex) throws SQLException {
     return getStatement().getObject(parameterIndex);
   }
 
-  public BigDecimal getBigDecimal(int parameterIndex) throws SQLException {
+  public BigDecimal getBigDecimal(final int parameterIndex) throws SQLException {
     return getStatement().getBigDecimal(parameterIndex);
   }
 
-  public Object getObject(int i, Map<String, Class<?>> map) throws SQLException {
+  public Object getObject(final int i, final Map<String,Class<?>> map) throws SQLException {
     return getStatement().getObject(i, map);
   }
 
-  public Ref getRef(int i) throws SQLException {
+  public Ref getRef(final int i) throws SQLException {
     return getStatement().getRef(i);
   }
 
-  public Blob getBlob(int i) throws SQLException {
+  public Blob getBlob(final int i) throws SQLException {
     return getStatement().getBlob(i);
   }
 
-  public Clob getClob(int i) throws SQLException {
+  public Clob getClob(final int i) throws SQLException {
     return getStatement().getClob(i);
   }
 
-  public Array getArray(int i) throws SQLException {
+  public Array getArray(final int i) throws SQLException {
     return getStatement().getArray(i);
   }
 
-  public Date getDate(int parameterIndex, Calendar cal) throws SQLException {
+  public Date getDate(final int parameterIndex, final Calendar cal) throws SQLException {
     return getStatement().getDate(parameterIndex, cal);
   }
 
-  public Time getTime(int parameterIndex, Calendar cal) throws SQLException {
+  public Time getTime(final int parameterIndex, final Calendar cal) throws SQLException {
     return getStatement().getTime(parameterIndex, cal);
   }
 
-  public Timestamp getTimestamp(int parameterIndex, Calendar cal) throws SQLException {
+  public Timestamp getTimestamp(final int parameterIndex, final Calendar cal) throws SQLException {
     return getStatement().getTimestamp(parameterIndex, cal);
   }
 
-  public void registerOutParameter(int paramIndex, int sqlType, String typeName) throws SQLException {
+  public void registerOutParameter(final int paramIndex, final int sqlType, final String typeName) throws SQLException {
     getStatement().registerOutParameter(paramIndex, sqlType, typeName);
   }
 
-  public void registerOutParameter(String parameterName, int sqlType) throws SQLException {
+  public void registerOutParameter(final String parameterName, final int sqlType) throws SQLException {
     getStatement().registerOutParameter(parameterName, sqlType);
   }
 
-  public void registerOutParameter(String parameterName, int sqlType, int scale) throws SQLException {
+  public void registerOutParameter(final String parameterName, final int sqlType, final int scale) throws SQLException {
     getStatement().registerOutParameter(parameterName, sqlType, scale);
   }
 
-  public void registerOutParameter(String parameterName, int sqlType, String typeName) throws SQLException {
+  public void registerOutParameter(final String parameterName, final int sqlType, final String typeName) throws SQLException {
     getStatement().registerOutParameter(parameterName, sqlType, typeName);
   }
 
-  public URL getURL(int parameterIndex) throws SQLException {
+  public URL getURL(final int parameterIndex) throws SQLException {
     return getStatement().getURL(parameterIndex);
   }
 
-  public void setURL(String parameterName, URL val) throws SQLException {
+  public void setURL(final String parameterName, final URL val) throws SQLException {
     getStatement().setURL(parameterName, val);
   }
 
-  public void setNull(String parameterName, int sqlType) throws SQLException {
+  public void setNull(final String parameterName, final int sqlType) throws SQLException {
     getStatement().setNull(parameterName, sqlType);
   }
 
-  public void setBoolean(String parameterName, boolean x) throws SQLException {
+  public void setBoolean(final String parameterName, final boolean x) throws SQLException {
     getStatement().setBoolean(parameterName, x);
   }
 
-  public void setByte(String parameterName, byte x) throws SQLException {
+  public void setByte(final String parameterName, final byte x) throws SQLException {
     getStatement().setByte(parameterName, x);
   }
 
-  public void setShort(String parameterName, short x) throws SQLException {
+  public void setShort(final String parameterName, final short x) throws SQLException {
     getStatement().setShort(parameterName, x);
   }
 
-  public void setInt(String parameterName, int x) throws SQLException {
+  public void setInt(final String parameterName, final int x) throws SQLException {
     getStatement().setInt(parameterName, x);
   }
 
-  public void setLong(String parameterName, long x) throws SQLException {
+  public void setLong(final String parameterName, final long x) throws SQLException {
     getStatement().setLong(parameterName, x);
   }
 
-  public void setFloat(String parameterName, float x) throws SQLException {
+  public void setFloat(final String parameterName, final float x) throws SQLException {
     getStatement().setFloat(parameterName, x);
   }
 
-  public void setDouble(String parameterName, double x) throws SQLException {
+  public void setDouble(final String parameterName, final double x) throws SQLException {
     getStatement().setDouble(parameterName, x);
   }
 
-  public void setBigDecimal(String parameterName, BigDecimal x) throws SQLException {
+  public void setBigDecimal(final String parameterName, final BigDecimal x) throws SQLException {
     getStatement().setBigDecimal(parameterName, x);
   }
 
-  public void setString(String parameterName, String x) throws SQLException {
+  public void setString(final String parameterName, final String x) throws SQLException {
     getStatement().setString(parameterName, x);
   }
 
-  public void setBytes(String parameterName, byte[] x) throws SQLException {
+  public void setBytes(final String parameterName, final byte[] x) throws SQLException {
     getStatement().setBytes(parameterName, x);
   }
 
-  public void setDate(String parameterName, Date x) throws SQLException {
+  public void setDate(final String parameterName, final Date x) throws SQLException {
     getStatement().setDate(parameterName, x);
   }
 
-  public void setTime(String parameterName, Time x) throws SQLException {
+  public void setTime(final String parameterName, final Time x) throws SQLException {
     getStatement().setTime(parameterName, x);
   }
 
-  public void setTimestamp(String parameterName, Timestamp x) throws SQLException {
+  public void setTimestamp(final String parameterName, final Timestamp x) throws SQLException {
     getStatement().setTimestamp(parameterName, x);
   }
 
-  public void setAsciiStream(String parameterName, InputStream x, int length) throws SQLException {
+  public void setAsciiStream(final String parameterName, final InputStream x, final int length) throws SQLException {
     getStatement().setAsciiStream(parameterName, x, length);
   }
 
-  public void setBinaryStream(String parameterName, InputStream x, int length) throws SQLException {
+  public void setBinaryStream(final String parameterName, final InputStream x, final int length) throws SQLException {
     getStatement().setBinaryStream(parameterName, x, length);
   }
 
-  public void setObject(String parameterName, Object x, int targetSqlType, int scale) throws SQLException {
+  public void setObject(final String parameterName, final Object x, int targetSqlType, final int scale) throws SQLException {
     getStatement().setObject(parameterName, x, targetSqlType, scale);
   }
 
-  public void setObject(String parameterName, Object x, int targetSqlType) throws SQLException {
+  public void setObject(final String parameterName, final Object x, final int targetSqlType) throws SQLException {
     getStatement().setObject(parameterName, x, targetSqlType);
   }
 
-  public void setObject(String parameterName, Object x) throws SQLException {
+  public void setObject(final String parameterName, final Object x) throws SQLException {
     getStatement().setObject(parameterName, x);
   }
 
-  public void setCharacterStream(String parameterName, Reader reader, int length) throws SQLException {
+  public void setCharacterStream(final String parameterName, final Reader reader, final int length) throws SQLException {
     getStatement().setCharacterStream(parameterName, reader, length);
   }
 
-  public void setDate(String parameterName, Date x, Calendar cal) throws SQLException {
+  public void setDate(final String parameterName, final Date x, final Calendar cal) throws SQLException {
     getStatement().setDate(parameterName, x, cal);
   }
 
-  public void setTime(String parameterName, Time x, Calendar cal) throws SQLException {
+  public void setTime(final String parameterName, final Time x, final Calendar cal) throws SQLException {
     getStatement().setTime(parameterName, x, cal);
   }
 
-  public void setTimestamp(String parameterName, Timestamp x, Calendar cal) throws SQLException {
+  public void setTimestamp(final String parameterName, final Timestamp x, final Calendar cal) throws SQLException {
     getStatement().setTimestamp(parameterName, x, cal);
   }
 
-  public void setNull(String parameterName, int sqlType, String typeName) throws SQLException {
+  public void setNull(final String parameterName, final int sqlType, final String typeName) throws SQLException {
     getStatement().setNull(parameterName, sqlType, typeName);
   }
 
-  public String getString(String parameterName) throws SQLException {
+  public String getString(final String parameterName) throws SQLException {
     return getStatement().getString(parameterName);
   }
 
-  public boolean getBoolean(String parameterName) throws SQLException {
+  public boolean getBoolean(final String parameterName) throws SQLException {
     return getStatement().getBoolean(parameterName);
   }
 
-  public byte getByte(String parameterName) throws SQLException {
+  public byte getByte(final String parameterName) throws SQLException {
     return getStatement().getByte(parameterName);
   }
 
-  public short getShort(String parameterName) throws SQLException {
+  public short getShort(final String parameterName) throws SQLException {
     return getStatement().getShort(parameterName);
   }
 
-  public int getInt(String parameterName) throws SQLException {
+  public int getInt(final String parameterName) throws SQLException {
     return getStatement().getInt(parameterName);
   }
 
-  public long getLong(String parameterName) throws SQLException {
+  public long getLong(final String parameterName) throws SQLException {
     return getStatement().getLong(parameterName);
   }
 
-  public float getFloat(String parameterName) throws SQLException {
+  public float getFloat(final String parameterName) throws SQLException {
     return getStatement().getFloat(parameterName);
   }
 
-  public double getDouble(String parameterName) throws SQLException {
+  public double getDouble(final String parameterName) throws SQLException {
     return getStatement().getDouble(parameterName);
   }
 
-  public byte[] getBytes(String parameterName) throws SQLException {
+  public byte[] getBytes(final String parameterName) throws SQLException {
     return getStatement().getBytes(parameterName);
   }
 
-  public Date getDate(String parameterName) throws SQLException {
+  public Date getDate(final String parameterName) throws SQLException {
     return getStatement().getDate(parameterName);
   }
 
-  public Time getTime(String parameterName) throws SQLException {
+  public Time getTime(final String parameterName) throws SQLException {
     return getStatement().getTime(parameterName);
   }
 
-  public Timestamp getTimestamp(String parameterName) throws SQLException {
+  public Timestamp getTimestamp(final String parameterName) throws SQLException {
     return getStatement().getTimestamp(parameterName);
   }
 
-  public Object getObject(String parameterName) throws SQLException {
+  public Object getObject(final String parameterName) throws SQLException {
     return getStatement().getObject(parameterName);
   }
 
-  public BigDecimal getBigDecimal(String parameterName) throws SQLException {
+  public BigDecimal getBigDecimal(final String parameterName) throws SQLException {
     return getStatement().getBigDecimal(parameterName);
   }
 
-  public Object getObject(String parameterName, Map<String,Class<?>> map) throws SQLException {
+  public Object getObject(final String parameterName, final Map<String,Class<?>> map) throws SQLException {
     return getStatement().getObject(parameterName, map);
   }
 
-  public Ref getRef(String parameterName) throws SQLException {
+  public Ref getRef(final String parameterName) throws SQLException {
     return getStatement().getRef(parameterName);
   }
 
-  public Blob getBlob(String parameterName) throws SQLException {
+  public Blob getBlob(final String parameterName) throws SQLException {
     return getStatement().getBlob(parameterName);
   }
 
-  public Clob getClob(String parameterName) throws SQLException {
+  public Clob getClob(final String parameterName) throws SQLException {
     return getStatement().getClob(parameterName);
   }
 
-  public Array getArray(String parameterName) throws SQLException {
+  public Array getArray(final String parameterName) throws SQLException {
     return getStatement().getArray(parameterName);
   }
 
-  public Date getDate(String parameterName, Calendar cal) throws SQLException {
+  public Date getDate(final String parameterName, final Calendar cal) throws SQLException {
     return getStatement().getDate(parameterName, cal);
   }
 
-  public Time getTime(String parameterName, Calendar cal) throws SQLException {
+  public Time getTime(final String parameterName, final Calendar cal) throws SQLException {
     return getStatement().getTime(parameterName, cal);
   }
 
-  public Timestamp getTimestamp(String parameterName, Calendar cal) throws SQLException {
+  public Timestamp getTimestamp(final String parameterName, final Calendar cal) throws SQLException {
     return getStatement().getTimestamp(parameterName, cal);
   }
 
-  public URL getURL(String parameterName) throws SQLException {
+  public URL getURL(final String parameterName) throws SQLException {
     return getStatement().getURL(parameterName);
   }
 
-  public RowId getRowId(int parameterIndex) throws SQLException {
+  public RowId getRowId(final int parameterIndex) throws SQLException {
     return getStatement().getRowId(parameterIndex);
   }
 
-  public RowId getRowId(String parameterName) throws SQLException {
+  public RowId getRowId(final String parameterName) throws SQLException {
     return getStatement().getRowId(parameterName);
   }
 
-  public void setRowId(int parameterIndex, RowId x) throws SQLException {
+  public void setRowId(final int parameterIndex, final RowId x) throws SQLException {
     getStatement().setRowId(parameterIndex, x);
   }
 
-  public void setNString(int parameterIndex, String value) throws SQLException {
+  public void setNString(final int parameterIndex, final String value) throws SQLException {
     getStatement().setNString(parameterIndex, value);
   }
 
-  public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException {
+  public void setNCharacterStream(final int parameterIndex, final Reader value, final long length) throws SQLException {
     getStatement().setNCharacterStream(parameterIndex, value, length);
   }
 
-  public void setNClob(int parameterIndex, NClob value) throws SQLException {
+  public void setNClob(final int parameterIndex, final NClob value) throws SQLException {
     getStatement().setNClob(parameterIndex, value);
   }
 
-  public void setClob(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setClob(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setClob(parameterIndex, reader, length);
   }
 
-  public void setBlob(int parameterIndex, InputStream inputStream, long length) throws SQLException {
+  public void setBlob(final int parameterIndex, final InputStream inputStream, final long length) throws SQLException {
     getStatement().setBlob(parameterIndex, inputStream, length);
   }
 
-  public void setNClob(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setNClob(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setNClob(parameterIndex, reader, length);
   }
 
-  public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException {
+  public void setSQLXML(final int parameterIndex, final SQLXML xmlObject) throws SQLException {
     getStatement().setSQLXML(parameterIndex, xmlObject);
   }
 
-  public void setAsciiStream(int parameterIndex, InputStream x, long length) throws SQLException {
+  public void setAsciiStream(final int parameterIndex, final InputStream x, final long length) throws SQLException {
     getStatement().setAsciiStream(parameterIndex, x, length);
   }
 
-  public void setBinaryStream(int parameterIndex, InputStream x, long length) throws SQLException {
+  public void setBinaryStream(final int parameterIndex, final InputStream x, final long length) throws SQLException {
     getStatement().setBinaryStream(parameterIndex, x, length);
   }
 
-  public void setCharacterStream(int parameterIndex, Reader reader, long length) throws SQLException {
+  public void setCharacterStream(final int parameterIndex, final Reader reader, final long length) throws SQLException {
     getStatement().setCharacterStream(parameterIndex, reader, length);
   }
 
-  public void setAsciiStream(int parameterIndex, InputStream x) throws SQLException {
+  public void setAsciiStream(final int parameterIndex, final InputStream x) throws SQLException {
     getStatement().setAsciiStream(parameterIndex, x);
   }
 
-  public void setBinaryStream(int parameterIndex, InputStream x) throws SQLException {
+  public void setBinaryStream(final int parameterIndex, final InputStream x) throws SQLException {
     getStatement().setBinaryStream(parameterIndex, x);
   }
 
-  public void setCharacterStream(int parameterIndex, Reader reader) throws SQLException {
+  public void setCharacterStream(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setCharacterStream(parameterIndex, reader);
   }
 
-  public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException {
+  public void setNCharacterStream(final int parameterIndex, final Reader value) throws SQLException {
     getStatement().setNCharacterStream(parameterIndex, value);
   }
 
-  public void setClob(int parameterIndex, Reader reader) throws SQLException {
+  public void setClob(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setClob(parameterIndex, reader);
   }
 
-  public void setBlob(int parameterIndex, InputStream inputStream) throws SQLException {
+  public void setBlob(final int parameterIndex, final InputStream inputStream) throws SQLException {
     getStatement().setBlob(parameterIndex, inputStream);
   }
 
-  public void setNClob(int parameterIndex, Reader reader) throws SQLException {
+  public void setNClob(final int parameterIndex, final Reader reader) throws SQLException {
     getStatement().setNClob(parameterIndex, reader);
   }
 
@@ -444,7 +444,7 @@ public class CallableStatementProxy extends PreparedStatementProxy implements Ca
     return getStatement().isClosed();
   }
 
-  public void setPoolable(boolean poolable) throws SQLException {
+  public void setPoolable(final boolean poolable) throws SQLException {
     getStatement().setPoolable(poolable);
   }
 
@@ -452,139 +452,139 @@ public class CallableStatementProxy extends PreparedStatementProxy implements Ca
     return getStatement().isPoolable();
   }
 
-  public <T extends Object> T unwrap(Class<T> iface) throws SQLException {
+  public <T extends Object> T unwrap(final Class<T> iface) throws SQLException {
     return getStatement().unwrap(iface);
   }
 
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+  public boolean isWrapperFor(final Class<?> iface) throws SQLException {
     return getStatement().isWrapperFor(iface);
   }
 
-  public void setRowId(String parameterName, RowId x) throws SQLException {
+  public void setRowId(final String parameterName, final RowId x) throws SQLException {
     getStatement().setRowId(parameterName, x);
   }
 
-  public void setNString(String parameterName, String value) throws SQLException {
+  public void setNString(final String parameterName, final String value) throws SQLException {
     getStatement().setNString(parameterName, value);
   }
 
-  public void setNCharacterStream(String parameterName, Reader value, long length) throws SQLException {
+  public void setNCharacterStream(final String parameterName, final Reader value, final long length) throws SQLException {
     getStatement().setNCharacterStream(parameterName, value, length);
   }
 
-  public void setNClob(String parameterName, NClob value) throws SQLException {
+  public void setNClob(final String parameterName, final NClob value) throws SQLException {
     getStatement().setNClob(parameterName, value);
   }
 
-  public void setClob(String parameterName, Reader reader, long length) throws SQLException {
+  public void setClob(final String parameterName, final Reader reader, final long length) throws SQLException {
     getStatement().setClob(parameterName, reader);
   }
 
-  public void setBlob(String parameterName, InputStream inputStream, long length) throws SQLException {
+  public void setBlob(final String parameterName, final InputStream inputStream, final long length) throws SQLException {
     getStatement().setBlob(parameterName, inputStream);
   }
 
-  public void setNClob(String parameterName, Reader reader, long length) throws SQLException {
+  public void setNClob(final String parameterName, final Reader reader, final long length) throws SQLException {
     getStatement().setNClob(parameterName, reader, length);
   }
 
-  public NClob getNClob(int parameterIndex) throws SQLException {
+  public NClob getNClob(final int parameterIndex) throws SQLException {
     return getStatement().getNClob(parameterIndex);
   }
 
-  public NClob getNClob(String parameterName) throws SQLException {
+  public NClob getNClob(final String parameterName) throws SQLException {
     return getStatement().getNClob(parameterName);
   }
 
-  public void setSQLXML(String parameterName, SQLXML xmlObject) throws SQLException {
+  public void setSQLXML(final String parameterName, final SQLXML xmlObject) throws SQLException {
     getStatement().setSQLXML(parameterName, xmlObject);
   }
 
-  public SQLXML getSQLXML(int parameterIndex) throws SQLException {
+  public SQLXML getSQLXML(final int parameterIndex) throws SQLException {
     return getStatement().getSQLXML(parameterIndex);
   }
 
-  public SQLXML getSQLXML(String parameterName) throws SQLException {
+  public SQLXML getSQLXML(final String parameterName) throws SQLException {
     return getStatement().getSQLXML(parameterName);
   }
 
-  public String getNString(int parameterIndex) throws SQLException {
+  public String getNString(final int parameterIndex) throws SQLException {
     return getStatement().getNString(parameterIndex);
   }
 
-  public String getNString(String parameterName) throws SQLException {
+  public String getNString(final String parameterName) throws SQLException {
     return getStatement().getNString(parameterName);
   }
 
-  public Reader getNCharacterStream(int parameterIndex) throws SQLException {
+  public Reader getNCharacterStream(final int parameterIndex) throws SQLException {
     return getStatement().getNCharacterStream(parameterIndex);
   }
 
-  public Reader getNCharacterStream(String parameterName) throws SQLException {
+  public Reader getNCharacterStream(final String parameterName) throws SQLException {
     return getStatement().getNCharacterStream(parameterName);
   }
 
-  public Reader getCharacterStream(int parameterIndex) throws SQLException {
+  public Reader getCharacterStream(final int parameterIndex) throws SQLException {
     return getStatement().getCharacterStream(parameterIndex);
   }
 
-  public Reader getCharacterStream(String parameterName) throws SQLException {
+  public Reader getCharacterStream(final String parameterName) throws SQLException {
     return getStatement().getCharacterStream(parameterName);
   }
 
-  public void setBlob(String parameterName, Blob x) throws SQLException {
+  public void setBlob(final String parameterName, final Blob x) throws SQLException {
     getStatement().setBlob(parameterName, x);
   }
 
-  public void setClob(String parameterName, Clob x) throws SQLException {
+  public void setClob(final String parameterName, final Clob x) throws SQLException {
     getStatement().setClob(parameterName, x);
   }
 
-  public void setAsciiStream(String parameterName, InputStream x, long length) throws SQLException {
+  public void setAsciiStream(final String parameterName, final InputStream x, final long length) throws SQLException {
     getStatement().setAsciiStream(parameterName, x, length);
   }
 
-  public void setBinaryStream(String parameterName, InputStream x, long length) throws SQLException {
+  public void setBinaryStream(final String parameterName, final InputStream x, final long length) throws SQLException {
     getStatement().setBinaryStream(parameterName, x, length);
   }
 
-  public void setCharacterStream(String parameterName, Reader reader, long length) throws SQLException {
+  public void setCharacterStream(final String parameterName, final Reader reader, final long length) throws SQLException {
     getStatement().setCharacterStream(parameterName, reader, length);
   }
 
-  public void setAsciiStream(String parameterName, InputStream x) throws SQLException {
+  public void setAsciiStream(final String parameterName, final InputStream x) throws SQLException {
     getStatement().setAsciiStream(parameterName, x);
   }
 
-  public void setBinaryStream(String parameterName, InputStream x) throws SQLException {
+  public void setBinaryStream(final String parameterName, final InputStream x) throws SQLException {
     getStatement().setBinaryStream(parameterName, x);
   }
 
-  public void setCharacterStream(String parameterName, Reader reader) throws SQLException {
+  public void setCharacterStream(final String parameterName, final Reader reader) throws SQLException {
     getStatement().setCharacterStream(parameterName, reader);
   }
 
-  public void setNCharacterStream(String parameterName, Reader value) throws SQLException {
+  public void setNCharacterStream(final String parameterName, final Reader value) throws SQLException {
     getStatement().setNCharacterStream(parameterName, value);
   }
 
-  public void setClob(String parameterName, Reader reader) throws SQLException {
+  public void setClob(final String parameterName, final Reader reader) throws SQLException {
     getStatement().setClob(parameterName, reader);
   }
 
-  public void setBlob(String parameterName, InputStream inputStream) throws SQLException {
+  public void setBlob(final String parameterName, final InputStream inputStream) throws SQLException {
     getStatement().setBlob(parameterName, inputStream);
   }
 
-  public void setNClob(String parameterName, Reader reader) throws SQLException {
+  public void setNClob(final String parameterName, final Reader reader) throws SQLException {
     getStatement().setNClob(parameterName, reader);
   }
 
-  public <T>T getObject(int parameterIndex, Class<T> type) throws SQLException {
+  public <T>T getObject(final int parameterIndex, final Class<T> type) throws SQLException {
     return getStatement().getObject(parameterIndex, type);
   }
 
-  public <T>T getObject(String parameterName, Class<T> type) throws SQLException {
+  public <T>T getObject(final String parameterName, final Class<T> type) throws SQLException {
     return getStatement().getObject(parameterName, type);
   }
 }

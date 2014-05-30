@@ -40,9 +40,9 @@ public abstract class FormatModule {
     return lastModule;
   }
 
-  protected static void setLastModule(FormatModule module) {
+  protected static void setLastModule(final FormatModule module) {
     FormatModule.lastModule = module;
   }
 
-  abstract String format(String formated, String token);
+  abstract String format(final String formated, final String token);
 }

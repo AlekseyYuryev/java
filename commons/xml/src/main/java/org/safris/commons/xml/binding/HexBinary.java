@@ -22,8 +22,8 @@ import java.util.Arrays;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#hexBinary
  */
-public class HexBinary {
-  public static HexBinary parseHexBinary(String string) {
+public final class HexBinary {
+  public static HexBinary parseHexBinary(final String string) {
     if (string == null)
       return null;
 
@@ -64,16 +64,13 @@ public class HexBinary {
 
   private static char convertDigit(int value) {
     value &= 0x0f;
-    if (value >= 10)
-      return ((char)(value - 10 + 'A'));
-    else
-      return ((char)(value + '0'));
+    return value >= 10 ? (char)(value - 10 + 'A') : (char)(value + '0');
   }
 
   private final byte[] bytes;
   private final String encoded;
 
-  public HexBinary(byte[] bytes) {
+  public HexBinary(final byte[] bytes) {
     this.bytes = bytes;
     final StringBuffer buffer = new StringBuffer(bytes.length * 2);
     for (int i = 0; i < bytes.length; i++) {
@@ -88,7 +85,7 @@ public class HexBinary {
     return bytes;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

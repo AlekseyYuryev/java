@@ -19,13 +19,67 @@ package org.safris.commons.lang.reflect;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.safris.commons.util.For;
 
 import sun.reflect.Reflection;
 
 public final class Classes {
+  private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
+
+  public static Field getField(final Class<?> cls, final String fieldName) {
+    return Classes.getField(cls, fieldName, false);
+  }
+
+  public static Field getDeclaredField(final Class<?> cls, final String fieldName) {
+    return Classes.getField(cls, fieldName, true);
+  }
+
+  private static Field getField(final Class<?> cls, final String fieldName, final boolean declared) {
+    if (cls == null)
+      throw new NullPointerException("cls == null");
+
+    if (fieldName == null)
+      throw new NullPointerException("fieldName == null");
+
+    Map<String,Field> fieldMap = classToFields.get(cls);
+    if (fieldMap != null)
+      return checkAccessField(fieldMap.get(cls), declared);
+
+    synchronized (classToFields) {
+      fieldMap = classToFields.get(cls);
+      if (fieldMap != null)
+        return checkAccessField(fieldMap.get(cls), declared);
+
+      final Field[] fields = declared ? cls.getDeclaredFields() : cls.getFields();
+      classToFields.put(cls, fieldMap = new HashMap<String,Field>());
+      for (final Field field : fields) {
+        field.setAccessible(true);
+        fieldMap.put(field.getName(), field);
+      }
+
+      return checkAccessField(fieldMap.get(cls), declared);
+    }
+  }
+
+  public static Field getDeclaredFieldDeep(Class<?> clazz, final String name) {
+    Field field;
+    do
+      field = Classes.getDeclaredField(clazz, name);
+    while (field == null && (clazz = clazz.getSuperclass()) != null);
+    return field;
+  }
+
+  private static Field checkAccessField(final Field field, final boolean declared) {
+    return declared || Modifier.isPublic(field.getModifiers()) ? field : null;
+  }
+
   public static Class<?> forName(final String className, final boolean initialize) {
     if (className == null || className.length() == 0)
       return null;
@@ -57,6 +111,27 @@ public final class Classes {
   public static Class<?> forName(final String className) {
     return Classes.forName(className, false);
   }
+  
+  public static <T extends Annotation>T getDeclaredAnnotation(final Class<?> clazz, final Class<T> annotationType) {
+    for (final Annotation annotation : clazz.getDeclaredAnnotations())
+      if (annotation.annotationType() == annotationType)
+        return (T)annotation;
+    
+    return null;
+  }
+  
+  private static final For.Filter<Field> fieldWithAnnotationFilter = new For.Filter<Field>() {
+    public boolean filter(final Field value, final Object ... args) {
+      return value.getAnnotation((Class)args[0]) != null;
+    }
+  };
+
+  private static final For.Recurser<Field> fieldWithAnnotationRecurser = new For.Recurser<Field>() {
+    public Field[] recurse(final Field[] value) {
+      final Class<?> clazz = value[0].getDeclaringClass().getSuperclass();
+      return clazz != null ? clazz.getDeclaredFields() : null;
+    }
+  };
 
   /**
    * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
@@ -69,45 +144,15 @@ public final class Classes {
    * @param comparable
    * @return
    */
-  public static <T extends Annotation> List<Field> getDeclaredFieldsWithAnnotation(final Class<?> clazz, final Class<T> annotationType, final Comparable<T> comparable) {
-    if (clazz == null)
-      throw new NullPointerException("clazz == null");
-
-    if (annotationType == null)
-      throw new NullPointerException("annotationType == null");
-
-    if (comparable == null)
-      throw new NullPointerException("equalable == null");
-
-    final List<Field> fields = new ArrayList<Field>();
-    outer:
-    for (final Field field : clazz.getDeclaredFields()) {
-      for (final Annotation atn : field.getDeclaredAnnotations()) {
-        if (annotationType.isInstance(atn)) {
-          final int comparison = comparable.compareTo((T)atn);
-          if (comparison >= 0) {
-            fields.add(field);
-            if (comparison == 1)
-              return fields;
-
-            continue outer;
-          }
-        }
-      }
-    }
-
-    return fields;
+  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
+    return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationFilter, annotationType);
   }
 
-  public static <T extends Annotation> List<Field> getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType, final Comparable<T> comparable) {
-    final List<Field> fields = new ArrayList<Field>();
-    do
-      fields.addAll(getDeclaredFieldsWithAnnotation(clazz, annotationType, comparable));
-    while ((clazz = clazz.getSuperclass()) != null);
-    return fields;
+  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
+    return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationRecurser, fieldWithAnnotationFilter, annotationType);
   }
-
-  public static List<Field> getFieldsDeep(Class<?> clazz) {
+  
+  public static Field[] getFieldsDeep(Class<?> clazz) {
     if (clazz == null)
       throw new NullPointerException("clazz == null");
 
@@ -115,10 +160,10 @@ public final class Classes {
     do
       fields.addAll(Arrays.<Field>asList(clazz.getFields()));
     while ((clazz = clazz.getSuperclass()) != null);
-    return fields;
+    return fields.toArray(new Field[fields.size()]);
   }
 
-  public static List<Field> getDeclaredFieldsDeep(Class<?> clazz) {
+  public static Field[] getDeclaredFieldsDeep(Class<?> clazz) {
     if (clazz == null)
       throw new NullPointerException("clazz == null");
 
@@ -126,7 +171,7 @@ public final class Classes {
     do
       fields.addAll(Arrays.<Field>asList(clazz.getDeclaredFields()));
     while ((clazz = clazz.getSuperclass()) != null);
-    return fields;
+    return fields.toArray(new Field[fields.size()]);
   }
 
   public static Method getDeclaredMethod(final Class<?> clazz, final String name, final Class<?> ... parameters) {
@@ -150,29 +195,6 @@ public final class Classes {
       method = getDeclaredMethod(clazz, name, parameters);
     while (method == null && (clazz = clazz.getSuperclass()) != null);
     return method;
-  }
-
-  public static Field getDeclaredField(final Class<?> clazz, final String name) {
-    if (clazz == null)
-      throw new NullPointerException("clazz == null");
-
-    if (name == null)
-      throw new NullPointerException("name == null");
-
-    final Field[] fields = clazz.getDeclaredFields();
-    for (final Field field : fields)
-      if (field.getName().equals(name))
-        return field;
-
-    return null;
-  }
-
-  public static Field getDeclaredFieldDeep(Class<?> clazz, final String name) {
-    Field field;
-    do
-      field = getDeclaredField(clazz, name);
-    while (field == null && (clazz = clazz.getSuperclass()) != null);
-    return field;
   }
 
   public static Class<?> getGreatestCommonSuperclass(final Class<?> ... classes) {

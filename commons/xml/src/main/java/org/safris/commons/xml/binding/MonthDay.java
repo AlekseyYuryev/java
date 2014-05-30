@@ -22,7 +22,7 @@ import java.util.TimeZone;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gMonthDay
  */
-public class MonthDay {
+public final class MonthDay {
   public static MonthDay parseMonthDay(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -68,11 +68,11 @@ public class MonthDay {
   private final Day day;
   private final TimeZone timeZone;
 
-  public MonthDay(int month, int day, TimeZone timeZone) {
+  public MonthDay(final int month, final int day, final TimeZone timeZone) {
     this(new Month(month), new Day(day), timeZone);
   }
 
-  protected MonthDay(Month month, Day day, TimeZone timeZone) {
+  protected MonthDay(final Month month, final Day day, final TimeZone timeZone) {
     if (month == null)
       throw new NullPointerException("month == null");
 
@@ -90,11 +90,11 @@ public class MonthDay {
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
   }
 
-  public MonthDay(int month, int day) {
+  public MonthDay(final int month, final int day) {
     this(month, day, null);
   }
 
-  public MonthDay(long time) {
+  public MonthDay(final long time) {
     this(new Month(time), new Day(time), null);
   }
 
@@ -114,7 +114,7 @@ public class MonthDay {
     return timeZone;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

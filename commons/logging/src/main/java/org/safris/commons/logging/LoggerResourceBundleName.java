@@ -19,7 +19,7 @@ package org.safris.commons.logging;
 public abstract class LoggerResourceBundleName {
   private final String name;
 
-  protected LoggerResourceBundleName(String name) {
+  protected LoggerResourceBundleName(final String name) {
     this.name = name;
   }
 

@@ -19,7 +19,7 @@ package org.safris.commons.el;
 import java.util.Map;
 
 public final class ELs {
-  public static String dereference(String string, Map<String,String> variables) throws ExpressionFormatException {
+  public static String dereference(String string, final Map<String,String> variables) throws ExpressionFormatException {
     if (string == null || string.length() == 0 || variables == null)
       return string;
 

@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
 import java.util.List;
+
 import org.safris.commons.io.Files;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
@@ -27,15 +28,15 @@ import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProcessor<GeneratorContext,Bundle,Bundle> {
+public final class TimestampProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,Bundle,Bundle> {
   private static final FileFilter fileFilter = new FileFilter() {
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return pathname != null && pathname.isFile();
     }
   };
 
   private static final FileFilter dirFileFilter = new FileFilter() {
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       return pathname != null && pathname.isDirectory();
     }
   };
@@ -43,19 +44,19 @@ public class TimestampProcessor implements PipelineEntity<Bundle>, PipelineProce
   protected TimestampProcessor() {
   }
 
-  public Collection<Bundle> process(GeneratorContext pipelineContext, Collection<Bundle> documents, PipelineDirectory<GeneratorContext,Bundle,Bundle> directory) {
+  public Collection<Bundle> process(final GeneratorContext pipelineContext, final Collection<Bundle> documents, final PipelineDirectory<GeneratorContext,Bundle,Bundle> directory) {
     // Get the earliest lastModified time of all the files
     long lastModified = Long.MAX_VALUE;
     final List<File> files = Files.listAll(pipelineContext.getDestDir(), fileFilter);
     if (files != null)
-      for (File file : files)
+      for (final File file : files)
         if (file.lastModified() < lastModified)
           lastModified = file.lastModified();
 
     // Set the lastModified time of all directories to just before the value from above
     final List<File> dirs = Files.listAll(pipelineContext.getDestDir(), dirFileFilter);
     if (dirs != null)
-      for (File dir : dirs)
+      for (final File dir : dirs)
         dir.setLastModified(lastModified - 100);
 
     return null;

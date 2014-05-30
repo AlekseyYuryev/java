@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.io.File;
 import java.net.URL;
+
 import org.safris.commons.io.Files;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
@@ -28,7 +29,7 @@ import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SchemaModel extends Model {
+public final class SchemaModel extends Model {
   private Form attributeFormDefault = Form.UNQUALIFIED;
   private BlockDefault blockDefault = null;
   private Form elementFormDefault = Form.UNQUALIFIED;
@@ -38,7 +39,7 @@ public class SchemaModel extends Model {
   private String version = null;
   private URL url = null;
 
-  protected SchemaModel(Node node, Model parent) {
+  protected SchemaModel(final Node node, final Model parent) {
     // NOTE: A SchemaModel does not have a parent.
     super(node, null);
     final NamedNodeMap attributes = node.getAttributes();
@@ -61,7 +62,7 @@ public class SchemaModel extends Model {
     }
   }
 
-  public final void setURL(URL url) {
+  public final void setURL(final URL url) {
     this.url = url;
     final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
     logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
@@ -91,9 +92,9 @@ public class SchemaModel extends Model {
     return lang;
   }
 
-  public final void setTargetNamespace(NamespaceURI targetNamespace) {
+  public final void setTargetNamespace(final NamespaceURI targetNamespace) {
     if (targetNamespace == null)
-      throw new Error("NULL targetNamespace");
+      throw new IllegalArgumentException("targetNamespace == null");
 
     this.targetNamespace = targetNamespace;
   }
@@ -104,6 +105,21 @@ public class SchemaModel extends Model {
 
   public final String getVersion() {
     return version;
+  }
+  
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    
+    if (!(obj instanceof SchemaModel))
+      return false;
+    
+    final SchemaModel that = (SchemaModel)obj;
+    return (targetNamespace != null ? targetNamespace.equals(that.targetNamespace) : that.targetNamespace == null) && (url != null ? url.equals(that.url) : that.url == null); 
+  }
+  
+  public int hashCode() {
+    return (targetNamespace != null ? targetNamespace.hashCode() : -7) * (url != null ? url.hashCode() : -9);
   }
 
   public String toString() {

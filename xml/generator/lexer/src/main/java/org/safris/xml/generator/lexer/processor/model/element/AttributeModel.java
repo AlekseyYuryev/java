@@ -18,7 +18,9 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.Referenceable;
@@ -26,13 +28,12 @@ import org.safris.xml.generator.lexer.processor.model.AliasModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.ReferableModel;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
-import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements Formable<Model>, ReferableModel<AttributeModel>, RestrictableModel<AttributeModel> {
+public class AttributeModel extends SimpleTypeModel<SimpleTypeModel<?>> implements Formable<Model>, ReferableModel<AttributeModel>, RestrictableModel<AttributeModel> {
   private QName _default = null;
   private QName fixed = null;
   private Form form = null;
@@ -42,7 +43,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
   private AliasModel restrictionOwner = null;
   private AttributeModel restriction = null;
 
-  public AttributeModel(Node node, Model parent) {
+  public AttributeModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -65,7 +66,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     }
   }
 
-  public final void setRestriction(AttributeModel restriction) {
+  public final void setRestriction(final AttributeModel restriction) {
     this.restriction = restriction;
   }
 
@@ -77,7 +78,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     return restrictionOwner;
   }
 
-  public final void setRestrictionOwner(AliasModel restrictionOwner) {
+  public final void setRestrictionOwner(final AliasModel restrictionOwner) {
     this.restrictionOwner = restrictionOwner;
   }
 
@@ -85,22 +86,16 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     return ref;
   }
 
-  public final void setRef(AttributeModel ref) {
+  public final void setRef(final AttributeModel ref) {
     this.ref = ref;
   }
 
   public final UniqueQName getName() {
-    if (ref != null)
-      return ref.getName();
-
-    return super.getName();
+    return ref != null ? ref.getName() : super.getName();
   }
 
-  public final SimpleTypeModel getSuperType() {
-    if (ref != null)
-      return ref.getSuperType();
-
-    return super.getSuperType();
+  public final SimpleTypeModel<?> getSuperType() {
+    return ref != null ? ref.getSuperType() : super.getSuperType();
   }
 
   public final QName getDefault() {
@@ -119,7 +114,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     return use;
   }
 
-  public final void setFormDefault(Form formDefault) {
+  public final void setFormDefault(final Form formDefault) {
     this.formDefault = formDefault;
   }
 
@@ -127,7 +122,7 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     return formDefault;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     final boolean equals = super.equals(obj);
     if (!equals)
       return false;
@@ -151,14 +146,14 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel> implements 
     return getName().toString();
   }
 
-  public final static class Reference extends AttributeModel implements Referenceable {
+  public static final class Reference extends AttributeModel implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseAttribute(UniqueQName name) {
+    public static Reference parseAttribute(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;

@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FileMonitor {
+public final class FileMonitor {
   private final File file;
   private final int interval;
   private volatile long lastModifiedTime = 0;
@@ -28,7 +28,7 @@ public class FileMonitor {
   private volatile boolean kill = false;
   private final Set<FileEventListener> listeners = new HashSet<FileEventListener>();
 
-  public FileMonitor(File file, int interval) {
+  public FileMonitor(final File file, final int interval) {
     if (file == null)
       throw new NullPointerException("file == null");
 
@@ -36,7 +36,7 @@ public class FileMonitor {
     this.interval = interval;
   }
 
-  public void addListener(FileEventListener listener) {
+  public void addListener(final FileEventListener listener) {
     listeners.add(listener);
   }
 
@@ -58,7 +58,7 @@ public class FileMonitor {
     monitorThread.start();
   }
 
-  private class FileMonitorRunner extends Thread {
+  private final class FileMonitorRunner extends Thread {
     public void run() {
       try {
         while (true) {
@@ -83,16 +83,16 @@ public class FileMonitor {
             break;
         }
       }
-      catch (InterruptedException e) {
+      catch (final InterruptedException e) {
       }
     }
   }
 
-  private class FileMonitorKiller extends Thread {
+  private final class FileMonitorKiller extends Thread {
     private final Thread criticalThread;
     private final Thread dependentThread;
 
-    public FileMonitorKiller(Thread criticalThread, Thread dependentThread) {
+    public FileMonitorKiller(final Thread criticalThread, final Thread dependentThread) {
       if (criticalThread == null)
         throw new NullPointerException("criticalThread == null");
 
@@ -107,7 +107,7 @@ public class FileMonitor {
       try {
         criticalThread.join();
       }
-      catch (InterruptedException e) {
+      catch (final InterruptedException e) {
         throw new RuntimeException(e);
       }
 
@@ -118,16 +118,16 @@ public class FileMonitor {
     }
   }
 
-  private class FileModifiedNotifier extends Thread {
+  private final class FileModifiedNotifier extends Thread {
     public void run() {
-      for (FileEventListener listener : listeners)
+      for (final FileEventListener listener : listeners)
         listener.onModify(file);
     }
   }
 
-  private class FileDeletedNotifier extends Thread {
+  private final class FileDeletedNotifier extends Thread {
     public void run() {
-      for (FileEventListener listener : listeners)
+      for (final FileEventListener listener : listeners)
         listener.onDelete(file);
     }
   }

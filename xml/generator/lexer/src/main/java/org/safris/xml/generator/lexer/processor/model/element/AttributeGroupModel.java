@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.model.AttributableModel;
@@ -27,7 +28,6 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.processor.model.RedefineableModel;
 import org.safris.xml.generator.lexer.processor.model.ReferableModel;
-import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -36,7 +36,7 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
   private AttributeGroupModel ref = null;
   private AttributeGroupModel redefine = null;
 
-  protected AttributeGroupModel(Node node, Model parent) {
+  protected AttributeGroupModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -49,7 +49,7 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
     }
   }
 
-  public final void setRedefine(AttributeGroupModel redefine) {
+  public final void setRedefine(final AttributeGroupModel redefine) {
     this.redefine = redefine;
   }
 
@@ -57,11 +57,11 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
     return redefine;
   }
 
-  public final void addAttribute(AttributeModel attribute) {
+  public final void addAttribute(final AttributeModel attribute) {
     attributes.add(attribute);
   }
 
-  public final void addAllAttributes(Collection<AttributeModel> attributes) {
+  public final void addAllAttributes(final Collection<AttributeModel> attributes) {
     attributes.addAll(attributes);
   }
 
@@ -69,7 +69,7 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
     return attributes;
   }
 
-  public final void setRef(AttributeGroupModel ref) {
+  public final void setRef(final AttributeGroupModel ref) {
     this.ref = ref;
   }
 
@@ -81,14 +81,14 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
     return super.toString().replace(TO_STRING_DELIMITER, "ref=\"" + ref + "\"");
   }
 
-  public static class Reference extends AttributeGroupModel implements Referenceable {
+  public static final class Reference extends AttributeGroupModel implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseAttributeGroup(UniqueQName name) {
+    public static Reference parseAttributeGroup(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;

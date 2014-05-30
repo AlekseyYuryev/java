@@ -17,14 +17,15 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
+
 import org.safris.xdb.xdl.JPABeanTransform;
 
 /**
  * @goal jpa
  * @phase generate-sources
  */
-public class JPABeanTransformMojo extends XDLTransformerMojo {
-  public void transform(File xdlFile, File outDir) {
+public final class JPABeanTransformMojo extends XDLTransformerMojo {
+  public void transform(final File xdlFile, final File outDir) {
     JPABeanTransform.createJPABeans(xdlFile, outDir);
     project.addTestCompileSourceRoot(outDir.getAbsolutePath());
     project.addCompileSourceRoot(outDir.getAbsolutePath());

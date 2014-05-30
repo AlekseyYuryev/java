@@ -19,9 +19,9 @@ package org.safris.xml.toolkit.sample.binding;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.Bindings;
-import org.safris.xml.generator.compiler.runtime.ComplexType;
 import org.safris.xml.toolkit.sample.binding.substitutiongroup.$sg_productType;
 import org.safris.xml.toolkit.sample.binding.substitutiongroup.sg_hat;
 import org.safris.xml.toolkit.sample.binding.substitutiongroup.sg_shirt;
@@ -30,7 +30,7 @@ import org.safris.xml.toolkit.sample.binding.substitutiongroup.sg_umbrella;
 import org.xml.sax.InputSource;
 
 public class SubstitutionGroupExample {
-  public static void main(String[] args) throws Exception {
+  public static void main(final String[] args) throws Exception {
     new SubstitutionGroupExample().runExample();
   }
 
@@ -43,19 +43,19 @@ public class SubstitutionGroupExample {
       throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
     sg_stockList stockList = (sg_stockList)Bindings.parse(new InputSource(new FileInputStream(file)));
-    List<$sg_productType<? extends ComplexType>> products = stockList.getsg_product();
-    for ($sg_productType<? extends ComplexType> product : products) {
+    List<$sg_productType> products = stockList.sg_product();
+    for ($sg_productType product : products) {
       if (product instanceof sg_shirt) {
         sg_shirt shirt = (sg_shirt)product;
-        System.out.println("There are " + shirt.get_amount(0).getText() + " of '" + shirt.get_name(0).getText() + "' shirts colored " + shirt.get_color(0).getText() + ", size " + shirt.get_size(0).getText());
+        System.out.println("There are " + shirt._amount(0).text() + " of '" + shirt._name(0).text() + "' shirts colored " + shirt._color(0).text() + ", size " + shirt._size(0).text());
       }
       else if (product instanceof sg_hat) {
         sg_hat hat = (sg_hat)product;
-        System.out.println("There are " + hat.get_amount(0).getText() + " of '" + hat.get_name(0).getText() + "' hats, size " + hat.get_size(0).getText());
+        System.out.println("There are " + hat._amount(0).text() + " of '" + hat._name(0).text() + "' hats, size " + hat._size(0).text());
       }
       else if (product instanceof sg_umbrella) {
         sg_umbrella umbrella = (sg_umbrella)product;
-        System.out.println("There are " + umbrella.get_amount(0).getText() + " of '" + umbrella.get_name(0).getText() + "' umbrellas");
+        System.out.println("There are " + umbrella._amount(0).text() + " of '" + umbrella._name(0).text() + "' umbrellas");
       }
     }
 

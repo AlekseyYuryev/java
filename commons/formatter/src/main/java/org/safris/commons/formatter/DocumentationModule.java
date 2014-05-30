@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class DocumentationModule extends FormatModule {
-  String format(String formated, String token) {
+public final class DocumentationModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().indexOf("//") == 0 || token.trim().indexOf("/*") == 0 || (token.trim().indexOf("*") == 0 && getLastModule() instanceof DocumentationModule)) {
       for (int i = 0; i < getDepth(); i++)
         token = "\t" + token;

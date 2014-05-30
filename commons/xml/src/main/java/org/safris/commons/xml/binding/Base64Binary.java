@@ -26,7 +26,7 @@ import sun.misc.BASE64Encoder;
  * http://www.w3.org/TR/xmlschema11-2/#base64Binary
  */
 public final class Base64Binary {
-  public static Base64Binary parseBase64Binary(String string) {
+  public static Base64Binary parseBase64Binary(final String string) {
     if (string == null)
       return null;
 
@@ -34,7 +34,7 @@ public final class Base64Binary {
     try {
       bytes = new BASE64Decoder().decodeBuffer(string);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("unable to decode");
       illegalArgumentException.setStackTrace(e.getStackTrace());
       throw illegalArgumentException;
@@ -46,7 +46,7 @@ public final class Base64Binary {
   private final byte[] bytes;
   private String encoded = null;
 
-  public Base64Binary(byte[] bytes) {
+  public Base64Binary(final byte[] bytes) {
     this.bytes = bytes;
   }
 
@@ -54,7 +54,7 @@ public final class Base64Binary {
     return bytes;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 
@@ -75,9 +75,6 @@ public final class Base64Binary {
    * @return  The base64 string.
    */
   public String toString() {
-    if (encoded == null)
-      encoded = new BASE64Encoder().encodeBuffer(bytes);
-
-    return encoded;
+    return encoded == null ? encoded = new BASE64Encoder().encodeBuffer(bytes) : encoded;
   }
 }

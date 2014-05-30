@@ -18,7 +18,7 @@ package org.safris.commons.xml.sax;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
 
-public class SAXProperty {
+public final class SAXProperty {
   /**
    * Declaration handler.
    */
@@ -62,7 +62,7 @@ public class SAXProperty {
   /**
    * Element attribute limit.
    */
-  public static final SAXProperty SYSTEM_PROPERTY_ELEMENT_ATTRIBUTE_LIMIT = new SAXProperty(Constants.JAXP_PROPERTY_PREFIX + Constants.SYSTEM_PROPERTY_ELEMENT_ATTRIBUTE_LIMIT);
+  //public static final SAXProperty SYSTEM_PROPERTY_ELEMENT_ATTRIBUTE_LIMIT = new SAXProperty(Constants.JAXP_PROPERTY_PREFIX + Constants.SYSTEM_PROPERTY_ELEMENT_ATTRIBUTE_LIMIT);
 
   /**
    * Symbol table.
@@ -176,7 +176,7 @@ public class SAXProperty {
 
   private final String property;
 
-  protected SAXProperty(String property) {
+  protected SAXProperty(final String property) {
     this.property = property;
   }
 
@@ -188,7 +188,7 @@ public class SAXProperty {
     return property.hashCode();
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

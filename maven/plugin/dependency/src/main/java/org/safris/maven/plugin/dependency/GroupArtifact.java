@@ -18,12 +18,12 @@ package org.safris.maven.plugin.dependency;
 
 import org.apache.maven.artifact.Artifact;
 
-public class GroupArtifact extends GroupArtifactVersionType {
-  public GroupArtifact(Artifact artifact) {
+public final class GroupArtifact extends GroupArtifactVersionType {
+  public GroupArtifact(final Artifact artifact) {
     super(artifact);
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

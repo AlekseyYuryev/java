@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.Form;
 
 public final class Form {
   private static final Map<String,Form> enums = new HashMap<String,Form>();
@@ -26,13 +25,13 @@ public final class Form {
   public static final Form QUALIFIED = new Form("qualified");
   public static final Form UNQUALIFIED = new Form("unqualified");
 
-  public static Form parseForm(String value) {
+  public static Form parseForm(final String value) {
     return enums.get(value);
   }
 
   private final String value;
 
-  private Form(String value) {
+  private Form(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -41,7 +40,7 @@ public final class Form {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

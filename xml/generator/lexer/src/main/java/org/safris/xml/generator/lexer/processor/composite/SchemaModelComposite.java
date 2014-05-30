@@ -19,11 +19,11 @@ package org.safris.xml.generator.lexer.processor.composite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 
-public class SchemaModelComposite implements SchemaComposite {
+public final class SchemaModelComposite implements SchemaComposite {
   private final SchemaDocument schemaDocument;
   private SchemaModel schemaModel = null;
 
-  public SchemaModelComposite(SchemaDocument schemaDocument) {
+  public SchemaModelComposite(final SchemaDocument schemaDocument) {
     this.schemaDocument = schemaDocument;
   }
 
@@ -31,11 +31,26 @@ public class SchemaModelComposite implements SchemaComposite {
     return schemaDocument;
   }
 
-  public void setSchemaModel(SchemaModel schemaModel) {
+  public void setSchemaModel(final SchemaModel schemaModel) {
     this.schemaModel = schemaModel;
   }
 
   public SchemaModel getSchemaModel() {
     return schemaModel;
+  }
+  
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+    
+    if (!(obj instanceof SchemaModelComposite))
+      return false;
+    
+    final SchemaModelComposite that = (SchemaModelComposite)obj;
+    return (schemaDocument != null ? schemaDocument.equals(that.schemaDocument) : that.schemaDocument == null) && (schemaModel != null ? schemaModel.equals(that.schemaModel) : that.schemaModel == null);
+  }
+  
+  public int hashCode() {
+    return (schemaDocument != null ? schemaDocument.hashCode() : -7) * (schemaModel != null ? schemaModel.hashCode() : -3);
   }
 }

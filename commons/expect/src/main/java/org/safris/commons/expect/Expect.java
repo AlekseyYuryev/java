@@ -38,11 +38,11 @@ import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
 public final class Expect {
-  public static void start(InputStream in, OutputStream out, OutputStream err, final ExpectCallback callback, File scriptFile) throws Exception {
+  public static void start(final InputStream in, final OutputStream out, final OutputStream err, final ExpectCallback callback, final File scriptFile) throws Exception {
     final ex_script script = (ex_script)Bindings.parse(new InputSource(new FileInputStream(scriptFile)));
 
-    final $ex_processType<?> processType = script.get_process(0);
-    final String exec = processType.get_exec$().getText().trim();
+    final $ex_processType processType = script._process(0);
+    final String exec = processType._exec$().text().trim();
     final Map<String,String> variables = callback.process(exec);
     final Process process;
     final List<String> args = new ArrayList<String>();
@@ -50,7 +50,7 @@ public final class Expect {
     while (tokenizer.hasMoreTokens())
       args.add(tokenizer.nextToken());
 
-    final boolean sync = processType.get_fork$() != null && $ex_processType._fork$.SYNC.equals(processType.get_fork$().getText());
+    final boolean sync = processType._fork$() != null && $ex_processType._fork$.SYNC.equals(processType._fork$().text());
     if (exec.startsWith("java")) {
       String className = null;
       final Map<String,String> props = new HashMap<String,String>();
@@ -63,7 +63,7 @@ public final class Expect {
         }
         else if (arg.matches("([_a-zA-Z0-9]+\\.)+[_a-zA-Z0-9]+")) {
           if (className != null)
-            throw new UnknownError("There is a problem with the regex used to determine the class name. We have matched it twice!!");
+            throw new UnknownError("There is a problem with the regex used to determine the final class name. We have matched it twice!!");
 
           className = arg;
         }
@@ -84,20 +84,20 @@ public final class Expect {
     }
 
     // This is important: since we are not reading from STDERR, we must start a NonBlockingInputStream
-    // on it such that its buffer doesnt fill. This is necessary because the STDERR of the sub-process
+    // on it such that its buffer doesn't fill. This is necessary because the STDERR of the sub-process
     // is teed into 2 input streams that both need to be read from: System.err, and process.getErrorStream()
     new NonBlockingInputStream(process.getErrorStream(), 1024);
     final InputStream stdout = process.getInputStream();
 
     HashTree.Node<ScannerHandler> firstTreeNode = null;
-    final List<$ex_ruleType<?>> rules = processType.get_rule();
+    final List<$ex_ruleType> rules = processType._rule();
     final Map<String,ScannerHandler> scannerMap = new HashMap<String,ScannerHandler>();
     final Map<String,HashTree.Node<ScannerHandler>> treeNodeMap = new HashMap<String,HashTree.Node<ScannerHandler>>();
-    for (final $ex_ruleType<?> rule : rules) {
-      final ScannerHandler scanner = new ScannerHandler(rule.get_expect$().getText()) {
-        public void match(String match) throws IOException {
-          String response = rule.get_respond$().getText();
-          final Map<String,String> variables = callback.rule(rule.get_id$().getText(), rule.get_expect$().getText(), response);
+    for (final $ex_ruleType rule : rules) {
+      final ScannerHandler scanner = new ScannerHandler(rule._expect$().text()) {
+        public void match(final String match) throws IOException {
+          String response = rule._respond$().text();
+          final Map<String,String> variables = callback.rule(rule._id$().text(), rule._expect$().text(), response);
           response = dereference(response, variables);
           if (!response.endsWith("\n"))
             response += "\n";
@@ -106,22 +106,22 @@ public final class Expect {
           process.getOutputStream().flush();
         }
       };
-      scannerMap.put(rule.get_id$().getText(), scanner);
+      scannerMap.put(rule._id$().text(), scanner);
 
       final HashTree.Node<ScannerHandler> treeNode = new HashTree.Node<ScannerHandler>(scanner);
-      treeNodeMap.put(rule.get_id$().getText(), treeNode);
+      treeNodeMap.put(rule._id$().text(), treeNode);
       if (firstTreeNode == null)
         firstTreeNode = treeNode;
     }
 
-    final List<$ex_processType._tree._node> nodes = processType.get_tree(0).get_node();
+    final List<$ex_processType._tree._node> nodes = processType._tree(0)._node();
     for (final $ex_processType._tree._node node : nodes) {
-      final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node.get_rule$().getText());
-      final $ex_processType._tree._node._children$ children = node.get_children$();
+      final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node._rule$().text());
+      final $ex_processType._tree._node._children$ children = node._children$();
       if (children == null)
         continue;
 
-      final List<String> childIds = children.getText();
+      final List<String> childIds = children.text();
       for (final String childId : childIds)
         treeNode.addChild(treeNodeMap.get(childId));
     }
@@ -133,11 +133,11 @@ public final class Expect {
     scanner.start();
   }
 
-  private static String dereference(String string, Map<String,String> variables) throws IOException {
+  private static String dereference(final String string, final Map<String,String> variables) throws IOException {
     try {
       return ELs.dereference(string, variables);
     }
-    catch (ExpressionFormatException e) {
+    catch (final ExpressionFormatException e) {
       throw new IOException(e.getMessage());
     }
   }

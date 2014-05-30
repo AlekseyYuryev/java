@@ -18,25 +18,22 @@ package org.safris.xml.generator.lexer.lang;
 
 import org.safris.commons.xml.XMLError;
 
-public class LexerError extends XMLError
-{
-  public LexerError()
-  {
+public final class LexerError extends XMLError {
+  private static final long serialVersionUID = 7086955029486763018L;
+
+  public LexerError() {
     super();
   }
 
-  public LexerError(String message)
-  {
+  public LexerError(final String message) {
     super(message);
   }
 
-  public LexerError(Throwable cause)
-  {
+  public LexerError(final Throwable cause) {
     super(cause);
   }
 
-  public LexerError(String message, Throwable cause)
-  {
+  public LexerError(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

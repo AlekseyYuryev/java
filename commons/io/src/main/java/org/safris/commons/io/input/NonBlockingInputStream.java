@@ -18,9 +18,10 @@ package org.safris.commons.io.input;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.safris.commons.math.Functions;
 
-public class NonBlockingInputStream extends InputStream {
+public final class NonBlockingInputStream extends InputStream {
   private final InputStream in;
   private final byte[] buffer;
   private final int tempBufferSize;
@@ -31,7 +32,7 @@ public class NonBlockingInputStream extends InputStream {
   private boolean eof = false;
   private int lost = 0;
 
-  public NonBlockingInputStream(InputStream in, int bufferSize) {
+  public NonBlockingInputStream(final InputStream in, final int bufferSize) {
     if (bufferSize == 0)
       throw new IllegalArgumentException("bufferSize cannot be 0");
 
@@ -69,7 +70,7 @@ public class NonBlockingInputStream extends InputStream {
     return lost;
   }
 
-  private class ReaderThread extends Thread {
+  private final class ReaderThread extends Thread {
     public ReaderThread() {
       setName(NonBlockingInputStream.this.getClass().getSimpleName() + "$" + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
       setPriority(Thread.MAX_PRIORITY);
@@ -100,7 +101,7 @@ public class NonBlockingInputStream extends InputStream {
 
         eof = true;
       }
-      catch (IOException e) {
+      catch (final IOException e) {
         ioException = e;
       }
     }

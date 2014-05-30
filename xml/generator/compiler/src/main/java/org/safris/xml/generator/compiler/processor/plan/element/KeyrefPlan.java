@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 
-public class KeyrefPlan extends Plan<KeyrefModel> {
-  public KeyrefPlan(KeyrefModel model, Plan parent) {
+public final class KeyrefPlan extends Plan<KeyrefModel> {
+  public KeyrefPlan(final KeyrefModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

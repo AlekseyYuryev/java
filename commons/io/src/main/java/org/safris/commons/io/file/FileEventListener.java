@@ -19,6 +19,6 @@ package org.safris.commons.io.file;
 import java.io.File;
 
 public interface FileEventListener {
-  public void onModify(File file);
-  public void onDelete(File file);
+  public void onModify(final File file);
+  public void onDelete(final File file);
 }

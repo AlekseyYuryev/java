@@ -21,7 +21,7 @@ import java.util.TimeZone;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gYearMonth
  */
-public class YearMonth {
+public final class YearMonth {
   public static YearMonth parseYearMonth(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -56,7 +56,7 @@ public class YearMonth {
   private final TimeZone timeZone;
   private final long epochTime;
 
-  protected YearMonth(Year year, Month month, TimeZone timeZone) {
+  protected YearMonth(final Year year, final Month month, final TimeZone timeZone) {
     if (year == null)
       throw new NullPointerException("year == null");
 
@@ -69,19 +69,19 @@ public class YearMonth {
     epochTime = java.util.Date.UTC(year.getYear() - 1900, month.getMonth() - 1, 1, 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
   }
 
-  public YearMonth(int year, int month, TimeZone timeZone) {
+  public YearMonth(final int year, final int month, final TimeZone timeZone) {
     this(new Year(year, timeZone), new Month(month, timeZone), timeZone);
   }
 
-  public YearMonth(int year, int month) {
+  public YearMonth(final int year, final int month) {
     this(year, month, null);
   }
 
-  public YearMonth(long time, TimeZone timeZone) {
+  public YearMonth(final long time, final TimeZone timeZone) {
     this(new Year(time, timeZone), new Month(time), timeZone);
   }
 
-  public YearMonth(long time) {
+  public YearMonth(final long time) {
     this(new Year(time), new Month(time), null);
   }
 
@@ -105,7 +105,7 @@ public class YearMonth {
     return epochTime;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

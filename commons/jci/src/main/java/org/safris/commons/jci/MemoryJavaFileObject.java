@@ -14,16 +14,15 @@ package org.safris.commons.jci;/*  Copyright Safris Software 2011
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+
 import javax.tools.JavaFileObject;
 import javax.tools.SimpleJavaFileObject;
 
-public class MemoryJavaFileObject extends SimpleJavaFileObject {
+public final class MemoryJavaFileObject extends SimpleJavaFileObject {
   /**
    * Byte code created by the compiler will be stored in this
    * ByteArrayOutputStream so that we can later get the
@@ -39,7 +38,7 @@ public class MemoryJavaFileObject extends SimpleJavaFileObject {
    * @param name
    *            Full name of the compiled class
    * @param kind
-   *            Kind of the data. It will be CLASS in our case
+   *            Kind of the data. It will be class in our case
    */
   public MemoryJavaFileObject(final String name, final JavaFileObject.Kind kind) {
     super(URI.create("string:///" + name.replace('.', '/') + kind.extension), kind);

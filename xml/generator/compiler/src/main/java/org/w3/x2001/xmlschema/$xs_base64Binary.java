@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Base64Binary;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_base64Binary(final $xs_base64Binary<T> binding) {
+public abstract class $xs_base64Binary extends $xs_anySimpleType {
+  public $xs_base64Binary(final $xs_base64Binary binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_base64Binary<T extends BindingType> extends $xs_anySim
     super();
   }
 
-  public Base64Binary getText() {
-    return (Base64Binary)super.getText();
+  public Base64Binary text() {
+    return (Base64Binary)super.text();
   }
 
-  public void setText(final Base64Binary text) {
-    super.setText(text);
+  public void text(final Base64Binary text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Base64Binary.parseBase64Binary(String.valueOf(value)));
+    super.text(Base64Binary.parseBase64Binary(String.valueOf(value)));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_base64Binary<T> clone() {
-    return new $xs_base64Binary<T>(this) {
-      protected $xs_base64Binary<T> inherits() {
+  public $xs_base64Binary clone() {
+    return new $xs_base64Binary(this) {
+      protected $xs_base64Binary inherits() {
         return this;
       }
     };

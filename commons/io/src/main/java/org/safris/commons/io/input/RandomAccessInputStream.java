@@ -22,11 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 
-public class RandomAccessInputStream extends InputStream {
+public final class RandomAccessInputStream extends InputStream {
   private final RandomAccessFile file;
   private long mark = 0;
 
-  public RandomAccessInputStream(File file) throws FileNotFoundException {
+  public RandomAccessInputStream(final File file) throws FileNotFoundException {
     this.file = new RandomAccessFile(file, "r");
   }
 
@@ -42,11 +42,11 @@ public class RandomAccessInputStream extends InputStream {
     file.close();
   }
 
-  public void mark(int readlimit) {
+  public void mark(final int readlimit) {
     try {
       this.mark = file.getFilePointer();
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       this.mark = -1;
     }
   }
@@ -59,11 +59,11 @@ public class RandomAccessInputStream extends InputStream {
     return file.read();
   }
 
-  public int read(byte[] b) throws IOException {
+  public int read(final byte[] b) throws IOException {
     return file.read(b);
   }
 
-  public int read(byte[] b, int off, int len) throws IOException {
+  public int read(final byte[] b, final int off, final int len) throws IOException {
     return file.read(b, off, len);
   }
 
@@ -74,12 +74,12 @@ public class RandomAccessInputStream extends InputStream {
     file.seek(mark);
   }
 
-  public long skip(long n) throws IOException {
+  public long skip(final long n) throws IOException {
     final long position = file.getFilePointer();
     try {
       file.seek(n + position);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       if (!"Negative seek offset".equals(e.getMessage()))
         throw e;
     }

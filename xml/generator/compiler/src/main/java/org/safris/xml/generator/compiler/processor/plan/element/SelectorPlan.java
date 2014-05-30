@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.SelectorModel;
 
-public class SelectorPlan extends Plan<SelectorModel> {
-  public SelectorPlan(SelectorModel model, Plan parent) {
+public final class SelectorPlan extends Plan<SelectorModel> {
+  public SelectorPlan(final SelectorModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

@@ -18,21 +18,23 @@ package org.safris.commons.xml.validator;
 
 import org.safris.commons.xml.XMLException;
 
-public class ValidationException extends XMLException {
+public final class ValidationException extends XMLException {
+  private static final long serialVersionUID = -5730844996681538725L;
+
   public ValidationException() {
     super();
   }
 
-  public ValidationException(String message) {
+  public ValidationException(final String message) {
     super(message);
   }
 
-  public ValidationException(Throwable cause) {
+  public ValidationException(final Throwable cause) {
     super(cause.getMessage());
     setStackTrace(cause.getStackTrace());
   }
 
-  public ValidationException(String message, Throwable cause) {
+  public ValidationException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

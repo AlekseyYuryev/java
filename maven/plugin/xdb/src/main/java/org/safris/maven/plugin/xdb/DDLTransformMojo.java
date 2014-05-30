@@ -17,14 +17,16 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
+
+import org.safris.xdb.xdl.DBVendor;
 import org.safris.xdb.xdl.DDLTransform;
 
 /**
  * @goal ddl
  * @phase generate-sources
  */
-public class DDLTransformMojo extends XDLTransformerMojo {
+public final class DDLTransformMojo extends XDLTransformerMojo {
   public void transform(final File xdlFile, final File outDir) {
-    DDLTransform.createDDL(xdlFile, outDir);
+    DDLTransform.createDDL(xdlFile, DBVendor.MY_SQL, outDir);
   }
 }

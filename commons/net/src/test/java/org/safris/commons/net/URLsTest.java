@@ -16,16 +16,21 @@
 
 package org.safris.commons.net;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class URLsTest {
-  public static void main(String[] args) throws Exception {
+public final class URLsTest {
+  public static void main(final String[] args) throws Exception {
     final URLsTest urlsTest = new URLsTest();
     urlsTest.testIsAbsolute();
     urlsTest.testMakeUrlFromPath();
@@ -51,7 +56,7 @@ public class URLsTest {
       URLs.isAbsolute(null);
       fail("Expected a NullPointerException");
     }
-    catch (NullPointerException e) {
+    catch (final NullPointerException e) {
     }
   }
 
@@ -101,7 +106,7 @@ public class URLsTest {
       assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
 
     assertNull(URLs.makeUrlFromPath(null));
-    assertNull(URLs.makeUrlFromPath(null, null));
+    assertNull(URLs.makeUrlFromPath((String)null, null));
   }
 
   @Test
@@ -111,7 +116,7 @@ public class URLsTest {
       URLs.toExternalForm(new URL("fbiy384ehd"));
       fail("Expected a MalformedURLException");
     }
-    catch (MalformedURLException e) {
+    catch (final MalformedURLException e) {
     }
   }
 

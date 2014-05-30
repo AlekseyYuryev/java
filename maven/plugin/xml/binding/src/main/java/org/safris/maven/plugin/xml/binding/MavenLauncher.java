@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 import org.codehaus.classworlds.Launcher;
 
 public final class MavenLauncher {
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     final String M2_HOME = System.getenv("M2_HOME");
     if (M2_HOME == null)
       throw new RuntimeException("M2_HOME is not defined.");

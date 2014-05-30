@@ -17,6 +17,7 @@
 package org.safris.maven.plugin.dependency;
 
 import java.util.List;
+
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
@@ -57,7 +58,7 @@ public abstract class PropertiesMojo extends AbstractMojo implements DependencyP
   }
 
   /**
-   * @parameter expression="${component.org.apache.maven.artifact.factory.ArtifactFactory}"
+   * @component role="org.apache.maven.artifact.factory.ArtifactFactory"
    * @required
    * @readonly
    */
@@ -71,7 +72,7 @@ public abstract class PropertiesMojo extends AbstractMojo implements DependencyP
   }
 
   /**
-   * @parameter expression="${component.org.apache.maven.artifact.resolver.ArtifactResolver}"
+   * @component role="org.apache.maven.artifact.resolver.ArtifactResolver"
    * @required
    * @readonly
    */
@@ -117,12 +118,12 @@ public abstract class PropertiesMojo extends AbstractMojo implements DependencyP
    * @readonly
    * @required
    */
-  private List remoteRepos;
+  private List<ArtifactRepository> remoteRepos;
 
   /**
    * List of Remote Repositories used by the resolver
    */
-  public List getRemoteRepos() {
+  public List<ArtifactRepository> getRemoteRepos() {
     return remoteRepos;
   }
 

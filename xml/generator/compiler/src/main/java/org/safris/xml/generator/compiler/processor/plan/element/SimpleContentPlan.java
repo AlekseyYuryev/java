@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleContentModel;
 
-public class SimpleContentPlan extends Plan<SimpleContentModel> {
-  public SimpleContentPlan(SimpleContentModel model, Plan parent) {
+public final class SimpleContentPlan extends Plan<SimpleContentModel> {
+  public SimpleContentPlan(final SimpleContentModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

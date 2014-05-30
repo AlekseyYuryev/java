@@ -16,14 +16,15 @@
 
 package org.safris.commons.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.Vector;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class SortedVectorTest {
-  public static void main(String[] args) {
+public final class SortedVectorTest {
+  public static void main(final String[] args) {
     new SortedVectorTest().testSortedVector();
   }
 

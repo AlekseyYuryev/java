@@ -16,13 +16,16 @@
 
 package org.safris.commons.lang;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Enumeration;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class ResourcesTest {
+public final class ResourcesTest {
   private static final File JAVA_HOME = new File(System.getProperty("java.home").replace(" ", "%20"));
   private static final File RT_JAR;
 
@@ -33,12 +36,12 @@ public class ResourcesTest {
       else
         RT_JAR = new File(JAVA_HOME, "lib/rt.jar");
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new ExceptionInInitializerError(e);
     }
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(final String[] args) throws Exception {
     final ResourcesTest resourcesTest = new ResourcesTest();
     resourcesTest.testGetLocationBase();
     resourcesTest.testGetResource();

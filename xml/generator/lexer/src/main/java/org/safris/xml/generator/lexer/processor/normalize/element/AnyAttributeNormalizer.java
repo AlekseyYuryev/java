@@ -24,37 +24,37 @@ import org.safris.xml.generator.lexer.processor.model.element.AttributeGroupMode
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class AnyAttributeNormalizer extends Normalizer<AnyAttributeModel> {
-  public AnyAttributeNormalizer(NormalizerDirectory directory) {
+public final class AnyAttributeNormalizer extends Normalizer<AnyAttributeModel> {
+  public AnyAttributeNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(AnyAttributeModel model) {
+  protected void stage1(final AnyAttributeModel model) {
   }
 
-  protected void stage2(AnyAttributeModel model) {
+  protected void stage2(final AnyAttributeModel model) {
     // add the handler attribute to the attributeGroup
     if (model.getParent() instanceof AttributeGroupModel)
       ((AttributeGroupModel)model.getParent()).addAttribute(model);
   }
 
-  protected void stage3(AnyAttributeModel model) {
+  protected void stage3(final AnyAttributeModel model) {
   }
 
-  protected void stage4(AnyAttributeModel model) {
-    // Add the handler to the Attributable class with a name
+  protected void stage4(final AnyAttributeModel model) {
+    // Add the handler to the Attributable final class with a name
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof AttributableModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof AttributableModel && parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         ((AttributableModel)parent).addAttribute(model);
         break;
       }
     }
   }
 
-  protected void stage5(AnyAttributeModel model) {
+  protected void stage5(final AnyAttributeModel model) {
   }
 
-  protected void stage6(AnyAttributeModel model) {
+  protected void stage6(final AnyAttributeModel model) {
   }
 }

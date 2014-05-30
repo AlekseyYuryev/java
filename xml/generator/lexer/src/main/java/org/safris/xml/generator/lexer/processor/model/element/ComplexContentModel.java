@@ -21,10 +21,10 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ComplexContentModel extends Model implements MixableModel {
+public final class ComplexContentModel extends Model implements MixableModel {
   private Boolean mixed = null;
 
-  protected ComplexContentModel(Node node, Model parent) {
+  protected ComplexContentModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

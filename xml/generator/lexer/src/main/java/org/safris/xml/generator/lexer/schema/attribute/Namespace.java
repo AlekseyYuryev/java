@@ -18,7 +18,6 @@ package org.safris.xml.generator.lexer.schema.attribute;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.safris.xml.generator.lexer.schema.attribute.Namespace;
 
 public final class Namespace {
   private static final Map<String,Namespace> enums = new HashMap<String,Namespace>();
@@ -28,7 +27,7 @@ public final class Namespace {
   public static final Namespace OTHER = new Namespace("##other");
   public static final Namespace TARGETNAMESPACE = new Namespace("##targetNamespace");
 
-  public static Namespace parseNamespace(String value) {
+  public static Namespace parseNamespace(final String value) {
     final Namespace namespace = enums.get(value);
     if (namespace != null)
       return namespace;
@@ -38,7 +37,7 @@ public final class Namespace {
 
   private final String value;
 
-  public Namespace(String value) {
+  public Namespace(final String value) {
     this.value = value;
     enums.put(value, this);
   }
@@ -47,7 +46,7 @@ public final class Namespace {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Namespace))
       return false;
 

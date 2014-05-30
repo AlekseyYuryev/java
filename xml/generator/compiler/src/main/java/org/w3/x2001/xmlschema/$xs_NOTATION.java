@@ -16,14 +16,13 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_NOTATION<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_NOTATION(final $xs_NOTATION<T> binding) {
+public abstract class $xs_NOTATION extends $xs_anySimpleType {
+  public $xs_NOTATION(final $xs_NOTATION binding) {
     super(binding);
   }
 
@@ -35,30 +34,27 @@ public abstract class $xs_NOTATION<T extends BindingType> extends $xs_anySimpleT
     super();
   }
 
-  public NotationType getText() {
-    return (NotationType)super.getText();
+  public NotationType text() {
+    return (NotationType)super.text();
   }
 
-  public void setText(final NotationType text) {
-    super.setText(text);
+  public void text(final NotationType text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(NotationType.parseNotation(value));
-    if (super.getText() == null)
+    super.text(NotationType.parseNotation(value));
+    if (super.text() == null)
       throw new ParseException("Notation \"" + value + "\" is not registered. The code that instantiates the Notation binding for \"" + value + "\" must be run before it is possible for the Binding engine to have to know about it.");
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_NOTATION<T> clone() {
-    return new $xs_NOTATION<T>(this) {
-      protected $xs_NOTATION<T> inherits() {
+  public $xs_NOTATION clone() {
+    return new $xs_NOTATION(this) {
+      protected $xs_NOTATION inherits() {
         return this;
       }
     };

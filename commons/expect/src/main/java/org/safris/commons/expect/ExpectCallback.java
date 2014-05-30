@@ -19,6 +19,6 @@ package org.safris.commons.expect;
 import java.util.Map;
 
 public abstract class ExpectCallback {
-  public abstract Map<String,String> process(String exec);
-  public abstract Map<String,String> rule(String ruleId, String prompt, String response);
+  public abstract Map<String,String> process(final String exec);
+  public abstract Map<String,String> rule(final String ruleId, final String prompt, final String response);
 }

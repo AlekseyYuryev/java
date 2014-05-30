@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+
 import org.safris.commons.io.output.TeeOutputStream;
 
 public final class Streams {
@@ -41,7 +42,7 @@ public final class Streams {
    * if some other I/O error occurs.
    * @see        java.io.InputStream#read(byte[])
    */
-  public static byte[] getBytes(InputStream in) throws IOException {
+  public static byte[] getBytes(final InputStream in) throws IOException {
     if (in == null)
       return null;
 
@@ -85,8 +86,7 @@ public final class Streams {
     }
 
     final int BUFFER_SIZE = 1024;
-    new Thread(tee ? "tee" : "pipe")
-    {
+    new Thread(tee ? "tee" : "pipe") {
       public void run() {
         int length = 0;
         final byte[] bytes = new byte[BUFFER_SIZE];
@@ -101,7 +101,7 @@ public final class Streams {
             snk.flush();
           }
         }
-        catch (IOException e) {
+        catch (final IOException e) {
           if ("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage()))
             return;
 

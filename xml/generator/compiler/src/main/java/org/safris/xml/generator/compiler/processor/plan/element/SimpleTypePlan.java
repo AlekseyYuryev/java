@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
@@ -39,28 +40,28 @@ import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 
-public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan {
-  private static SimpleTypeModel getGreatestCommonType(final Collection<SimpleTypeModel> types, final boolean includeEnums) {
+public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> implements EnumerablePlan, ExtensiblePlan, NativeablePlan {
+  private static SimpleTypeModel<?> getGreatestCommonType(final Collection<SimpleTypeModel<?>> types, final boolean includeEnums) {
     if (types == null || types.size() == 0)
       return null;
 
     if (types.size() == 1)
       return types.iterator().next();
 
-    final Iterator<SimpleTypeModel> iterator = types.iterator();
-    SimpleTypeModel gct = getGreatestCommonType(iterator.next(), iterator.next(), includeEnums);
+    final Iterator<SimpleTypeModel<?>> iterator = types.iterator();
+    SimpleTypeModel<?> gct = getGreatestCommonType(iterator.next(), iterator.next(), includeEnums);
     while (iterator.hasNext() && gct != null)
       gct = getGreatestCommonType(gct, iterator.next(), includeEnums);
 
     return gct;
   }
 
-  private static SimpleTypeModel getGreatestCommonType(final SimpleTypeModel model1, final SimpleTypeModel model2, final boolean includeEnums) {
+  private static SimpleTypeModel<?> getGreatestCommonType(final SimpleTypeModel<?> model1, final SimpleTypeModel<?> model2, final boolean includeEnums) {
     if (model1 == null || model2 == null)
       return null;
 
     if (!includeEnums) {
-      // First we ignore enumeration types because their native types dont
+      // First we ignore enumeration types because their native types don't
       // get exposed to the user
       if (model1.getEnumerations().size() != 0) {
         if (model2.getEnumerations().size() != 0)
@@ -77,13 +78,13 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     UniqueQName name2;
 
     // Second try to see if we can match using the knowledge of type inheritance
-    SimpleTypeModel type1 = model1;
+    SimpleTypeModel<?> type1 = model1;
     do {
       name1 = type1.getName();
       if (name1 == null)
         name1 = NamedModel.getNameOfRestrictionBase(type1);
 
-      SimpleTypeModel type2 = model2;
+      SimpleTypeModel<?> type2 = model2;
       do {
         name2 = type2.getName();
         if (name2 == null)
@@ -92,17 +93,17 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
         if (name1.equals(name2))
           return type1;
       }
-      while((type2 = type2.getSuperType()) != null || (type2 = ComplexTypeModel.Undefined.parseComplexType(XSTypeDirectory.lookupSuperType(name2))) != null);
+      while ((type2 = type2.getSuperType()) != null || (type2 = ComplexTypeModel.Undefined.parseComplexType(XSTypeDirectory.lookupSuperType(name2))) != null);
     }
-    while((type1 = type1.getSuperType()) != null || (type1 = ComplexTypeModel.Undefined.parseComplexType(XSTypeDirectory.lookupSuperType(name1))) != null);
+    while ((type1 = type1.getSuperType()) != null || (type1 = ComplexTypeModel.Undefined.parseComplexType(XSTypeDirectory.lookupSuperType(name1))) != null);
 
     return null;
   }
 
-  private static boolean digList(final SimpleTypeModel model) {
+  private static boolean digList(final SimpleTypeModel<?> model) {
     boolean list = model.isList();
     if (!list) {
-      SimpleTypeModel type = model;
+      SimpleTypeModel<?> type = model;
       while ((type = type.getSuperType()) != null)
         if (list = type.isList())
           break;
@@ -111,9 +112,9 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return list;
   }
 
-  private static SimpleTypeModel digBaseXSItemTypeName(final SimpleTypeModel model, final boolean includeEnums) {
-    SimpleTypeModel itemType;
-    SimpleTypeModel type = model;
+  private static SimpleTypeModel<?> digBaseXSItemTypeName(final SimpleTypeModel<?> model, final boolean includeEnums) {
+    SimpleTypeModel<?> itemType;
+    SimpleTypeModel<?> type = model;
     do {
       itemType = getGreatestCommonType(type.getItemTypes(), includeEnums);
       if (itemType == null)
@@ -126,21 +127,21 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       if (XSTypeDirectory.parseType(itemName) != null)
         return itemType;
     }
-    while((type = type.getSuperType()) != null);
+    while ((type = type.getSuperType()) != null);
 
     return null;
   }
 
-  private static SimpleTypeModel digBaseNonXSType(final SimpleTypeModel model) {
-    SimpleTypeModel type = model;
-    SimpleTypeModel retval = null;
+  private static SimpleTypeModel<?> digBaseNonXSType(final SimpleTypeModel<?> model) {
+    SimpleTypeModel<?> type = model;
+    SimpleTypeModel<?> retval = null;
     do {
       if (type.getName() != null && XSTypeDirectory.parseType(type.getName()) != null)
         break;
 
       retval = type;
     }
-    while((type = type.getSuperType()) != null);
+    while ((type = type.getSuperType()) != null);
 
     return retval;
   }
@@ -171,14 +172,14 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
   private UniqueQName baseXSNonEnumItemTypeName = null;
 
   private boolean parsedSuperType = false;
-  private NamedPlan superType = null;
+  private NamedPlan<?> superType = null;
 
   private boolean isUnion = false;
   private boolean isUnionWithNonEnumeration = false;
 
-  private void digItemTypes(final SimpleTypeModel baseNonXSType) {
-    SimpleTypeModel baseXSItemType = digBaseXSItemTypeName(getModel(), true);
-    SimpleTypeModel baseXSNonEnumItemType = digBaseXSItemTypeName(getModel(), false);
+  private void digItemTypes(final SimpleTypeModel<?> baseNonXSType) {
+    SimpleTypeModel<?> baseXSItemType = digBaseXSItemTypeName(getModel(), true);
+    SimpleTypeModel<?> baseXSNonEnumItemType = digBaseXSItemTypeName(getModel(), false);
 
     if (baseXSItemType != null)
       baseXSItemTypeName = getItemName(baseXSItemType);
@@ -195,7 +196,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       baseXSNonEnumItemTypeName = getModel().getSuperType().getName();
   }
 
-  private static UniqueQName getItemName(final SimpleTypeModel model) {
+  private static UniqueQName getItemName(final SimpleTypeModel<?> model) {
     UniqueQName name = model.getName();
     if (name == null)
       name = NamedModel.getNameOfRestrictionBase(model);
@@ -203,19 +204,19 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
     return name;
   }
 
-  public SimpleTypePlan(final T model, final Plan parent) {
+  public SimpleTypePlan(final T model, final Plan<?> parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     if (model instanceof AnyableModel)
       return;
 
     // Gets the XS pre-simpleType name of the type
-    final SimpleTypeModel baseNonXSType = digBaseNonXSType(model);
+    final SimpleTypeModel<?> baseNonXSType = digBaseNonXSType(model);
     if (baseNonXSType != null)
       baseNonXSTypeName = baseNonXSType.getName();
 
     superTypeName = model.getSuperType().getName();
     superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);
-    superClassNameWithType = superClassNameWithoutType + "<T>";
+    superClassNameWithType = superClassNameWithoutType;
 
     // Gets the XS simpleType name of the itemType
     digItemTypes(baseNonXSType);
@@ -258,13 +259,13 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
       nativeNonEnumImplementation = nativeNonEnumItemClassName;
     }
 
-    isUnionWithNonEnumeration = getSuperType() != null && ((SimpleTypePlan)getSuperType()).isUnionWithNonEnumeration();
+    isUnionWithNonEnumeration = getSuperType() != null && ((SimpleTypePlan<?>)getSuperType()).isUnionWithNonEnumeration();
     for (final Model child : model.getChildren()) {
       if (!(child instanceof UnionModel))
         continue;
 
       isUnion = true;
-      for (final SimpleTypeModel memberType : ((UnionModel)child).getMemberTypes()) {
+      for (final SimpleTypeModel<?> memberType : ((UnionModel)child).getMemberTypes()) {
         if (memberType.getEnumerations().size() != 0)
           continue;
 
@@ -327,10 +328,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
   }
 
   public final LinkedHashSet<EnumerationPlan> getEnumerations() {
-    if (enumerations != null)
-      return enumerations;
-
-    return enumerations = Plan.<EnumerationPlan>analyze(getModel().getEnumerations(), this);
+    return enumerations == null ? enumerations = Plan.<EnumerationPlan>analyze(getModel().getEnumerations(), this) : enumerations;
   }
 
   public final String getNativeItemClassName() {
@@ -342,10 +340,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
   }
 
   public final boolean hasEnumerations() {
-    if (hasEnumerations != null)
-      return hasEnumerations;
-
-    return hasEnumerations = hasEnumerations(getModel());
+    return hasEnumerations == null ? hasEnumerations = hasEnumerations(getModel()) : hasEnumerations;
   }
 
   public final boolean hasSuperEnumerations() {
@@ -356,17 +351,14 @@ public class SimpleTypePlan<T extends SimpleTypeModel> extends AliasPlan<T> impl
   }
 
   public final Collection<PatternPlan> getPatterns() {
-    if (patterns != null)
-      return patterns;
-
-    return patterns = Plan.<PatternPlan>analyze(getModel().getPatterns(), this);
+    return patterns == null ? patterns = Plan.<PatternPlan>analyze(getModel().getPatterns(), this) : patterns;
   }
 
   public String getSuperClassNameWithType() {
     return superClassNameWithType;
   }
 
-  public Plan getSuperType() {
+  public Plan<?> getSuperType() {
     if (parsedSuperType)
       return superType;
 

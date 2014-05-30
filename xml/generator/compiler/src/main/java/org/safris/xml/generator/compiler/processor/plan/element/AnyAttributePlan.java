@@ -21,8 +21,8 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
 import org.safris.xml.generator.lexer.processor.model.element.AnyAttributeModel;
 
-public class AnyAttributePlan extends AttributePlan implements AnyablePlan {
-  public AnyAttributePlan(AnyAttributeModel model, Plan parent) {
+public final class AnyAttributePlan extends AttributePlan implements AnyablePlan {
+  public AnyAttributePlan(final AnyAttributeModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

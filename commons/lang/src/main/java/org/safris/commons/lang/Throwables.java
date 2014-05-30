@@ -3,7 +3,7 @@ package org.safris.commons.lang;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class Throwables {
+public final class Throwables {
   public static String toString(final Throwable t) {
     if (t == null)
       throw new NullPointerException("t == null");

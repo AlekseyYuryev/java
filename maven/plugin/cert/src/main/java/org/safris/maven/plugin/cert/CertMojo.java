@@ -24,7 +24,7 @@
  * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * LIABILITY, WHETHER IN CONTRACT, final STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.maven.model.Repository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -45,7 +46,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal import
  * @phase compile
  */
-public class CertMojo extends AbstractMojo {
+public final class CertMojo extends AbstractMojo {
   public static final Set<String> checkedURLs = new HashSet<String>();
 
   /**
@@ -74,7 +75,7 @@ public class CertMojo extends AbstractMojo {
           InstallCert.main(new String[]{arg});
           checkedURLs.add(repository.getUrl());
         }
-        catch (FileNotFoundException e) {
+        catch (final FileNotFoundException e) {
           if (!e.getMessage().contains("(Permission denied)"))
             throw new MojoExecutionException("Failure due to InstallCert", e);
 
@@ -82,7 +83,7 @@ public class CertMojo extends AbstractMojo {
           getLog().error("Please run the same command as root, via \"sudo\".");
           System.exit(0);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
           throw new MojoExecutionException("Failure due to InstallCert", e);
         }
       }

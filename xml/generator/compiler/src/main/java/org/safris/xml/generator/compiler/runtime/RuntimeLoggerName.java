@@ -18,10 +18,10 @@ package org.safris.xml.generator.compiler.runtime;
 
 import org.safris.commons.logging.LoggerName;
 
-public class RuntimeLoggerName extends LoggerName {
+public final class RuntimeLoggerName extends LoggerName {
   public static final RuntimeLoggerName VALIDATOR = new RuntimeLoggerName("VALIDATOR");
 
-  public RuntimeLoggerName(String name) {
+  public RuntimeLoggerName(final String name) {
     super(name);
   }
 }

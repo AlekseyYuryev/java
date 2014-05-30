@@ -21,6 +21,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
@@ -31,18 +32,18 @@ import org.safris.commons.xml.validator.Validator;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-public class BindingValidator extends Validator {
+public final class BindingValidator extends Validator {
   private final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
-  protected URL lookupSchemaLocation(String namespaceURI) {
+  protected URL lookupSchemaLocation(final String namespaceURI) {
     return schemaReferences.get(namespaceURI);
   }
 
-  protected URL getSchemaLocation(String namespaceURI) {
+  protected URL getSchemaLocation(final String namespaceURI) {
     return BindingEntityResolver.lookupSchemaLocation(namespaceURI);
   }
 
-  protected void parse(Element element) throws IOException, ValidationException {
+  protected void parse(final Element element) throws IOException, ValidationException {
     final SAXParser saxParser;
     try {
       saxParser = SAXParsers.createParser();
@@ -59,7 +60,7 @@ public class BindingValidator extends Validator {
 
       saxParser.setErrorHandler(BindingErrorHandler.getInstance());
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new ValidationException(e);
     }
 
@@ -67,10 +68,10 @@ public class BindingValidator extends Validator {
     try {
       saxParser.parse(new InputSource(new StringReader(output)));
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw e;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new ValidationException("\n" + e.getMessage() + "\n" + output, e);
     }
   }

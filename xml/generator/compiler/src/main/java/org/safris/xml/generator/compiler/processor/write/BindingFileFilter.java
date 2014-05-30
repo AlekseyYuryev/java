@@ -21,14 +21,14 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BindingFileFilter implements FileFilter {
+public final class BindingFileFilter implements FileFilter {
   private final boolean acceptHidden;
 
-  public BindingFileFilter(boolean acceptHidden) {
+  public BindingFileFilter(final boolean acceptHidden) {
     this.acceptHidden = acceptHidden;
   }
 
-  public boolean accept(File pathname) {
+  public boolean accept(final File pathname) {
     if (!acceptHidden && pathname.isHidden())
       return false;
 
@@ -36,13 +36,13 @@ public class BindingFileFilter implements FileFilter {
       return true;
 
     try {
-      final InputStream in = pathname.toURL().openStream();
+      final InputStream in = pathname.toURI().toURL().openStream();
       final byte[] bytes = new byte[15];
       in.read(bytes);
       in.close();
       return new String(bytes).contains("Safris Software Inc.");
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       return false;
     }
   }

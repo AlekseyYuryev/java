@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.MinInclusiveModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class MinInclusiveNormalizer extends Normalizer<MinInclusiveModel> {
-  public MinInclusiveNormalizer(NormalizerDirectory directory) {
+public final class MinInclusiveNormalizer extends Normalizer<MinInclusiveModel> {
+  public MinInclusiveNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(MinInclusiveModel model) {
+  protected void stage1(final MinInclusiveModel model) {
   }
 
-  protected void stage2(MinInclusiveModel model) {
+  protected void stage2(final MinInclusiveModel model) {
   }
 
-  protected void stage3(MinInclusiveModel model) {
+  protected void stage3(final MinInclusiveModel model) {
   }
 
-  protected void stage4(MinInclusiveModel model) {
+  protected void stage4(final MinInclusiveModel model) {
   }
 
-  protected void stage5(MinInclusiveModel model) {
+  protected void stage5(final MinInclusiveModel model) {
   }
 
-  protected void stage6(MinInclusiveModel model) {
+  protected void stage6(final MinInclusiveModel model) {
   }
 }

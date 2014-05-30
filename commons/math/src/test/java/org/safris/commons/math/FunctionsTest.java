@@ -16,12 +16,12 @@
 
 package org.safris.commons.math;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class FunctionsTest {
-  public static void main(String[] args) {
+public final class FunctionsTest {
+  public static void main(final String[] args) {
     new FunctionsTest().testLog();
   }
 

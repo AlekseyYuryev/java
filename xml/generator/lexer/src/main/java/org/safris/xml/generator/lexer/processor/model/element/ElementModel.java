@@ -18,7 +18,9 @@ package org.safris.xml.generator.lexer.processor.model.element;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.Referenceable;
@@ -32,7 +34,7 @@ import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements Formable<Model>, MultiplicableModel, ReferableModel<ElementModel>, RestrictableModel<ElementModel> {
+public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implements Formable<Model>, MultiplicableModel, ReferableModel<ElementModel>, RestrictableModel<ElementModel> {
   private Boolean _abstract = false;
   private QName _default = null;
   private QName fixed = null;
@@ -45,7 +47,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
   private AliasModel restrictionOwner = null;
   private ElementModel restriction = null;
 
-  protected ElementModel(Node node, Model parent) {
+  protected ElementModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -81,7 +83,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
     return _abstract;
   }
 
-  public final void setRestriction(ElementModel restriction) {
+  public final void setRestriction(final ElementModel restriction) {
     this.restriction = restriction;
   }
 
@@ -93,7 +95,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
     return restrictionOwner;
   }
 
-  public final void setRestrictionOwner(AliasModel restrictionOwner) {
+  public final void setRestrictionOwner(final AliasModel restrictionOwner) {
     this.restrictionOwner = restrictionOwner;
   }
 
@@ -101,25 +103,19 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
     return ref;
   }
 
-  public final void setRef(ElementModel ref) {
+  public final void setRef(final ElementModel ref) {
     this.ref = ref;
   }
 
   public final UniqueQName getName() {
-    if (ref != null)
-      return ref.getName();
-
-    return super.getName();
+    return ref != null ? ref.getName() : super.getName();
   }
 
-  public final SimpleTypeModel getSuperType() {
-    if (ref != null)
-      return ref.getSuperType();
-
-    return super.getSuperType();
+  public final SimpleTypeModel<?> getSuperType() {
+    return ref != null ? ref.getSuperType() : super.getSuperType();
   }
 
-  public final void setFormDefault(Form formDefault) {
+  public final void setFormDefault(final Form formDefault) {
     this.formDefault = formDefault;
   }
 
@@ -151,7 +147,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
     return substitutionGroup;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 
@@ -175,14 +171,14 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel> implements F
     return UniqueQName.XS.getNamespaceURI() + " " + getName();
   }
 
-  public static class Reference extends ElementModel implements Referenceable {
+  public static final class Reference extends ElementModel implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseElement(UniqueQName name) {
+    public static Reference parseElement(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;

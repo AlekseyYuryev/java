@@ -21,7 +21,7 @@ import java.util.TimeZone;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gMonth
  */
-public class Month {
+public final class Month {
   public static Month parseMonth(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -35,7 +35,7 @@ public class Month {
     return new Month(month, timeZone);
   }
 
-  protected static int parseMonthFrag(String string) {
+  protected static int parseMonthFrag(final String string) {
     if (string == null)
       throw new NullPointerException("string == null");
 
@@ -62,7 +62,7 @@ public class Month {
     try {
       month = Integer.parseInt(monthString);
     }
-    catch (NumberFormatException e) {
+    catch (final NumberFormatException e) {
       throw new IllegalArgumentException("month == " + string, e);
     }
 
@@ -75,7 +75,7 @@ public class Month {
   private final int month;
   private final TimeZone timeZone;
 
-  public Month(int month, TimeZone timeZone) {
+  public Month(final int month, final TimeZone timeZone) {
     this.month = month;
     if (month < 0 || 12 < month)
       throw new IllegalArgumentException("month == " + month);
@@ -83,11 +83,11 @@ public class Month {
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
   }
 
-  public Month(int month) {
+  public Month(final int month) {
     this(month, null);
   }
 
-  public Month(long time) {
+  public Month(final long time) {
     final java.util.Date date = new java.util.Date(time);
     this.month = date.getMonth() + 1;
     this.timeZone = TimeZone.getDefault();
@@ -105,7 +105,7 @@ public class Month {
     return timeZone;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

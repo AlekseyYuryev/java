@@ -22,7 +22,7 @@ import org.safris.xml.generator.lexer.schema.attribute.Value;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class WhiteSpaceModel extends NamedModel {
+public final class WhiteSpaceModel extends NamedModel {
   private Boolean fixed = null;
   private Value value = null;
 

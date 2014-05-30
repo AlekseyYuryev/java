@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.model.element;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Referenceable;
 import org.safris.xml.generator.lexer.processor.Undefineable;
@@ -31,7 +32,7 @@ import org.safris.xml.generator.lexer.schema.attribute.Block;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel<T> implements AttributableModel, ElementableModel, MixableModel {
+public class ComplexTypeModel<T extends SimpleTypeModel<?>> extends SimpleTypeModel<T> implements AttributableModel, ElementableModel, MixableModel {
   private final LinkedHashSet<AttributeModel> attributes = new LinkedHashSet<AttributeModel>();
   private final LinkedHashSet<MultiplicableModel> multiplicableModels = new LinkedHashSet<MultiplicableModel>();
   private Boolean _abstract = false;
@@ -39,7 +40,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
   private Boolean mixed = null;
   private boolean extension = false;
 
-  protected ComplexTypeModel(Node node, Model parent) {
+  protected ComplexTypeModel(final Node node, final Model parent) {
     super(node, parent);
     if (node == null)
       return;
@@ -56,7 +57,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
     }
   }
 
-  public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
+  public final void addMultiplicableModel(final MultiplicableModel multiplicableModel) {
     if (!this.equals(multiplicableModel))
       this.multiplicableModels.add(multiplicableModel);
   }
@@ -77,14 +78,15 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
     for (final Model model : getChildren()) {
       if (model instanceof ComplexContentModel && ((ComplexContentModel)model).getMixed() != null)
         return ((ComplexContentModel)model).getMixed();
-      else if (model instanceof ComplexTypeModel && ((ComplexTypeModel)model).getMixed() != null)
-        return ((ComplexTypeModel)model).getMixed();
+
+      if (model instanceof ComplexTypeModel && ((ComplexTypeModel<?>)model).getMixed() != null)
+        return ((ComplexTypeModel<?>)model).getMixed();
     }
 
     return mixed;
   }
 
-  public void setExtension(boolean extension) {
+  public void setExtension(final boolean extension) {
     this.extension = extension;
   }
 
@@ -92,7 +94,7 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
     return extension;
   }
 
-  public final void addAttribute(AttributeModel attribute) {
+  public final void addAttribute(final AttributeModel attribute) {
     attributes.add(attribute);
   }
 
@@ -100,14 +102,14 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
     return attributes;
   }
 
-  public static class Reference extends ComplexTypeModel implements Referenceable {
+  public static final class Reference extends ComplexTypeModel<SimpleTypeModel<?>> implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseComplexType(UniqueQName name) {
+    public static Reference parseComplexType(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;
@@ -119,14 +121,14 @@ public class ComplexTypeModel<T extends SimpleTypeModel> extends SimpleTypeModel
     }
   }
 
-  public static class Undefined extends ComplexTypeModel implements Undefineable {
+  public static final class Undefined extends ComplexTypeModel<SimpleTypeModel<?>> implements Undefineable {
     private static final Map<UniqueQName,Undefined> all = new HashMap<UniqueQName,Undefined>();
 
-    protected Undefined(Model parent) {
+    protected Undefined(final Model parent) {
       super(null, parent);
     }
 
-    public static Undefined parseComplexType(UniqueQName name) {
+    public static Undefined parseComplexType(final UniqueQName name) {
       if (name == null)
         return null;
 

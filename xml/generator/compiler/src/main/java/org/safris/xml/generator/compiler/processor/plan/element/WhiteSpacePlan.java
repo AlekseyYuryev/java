@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 
-public class WhiteSpacePlan extends Plan<WhiteSpaceModel> {
-  public WhiteSpacePlan(WhiteSpaceModel model, Plan parent) {
+public final class WhiteSpacePlan extends Plan<WhiteSpaceModel> {
+  public WhiteSpacePlan(final WhiteSpaceModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

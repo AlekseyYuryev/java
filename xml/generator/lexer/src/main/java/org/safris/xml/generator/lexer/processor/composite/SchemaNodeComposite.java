@@ -18,10 +18,10 @@ package org.safris.xml.generator.lexer.processor.composite;
 
 import org.w3c.dom.Node;
 
-public class SchemaNodeComposite implements SchemaComposite {
+public final class SchemaNodeComposite implements SchemaComposite {
   private final Node node;
 
-  public SchemaNodeComposite(Node node) {
+  public SchemaNodeComposite(final Node node) {
     this.node = node;
   }
 

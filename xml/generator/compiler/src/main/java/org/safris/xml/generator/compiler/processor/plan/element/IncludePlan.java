@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.IncludeModel;
 
-public class IncludePlan extends Plan<IncludeModel> {
-  public IncludePlan(IncludeModel model, Plan parent) {
+public final class IncludePlan extends Plan<IncludeModel> {
+  public IncludePlan(final IncludeModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

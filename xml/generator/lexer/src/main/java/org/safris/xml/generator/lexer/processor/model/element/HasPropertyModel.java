@@ -21,10 +21,10 @@ import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class HasPropertyModel extends NamedModel {
+public final class HasPropertyModel extends NamedModel {
   private String value = null;
 
-  protected HasPropertyModel(Node node, Model parent) {
+  protected HasPropertyModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {

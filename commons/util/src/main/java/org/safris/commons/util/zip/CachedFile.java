@@ -21,25 +21,27 @@ import java.net.URI;
 
 // FIXME: This is not the right way to be doing this!
 // FIXME: It creates unnecessary dependencies and relations.
-public class CachedFile extends File {
+public final class CachedFile extends File {
+  private static final long serialVersionUID = 3333613083676335051L;
+
   private final byte[] bytes;
 
-  public CachedFile(String pathname, byte[] bytes) {
+  public CachedFile(final String pathname, final byte[] bytes) {
     super(pathname);
     this.bytes = bytes;
   }
 
-  public CachedFile(String parent, String child, byte[] bytes) {
+  public CachedFile(final String parent, final String child, final byte[] bytes) {
     super(parent, child);
     this.bytes = bytes;
   }
 
-  public CachedFile(File parent, String child, byte[] bytes) {
+  public CachedFile(final File parent, final String child, final byte[] bytes) {
     super(parent, child);
     this.bytes = bytes;
   }
 
-  public CachedFile(URI uri, byte[] bytes) {
+  public CachedFile(final URI uri, final byte[] bytes) {
     super(uri);
     this.bytes = bytes;
   }

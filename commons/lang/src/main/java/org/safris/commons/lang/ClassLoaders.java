@@ -20,19 +20,21 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+
 import org.apache.tools.ant.AntClassLoader;
+
 import sun.misc.URLClassPath;
 import sun.reflect.Reflection;
-import java.net.MalformedURLException;
 
 public final class ClassLoaders {
-  public static boolean isClassLoaded(ClassLoader classLoader, String name) {
+  public static boolean isClassLoaded(final ClassLoader classLoader, final String name) {
     if (classLoader == null)
       throw new IllegalArgumentException("classLoader == null");
 
@@ -41,13 +43,13 @@ public final class ClassLoaders {
       method.setAccessible(true);
       return method.invoke(classLoader, name) != null;
     }
-    catch (InvocationTargetException e) {
+    catch (final InvocationTargetException e) {
       return false;
     }
-    catch (NoSuchMethodException e) {
+    catch (final NoSuchMethodException e) {
       return false;
     }
-    catch (IllegalAccessException e) {
+    catch (final IllegalAccessException e) {
       throw new SecurityException(e);
     }
   }
@@ -56,7 +58,7 @@ public final class ClassLoaders {
     final Collection<URL> urls = new HashSet<URL>();
     urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
     urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
-    final Class callerClass = Reflection.getCallerClass(2);
+    final Class<?> callerClass = Reflection.getCallerClass(2);
     final ClassLoader classLoader = callerClass.getClassLoader();
     try {
       // TODO: I dont know why, but when running forked JUnit tests
@@ -71,7 +73,7 @@ public final class ClassLoaders {
       for (final String key : lmap.keySet())
         urls.add(new URL(key));
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       // TODO: Oh well, try the regular approach
       if (classLoader instanceof AntClassLoader) {
         final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
@@ -81,7 +83,7 @@ public final class ClassLoaders {
             try {
               urls.add(new File(classpath).toURL());
             }
-            catch (MalformedURLException e2) {
+            catch (final MalformedURLException e2) {
             }
           }
         }

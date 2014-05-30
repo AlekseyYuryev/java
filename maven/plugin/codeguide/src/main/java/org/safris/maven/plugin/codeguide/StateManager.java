@@ -21,17 +21,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.safris.maven.plugin.codeguide.javaproj.JavaProject;
 import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
-public class StateManager {
+public final class StateManager {
   private final Solution solution;
   private final Map<GroupArtifact,JavaProject> artifactToProject = new HashMap<GroupArtifact,JavaProject>();
   private final Map<JavaProject,GroupArtifact> projectToArtifact = new HashMap<JavaProject,GroupArtifact>();
   private final Map<JavaProject,Set<String>> sourcesMap = new HashMap<JavaProject,Set<String>>();
 
-  public StateManager(Solution solution) {
+  public StateManager(final Solution solution) {
     this.solution = solution;
   }
 
@@ -39,12 +40,12 @@ public class StateManager {
     return solution;
   }
 
-  public void put(GroupArtifact artifact, JavaProject project) {
+  public void put(final GroupArtifact artifact, final JavaProject project) {
     artifactToProject.put(artifact, project);
     projectToArtifact.put(project, artifact);
   }
 
-  public GroupArtifact getGroupArtifact(JavaProject project) {
+  public GroupArtifact getGroupArtifact(final JavaProject project) {
     return projectToArtifact.get(project);
   }
 
@@ -52,7 +53,7 @@ public class StateManager {
     return artifactToProject.keySet();
   }
 
-  public JavaProject getJavaProject(GroupArtifact artifact) {
+  public JavaProject getJavaProject(final GroupArtifact artifact) {
     return artifactToProject.get(artifact);
   }
 
@@ -60,7 +61,7 @@ public class StateManager {
     return projectToArtifact.keySet();
   }
 
-  public Set<String> getAddedSources(Set<JavaProject> javaProjects) {
+  public Set<String> getAddedSources(final Set<JavaProject> javaProjects) {
     final Set<String> addedSources = new HashSet<String>();
     for (final JavaProject javaProject : javaProjects) {
       final Set<String> sources = sourcesMap.get(javaProject);
@@ -71,7 +72,7 @@ public class StateManager {
     return Collections.<String>unmodifiableSet(addedSources);
   }
 
-  public Set<String> setAddedSources(JavaProject javaProject, Set<String> sources) {
+  public Set<String> setAddedSources(final JavaProject javaProject, final Set<String> sources) {
     return sourcesMap.put(javaProject, sources);
   }
 }

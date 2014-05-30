@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_long<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_long(final $xs_long<T> binding) {
+public abstract class $xs_long extends $xs_anySimpleType {
+  public $xs_long(final $xs_long binding) {
     super(binding);
   }
 
@@ -38,28 +37,25 @@ public abstract class $xs_long<T extends BindingType> extends $xs_anySimpleType<
     super();
   }
 
-  public Long getText() {
-    return (Long)super.getText();
+  public Long text() {
+    return (Long)super.text();
   }
 
-  public void setText(final Long text) {
-    super.setText(text);
+  public void text(final Long text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Long.parseLong(String.valueOf(value)));
+    super.text(Long.parseLong(String.valueOf(value)));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_long<T> clone() {
-    return new $xs_long<T>(this) {
-      protected $xs_long<T> inherits() {
+  public $xs_long clone() {
+    return new $xs_long(this) {
+      protected $xs_long inherits() {
         return this;
       }
     };

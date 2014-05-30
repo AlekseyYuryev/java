@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ReverseComparator<T extends Comparable> implements Comparator<T> {
+public final class ReverseComparator<T extends Comparable> implements Comparator<T> {
   private static Map<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator>> instances = new ConcurrentHashMap<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator>>();
   private static final Object instancesMutex = new Object();
 
@@ -62,7 +62,7 @@ public class ReverseComparator<T extends Comparable> implements Comparator<T> {
     try {
       this.comparatorInstance = comparatorClass.newInstance();
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }
@@ -98,12 +98,12 @@ public class ReverseComparator<T extends Comparable> implements Comparator<T> {
    * @param o1 the first object to be compared.
    * @param o2 the second object to be compared.
    * @return a negative integer, zero, or a positive integer as the
-   * 	       first argument is less than, equal to, or greater than the
+   * 	       first argument is less than, final equal to, or greater than the
    *	       second.
    * @throws ClassCastException if the arguments' types prevent them from
    * 	       being compared by this comparator.
    */
-  public int compare(T o1, T o2) {
+  public int compare(final T o1, final T o2) {
     if (comparatorInstance != null)
       return comparatorInstance.compare(o2, o1);
 

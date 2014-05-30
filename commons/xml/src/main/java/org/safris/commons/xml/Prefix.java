@@ -22,7 +22,7 @@ import java.util.Map;
 public final class Prefix {
   private static final Map<String,Prefix> instances = new HashMap<String,Prefix>();
 
-  public static Prefix getInstance(String prefix) {
+  public static Prefix getInstance(final String prefix) {
     Prefix value = instances.get(prefix);
     if (value == null)
       instances.put(prefix, value = new Prefix(prefix));
@@ -36,7 +36,7 @@ public final class Prefix {
   private final String title;
   private final String lower;
 
-  private Prefix(String prefix) {
+  private Prefix(final String prefix) {
     this.prefix = prefix;
     if (prefix.equals(prefix.toUpperCase())) {
       title = prefix;
@@ -52,7 +52,7 @@ public final class Prefix {
     }
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (!(obj instanceof Prefix))
       return false;
 
@@ -67,13 +67,11 @@ public final class Prefix {
     return prefix;
   }
 
-//  public String toStringTitleCase()
-//  {
+//  public String toStringTitleCase() {
 //      return title;
 //  }
 //
-//  public String toStringLowerCase()
-//  {
+//  public String toStringLowerCase() {
 //      return lower;
 //  }
 }

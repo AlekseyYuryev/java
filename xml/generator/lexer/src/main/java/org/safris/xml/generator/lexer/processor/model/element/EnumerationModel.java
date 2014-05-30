@@ -17,14 +17,15 @@
 package org.safris.xml.generator.lexer.processor.model.element;
 
 import javax.xml.namespace.QName;
+
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class EnumerationModel extends Model {
+public final class EnumerationModel extends Model {
   private QName value = null;
 
-  protected EnumerationModel(Node node, Model parent) {
+  protected EnumerationModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -34,7 +35,7 @@ public class EnumerationModel extends Model {
     }
   }
 
-  public EnumerationModel(QName value) {
+  public EnumerationModel(final QName value) {
     super(null, null);
     this.value = value;
   }
@@ -43,7 +44,7 @@ public class EnumerationModel extends Model {
     return value;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

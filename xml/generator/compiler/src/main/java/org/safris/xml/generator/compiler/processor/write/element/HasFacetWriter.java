@@ -17,35 +17,36 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.HasFacetPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class HasFacetWriter extends Writer<HasFacetPlan> {
-  protected void appendDeclaration(StringWriter writer, HasFacetPlan plan, Plan parent) {
+public final class HasFacetWriter extends Writer<HasFacetPlan> {
+  protected void appendDeclaration(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendGetMethod(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendSetMethod(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendMarshal(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  public void appendCopy(StringWriter writer, HasFacetPlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final HasFacetPlan plan, Plan<?> parent, final String variable) {
   }
 
-  protected void appendEquals(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendHashCode(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendClass(StringWriter writer, HasFacetPlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final HasFacetPlan plan, final Plan<?> parent) {
   }
 }

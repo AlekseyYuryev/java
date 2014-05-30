@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_unsignedLong<T extends BindingType> extends $xs_decimal<T> {
-  public $xs_unsignedLong($xs_unsignedLong<T> binding) {
+public abstract class $xs_unsignedLong extends $xs_decimal {
+  public $xs_unsignedLong(final $xs_unsignedLong binding) {
     super(binding);
   }
 
@@ -38,28 +37,25 @@ public abstract class $xs_unsignedLong<T extends BindingType> extends $xs_decima
     super();
   }
 
-  public Long getText() {
-    return (Long)super.getText();
+  public Long text() {
+    return (Long)super.text();
   }
 
-  protected void setText(final Long text) {
-    super.setText(text);
+  protected void text(final Long text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Long.parseLong(value));
+    super.text(Long.parseLong(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_unsignedLong<T> clone() {
-    return new $xs_unsignedLong<T>(this) {
-      protected $xs_unsignedLong<T> inherits() {
+  public $xs_unsignedLong clone() {
+    return new $xs_unsignedLong(this) {
+      protected $xs_unsignedLong inherits() {
         return this;
       }
     };

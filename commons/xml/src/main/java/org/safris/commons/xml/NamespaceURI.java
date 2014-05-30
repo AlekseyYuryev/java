@@ -18,8 +18,10 @@ package org.safris.commons.xml;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+
 import org.w3c.dom.Node;
 
 public final class NamespaceURI {
@@ -61,10 +63,10 @@ public final class NamespaceURI {
   private final PackageName packageName;
 
   private NamespaceURI(final String namespaceURI) {
-  if(namespaceURI == null)
-    throw new NullPointerException("namespaceURI == null");
+    if (namespaceURI == null)
+      throw new NullPointerException("namespaceURI == null");
 
-    this.namespaceURI = namespaceURI;
+    this.namespaceURI = namespaceURI.intern();
     this.packageName = new PackageName(NamespaceBinding.getPackageFromNamespace(namespaceURI));
   }
 
@@ -72,7 +74,7 @@ public final class NamespaceURI {
     return packageName;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

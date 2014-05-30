@@ -20,10 +20,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
+
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
+import org.safris.commons.lang.reflect.Classes;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 
@@ -36,7 +39,7 @@ public abstract class AbstractBinding implements Cloneable {
   private static final Map<QName,Class<? extends Binding>> elementBindings = new HashMap<QName,Class<? extends Binding>>();
   private static final Map<QName,Class<? extends Binding>> typeBindings = new HashMap<QName,Class<? extends Binding>>();
 
-  protected static void _$$registerSchemaLocation(final String namespaceURI, final Class className, final String schemaReference) {
+  protected static void _$$registerSchemaLocation(final String namespaceURI, final Class<?> className, final String schemaReference) {
     final String simpleName = className.getName().replace('.', '/') + ".class";
     final Resource resource = Resources.getResource(simpleName);
     if (resource == null)
@@ -46,7 +49,7 @@ public abstract class AbstractBinding implements Cloneable {
     try {
       BindingEntityResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
     }
-    catch (MalformedURLException e) {
+    catch (final MalformedURLException e) {
       System.err.println("[ERROR] Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
     }
   }
@@ -55,12 +58,12 @@ public abstract class AbstractBinding implements Cloneable {
     elementBindings.put(name, cls);
   }
 
-  private static void loadPackage(String namespaceURI) {
+  private static void loadPackage(final String namespaceURI) {
     // FIXME: Look this over. Also make a dedicated RuntimeException for this.
     try {
       PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }
@@ -87,8 +90,13 @@ public abstract class AbstractBinding implements Cloneable {
     return typeBindings.get(name);
   }
 
-  protected static Object _$$getTEXT(final Binding<SimpleType> binding) {
-    return binding.getText();
+  protected static Object _$$getTEXT(final Binding binding) {
+    return binding.text();
+  }
+  
+  protected static QName getClassQName(final Class<? extends Binding> binding) {
+    final org.safris.xml.generator.compiler.annotation.QName name = Classes.getDeclaredAnnotation(binding, org.safris.xml.generator.compiler.annotation.QName.class);
+    return new QName(name.namespaceURI().intern(), name.localPart().intern(), name.prefix().intern());
   }
 
   protected static QName stringToQName(final java.lang.String name) {
@@ -97,9 +105,9 @@ public abstract class AbstractBinding implements Cloneable {
 
     int index = name.indexOf(":");
     if (index != -1)
-      return new QName(null, name.substring(index + 1), name.substring(0, index));
+      return new QName(null, name.substring(index + 1).intern(), name.substring(0, index).intern());
 
-    return new QName(name);
+    return new QName(name.intern());
   }
 
   protected static String parsePrefix(final String name) {
@@ -120,9 +128,8 @@ public abstract class AbstractBinding implements Cloneable {
     int start = name.indexOf("{");
     if (start != -1) {
       int end = name.indexOf("}", start);
-      if (end != -1) {
+      if (end != -1)
         return name.substring(end + 1);
-      }
     }
 
     start = name.indexOf(":");

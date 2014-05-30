@@ -30,8 +30,6 @@ import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.RestrictablePlan;
-import org.safris.xml.generator.compiler.runtime.ComplexType;
-import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Formable;
 import org.safris.xml.generator.lexer.processor.model.AliasModel;
@@ -44,7 +42,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 
-public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan>, NativeablePlan, NestablePlan, RestrictablePlan {
+public class ElementPlan extends ComplexTypePlan<ElementModel> implements EnumerablePlan, ExtensiblePlan, Formable<Plan<?>>, NativeablePlan, NestablePlan, RestrictablePlan {
   private final ElementModel element;
   private final boolean ref;
   private final boolean _abstract;
@@ -70,7 +68,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
   private int minOccurs = 1;
   private int maxOccurs = 1;
 
-  public ElementPlan(final ElementModel model, final Plan parent) {
+  public ElementPlan(final ElementModel model, final Plan<?> parent) {
     super(model, parent);
     ref = (element = getModel()) != model;
     _abstract = model.getAbstract();
@@ -87,21 +85,14 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 
     typeName = element.getSuperType().getName();
     if (isRestriction())
-      superClassNameWithoutType = AliasPlan.getClassName(element.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel)getModel().getRestriction());
+      superClassNameWithoutType = AliasPlan.getClassName(element.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel<?>)getModel().getRestriction());
     else
       superClassNameWithoutType = AliasPlan.getClassName(element.getSuperType(), element.getSuperType().getParent());
 
     superClassNameWithType = superClassNameWithoutType;
     // If we are directly inheriting from another element via the substitutionGroup, then dont add the type
     if (substitutionGroup == null || !substitutionGroup.equals(element.getSuperType().getName())) {
-      if (isComplexType(element.getSuperType())) {
-        isComplexType = true;
-        superClassNameWithType += "<" + ComplexType.class.getName() + ">";
-      }
-      else {
-        isComplexType = false;
-        superClassNameWithType += "<" + SimpleType.class.getName() + ">";
-      }
+      isComplexType = isComplexType(element.getSuperType());
     }
     else if (substitutionGroup != null && isComplexType(element.getSuperType()))
       isComplexType = true;
@@ -118,7 +109,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     formDefault = !ref ? element.getFormDefault() : Form.QUALIFIED;
   }
 
-  private boolean isComplexType(final SimpleTypeModel simpleType) {
+  private boolean isComplexType(final SimpleTypeModel<?> simpleType) {
     return XSTypeDirectory.ANYTYPE.getNativeBinding().getName().equals(simpleType.getName()) || (simpleType instanceof ComplexTypeModel && !isRestriction());
   }
 
@@ -126,7 +117,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
    * States whether this element is a duplicate of an element in the
    * inheritance hierarchy of the owning parent element or complexType. This
    * information means that since the element is being repeated twice its
-   * methods will mask those of the first occurance in the parent type.
+   * methods will mask those of the first occurrence in the parent type.
    *
    * @return <code>true</code> if the name of this element exists in the
    * hierarchy of the parent element or complexType.
@@ -164,7 +155,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return _default;
   }
 
-  public final String getDefaultInstance(final Plan parent) {
+  public final String getDefaultInstance(final Plan<?> parent) {
     if (getDefault() == null)
       return null;
 
@@ -192,10 +183,10 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     try {
       Class.forName(nativeFactoryClass).getMethod(nativeFactoryMethod, String.class).invoke(null, defaultValue);
     }
-    catch (InvocationTargetException e) {
+    catch (final InvocationTargetException e) {
       return false;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
 
@@ -222,7 +213,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return superClassNameWithoutType;
   }
 
-  public final void setMaxOccurs(int maxOccurs) {
+  public final void setMaxOccurs(final int maxOccurs) {
     this.maxOccurs = maxOccurs;
   }
 
@@ -248,7 +239,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return typeName;
   }
 
-  public final String getDeclarationGeneric(final Plan parent) {
+  public final String getDeclarationGeneric(final Plan<?> parent) {
     if (declarationGeneric != null)
       return declarationGeneric;
 
@@ -262,7 +253,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return AliasPlan.getClassName(model, parent.getModel());
   }
 
-  public final String getDeclarationGenericWithInconvertible(final Plan parent) {
+  public final String getDeclarationGenericWithInconvertible(final Plan<?> parent) {
     if (declarationGeneric != null)
       return declarationGeneric;
 
@@ -273,31 +264,31 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     else
       model = getModel();
 
-    return AliasPlan.getClassNameWithInconvertible(model, parent.getModel());
+    return AliasPlan.getClassName(model, parent.getModel());
   }
 
-  public final String getDeclarationRestrictionGeneric(final Plan parent) {
+  public final String getDeclarationRestrictionGeneric(final Plan<?> parent) {
     if (!isRestriction())
       return getDeclarationGenericWithInconvertible(parent);
 
     if (declarationRestrictionGeneric != null)
       return declarationRestrictionGeneric;
 
-    RestrictableModel first = null;
-    RestrictableModel prior = getModel();
+    RestrictableModel<?> first = null;
+    RestrictableModel<?> prior = getModel();
     while (prior.getRestriction() != null) {
       first = prior;
       prior = prior.getRestriction();
     }
 
-    return declarationRestrictionGeneric = AliasPlan.getClassNameWithInconvertible(first.getRestrictionOwner(), null) + JavaBinding.getClassSimpleName((Model)first);
+    return declarationRestrictionGeneric = AliasPlan.getClassName(first.getRestrictionOwner(), null) + JavaBinding.getClassSimpleName((Model)first);
   }
 
   public final String getSuperClassNameWithType() {
     return superClassNameWithType;
   }
 
-  public final String getCopyClassName(final Plan parent) {
+  public final String getCopyClassName(final Plan<?> parent) {
     if (!getModel().getSuperType().getName().equals(XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName()))
       return AliasPlan.getClassName(getModel().getSuperType(), null);
 

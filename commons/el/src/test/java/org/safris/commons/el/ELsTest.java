@@ -16,14 +16,17 @@
 
 package org.safris.commons.el;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class ELsTest {
-  public static void main(String[] args) {
+public final class ELsTest {
+  public static void main(final String[] args) {
     new ELsTest().testDereference();
   }
 
@@ -51,7 +54,7 @@ public class ELsTest {
       ELs.dereference("expect an ${exception here", variables);
       fail("Expected a ExpressionFormatException");
     }
-    catch (ExpressionFormatException e) {
+    catch (final ExpressionFormatException e) {
     }
   }
 }

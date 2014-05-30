@@ -18,12 +18,13 @@ package org.safris.commons.xml.binding;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+
 import org.safris.commons.util.CalendarUtil;
 
 /**
  * http://www.w3.org/TR/xmlschema11-2/#time
  */
-public class Time {
+public final class Time {
   public static Time parseTime(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -46,7 +47,7 @@ public class Time {
     return new Time(hour, minute, second, timeZone);
   }
 
-  protected static int parseHourFrag(String string) {
+  protected static int parseHourFrag(final String string) {
     final int hour = Integer.parseInt(string.substring(0, HOUR_FRAG_MIN_LENGTH));
     if (hour < 0 || 24 < hour)
       throw new IllegalArgumentException("hour == " + string);
@@ -54,7 +55,7 @@ public class Time {
     return hour;
   }
 
-  protected static int parseMinuteFrag(String string) {
+  protected static int parseMinuteFrag(final String string) {
     int minute = Integer.parseInt(string.substring(0, MINUTE_FRAG_MIN_LENGTH));
     if (minute < 0 || 59 < minute)
       throw new IllegalArgumentException("minute == " + string);
@@ -62,7 +63,7 @@ public class Time {
     return minute;
   }
 
-  protected static float parseSecondFrag(String string) {
+  protected static float parseSecondFrag(final String string) {
     if (string == null)
       throw new NullPointerException("string == null");
 
@@ -100,7 +101,7 @@ public class Time {
     return second;
   }
 
-  protected static TimeZone parseTimeZoneFrag(String string) {
+  protected static TimeZone parseTimeZoneFrag(final String string) {
     if (string == null)
       throw new NullPointerException("string == null");
 
@@ -136,7 +137,7 @@ public class Time {
     return timeZone;
   }
 
-  protected static String formatTimeZone(TimeZone timeZone) {
+  protected static String formatTimeZone(final TimeZone timeZone) {
     if (timeZone == null)
       return "";
 
@@ -161,7 +162,7 @@ public class Time {
   private final float second;
   private final TimeZone timeZone;
 
-  public Time(int hour, int minute, float second, TimeZone timeZone) {
+  public Time(final int hour, final int minute, float second, final TimeZone timeZone) {
     this.hour = hour;
     if (24 < hour || hour < 0)
       throw new IllegalArgumentException("hour == " + hour);
@@ -177,11 +178,11 @@ public class Time {
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
   }
 
-  public Time(int hours, int minutes, float seconds) {
+  public Time(final int hours, final int minutes, final float seconds) {
     this(hours, minutes, seconds, null);
   }
 
-  public Time(long time, TimeZone timeZone) {
+  public Time(final long time, final TimeZone timeZone) {
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
 
     final Calendar calendar = CalendarUtil.newCalendar(time, this.timeZone);
@@ -190,7 +191,7 @@ public class Time {
     this.second = calendar.get(Calendar.SECOND) + (float)calendar.get(Calendar.MILLISECOND) / 1000f;
   }
 
-  public Time(long time) {
+  public Time(final long time) {
     this(time, null);
   }
 
@@ -214,7 +215,7 @@ public class Time {
     return timeZone;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

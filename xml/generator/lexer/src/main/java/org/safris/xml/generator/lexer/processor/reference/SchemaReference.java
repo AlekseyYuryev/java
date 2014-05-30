@@ -40,7 +40,7 @@ import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public final class SchemaReference implements PipelineEntity<SchemaReference> {
+public final class SchemaReference implements PipelineEntity {
   private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
@@ -51,14 +51,15 @@ public final class SchemaReference implements PipelineEntity<SchemaReference> {
   private URL location;
   private NamespaceURI namespaceURI;
   private Prefix prefix;
+  private final Boolean isInclude;
   private long lastModified = Long.MIN_VALUE;
   private InputStream inputStream = null;
 
-  public SchemaReference(final String location) {
-    this(null, location);
+  public SchemaReference(final String location, final boolean isInclude) {
+    this(null, location, isInclude);
   }
 
-  public SchemaReference(final String basedir, final String location) {
+  public SchemaReference(final String basedir, final String location, final boolean isInclude) {
     if (location == null)
       throw new IllegalArgumentException("location cannot be null");
 
@@ -70,34 +71,35 @@ public final class SchemaReference implements PipelineEntity<SchemaReference> {
     }
     catch (final MalformedURLException e) {
       try {
-        if (basedir != null)
-          this.location = new File(basedir, location).toURL();
-        else
-          this.location = new File(location).toURL();
+        this.location = basedir != null ? new File(basedir, location).toURI().toURL() : new File(location).toURI().toURL();
       }
       catch (final MalformedURLException ex) {
         throw new IllegalArgumentException("Unknown URL format: " + location);
       }
     }
-
+    
+    this.isInclude = isInclude;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
   public SchemaReference(final URL location) {
     this.location = location;
+    this.isInclude = null;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
-  public SchemaReference(final URL location, final NamespaceURI namespaceURI, final Prefix prefix) {
+  public SchemaReference(final URL location, final NamespaceURI namespaceURI, final Prefix prefix, final boolean isInclude) {
     this.location = location;
     this.namespaceURI = namespaceURI;
     this.prefix = prefix;
+    this.isInclude = isInclude;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\", \"" + prefix + "\")");
   }
 
-  public SchemaReference(final URL location, final NamespaceURI namespaceURI) {
+  public SchemaReference(final URL location, final NamespaceURI namespaceURI, final boolean isInclude) {
     this.location = location;
     this.namespaceURI = namespaceURI;
+    this.isInclude = isInclude;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\")");
   }
 
@@ -109,6 +111,10 @@ public final class SchemaReference implements PipelineEntity<SchemaReference> {
   public Prefix getPrefix() {
     resolveUnknowns();
     return prefix;
+  }
+
+  public boolean isInclude() {
+    return isInclude;
   }
 
   private void resolveUnknowns() {
@@ -141,7 +147,7 @@ public final class SchemaReference implements PipelineEntity<SchemaReference> {
       try {
         openConnection();
       }
-      catch (IOException e) {
+      catch (final IOException e) {
         throw new LexerError(e);
       }
 
@@ -151,13 +157,13 @@ public final class SchemaReference implements PipelineEntity<SchemaReference> {
         saxParser.setContentHandler(new SchemaNamespaceHandler(getURL()));
         saxParser.parse(new InputSource(inputStream));
       }
-      catch (FileNotFoundException e) {
+      catch (final FileNotFoundException e) {
         throw new LexerError(e.getMessage());
       }
-      catch (IOException e) {
+      catch (final IOException e) {
         throw new LexerError(e);
       }
-      catch (SAXException e) {
+      catch (final SAXException e) {
         if (e.getMessage() == null)
           throw new LexerError(location.toString(), e);
 

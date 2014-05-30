@@ -21,14 +21,14 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class URLConnections {
-  public static void setRequestProperties(URLConnection urlConnection, Properties properties) {
+  public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     if (urlConnection == null)
       throw new NullPointerException("urlConnection == null");
 
     if (properties == null)
       throw new NullPointerException("properties == null");
 
-    for (final Map.Entry entry : properties.entrySet())
+    for (final Map.Entry<Object,Object> entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
 

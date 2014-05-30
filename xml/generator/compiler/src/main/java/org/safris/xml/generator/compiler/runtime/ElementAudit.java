@@ -18,7 +18,9 @@ package org.safris.xml.generator.compiler.runtime;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.xml.namespace.QName;
+
 import org.w3c.dom.Element;
 
 public final class ElementAudit<T extends Binding> {
@@ -32,7 +34,7 @@ public final class ElementAudit<T extends Binding> {
   private final int maxOccurs;
   private SpecificElementList<T> value = null;
 
-  public ElementAudit(Binding parent, T _default, QName name, QName typeName, boolean qualified, boolean nillable, int minOccurs, int maxOccurs) {
+  public ElementAudit(final Binding parent, final T _default, QName name, final QName typeName, boolean qualified, final boolean nillable, int minOccurs, final int maxOccurs) {
     this.parent = parent;
     this._default = Collections.<T>singletonList(_default);
     this.name = name;
@@ -87,14 +89,17 @@ public final class ElementAudit<T extends Binding> {
     return maxOccurs;
   }
 
-  public boolean addElement(T element) {
+  public boolean addElement(final T element) {
+    if (parent.isNull())
+      throw new BindingRuntimeException("NULL Object is immutable.");
+
     if (this.value == null)
       this.value = new SpecificElementList<T>(this, 2);
 
     return this.value.add(element, false);
   }
 
-  public List<T> getElements() {
+  public BindingList<T> getElements() {
     return value;
   }
 
@@ -102,7 +107,7 @@ public final class ElementAudit<T extends Binding> {
     value = null;
   }
 
-  private void marshalNil(Element element, Element parent) {
+  private void marshalNil(final Element element, final Element parent) {
     // NOTE: This makes the assumption that the xmlns:xsi will be present if
     // NOTE: xsi:nil is present, saving us a hasAttributeNS() call.
     if (!element.hasAttributeNS(Binding.XSI_NIL.getNamespaceURI(), Binding.XSI_NIL.getLocalPart())) {
@@ -112,13 +117,13 @@ public final class ElementAudit<T extends Binding> {
     }
   }
 
-  protected void marshal(Element parent, T element) throws MarshalException {
+  protected void marshal(final Element parent, final T element) throws MarshalException {
     if (value == null)
       return;
 
     QName name = getName();
     if (name == null)
-      name = element._$$getName();
+      name = element.name();
 
     final Element node = element.marshal(parent, name, getTypeName());
     if (!element._$$hasElements() && isNillable())
@@ -135,27 +140,21 @@ public final class ElementAudit<T extends Binding> {
     return new ElementAudit<T>(parent, this);
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 
     if (!(obj instanceof ElementAudit))
       return false;
 
-    return value != null ? value.equals(((ElementAudit)obj).value) : ((ElementAudit)obj).value == null;
+    return value != null ? value.equals(((ElementAudit<?>)obj).value) : ((ElementAudit<?>)obj).value == null;
   }
 
   public int hashCode() {
-    if (value == null)
-      return 0;
-
-    return value.hashCode();
+    return value != null ? value.hashCode() : 0;
   }
 
   public String toString() {
-    if (value == null)
-      return super.toString();
-
-    return value.toString();
+    return value != null ? value.toString() : super.toString();
   }
 }

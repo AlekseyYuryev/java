@@ -60,6 +60,9 @@
     <developerConnection>scm:svn:https://svn.repo.safris.org/safris/</developerConnection>
     <url>https://svn.repo.safris.org/safris/</url>
   </scm>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <profiles>
     <profile>
       <id>tools-jar-windows</id>
@@ -176,6 +179,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -222,9 +226,9 @@
           <configuration>
             <fork>true</fork>
             <meminitial>256m</meminitial>
-            <maxmem>2048m</maxmem>
-            <source>1.6</source>
-            <target>1.6</target>
+            <maxmem>4096m</maxmem>
+            <source>1.7</source>
+            <target>1.7</target>
           </configuration>
         </plugin>
         <plugin>
@@ -308,7 +312,7 @@
       <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
-        <version>RELEASE</version>
+        <version>4.11</version>
       </dependency>
       <dependency>
         <groupId>classworlds</groupId>

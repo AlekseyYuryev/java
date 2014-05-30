@@ -21,7 +21,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DocumentationModel extends Model {
+public final class DocumentationModel extends Model {
   private String source = null;
   private String lang = null;
   private String text = " ";

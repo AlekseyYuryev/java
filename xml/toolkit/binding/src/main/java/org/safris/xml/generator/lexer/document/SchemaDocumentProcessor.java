@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Stack;
+
 import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
@@ -40,7 +41,7 @@ import org.safris.xml.toolkit.binding.AbstractGenerator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument> {
+public final class SchemaDocumentProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument> {
   protected static final Logger logger = Logger.getLogger(LexerLoggerName.DOCUMENT);
 
   private static final String[] includeStrings = new String[] {
@@ -48,7 +49,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
     "redefine"
   };
 
-  public Collection<SchemaDocument> process(GeneratorContext pipelineContext, Collection<SchemaReference> selectedSchemas, PipelineDirectory<GeneratorContext,SchemaReference, SchemaDocument> directory) {
+  public Collection<SchemaDocument> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> selectedSchemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> directory) {
     if (selectedSchemas == null || selectedSchemas.size() == 0)
       return null;
 
@@ -84,7 +85,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
                 if (schemaLocationURL.equals(schemaDocument.getSchemaReference().getURL()) || (duplicates != null && duplicates.contains(schemaLocationURL)))
                     continue;
 
-                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getSchemaReference().getPrefix());
+                final SchemaReference includeSchemaReference = new SchemaReference(schemaLocationURL, schemaDocument.getSchemaReference().getNamespaceURI(), schemaDocument.getSchemaReference().getPrefix(), true);
                 inner.insertElementAt(AbstractGenerator.parse(includeSchemaReference), 0);
                 if (duplicates == null)
                     duplicates = new ArrayList<URL>();
@@ -106,7 +107,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
               final URL duplicate = importLoopCheck.get(importNamespaceURI);
               if (duplicate == null) {
                 importLoopCheck.put(importNamespaceURI, schemaLocationURL);
-                inner.insertElementAt(AbstractGenerator.parse(new SchemaReference(schemaLocationURL, importNamespaceURI)), 0);
+                inner.insertElementAt(AbstractGenerator.parse(new SchemaReference(schemaLocationURL, importNamespaceURI, false)), 0);
                 continue;
               }
 
@@ -120,7 +121,7 @@ public class SchemaDocumentProcessor implements PipelineEntity<SchemaDocument>, 
           outer = inner;
         }
       }
-      catch (MalformedURLException e) {
+      catch (final MalformedURLException e) {
         logger.severe("Unknown URL format: " + schemaReference.getURL());
         System.exit(1);
       }

@@ -16,7 +16,7 @@
 
 package org.safris.commons.util;
 
-public class Hexadecimal {
+public final class Hexadecimal {
   private static char[] hexChar = {
     '0', '1', '2', '3',
     '4', '5', '6', '7',
@@ -26,11 +26,11 @@ public class Hexadecimal {
   private String hexadecimal = null;
   private byte[] bytes = null;
 
-  public Hexadecimal(String hexadecimal) {
+  public Hexadecimal(final String hexadecimal) {
     this.hexadecimal = hexadecimal;
   }
 
-  public Hexadecimal(byte[] bytes) {
+  public Hexadecimal(final byte[] bytes) {
     this.bytes = bytes;
   }
 
@@ -48,7 +48,7 @@ public class Hexadecimal {
     return bytes;
   }
 
-  private static String bytesToHex(byte[] bytes) {
+  private static String bytesToHex(final byte[] bytes) {
     if (bytes == null)
       throw new NullPointerException("bytes == null");
 
@@ -64,7 +64,7 @@ public class Hexadecimal {
     return stringBuffer.toString();
   }
 
-  private static byte[] hexToBytes(String hexadecimal) {
+  private static byte[] hexToBytes(final String hexadecimal) {
     if (hexadecimal == null)
       throw new NullPointerException("hexadecimal == null");
 
@@ -85,7 +85,7 @@ public class Hexadecimal {
     return bytes;
   }
 
-  private static int charToNibble(char character) {
+  private static int charToNibble(final char character) {
     if ('0' <= character && character <= '9')
       return character - '0';
 

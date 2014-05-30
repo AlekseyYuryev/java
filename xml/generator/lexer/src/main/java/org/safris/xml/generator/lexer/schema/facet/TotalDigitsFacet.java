@@ -16,5 +16,5 @@
 
 package org.safris.xml.generator.lexer.schema.facet;
 
-public class TotalDigitsFacet {
+public final class TotalDigitsFacet {
 }

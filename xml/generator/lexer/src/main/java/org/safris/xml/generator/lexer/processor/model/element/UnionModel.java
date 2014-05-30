@@ -20,16 +20,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.StringTokenizer;
+
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class UnionModel extends Model {
-  private final Collection<SimpleTypeModel> memberTypes = new HashSet<SimpleTypeModel>();
+public final class UnionModel extends Model {
+  private final Collection<SimpleTypeModel<?>> memberTypes = new HashSet<SimpleTypeModel<?>>();
   private final Collection<UnionModel> unions = new HashSet<UnionModel>();
 
-  protected UnionModel(Node node, Model parent) {
+  protected UnionModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -39,22 +40,22 @@ public class UnionModel extends Model {
     }
   }
 
-  private final void parseMemberTypes(String memberTypes, Node node) {
+  private final void parseMemberTypes(final String memberTypes, final Node node) {
     final StringTokenizer tokenizer = new StringTokenizer(memberTypes);
     while (tokenizer.hasMoreTokens())
       this.memberTypes.add(SimpleTypeModel.Reference.parseSimpleType(UniqueQName.getInstance(parseQNameValue(tokenizer.nextToken(), node))));
   }
 
-  public final Collection<SimpleTypeModel> getMemberTypes() {
+  public final Collection<SimpleTypeModel<?>> getMemberTypes() {
     return memberTypes;
   }
 
-  public final void addUnion(UnionModel unionModel) {
+  public final void addUnion(final UnionModel unionModel) {
     unions.add(unionModel);
   }
 
-  public final Collection<SimpleTypeModel> getNormalizedMemberTypes() {
-    final Collection<SimpleTypeModel> allMemberTypes = new ArrayList<SimpleTypeModel>(getMemberTypes());
+  public final Collection<SimpleTypeModel<?>> getNormalizedMemberTypes() {
+    final Collection<SimpleTypeModel<?>> allMemberTypes = new ArrayList<SimpleTypeModel<?>>(getMemberTypes());
     for (final UnionModel union : unions)
       allMemberTypes.addAll(union.getNormalizedMemberTypes());
 

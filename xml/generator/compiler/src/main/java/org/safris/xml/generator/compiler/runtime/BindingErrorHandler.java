@@ -29,19 +29,19 @@ public final class BindingErrorHandler implements ErrorHandler {
     return instance;
   }
 
-  // ignore fatal errors (an exception is guaranteed)
-  public void fatalError(SAXParseException e) throws SAXException {
+  // ignore fatal errors (final an exception is guaranteed)
+  public void fatalError(final SAXParseException e) throws SAXException {
   }
 
   // treat validation errors as fatal
-  public void error(SAXParseException e) throws SAXParseException {
+  public void error(final SAXParseException e) throws SAXParseException {
     final String systemId = e.getSystemId() != null ? " systemId=\"" + e.getSystemId() + "\"" : "";
     logger.severe("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
     throw e;
   }
 
   // dump warnings too
-  public void warning(SAXParseException e) throws SAXParseException {
+  public void warning(final SAXParseException e) throws SAXParseException {
     final String message = e.getMessage() != null ? " " + e.getMessage() : "";
     logger.warning("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
   }

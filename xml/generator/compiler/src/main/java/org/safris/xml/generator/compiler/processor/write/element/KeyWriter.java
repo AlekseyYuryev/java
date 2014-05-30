@@ -17,35 +17,36 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.KeyPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public class KeyWriter extends Writer<KeyPlan> {
-  protected void appendDeclaration(StringWriter writer, KeyPlan plan, Plan parent) {
+public final class KeyWriter extends Writer<KeyPlan> {
+  protected void appendDeclaration(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendGetMethod(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendGetMethod(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendSetMethod(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendSetMethod(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendMarshal(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendMarshal(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendParse(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendParse(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  public void appendCopy(StringWriter writer, KeyPlan plan, Plan parent, String variable) {
+  public void appendCopy(final StringWriter writer, final KeyPlan plan, Plan<?> parent, final String variable) {
   }
 
-  protected void appendEquals(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendEquals(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendHashCode(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendHashCode(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 
-  protected void appendClass(StringWriter writer, KeyPlan plan, Plan parent) {
+  protected void appendClass(final StringWriter writer, final KeyPlan plan, final Plan<?> parent) {
   }
 }

@@ -16,7 +16,7 @@
 
 package org.safris.commons.util;
 
-public class Random {
+public final class Random {
   private static final char[] ALPHA = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();

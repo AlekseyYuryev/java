@@ -24,12 +24,12 @@ import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SequenceModel extends Model implements MultiplicableModel {
+public final class SequenceModel extends Model implements MultiplicableModel {
   private final LinkedHashSet<MultiplicableModel> multiplicableModels = new LinkedHashSet<MultiplicableModel>();
   private Occurs maxOccurs = Occurs.parseOccurs("1");
   private Occurs minOccurs = Occurs.parseOccurs("1");
 
-  protected SequenceModel(Node node, Model parent) {
+  protected SequenceModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -41,7 +41,7 @@ public class SequenceModel extends Model implements MultiplicableModel {
     }
   }
 
-  public final void addMultiplicableModel(MultiplicableModel multiplicableModel) {
+  public final void addMultiplicableModel(final MultiplicableModel multiplicableModel) {
     if (!this.equals(multiplicableModel))
       this.multiplicableModels.add(multiplicableModel);
   }

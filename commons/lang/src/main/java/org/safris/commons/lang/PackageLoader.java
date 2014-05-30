@@ -32,13 +32,15 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * This utility class is for loading classes in a package.
+ * This utility final class is for loading classes in a package.
  *
  * @author Seva Safris
  * @version 1.4
  */
 public abstract class PackageLoader extends ClassLoader {
-  private static final PackageLoader instance = new PackageLoader(){};
+  private static final PackageLoader instance = new PackageLoader() {};
+  private static final Map<String,Set<Class<?>>> loadedPackages = new HashMap<String,Set<Class<?>>>();
+  
   private static final FileFilter classFileFilter = new FileFilter() {
     public boolean accept(final File pathname) {
       return pathname.getName().endsWith(".class");
@@ -53,7 +55,7 @@ public abstract class PackageLoader extends ClassLoader {
   }
 
   /**
-   * This method will call Class.forName() and initialize each class in a
+   * This method will call Class.forName() and initialize each final class in a
    * given package. This method will search for all existing package resources
    * in all elements of the classpath. If the package exists in multiple
    * classpath locations, such as a couple of jar files and a directory, each
@@ -72,6 +74,10 @@ public abstract class PackageLoader extends ClassLoader {
     if (name == null || name.length() == 0)
       throw new PackageNotFoundException(name);
 
+    Set<Class<?>> classes = loadedPackages.get(name);
+    if (classes != null)
+      return classes;
+          
     // Translate the package name into an absolute path
     final String path;
     final char firstChar = name.charAt(0);
@@ -84,14 +90,14 @@ public abstract class PackageLoader extends ClassLoader {
     try {
       resources = Resources.getResources(path);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new ResourceException(e.getMessage(), e);
     }
 
     if (resources == null)
       throw new PackageNotFoundException(name);
 
-    final Set<Class<?>> loadedClasses = new HashSet<Class<?>>();
+    loadedPackages.put(name, classes = new HashSet<Class<?>>());
     while (resources.hasMoreElements()) {
       final Resource resource = resources.nextElement();
       final URL url = resource.getURL();
@@ -102,7 +108,7 @@ public abstract class PackageLoader extends ClassLoader {
         try {
           decodedUrl = URLDecoder.decode(url.getPath(), "UTF-8");
         }
-        catch (UnsupportedEncodingException e) {
+        catch (final UnsupportedEncodingException e) {
           decodedUrl = url.getPath();
         }
 
@@ -111,7 +117,7 @@ public abstract class PackageLoader extends ClassLoader {
           // Get the list of the files contained in the package
           final File[] files = directory.listFiles(classFileFilter);
           String className = null;
-          for (File file : files) {
+          for (final File file : files) {
             className = name + "." + file.getName().substring(0, file.getName().length() - 6);
             classesToLoad.put(className, classLoader);
           }
@@ -123,7 +129,7 @@ public abstract class PackageLoader extends ClassLoader {
             jarURLConnection = (JarURLConnection)url.openConnection();
             jarFile = jarURLConnection.getJarFile();
           }
-          catch (IOException e) {
+          catch (final IOException e) {
             throw new PackageNotFoundException(name, e);
           }
 
@@ -147,14 +153,14 @@ public abstract class PackageLoader extends ClassLoader {
 
         for (final Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet()) {
           try {
-            loadedClasses.add(Class.forName(entry.getKey(), true, entry.getValue()));
+            classes.add(Class.forName(entry.getKey(), true, entry.getValue()));
           }
-          catch (ClassNotFoundException e) {
+          catch (final ClassNotFoundException e) {
           }
         }
       }
     }
 
-    return loadedClasses;
+    return classes;
   }
 }

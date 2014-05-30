@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+
 import javax.servlet.http.HttpServletResponse;
 
 public final class Downloads {
@@ -36,7 +37,7 @@ public final class Downloads {
    * @param fileName The file name.
    * @param attachment Download as attachment?
    */
-  public static void downloadFile(HttpServletResponse response, byte[] bytes, String fileName, boolean attachment) throws IOException {
+  public static void downloadFile(final HttpServletResponse response, final byte[] bytes, String fileName, final boolean attachment) throws IOException {
     // Wrap the byte array in a ByteArrayInputStream and pass it through another method.
     downloadFile(response, new ByteArrayInputStream(bytes), fileName, attachment);
   }
@@ -49,7 +50,7 @@ public final class Downloads {
    * @param file The file as a File object.
    * @param attachment Download as attachment?
    */
-  public static void downloadFile(HttpServletResponse response, File file, boolean attachment) throws IOException {
+  public static void downloadFile(final HttpServletResponse response, final File file, final boolean attachment) throws IOException {
     // Prepare stream.
     BufferedInputStream input = null;
     try {
@@ -63,7 +64,7 @@ public final class Downloads {
         try {
           input.close();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
           final String message = "Closing file " + file.getPath() + " failed.";
           // Do your thing with the exception and the message. Print it, log it or mail it.
           System.err.println(message);
@@ -82,7 +83,7 @@ public final class Downloads {
    * @param fileName The file name.
    * @param attachment Download as attachment?
    */
-  public static void downloadFile(HttpServletResponse response, InputStream input, String fileName, boolean attachment) throws IOException {
+  public static void downloadFile(final HttpServletResponse response, final InputStream input, String fileName, final boolean attachment) throws IOException {
     // Prepare stream.
     BufferedOutputStream output = null;
 
@@ -117,7 +118,7 @@ public final class Downloads {
         try {
           output.close();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
           final String message = "Closing HttpServletResponse#getOutputStream() failed.";
           // Do your thing with the exception and the message. Print it, log it or mail it.
           System.err.println(message);

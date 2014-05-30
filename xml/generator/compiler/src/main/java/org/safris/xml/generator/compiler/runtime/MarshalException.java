@@ -16,20 +16,22 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-public class MarshalException extends BindingException {
+public final class MarshalException extends BindingException {
+  private static final long serialVersionUID = -4075553280110488380L;
+
   public MarshalException() {
     super();
   }
 
-  public MarshalException(String message) {
+  public MarshalException(final String message) {
     super(message);
   }
 
-  public MarshalException(Throwable cause) {
+  public MarshalException(final Throwable cause) {
     super(cause);
   }
 
-  public MarshalException(String message, Throwable cause) {
+  public MarshalException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

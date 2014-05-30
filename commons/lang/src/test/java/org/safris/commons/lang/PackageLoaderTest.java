@@ -16,19 +16,23 @@
 
 package org.safris.commons.lang;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.HashSet;
 import java.util.Set;
+
 import org.junit.Test;
+
 import sun.reflect.Reflection;
 
-import static org.junit.Assert.*;
-
-public class PackageLoaderTest {
-  public static void main(String[] args) throws Exception {
+public final class PackageLoaderTest {
+  public static void main(final String[] args) throws Exception {
     new PackageLoaderTest().testPackageLoader();
   }
 
-  private static boolean isClassLoaded(String name) {
+  private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
       return true;
@@ -37,7 +41,7 @@ public class PackageLoaderTest {
     if (ClassLoaders.isClassLoaded(classLoader, name))
       return true;
 
-    final Class callerClass = Reflection.getCallerClass(2);
+    final Class<?> callerClass = Reflection.getCallerClass(2);
     classLoader = callerClass.getClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
       return true;
@@ -73,7 +77,7 @@ public class PackageLoaderTest {
       PackageLoader.getSystemPackageLoader().loadPackage(null);
       fail("Expected a PackageNotFoundException");
     }
-    catch (PackageNotFoundException e) {
+    catch (final PackageNotFoundException e) {
     }
   }
 }

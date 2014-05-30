@@ -16,20 +16,22 @@
 
 package org.safris.commons.formatter;
 
-public class FormatError extends Error {
+public final class FormatError extends Error {
+  private static final long serialVersionUID = 4325233545791986937L;
+
   public FormatError() {
     super();
   }
 
-  public FormatError(String message) {
+  public FormatError(final String message) {
     super(message);
   }
 
-  public FormatError(String message, Throwable cause) {
+  public FormatError(final String message, final Throwable cause) {
     super(message, cause);
   }
 
-  public FormatError(Throwable cause) {
+  public FormatError(final Throwable cause) {
     super(cause);
   }
 }

@@ -20,11 +20,11 @@ import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.NotationModel;
 
-public class NotationPlan extends AliasPlan<NotationModel> {
+public final class NotationPlan extends AliasPlan<NotationModel> {
   private final String _public;
   private final String system;
 
-  public NotationPlan(NotationModel model, Plan parent) {
+  public NotationPlan(final NotationModel model, final Plan<?> parent) {
     super(model, parent);
     this._public = model.getPublic();
     this.system = model.getSystem();

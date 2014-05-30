@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
+
 import org.safris.commons.logging.Logger;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
@@ -32,7 +34,7 @@ import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public abstract class Model implements PipelineEntity<Model> {
+public abstract class Model implements PipelineEntity {
   protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
   protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
 
@@ -48,7 +50,7 @@ public abstract class Model implements PipelineEntity<Model> {
   private NamespaceURI targetNamespace = null;
   private SchemaModel schema = null;
 
-  protected Model(Node node, Model parent) {
+  protected Model(final Node node, final Model parent) {
     if (node != null) {
       final NamedNodeMap attributes = node.getAttributes();
       for (int i = 0; i < attributes.getLength(); i++) {
@@ -65,7 +67,7 @@ public abstract class Model implements PipelineEntity<Model> {
     parent.children.add(this);
   }
 
-  protected final void registerSchemaLocation(NamespaceURI namespaceURI, URL schemaReference) {
+  protected final void registerSchemaLocation(final NamespaceURI namespaceURI, final URL schemaReference) {
     if (getParent() != null) {
       logger.fine("registering schema location \"" + namespaceURI + "\" to \"" + schemaReference.toExternalForm() + "\"");
       getParent().registerSchemaLocation(namespaceURI, schemaReference);
@@ -81,7 +83,7 @@ public abstract class Model implements PipelineEntity<Model> {
     schemaReferences.put(namespaceURI, schemaReference);
   }
 
-  protected final URL lookupSchemaLocation(NamespaceURI namespaceURI) {
+  protected final URL lookupSchemaLocation(final NamespaceURI namespaceURI) {
     if (getParent() != null)
       return getParent().lookupSchemaLocation(namespaceURI);
 
@@ -92,7 +94,7 @@ public abstract class Model implements PipelineEntity<Model> {
     return id;
   }
 
-  protected final void setPrevious(Model previous) {
+  protected final void setPrevious(final Model previous) {
     this.previous = previous;
   }
 
@@ -100,7 +102,7 @@ public abstract class Model implements PipelineEntity<Model> {
     return previous;
   }
 
-  protected final void setNext(Model next) {
+  protected final void setNext(final Model next) {
     this.next = next;
   }
 
@@ -139,31 +141,36 @@ public abstract class Model implements PipelineEntity<Model> {
     throw new LexerError("should have found a schema! what's going on?");
   }
 
-  public final QName parseQNameValue(String nodeValue, Node parent) {
+  public final QName parseQNameValue(final String nodeValue, Node parent) {
     int i = nodeValue.indexOf(":");
-    if (i == -1) {
-      Node xs = null;
-      do {
-        if (parent.getAttributes() == null)
-          return new QName(getTargetNamespace().toString(), nodeValue);
-
-        xs = parent.getAttributes().getNamedItem(UniqueQName.XMLNS.getPrefix().toString());
-        if (xs == null)
-          parent = parent.getParentNode();
-        else
-          break;
+    final String prefix;
+    final String ns;
+    if (i != -1) {
+      prefix = nodeValue.substring(0, i);
+      ns = NamespaceURI.lookupNamespaceURI(parent, prefix);
+      if (ns != null) {
+        final NamespaceURI namespaceURI = NamespaceURI.getInstance(ns);
+        return new QName(namespaceURI.toString().intern(), nodeValue.substring(i + 1, nodeValue.length()).intern(), prefix.intern());
       }
-      while(parent != null);
-
-      if (xs == null)
-        throw new LexerError("Namespace problem");
-
-      return new QName(xs.getNodeValue(), nodeValue);
     }
 
-    final String prefix = nodeValue.substring(0, i);
-    final NamespaceURI namespaceURI = NamespaceURI.getInstance(NamespaceURI.lookupNamespaceURI(parent, prefix));
-    return new QName(namespaceURI.toString(), nodeValue.substring(i + 1, nodeValue.length()), prefix);
+    Node xs = null;
+    do {
+      if (parent.getAttributes() == null)
+        return new QName(getTargetNamespace().toString().intern(), nodeValue.intern());
+
+      xs = parent.getAttributes().getNamedItem(UniqueQName.XMLNS.getPrefix().toString());
+      if (xs == null)
+        parent = parent.getParentNode();
+      else
+        break;
+    }
+    while(parent != null);
+
+    if (xs == null)
+      throw new LexerError("Namespace problem");
+
+    return new QName(xs.getNodeValue().intern(), nodeValue.intern());
   }
 
   public String toString() {

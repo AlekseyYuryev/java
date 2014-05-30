@@ -36,6 +36,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
+
 import org.safris.commons.el.ELs;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Streams;
@@ -47,7 +48,7 @@ import org.safris.commons.test.TestRuntime;
 
 public final class ConfigurableLogger implements FileEventListener {
   private static final Formatter formatter = new Formatter() {
-    public String format(LogRecord record) {
+    public String format(final LogRecord record) {
       return new SimpleDateFormat("yyMMdd HH:mm:ss").format(new Date()) + " " + record.getLevel().toString().toUpperCase() + ": " + record.getMessage() + "\n";
     }
   };
@@ -58,7 +59,7 @@ public final class ConfigurableLogger implements FileEventListener {
   private static ConfigurableLogger logger = null;
 
   static {
-    Class executedClass = Processes.getExecutedClass();
+    final Class<?> executedClass = Processes.getExecutedClass();
     applicationName = executedClass != null ? executedClass.getSimpleName() : null;
   }
 
@@ -72,7 +73,7 @@ public final class ConfigurableLogger implements FileEventListener {
 
       logger = new ConfigurableLogger();
       for (final LogRecord record : constructRecord)
-        logger.getLogger().log(record);
+        ConfigurableLogger.getLogger().log(record);
     }
 
     return logger.getWrappedLogger();
@@ -95,7 +96,7 @@ public final class ConfigurableLogger implements FileEventListener {
           loggingPropertiesFile = new File("../../../commons/src/test/resources/logging.properties");
 
         if (loggingPropertiesFile.exists())
-          url = loggingPropertiesFile.toURL();
+          url = loggingPropertiesFile.toURI().toURL();
 
         if (url == null)
           constructRecord.add(new LogRecord(Level.WARNING, "Could not find test logging.properties"));
@@ -117,7 +118,7 @@ public final class ConfigurableLogger implements FileEventListener {
       try {
         file = new File(url.toURI());
       }
-      catch (URISyntaxException e) {
+      catch (final URISyntaxException e) {
       }
 
       if (file != null && file.exists()) {
@@ -134,24 +135,24 @@ public final class ConfigurableLogger implements FileEventListener {
       in.close();
       initConfig(loggingProperties);
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       constructRecord.add(new LogRecord(Level.WARNING, "Unable to load logging.properties: " + e.getMessage()));
     }
   }
 
-  public void onModify(File file) {
+  public void onModify(final File file) {
     try {
-      final InputStream in = file.toURL().openStream();
+      final InputStream in = file.toURI().toURL().openStream();
       final String loggingProperties = new String(Streams.getBytes(in));
       in.close();
       initConfig(loggingProperties);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       ConfigurableLogger.getLogger().warning("Unable to absorb " + file.getName() + " changes due to: " + e.getMessage());
     }
   }
 
-  public void onDelete(File file) {
+  public void onDelete(final File file) {
     ConfigurableLogger.getLogger().warning(file.getName() + " has been deleted.");
   }
 
@@ -168,7 +169,7 @@ public final class ConfigurableLogger implements FileEventListener {
         final Enumeration<String> loggerNames = LogManager.getLogManager().getLoggerNames();
         while (loggerNames.hasMoreElements()) {
           final String loggerName = loggerNames.nextElement();
-          if (!this.loggerName.equals(loggerName))
+          if (!ConfigurableLogger.loggerName.equals(loggerName))
             continue;
 
           final java.util.logging.Logger logger = LogManager.getLogManager().getLogger(loggerName);
@@ -192,7 +193,7 @@ public final class ConfigurableLogger implements FileEventListener {
         }
       }
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       constructRecord.add(new LogRecord(Level.WARNING, "Unable to load logging.properties: " + e.getMessage()));
     }
   }

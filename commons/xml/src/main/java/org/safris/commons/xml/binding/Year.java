@@ -24,7 +24,7 @@ import org.safris.commons.util.CalendarUtil;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#gYear
  */
-public class Year {
+public final class Year {
   public static Year parseYear(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -75,7 +75,7 @@ public class Year {
     try {
       return Integer.parseInt(string);
     }
-    catch (NumberFormatException e) {
+    catch (final NumberFormatException e) {
       throw new IllegalArgumentException(string, e);
     }
   }
@@ -86,21 +86,21 @@ public class Year {
   private final TimeZone timeZone;
   private final long epochTime;
 
-  public Year(int year, TimeZone timeZone) {
+  public Year(final int year, final TimeZone timeZone) {
     this.year = year;
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
     epochTime = java.util.Date.UTC(year - 1900, 0, 1, 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
   }
 
-  public Year(int year) {
+  public Year(final int year) {
     this(year, null);
   }
 
-  public Year(long time, TimeZone timeZone) {
+  public Year(final long time, final TimeZone timeZone) {
     this(CalendarUtil.newCalendar(time, timeZone).get(Calendar.YEAR), null);
   }
 
-  public Year(long time) {
+  public Year(final long time) {
     this(CalendarUtil.newCalendar(time).get(Calendar.YEAR), null);
   }
 
@@ -120,7 +120,7 @@ public class Year {
     return epochTime;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

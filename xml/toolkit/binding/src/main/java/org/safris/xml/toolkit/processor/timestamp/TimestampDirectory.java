@@ -22,10 +22,10 @@ import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 
-public class TimestampDirectory implements PipelineDirectory<GeneratorContext,Bundle,Bundle> {
+public final class TimestampDirectory implements PipelineDirectory<GeneratorContext,Bundle,Bundle> {
   private TimestampProcessor processor = new TimestampProcessor();
 
-  public PipelineEntity<Bundle> getEntity(Bundle entity, Bundle parent) {
+  public PipelineEntity getEntity(final Bundle entity, final Bundle parent) {
     return processor;
   }
 

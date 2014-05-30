@@ -21,7 +21,7 @@ package org.safris.commons.xml.binding;
  */
 import java.util.TimeZone;
 
-public class Date {
+public final class Date {
   public static Date parseDate(String string) {
     if (string == null)
       throw new NullPointerException("string == null");
@@ -69,7 +69,7 @@ public class Date {
   private final TimeZone timeZone;
   private final long epochTime;
 
-  protected Date(YearMonth yearMonth, Day day, TimeZone timeZone) {
+  protected Date(final YearMonth yearMonth, final Day day, final TimeZone timeZone) {
     if (yearMonth == null)
       throw new NullPointerException("yearMonth == null");
 
@@ -83,19 +83,19 @@ public class Date {
     epochTime = java.util.Date.UTC(yearMonth.getYear() - 1900, yearMonth.getMonth() - 1, day.getDay(), 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
   }
 
-  public Date(int year, int month, int day, TimeZone timeZone) {
+  public Date(final int year, final int month, int day, final TimeZone timeZone) {
     this(new YearMonth(year, month), new Day(day), timeZone);
   }
 
-  public Date(int year, int month, int day) {
+  public Date(final int year, final int month, final int day) {
     this(year, month, day, null);
   }
 
-  public Date(long time, TimeZone timeZone) {
+  public Date(final long time, final TimeZone timeZone) {
     this(new YearMonth(time, timeZone), new Day(time), null);
   }
 
-  public Date(long time) {
+  public Date(final long time) {
     this(new YearMonth(time), new Day(time), null);
   }
 
@@ -119,7 +119,7 @@ public class Date {
     return timeZone;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

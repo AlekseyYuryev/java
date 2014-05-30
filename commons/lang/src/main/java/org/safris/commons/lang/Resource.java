@@ -22,7 +22,7 @@ public final class Resource {
   private final URL url;
   private final ClassLoader classLoader;
 
-  public Resource(URL url, ClassLoader classLoader) {
+  public Resource(final URL url, final ClassLoader classLoader) {
     this.url = url;
     this.classLoader = classLoader;
   }
@@ -35,7 +35,7 @@ public final class Resource {
     return classLoader;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
 

@@ -1532,12 +1532,12 @@ public final class Functions {
   }
 
   /**
-   * Calculate the binomial coefficient of the expression (n choose k)
+   * Calculate the binomial coefficient of the expression (final n choose k)
    *
    * @param n Pool size
    * @param k Selection size
    *
-   * @return The binomial coefficient of (n choose k)
+   * @return The binomial coefficient of (final n choose k)
    */
   public static BigInteger binomial(final int n, final int k) {
     BigInteger binomial = BigInteger.ONE;

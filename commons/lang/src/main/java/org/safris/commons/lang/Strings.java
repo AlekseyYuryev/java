@@ -44,7 +44,7 @@ public final class Strings {
     return getRandomString(length, true);
   }
 
-  public static String getRandomAlphaString(int length) {
+  public static String getRandomAlphaString(final int length) {
     return getRandomString(length, false);
   }
 
@@ -163,11 +163,8 @@ public final class Strings {
     return string;
   }
 
-  public static String toClassCase(String string) {
-    if (string.length() == 0)
-      return string;
-
-    return Character.toUpperCase(string.charAt(0)) + toCamelCase(string).substring(1);
+  public static String toClassCase(final String string) {
+    return string.length() != 0 ? Character.toUpperCase(string.charAt(0)) + toCamelCase(string).substring(1) : string;
   }
 
   // FIXME: This means that there can be name collisions!

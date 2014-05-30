@@ -20,26 +20,26 @@ import org.safris.xml.generator.lexer.processor.model.element.MinLengthModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class MinLengthNormalizer extends Normalizer<MinLengthModel> {
-  public MinLengthNormalizer(NormalizerDirectory directory) {
+public final class MinLengthNormalizer extends Normalizer<MinLengthModel> {
+  public MinLengthNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  protected void stage1(MinLengthModel model) {
+  protected void stage1(final MinLengthModel model) {
   }
 
-  protected void stage2(MinLengthModel model) {
+  protected void stage2(final MinLengthModel model) {
   }
 
-  protected void stage3(MinLengthModel model) {
+  protected void stage3(final MinLengthModel model) {
   }
 
-  protected void stage4(MinLengthModel model) {
+  protected void stage4(final MinLengthModel model) {
   }
 
-  protected void stage5(MinLengthModel model) {
+  protected void stage5(final MinLengthModel model) {
   }
 
-  protected void stage6(MinLengthModel model) {
+  protected void stage6(final MinLengthModel model) {
   }
 }

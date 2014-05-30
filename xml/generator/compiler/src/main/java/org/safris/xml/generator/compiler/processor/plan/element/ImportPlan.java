@@ -19,8 +19,8 @@ package org.safris.xml.generator.compiler.processor.plan.element;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.model.element.ImportModel;
 
-public class ImportPlan extends Plan<ImportModel> {
-  public ImportPlan(ImportModel model, Plan parent) {
+public final class ImportPlan extends Plan<ImportModel> {
+  public ImportPlan(final ImportModel model, final Plan<?> parent) {
     super(model, parent);
   }
 }

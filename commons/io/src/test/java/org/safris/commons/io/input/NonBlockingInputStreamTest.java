@@ -16,14 +16,15 @@
 
 package org.safris.commons.io.input;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class NonBlockingInputStreamTest {
-  public static void main(String[] args) throws Exception {
+public final class NonBlockingInputStreamTest {
+  public static void main(final String[] args) throws Exception {
     new NonBlockingInputStreamTest().testInputStream();
   }
 
@@ -120,5 +121,6 @@ public class NonBlockingInputStreamTest {
     out.close();
     Thread.sleep(sleepTime);
     assertEquals(in.read(), -1);
+    in.close();
   }
 }

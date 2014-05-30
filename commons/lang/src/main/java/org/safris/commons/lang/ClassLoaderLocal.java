@@ -16,34 +16,35 @@
 
 package org.safris.commons.lang;
 
-import com.sun.jmx.snmp.ThreadContext;
 import java.lang.reflect.InvocationTargetException;
+
+import com.sun.jmx.snmp.ThreadContext;
 
 // FIXME: This is really a ClassLoaderThreadLocal because it uses the
 // FIXME: ThreadContext class. Is there an alternative?
 public final class ClassLoaderLocal<T> {
   private final ThreadContext threadContext;
 
-  public ClassLoaderLocal(ClassLoader classLoader) {
+  public ClassLoaderLocal(final ClassLoader classLoader) {
     try {
       final Class<ThreadContext> threadContextClass = (Class<ThreadContext>)classLoader.loadClass(ThreadContext.class.getName());
       threadContext = (ThreadContext)threadContextClass.getDeclaredMethod("getThreadContext").invoke(null);
     }
-    catch (InvocationTargetException e) {
+    catch (final InvocationTargetException e) {
       throw new RuntimeException(e);
     }
-    catch (IllegalAccessException e) {
+    catch (final IllegalAccessException e) {
       throw new RuntimeException(e);
     }
-    catch (ClassNotFoundException e) {
+    catch (final ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
-    catch (NoSuchMethodException e) {
+    catch (final NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void set(T value) {
+  public void set(final T value) {
     threadContext.push("KEY", value);
   }
 

@@ -18,7 +18,9 @@ package org.safris.maven.plugin.cobertura;
 
 import java.io.File;
 import java.io.IOException;
+
 import net.sourceforge.cobertura.ant.InstrumentTask;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.tools.ant.Project;
@@ -30,7 +32,7 @@ import org.safris.commons.io.Files;
  * @goal instrument
  * @phase test-compile
  */
-public class InstrumentMojo extends CoberturaMojo {
+public final class InstrumentMojo extends CoberturaMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (getMavenTestSkip() != null && getMavenTestSkip())
       return;
@@ -54,7 +56,7 @@ public class InstrumentMojo extends CoberturaMojo {
     try {
       Files.copy(classesDir, coberturaClassesDir);
     }
-    catch (IOException e) {
+    catch (final IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
 

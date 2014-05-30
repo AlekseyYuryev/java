@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.HexBinary;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_hexBinary<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_hexBinary(final $xs_hexBinary<T> binding) {
+public abstract class $xs_hexBinary extends $xs_anySimpleType {
+  public $xs_hexBinary(final $xs_hexBinary binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_hexBinary<T extends BindingType> extends $xs_anySimple
     super();
   }
 
-  public HexBinary getText() {
-    return (HexBinary)super.getText();
+  public HexBinary text() {
+    return (HexBinary)super.text();
   }
 
-  public void setText(final HexBinary text) {
-    super.setText(text);
+  public void text(final HexBinary text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(HexBinary.parseHexBinary(value));
+    super.text(HexBinary.parseHexBinary(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_hexBinary<T> clone() {
-    return new $xs_hexBinary<T>(this) {
-      protected $xs_hexBinary<T> inherits() {
+  public $xs_hexBinary clone() {
+    return new $xs_hexBinary(this) {
+      protected $xs_hexBinary inherits() {
         return this;
       }
     };

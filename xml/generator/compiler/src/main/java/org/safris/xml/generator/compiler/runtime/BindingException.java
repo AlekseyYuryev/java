@@ -19,6 +19,8 @@ package org.safris.xml.generator.compiler.runtime;
 import org.safris.commons.xml.XMLException;
 
 public class BindingException extends XMLException {
+  private static final long serialVersionUID = 1328917257490102694L;
+
   public static final String ILLEGAL_NULL_ARGUMENT = "value cannot be null";
 
   public BindingException() {

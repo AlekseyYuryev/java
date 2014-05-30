@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Decimal;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_decimal<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_decimal(final $xs_decimal<T> binding) {
+public abstract class $xs_decimal extends $xs_anySimpleType {
+  public $xs_decimal(final $xs_decimal binding) {
     super(binding);
   }
 
@@ -39,28 +38,25 @@ public abstract class $xs_decimal<T extends BindingType> extends $xs_anySimpleTy
     super();
   }
 
-  public Number getText() {
-    return (Number)super.getText();
+  public Number text() {
+    return (Number)super.text();
   }
 
-  public void setText(final Number text) {
-    super.setText(text);
+  public void text(final Number text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Decimal.parseDecimal(value));
+    super.text(Decimal.parseDecimal(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_decimal<T> clone() {
-    return new $xs_decimal<T>(this) {
-      protected $xs_decimal<T> inherits() {
+  public $xs_decimal clone() {
+    return new $xs_decimal(this) {
+      protected $xs_decimal inherits() {
         return this;
       }
     };

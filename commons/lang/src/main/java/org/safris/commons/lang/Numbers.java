@@ -53,21 +53,20 @@ public final class Numbers {
         else if (c == '-') {
           if (i != exponent + 1 && i != 0)
             return false;
-          else
-            negative = true;
+          
+          negative = true;
         }
         else
           return false;
       }
       else if ('9' < c) {
-        if (c == 'E') {
-          if (1 < exponent || (negative && i == 1) || i - 1 == dot)
-            return false;
-
-          exponent = i;
-        }
-        else
+        if (c != 'E')
           return false;
+        
+        if (1 < exponent || (negative && i == 1) || i - 1 == dot)
+          return false;
+
+        exponent = i;
       }
     }
 

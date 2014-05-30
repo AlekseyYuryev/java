@@ -19,15 +19,17 @@ package org.safris.commons.net.mail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class MailClientTest {
-  public static void main(String[] args) throws Exception {
+public final class MailClientTest {
+  public static void main(final String[] args) throws Exception {
     new MailClientTest().testMailClient();
-    }
+  }
 
-    @Test
+  @Test
   @Ignore
-    public void testMailClient() throws Exception {
+  public void testMailClient() throws Exception {
     final SMTPCredentials smtpCredentials = new SMTPCredentials("smtp.safris.com", "filehost", "FileH0st");
-    MailClient.send(smtpCredentials, "seva@safris.com", new String[]{"seva.safris@gmail.com"}, "test", "test");
+    MailClient.send(smtpCredentials, "seva@safris.com", new String[] {
+      "seva.safris@gmail.com"
+    }, "test", "test");
   }
 }

@@ -17,5 +17,5 @@
 package org.safris.commons.util;
 
 public interface Resolver<T> {
-  public T resolve(T string);
+  public T resolve(final T string);
 }

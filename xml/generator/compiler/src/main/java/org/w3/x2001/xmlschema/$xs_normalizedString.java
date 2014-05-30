@@ -16,13 +16,12 @@
 
 package org.w3.x2001.xmlschema;
 
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_normalizedString<T extends BindingType> extends $xs_string<T> {
-  public $xs_normalizedString(final $xs_normalizedString<T> binding) {
+public abstract class $xs_normalizedString extends $xs_string {
+  public $xs_normalizedString(final $xs_normalizedString binding) {
     super(binding);
   }
 
@@ -34,28 +33,25 @@ public abstract class $xs_normalizedString<T extends BindingType> extends $xs_st
     super();
   }
 
-  public String getText() {
-    return super.getText();
+  public String text() {
+    return super.text();
   }
 
-  public void setText(final String text) {
-    super.setText(text);
+  public void text(final String text) {
+    super.text(text);
   }
 
   protected void _$$decode(final String element, final String value) throws ParseException {
-    super.setText(value);
+    super.text(value);
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_normalizedString<T> clone() {
-    return new $xs_normalizedString<T>(this) {
-      protected $xs_normalizedString<T> inherits() {
+  public $xs_normalizedString clone() {
+    return new $xs_normalizedString(this) {
+      protected $xs_normalizedString inherits() {
         return this;
       }
     };

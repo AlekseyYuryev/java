@@ -17,6 +17,7 @@
 package org.safris.commons.xml.sax;
 
 import java.io.IOException;
+
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DTDHandler;
 import org.xml.sax.EntityResolver;
@@ -27,70 +28,70 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
-public class SAXParser {
+public final class SAXParser {
   private final XMLReader xmlReader;
 
-  protected SAXParser(XMLReader xmlReader) {
+  protected SAXParser(final XMLReader xmlReader) {
     this.xmlReader = xmlReader;
   }
 
-  public void setFeature(SAXFeature feature, boolean value) {
+  public void setFeature(final SAXFeature feature, final boolean value) {
     try {
       xmlReader.setFeature(feature.getFeature(), value);
     }
-    catch (SAXNotRecognizedException e) {
+    catch (final SAXNotRecognizedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
-    catch (SAXNotSupportedException e) {
+    catch (final SAXNotSupportedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
   }
 
-  public boolean getFeature(SAXFeature feature) {
+  public boolean getFeature(final SAXFeature feature) {
     try {
       return xmlReader.getFeature(feature.getFeature());
     }
-    catch (SAXNotRecognizedException e) {
+    catch (final SAXNotRecognizedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
-    catch (SAXNotSupportedException e) {
+    catch (final SAXNotSupportedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
   }
 
-  public void setProptery(SAXProperty property, Object value) {
+  public void setProptery(final SAXProperty property, final Object value) {
     try {
       xmlReader.setProperty(property.getProperty(), value);
     }
-    catch (SAXNotRecognizedException e) {
+    catch (final SAXNotRecognizedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
-    catch (SAXNotSupportedException e) {
+    catch (final SAXNotSupportedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
   }
 
-  public Object getProperty(SAXProperty property) {
+  public Object getProperty(final SAXProperty property) {
     try {
       return xmlReader.getProperty(property.getProperty());
     }
-    catch (SAXNotRecognizedException e) {
+    catch (final SAXNotRecognizedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
-    catch (SAXNotSupportedException e) {
+    catch (final SAXNotSupportedException e) {
       // FIXME: Remove this!
       throw new Error(e);
     }
   }
 
-  public void setEntityResolver(EntityResolver resolver) {
+  public void setEntityResolver(final EntityResolver resolver) {
     xmlReader.setEntityResolver(resolver);
   }
 
@@ -98,7 +99,7 @@ public class SAXParser {
     return xmlReader.getEntityResolver();
   }
 
-  public void setDTDHandler(DTDHandler handler) {
+  public void setDTDHandler(final DTDHandler handler) {
     xmlReader.setDTDHandler(handler);
   }
 
@@ -106,7 +107,7 @@ public class SAXParser {
     return xmlReader.getDTDHandler();
   }
 
-  public void setContentHandler(ContentHandler handler) {
+  public void setContentHandler(final ContentHandler handler) {
     xmlReader.setContentHandler(handler);
   }
 
@@ -114,7 +115,7 @@ public class SAXParser {
     return xmlReader.getContentHandler();
   }
 
-  public void setErrorHandler(ErrorHandler handler) {
+  public void setErrorHandler(final ErrorHandler handler) {
     xmlReader.setErrorHandler(handler);
   }
 
@@ -122,11 +123,11 @@ public class SAXParser {
     return xmlReader.getErrorHandler();
   }
 
-  public void parse(InputSource input) throws IOException, SAXException {
+  public void parse(final InputSource input) throws IOException, SAXException {
     xmlReader.parse(input);
   }
 
-  public void parse(String systemId) throws IOException, SAXException {
+  public void parse(final String systemId) throws IOException, SAXException {
     xmlReader.parse(systemId);
   }
 }

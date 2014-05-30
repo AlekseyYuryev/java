@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.lang.Numbers;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_double<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_double(final $xs_double<T> binding) {
+public abstract class $xs_double extends $xs_anySimpleType {
+  public $xs_double(final $xs_double binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_double<T extends BindingType> extends $xs_anySimpleTyp
     super();
   }
 
-  public Double getText() {
-    return (Double)super.getText();
+  public Double text() {
+    return (Double)super.text();
   }
 
-  public void setText(final Double text) {
-    super.setText(text);
+  public void text(final Double text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Double.parseDouble(value));
+    super.text(Double.parseDouble(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return Numbers.roundInsignificant(super.getText().toString());
+    return super.text() != null ? Numbers.roundInsignificant(super.text().toString()) : "";
   }
 
-  public $xs_double<T> clone() {
-    return new $xs_double<T>(this) {
-      protected $xs_double<T> inherits() {
+  public $xs_double clone() {
+    return new $xs_double(this) {
+      protected $xs_double inherits() {
         return this;
       }
     };

@@ -20,11 +20,11 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AllPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnnotationPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
@@ -112,9 +112,9 @@ import org.safris.xml.generator.lexer.processor.model.element.UnionModel;
 import org.safris.xml.generator.lexer.processor.model.element.UniqueModel;
 import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 
-public class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,Plan> {
-  private final Map<Class<? extends Model>,Class<? extends Plan>> classes = new HashMap<Class<? extends Model>,Class<? extends Plan>>(39);
-  private final Collection<Class<? extends Model>> keys;
+public final class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,Plan<?>> {
+  private final Map<Class<?>,Class<?>> classes = new HashMap<Class<?>,Class<?>>(39);
+  private final Collection<Class<?>> keys;
   private final PlanProcessor processor = new PlanProcessor();
 
   public PlanDirectory() {
@@ -163,23 +163,23 @@ public class PlanDirectory implements PipelineDirectory<GeneratorContext,Model,P
     keys = classes.keySet();
   }
 
-  public PipelineEntity<Plan> getEntity(Model entity, Plan parent) {
+  public PipelineEntity getEntity(final Model entity, final Plan<?> parent) {
     if (!keys.contains(entity.getClass()))
       throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
 
-    final Class<? extends Plan> parserClass = classes.get(entity.getClass());
-    Plan plan = null;
+    final Class<?> parserClass = classes.get(entity.getClass());
+    Plan<?> plan = null;
     try {
-      final Constructor<? extends Plan> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
-      plan = constructor.newInstance(entity, parent);
+      final Constructor<?> constructor = parserClass.getConstructor(entity.getClass(), Plan.class);
+      plan = (Plan<?>)constructor.newInstance(entity, parent);
       return plan;
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
   }
 
-  public PipelineProcessor<GeneratorContext,Model,Plan> getProcessor() {
+  public PipelineProcessor<GeneratorContext,Model,Plan<?>> getProcessor() {
     return processor;
   }
 

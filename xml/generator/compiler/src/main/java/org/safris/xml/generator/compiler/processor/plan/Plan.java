@@ -19,10 +19,10 @@ package org.safris.xml.generator.compiler.processor.plan;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.lang.ElementWrapper;
-import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.ElementPlan;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
@@ -30,12 +30,12 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.element.EnumerationModel;
 import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 
-public abstract class Plan<T extends Model> implements PipelineEntity<Plan> {
-  public ElementPlan elementRefExistsInParent(UniqueQName name) {
+public abstract class Plan<T extends Model> implements PipelineEntity {
+  public ElementPlan elementRefExistsInParent(final UniqueQName name) {
     return null;
   }
 
-  public static <A extends Plan>LinkedHashSet analyze(Collection<? extends Model> models, Plan owner) {
+  public static <A extends Plan<?>>LinkedHashSet<A> analyze(Collection<? extends Model> models, final Plan<?> owner) {
     final LinkedHashSet<A> plans;
     if (models != null && models.size() != 0) {
       plans = new LinkedHashSet<A>(models.size());
@@ -66,27 +66,27 @@ public abstract class Plan<T extends Model> implements PipelineEntity<Plan> {
   }
 
   // FIXME: Forgot this section here!!!
-  public static <A extends Plan>A analyze(Model model, Plan owner) {
+  public static <A extends Plan<?>>A analyze(final Model model, final Plan<?> owner) {
     if (model == null)
       return null;
 
     final String planName = Plan.class.getPackage().getName() + ".element." + model.getClass().getSimpleName().substring(0, model.getClass().getSimpleName().indexOf("Model")) + "Plan";
     A plan = null;
     try {
-      final Constructor constructor = Class.forName(planName).getConstructor(model.getClass(), Plan.class);
+      final Constructor<?> constructor = Class.forName(planName).getConstructor(model.getClass(), Plan.class);
       plan = (A)constructor.newInstance(model, owner);
     }
-    catch (ClassNotFoundException e) {
-      throw new CompilerError("Class not found for element [" + model.getClass().getSimpleName() + "]");
+    catch (final ClassNotFoundException e) {
+      throw new CompilerError("Class<?> not found for element [" + model.getClass().getSimpleName() + "]");
     }
-    catch (Exception e) {
+    catch (final Exception e) {
       throw new CompilerError(e);
     }
 
     return plan;
   }
 
-  protected static boolean hasEnumerations(EnumerableModel model) {
+  protected static boolean hasEnumerations(final EnumerableModel model) {
     final Collection<EnumerationModel> enumerations = model.getEnumerations();
     final boolean hasEnumerations = enumerations != null && enumerations.size() != 0;
     if (hasEnumerations)
@@ -95,10 +95,7 @@ public abstract class Plan<T extends Model> implements PipelineEntity<Plan> {
     if (!(model instanceof SimpleTypeModel))
       return false;
 
-    SimpleTypeModel restrictionType = (SimpleTypeModel)model;
-    if (restrictionType == null)
-      return hasEnumerations;
-
+    SimpleTypeModel<?> restrictionType = (SimpleTypeModel<?>)model;
     while ((restrictionType = restrictionType.getSuperType()) != null)
       if (restrictionType instanceof EnumerableModel)
         return hasEnumerations((EnumerableModel)restrictionType);
@@ -107,9 +104,9 @@ public abstract class Plan<T extends Model> implements PipelineEntity<Plan> {
   }
 
   private final T model;
-  private final Plan parent;
+  private final Plan<?> parent;
 
-  public Plan(T model, Plan parent) {
+  public Plan(final T model, final Plan<?> parent) {
     this.model = model;
     this.parent = parent;
   }
@@ -118,11 +115,11 @@ public abstract class Plan<T extends Model> implements PipelineEntity<Plan> {
     return model;
   }
 
-  public final Plan getParent() {
+  public final Plan<?> getParent() {
     return parent;
   }
 
-  public Plan getSuperType() {
+  public Plan<?> getSuperType() {
     return null;
   }
 }

@@ -17,13 +17,12 @@
 package org.w3.x2001.xmlschema;
 
 import org.safris.commons.xml.binding.Day;
-import org.safris.xml.generator.compiler.runtime.BindingType;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.w3c.dom.Element;
 
-public abstract class $xs_gDay<T extends BindingType> extends $xs_anySimpleType<T> {
-  public $xs_gDay(final $xs_gDay<T> binding) {
+public abstract class $xs_gDay extends $xs_anySimpleType {
+  public $xs_gDay(final $xs_gDay binding) {
     super(binding);
   }
 
@@ -35,28 +34,25 @@ public abstract class $xs_gDay<T extends BindingType> extends $xs_anySimpleType<
     super();
   }
 
-  public Day getText() {
-    return (Day)super.getText();
+  public Day text() {
+    return (Day)super.text();
   }
 
-  public void setText(final Day text) {
-    super.setText(text);
+  public void text(final Day text) {
+    super.text(text);
   }
 
   protected void _$$decode(final Element parent, final String value) throws ParseException {
-    super.setText(Day.parseDay(value));
+    super.text(Day.parseDay(value));
   }
 
   protected String _$$encode(final Element parent) throws MarshalException {
-    if (super.getText() == null)
-      return "";
-
-    return super.getText().toString();
+    return super.text() != null ? super.text().toString() : "";
   }
 
-  public $xs_gDay<T> clone() {
-    return new $xs_gDay<T>(this) {
-      protected $xs_gDay<T> inherits() {
+  public $xs_gDay clone() {
+    return new $xs_gDay(this) {
+      protected $xs_gDay inherits() {
         return this;
       }
     };

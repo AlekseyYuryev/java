@@ -16,12 +16,12 @@
 
 package org.safris.commons.net.mail;
 
-public class SMTPCredentials {
+public final class SMTPCredentials {
   private final String hostname;
   private final String username;
   private final String password;
 
-  public SMTPCredentials(String hostname, String username, String password) {
+  public SMTPCredentials(final String hostname, final String username, final String password) {
     this.hostname = hostname;
     if (hostname == null)
       throw new NullPointerException("hostname == null");
@@ -47,7 +47,7 @@ public class SMTPCredentials {
     return password;
   }
 
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == this)
       return true;
 

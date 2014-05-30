@@ -30,7 +30,7 @@ public class NotationModel extends AliasModel implements DocumentableModel {
   private String _public = null;
   private String system = null;
 
-  protected NotationModel(Node node, Model parent) {
+  protected NotationModel(final Node node, final Model parent) {
     super(node, parent);
     final NamedNodeMap attributes = node.getAttributes();
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -50,14 +50,14 @@ public class NotationModel extends AliasModel implements DocumentableModel {
     return _public;
   }
 
-  public static class Reference extends NotationModel implements Referenceable {
+  public static final class Reference extends NotationModel implements Referenceable {
     private static final Map<UniqueQName,Reference> all = new HashMap<UniqueQName,Reference>();
 
-    protected Reference(Model parent) {
+    protected Reference(final Model parent) {
       super(null, parent);
     }
 
-    public static Reference parseGroup(UniqueQName name) {
+    public static Reference parseGroup(final UniqueQName name) {
       Reference type = all.get(name);
       if (type != null)
         return type;

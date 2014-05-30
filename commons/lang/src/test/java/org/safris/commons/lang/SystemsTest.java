@@ -16,15 +16,17 @@
 
 package org.safris.commons.lang;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class SystemsTest {
+public final class SystemsTest {
   private static final String NAME = "VAR_DOES_NOT_EXIST";
   private static final String VALUE = "VALUE";
 
-  public static void main(String[] args) throws Exception {
+  public static void main(final String[] args) throws Exception {
     new SystemsTest().testSetenv();
   }
 

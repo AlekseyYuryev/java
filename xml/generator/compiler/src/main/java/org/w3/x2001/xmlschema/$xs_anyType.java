@@ -21,16 +21,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.safris.xml.generator.compiler.runtime.Attribute;
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.generator.compiler.runtime.BindingType;
-import org.safris.xml.generator.compiler.runtime.ComplexType;
 
-public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleType<T> {
-  private final List<Binding<? extends BindingType>> anys = new ArrayList<Binding<? extends BindingType>>(7);
-  private final List<Binding<? extends Attribute>> anys$ = new ArrayList<Binding<? extends Attribute>>(7);
+public abstract class $xs_anyType extends $xs_anySimpleType {
+  private final List<Binding> anys = new ArrayList<Binding>(7);
+  private final List<Binding> anys$ = new ArrayList<Binding>(7);
 
-  public $xs_anyType(final $xs_anyType<T> binding) {
+  public $xs_anyType(final $xs_anyType binding) {
     super(binding);
   }
 
@@ -46,29 +43,29 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
     super();
   }
 
-  public void addAny$(final Binding<? extends Attribute> any) {
+  public void addAny$(final Binding any) {
     this.anys$.add(any);
   }
 
-  public List<Binding<? extends Attribute>> getAny$() {
+  public List<Binding> getAny$() {
     return anys$;
   }
 
-  public void addAny(final Binding<? extends BindingType> any) {
+  public void addAny(final Binding any) {
     this.anys.add(any);
   }
 
-  public List<Binding<? extends BindingType>> getAny() {
+  public List<Binding> getAny() {
     return anys;
   }
 
-  public $xs_anyType<T> clone() {
-    return new $xs_anyType<T>(this) {
-      protected QName _$$getName() {
-        return this._$$getName();
+  public $xs_anyType clone() {
+    return new $xs_anyType(this) {
+      public QName name() {
+        return this.name();
       }
 
-      protected $xs_anyType<T> inherits() {
+      protected $xs_anyType inherits() {
         return this;
       }
     };
@@ -81,7 +78,7 @@ public abstract class $xs_anyType<T extends ComplexType> extends $xs_anySimpleTy
     if (!(obj instanceof $xs_anyType))
       return false;
 
-    final $xs_anyType<?> that = ($xs_anyType<?>)obj;
+    final $xs_anyType that = ($xs_anyType)obj;
     if (anys != null) {
       if (that.anys != null && anys.size() == that.anys.size()) {
         for (int i = 0; i < anys.size(); i++)

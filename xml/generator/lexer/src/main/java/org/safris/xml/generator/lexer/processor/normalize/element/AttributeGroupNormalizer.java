@@ -18,6 +18,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.Nameable;
@@ -28,18 +29,18 @@ import org.safris.xml.generator.lexer.processor.model.element.RedefineModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
 
-public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
+public final class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
   private final Map<UniqueQName,AttributeGroupModel> all = new HashMap<UniqueQName,AttributeGroupModel>();
 
-  public AttributeGroupNormalizer(NormalizerDirectory directory) {
+  public AttributeGroupNormalizer(final NormalizerDirectory directory) {
     super(directory);
   }
 
-  public AttributeGroupModel parseAttributeGroup(UniqueQName name) {
+  public AttributeGroupModel parseAttributeGroup(final UniqueQName name) {
     return all.get(name);
   }
 
-  protected void stage1(AttributeGroupModel model) {
+  protected void stage1(final AttributeGroupModel model) {
     if (model.getName() == null || model.getParent() instanceof RedefineModel)
       return;
 
@@ -47,7 +48,7 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
       all.put(model.getName(), model);
   }
 
-  protected void stage2(AttributeGroupModel model) {
+  protected void stage2(final AttributeGroupModel model) {
     if (!(model.getRef() instanceof AttributeGroupModel.Reference))
       return;
 
@@ -62,7 +63,7 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
       ((AttributeGroupModel)model.getParent()).getAttributes().addAll(model.getRef().getAttributes());
   }
 
-  protected void stage3(AttributeGroupModel model) {
+  protected void stage3(final AttributeGroupModel model) {
     if (model.getRef() == null)
       return;
 
@@ -75,13 +76,13 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
     }
   }
 
-  protected void stage4(AttributeGroupModel model) {
+  protected void stage4(final AttributeGroupModel model) {
     if (model.getRef() == null)
       return;
 
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
-      if (parent instanceof AttributableModel && parent instanceof Nameable && ((Nameable)parent).getName() != null) {
+      if (parent instanceof AttributableModel && parent instanceof Nameable && ((Nameable<?>)parent).getName() != null) {
         if (model.getRef().getRedefine() != null && model.getRef().getRedefine() != parent)
           ((AttributableModel)parent).getAttributes().addAll(model.getRef().getRedefine().getAttributes());
         else
@@ -92,9 +93,9 @@ public class AttributeGroupNormalizer extends Normalizer<AttributeGroupModel> {
     }
   }
 
-  protected void stage5(AttributeGroupModel model) {
+  protected void stage5(final AttributeGroupModel model) {
   }
 
-  protected void stage6(AttributeGroupModel model) {
+  protected void stage6(final AttributeGroupModel model) {
   }
 }

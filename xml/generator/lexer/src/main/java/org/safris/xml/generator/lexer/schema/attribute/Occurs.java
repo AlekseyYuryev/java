@@ -16,12 +16,11 @@
 
 package org.safris.xml.generator.lexer.schema.attribute;
 
-import org.safris.xml.generator.lexer.schema.attribute.Occurs;
 
 public final class Occurs {
   public static final Occurs UNBOUNDED = new Occurs(Integer.MAX_VALUE);
 
-  public static Occurs parseOccurs(String value) {
+  public static Occurs parseOccurs(final String value) {
     if ("unbounded".equals(value))
       return UNBOUNDED;
 
@@ -30,7 +29,7 @@ public final class Occurs {
 
   private int value = 1;
 
-  private Occurs(int value) {
+  private Occurs(final int value) {
     this.value = value;
   }
 
@@ -38,7 +37,7 @@ public final class Occurs {
     return value;
   }
 
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (!(o instanceof Occurs))
       return false;
 

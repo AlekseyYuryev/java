@@ -16,8 +16,8 @@
 
 package org.safris.commons.formatter;
 
-public class DeclarationModule extends FormatModule {
-  String format(String formated, String token) {
+public final class DeclarationModule extends FormatModule {
+  String format(final String formated, String token) {
     if (token.trim().lastIndexOf(";") == token.trim().length() - 1) {
       if (token.indexOf("package") == -1 && token.indexOf("import") == -1 && token.indexOf("public") == -1 && token.indexOf("protected") == -1 && token.indexOf("private") == -1) {
         for (int i = 0; i < getDepth(); i++)

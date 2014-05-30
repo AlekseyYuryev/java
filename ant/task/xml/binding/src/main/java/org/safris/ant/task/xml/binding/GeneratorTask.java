@@ -38,7 +38,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class GeneratorTask extends Task implements DynamicElement {
-  public static void main(String[] args) throws BuildException {
+  public static void main(final String[] args) throws BuildException {
     // FIXME: Finish implementing this!
     if (args.length != 1)
       usage();
@@ -223,7 +223,7 @@ TOP:
       for (Manifest.Schemas.Schema schema : schemas) {
         final String deref = resolver.resolve(schema.getText());
         if (deref != null)
-          schemaReferences.add(new SchemaReference(buildFile.getParent(), deref));
+          schemaReferences.add(new SchemaReference(buildFile.getParent(), deref, false));
       }
 
       final GeneratorContext generatorContext = new GeneratorContext(buildFile.lastModified(), destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());

@@ -16,12 +16,13 @@
 
 package org.safris.commons.xml.binding;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class YearTest {
-  public static void main(String[] args) {
+public final class YearTest {
+  public static void main(final String[] args) {
     new YearTest().testYear();
   }
 
@@ -31,84 +32,74 @@ public class YearTest {
       Year.parseYear(null);
       fail("Expected a NullPointerException");
     }
-    catch (NullPointerException e) {
+    catch (final NullPointerException e) {
     }
 
     try {
       Year.parseYear("");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("--010");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("010");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("10");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("100");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("AAA");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("2227-15:00");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("2227+14:60");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     try {
       Year.parseYear("2227+14:60.9");
       fail("Expected a IllegalArgumentException");
     }
-    catch (IllegalArgumentException e) {
+    catch (final IllegalArgumentException e) {
     }
 
     final String[] years = new String[] {
-      "2500Z",
-      "1400Z",
-      "0003Z",
-      "0020Z",
-      "0310Z",
-      "1001Z",
-      "2007+01:00",
-      "3017-01:00",
-      "4027Z",
-      "1302+12:00",
-      "1112-12:30"
+    "2500Z", "1400Z", "0003Z", "0020Z", "0310Z", "1001Z", "2007+01:00", "3017-01:00", "4027Z", "1302+12:00", "1112-12:30"
     };
 
     for (final String year : years)
