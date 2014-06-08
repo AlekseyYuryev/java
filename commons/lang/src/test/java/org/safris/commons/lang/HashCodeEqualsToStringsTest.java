@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class HashCodeEqualsTest {
+public class HashCodeEqualsToStringsTest {
   private static enum E {
     a,
     b,
@@ -73,5 +73,13 @@ public class HashCodeEqualsTest {
     assertTrue(Equals.equals(new B("a"), new B("b")));
     assertFalse(Equals.equals(new C(E.a), new C(E.b)));
     assertTrue(Equals.equals(new D(E.a), new D(E.b)));
+  }
+
+  @Test
+  public void testToStrings() {
+    System.out.println(ToStrings.toString(new A()));
+    System.out.println(ToStrings.toString(new B()));
+    System.out.println(ToStrings.toString(new C(E.a)));
+    System.out.println(ToStrings.toString(new D(E.b)));
   }
 }

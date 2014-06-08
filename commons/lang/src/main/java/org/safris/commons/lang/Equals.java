@@ -68,7 +68,7 @@ public final class Equals {
     if (a == b || fieldName.length == 0)
       return true;
 
-    if (a == null || b == null || a.getClass() != b.getClass())
+    if (a == null || b == null || !a.getClass().isInstance(b))
       return false;
 
     boolean equals = false;
