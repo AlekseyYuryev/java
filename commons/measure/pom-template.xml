@@ -1,5 +1,5 @@
 <!--
-  Copyright Safris Software 2006
+  Copyright Safris Software 2014
   
   This code is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,39 +21,19 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org</groupId>
-    <artifactId>safris</artifactId>
-    <version>${dev:org.safris}</version>
+    <groupId>org.safris</groupId>
+    <artifactId>commons</artifactId>
+    <version>${dev:org.safris.commons}</version>
   </parent>
-  <groupId>org.safris</groupId>
-  <artifactId>commons</artifactId>
-  <version>${dev:org.safris.commons}</version>
-  <packaging>pom</packaging>
+  <groupId>org.safris.commons</groupId>
+  <artifactId>measure</artifactId>
+  <version>${dev:org.safris.commons.measure}</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Commons source.
-  </description>
-  <modules>
-    <module>logging</module>
-    <module>pipeline</module>
-    <module>formatter</module>
-    <module>jndi</module>
-    <module>lang</module>
-    <module>security</module>
-    <module>test</module>
-    <module>math</module>
-    <module>el</module>
-    <module>cli</module>
-    <module>sql</module>
-    <module>dbcp</module>
-    <module>bytecode</module>
-    <module>xml</module>
-    <module>expect</module>
-    <module>util</module>
-    <module>io</module>
-    <module>net</module>
-    <module>exec</module>
-    <module>jci</module>
-    <module>measure</module>
-  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>util</artifactId>
+      <version>${dev:org.safris.commons.util}</version>
+    </dependency>
+  </dependencies>
 </project>

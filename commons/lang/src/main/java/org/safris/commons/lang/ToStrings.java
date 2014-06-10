@@ -48,24 +48,27 @@ public final class ToStrings {
         
         string += pad + field.getName() + ": ";
         field.setAccessible(true);
-        if (boolean.class == field.getType() || Boolean.class == field.getType())
+        if (boolean.class == field.getType())
           string += Boolean.toString(field.getBoolean(obj));
-        else if (byte.class == field.getType() || Byte.class == field.getType())
+        else if (byte.class == field.getType())
           string += "0x" + Integer.toHexString(field.getByte(obj));
-        else if (char.class == field.getType() || Character.class == field.getType())
+        else if (char.class == field.getType())
           string += "'" + String.valueOf(field.getChar(obj)) + "'";
-        else if (short.class == field.getType() || Short.class == field.getType())
+        else if (short.class == field.getType())
           string += "(short)" + String.valueOf(field.getShort(obj));
-        else if (int.class == field.getType() || Integer.class == field.getType())
+        else if (int.class == field.getType())
           string += String.valueOf(field.getInt(obj));
-        else if (long.class == field.getType() || Long.class == field.getType())
+        else if (long.class == field.getType())
           string += String.valueOf(field.getLong(obj)) + "l";
-        else if (float.class == field.getType() || Float.class == field.getType())
+        else if (float.class == field.getType())
           string += String.valueOf(field.getFloat(obj)) + "f";
-        else if (double.class == field.getType() || Double.class == field.getType())
+        else if (double.class == field.getType())
           string += String.valueOf(field.getDouble(obj)) + "d";
         else {
           final Object fieldObject = field.get(obj);
+          if (fieldObject == obj)
+            return "";
+            
           if (fieldObject == null)
             string += "null";
           else if (String.class == fieldObject.getClass())
