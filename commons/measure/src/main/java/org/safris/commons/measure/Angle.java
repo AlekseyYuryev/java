@@ -18,8 +18,8 @@ package org.safris.commons.measure;
 
 public final class Angle extends Dimension.Measurement<Dimension.Unit> {
   public static class Unit extends Dimension.Unit {
-    public static final Unit DEG = new Unit("deg", 1, null);
-    public static final Unit RAD = new Unit("rad", Math.PI / 180, Unit.DEG);
+    public static final Unit RAD = new Unit("rad", 1, null);
+    public static final Unit DEG = new Unit("deg", Math.PI / 180, Unit.RAD);
     
     protected Unit(final String name, final double factor, final Dimension.Unit basis) {
       super(name, factor, basis);
