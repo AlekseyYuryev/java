@@ -114,5 +114,7 @@ public class MeasurementTest {
     assertMeasurementUnits(Time.class, Time.Unit.class);
     new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)).value(Unit.ratio(Distance.Unit.KM, Time.Unit.HR));
     assertMeasurementUnits(Speed.class, Distance.Unit.class, Time.Unit.class);
+    assertMeasurementUnits(Mass.class, Mass.Unit.class);
+    assertMeasurementUnits(Angle.class, Angle.Unit.class);
   }
 }

@@ -113,7 +113,7 @@ public abstract class Dimension {
           System.out.println("1 " + entry2.getKey().name + " = " + entry2.getValue() + " * " + entry.getKey().name);
     }
 
-    private final String name;
+    protected final String name;
     protected final double factor;
 
     protected Unit(final String name, final double factor, final Unit basis) {
@@ -155,7 +155,7 @@ public abstract class Dimension {
 
   protected static abstract class Measurement<U extends Unit> {
     private final double value;
-    protected final Unit unit;
+    protected final U unit;
 
     protected Measurement(final double value, final U unit) {
       if (unit == null)
