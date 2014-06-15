@@ -16,7 +16,7 @@
 
 package org.safris.commons.measure;
 
-public final class Elevation extends Dimension.Measurement<Dimension.Unit> {
+public final class Elevation extends Dimension.Scalar<Dimension.Unit> {
   public static class Unit extends Distance.Unit {
     public static final Unit FL = new Unit("fl", 100, Unit.FT);
     

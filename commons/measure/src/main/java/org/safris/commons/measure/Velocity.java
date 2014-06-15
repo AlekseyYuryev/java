@@ -16,17 +16,12 @@
 
 package org.safris.commons.measure;
 
-import org.safris.commons.measure.Dimension.Unit;
-
-public final class Velocity extends Dimension.Measurement<Unit.Ratio<Distance.Unit,Time.Unit>> {
-  public final Angle angle;
-  
-  public Velocity(final Angle angle, final double value, final Unit.Ratio<Distance.Unit,Time.Unit> unit) {
-    super(value, unit);
-    this.angle = angle;
+public final class Velocity extends Dimension.Vector<Angle,Speed> {
+  public Velocity(final Angle i, final Speed j) {
+    super(i, j);
   }
   
-  public Speed getComponentSpeed(final Angle angle) {
-    return new Speed(value(unit) * Math.cos(this.angle.value(Angle.Unit.RAD) - angle.value(Angle.Unit.RAD)), unit);
+  public Speed value(final Angle angle) {
+    return (Speed)j.replicate(j.value(j.unit) * Math.cos(this.i.value(Angle.Unit.RAD) - angle.value(Angle.Unit.RAD)));
   }
 }

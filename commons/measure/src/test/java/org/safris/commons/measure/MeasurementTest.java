@@ -112,9 +112,12 @@ public class MeasurementTest {
     assertMeasurementUnits(Distance.class, Distance.Unit.class);
     assertMeasurementUnits(Elevation.class, Elevation.Unit.class);
     assertMeasurementUnits(Time.class, Time.Unit.class);
-    new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)).value(Unit.ratio(Distance.Unit.KM, Time.Unit.HR));
     assertMeasurementUnits(Speed.class, Distance.Unit.class, Time.Unit.class);
     assertMeasurementUnits(Mass.class, Mass.Unit.class);
     assertMeasurementUnits(Angle.class, Angle.Unit.class);
+    assertMeasurementUnits(Volume.class, Volume.Unit.class);
+    assertMeasurementUnits(Density.class, Mass.Unit.class, Volume.Unit.class);
+    Velocity v = new Velocity(new Angle(45, Angle.Unit.DEG), new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)));
+    System.out.println(v.value(new Angle(-45, Angle.Unit.DEG)));
   }
 }

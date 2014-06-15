@@ -16,7 +16,7 @@
 
 package org.safris.commons.measure;
 
-public final class Mass extends Dimension.Measurement<Dimension.Unit> {
+public final class Mass extends Dimension.Scalar<Dimension.Unit> {
   public static class Unit extends Dimension.Unit {
     public static final Unit G = new Unit("g", 1, null);
     public static final Unit KG = new Unit("kg", 1000, Unit.G);

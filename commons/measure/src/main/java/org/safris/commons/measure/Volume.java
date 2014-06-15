@@ -16,29 +16,17 @@
 
 package org.safris.commons.measure;
 
-public final class Distance extends Dimension.Scalar<Dimension.Unit> {
-  /**
-   * Equatorial radius of earth
-   */
-  public static final Distance R = new Distance(6378.137, Unit.KM);
-
+public final class Volume extends Dimension.Scalar<Dimension.Unit> {
   public static class Unit extends Dimension.Unit {
-    public static final Unit M = new Unit("m", 1, null);
-    public static final Unit FT = new Unit("ft", 12 * 0.0254, Unit.M);
-    public static final Unit MI = new Unit("mi", 5280, Unit.FT);
-    public static final Unit KM = new Unit("km", 1000, Unit.M);
-    public static final Unit NM = new Unit("nm", 1852, Unit.M);
+    public static final Unit L = new Unit("l", 1, null);
+    public static final Unit ML = new Unit("ml", 0.01, Unit.L);
     
     protected Unit(final String name, final double factor, final Dimension.Unit basis) {
       super(name, factor, basis);
     }
   }
   
-  public Distance(final double value, final Unit unit) {
+  public Volume(final double value, final Unit unit) {
     super(value, unit);
-  }
-  
-  public double deltaLongitude(final double lat) {
-    return 2 * Math.asin(2 * (value(Distance.Unit.KM) / R.value(Unit.KM)) / Math.sin(2 * lat));
   }
 }

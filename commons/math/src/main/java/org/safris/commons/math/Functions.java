@@ -217,7 +217,7 @@ public final class Functions {
   }
 
   /**
-   * Calculate the root mean suqre of an array of values.
+   * Calculate the root mean square of an array of values.
    *
    * @param values The values.
    *
@@ -238,7 +238,7 @@ public final class Functions {
   }
 
   /**
-   * Calculate the root mean suqre of an array of values.
+   * Calculate the root mean square of an array of values.
    *
    * @param values The values.
    *
@@ -259,7 +259,7 @@ public final class Functions {
   }
 
   /**
-   * Calculate the root mean suqre of an array of values.
+   * Calculate the root mean square of an array of values.
    *
    * @param values The values.
    *
@@ -280,7 +280,7 @@ public final class Functions {
   }
 
   /**
-   * Calculate the root mean suqre of an array of values.
+   * Calculate the root mean square of an array of values.
    *
    * @param values The values.
    *
@@ -301,7 +301,7 @@ public final class Functions {
   }
 
   /**
-   * Calculate the root mean suqre of an array of values.
+   * Calculate the root mean square of an array of values.
    *
    * @param values The values.
    *

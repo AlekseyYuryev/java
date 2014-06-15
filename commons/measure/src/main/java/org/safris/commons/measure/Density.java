@@ -18,8 +18,8 @@ package org.safris.commons.measure;
 
 import org.safris.commons.measure.Dimension.Unit;
 
-public final class Speed extends Dimension.Scalar<Unit.Ratio<Distance.Unit,Time.Unit>> {
-  public Speed(final double value, final Unit.Ratio<Distance.Unit,Time.Unit> unit) {
+public final class Density extends Dimension.Scalar<Unit.Ratio<Mass.Unit,Volume.Unit>> {
+  public Density(final double value, final Unit.Ratio<Mass.Unit,Volume.Unit> unit) {
     super(value, unit);
   }
 }

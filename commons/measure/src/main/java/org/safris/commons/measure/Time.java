@@ -16,7 +16,7 @@
 
 package org.safris.commons.measure;
 
-public final class Time extends Dimension.Measurement<Dimension.Unit> {
+public final class Time extends Dimension.Scalar<Dimension.Unit> {
   public static class Unit extends Dimension.Unit {
     public static final Unit SEC = new Unit("sec", 1, null);
     public static final Unit MIN = new Unit("min", 60, Unit.SEC);

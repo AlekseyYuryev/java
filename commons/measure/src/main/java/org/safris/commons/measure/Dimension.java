@@ -113,6 +113,9 @@ public abstract class Dimension {
           System.out.println("1 " + entry2.getKey().name + " = " + entry2.getValue() + " * " + entry.getKey().name);
     }
 
+    // FIXME: This is not used yet
+    private static final Map<Class<?>,Unit> defaults = new HashMap<Class<?>,Unit>();
+    
     protected final String name;
     protected final double factor;
 
@@ -124,7 +127,13 @@ public abstract class Dimension {
         final Map<Unit,Double> unitToFactor = register(this, basis, factor);
         cascade(unitToFactor, this, factor);
       }
-
+      else {
+        if (defaults.containsKey(getClass().getDeclaringClass()))
+          throw new IllegalArgumentException("Attempted to assign two default Unit(s) for " + getClass().getDeclaringClass());
+        
+        defaults.put(getClass().getDeclaringClass(), basis);
+      }
+      
       // printConversionTable();
       // System.out.println("-------------");
     }
@@ -133,6 +142,9 @@ public abstract class Dimension {
       if (basis == null)
         throw new IllegalArgumentException("basis == null");
 
+      if (this == basis)
+        return 1;
+      
       Map<Unit,Double> unitToFactor = basisToUnitFactors.get(basis);
       Double factor = null;
       if (unitToFactor != null)
@@ -153,24 +165,33 @@ public abstract class Dimension {
     }
   }
 
-  protected static abstract class Measurement<U extends Unit> {
+  protected static abstract class Scalar<U extends Unit> {
     private final double value;
     protected final U unit;
 
-    protected Measurement(final double value, final U unit) {
+    protected Scalar(final double value, final U unit) {
       if (unit == null)
         throw new NullPointerException("unit == null");
 
       this.unit = unit;
       this.value = value;
     }
-
+    
+    protected Scalar<U> replicate(final double value) {
+      try {
+        return (Scalar<U>)getClass().getConstructor(double.class, unit.getClass()).newInstance(value, unit);
+      }
+      catch (final Exception e) {
+        throw new Error(e);
+      }
+    }
+    
     public double value(final U unit) {
       return value * this.unit.getFactor(unit);
     }
 
     public boolean equals(final Object obj) {
-      return this == obj || (super.equals(obj) && obj instanceof Measurement && ((Measurement<?>)obj).value == value && ((Measurement<?>)obj).unit == unit);
+      return this == obj || (super.equals(obj) && obj instanceof Scalar && ((Scalar<?>)obj).value == value && ((Scalar<?>)obj).unit == unit);
     }
 
     public int hashCode() {
@@ -179,6 +200,20 @@ public abstract class Dimension {
 
     public String toString() {
       return value + " " + unit.name;
+    }
+  }
+  
+  protected static abstract class Vector<I extends Scalar<? extends Unit>,J extends Scalar<? extends Unit>> {
+    /*private static double scalar(final Scalar<?> s, final Unit unit) {
+      return s.value * s.unit.getFactor(unit);
+    }*/
+    
+    public final I i;
+    public final J j;
+
+    protected Vector(final I i, final J j) {
+      this.i = i;
+      this.j = j;
     }
   }
 }
