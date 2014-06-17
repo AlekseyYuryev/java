@@ -309,10 +309,14 @@ if [ $HELP ]; then
 fi
 
 if [ $DEPENDENCY_SCAN ]; then
-  MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e \s/[^\ ]\ */org.safris./ -e 's/\/src\/.*//' -e 's/\//./g' | uniq | xargs echo | sed 's/ /\\\\|/g'`
+  if [ -d '.svn' ]; then
+    MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e \s/[^\ ]\ */org.safris./ -e 's/\/src\/.*//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`
+  else
+    MODIFIED_MODULES="`git status -s | grep 'src\/' | grep -v '^\?' | sed -e \s/^\ *.\ // -e \s/^/org.safris./ -e 's/\/src\/.*$//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`"
+  fi
   echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
-  echo 'Key: MODULE_1 --> MODULE_2'
-  $MVN dependency:list | grep "$MODIFIED_MODULES\| Building " | grep -B1 '\[INFO\]  ' | grep -v '\-\-' | sed -e 's/\[INFO\] Building //' -e :a -e '$!N;s/\n\[INFO\]  / --> /;ta' -e 'P;D' | sed -e 's/\(-->  \)\( [^:]\{1,\}:[^:]\{1,\}\):\(.*\)/-->\2/' -e 's/:/./g' | grep -v '\[INFO\]  '
+  echo 'Key: MODULE_1 --> MODULE_2 & MODULE_3 & ... & MODULE_N'
+  $MVN dependency:list | grep "  $MODIFIED_MODULES\| Building " | grep -B1 "  $MODIFIED_MODULES" | sed -e 's/:/./' -e 's/:.*//' -e 's/\[INFO\] //' -e 's/ [\.0-9].*$//' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n   / /g' | grep '^Building' | sed -e 's/^Building //' -e 's/ / \& /g' -e 's/ \& / --> /'
   exit 0
 fi
 
