@@ -28,17 +28,25 @@ public final class Distance extends Dimension.Scalar<Dimension.Unit> {
     public static final Unit MI = new Unit("mi", 5280, Unit.FT);
     public static final Unit KM = new Unit("km", 1000, Unit.M);
     public static final Unit NM = new Unit("nm", 1852, Unit.M);
-    
+
     protected Unit(final String name, final double factor, final Dimension.Unit basis) {
       super(name, factor, basis);
     }
   }
-  
+
   public Distance(final double value, final Unit unit) {
     super(value, unit);
   }
-  
-  public double deltaLongitude(final double lat) {
-    return 2 * Math.asin(2 * (value(Distance.Unit.KM) / R.value(Unit.KM)) / Math.sin(2 * lat));
+
+  public Location locate(final Location location, final Angle bearing) {
+    final double d = value(Unit.KM) / R.value(Unit.KM);
+    final double bearing1 = bearing.value(Angle.Unit.RAD);
+    final double lat1 = location.latitude.value(Angle.Unit.RAD);
+    final double lon1 = location.longitude.value(Angle.Unit.RAD);
+    
+    final double lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(bearing1));
+    double lon2 = Math.atan2(Math.sin(bearing1) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
+    lon2 = ((lon1 - lon2 + Math.PI) % (2 * Math.PI)) - Math.PI;
+    return new Location(new Angle(lat2, Angle.Unit.RAD), new Angle(lon2, Angle.Unit.RAD));
   }
 }

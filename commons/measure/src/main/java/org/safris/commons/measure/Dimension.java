@@ -191,11 +191,11 @@ public abstract class Dimension {
     }
 
     public boolean equals(final Object obj) {
-      return this == obj || (super.equals(obj) && obj instanceof Scalar && ((Scalar<?>)obj).value == value && ((Scalar<?>)obj).unit == unit);
+      return this == obj || (obj instanceof Scalar && ((Scalar<?>)obj).value == value && ((Scalar<?>)obj).unit == unit);
     }
 
     public int hashCode() {
-      return super.hashCode() + (int)Double.doubleToLongBits(value);
+      return (int)Double.doubleToLongBits(value);
     }
 
     public String toString() {
@@ -214,6 +214,18 @@ public abstract class Dimension {
     protected Vector(final I i, final J j) {
       this.i = i;
       this.j = j;
+    }
+
+    public boolean equals(final Object obj) {
+      return this == obj || (obj instanceof Vector && super.equals(obj) && (i != null ? i.equals(((Vector<?,?>)obj).i) : ((Vector<?,?>)obj).j == null) && (j != null ? j.equals(((Vector<?,?>)obj).j) : ((Vector<?,?>)obj).j == null));
+    }
+
+    public int hashCode() {
+      return super.hashCode() + (i != null ? i.hashCode() : -1) + (j != null ? j.hashCode() : -1);
+    }
+
+    public String toString() {
+      return "(" + (i != null ? i.toString() : "null") + ", " + (j != null ? j.toString() : "null") + ")";
     }
   }
 }
