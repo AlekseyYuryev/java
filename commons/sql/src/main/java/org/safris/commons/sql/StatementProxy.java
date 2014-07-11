@@ -29,6 +29,16 @@ import org.safris.commons.logging.Logger;
 public class StatementProxy implements Statement {
   private static final Logger logger = Logger.getLogger(StatementProxy.class.getName());
 
+  public static void close(final Statement statement) {
+    try {
+      if (statement != null && !statement.isClosed())
+        statement.close();
+    }
+    catch (final SQLException e) {
+      logger.throwing(Statement.class.getName(), "close", e);
+    }
+  }
+
   protected final Statement statement;
 
   public StatementProxy(final Statement statement) {

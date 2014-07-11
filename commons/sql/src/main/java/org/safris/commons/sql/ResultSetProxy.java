@@ -39,6 +39,15 @@ import java.util.Calendar;
 import java.util.Map;
 
 public final class ResultSetProxy implements ResultSet {
+  public static void close(final ResultSet resultSet) {
+    try {
+      if (resultSet != null && !resultSet.isClosed())
+        resultSet.close();
+    }
+    catch (final SQLException e) {
+    }
+  }
+
   private final ResultSet resultSet;
   private volatile boolean mutex = false;
 

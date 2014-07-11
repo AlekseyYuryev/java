@@ -47,6 +47,15 @@ public final class ConnectionProxy implements Connection {
 
     return connectionProxy;
   }
+  
+  public static void close(final Connection connection) {
+    try {
+      if (connection != null && !connection.isClosed())
+        connection.close();
+    }
+    catch (final SQLException e) {
+    }
+  }
 
   private final Connection connection;
 
