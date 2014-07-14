@@ -204,9 +204,9 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     // COPY CONSTRUCTOR
     writer.write(plan.getDocumentation());
     if (plan.hasEnumerations())
-      writer.write("public " + plan.getClassSimpleName() + "(" + plan.getClassName(parent) + " copy)\n");
+      writer.write("public " + plan.getClassSimpleName() + "(final " + plan.getClassName(parent) + " copy)\n");
     else
-      writer.write("public " + plan.getClassSimpleName() + "(" + plan.getCopyClassName(parent) + " copy)\n");
+      writer.write("public " + plan.getClassSimpleName() + "(final " + plan.getCopyClassName(parent) + " copy)\n");
     writer.write("{\n");
     writer.write("super(copy);\n");
     if ((plan.getMixed() != null && plan.getMixed()) || plan.getAttributes().size() != 0 || plan.getElements().size() != 0) {

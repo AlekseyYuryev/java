@@ -174,9 +174,9 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     // COPY CONSTRUCTOR
     writer.write(plan.getDocumentation());
     if (plan.hasEnumerations())
-      writer.write("public " + plan.getClassSimpleName() + "(" + plan.getClassName(parent) + " copy)\n");
+      writer.write("public " + plan.getClassSimpleName() + "(final " + plan.getClassName(parent) + " copy)\n");
     else
-      writer.write("public " + plan.getClassSimpleName() + "(" + plan.getCopyClassName(parent) + " copy)\n");
+      writer.write("public " + plan.getClassSimpleName() + "(final " + plan.getCopyClassName(parent) + " copy)\n");
     writer.write("{\n");
     writer.write("super(copy);\n");
     writer.write("}\n");
