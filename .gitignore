@@ -4,6 +4,6 @@ build/
 target/
 pom.xml
 .classpath
-.project 
+.project
 *.javaproj
 *.sln
