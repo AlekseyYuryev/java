@@ -42,7 +42,6 @@ import org.safris.xml.generator.lexer.document.SchemaDocumentDirectory;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaCompositeDirectory;
-import org.safris.xml.generator.lexer.processor.composite.SchemaModelComposite;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.ModelDirectory;

@@ -75,9 +75,9 @@ public final class Resources {
       return null;
 
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-    final Set<URL> history = new HashSet<URL>();
     Enumeration<URL> urls = classLoader.getResources(name);
 
+    final Set<URL> history = new HashSet<URL>();
     final Vector<Resource> resources = new Vector<Resource>(1, 1);
     combineResources(urls, classLoader, history, resources);
     classLoader = Thread.currentThread().getContextClassLoader();

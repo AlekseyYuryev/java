@@ -300,6 +300,22 @@
                     </execute>
                   </action>
                 </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>xdb</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>ddl</goal>
+                      <goal>xsd</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute>
+                      <runOnIncremental>false</runOnIncremental>
+                    </execute>
+                  </action>
+                </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
@@ -415,6 +431,11 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
+        <version>RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>persistence-api</artifactId>
         <version>RELEASE</version>
       </dependency>
       <dependency>

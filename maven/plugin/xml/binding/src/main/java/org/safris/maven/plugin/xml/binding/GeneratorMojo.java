@@ -21,10 +21,12 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -89,7 +91,15 @@ public class GeneratorMojo extends AbstractMojo {
    */
   private Manifest manifest;
 
+  /** 
+   * @parameter expression="${mojoExecution}" 
+   */
+  private MojoExecution execution;
+
   public void execute() throws MojoExecutionException, MojoFailureException {
+    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+      return;
+    
     String href = null;
     boolean explodeJars = false;
     boolean overwrite = false;
@@ -104,7 +114,13 @@ public class GeneratorMojo extends AbstractMojo {
           continue;
 
         plugin.flushExecutionMap();
-        final Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
+        Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
+        
+        if (configuration == null)
+          configuration = (Xpp3Dom)execution.getConfiguration();
+        else if (execution.getConfiguration() != null)
+          getLog().warn("Detected plugin- & execution-level configuration, which is not supported yet.");
+        
         if (configuration == null) {
           getLog().info("No configuration specified.");
           continue;
@@ -190,7 +206,7 @@ public class GeneratorMojo extends AbstractMojo {
       try {
         document = DOMParsers.newDocumentBuilder().parse(hrefFile);
       }
-      catch (Exception e) {
+      catch (final Exception e) {
         throw new MojoExecutionException(e.getMessage(), e);
       }
 

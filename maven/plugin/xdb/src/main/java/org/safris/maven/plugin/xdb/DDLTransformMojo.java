@@ -18,6 +18,7 @@ package org.safris.maven.plugin.xdb;
 
 import java.io.File;
 
+import org.apache.maven.plugin.MojoExecution;
 import org.safris.xdb.xdl.DBVendor;
 import org.safris.xdb.xdl.DDLTransform;
 
@@ -26,7 +27,20 @@ import org.safris.xdb.xdl.DDLTransform;
  * @phase generate-sources
  */
 public final class DDLTransformMojo extends XDLTransformerMojo {
+  /**
+   * @parameter default-value="${maven.test.skip}"
+   */
+  private Boolean mavenTestSkip = null;
+
+  /** 
+   * @parameter expression="${mojoExecution}" 
+   */
+  private MojoExecution execution;
+
   public void transform(final File xdlFile, final File outDir) {
+    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+      return;
+    
     DDLTransform.createDDL(xdlFile, DBVendor.MY_SQL, outDir);
   }
 }

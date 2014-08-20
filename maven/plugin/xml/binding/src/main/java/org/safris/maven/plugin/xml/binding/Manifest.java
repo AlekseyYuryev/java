@@ -22,16 +22,28 @@ public final class Manifest {
   private String destdir = null;
   private String link = null;
   private List<String> schemas = null;
-
+  
   public String getDestdir() {
     return destdir;
   }
-
+  
+  public void setDestdir(final String destdir) {
+    this.destdir = destdir;
+  }
+  
   public String getLink() {
     return link;
   }
-
+  
+  public void setLink(final String link) {
+    this.link = link;
+  }
+  
   public List<String> getSchemas() {
     return schemas;
+  }
+  
+  public void setSchemas(final List<String> schemas) {
+    this.schemas = schemas;
   }
 }

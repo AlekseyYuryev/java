@@ -166,6 +166,10 @@ public abstract class Dimension {
   }
 
   protected static abstract class Scalar<U extends Unit> {
+    public static <T extends Unit>double convert(final double value, final T from, final T to) {
+      return value * from.getFactor(to);
+    }
+
     private final double value;
     protected final U unit;
 

@@ -18,7 +18,7 @@ public class IntArrayList {
    * @param size
    *          The initial capacity of the list
    */
-  public IntArrayList(int size) {
+  public IntArrayList(final int size) {
     theValue = new int[size];
   }
 
@@ -28,7 +28,7 @@ public class IntArrayList {
    * @param values
    *          The values for the list
    */
-  public IntArrayList(int[] values) {
+  public IntArrayList(final int[] values) {
     theValue = values;
     theSize = values.length;
   }
@@ -64,7 +64,7 @@ public class IntArrayList {
   public int get(int index) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
-    
+
     return theValue[index];
   }
 
@@ -90,11 +90,11 @@ public class IntArrayList {
   public void add(int index, int value) {
     if (index < 0 || index > theSize)
       throw new ArrayIndexOutOfBoundsException(index);
-    
+
     ensureCapacity(theSize + 1);
     for (int i = theSize; i > index; i--)
       theValue[i] = theValue[i - 1];
-    
+
     theValue[index] = value;
     theSize++;
   }
@@ -109,7 +109,7 @@ public class IntArrayList {
     ensureCapacity(theSize + value.length);
     for (int i = 0; i < value.length; i++)
       theValue[theSize + i] = value[i];
-    
+
     theSize += value.length;
   }
 
@@ -123,7 +123,7 @@ public class IntArrayList {
     ensureCapacity(theSize + list.theSize);
     for (int i = 0; i < list.theSize; i++)
       theValue[theSize + i] = list.theValue[i];
-    
+
     theSize += list.theSize;
   }
 
@@ -139,7 +139,7 @@ public class IntArrayList {
   public int set(int index, int value) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
-    
+
     int ret = theValue[index];
     theValue[index] = value;
     return ret;
@@ -155,11 +155,11 @@ public class IntArrayList {
   public int remove(int index) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
-    
+
     int ret = theValue[index];
     for (int i = index; i < theSize - 1; i++)
       theValue[i] = theValue[i + 1];
-    
+
     theSize--;
     return ret;
   }
@@ -178,7 +178,7 @@ public class IntArrayList {
         return true;
       }
     }
-    
+
     return false;
   }
 
@@ -198,7 +198,7 @@ public class IntArrayList {
         ret++;
       }
     }
-    
+
     return ret;
   }
 
@@ -225,7 +225,7 @@ public class IntArrayList {
     for (int i = 0; i < theSize; i++)
       if (theValue[i] == value)
         ret++;
-    
+
     return ret;
   }
 
@@ -240,7 +240,7 @@ public class IntArrayList {
     for (int i = 0; i < theSize; i++)
       if (theValue[i] == value)
         return i;
-    
+
     return -1;
   }
 
@@ -255,7 +255,7 @@ public class IntArrayList {
     for (int i = theSize - 1; i >= 0; i--)
       if (theValue[i] == value)
         return i;
-    
+
     return -1;
   }
 
@@ -263,7 +263,7 @@ public class IntArrayList {
    * @return The list of values currently in this list
    */
   public int[] toArray() {
-    int[] ret = new int[theSize];
+    final int[] ret = new int[theSize];
     System.arraycopy(theValue, 0, ret, 0, theSize);
     return ret;
   }
@@ -277,7 +277,7 @@ public class IntArrayList {
     Integer[] ret = new Integer[theSize];
     for (int i = 0; i < ret.length; i++)
       ret[i] = new Integer(theValue[i]);
-    
+
     return ret;
   }
 
@@ -287,7 +287,7 @@ public class IntArrayList {
   public void trimToSize() {
     if (theValue.length == theSize)
       return;
-    
+
     int[] oldData = theValue;
     theValue = new int[theSize];
     System.arraycopy(oldData, 0, theValue, 0, theSize);
@@ -302,11 +302,11 @@ public class IntArrayList {
   public void ensureCapacity(int minCapacity) {
     int oldCapacity = theValue.length;
     if (minCapacity > oldCapacity) {
-      int oldData[] = theValue;
+      int[] oldData = theValue;
       int newCapacity = (oldCapacity * 3) / 2 + 1;
       if (newCapacity < minCapacity)
         newCapacity = minCapacity;
-      
+
       theValue = new int[newCapacity];
       System.arraycopy(oldData, 0, theValue, 0, theSize);
     }

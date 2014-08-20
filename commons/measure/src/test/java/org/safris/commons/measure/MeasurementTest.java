@@ -18,11 +18,13 @@ package org.safris.commons.measure;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +79,16 @@ public class MeasurementTest {
   }
 
   private static void assertMeasurementUnits(final Class<?> dimensionClass, final Class<?> ... unitClasses) throws Exception {
-    final Constructor<?> constructor = dimensionClass.getConstructors()[0];
+    Constructor<?> constructor = null;
+    Constructor<?>[] constructors = dimensionClass.getConstructors();
+    for (int i = 0; i < constructors.length; i++) {
+      final Class<?>[] parameterTypes = constructors[i].getParameterTypes();
+      if (parameterTypes.length > 1 && parameterTypes[0] == double.class && Dimension.Unit.class.isAssignableFrom(parameterTypes[1])) {
+        constructor = constructors[i];
+        break;
+      }
+    }
+    
     final Dimension.Unit[][] allUnits = new Dimension.Unit[unitClasses.length][];
     int i = 0;
     for (final Class<?> unitClass : unitClasses)

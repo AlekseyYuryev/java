@@ -16,6 +16,7 @@
 
 package org.safris.commons.lang;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -90,6 +91,8 @@ public final class ToStrings {
             string += field.getType().getSimpleName() + "." + fieldObject;
           else if (Class.class == fieldObject.getClass())
             string += ((Class<?>)fieldObject).getName();
+          else if (File.class == fieldObject.getClass())
+            string += ((File)fieldObject).getAbsolutePath();
           else
             string += toString(fieldObject, depth + 1);
         }

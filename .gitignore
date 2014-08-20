@@ -3,5 +3,7 @@
 build/
 target/
 pom.xml
+.classpath
+.project 
 *.javaproj
 *.sln

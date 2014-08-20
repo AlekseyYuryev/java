@@ -33,7 +33,7 @@ public final class Distance extends Dimension.Scalar<Dimension.Unit> {
       super(name, factor, basis);
     }
   }
-
+  
   public Distance(final double value, final Unit unit) {
     super(value, unit);
   }
