@@ -50,6 +50,7 @@ import org.safris.commons.logging.Logger;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
   private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
+  private static final String NULL = "NULL";
 
   private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
     protected DateFormat initialValue() {
@@ -104,7 +105,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
 
   public void setNull(final int parameterIndex, final int sqlType) throws SQLException {
     getStatement().setNull(parameterIndex, sqlType);
-    parameterMap.put(parameterIndex, "NULL");
+    parameterMap.put(parameterIndex, NULL);
   }
 
   public void setBoolean(final int parameterIndex, final boolean x) throws SQLException {
@@ -376,7 +377,9 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     while (tokenizer.hasMoreTokens()) {
       buffer.append(tokenizer.nextToken());
       final Object value = parameterMap.get(++index);
-      if (value instanceof Date)
+      if (value == NULL)
+        buffer.append("NULL");
+      else if (value instanceof Date)
         buffer.append("'" + dateFormat.get().format((Date)value) + "'");
       else if (value instanceof String || value instanceof Byte)
         buffer.append("'" + value + "'");
