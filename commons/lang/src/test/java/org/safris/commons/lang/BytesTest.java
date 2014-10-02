@@ -36,7 +36,7 @@ public final class BytesTest {
   public void testIndexOf() {
     final byte[] bytes = new byte[] {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7};
 
-    assertEquals(0, Bytes.Byte.indexOf(bytes, (byte)1));
+    assertEquals(0, Bytes.Byte.indexOf(bytes, new byte[] {(byte)1}));
     assertEquals(2, Bytes.Byte.indexOf(bytes, (byte)-1, (byte)3));
     assertEquals(6, Bytes.Byte.indexOf(bytes, (byte)9, (byte)11, (byte)7));
     assertEquals(-1, Bytes.Byte.indexOf(bytes, (byte)9, (byte)11, (byte)13, (byte)8));
