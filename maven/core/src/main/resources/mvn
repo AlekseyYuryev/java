@@ -311,6 +311,7 @@ if [ $HELP ]; then
 fi
 
 if [ $DEPENDENCY_SCAN ]; then
+  scanUpdatePOMs $POM_TEMPLATE
   if [ -d '.svn' ]; then
     MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e \s/[^\ ]\ */org.safris./ -e 's/\/src\/.*//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`
   else

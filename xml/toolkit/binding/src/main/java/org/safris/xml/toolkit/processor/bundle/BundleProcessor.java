@@ -187,8 +187,8 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
 
   public Collection<Bundle> process(final GeneratorContext pipelineContext, final Collection<SchemaComposite> documents, final PipelineDirectory<GeneratorContext,SchemaComposite,Bundle> directory) {
     try {
-      BundleProcessor.compile(pipelineContext.getDestDir());
-      final Collection<File> jarFiles = BundleProcessor.jar(pipelineContext.getDestDir(), documents);
+      BundleProcessor.compile(pipelineContext.getDestdir());
+      final Collection<File> jarFiles = BundleProcessor.jar(pipelineContext.getDestdir(), documents);
       final Collection<Bundle> bundles = new ArrayList<Bundle>(jarFiles.size());
       for (final File jarFile : jarFiles)
         bundles.add(new Bundle(jarFile));
@@ -202,7 +202,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
           }
         };
 
-        final Collection<File> files = Files.listAll(pipelineContext.getDestDir(), jarFilter);
+        final Collection<File> files = Files.listAll(pipelineContext.getDestdir(), jarFilter);
         for (final File file : files)
           Files.deleteAllOnExit(file);
       }

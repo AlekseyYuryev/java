@@ -145,7 +145,7 @@ public final class SchemaReference implements PipelineEntity {
         return;
 
       try {
-        openConnection();
+        checkOpenConnection();
       }
       catch (final IOException e) {
         throw new LexerError(e);
@@ -191,7 +191,7 @@ public final class SchemaReference implements PipelineEntity {
     }
   }
 
-  private void openConnection() throws IOException {
+  private void checkOpenConnection() throws IOException {
     if (isConnected)
       return;
 
@@ -226,7 +226,7 @@ public final class SchemaReference implements PipelineEntity {
   }
 
   public long getLastModified() throws IOException {
-    openConnection();
+    checkOpenConnection();
     return lastModified;
   }
 

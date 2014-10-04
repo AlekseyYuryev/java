@@ -47,14 +47,14 @@ public final class TimestampProcessor implements PipelineEntity, PipelineProcess
   public Collection<Bundle> process(final GeneratorContext pipelineContext, final Collection<Bundle> documents, final PipelineDirectory<GeneratorContext,Bundle,Bundle> directory) {
     // Get the earliest lastModified time of all the files
     long lastModified = Long.MAX_VALUE;
-    final List<File> files = Files.listAll(pipelineContext.getDestDir(), fileFilter);
+    final List<File> files = Files.listAll(pipelineContext.getDestdir(), fileFilter);
     if (files != null)
       for (final File file : files)
         if (file.lastModified() < lastModified)
           lastModified = file.lastModified();
 
     // Set the lastModified time of all directories to just before the value from above
-    final List<File> dirs = Files.listAll(pipelineContext.getDestDir(), dirFileFilter);
+    final List<File> dirs = Files.listAll(pipelineContext.getDestdir(), dirFileFilter);
     if (dirs != null)
       for (final File dir : dirs)
         dir.setLastModified(lastModified - 100);

@@ -45,7 +45,7 @@ public final class GeneratorContext implements PipelineContext {
     return manifestLastModified;
   }
 
-  public File getDestDir() {
+  public File getDestdir() {
     return destDir;
   }
 

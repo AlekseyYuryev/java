@@ -38,7 +38,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
   }
 
   public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
-    final File destDir = pipelineContext.getDestDir();
+    final File destDir = pipelineContext.getDestdir();
     logger.fine("destDir = " + destDir != null ? destDir.getAbsolutePath() : null);
 
     final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
@@ -64,7 +64,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
                 else {
                   for (final File file : directory.listFiles()) {
                     logger.fine("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
-                    if (directory.lastModified() < file.lastModified() && schemaReference.getLastModified() < file.lastModified())
+                    if (schemaReference.getLastModified() < file.lastModified())
                       continue;
 
                     logger.fine("adding: " + directory.getAbsolutePath());

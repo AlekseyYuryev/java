@@ -212,7 +212,7 @@ public class GeneratorMojo extends AbstractMojo {
 
       final Generator generator = new Generator(new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
       final Collection<Bundle> bundles = generator.generate();
-      addCompileSourceRoot(generator.getGeneratorContext().getDestDir().getAbsolutePath(), bundles);
+      addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
       return;
     }
 
@@ -238,7 +238,7 @@ public class GeneratorMojo extends AbstractMojo {
     final File destDirFile = new File(destDir);
     final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), destDirFile, explodeJars, overwrite), generatorBindings);
     final Collection<Bundle> bundles = generator.generate();
-    addCompileSourceRoot(generator.getGeneratorContext().getDestDir().getAbsolutePath(), bundles);
+    addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
   }
 
   private void addCompileSourceRoot(final String path, final Collection<Bundle> bundles) throws MojoExecutionException {
