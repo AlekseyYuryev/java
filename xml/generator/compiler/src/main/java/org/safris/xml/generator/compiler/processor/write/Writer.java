@@ -1,17 +1,17 @@
-/*  Copyright Safris Software 2008
- *
- *  This code is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright (c) 2008 Seva Safris
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
 package org.safris.xml.generator.compiler.processor.write;
@@ -43,20 +43,20 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
 
   static {
     final int year = (int)((double)System.currentTimeMillis() / 1000d / 3600d / 24d / 365.25d + 1970d);
-    license.append("/*  Copyright Safris Software ").append(year).append(" \n");
+    license.append("/*  Copyright (c) ").append(year).append(" Seva Safris\n");
     license.append(" *\n");
-    license.append(" *  This code is free software: you can redistribute it and/or modify\n");
-    license.append(" *  it under the terms of the GNU General Public License as published by\n");
-    license.append(" *  the Free Software Foundation, either version 3 of the License, or\n");
-    license.append(" *  (at your option) any later version.\n");
+    license.append(" * Permission is hereby granted, free of charge, to any person obtaining a copy\n");
+    license.append(" * of this software and associated documentation files (the \"Software\"), to deal\n");
+    license.append(" * in the Software without restriction, including without limitation the rights\n");
+    license.append(" * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n");
+    license.append(" * copies of the Software, and to permit persons to whom the Software is\n");
+    license.append(" * furnished to do so, subject to the following conditions:\n");
     license.append(" *\n");
-    license.append(" *  This program is distributed in the hope that it will be useful,\n");
-    license.append(" *  but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
-    license.append(" *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
-    license.append(" *  GNU General Public License for more details.\n");
+    license.append(" * The above copyright notice and this permission notice shall be included in\n");
+    license.append(" * all copies or substantial portions of the Software.\n");
     license.append(" *\n");
-    license.append(" *  You should have received a copy of the GNU General Public License\n");
-    license.append(" *  along with this program.  If not, see <http://www.gnu.org/licenses/>.\n");
+    license.append(" * You should have received a copy of The MIT License (MIT) along with this\n");
+    license.append(" * program. If not, see <http://opensource.org/licenses/MIT/>.\n");
     license.append(" */\n\n");
   }
 
