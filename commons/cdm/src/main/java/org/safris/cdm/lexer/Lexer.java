@@ -1,3 +1,19 @@
+/* Copyright (c) 2014 Seva Safris
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.cdm.lexer;
 
 import java.io.File;
@@ -9,371 +25,394 @@ import java.util.List;
 import org.safris.commons.util.StreamSearcher;
 
 public class Lexer {
-  public static void main(final String[] args) throws Exception {
-    new Lexer(new File("/Users/seva/Work/safris/org/commons/dbcp/target/generated-sources/xmlbinding/org/safris/xml/schema/binding/dbcp/$dbcp_dbcpType.java"));
-  }
-
   private static final StreamSearcher eol = new StreamSearcher(new byte[] {'\r'}, new byte[] {'\n'});
   private static final StreamSearcher closeComment = new StreamSearcher(new byte[] {'*', '/'});
   private static final StreamSearcher singleQuote = new StreamSearcher(new byte[] {'\''});
   private static final StreamSearcher doubleQuote = new StreamSearcher(new byte[] {'"'});
+  
+  private interface Token {
+    public String name();
+    public int ordinal();
+  }
+  
+  public static enum Flag implements Token {
+    SLASH, LINE_COMMENT, BLOCK_COMMENT, CHARACTER, STRING, DOT, COLON, SEMI_COLON, ASTERISK, PAREN_OPEN, PAREN_CLOSE, BRACKET_OPEN, BRACKET_CLOSE, BRACE_OPEN, BRACE_CLOSE, COMMA, NUMBER, ARRAY, PLUS, PLUS_PLUS, PLUS_EQ, MINUS, MINUS_MINUS, MINUS_EQ, GT, LT, GTGT, GTGTGT, LTLT, LTLTLT, GTE, LTE, EQ, EQEQ, CARAT, PERCENT, EXCLAMATION, TILDE, AMPERSAND, AND, PIPE, OR, AT, QUESTION, WORD;
+  }
 
-  private static class Token {
+  public static enum Keyword implements Token {
+    ABSTRACT, ASSERT, BOOLEAN, BREAK, BYTE, CASE, CATCH, CHAR, CLASS, CONST, CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTENDS, FALSE, FINAL, FINALLY, FLOAT, FOR, GOTO, IF, IMPLEMENTS, IMPORT, INSTANCEOF, INT, INTERFACE, LONG, NATIVE, NEW, NULL, PACKAGE, PRIVATE, PROTECTED, PUBLIC, RETURN, SHORT, STATIC, STRICTFP, SUPER, SWITCH, SYNCHRONIZED, THIS, THROW, THROWS, TRANSIENT, TRUE, TRY, VOID, VOLATILE, WHILE;
+
+    protected static final int[] INDICES = new int[Keyword.values().length];
+    
+    static {
+      for (int i = 0; i < INDICES.length; i++)
+        INDICES[i] = i;
+      
+      Keyword.init(Keyword.INDICES, 0);
+    }
+
+    protected static void init(final int[] keywords, final int depth) {
+      traverse(keywords, depth);
+      for (final int keyword : keywords) {
+        final int[][] children = Keyword.values()[keyword].children;
+        if (children[depth] != null)
+          init(children[depth], depth + 1);
+      }
+    }
+
+    private static void traverse(final int[] keywords, final int depth) {
+      if (keywords.length <= 1)
+        return;
+
+      int l = 0;
+      while (l < keywords.length) {
+        final String name = Keyword.values()[keywords[l]].lcname;
+        final int[] words = recurse(keywords, l, depth < name.length() ? name.charAt(depth) : '\u0000', depth, 0);
+        if (words == null)
+          break;
+        
+        for (final int word : words)
+          Keyword.values()[word].children[depth] = words;
+        
+        l += words.length;
+      }
+    }
+    
+    private static int[] recurse(final int[] keywords, final int index, final char ch, final int depth, final int size) {
+      final String name = Keyword.values()[keywords[index]].lcname;
+      if (name.length() <= depth || ch != name.charAt(depth))
+        return 0 < size ? new int[size] : null;
+
+      final int[] array = index + 1 < keywords.length ? recurse(keywords, index + 1, ch, depth, size + 1) : new int[size + 1];
+      array[size] = keywords[index];
+      return array;
+    }
+
+    protected static int[] shrink(final int[] keywords, final int size) {
+      final int[] min = new int[size];
+      char last = '\u0000';
+      int index = 0;
+      for (final int keyword : keywords) {
+        final char ch = Keyword.values()[keyword].name().charAt(0);
+        if (last == ch)
+          continue;
+
+        last = ch;
+        min[index++] = keyword;
+      }
+
+      return min;
+    }
+
+    public final String lcname;
+    public final int[][] children = new int[name().length() + 1][];
+
+    Keyword() {
+      this.lcname = name().toLowerCase();
+    }
+    
+    public String toString() {
+      return lcname;
+    }
+  }
+
+  protected static class Index {
+    private static void addToken(final List<Index> tokens, final Token token, final int start, final int length) {
+      if (0 < length && token != null)
+        tokens.add(new Index(token, start - 1, length - 1));
+    }
+
     public final int start;
     public final int length;
-    public final Op op;
+    public final Token token;
 
-    public Token(final int start, final int length, final Op op) {
+    private Index(final Token token, final int start, final int length) {
+      this.token = token;
       this.start = start;
       this.length = length;
-      this.op = op;
     }
   }
   
-  public static int binarySearch(final Op[] sorted, final char key, final int from, final int to) {
-    int low = from;
-    int high = to - 1;
-
-    while (low <= high) {
-      int mid = (low + high) >>> 1;
-      char midVal = sorted[mid].lcname().charAt(0);
-
-      if (midVal < key)
-        low = mid + 1;
-      else if (midVal > key)
-        high = mid - 1;
-      else
-        return mid; // key found
-    }
-    
-    return -(low + 1);  // key not found.
-  }
-  
-  public enum Op {
-    DIV, LCOM, BCOM, SQUOTE, DQUOTE, DOT, COLON, SCOLON, STAR, OPAR, CPAR, OBRKT, CBRKT, OSQUIG, CSQUIG, COMMA, NUMBER, ARRAY, PL, PLPL, PLEQ, MINUS, MINUSMINUS, MINUSEQ, GT, LT, GTGT, GTGTGT, LTLT, LTLTLT, GTE, LTE, EQ, EQEQ, CARRET, MOD, NOT, TILDE, AND, ANDAND, OR, OROR, AT, QUEST, WORD,
-    ABSTRACT(0, 1, 2), ASSERT(1, 0, 2), BOOLEAN(0, 2, 2), BREAK(1, 1, 2), BYTE(2, 0, 2), CASE(0, 5, 3), CATCH(1, 4, 3), CHAR(2, 3, 2), CLASS(3, 2, 2), CONST(4, 1, 2), CONTINUE(5, 0, 4), DEFAULT(0, 2, 1), DO(1, 1, 3), DOUBLE(2, 0, 3), ELSE(0, 2, 2), ENUM(1, 1, 2), EXTENDS(2, 0, 2), FALSE(0, 4, 2), FINAL(1, 3, 6), FINALLY(2, 2, 6), FLOAT(3, 1, 2), FOR(4, 0, 2), GOTO(0, 0, 1), IF(0, 5, 2), IMPLEMENTS(1, 4, 4), IMPORT(2, 3, 4), INSTANCEOF(3, 2, 3), INT(4, 1, 4), INTERFACE(5, 0, 4), LONG(0, 0, 1), NATIVE(0, 2, 2), NEW(1, 1, 2), NULL(2, 0, 2), PACKAGE(0, 3, 2), PRIVATE(1, 2, 3), PROTECTED(2, 1, 3), PUBLIC(3, 0, 2), RETURN(0, 0, 1), SHORT(0, 5, 2), STATIC(1, 4, 3), STRICTFP(2, 3, 3), SUPER(3, 2, 2), SWITCH(4, 1, 2), SYNCHRONIZED(5, 0, 2), THIS(0, 5, 3), THROW(1, 4, 6), THROWS(2, 3, 6), TRANSIENT(3, 2, 3), TRUE(4, 1, 3), TRY(5, 0, 3), VOID(0, 1, 3), VOLATILE(1, 0, 3), WHILE(0, 0, 1);
-    
-    private final String name;
-    private final int bck;
-    private final int fwd;
-    private final int threshold;
-    
-    Op(final int bck, final int fwd, final int threshold) {
-      this.name = name().toLowerCase();
-      this.bck = bck;
-      this.fwd = fwd;
-      this.threshold = threshold;
-    }
-    
-    Op() {
-      this(-1, -1, -1);
-    }
-    
-    public String lcname() {
-      return name;
-    }
-  }
-
-  private static void addToken(final List<Token> tokens, final int start, final int length, final Op op) {
-    if (0 < length && op != null)
-      tokens.add(new Token(start - 1, length - 1, op));
-  }
-
-  public Lexer(final File file) throws IOException {
-    final int length = (int)file.length();
-    final byte[] bytes = new byte[length];
+  public static List<Index> tokenize(final File file, final byte[] bytes) throws IOException {
     final FileInputStream in = new FileInputStream(file);
-    final List<Token> tokens = new ArrayList<Token>();
+    final List<Index> tokens = new ArrayList<Index>();
     int i = 0;
     char c;
-    Op op = null;
+    Token token = null;
     int len = 0;
     while (i < bytes.length) {
       in.read(bytes, i, 1);
       c = (char)bytes[i++];
-      if ('0' <= c && c <= '9' && (op == null || op.ordinal() < Op.WORD.ordinal())) {
-        if (op != Op.NUMBER) {
-          addToken(tokens, i - len, len, op);
+      if ('0' <= c && c <= '9' && (token == null || token.ordinal() < Flag.WORD.ordinal())) {
+        if (token != Flag.NUMBER) {
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.NUMBER;
+          token = Flag.NUMBER;
         }
         else {
           ++len;
         }
       }
       else if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || (len != 0 && '0' <= c && c <= '9') || c == '$' || c == '_') {
-        if (op == null || op.ordinal() < Op.WORD.ordinal()) {
-          addToken(tokens, i - len, len, op);
-          len = 1;
-
-          final int found = binarySearch(Op.values(), c, Op.ABSTRACT.ordinal(), Op.WHILE.ordinal() + 1);
-          op = found <= Op.WORD.ordinal() ? Op.WORD : Op.values()[found];
-        }
-        else if (op == Op.WORD) {
+        if (token == Flag.WORD) {
           ++len;
         }
+        else if (token == null || token instanceof Flag) {
+          Index.addToken(tokens, token, i - len, len);
+          len = 1;
+
+          final int found = Util.binarySearch(Keyword.INDICES, c, 0);
+          token = found < 0 ? Flag.WORD : Keyword.values()[found];
+        }
         else {
-          boolean found = op.threshold <= len && (op.lcname().length() <= len || op.lcname().charAt(len) == c);
-          if (!found) {
-            // FIXME: The algorithm to detect keywords can be made even more efficient: upon runtime declaration of each enum,
-            // FIXME: the enum name should be checked against other names for similarity of chars. For each char, the indices
-            // FIXME: of all other possible matches should be provided, in sorted order to be able to use binary search.
-            for (int k = op.ordinal() - op.bck; k <= op.ordinal() + op.fwd; k++) {
-              final String name = Op.values()[k].lcname();
-              if (name.length() <= len)
-                continue;
-              
-              final char kc = name.charAt(len);
-              if (kc == c) {
-                op = Op.values()[k];
-                found = true;
-                break;
-              }
-            }
+          final int[] children = ((Keyword)token).children[len - 1];
+          if (children != null) {
+            final int found = Util.binarySearch(children, c, len);
+            token = found < 0 ? Flag.WORD : Keyword.values()[children[found]];
           }
-          
-          if (!found)
-            op = Op.WORD;
+          else if (token.name().length() <= len || ((Keyword)token).lcname.charAt(len) != c) {
+            token = Flag.WORD;
+          }
           
           ++len;
         }
       }
       else if (c == '\n' || c == '\r' || c == ' ' || c == '\t') {
-        if (op != null) {
-          addToken(tokens, i - len, len, op);
+        if (token != null) {
+          Index.addToken(tokens, token, i - len, len);
           len = 0;
-          op = null;
+          token = null;
         }
       }
       else if (c == '.') {
-        if (op == null || op == Op.OBRKT || op == Op.OSQUIG) {
+        if (token == null || token == Flag.BRACKET_OPEN || token == Flag.BRACE_OPEN) {
           len = 1;
-          op = Op.NUMBER;
+          token = Flag.NUMBER;
         }
-        else if (op == Op.NUMBER) {
+        else if (token == Flag.NUMBER) {
           ++len;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.DOT;
+          token = Flag.DOT;
         }
       }
       else if (c == '&') {
-        if (op == Op.AND) { // &&
+        if (token == Flag.AMPERSAND) { // &&
           len = 2;
-          op = Op.ANDAND;
+          token = Flag.AND;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.AND;
+          token = Flag.AMPERSAND;
         }
       }
       else if (c == '|') {
-        if (op == Op.OR) { // ||
+        if (token == Flag.PIPE) { // ||
           len = 2;
-          op = Op.OROR;
+          token = Flag.OR;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.OR;
+          token = Flag.PIPE;
         }
       }
       else if (c == '=') {
-        if (op == Op.LT) { // <=
+        if (token == Flag.LT) { // <=
           len = 2;
-          op = Op.LTE;
+          token = Flag.LTE;
         }
-        else if (op == Op.GT) { // >=
+        else if (token == Flag.GT) { // >=
           len = 2;
-          op = Op.GTE;
+          token = Flag.GTE;
         }
-        else if (op == Op.EQ) { // ==
+        else if (token == Flag.EQ) { // ==
           len = 2;
-          op = Op.EQEQ;
+          token = Flag.EQEQ;
         }
-        else if (op == Op.MINUS) { // -=
+        else if (token == Flag.MINUS) { // -=
           len = 2;
-          op = Op.MINUSEQ;
+          token = Flag.MINUS_EQ;
         }
-        else if (op == Op.PL) { // +=
+        else if (token == Flag.PLUS) { // +=
           len = 2;
-          op = Op.PLEQ;
+          token = Flag.PLUS_EQ;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.EQ;
+          token = Flag.EQ;
         }
       }
       else if (c == '<') {
-        if (op == Op.LT) { // <<
+        if (token == Flag.LT) { // <<
           len = 2;
-          op = Op.LTLT;
+          token = Flag.LTLT;
         }
-        else if (op == Op.LTLT) { // <<<
+        else if (token == Flag.LTLT) { // <<<
           len = 3;
-          op = Op.LTLTLT;
+          token = Flag.LTLTLT;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.LT;
+          token = Flag.LT;
         }
       }
       else if (c == '>') {
-        if (op == Op.GT) { // >>
+        if (token == Flag.GT) { // >>
           len = 2;
-          op = Op.GTGT;
+          token = Flag.GTGT;
         }
-        else if (op == Op.GTGT) { // >>>
+        else if (token == Flag.GTGT) { // >>>
           len = 3;
-          op = Op.GTGTGT;
+          token = Flag.GTGTGT;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.GT;
+          token = Flag.GT;
         }
       }
       else if (c == '-') {
-        if (op == Op.MINUS) { // --
+        if (token == Flag.MINUS) { // --
           len = 2;
-          op = Op.MINUSMINUS;
+          token = Flag.MINUS_MINUS;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.MINUS;
+          token = Flag.MINUS;
         }
       }
       else if (c == '+') {
-        if (op == Op.PL) { // ++
+        if (token == Flag.PLUS) { // ++
           len = 2;
-          op = Op.PLPL;
+          token = Flag.PLUS_PLUS;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.PL;
+          token = Flag.PLUS;
         }
       }
       else if (c == '~') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.TILDE;
+        token = Flag.TILDE;
       }
       else if (c == '!') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.NOT;
+        token = Flag.EXCLAMATION;
       }
       else if (c == '@') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.AT;
+        token = Flag.AT;
       }
       else if (c == '^') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.CARRET;
+        token = Flag.CARAT;
       }
       else if (c == '%') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.MOD;
+        token = Flag.PERCENT;
       }
       else if (c == ',') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.COMMA;
+        token = Flag.COMMA;
       }
       else if (c == ';') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.SCOLON;
+        token = Flag.SEMI_COLON;
       }
       else if (c == ':') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.COLON;
-      }
-      else if (c == '(') {
-        addToken(tokens, i - len, len, op);
-        len = 1;
-        op = Op.OPAR;
-      }
-      else if (c == ')') {
-        addToken(tokens, i - len, len, op);
-        len = 1;
-        op = Op.CPAR;
-      }
-      else if (c == '[') {
-        addToken(tokens, i - len, len, op);
-        len = 1;
-        op = Op.OBRKT;
-      }
-      else if (c == '{') {
-        addToken(tokens, i - len, len, op);
-        len = 1;
-        op = Op.OSQUIG;
-      }
-      else if (c == '}') {
-        addToken(tokens, i - len, len, op);
-        len = 1;
-        op = Op.CSQUIG;
+        token = Flag.COLON;
       }
       else if (c == '?') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
-        op = Op.QUEST;
+        token = Flag.QUESTION;
+      }
+      else if (c == '(') {
+        Index.addToken(tokens, token, i - len, len);
+        len = 1;
+        token = Flag.PAREN_OPEN;
+      }
+      else if (c == ')') {
+        Index.addToken(tokens, token, i - len, len);
+        len = 1;
+        token = Flag.PAREN_CLOSE;
+      }
+      else if (c == '{') {
+        Index.addToken(tokens, token, i - len, len);
+        len = 1;
+        token = Flag.BRACE_OPEN;
+      }
+      else if (c == '}') {
+        Index.addToken(tokens, token, i - len, len);
+        len = 1;
+        token = Flag.BRACE_CLOSE;
+      }
+      else if (c == '[') {
+        Index.addToken(tokens, token, i - len, len);
+        len = 1;
+        token = Flag.BRACKET_OPEN;
       }
       else if (c == ']') {
-        if (op == Op.OBRKT) { // []
+        if (token == Flag.BRACKET_OPEN) { // []
           len = 2;
-          op = Op.ARRAY;
+          token = Flag.ARRAY;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.CBRKT;
+          token = Flag.BRACKET_CLOSE;
         }
       }
       else if (c == '/') {
-        if (op == Op.DIV) { // Start of line comment
+        if (token == Flag.SLASH) { // Start of line comment
           // find end of line
           // index from // to end of comment, not including newline
           // this is the only situation where the token is added at time of detection of end of block, cause the eol char is not supposed to be a part of the token
           len = eol.search(in, bytes, i);
-          addToken(tokens, i, len + 1, Op.LCOM);
+          Index.addToken(tokens, Flag.LINE_COMMENT, i - 1, len + 1);
           i += len;
           len = 0;
-          op = null;
+          token = null;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.DIV;
+          token = Flag.SLASH;
         }
       }
       else if (c == '*') {
-        if (op == Op.DIV) { // Start of block comment
+        if (token == Flag.SLASH) { // Start of block comment
           // find end of block comment
           // index from /* to */ including any & all characters between
           i += len = closeComment.search(in, bytes, i);
           len += 2;
-          op = Op.BCOM;
+          token = Flag.BLOCK_COMMENT;
         }
         else {
-          addToken(tokens, i - len, len, op);
+          Index.addToken(tokens, token, i - len, len);
           len = 1;
-          op = Op.STAR;
+          token = Flag.ASTERISK;
         }
       }
       else if (c == '\'') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
         int t;
         i += t = singleQuote.search(in, bytes, i);
@@ -384,10 +423,10 @@ public class Lexer {
           len += t;
         }
 
-        op = Op.SQUOTE;
+        token = Flag.CHARACTER;
       }
       else if (c == '"') {
-        addToken(tokens, i - len, len, op);
+        Index.addToken(tokens, token, i - len, len);
         len = 1;
         int l;
         i += l = doubleQuote.search(in, bytes, i);
@@ -398,19 +437,16 @@ public class Lexer {
           len += l;
         }
 
-        op = Op.DQUOTE;
+        token = Flag.STRING;
       }
       else {
         System.err.print(c);
       }
     }
     
-    // add the last token, because it's final delimiter can be the EOF
-    addToken(tokens, i - len + 1, len, op);
-
-    for (int x = 0; x < tokens.size(); x++) {
-      final Token token = tokens.get(x);
-      System.out.println(token.op + ":\t" + new String(bytes, token.start, token.length + 1));
-    }
+    // add the last token, because its final delimiter can be the EOF
+    Index.addToken(tokens, token, i - len + 1, len);
+    
+    return tokens;
   }
 }
