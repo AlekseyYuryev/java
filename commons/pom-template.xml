@@ -55,5 +55,6 @@
     <module>exec</module>
     <module>jci</module>
     <module>measure</module>
+    <module>cdm</module>
   </modules>
 </project>
