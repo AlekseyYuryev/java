@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * An efficient stream searching class based on the Knuth-Morris-Pratt algorithm. For more on the algorithm works see:
+ * An efficient stream searching class based on the Knuth-Morris-Pratt
+ * algorithm. For more on the algorithm works see:
  * http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/kmpen.htm.
  */
 public class StreamSearcher {
-  public static final byte ANY = '\0';
   protected final byte[][] pattern;
   protected final int[][] borders;
 
@@ -45,9 +45,12 @@ public class StreamSearcher {
   }
 
   /**
-   * Searches for the next occurrence of the pattern in the stream, starting from the current stream position. Note that the position of the stream is changed.
-   * If a match is found, the stream points to the end of the match -- i.e. the byte AFTER the pattern. Else, the stream is entirely consumed. The latter is
-   * because InputStream semantics make it difficult to have another reasonable default, i.e. leave the stream unchanged.
+   * Searches for the next occurrence of the pattern in the stream, starting
+   * from the current stream position. Note that the position of the stream is
+   * changed. If a match is found, the stream points to the end of the match --
+   * i.e. the byte AFTER the pattern. Else, the stream is entirely consumed.
+   * The latter is because InputStream semantics make it difficult to have
+   * another reasonable default, i.e. leave the stream unchanged.
    * 
    * @return number of bytes the stream is advanced
    * @throws IOException
@@ -67,14 +70,14 @@ public class StreamSearcher {
         ++j[p];
 
         // If we've matched up to the full pattern length, we found it. Return,
-        // which will automatically save our position in the InputStream at the point immediately
-        // following the pattern match.
+        // which will automatically save our position in the InputStream at the
+        // point immediately following the pattern match.
         if (j[p] == pattern[p].length)
           return i;
       }
     }
 
-    // No dice, return false. Note that the stream is now completely consumed.
+    // Not found, return false. Note that the stream is now completely consumed.
     return i;
   }
 }
