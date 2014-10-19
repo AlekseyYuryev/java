@@ -19,39 +19,38 @@ package org.safris.cdm.lexer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
+import java.rmi.UnexpectedException;
 
-import org.safris.commons.lang.Bytes;
+import org.safris.cdm.Audit;
 import org.safris.commons.util.StreamSearcher;
 
 public class Lexer {
-  private static final StreamSearcher eol = new StreamSearcher(new byte[] {'\r'}, new byte[] {'\n'});
-  private static final StreamSearcher closeComment = new StreamSearcher(new byte[] {'*', '/'});
-  private static final StreamSearcher singleQuote = new StreamSearcher(new byte[] {'\''});
-  private static final StreamSearcher doubleQuote = new StreamSearcher(new byte[] {'"'});
+  private static final StreamSearcher.Char eol = new StreamSearcher.Char(new char[] {'\r'}, new char[] {'\n'});
+  private static final StreamSearcher.Char closeComment = new StreamSearcher.Char(new char[] {'*', '/'});
+  private static final StreamSearcher.Char singleQuote = new StreamSearcher.Char(new char[] {'\''});
+  private static final StreamSearcher.Char doubleQuote = new StreamSearcher.Char(new char[] {'"'});
 
-  private interface Token {
+  public interface Token {
     public String name();
     public int ordinal();
   }
 
-  public static enum Flag implements Token {
-    WHITESPACE, SLASH('/'), LINE_COMMENT, BLOCK_COMMENT, CHARACTER, STRING, DOT('.'), COLON(':'), SEMI_COLON(';'), ASTERISK('*'), PAREN_OPEN('('), PAREN_CLOSE(')'), BRACKET_OPEN('['), BRACKET_CLOSE(']'), BRACE_OPEN('{'), BRACE_CLOSE('}'), COMMA(','), NUMBER, ARRAY('[', ']'), PLUS('+'), PLUS_PLUS('+', '+'), PLUS_EQ('+', '='), MINUS('-'), MINUS_MINUS('-', '-'), MINUS_EQ('-', '='), GT('>'), LT('<'), GTGT('>', '>'), GTGTGT('>', '>', '>'), LTLT('<', '<'), LTLTLT('<', '<', '<'), GTE('>', '='), LTE('<', '='), EQ('='), EQEQ('=', '='), CARAT('^'), PERCENT('%'), EXCLAMATION('!'), TILDE('~'), AMPERSAND('&'), AND('&', '&'), PIPE('|'), OR('|', '|'), AT('@'), QUESTION('?'), WORD;
+  public static enum Delimiter implements Token {
+    SLASH('/'), DOT('.'), COLON(':'), SEMI_COLON(';'), ASTERISK('*'), PAREN_OPEN('('), PAREN_CLOSE(')'), BRACKET_OPEN('['), BRACKET_CLOSE(']'), BRACE_OPEN('{'), BRACE_CLOSE('}'), COMMA(','), ARRAY('[', ']'), PLUS('+'), PLUS_PLUS('+', '+'), PLUS_EQ('+', '='), MINUS('-'), MINUS_MINUS('-', '-'), MINUS_EQ('-', '='), GT('>'), LT('<'), GTGT('>', '>'), GTGTGT('>', '>', '>'), LTLT('<', '<'), LTLTLT('<', '<', '<'), GTE('>', '='), LTE('<', '='), EQ('='), EQEQ('=', '='), CARAT('^'), PERCENT('%'), EXCLAMATION('!'), TILDE('~'), AMPERSAND('&'), AND('&', '&'), PIPE('|'), OR('|', '|'), AT('@'), QUESTION('?');
 
     public final char[] ch;
 
-    Flag(final char ... ch) {
+    Delimiter(final char ... ch) {
       this.ch = ch;
-    }
-
-    Flag() {
-      this.ch = null;
     }
   }
 
+  public static enum Span implements Token {
+    WHITESPACE, LINE_COMMENT, BLOCK_COMMENT, NUMBER, CHARACTER, STRING, WORD;
+  }
+
   public static enum Keyword implements Token {
+    // NOTE: The declaration list of Keyword(s) must be in sorted alphabetical order!
     ABSTRACT, ASSERT, BOOLEAN, BREAK, BYTE, CASE, CATCH, CHAR, CLASS, CONST, CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTENDS, FALSE, FINAL, FINALLY, FLOAT, FOR, GOTO, IF, IMPLEMENTS, IMPORT, INSTANCEOF, INT, INTERFACE, LONG, NATIVE, NEW, NULL, PACKAGE, PRIVATE, PROTECTED, PUBLIC, RETURN, SHORT, STATIC, STRICTFP, SUPER, SWITCH, SYNCHRONIZED, THIS, THROW, THROWS, TRANSIENT, TRUE, TRY, VOID, VOLATILE, WHILE;
 
     protected static final int[] INDICES = new int[Keyword.values().length];
@@ -100,7 +99,7 @@ public class Lexer {
       return array;
     }
 
-    protected static int[] shrink(final int[] keywords, final int size) {
+    /*protected static int[] shrink(final int[] keywords, final int size) {
       final int[] min = new int[size];
       char last = '\0';
       int index = 0;
@@ -114,7 +113,7 @@ public class Lexer {
       }
 
       return min;
-    }
+    }*/
 
     public final String lcname;
     public final int[][] children = new int[name().length() + 1][];
@@ -128,48 +127,26 @@ public class Lexer {
     }
   }
 
-  protected static class Index {
-    protected static void addToken(final List<Index> tokens, final Token token, final byte[] bytes, final int start, final int length) {
-      if (0 < length && token != null)
-        tokens.add(new Index(token, bytes, start - 1, length - 1));
-    }
-
-    public final Token token;
-    public final byte[] bytes;
-    public final int start;
-    public final int length;
-
-    private Index(final Token token, final byte[] bytes, final int start, final int length) {
-      this.token = token;
-      this.bytes = bytes;
-      this.start = start;
-      this.length = length;
-    }
-  }
-
-  public static String toString(final List<Index> indices) {
-    String out = "";
-    for (final Index index : indices)
-      out += index.token instanceof Flag && ((Flag)index.token).ch != null ? String.valueOf(((Flag)index.token).ch) : new String(index.bytes, index.start, index.length + 1);
-
-    return out;
-  }
-
-  public static List<Index> tokenize(final File file, final byte[] bytes) throws IOException {
+  public static Audit tokenize(final File file) throws IOException {
+    final char[] chars = new char[(int)file.length()];
+    final Audit audit = new Audit(file, chars);
     final FileInputStream in = new FileInputStream(file);
-    final List<Index> tokens = new ArrayList<Index>();
     int i = 0;
+    int b = -1;
     char ch;
     Token token = null;
     int len = 0;
-    while (i < bytes.length) {
-      in.read(bytes, i, 1);
-      ch = (char)bytes[i++];
-      if ('0' <= ch && ch <= '9' && (token == null || token != Flag.WORD)) {
-        if (token != Flag.NUMBER) {
-          Index.addToken(tokens, token, bytes, i - len, len);
+
+    while (i < chars.length) {
+      if ((b = in.read()) == -1)
+        throw new UnexpectedException("Unexpected end of stream.");
+
+      ch = chars[i++] = (char)b;
+      if ('0' <= ch && ch <= '9' && (token == null || token != Span.WORD)) {
+        if (token != Span.NUMBER) {
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.NUMBER;
+          token = Span.NUMBER;
         }
         else {
           ++len;
@@ -177,298 +154,298 @@ public class Lexer {
       }
       else if (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || (len != 0 && '0' <= ch && ch <= '9') || ch == '$' || ch == '_') {
         // TODO: Handle 0x0000 and 0b0000
-        if (token == Flag.NUMBER && (ch == 'd' || ch == 'D' || ch == 'f' || ch == 'F' || ch == 'l' || ch == 'L')) {
+        if (token == Span.NUMBER && (ch == 'd' || ch == 'D' || ch == 'f' || ch == 'F' || ch == 'l' || ch == 'L')) {
           ++len;
         }
-        else if (token == Flag.WORD) {
+        else if (token == Span.WORD) {
           ++len;
         }
-        else if (token == null || token == Flag.WHITESPACE || token instanceof Flag) {
-          Index.addToken(tokens, token, bytes, i - len, len);
+        else if (token == null || token == Span.WHITESPACE || !(token instanceof Keyword)) {
+          audit.push(token, i - len, len);
           len = 1;
 
           final int found = Util.binarySearch(Keyword.INDICES, ch, 0);
-          token = found < 0 ? Flag.WORD : Keyword.values()[found];
+          token = found < 0 ? Span.WORD : Keyword.values()[found];
         }
         else {
           final int[] children = ((Keyword)token).children[len - 1];
           if (children != null) {
             final int found = Util.binarySearch(children, ch, len);
-            token = found < 0 ? Flag.WORD : Keyword.values()[children[found]];
+            token = found < 0 ? Span.WORD : Keyword.values()[children[found]];
           }
           else if (token.name().length() <= len || ((Keyword)token).lcname.charAt(len) != ch) {
-            token = Flag.WORD;
+            token = Span.WORD;
           }
 
           ++len;
         }
       }
       else if (ch == '\n' || ch == '\r' || ch == ' ' || ch == '\t') {
-        if (token == Flag.WHITESPACE) {
+        if (token == Span.WHITESPACE) {
           ++len;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.WHITESPACE;
+          token = Span.WHITESPACE;
         }
       }
       else if (ch == '.') {
-        if (token == null || token == Flag.WHITESPACE || token == Flag.BRACKET_OPEN || token == Flag.BRACE_OPEN) {
+        if (token == null || token == Span.WHITESPACE || token == Delimiter.BRACKET_OPEN || token == Delimiter.BRACE_OPEN) {
           len = 1;
-          token = Flag.NUMBER;
+          token = Span.NUMBER;
         }
-        else if (token == Flag.NUMBER) {
+        else if (token == Span.NUMBER) {
           ++len;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.DOT;
+          token = Delimiter.DOT;
         }
       }
       else if (ch == '&') {
-        if (token == Flag.AMPERSAND) { // &&
+        if (token == Delimiter.AMPERSAND) { // &&
           len = 2;
-          token = Flag.AND;
+          token = Delimiter.AND;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.AMPERSAND;
+          token = Delimiter.AMPERSAND;
         }
       }
       else if (ch == '|') {
-        if (token == Flag.PIPE) { // ||
+        if (token == Delimiter.PIPE) { // ||
           len = 2;
-          token = Flag.OR;
+          token = Delimiter.OR;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.PIPE;
+          token = Delimiter.PIPE;
         }
       }
       else if (ch == '=') {
-        if (token == Flag.LT) { // <=
+        if (token == Delimiter.LT) { // <=
           len = 2;
-          token = Flag.LTE;
+          token = Delimiter.LTE;
         }
-        else if (token == Flag.GT) { // >=
+        else if (token == Delimiter.GT) { // >=
           len = 2;
-          token = Flag.GTE;
+          token = Delimiter.GTE;
         }
-        else if (token == Flag.EQ) { // ==
+        else if (token == Delimiter.EQ) { // ==
           len = 2;
-          token = Flag.EQEQ;
+          token = Delimiter.EQEQ;
         }
-        else if (token == Flag.MINUS) { // -=
+        else if (token == Delimiter.MINUS) { // -=
           len = 2;
-          token = Flag.MINUS_EQ;
+          token = Delimiter.MINUS_EQ;
         }
-        else if (token == Flag.PLUS) { // +=
+        else if (token == Delimiter.PLUS) { // +=
           len = 2;
-          token = Flag.PLUS_EQ;
+          token = Delimiter.PLUS_EQ;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.EQ;
+          token = Delimiter.EQ;
         }
       }
       else if (ch == '<') {
-        if (token == Flag.LT) { // <<
+        if (token == Delimiter.LT) { // <<
           len = 2;
-          token = Flag.LTLT;
+          token = Delimiter.LTLT;
         }
-        else if (token == Flag.LTLT) { // <<<
+        else if (token == Delimiter.LTLT) { // <<<
           len = 3;
-          token = Flag.LTLTLT;
+          token = Delimiter.LTLTLT;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.LT;
+          token = Delimiter.LT;
         }
       }
       else if (ch == '>') {
-        if (token == Flag.GT) { // >>
+        if (token == Delimiter.GT) { // >>
           len = 2;
-          token = Flag.GTGT;
+          token = Delimiter.GTGT;
         }
-        else if (token == Flag.GTGT) { // >>>
+        else if (token == Delimiter.GTGT) { // >>>
           len = 3;
-          token = Flag.GTGTGT;
+          token = Delimiter.GTGTGT;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.GT;
+          token = Delimiter.GT;
         }
       }
       else if (ch == '-') {
-        if (token == Flag.MINUS) { // --
+        if (token == Delimiter.MINUS) { // --
           len = 2;
-          token = Flag.MINUS_MINUS;
+          token = Delimiter.MINUS_MINUS;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.MINUS;
+          token = Delimiter.MINUS;
         }
       }
       else if (ch == '+') {
-        if (token == Flag.PLUS) { // ++
+        if (token == Delimiter.PLUS) { // ++
           len = 2;
-          token = Flag.PLUS_PLUS;
+          token = Delimiter.PLUS_PLUS;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.PLUS;
+          token = Delimiter.PLUS;
         }
       }
       else if (ch == '~') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.TILDE;
+        token = Delimiter.TILDE;
       }
       else if (ch == '!') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.EXCLAMATION;
+        token = Delimiter.EXCLAMATION;
       }
       else if (ch == '@') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.AT;
+        token = Delimiter.AT;
       }
       else if (ch == '^') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.CARAT;
+        token = Delimiter.CARAT;
       }
       else if (ch == '%') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.PERCENT;
+        token = Delimiter.PERCENT;
       }
       else if (ch == ',') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.COMMA;
+        token = Delimiter.COMMA;
       }
       else if (ch == ';') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.SEMI_COLON;
+        token = Delimiter.SEMI_COLON;
       }
       else if (ch == ':') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.COLON;
+        token = Delimiter.COLON;
       }
       else if (ch == '?') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.QUESTION;
+        token = Delimiter.QUESTION;
       }
       else if (ch == '(') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.PAREN_OPEN;
+        token = Delimiter.PAREN_OPEN;
       }
       else if (ch == ')') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.PAREN_CLOSE;
+        token = Delimiter.PAREN_CLOSE;
       }
       else if (ch == '{') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.BRACE_OPEN;
+        token = Delimiter.BRACE_OPEN;
       }
       else if (ch == '}') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.BRACE_CLOSE;
+        token = Delimiter.BRACE_CLOSE;
       }
       else if (ch == '[') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
-        token = Flag.BRACKET_OPEN;
+        token = Delimiter.BRACKET_OPEN;
       }
       else if (ch == ']') {
-        if (token == Flag.BRACKET_OPEN) { // []
+        if (token == Delimiter.BRACKET_OPEN) { // []
           len = 2;
-          token = Flag.ARRAY;
+          token = Delimiter.ARRAY;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.BRACKET_CLOSE;
+          token = Delimiter.BRACKET_CLOSE;
         }
       }
       else if (ch == '/') {
-        if (token == Flag.SLASH) { // Start of line comment
+        if (token == Delimiter.SLASH) { // Start of line comment
           // find end of line
           // index from // to end of comment, not including newline
           // this is the only situation where the token is added at time of detection of end of block, cause the eol char is not supposed to be a part of the
           // token
-          len = eol.search(in, bytes, i);
-          Index.addToken(tokens, Flag.LINE_COMMENT, bytes, i - 1, len + 2);
+          len = eol.search(in, chars, i);
+          audit.push(Span.LINE_COMMENT, i - 1, len + 2);
           i += len;
           len = 0;
           token = null;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.SLASH;
+          token = Delimiter.SLASH;
         }
       }
       else if (ch == '*') {
-        if (token == Flag.SLASH) { // Start of block comment
+        if (token == Delimiter.SLASH) { // Start of block comment
           // find end of block comment
           // index from /* to */ including any & all characters between
-          i += len = closeComment.search(in, bytes, i);
+          i += len = closeComment.search(in, chars, i);
           len += 2;
-          token = Flag.BLOCK_COMMENT;
+          token = Span.BLOCK_COMMENT;
         }
         else {
-          Index.addToken(tokens, token, bytes, i - len, len);
+          audit.push(token, i - len, len);
           len = 1;
-          token = Flag.ASTERISK;
+          token = Delimiter.ASTERISK;
         }
       }
       else if (ch == '\'') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
         int t;
-        i += t = singleQuote.search(in, bytes, i);
+        i += t = singleQuote.search(in, chars, i);
         len += t;
         // take care of '\'' situation
         // TODO: Handle '\u0000' and '\0'
-        if (bytes[i - 2] == '\\' && len == 3) {
-          i += t = singleQuote.search(in, bytes, i);
+        if (chars[i - 2] == '\\' && len == 3) {
+          i += t = singleQuote.search(in, chars, i);
           len += t;
         }
 
-        token = Flag.CHARACTER;
+        token = Span.CHARACTER;
       }
       else if (ch == '"') {
-        Index.addToken(tokens, token, bytes, i - len, len);
+        audit.push(token, i - len, len);
         len = 1;
         int l;
-        i += l = doubleQuote.search(in, bytes, i);
+        i += l = doubleQuote.search(in, chars, i);
         len += l;
         // take care of \" situation
-        if (bytes[i - 2] == '\\') {
-          i += l = doubleQuote.search(in, bytes, i);
+        if (chars[i - 2] == '\\') {
+          i += l = doubleQuote.search(in, chars, i);
           len += l;
         }
 
-        token = Flag.STRING;
+        token = Span.STRING;
       }
       else {
         System.err.print(ch);
@@ -476,8 +453,8 @@ public class Lexer {
     }
 
     // add the last token, because its final delimiter can be the EOF
-    Index.addToken(tokens, token, bytes, i - len + 1, len);
+    audit.push(token, i - len + 1, len);
 
-    return tokens;
+    return audit;
   }
 }

@@ -18,12 +18,10 @@ package org.safris.cdm.lexer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.cdm.lexer.Lexer.Index;
+import org.safris.cdm.Audit;
 import org.safris.cdm.lexer.Lexer.Keyword;
 import org.safris.commons.io.Files;
 
@@ -69,20 +67,19 @@ public final class LexerTest {
       assertEquals(keyword, testToken(Keyword.INDICES, keyword.lcname));
   }
 
-  private static String padFixed(final String string, final int length) {
+  /*private static String padFixed(final String string, final int length) {
     final char[] chars = new char[length - string.length()];
     Arrays.fill(chars, ' ');
     return string + String.valueOf(chars);
-  }
+  }*/
 
   @Test
   public void testTokenize() throws IOException {
     final File file = new File("../../xml/generator/compiler/src/main/java/org/safris/xml/generator/compiler/runtime/Binding.java");
-    final byte[] bytes = new byte[(int)file.length()];
-    final List<Index> indices = Lexer.tokenize(file, bytes);
+    final Audit audit = Lexer.tokenize(file);
 
     final String expected = new String(Files.getBytes(file));
-    final String out = Lexer.toString(indices);
+    final String out = audit.toString();
     Assert.assertEquals(expected, out);
     /*for (int x = 0; x < indices.size(); x++) {
       final Index index = indices.get(x);
