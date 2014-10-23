@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -257,25 +257,25 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       else if (plan.getNativeItemClassNameInterface() != null) {
         if (plan.hasEnumerations()) {
           boolean hasSuperEnumerations = ((EnumerablePlan)plan).hasSuperEnumerations();
-          final String restrictionClassName;
+          final String enumClassName;
           if (hasSuperEnumerations)
-            restrictionClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
+            enumClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum";
           else
-            restrictionClassName = "RESTRICTION";
+            enumClassName = "Enum";
 
           if (plan.isList()) {
-            writer.write("public void text(final " + List.class.getName() + "<" + restrictionClassName + "> text)\n");
+            writer.write("public void text(final " + List.class.getName() + "<" + enumClassName + "> text)\n");
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for (" + restrictionClassName + " temp : text)\n");
+            writer.write("for (" + enumClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
             writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
             writer.write("}\n");
 
-            writer.write("public void text(final " + restrictionClassName + " ... text)\n");
+            writer.write("public void text(final " + enumClassName + " ... text)\n");
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for (" + restrictionClassName + " temp : text)\n");
+            writer.write("for (" + enumClassName + " temp : text)\n");
             writer.write("if(temp != null)\n");
             writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
             writer.write("}\n");
@@ -284,16 +284,16 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
               writer.write("public void text(final " + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + "> text)\n");
               writer.write("{\n");
               writer.write("super.text(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
-              writer.write("for (" + restrictionClassName + " temp : text)\n");
+              writer.write("for (" + enumClassName + " temp : text)\n");
               writer.write("if(temp != null)\n");
               writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
               writer.write("}\n");
             }
           }
           else {
-            writer.write("public void text(final " + restrictionClassName + " restriction)\n");
+            writer.write("public void text(final " + enumClassName + " enm)\n");
             writer.write("{\n");
-            writer.write("super.text(restriction.text());\n");
+            writer.write("super.text(enm.text());\n");
             writer.write("}\n");
 
             if (plan.isUnionWithNonEnumeration()) {

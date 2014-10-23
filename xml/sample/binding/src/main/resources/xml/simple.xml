@@ -17,9 +17,9 @@
 -->
 
 <fruitBasket
-  xmlns="http://xml.safris.org/toolkit/binding/sample/simple.xsd"
+  xmlns="http://xml.safris.org/toolkit/sample/binding/simple.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://xml.safris.org/toolkit/binding/sample/simple.xsd ../xsd/simple.xsd">
+  xsi:schemaLocation="http://xml.safris.org/toolkit/sample/binding/simple.xsd ../xsd/simple.xsd">
   <fruits>
     <fruit name="strawberry" sweet="true"/>
     <fruit name="jackfruit" sweet="false" dry="false"/>

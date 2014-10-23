@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
+ * in the Software without enm, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -37,6 +38,7 @@ import org.safris.xml.generator.compiler.processor.plan.element.EnumerationPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.PatternPlan;
 import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
+import org.safris.xml.generator.compiler.runtime.Enum;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
@@ -49,14 +51,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
   protected static void writeQualifiedName(final StringWriter writer, final SimpleTypePlan<?> plan) {
     writer.write("@" + org.safris.xml.generator.compiler.annotation.QName.class.getName() + "(namespaceURI=\"" + plan.getName().getNamespaceURI() +"\", localPart=\"" + plan.getName().getLocalPart() +"\", prefix=\"" + plan.getName().getPrefix() +"\")\n");
   }
-  
+
   /*protected static void writeIsNull(final StringWriter writer, final SimpleTypePlan<?> plan) {
     writer.write("public boolean isNull()\n");
     writer.write("{\n");
     writer.write("return super.isNull();\n");
     writer.write("}\n");
   }*/
-  
+
   protected static void writeIdLookup(final StringWriter writer, final SimpleTypePlan<?> plan, final Plan<?> parent) {
     if (!$xs_ID.class.getName().equals(plan.getSuperClassNameWithoutType()))
       return;
@@ -65,9 +67,9 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     final String instanceName;
     if (plan.hasEnumerations()) {
       if (((EnumerablePlan)plan).hasSuperEnumerations())
-        className = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
+        className = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum";
       else
-        className = "RESTRICTION";
+        className = "Enum";
 
       instanceName = "id.text()";
     }
@@ -150,24 +152,37 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     if (hasEnumerations) {
       for (final EnumerationPlan enumeration : ((EnumerablePlan)plan).getEnumerations()) {
         if (XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
-          writer.write("public static final RESTRICTION " + enumeration.getDeclarationName() + " = new RESTRICTION(\"" +  enumeration.getValue() + "\");\n");
+          writer.write("public static final Enum " + enumeration.getDeclarationName() + " = new Enum(\"" +  enumeration.getValue() + "\");\n");
         else
-          writer.write("public static final RESTRICTION " + enumeration.getDeclarationName() + " = new RESTRICTION(\"" +  enumeration.getValue().getLocalPart() + "\");\n");
+          writer.write("public static final Enum " + enumeration.getDeclarationName() + " = new Enum(\"" +  enumeration.getValue().getLocalPart() + "\");\n");
       }
     }
 
-    writer.write("public static class RESTRICTION");
-    if (hasSuperEnumerations)
-      writer.write(" extends " + ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION\n");
-    else
-      writer.write("\n");
+    writer.write("public static class Enum");
+    if (hasSuperEnumerations) {
+      writer.write(" extends " + ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum\n{\n");
+      writer.write("protected static " + Map.class.getName() + "<" + String.class.getName() + "," + ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum> values()\n{\nreturn " + ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum.values();\n};\n");
+    }
+    else {
+      writer.write(" implements " + Enum.class.getName() + "<" + plan.getNativeItemClassName() + ">\n{\n");
+      writer.write("protected static final " + Map.class.getName() + "<" + String.class.getName() + ",Enum> values = new " + HashMap.class.getName() + "<" + String.class.getName() + ",Enum>();\n");
+      writer.write("protected static " + Map.class.getName() + "<" + String.class.getName() + ",Enum> values()\n{\nreturn values;\n};\n");
+    }
 
-    writer.write("{\n");
+    if (hasEnumerations) {
+      if (hasSuperEnumerations) {
+        writer.write("public int ordinal()\n{\n");
+        writer.write("return super.ordinal();\n}\n");
+      }
+      else {
+        writer.write("protected final " + plan.getNativeItemClassName() + " text;\n");
+        writer.write("protected final int ordinal;\n");
+        writer.write("public int ordinal()\n{\n");
+        writer.write("return ordinal;\n}\n");
+      }
+    }
 
-    if (!hasSuperEnumerations && hasEnumerations)
-      writer.write("protected final " + plan.getNativeItemClassName() + " text;\n");
-
-    writer.write("protected RESTRICTION(final " + String.class.getName() + " text)\n");
+    writer.write("protected Enum(final " + String.class.getName() + " text)\n");
     writer.write("{\n");
 
     if (hasSuperEnumerations)
@@ -177,6 +192,9 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
         writer.write("this.text = " + plan.getNativeFactory() + "(text);\n");
       else
         writer.write("this.text = text;\n");
+
+      writer.write("this.ordinal = values.size();\n");
+      writer.write("values.put(text, this);\n");
     }
 
     writer.write("}\n");
@@ -190,39 +208,57 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
     writer.write("}\n");
 
-    final String restrictionClassName;
+    final String enmClassName;
     if (hasSuperEnumerations)
-      restrictionClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".RESTRICTION";
+      enmClassName = ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + ".Enum";
     else
-      restrictionClassName = "RESTRICTION";
+      enmClassName = "Enum";
 
     // DOCUMENTATION
     writer.write(plan.getDocumentation());
 
     if (plan.isList()) {
-      writer.write("public " + plan.getClassSimpleName() + "(final " + List.class.getName() + "<" + restrictionClassName + "> restrictions)\n");
+      writer.write("public int[] ordinal()\n");
+      writer.write("{\n");
+      writer.write("if (text() == null)\n");
+      writer.write("return null;\n");
+      writer.write("final int[] ordinals = new int[text().size()];\n");
+      writer.write("for (int i = 0; i < ordinals.length; i++) {\n");
+      writer.write("final " + (hasSuperEnumerations ? ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + "." : "") + "Enum enm = Enum.values().get(text().get(i));\n");
+      writer.write("ordinals[i] = Enum.values().get(text().get(i)).ordinal();\n");
+      writer.write("}\n");
+      writer.write("return ordinals;\n");
+      writer.write("}\n");
+
+      writer.write("public " + plan.getClassSimpleName() + "(final " + List.class.getName() + "<" + enmClassName + "> enms)\n");
       writer.write("{\n");
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-      writer.write("for(" + restrictionClassName + " temp : restrictions)\n");
+      writer.write("for(" + enmClassName + " temp : enms)\n");
       writer.write("if(temp != null)\n");
       writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
       writer.write("}\n");
 
-      writer.write("public " + plan.getClassSimpleName() + "(final " + restrictionClassName + " ... restrictions)\n");
+      writer.write("public " + plan.getClassSimpleName() + "(final " + enmClassName + " ... enms)\n");
       writer.write("{\n");
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-      writer.write("for(" + restrictionClassName + " temp : restrictions)\n");
+      writer.write("for(" + enmClassName + " temp : enms)\n");
       writer.write("if(temp != null)\n");
       writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
       writer.write("}\n");
     }
     else {
-      writer.write("public " + plan.getClassSimpleName() + "(final " + restrictionClassName + " restriction)\n");
+      writer.write("public int ordinal()\n");
+      writer.write("{\n");
+      writer.write("final " + (hasSuperEnumerations ? ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + "." : "") + "Enum enm = Enum.values().get(text());\n");
+      writer.write("return enm != null ? enm.ordinal() : -1;\n");
+      writer.write("}\n");
+
+      writer.write("public " + plan.getClassSimpleName() + "(final " + enmClassName + " enm)\n");
       writer.write("{\n");
       if (!hasSuperEnumerations)
-        writer.write("super(restriction.text());\n");
+        writer.write("super(enm.text());\n");
       else
-        writer.write("super(restriction);\n");
+        writer.write("super(enm);\n");
       writer.write("}\n");
     }
   }
@@ -387,18 +423,18 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
       if (plan.hasEnumerations()) {
         if (plan.isList()) {
-          writer.write("public void text(final " + List.class.getName() + "<" + plan.getClassName(parent) + ".RESTRICTION> restriction)\n");
+          writer.write("public void text(final " + List.class.getName() + "<" + plan.getClassName(parent) + ".Enum> enm)\n");
           writer.write("{\n");
           writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-          writer.write("for(" + plan.getClassName(parent) + ".RESTRICTION temp : restriction)\n");
+          writer.write("for(" + plan.getClassName(parent) + ".Enum temp : enm)\n");
           writer.write("if(temp != null)\n");
           writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
           writer.write("}\n");
         }
         else {
-          writer.write("public void text(final RESTRICTION restriction)\n");
+          writer.write("public void text(final Enum enm)\n");
           writer.write("{\n");
-          writer.write("super.text(restriction.text);\n");
+          writer.write("super.text(enm.text);\n");
           writer.write("}\n");
 
           if (plan.isUnionWithNonEnumeration()) {
@@ -462,7 +498,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
     // IS_NULL
     //writeIsNull(writer, plan);
-    
+
     // CLONE
     writer.write("public " + plan.getClassName(parent) + " clone()\n");
     writer.write("{\n");

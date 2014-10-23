@@ -17,11 +17,11 @@
 -->
 
 <enums:coloredFruitBasket
-  xmlns:simple="http://xml.safris.org/toolkit/binding/sample/simple.xsd"
-  xmlns:enums="http://xml.safris.org/toolkit/binding/sample/enums.xsd"
-  xmlns:xsitype="http://xml.safris.org/toolkit/binding/sample/xsitype.xsd"
+  xmlns:simple="http://xml.safris.org/toolkit/sample/binding/simple.xsd"
+  xmlns:enums="http://xml.safris.org/toolkit/sample/binding/enums.xsd"
+  xmlns:xsitype="http://xml.safris.org/toolkit/sample/binding/xsitype.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://xml.safris.org/toolkit/binding/sample/simple.xsd ../xsd/simple.xsd http://xml.safris.org/toolkit/binding/sample/enums.xsd ../xsd/enums.xsd http://xml.safris.org/toolkit/binding/sample/xsitype.xsd ../xsd/xsitype.xsd"
+  xsi:schemaLocation="http://xml.safris.org/toolkit/sample/binding/simple.xsd ../xsd/simple.xsd http://xml.safris.org/toolkit/sample/binding/enums.xsd ../xsd/enums.xsd http://xml.safris.org/toolkit/sample/binding/xsitype.xsd ../xsd/xsitype.xsd"
   enums:color="red">
   <simple:fruits>
     <simple:fruit xsi:type="xsitype:fleshyFruitType" name="Berry" pericarp="soft"/>
