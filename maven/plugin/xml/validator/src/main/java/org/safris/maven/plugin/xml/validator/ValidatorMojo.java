@@ -47,11 +47,40 @@ import org.xml.sax.SAXException;
 public final class ValidatorMojo extends AbstractMojo {
   private static final String delimeter = "://";
 
-  private static final FileFilter xmlFileFilter = new FileFilter() {
-    public boolean accept(final File pathname) {
-      return pathname.isFile() && (pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd"));
-    }
-  };
+  private static void convertToRegex(final List<String> list) {
+    if (list != null)
+      for (int i = 0; i < list.size(); i++)
+        list.set(i, list.get(i).replace(".", "\\.").replace("**/", ".*").replace("/", "\\/").replace("*", ".*"));
+  }
+
+  public static boolean filter(final File dir, final File pathname, final List<String> filters) {
+    if (filters == null)
+      return false;
+
+    for (final String filter : filters)
+      if (pathname.getAbsolutePath().substring(dir.getAbsolutePath().length() + 1).matches(filter))
+        return true;
+
+    return false;
+  }
+
+  private static FileFilter filter(final File dir, final List<String> includes, final List<String> excludes) {
+    return new FileFilter() {
+      public boolean accept(final File pathname) {
+        if (!pathname.isFile())
+          return false;
+
+        if ("cli.xml".equals(pathname.getName())) {
+          int i = 0;
+        }
+
+        if (includes == null && excludes == null)
+          return pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd");
+
+        return filter(dir, pathname, includes) && !filter(dir, pathname, excludes);
+      }
+    };
+  }
 
   /**
    * @parameter default-value="" expression="${httpProxy}"
@@ -145,9 +174,9 @@ public final class ValidatorMojo extends AbstractMojo {
 
     final String fileName = Files.relativePath(dir.getAbsoluteFile(), file.getAbsoluteFile());
     if (log != null)
-      log.info("Validating file: " + fileName);
+      log.info("   Validating: " + fileName);
     else
-      System.out.println("Validating file: " + fileName);
+      System.out.println("   Validating: " + fileName);
 
     // Parse.
     saxParser.parse(new InputSource(new FileInputStream(file)));
@@ -188,10 +217,12 @@ public final class ValidatorMojo extends AbstractMojo {
     if (resources.size() == 0)
       return;
 
+    convertToRegex(getIncludes());
+    convertToRegex(getExcludes());
     final Map<File,Collection<File>> files = new HashMap<File,Collection<File>>();
     for (final Resource resource : resources) {
       final File dir = new File(resource.getDirectory());
-      final Collection<File> xmlFiles = Files.listAll(dir, xmlFileFilter);
+      final Collection<File> xmlFiles = Files.listAll(dir, filter(dir, getIncludes(), getExcludes()));
       if (xmlFiles != null)
         files.put(dir, xmlFiles);
     }
@@ -208,7 +239,7 @@ public final class ValidatorMojo extends AbstractMojo {
     try {
       final Log log = getLog();
       for (final Map.Entry<File,Collection<File>> entry : files.entrySet()) {
-        log.info("Resource directory: " + entry.getKey().getAbsolutePath());
+        //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
         for (final File file : entry.getValue()) {
           final File recordFile = new File(recordDir, file.getName());
           if (!recordFile.exists() || recordFile.lastModified() < file.lastModified()) {
@@ -220,6 +251,10 @@ public final class ValidatorMojo extends AbstractMojo {
             catch (final SAXException e) {
               throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
             }
+          }
+          else {
+            final String fileName = Files.relativePath(entry.getKey().getAbsoluteFile(), file.getAbsoluteFile());
+            log.info("Pre-validated: " + fileName);
           }
         }
       }
