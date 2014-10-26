@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -34,13 +34,14 @@ import com.sun.org.apache.xerces.internal.xni.XNIException;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 
+@SuppressWarnings("restriction")
 public final class BindingEntityResolver implements XMLEntityResolver {
   public static void registerSchemaLocation(final String namespaceURI, final URL schemaReference) {
     final URL present = schemaReferences.get(namespaceURI);
     if (present != null) {
       if (!present.equals(schemaReference))
         throw new ValidatorError("We should not be resetting {" + namespaceURI + "} from " + present + " to " + schemaReference);
-      
+
       return;
     }
 
@@ -54,7 +55,7 @@ public final class BindingEntityResolver implements XMLEntityResolver {
     final URL schemaReference = schemaReferences.get(namespaceURI);
     if (schemaReference != null)
       return schemaReference;
-    
+
     // The schemaReference may not have been registered yet
     synchronized (namespaceURI) {
       // When loading the classes, the static block of each binding will call the

@@ -18,6 +18,7 @@ package org.safris.commons.xml.sax;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
 
+@SuppressWarnings("restriction")
 public final class SAXFeature {
   // SAX Features
 

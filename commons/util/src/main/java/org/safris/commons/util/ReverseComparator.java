@@ -1,15 +1,15 @@
 /* Copyright (c) 2012 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -20,21 +20,20 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class ReverseComparator<T extends Comparable> implements Comparator<T> {
-  private static Map<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator>> instances = new ConcurrentHashMap<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator>>();
-  private static final Object instancesMutex = new Object();
+public final class ReverseComparator<T extends Comparable<T>> implements Comparator<T> {
+  private static final Map<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator<?>>> instances = new ConcurrentHashMap<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator<?>>>();
 
-  private static ReverseComparator instance = null;
-  private static volatile boolean instanceInited = false;
+  private static ReverseComparator instance;
+  private static volatile boolean instanceInited;
   private static final Object instanceMutex = new Object();
 
-  public static <T extends Comparable<T>> ReverseComparator<T> reverse(Class<? extends Comparator<? super T>> comparatorClass) {
+  public static <T extends Comparable<T>>ReverseComparator<T> reverse(final Class<? extends Comparator<? super T>> comparatorClass) {
     ReverseComparator instance = instances.get(comparatorClass);
     if (instance != null)
       return instance;
 
-    synchronized (instancesMutex) {
-      if (instance != null)
+    synchronized (instances) {
+      if ((instance = instances.get(comparatorClass)) != null)
         return instance;
 
       instances.put(comparatorClass, instance = new ReverseComparator(comparatorClass));
@@ -42,7 +41,7 @@ public final class ReverseComparator<T extends Comparable> implements Comparator
     }
   }
 
-  public static <T extends Comparable<T>> ReverseComparator<T> reverse() {
+  public static <T extends Comparable<T>>ReverseComparator<T> reverse() {
     if (instanceInited)
       return instance;
 
@@ -58,7 +57,7 @@ public final class ReverseComparator<T extends Comparable> implements Comparator
 
   private final Comparator<? super T> comparatorInstance;
 
-  private ReverseComparator(Class<? extends Comparator<? super T>> comparatorClass) {
+  private ReverseComparator(final Class<? extends Comparator<? super T>> comparatorClass) {
     try {
       this.comparatorInstance = comparatorClass.newInstance();
     }
@@ -104,9 +103,6 @@ public final class ReverseComparator<T extends Comparable> implements Comparator
    * 	       being compared by this comparator.
    */
   public int compare(final T o1, final T o2) {
-    if (comparatorInstance != null)
-      return comparatorInstance.compare(o2, o1);
-
-    return o2.compareTo(o1);
+    return comparatorInstance != null ? comparatorInstance.compare(o2, o1) : o2.compareTo(o1);
   }
 }

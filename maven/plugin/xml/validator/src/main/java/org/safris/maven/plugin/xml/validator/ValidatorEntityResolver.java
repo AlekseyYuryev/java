@@ -29,6 +29,7 @@ import com.sun.org.apache.xerces.internal.xni.XNIException;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 
+@SuppressWarnings("restriction")
 public final class ValidatorEntityResolver implements XMLEntityResolver {
   private final File basedir;
 

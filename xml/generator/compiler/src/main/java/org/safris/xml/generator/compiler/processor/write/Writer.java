@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -42,22 +42,9 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
   private final Collection<String> messages = new HashSet<String>();
 
   static {
-    final int year = (int)((double)System.currentTimeMillis() / 1000d / 3600d / 24d / 365.25d + 1970d);
-    license.append("/*  Copyright (c) ").append(year).append(" Seva Safris\n");
-    license.append(" *\n");
-    license.append(" * Permission is hereby granted, free of charge, to any person obtaining a copy\n");
-    license.append(" * of this software and associated documentation files (the \"Software\"), to deal\n");
-    license.append(" * in the Software without restriction, including without limitation the rights\n");
-    license.append(" * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n");
-    license.append(" * copies of the Software, and to permit persons to whom the Software is\n");
-    license.append(" * furnished to do so, subject to the following conditions:\n");
-    license.append(" *\n");
-    license.append(" * The above copyright notice and this permission notice shall be included in\n");
-    license.append(" * all copies or substantial portions of the Software.\n");
-    license.append(" *\n");
-    license.append(" * You should have received a copy of The MIT License (MIT) along with this\n");
-    license.append(" * program. If not, see <http://opensource.org/licenses/MIT/>.\n");
-    license.append(" */\n\n");
+    license.append("/* .-------------------------------------------------------------. */\n");
+    license.append("/* | GENERATED CODE - XML Binding [xml.safris.org] - DO NOT EDIT | */\n");
+    license.append("/* '-------------------------------------------------------------' */\n\n");
   }
 
   protected void writeFile(final Writer<T> writer, final T plan, final File destDir) {

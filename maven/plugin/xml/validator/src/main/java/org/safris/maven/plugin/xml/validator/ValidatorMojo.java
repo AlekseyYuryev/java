@@ -70,10 +70,6 @@ public final class ValidatorMojo extends AbstractMojo {
         if (!pathname.isFile())
           return false;
 
-        if ("cli.xml".equals(pathname.getName())) {
-          int i = 0;
-        }
-
         if (includes == null && excludes == null)
           return pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd");
 

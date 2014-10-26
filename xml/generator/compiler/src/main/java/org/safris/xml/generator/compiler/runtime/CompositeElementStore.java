@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -21,21 +21,21 @@ import java.util.List;
 
 final class CompositeElementStore {
   private final List<Binding> elements;
-  private final List<ElementAudit<Binding>> elementAudits;
+  private final List<ElementAudit<? extends Binding>> elementAudits;
 
   protected CompositeElementStore(final int initialCapacity) {
     this.elements = new GeneralElementList<Binding>(this, initialCapacity);
-    this.elementAudits = new ArrayList<ElementAudit<Binding>>(initialCapacity);
+    this.elementAudits = new ArrayList<ElementAudit<? extends Binding>>(initialCapacity);
   }
 
   protected CompositeElementStore(final CompositeElementStore copy) {
     this.elements = new GeneralElementList<Binding>(this);
-    this.elementAudits = new ArrayList<ElementAudit<Binding>>(copy.elementAudits);
+    this.elementAudits = new ArrayList<ElementAudit<? extends Binding>>(copy.elementAudits);
   }
 
   protected CompositeElementStore() {
     this.elements = new GeneralElementList<Binding>(this);
-    this.elementAudits = new ArrayList<ElementAudit<Binding>>();
+    this.elementAudits = new ArrayList<ElementAudit<? extends Binding>>();
   }
 
   protected int size() {
@@ -50,11 +50,11 @@ final class CompositeElementStore {
     return elements.get(index);
   }
 
-  protected ElementAudit<Binding> getElementAudits(final int index) {
+  protected ElementAudit<? extends Binding> getElementAudits(final int index) {
     return elementAudits.get(index);
   }
 
-  protected boolean add(final Binding element, final ElementAudit<Binding> elementAudit, final boolean addToAudit) {
+  protected boolean add(final Binding element, final ElementAudit elementAudit, final boolean addToAudit) {
     synchronized (elements) {
       if (!elements.add(element))
         throw new BindingRuntimeException("Addition of element should have modified the elements list!");
@@ -69,7 +69,7 @@ final class CompositeElementStore {
     return true;
   }
 
-  protected void addBefore(final Binding before, final Binding element, final ElementAudit<Binding> elementAudit) {
+  protected void addBefore(final Binding before, final Binding element, final ElementAudit<? extends Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(before);
       elements.add(index, element);
@@ -77,7 +77,7 @@ final class CompositeElementStore {
     }
   }
 
-  protected void addAfter(final Binding after, final Binding element, final ElementAudit<Binding> elementAudit) {
+  protected void addAfter(final Binding after, final Binding element, final ElementAudit<? extends Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(after);
       elements.add(index + 1, element);
@@ -85,7 +85,7 @@ final class CompositeElementStore {
     }
   }
 
-  protected void replace(final Binding original, final Binding element, final ElementAudit<Binding> elementAudit) {
+  protected void replace(final Binding original, final Binding element, final ElementAudit<? extends Binding> elementAudit) {
     synchronized (elements) {
       final int index = elements.indexOf(original);
       elements.set(index, element);

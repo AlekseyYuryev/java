@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -17,8 +17,8 @@
 package org.safris.commons.lang;
 
 public final class Strings {
-  private static final char[] alpha = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-  private static final char[] alphaNumeric = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+  private static final char[] alpha = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+  private static final char[] alphaNumeric = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
   private static String getRandomString(final int length, final boolean alphanumeric) {
     if (length < 0)
@@ -114,7 +114,7 @@ public final class Strings {
     char[] chars = string.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       index = i;
-      if (('0' <= chars[i] && chars[i] <= '9') || 'a' <= chars[i] && chars[i] <= 'z')
+      if (('0' <= chars[i] && chars[i] <= '9') || ('a' <= chars[i] && chars[i] <= 'z'))
         break;
     }
 
@@ -143,7 +143,7 @@ public final class Strings {
     return string.substring(0, 1).toUpperCase() + string.substring(1, string.length());
   }
 
-  private static final String[] discardTokens = new String[]{"_", "-", ".", "/", "#", "@", "!", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", "\\", "|", "~", "`", ":", ";", "\"", "'", "<", ">", ",", ".", "?"};
+  private static final String[] discardTokens = new String[] {"_", "-", ".", "/", "#", "@", "!", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", "\\", "|", "~", "`", ":", ";", "\"", "'", "<", ">", ",", ".", "?"};
 
   public static String toCamelCase(String string) {
     if (string == null)
@@ -170,6 +170,12 @@ public final class Strings {
   // FIXME: This means that there can be name collisions!
   public static String toJavaCase(final String string) {
     return string.replace('-', '_').replace('.', '_').replace("#", "");
+  }
+
+  public static String padFixed(final String string, final int length, final boolean right) {
+    final char[] chars = new char[length - string.length()];
+    java.util.Arrays.fill(chars, ' ');
+    return right ? string + String.valueOf(chars) : String.valueOf(chars) + string;
   }
 
   private Strings() {

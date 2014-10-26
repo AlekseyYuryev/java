@@ -235,7 +235,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write("for(" + enmClassName + " temp : enms)\n");
       writer.write("if(temp != null)\n");
-      writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+      writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
       writer.write("}\n");
 
       writer.write("public " + plan.getClassSimpleName() + "(final " + enmClassName + " ... enms)\n");
@@ -243,7 +243,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write("for(" + enmClassName + " temp : enms)\n");
       writer.write("if(temp != null)\n");
-      writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+      writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
       writer.write("}\n");
     }
     else {
@@ -277,12 +277,12 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       if (plan.getNativeFactory() != null)
         factoryEntry = plan.getNativeFactory() + "(" + factoryEntry + ")";
 
-      writer.write("((" + List.class.getName() + ")super.text()).add(" + factoryEntry + ");\n");
+      writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(" + factoryEntry + ");\n");
       writer.write("}\n");
 
       writer.write("protected " + String.class.getName() + " _$$encode(final " + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("return super.text() != null && ((" + List.class.getName() + ")super.text()).size() != 0 ? " + Collections.class.getName() + ".toString((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text(), \" \") : null;\n");
+      writer.write("return super.text() != null && ((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).size() != 0 ? " + Collections.class.getName() + ".toString((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text(), \" \") : null;\n");
       writer.write("}\n");
     }
   }
@@ -428,7 +428,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
           writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
           writer.write("for(" + plan.getClassName(parent) + ".Enum temp : enm)\n");
           writer.write("if(temp != null)\n");
-          writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+          writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
           writer.write("}\n");
         }
         else {

@@ -18,13 +18,14 @@ package org.safris.commons.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * An efficient stream searching class based on the Knuth-Morris-Pratt
  * algorithm. For more on the algorithm works see:
  * http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/kmpen.htm.
  */
-public class StreamSearcher {
+public final class StreamSearcher {
   public static class Char {
     protected final char[][] pattern;
     protected final int[][] borders;
@@ -56,7 +57,7 @@ public class StreamSearcher {
      * @return number of bytes the stream is advanced
      * @throws IOException
      */
-    public int search(final InputStream stream, final char[] buffer, final int offset) throws IOException {
+    public int search(final InputStreamReader stream, final char[] buffer, final int offset) throws IOException {
       int i = 0;
       int b = 0;
       final int[] j = new int[pattern.length];

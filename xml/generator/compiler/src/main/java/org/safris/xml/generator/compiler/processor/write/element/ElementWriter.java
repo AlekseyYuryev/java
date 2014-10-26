@@ -264,20 +264,20 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             enumClassName = "Enum";
 
           if (plan.isList()) {
-            writer.write("public void text(final " + List.class.getName() + "<" + enumClassName + "> text)\n");
+            writer.write("public void text(final " + List.class.getName() + "<" + enumClassName + "> enm)\n");
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for (" + enumClassName + " temp : text)\n");
+            writer.write("for (" + enumClassName + " temp : enm)\n");
             writer.write("if(temp != null)\n");
-            writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+            writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
             writer.write("}\n");
 
-            writer.write("public void text(final " + enumClassName + " ... text)\n");
+            writer.write("public void text(final " + enumClassName + " ... enm)\n");
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
-            writer.write("for (" + enumClassName + " temp : text)\n");
+            writer.write("for (" + enumClassName + " temp : enm)\n");
             writer.write("if(temp != null)\n");
-            writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+            writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
             writer.write("}\n");
 
             if (plan.isUnionWithNonEnumeration()) {
@@ -286,7 +286,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
               writer.write("super.text(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
               writer.write("for (" + enumClassName + " temp : text)\n");
               writer.write("if(temp != null)\n");
-              writer.write("((" + List.class.getName() + ")super.text()).add(temp.text);\n");
+              writer.write("((" + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + ">)super.text()).add(temp.text);\n");
               writer.write("}\n");
             }
           }
@@ -589,7 +589,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
       writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(super.text() == null || ((" + List.class.getName() + ")super.text()).size() == 0)\n");
+      writer.write("if(super.text() == null || ((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).size() == 0)\n");
       writer.write("return null;\n");
       writer.write("String text = \"\";\n");
       writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text())\n");

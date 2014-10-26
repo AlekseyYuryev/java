@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -58,7 +58,7 @@ public final class Files {
       return original.accept(pathname) || pathname.isDirectory();
     }
   }
-  
+
   // FIXME: Implement this iteratively
   private static boolean deleteAll(final File file, final FileFilter filter, final boolean onExit) throws IOException {
     if (file == null)
@@ -68,7 +68,7 @@ public final class Files {
     if (file.isDirectory())
       for (final File child : file.listFiles())
         deleted = deleteAll(child, filter, onExit) && deleted;
-    
+
     if (!onExit)
       return file.delete();
 
@@ -189,11 +189,18 @@ public final class Files {
   }
 
   private static void copyFile(final File from, final File to) throws IOException {
-    final FileChannel sourceChannel = new FileInputStream(from).getChannel();
-    final FileChannel destinationChannel = new FileOutputStream(to).getChannel();
+    final FileInputStream in = new FileInputStream(from);
+    final FileChannel sourceChannel = in.getChannel();
+
+    final FileOutputStream out = new FileOutputStream(to);
+    final FileChannel destinationChannel = out.getChannel();
+
     sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
     sourceChannel.close();
+    in.close();
+
     destinationChannel.close();
+    out.close();
   }
 
   public static String relativePath(final File dir, final File file) {
