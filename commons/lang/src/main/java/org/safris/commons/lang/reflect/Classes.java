@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -32,6 +32,10 @@ import sun.reflect.Reflection;
 
 public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
+
+  public static Class<?> getCallerClass(final int stackDepth) {
+    return Reflection.getCallerClass(stackDepth);
+  }
 
   public static Field getField(final Class<?> cls, final String fieldName) {
     return Classes.getField(cls, fieldName, false);
@@ -90,7 +94,7 @@ public final class Classes {
     }
     catch (final ClassNotFoundException e) {
     }
-    
+
     classLoader = Thread.currentThread().getContextClassLoader();
     try {
       return Class.forName(className, initialize, classLoader);
@@ -98,7 +102,7 @@ public final class Classes {
     catch (final ClassNotFoundException e) {
     }
 
-    final Class<?> callerClass = Reflection.getCallerClass(2);
+    classLoader = Classes.getCallerClass(2).getClassLoader();
     try {
       return Class.forName(className, initialize, classLoader);
     }
@@ -111,15 +115,15 @@ public final class Classes {
   public static Class<?> forName(final String className) {
     return Classes.forName(className, false);
   }
-  
+
   public static <T extends Annotation>T getDeclaredAnnotation(final Class<?> clazz, final Class<T> annotationType) {
     for (final Annotation annotation : clazz.getDeclaredAnnotations())
       if (annotation.annotationType() == annotationType)
         return (T)annotation;
-    
+
     return null;
   }
-  
+
   private static final For.Filter<Field> fieldWithAnnotationFilter = new For.Filter<Field>() {
     public boolean filter(final Field value, final Object ... args) {
       return value.getAnnotation((Class)args[0]) != null;
@@ -135,10 +139,10 @@ public final class Classes {
 
   /**
    * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
-   * 
+   *
    * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field retuls after this
    * match.
-   * 
+   *
    * @param clazz
    * @param annotationType
    * @param comparable
@@ -151,7 +155,7 @@ public final class Classes {
   public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
     return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationRecurser, fieldWithAnnotationFilter, annotationType);
   }
-  
+
   public static Field[] getFieldsDeep(Class<?> clazz) {
     if (clazz == null)
       throw new NullPointerException("clazz == null");
