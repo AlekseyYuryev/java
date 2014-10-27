@@ -17,11 +17,13 @@
 package org.safris.cdm.lexer;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.UnexpectedException;
 
 import org.safris.cdm.Audit;
+import org.safris.commons.test.PerfStat;
 import org.safris.commons.util.StreamSearcher;
 
 public class Lexer {
@@ -36,30 +38,63 @@ public class Lexer {
   }
 
   public static enum Delimiter implements Token {
-    SLASH('/'), DOT('.'), COLON(':'), SEMI_COLON(';'), ASTERISK('*'), PAREN_OPEN('('), PAREN_CLOSE(')'), BRACKET_OPEN('['), BRACKET_CLOSE(']'), BRACE_OPEN('{'), BRACE_CLOSE('}'), COMMA(','), ARRAY('[', ']'), PLUS('+'), PLUS_PLUS('+', '+'), PLUS_EQ('+', '='), MINUS('-'), MINUS_MINUS('-', '-'), MINUS_EQ('-', '='), GT('>'), LT('<'), GTGT('>', '>'), GTGTGT('>', '>', '>'), LTLT('<', '<'), LTLTLT('<', '<', '<'), GTE('>', '='), LTE('<', '='), EQ('='), EQEQ('=', '='), CARAT('^'), PERCENT('%'), EXCLAMATION('!'), TILDE('~'), AMPERSAND('&'), AND('&', '&'), PIPE('|'), OR('|', '|'), AT('@'), QUESTION('?');
+    // NOTE: The declaration list of Delimiter(s) must be in sorted alphabetical order!
+    EXCLAMATION("!"), PERCENT("%"), AMPERSAND("&"), AND("&&"), PAREN_OPEN("("), PAREN_CLOSE(")"), ASTERISK("*"), PLUS("+"), PLUS_PLUS("++"), PLUS_EQ("+="), COMMA(","), MINUS("-"), MINUS_MINUS("--"), MINUS_EQ("-="), DOT("."), SLASH("/"), COLON(":"), SEMI_COLON(";"), LT("<"), LTLT("<<"), LTLTLT("<<<"), LTE("<="), EQ("="), EQEQ("=="), GT(">"), GTE(">="), GTGT(">>"), GTGTGT(">>>"), QUESTION("?"), AT("@"), BRACKET_OPEN("["), ARRAY("[]"), BRACKET_CLOSE("]"), CARAT("^"), BRACE_OPEN("{"), PIPE("|"), OR("||"), BRACE_CLOSE("}"), TILDE("~");
 
-    public final char[] ch;
+    public final String ch;
+    public final int[][] children;
 
-    Delimiter(final char ... ch) {
+    Delimiter(final String ch) {
       this.ch = ch;
+      this.children = new int[ch.length() + 1][];
+    }
+
+    public String toString() {
+      return ch;
     }
   }
 
   public static enum Span implements Token {
-    WHITESPACE, LINE_COMMENT, BLOCK_COMMENT, NUMBER, CHARACTER, STRING, WORD;
+    WHITESPACE("\t", "\n", "\r", " "), LINE_COMMENT("//"), BLOCK_COMMENT("/*"), NUMBER, CHARACTER, STRING, WORD;
+
+    Span(final String ... ch) {
+    }
   }
 
   public static enum Keyword implements Token {
     // NOTE: The declaration list of Keyword(s) must be in sorted alphabetical order!
     ABSTRACT, ASSERT, BOOLEAN, BREAK, BYTE, CASE, CATCH, CHAR, CLASS, CONST, CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTENDS, FALSE, FINAL, FINALLY, FLOAT, FOR, GOTO, IF, IMPLEMENTS, IMPORT, INSTANCEOF, INT, INTERFACE, LONG, NATIVE, NEW, NULL, PACKAGE, PRIVATE, PROTECTED, PUBLIC, RETURN, SHORT, STATIC, STRICTFP, SUPER, SWITCH, SYNCHRONIZED, THIS, THROW, THROWS, TRANSIENT, TRUE, TRY, VOID, VOLATILE, WHILE;
 
+    public static void print() {
+      String out = "";
+      for (final Keyword keyword : Keyword.values()) {
+        String x = "";
+        for (int i = 0; i < keyword.children.length; i++) {
+          String y = "";
+          if (keyword.children[i] != null)
+            for (int j = 0; j < keyword.children[i].length; j++)
+              y += ", " + keyword.children[i][j];
+
+          if (y.length() >= 2)
+            x += ", {" + y.substring(2) + "}";
+        }
+
+        out += "\n" + keyword + "(new int[][] {" + x.substring(2) + "})";
+      }
+
+      System.out.println(out);
+    }
+
     protected static final int[] INDICES = new int[Keyword.values().length];
 
     static {
+      PerfStat.mark("Lexer", "static");
       for (int i = 0; i < INDICES.length; i++)
         INDICES[i] = i;
 
       Keyword.init(Keyword.INDICES, 0);
+      print();
+      PerfStat.mark("Lexer", "static");
     }
 
     protected static void init(final int[] keywords, final int depth) {
@@ -127,10 +162,15 @@ public class Lexer {
     }
   }
 
+  /*
+   * So far, best performance is with FileInputStream, reading chars.
+   */
   public static Audit tokenize(final File file) throws IOException {
+    PerfStat.mark("Lexer", "tokenize");
     final char[] chars = new char[(int)file.length()];
     final Audit audit = new Audit(file, chars);
-    final FileInputStream in = new FileInputStream(file);
+    final InputStreamReader in = new FileReader(file);
+    System.err.println(in.getEncoding());
     int i = 0;
     int b = -1;
     char ch;
@@ -153,7 +193,7 @@ public class Lexer {
         }
       }
       else if (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || (len != 0 && '0' <= ch && ch <= '9') || ch == '$' || ch == '_') {
-        // TODO: Handle 0x0000 and 0b0000
+        // TODO: Handle 0x0000, 0b0000, 1.234e2, and 999_99__9999L
         if (token == Span.NUMBER && (ch == 'd' || ch == 'D' || ch == 'f' || ch == 'F' || ch == 'l' || ch == 'L')) {
           ++len;
         }
@@ -455,6 +495,8 @@ public class Lexer {
     // add the last token, because its final delimiter can be the EOF
     audit.push(token, i - len + 1, len);
 
+    in.close();
+    PerfStat.mark("Lexer", "tokenize");
     return audit;
   }
 }

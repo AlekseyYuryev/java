@@ -67,12 +67,6 @@ public final class LexerTest {
       assertEquals(keyword, testToken(Keyword.INDICES, keyword.lcname));
   }
 
-  /*private static String padFixed(final String string, final int length) {
-    final char[] chars = new char[length - string.length()];
-    Arrays.fill(chars, ' ');
-    return string + String.valueOf(chars);
-  }*/
-
   @Test
   public void testTokenize() throws IOException {
     final File file = new File("../../xml/generator/compiler/src/main/java/org/safris/xml/generator/compiler/runtime/Binding.java");
@@ -83,7 +77,7 @@ public final class LexerTest {
     Assert.assertEquals(expected, out);
     /*for (int x = 0; x < indices.size(); x++) {
       final Index index = indices.get(x);
-      System.out.println(padFixed(index.token + ":", 16) + new String(bytes, index.start, index.length + 1));
+      System.out.println(Strings.padFixed(index.token + ":", 16) + new String(bytes, index.start, index.length + 1));
     }*/
   }
 }

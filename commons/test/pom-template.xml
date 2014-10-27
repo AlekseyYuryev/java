@@ -65,5 +65,10 @@
       <artifactId>junit</artifactId>
       <groupId>junit</groupId>
     </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>lang</artifactId>
+      <version>${dev:org.safris.commons.lang}</version>
+    </dependency>
   </dependencies>
 </project>

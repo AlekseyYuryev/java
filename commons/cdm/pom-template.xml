@@ -71,5 +71,10 @@
       <artifactId>cli</artifactId>
       <version>${dev:org.safris.commons.cli}</version>
     </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>test</artifactId>
+      <version>${dev:org.safris.commons.test}</version>
+    </dependency>
   </dependencies>
 </project>
