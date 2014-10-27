@@ -315,7 +315,7 @@ if [ $DEPENDENCY_SCAN ]; then
   if [ -d '.svn' ]; then
     MODIFIED_MODULES=`svn stat | grep 'src\/' | sed -e \s/[^\ ]\ */org.safris./ -e 's/\/src\/.*//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`
   else
-    MODIFIED_MODULES="`git status -s | grep 'src\/' | grep -v '^\?' | sed -e \s/^\ *.\ // -e \s/^/org.safris./ -e 's/\/src\/.*$//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`"
+    MODIFIED_MODULES="`git status -s -uno | grep 'src\/' | grep '^M' | sed -e \s/^\ *.\ *// -e \s/^/org.safris./ -e 's/\/src\/.*$//' -e 's/\//./g' | uniq | xargs echo | sed \s/\ /\\\\\\\\\|\ \ /g`"
   fi
   echo 'The following MODULE_1(s) require a version change due to a newer MODULE_2:'
   echo 'Key: MODULE_1 --> MODULE_2 & MODULE_3 & ... & MODULE_N'
