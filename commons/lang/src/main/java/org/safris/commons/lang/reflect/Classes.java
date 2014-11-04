@@ -33,10 +33,6 @@ import sun.reflect.Reflection;
 public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
 
-  public static Class<?> getCallerClass(final int stackDepth) {
-    return Reflection.getCallerClass(stackDepth);
-  }
-
   public static Field getField(final Class<?> cls, final String fieldName) {
     return Classes.getField(cls, fieldName, false);
   }
@@ -57,8 +53,7 @@ public final class Classes {
       return checkAccessField(fieldMap.get(cls), declared);
 
     synchronized (classToFields) {
-      fieldMap = classToFields.get(cls);
-      if (fieldMap != null)
+      if ((fieldMap = classToFields.get(cls)) != null)
         return checkAccessField(fieldMap.get(cls), declared);
 
       final Field[] fields = declared ? cls.getDeclaredFields() : cls.getFields();
@@ -102,7 +97,7 @@ public final class Classes {
     catch (final ClassNotFoundException e) {
     }
 
-    classLoader = Classes.getCallerClass(2).getClassLoader();
+    classLoader = Reflection.getCallerClass().getClassLoader();
     try {
       return Class.forName(className, initialize, classLoader);
     }

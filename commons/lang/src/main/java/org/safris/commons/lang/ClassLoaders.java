@@ -30,7 +30,6 @@ import java.util.Map;
 
 import org.apache.tools.ant.AntClassLoader;
 
-import sun.misc.URLClassPath;
 import sun.reflect.Reflection;
 
 public final class ClassLoaders {
@@ -58,7 +57,7 @@ public final class ClassLoaders {
     final Collection<URL> urls = new HashSet<URL>();
     urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
     urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
-    final Class<?> callerClass = Reflection.getCallerClass(2);
+    final Class<?> callerClass = Reflection.getCallerClass();
     final ClassLoader classLoader = callerClass.getClassLoader();
     try {
       // TODO: I dont know why, but when running forked JUnit tests
@@ -66,8 +65,8 @@ public final class ClassLoaders {
       // TODO: method. Instead, it is hidden deep inside the URLClassPath
       final Field ucpField = URLClassLoader.class.getDeclaredField("ucp");
       ucpField.setAccessible(true);
-      final URLClassPath ucp = (URLClassPath)ucpField.get(classLoader);
-      final Field lmapField = URLClassPath.class.getDeclaredField("lmap");
+      final Object ucp = ucpField.get(classLoader); // This is a sun.misc.URLClassPath
+      final Field lmapField = ucp.getClass().getDeclaredField("lmap");
       lmapField.setAccessible(true);
       final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
       for (final String key : lmap.keySet())
