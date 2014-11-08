@@ -14,24 +14,16 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.cdm.lexer;
+package org.safris.commons.search;
 
-import java.util.Arrays;
-
-public final class Util {
-  public static String pad(final int length) {
-    final char[] chars = new char[length];
-    Arrays.fill(chars, ' ');
-    return String.valueOf(chars);
-  }
-
-  public static int binarySearch(final int[] sorted, final char key, int index) {
+public final class ISTEnumUtil {
+  public static int binarySearch(final Enum<?>[] full, final int[] partial, final char key, int index) {
     int low = 0;
-    int high = sorted.length - 1;
+    int high = partial.length - 1;
 
     while (low <= high) {
       int mid = (low + high) >>> 1;
-      final String name = Lexer.Keyword.values()[sorted[mid]].lcname;
+      final String name = full[partial[mid]].toString();
       char midVal = index < name.length() ? name.charAt(index) : ' ';
 
       if (midVal < key)
@@ -45,20 +37,6 @@ public final class Util {
     return -(low + 1); // key not found.
   }
 
-  public static String print(final int[] keywords) {
-    String out = "";
-    for (final int keyword : keywords) {
-      final Lexer.Keyword kw = Lexer.Keyword.values()[keyword];
-      out += "\n" + kw.lcname;
-      for (int i = 0; i < kw.children.length; i++)
-        if (kw.children[i] != null)
-          for (final int child : kw.children[i])
-            out += "\n " + Util.pad(i) + Lexer.Keyword.values()[child].lcname.substring(i + 1);
-    }
-
-    return out.substring(1);
-  }
-
-  private Util() {
+  private ISTEnumUtil() {
   }
 }

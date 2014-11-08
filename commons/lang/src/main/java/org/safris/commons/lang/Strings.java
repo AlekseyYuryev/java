@@ -16,6 +16,8 @@
 
 package org.safris.commons.lang;
 
+import java.util.Arrays;
+
 public final class Strings {
   private static final char[] alpha = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
   private static final char[] alphaNumeric = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
@@ -170,6 +172,15 @@ public final class Strings {
   // FIXME: This means that there can be name collisions!
   public static String toJavaCase(final String string) {
     return string.replace('-', '_').replace('.', '_').replace("#", "");
+  }
+
+  public static String createRepeat(final char ch, final int length) {
+    if (length < 0)
+      throw new IllegalArgumentException("length = " + length + " < 0");
+
+    final char[] chars = new char[length];
+    Arrays.fill(chars, ' ');
+    return String.valueOf(chars);
   }
 
   public static String padFixed(final String string, final int length, final boolean right) {

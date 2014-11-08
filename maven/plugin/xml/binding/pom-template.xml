@@ -61,8 +61,8 @@
       <artifactId>classworlds</artifactId>
     </dependency>
     <dependency>
-      <artifactId>plexus-utils</artifactId>
       <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
     </dependency>
     <!--<dependency>
       <groupId>xerces</groupId>

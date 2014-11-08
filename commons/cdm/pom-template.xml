@@ -29,9 +29,6 @@
   <artifactId>cdm</artifactId>
   <version>${dev:org.safris.commons.cdm}</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Command-line interface.
-  </description>
   <profiles>
     <profile>
       <activation>
@@ -60,6 +57,29 @@
       -->
     </profile>
   </profiles>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.safris.maven.plugin</groupId>
+        <artifactId>codegen</artifactId>
+        <version>${dev:org.safris.maven.plugin.codegen}</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>istenum</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>${basedir}/src/main/resources/keywords.txt</file>
+          <dir>${project.build.directory}/generated-sources/istenum</dir>
+          <className>org.safris.cdm.lexer.Keyword</className>
+          <inheritsFrom>org.safris.cdm.lexer.Lexer.Token</inheritsFrom>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
@@ -70,6 +90,11 @@
       <groupId>org.safris.commons</groupId>
       <artifactId>cli</artifactId>
       <version>${dev:org.safris.commons.cli}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>search</artifactId>
+      <version>${dev:org.safris.commons.search}</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>

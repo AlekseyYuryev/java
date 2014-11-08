@@ -22,24 +22,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.safris</groupId>
-    <artifactId>maven</artifactId>
-    <version>${dev:org.safris.maven}</version>
+    <artifactId>test</artifactId>
+    <version>${dev:org.safris.test}</version>
   </parent>
-  <groupId>org.safris.maven</groupId>
-  <artifactId>plugin</artifactId>
-  <version>${dev:org.safris.maven.plugin}</version>
+  <groupId>org.safris.test</groupId>
+  <artifactId>maven</artifactId>
+  <version>${dev:org.safris.test.maven}</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Maven plugins.
-  </description>
   <modules>
-    <module>dependency</module>
-    <module>codeguide</module>
-    <module>xml</module>
-    <module>cobertura</module>
-    <module>cert</module>
-    <module>xdb</module>
-    <module>codegen</module>
+    <module>plugin</module>
   </modules>
 </project>

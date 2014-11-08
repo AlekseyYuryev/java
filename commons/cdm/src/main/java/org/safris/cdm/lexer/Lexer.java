@@ -61,107 +61,6 @@ public class Lexer {
     }
   }
 
-  public static enum Keyword implements Token {
-    // NOTE: The declaration list of Keyword(s) must be in sorted alphabetical order!
-    ABSTRACT, ASSERT, BOOLEAN, BREAK, BYTE, CASE, CATCH, CHAR, CLASS, CONST, CONTINUE, DEFAULT, DO, DOUBLE, ELSE, ENUM, EXTENDS, FALSE, FINAL, FINALLY, FLOAT, FOR, GOTO, IF, IMPLEMENTS, IMPORT, INSTANCEOF, INT, INTERFACE, LONG, NATIVE, NEW, NULL, PACKAGE, PRIVATE, PROTECTED, PUBLIC, RETURN, SHORT, STATIC, STRICTFP, SUPER, SWITCH, SYNCHRONIZED, THIS, THROW, THROWS, TRANSIENT, TRUE, TRY, VOID, VOLATILE, WHILE;
-
-    public static void print() {
-      String out = "";
-      for (final Keyword keyword : Keyword.values()) {
-        String x = "";
-        for (int i = 0; i < keyword.children.length; i++) {
-          String y = "";
-          if (keyword.children[i] != null)
-            for (int j = 0; j < keyword.children[i].length; j++)
-              y += ", " + keyword.children[i][j];
-
-          if (y.length() >= 2)
-            x += ", {" + y.substring(2) + "}";
-        }
-
-        out += "\n" + keyword + "(new int[][] {" + x.substring(2) + "})";
-      }
-
-      System.out.println(out);
-    }
-
-    protected static final int[] INDICES = new int[Keyword.values().length];
-
-    static {
-      PerfStat.mark("Lexer", "static");
-      for (int i = 0; i < INDICES.length; i++)
-        INDICES[i] = i;
-
-      Keyword.init(Keyword.INDICES, 0);
-      print();
-      PerfStat.mark("Lexer", "static");
-    }
-
-    protected static void init(final int[] keywords, final int depth) {
-      traverse(keywords, depth);
-      for (final int keyword : keywords) {
-        final int[][] children = Keyword.values()[keyword].children;
-        if (children[depth] != null)
-          init(children[depth], depth + 1);
-      }
-    }
-
-    private static void traverse(final int[] keywords, final int depth) {
-      if (keywords.length <= 1)
-        return;
-
-      int l = 0;
-      while (l < keywords.length) {
-        final String name = Keyword.values()[keywords[l]].lcname;
-        final int[] words = recurse(keywords, l, depth < name.length() ? name.charAt(depth) : '\0', depth, 0);
-        if (words == null)
-          break;
-
-        for (final int word : words)
-          Keyword.values()[word].children[depth] = words;
-
-        l += words.length;
-      }
-    }
-
-    private static int[] recurse(final int[] keywords, final int index, final char ch, final int depth, final int size) {
-      final String name = Keyword.values()[keywords[index]].lcname;
-      if (name.length() <= depth || ch != name.charAt(depth))
-        return 0 < size ? new int[size] : null;
-
-      final int[] array = index + 1 < keywords.length ? recurse(keywords, index + 1, ch, depth, size + 1) : new int[size + 1];
-      array[size] = keywords[index];
-      return array;
-    }
-
-    /*protected static int[] shrink(final int[] keywords, final int size) {
-      final int[] min = new int[size];
-      char last = '\0';
-      int index = 0;
-      for (final int keyword : keywords) {
-        final char ch = Keyword.values()[keyword].name().charAt(0);
-        if (last == ch)
-          continue;
-
-        last = ch;
-        min[index++] = keyword;
-      }
-
-      return min;
-    }*/
-
-    public final String lcname;
-    public final int[][] children = new int[name().length() + 1][];
-
-    Keyword() {
-      this.lcname = name().toLowerCase();
-    }
-
-    public String toString() {
-      return lcname;
-    }
-  }
-
   /*
    * So far, best performance is with FileInputStream, reading chars.
    */
@@ -200,24 +99,22 @@ public class Lexer {
         else if (token == Span.WORD) {
           ++len;
         }
-        else if (token == null || token == Span.WHITESPACE || !(token instanceof Keyword)) {
-          audit.push(token, i - len, len);
-          len = 1;
-
-          final int found = Util.binarySearch(Keyword.INDICES, ch, 0);
-          token = found < 0 ? Span.WORD : Keyword.values()[found];
-        }
         else {
-          final int[] children = ((Keyword)token).children[len - 1];
-          if (children != null) {
-            final int found = Util.binarySearch(children, ch, len);
-            token = found < 0 ? Span.WORD : Keyword.values()[children[found]];
-          }
-          else if (token.name().length() <= len || ((Keyword)token).lcname.charAt(len) != ch) {
-            token = Span.WORD;
-          }
+          if (token == null || token == Span.WHITESPACE || !(token instanceof Keyword)) {
+            audit.push(token, i - len, len);
+            len = 1;
 
-          ++len;
+            token = Keyword.findNext(null, 0, ch);
+            if (token == null)
+              token = Span.WORD;
+          }
+          else {
+            token = Keyword.findNext(((Keyword)token), len, ch);
+            if (token == null)
+              token = Span.WORD;
+
+            ++len;
+          }
         }
       }
       else if (ch == '\n' || ch == '\r' || ch == ' ' || ch == '\t') {

@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -72,40 +72,38 @@ public class GeneratorMojo extends AbstractMojo {
 
   /**
    * @parameter default-value="${project}"
+   * @readonly
    * @required
    */
-  private MavenProject project = null;
+  private MavenProject project;
 
   /**
    * @parameter default-value="${maven.test.skip}"
    */
-  private Boolean mavenTestSkip = null;
+  private Boolean mavenTestSkip;
 
   /**
    * @parameter default-value="${basedir}"
    */
-  private String basedir = null;
+  private String basedir;
 
   /**
    * @parameter
    */
   private Manifest manifest;
 
-  /** 
-   * @parameter expression="${mojoExecution}" 
+  /**
+   * @parameter expression="${mojoExecution}"
    */
   private MojoExecution execution;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
-    
+
     String href = null;
     boolean explodeJars = false;
     boolean overwrite = false;
-    if (project == null)
-      throw new MojoFailureException("project == null");
-
     final Resolver<String> resolver = new MavenPropertyResolver(project);
     final Build build = project.getBuild();
     if (build != null && build.getPlugins() != null) {
@@ -115,12 +113,12 @@ public class GeneratorMojo extends AbstractMojo {
 
         plugin.flushExecutionMap();
         Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
-        
+
         if (configuration == null)
           configuration = (Xpp3Dom)execution.getConfiguration();
         else if (execution.getConfiguration() != null)
           getLog().warn("Detected plugin- & execution-level configuration, which is not supported yet.");
-        
+
         if (configuration == null) {
           getLog().info("No configuration specified.");
           continue;
