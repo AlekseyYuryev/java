@@ -1,60 +1,44 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
 package org.safris.commons.net;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public final class URLsTest {
-  public static void main(final String[] args) throws Exception {
-    final URLsTest urlsTest = new URLsTest();
-    urlsTest.testIsAbsolute();
-    urlsTest.testMakeUrlFromPath();
-    urlsTest.testToExternalForm();
-    urlsTest.testExists();
-    urlsTest.testCanonicalizeURL();
-    urlsTest.testGetName();
-    urlsTest.testGetParent();
-  }
-
   @Test
   public void testIsAbsolute() throws Exception {
-    assertTrue(URLs.isAbsolute("c:\\Windows"));
-    assertTrue(URLs.isAbsolute("file:///c:/autoexec.bat"));
-    assertTrue(URLs.isAbsolute("/usr/share"));
-    assertTrue(URLs.isAbsolute("file:///etc/resolv.conf"));
-    assertTrue(URLs.isAbsolute("http://www.google.com/"));
+    Assert.assertTrue(URLs.isAbsolute("c:\\Windows"));
+    Assert.assertTrue(URLs.isAbsolute("file:///c:/autoexec.bat"));
+    Assert.assertTrue(URLs.isAbsolute("/usr/share"));
+    Assert.assertTrue(URLs.isAbsolute("file:///etc/resolv.conf"));
+    Assert.assertTrue(URLs.isAbsolute("http://www.google.com/"));
 
-    assertFalse(URLs.isAbsolute(".bashrc"));
-    assertFalse(URLs.isAbsolute("Thumbs.db"));
+    Assert.assertFalse(URLs.isAbsolute(".bashrc"));
+    Assert.assertFalse(URLs.isAbsolute("Thumbs.db"));
 
     try {
       URLs.isAbsolute(null);
-      fail("Expected a NullPointerException");
+      Assert.fail("Expected a NullPointerException");
     }
     catch (final NullPointerException e) {
     }
@@ -100,21 +84,21 @@ public final class URLsTest {
     relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com", "/webhp"});
     relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com/", "/webhp"});
     for (final Map.Entry<URL,String> entry : absolute.entrySet())
-      assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()));
+      Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()));
 
     for (final Map.Entry<URL,String[]> entry : relative.entrySet())
-      assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
+      Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
 
-    assertNull(URLs.makeUrlFromPath(null));
-    assertNull(URLs.makeUrlFromPath((String)null, null));
+    Assert.assertNull(URLs.makeUrlFromPath(null));
+    Assert.assertNull(URLs.makeUrlFromPath((String)null, null));
   }
 
   @Test
   public void testToExternalForm() throws Exception {
-    assertEquals(URLs.toExternalForm(new URL("http://www.google.com/webhp")), "http://www.google.com/webhp");
+    Assert.assertEquals(URLs.toExternalForm(new URL("http://www.google.com/webhp")), "http://www.google.com/webhp");
     try {
       URLs.toExternalForm(new URL("fbiy384ehd"));
-      fail("Expected a MalformedURLException");
+      Assert.fail("Expected a MalformedURLException");
     }
     catch (final MalformedURLException e) {
     }
@@ -123,15 +107,15 @@ public final class URLsTest {
   @Test
   public void testExists() throws Exception {
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
-      assertTrue(URLs.exists(new URL("file", "", "/c:/")));
+      Assert.assertTrue(URLs.exists(new URL("file", "", "/c:/")));
     else
-      assertTrue(URLs.exists(new URL("file", "", "/usr")));
+      Assert.assertTrue(URLs.exists(new URL("file", "", "/usr")));
 
     // FIXME: Some machines may not be connected to the web!
-//      assertTrue(URLs.exists(new URL("http://www.google.com/")));
+//      Assert.assertTrue(URLs.exists(new URL("http://www.google.com/")));
 
-    assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
-    assertFalse(URLs.exists(new URL("http://fndos.grnoe.dfsn/")));
+    Assert.assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
+    Assert.assertFalse(URLs.exists(new URL("http://fndos.grnoe.dfsn/")));
   }
 
   @Test
@@ -142,9 +126,9 @@ public final class URLsTest {
     map.put(new URL("file:///var"), new URL("file:///usr/share/../share/../lib/../../var"));
 
     for (final Map.Entry<URL,URL> entry : map.entrySet())
-      assertEquals(entry.getKey(), URLs.canonicalizeURL(entry.getValue()));
+      Assert.assertEquals(entry.getKey(), URLs.canonicalizeURL(entry.getValue()));
 
-    assertNull(URLs.canonicalizeURL(null));
+    Assert.assertNull(URLs.canonicalizeURL(null));
   }
 
   @Test
@@ -156,9 +140,9 @@ public final class URLsTest {
     urls.put("resolv.conf", new URL("file:///etc/resolv.conf"));
 
     for (final Map.Entry<String,URL> entry : urls.entrySet())
-      assertEquals(entry.getKey(), URLs.getName(entry.getValue()));
+      Assert.assertEquals(entry.getKey(), URLs.getName(entry.getValue()));
 
-    assertNull(URLs.canonicalizeURL(null));
+    Assert.assertNull(URLs.canonicalizeURL(null));
   }
 
   @Test
@@ -168,8 +152,8 @@ public final class URLsTest {
     urls.put(new URL("file:///usr/local"), new URL("file:///usr/local/bin/../lib/../bin"));
 
     for (final Map.Entry<URL,URL> entry : urls.entrySet())
-      assertEquals(entry.getKey(), URLs.getParent((entry.getValue())));
+      Assert.assertEquals(entry.getKey(), URLs.getParent((entry.getValue())));
 
-    assertNull(URLs.getParent(null));
+    Assert.assertNull(URLs.getParent(null));
   }
 }

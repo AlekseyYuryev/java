@@ -16,22 +16,15 @@
 
 package org.safris.commons.lang;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import sun.reflect.Reflection;
 
 public final class PackageLoaderTest {
-  public static void main(final String[] args) throws Exception {
-    new PackageLoaderTest().testPackageLoader();
-  }
-
   private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
@@ -60,7 +53,7 @@ public final class PackageLoaderTest {
     };
 
     for (final String testClass : testClasses)
-      assertFalse(isClassLoaded(testClass));
+      Assert.assertFalse(isClassLoaded(testClass));
 
     final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
     final Set<String> classNames = new HashSet<String>();
@@ -69,13 +62,13 @@ public final class PackageLoaderTest {
 
     for (final String testClass : testClasses) {
       System.out.println(testClass);
-      assertTrue(classNames.contains(testClass));
-      assertTrue(isClassLoaded(testClass));
+      Assert.assertTrue(classNames.contains(testClass));
+      Assert.assertTrue(isClassLoaded(testClass));
     }
 
     try {
       PackageLoader.getSystemPackageLoader().loadPackage(null);
-      fail("Expected a PackageNotFoundException");
+      Assert.fail("Expected a PackageNotFoundException");
     }
     catch (final PackageNotFoundException e) {
     }

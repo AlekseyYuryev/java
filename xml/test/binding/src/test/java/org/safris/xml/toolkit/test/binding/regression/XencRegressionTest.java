@@ -73,8 +73,7 @@ public class XencRegressionTest extends RegressionTest {
       setVerifiable(false);
 
     xenc_CipherReference binding = new xenc_CipherReference();
-    $xenc_TransformsType transforms = new $xenc_TransformsType()
-    {
+    $xenc_TransformsType transforms = new $xenc_TransformsType() {
       protected $xenc_TransformsType inherits() {
         return null;
       }
@@ -217,8 +216,7 @@ public class XencRegressionTest extends RegressionTest {
   }
 
   public static final $xenc_EncryptedKeyType getEncryptedKeyType() {
-    $xenc_EncryptedKeyType binding = new $xenc_EncryptedKeyType()
-    {
+    $xenc_EncryptedKeyType binding = new $xenc_EncryptedKeyType() {
       protected $xenc_EncryptedKeyType inherits() {
         return null;
       }
@@ -238,8 +236,7 @@ public class XencRegressionTest extends RegressionTest {
   }
 
   public static final $xenc_EncryptedDataType getEncryptedDataType() {
-    $xenc_EncryptedDataType binding = new $xenc_EncryptedDataType()
-    {
+    $xenc_EncryptedDataType binding = new $xenc_EncryptedDataType() {
       protected $xenc_EncryptedDataType inherits() {
         return null;
       }
@@ -257,8 +254,7 @@ public class XencRegressionTest extends RegressionTest {
   }
 
   public static final $xenc_EncryptionMethodType getEncryptionMethodType() {
-    $xenc_EncryptionMethodType binding = new $xenc_EncryptionMethodType()
-    {
+    $xenc_EncryptionMethodType binding = new $xenc_EncryptionMethodType() {
       protected $xenc_EncryptionMethodType inherits() {
         return null;
       }

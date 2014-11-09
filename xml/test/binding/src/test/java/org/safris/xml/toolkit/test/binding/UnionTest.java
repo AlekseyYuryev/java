@@ -28,10 +28,6 @@ import org.safris.xml.schema.binding.test.unit.union.un_six;
 import org.safris.xml.schema.binding.test.unit.union.un_two;
 
 public class UnionTest {
-  public static void main(String[] args) throws Exception {
-    new UnionTest().testUnion();
-  }
-
   @Test
   public void testUnion() throws Exception {
     un_root root = new un_root();

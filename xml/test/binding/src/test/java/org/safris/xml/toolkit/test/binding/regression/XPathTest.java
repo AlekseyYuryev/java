@@ -43,11 +43,6 @@ public class XPathTest {
     return nodeType == Node.CDATA_SECTION_NODE || nodeType == Node.TEXT_NODE;
   }
 
-  public static void main(String[] args) throws Exception {
-    xpath = args[0];
-    new XPathTest().testXPath();
-  }
-
   @Ignore("Finish implementing this test!")
   @Test
   public void testXPath() throws Exception {

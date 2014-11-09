@@ -1,8 +1,6 @@
 package org.safris.commons.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ForTest {
@@ -25,11 +23,11 @@ public class ForTest {
       array = For.<Integer>lfor(filter, values1);
 
     System.out.println("lfor: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
-    assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
-    
-    assertNull(For.<Integer>lfor(filter, values2));
+    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+
+    Assert.assertNull(For.<Integer>lfor(filter, values2));
   }
-  
+
   @Test
   public void testRFor() {
     System.gc();
@@ -40,9 +38,9 @@ public class ForTest {
       array = For.<Integer>rfor(values1, filter);
 
     System.out.println("rfor: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
-    assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
     array = For.<Integer>rfor(values2, filter);
-    assertNull(array);
+    Assert.assertNull(array);
   }
 }

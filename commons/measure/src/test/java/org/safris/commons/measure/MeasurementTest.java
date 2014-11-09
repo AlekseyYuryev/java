@@ -16,8 +16,6 @@
 
 package org.safris.commons.measure;
 
-import static org.junit.Assert.assertEquals;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.measure.Dimension.Unit;
 import org.safris.commons.util.Combinations;
@@ -108,7 +107,7 @@ public class MeasurementTest {
             final Object measurement2 = constructor.newInstance(toArgs(scalar, toArgs));
             final double back = (double)method.invoke(measurement2, fromArgs);
             System.out.print(measurement + " = " + measurement2 + " = " + constructor.newInstance(toArgs(back, fromArgs)));
-            assertEquals(value, back, 0.000001);
+            Assert.assertEquals(value, back, 0.000001);
             System.out.println(" [OK]");
           }
         }

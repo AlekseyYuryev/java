@@ -28,10 +28,6 @@ public final class Base64BinaryTest {
     Assert.assertEquals(data, new String(unmarshalled.getBytes()));
   }
 
-  public static void main(final String[] args) {
-    new Base64BinaryTest().testBase64Binary();
-  }
-
   @Test
   public void testBase64Binary() {
     assertEquals("Bonjour", "Qm9uam91cg==");

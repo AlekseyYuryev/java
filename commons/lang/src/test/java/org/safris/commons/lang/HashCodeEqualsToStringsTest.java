@@ -1,10 +1,6 @@
 package org.safris.commons.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 public class HashCodeEqualsToStringsTest {
@@ -33,7 +29,7 @@ public class HashCodeEqualsToStringsTest {
     public B(final String o) {
       this.o = o;
     }
-    
+
     public B() {
       this("b");
     }
@@ -46,12 +42,12 @@ public class HashCodeEqualsToStringsTest {
       this.e = e;
     }
   }
-  
+
   private static class D extends C {
     @Equalable
     @Hashable
     private final Integer i = null;
-    
+
     public D(final E e) {
       super(e);
     }
@@ -62,17 +58,17 @@ public class HashCodeEqualsToStringsTest {
     final int a = HashCodes.hashCode(new A());
     final int b = HashCodes.hashCode(new B());
     final int c = HashCodes.hashCode(new C(E.a));
-    assertEquals(a, b);
-    assertNotEquals(a, c);
-    assertEquals(HashCodes.hashCode(new D(E.a)), HashCodes.hashCode(new D(E.b)));
+    Assert.assertEquals(a, b);
+    Assert.assertNotEquals(a, c);
+    Assert.assertEquals(HashCodes.hashCode(new D(E.a)), HashCodes.hashCode(new D(E.b)));
   }
 
   @Test
   public void testEquals() {
-    assertTrue(Equals.equals(new A(), new A()));
-    assertTrue(Equals.equals(new B("a"), new B("b")));
-    assertFalse(Equals.equals(new C(E.a), new C(E.b)));
-    assertTrue(Equals.equals(new D(E.a), new D(E.b)));
+    Assert.assertTrue(Equals.equals(new A(), new A()));
+    Assert.assertTrue(Equals.equals(new B("a"), new B("b")));
+    Assert.assertFalse(Equals.equals(new C(E.a), new C(E.b)));
+    Assert.assertTrue(Equals.equals(new D(E.a), new D(E.b)));
   }
 
   @Test

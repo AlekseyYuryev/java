@@ -18,6 +18,7 @@ package org.safris.xml.toolkit.test.binding;
 
 import java.io.File;
 import java.io.FileInputStream;
+import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -28,8 +29,6 @@ import org.safris.xml.schema.binding.test.unit.name.na_name;
 import org.safris.xml.schema.binding.test.unit.name.na_name$;
 import org.safris.xml.schema.binding.test.unit.name.na_root;
 import org.xml.sax.InputSource;
-
-import static org.junit.Assert.*;
 
 public class NameTest extends AbstractTest {
   public static void main(String[] args) throws Exception {
@@ -173,6 +172,6 @@ public class NameTest extends AbstractTest {
     xmlFromFile = xmlFromFile.replace(" xsi:nil=\"false\"", "");
 
     // The two xml strings should be equal
-    assertEquals(xmlFromObjects, xmlFromFile);
+    Assert.assertEquals(xmlFromObjects, xmlFromFile);
   }
 }

@@ -1,35 +1,28 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
 package org.safris.commons.el;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public final class ELsTest {
-  public static void main(final String[] args) {
-    new ELsTest().testDereference();
-  }
-
   @Test
   public void testDereference() {
     final Map<String,String> variables = new HashMap<String,String>();
@@ -43,16 +36,16 @@ public final class ELsTest {
     map.put("something in the ${middle} of this string", "something in the MIDDLE of this string");
 
     for (final Map.Entry<String,String> entry : map.entrySet())
-      assertEquals(ELs.dereference(entry.getKey(), variables), entry.getValue());
+      Assert.assertEquals(ELs.dereference(entry.getKey(), variables), entry.getValue());
 
-    assertNull(ELs.dereference(null, variables));
-    assertNull(ELs.dereference(null, null));
+    Assert.assertNull(ELs.dereference(null, variables));
+    Assert.assertNull(ELs.dereference(null, null));
     final String same = "string with ${a} variable";
-    assertEquals(ELs.dereference(same, null), same);
+    Assert.assertEquals(ELs.dereference(same, null), same);
 
     try {
       ELs.dereference("expect an ${exception here", variables);
-      fail("Expected a ExpressionFormatException");
+      Assert.fail("Expected a ExpressionFormatException");
     }
     catch (final ExpressionFormatException e) {
     }

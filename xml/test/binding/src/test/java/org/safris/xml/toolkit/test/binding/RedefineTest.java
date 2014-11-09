@@ -30,8 +30,7 @@ public class RedefineTest {
 
   @Test
   public void testComplexTypie() {
-    $ev_complexTypie_original original = new $ev_complexTypie_original()
-    {
+    $ev_complexTypie_original original = new $ev_complexTypie_original() {
       protected $ev_complexTypie_original inherits() {
         return null;
       }
@@ -44,8 +43,7 @@ public class RedefineTest {
     original.addAny(null);                  // in <redefine/> of groupie
     original.addAny$(null);                 // in <redefine/> of attrGroupie
 
-    $ev_complexTypie redefined = new $ev_complexTypie()
-    {
+    $ev_complexTypie redefined = new $ev_complexTypie() {
       protected $ev_complexTypie inherits() {
         return null;
       }
@@ -62,8 +60,7 @@ public class RedefineTest {
 
   @Test
   public void testSimpleTypie() {
-    $ev_simpleTypie_original original = new $ev_simpleTypie_original()
-    {
+    $ev_simpleTypie_original original = new $ev_simpleTypie_original() {
       protected $ev_simpleTypie_original inherits() {
         return null;
       }
@@ -73,8 +70,7 @@ public class RedefineTest {
     original.setText($ev_simpleTypie_original._2);
     original.setText($ev_simpleTypie_original._3);
 
-    $ev_simpleTypie redefined = new $ev_simpleTypie()
-    {
+    $ev_simpleTypie redefined = new $ev_simpleTypie() {
       protected $ev_simpleTypie inherits() {
         return null;
       }

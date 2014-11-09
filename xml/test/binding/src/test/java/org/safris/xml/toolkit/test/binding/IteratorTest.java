@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ListIterator;
+import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Binding;
@@ -30,8 +31,6 @@ import org.safris.xml.schema.binding.test.unit.order.or_B;
 import org.safris.xml.schema.binding.test.unit.order.or_C;
 import org.safris.xml.schema.binding.test.unit.order.or_root;
 import org.xml.sax.InputSource;
-
-import static org.junit.Assert.*;
 
 public class IteratorTest extends AbstractTest {
   public static void main(String[] args) throws Exception {
@@ -180,6 +179,6 @@ public class IteratorTest extends AbstractTest {
     String xmlFromFile = DOMs.domToString(root2.marshal());
 
     // The two xml strings should be equal
-    assertEquals(xmlFromObjects, xmlFromFile);
+    Assert.assertEquals(xmlFromObjects, xmlFromFile);
   }
 }
