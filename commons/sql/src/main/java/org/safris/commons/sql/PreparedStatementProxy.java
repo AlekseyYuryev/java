@@ -1,15 +1,15 @@
 /* Copyright (c) 2009 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -57,7 +57,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
       return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
   };
-  
+
   private final ThreadLocal<NumberFormat> numberFormat = new ThreadLocal<NumberFormat>() {
     protected NumberFormat initialValue() {
       return new DecimalFormat("###############.###########;-###############.###########");
@@ -371,24 +371,29 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public String toString() {
-    final StringTokenizer tokenizer = new StringTokenizer(sql, "?");
+    final StringTokenizer tokenizer = new StringTokenizer(sql, "?", true);
     final StringBuilder buffer = new StringBuilder();
     int index = 0;
     while (tokenizer.hasMoreTokens()) {
-      buffer.append(tokenizer.nextToken());
-      final Object value = parameterMap.get(++index);
-      if (value == NULL)
-        buffer.append("NULL");
-      else if (value instanceof Date)
-        buffer.append("'" + dateFormat.get().format((Date)value) + "'");
-      else if (value instanceof String || value instanceof Byte)
-        buffer.append("'" + value + "'");
-      else if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof BigInteger)
-        buffer.append(numberFormat.get().format(value));
-      else if (value != null)
-        buffer.append(value);
-      else
-        buffer.append("?");
+      final String token = tokenizer.nextToken();
+      if ("?".equals(token)) {
+        final Object value = parameterMap.get(++index);
+        if (value == NULL)
+          buffer.append("NULL");
+        else if (value instanceof Date)
+          buffer.append("'" + dateFormat.get().format((Date)value) + "'");
+        else if (value instanceof String || value instanceof Byte)
+          buffer.append("'" + value + "'");
+        else if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof BigInteger)
+          buffer.append(numberFormat.get().format(value));
+        else if (value != null)
+          buffer.append(value);
+        else
+          buffer.append("?");
+      }
+      else {
+        buffer.append(token);
+      }
     }
 
     final String display = buffer.toString();

@@ -50,7 +50,7 @@ public final class Classes {
 
     Map<String,Field> fieldMap = classToFields.get(cls);
     if (fieldMap != null)
-      return checkAccessField(fieldMap.get(cls), declared);
+      return checkAccessField(fieldMap.get(fieldName), declared);
 
     synchronized (classToFields) {
       if ((fieldMap = classToFields.get(cls)) != null)
@@ -63,7 +63,7 @@ public final class Classes {
         fieldMap.put(field.getName(), field);
       }
 
-      return checkAccessField(fieldMap.get(cls), declared);
+      return checkAccessField(fieldMap.get(fieldName), declared);
     }
   }
 
@@ -132,10 +132,23 @@ public final class Classes {
     }
   };
 
+  private static final For.Filter<Class<?>> classWithAnnotationFilter = new For.Filter<Class<?>>() {
+    public boolean filter(final Class<?> value, final Object ... args) {
+      return value.getAnnotation((Class)args[0]) != null;
+    }
+  };
+
+  private static final For.Recurser<Class<?>> classWithAnnotationRecurser = new For.Recurser<Class<?>>() {
+    public Class<?>[] recurse(final Class<?>[] value) {
+      final Class<?> clazz = value[0].getDeclaringClass().getSuperclass();
+      return clazz != null ? clazz.getDeclaredClasses() : null;
+    }
+  };
+
   /**
    * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
    *
-   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field retuls after this
+   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field result after this
    * match.
    *
    * @param clazz
@@ -149,6 +162,25 @@ public final class Classes {
 
   public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
     return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationRecurser, fieldWithAnnotationFilter, annotationType);
+  }
+
+  /**
+   * Find declared Class(es) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
+   *
+   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Class<?> result after this
+   * match.
+   *
+   * @param clazz
+   * @param annotationType
+   * @param comparable
+   * @return
+   */
+  public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
+    return For.<Class<?>>rfor(clazz.getDeclaredClasses(), classWithAnnotationFilter, annotationType);
+  }
+
+  public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
+    return For.<Class<?>>rfor(clazz.getDeclaredClasses(), classWithAnnotationRecurser, classWithAnnotationFilter, annotationType);
   }
 
   public static Field[] getFieldsDeep(Class<?> clazz) {
