@@ -20,10 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.safris.commons.util.For;
@@ -33,12 +31,8 @@ import sun.reflect.Reflection;
 public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
 
-  public static Field getField(final Class<?> cls, final String fieldName) {
-    return Classes.getField(cls, fieldName, false);
-  }
-
-  public static Field getDeclaredField(final Class<?> cls, final String fieldName) {
-    return Classes.getField(cls, fieldName, true);
+  private static Field checkAccessField(final Field field, final boolean declared) {
+    return declared || Modifier.isPublic(field.getModifiers()) ? field : null;
   }
 
   private static Field getField(final Class<?> cls, final String fieldName, final boolean declared) {
@@ -58,13 +52,19 @@ public final class Classes {
 
       final Field[] fields = declared ? cls.getDeclaredFields() : cls.getFields();
       classToFields.put(cls, fieldMap = new HashMap<String,Field>());
-      for (final Field field : fields) {
-        field.setAccessible(true);
+      for (final Field field : fields)
         fieldMap.put(field.getName(), field);
-      }
 
       return checkAccessField(fieldMap.get(fieldName), declared);
     }
+  }
+
+  public static Field getField(final Class<?> cls, final String fieldName) {
+    return Classes.getField(cls, fieldName, false);
+  }
+
+  public static Field getDeclaredField(final Class<?> cls, final String fieldName) {
+    return Classes.getField(cls, fieldName, true);
   }
 
   public static Field getDeclaredFieldDeep(Class<?> clazz, final String name) {
@@ -75,42 +75,6 @@ public final class Classes {
     return field;
   }
 
-  private static Field checkAccessField(final Field field, final boolean declared) {
-    return declared || Modifier.isPublic(field.getModifiers()) ? field : null;
-  }
-
-  public static Class<?> forName(final String className, final boolean initialize) {
-    if (className == null || className.length() == 0)
-      return null;
-
-    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    classLoader = Thread.currentThread().getContextClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    classLoader = Reflection.getCallerClass().getClassLoader();
-    try {
-      return Class.forName(className, initialize, classLoader);
-    }
-    catch (final ClassNotFoundException e) {
-    }
-
-    return null;
-  }
-
-  public static Class<?> forName(final String className) {
-    return Classes.forName(className, false);
-  }
-
   public static <T extends Annotation>T getDeclaredAnnotation(final Class<?> clazz, final Class<T> annotationType) {
     for (final Annotation annotation : clazz.getDeclaredAnnotations())
       if (annotation.annotationType() == annotationType)
@@ -119,29 +83,57 @@ public final class Classes {
     return null;
   }
 
-  private static final For.Filter<Field> fieldWithAnnotationFilter = new For.Filter<Field>() {
-    public boolean filter(final Field value, final Object ... args) {
-      return value.getAnnotation((Class)args[0]) != null;
+  private static final For.Recurser<Field,Class<?>> declaredFieldRecurser = new For.Recurser<Field,Class<?>>() {
+    public boolean accept(final Field item, final Object ... args) {
+      return true;
+    }
+
+    public Field[] items(final Class<?> container) {
+      return container.getDeclaredFields();
+    }
+
+    public Class<?> next(final Class<?> container) {
+      return container.getSuperclass();
     }
   };
 
-  private static final For.Recurser<Field> fieldWithAnnotationRecurser = new For.Recurser<Field>() {
-    public Field[] recurse(final Field[] value) {
-      final Class<?> clazz = value[0].getDeclaringClass().getSuperclass();
-      return clazz != null ? clazz.getDeclaredFields() : null;
+  private static final For.Recurser<Field,Class<?>> fieldRecurser = new For.Recurser<Field,Class<?>>() {
+    public boolean accept(final Field field, final Object ... args) {
+      return Modifier.isPublic((field).getModifiers());
+    }
+
+    public Field[] items(final Class<?> clazz) {
+      return clazz.getDeclaredFields();
+    }
+
+    public Class<?> next(final Class<?> clazz) {
+      return clazz.getSuperclass();
+    }
+  };
+
+  private static final For.Filter<Field> declaredFieldWithAnnotationFilter = new For.Filter<Field>() {
+    public boolean accept(final Field item, final Object ... args) {
+      return item.getAnnotation((Class)args[0]) != null;
     }
   };
 
   private static final For.Filter<Class<?>> classWithAnnotationFilter = new For.Filter<Class<?>>() {
-    public boolean filter(final Class<?> value, final Object ... args) {
-      return value.getAnnotation((Class)args[0]) != null;
+    public boolean accept(final Class<?> item, final Object ... args) {
+      return item.getAnnotation((Class)args[0]) != null;
     }
   };
 
-  private static final For.Recurser<Class<?>> classWithAnnotationRecurser = new For.Recurser<Class<?>>() {
-    public Class<?>[] recurse(final Class<?>[] value) {
-      final Class<?> clazz = value[0].getDeclaringClass().getSuperclass();
-      return clazz != null ? clazz.getDeclaredClasses() : null;
+  private static final For.Recurser<Class<?>,Class<?>> classWithAnnotationRecurser = new For.Recurser<Class<?>,Class<?>>() {
+    public boolean accept(final Class<?> item, final Object ... args) {
+      return item.getAnnotation((Class)args[0]) != null;
+    }
+
+    public Class<?>[] items(final Class<?> container) {
+      return container.getDeclaredClasses();
+    }
+
+    public Class<?> next(final Class<?> container) {
+      return container.getSuperclass();
     }
   };
 
@@ -157,11 +149,11 @@ public final class Classes {
    * @return
    */
   public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationFilter, annotationType);
+    return For.<Field>recursiveOrdered(clazz.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, annotationType);
   }
 
   public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
-    return For.<Field>rfor(clazz.getDeclaredFields(), fieldWithAnnotationRecurser, fieldWithAnnotationFilter, annotationType);
+    return For.<Field,Class<?>>recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldRecurser, annotationType);
   }
 
   /**
@@ -176,33 +168,19 @@ public final class Classes {
    * @return
    */
   public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
-    return For.<Class<?>>rfor(clazz.getDeclaredClasses(), classWithAnnotationFilter, annotationType);
+    return For.<Class<?>>recursiveOrdered(clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, annotationType);
   }
 
   public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
-    return For.<Class<?>>rfor(clazz.getDeclaredClasses(), classWithAnnotationRecurser, classWithAnnotationFilter, annotationType);
+    return For.<Class<?>,Class<?>>recursiveInverted(clazz, clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, annotationType);
   }
 
-  public static Field[] getFieldsDeep(Class<?> clazz) {
-    if (clazz == null)
-      throw new NullPointerException("clazz == null");
-
-    final List<Field> fields = new ArrayList<Field>();
-    do
-      fields.addAll(Arrays.<Field>asList(clazz.getFields()));
-    while ((clazz = clazz.getSuperclass()) != null);
-    return fields.toArray(new Field[fields.size()]);
+  public static Field[] getFieldsDeep(final Class<?> clazz) {
+    return For.recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, fieldRecurser);
   }
 
-  public static Field[] getDeclaredFieldsDeep(Class<?> clazz) {
-    if (clazz == null)
-      throw new NullPointerException("clazz == null");
-
-    final List<Field> fields = new ArrayList<Field>();
-    do
-      fields.addAll(Arrays.<Field>asList(clazz.getDeclaredFields()));
-    while ((clazz = clazz.getSuperclass()) != null);
-    return fields.toArray(new Field[fields.size()]);
+  public static Field[] getDeclaredFieldsDeep(final Class<?> clazz) {
+    return For.<Field,Class<?>>recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldRecurser);
   }
 
   public static Method getDeclaredMethod(final Class<?> clazz, final String name, final Class<?> ... parameters) {
@@ -242,16 +220,47 @@ public final class Classes {
     return gcc;
   }
 
-  private static Class<?> getGreatestCommonSuperclass(final Class<?> class1, final Class<?> class2) {
-    Class<?> super1 = class1;
+  public static Class<?> forName(final String className, final boolean initialize) {
+    if (className == null || className.length() == 0)
+      return null;
+
+    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+
+    classLoader = Thread.currentThread().getContextClassLoader();
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+
+    classLoader = Reflection.getCallerClass().getClassLoader();
+    try {
+      return Class.forName(className, initialize, classLoader);
+    }
+    catch (final ClassNotFoundException e) {
+    }
+
+    return null;
+  }
+
+  public static Class<?> forName(final String className) {
+    return Classes.forName(className, false);
+  }
+
+  private static Class<?> getGreatestCommonSuperclass(Class<?> class1, final Class<?> class2) {
     do {
       Class<?> super2 = class2;
       do
-        if (super1.isAssignableFrom(super2))
-          return super1;
+        if (class1.isAssignableFrom(super2))
+          return class1;
       while ((super2 = super2.getSuperclass()) != null);
     }
-    while ((super1 = super1.getSuperclass()) != null);
+    while ((class1 = class1.getSuperclass()) != null);
     return null;
   }
 

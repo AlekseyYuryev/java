@@ -1,4 +1,23 @@
+/* Copyright (c) 2014 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.commons.util;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,40 +26,98 @@ public class ForTest {
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
   private static final For.Filter<Integer> filter = new For.Filter<Integer>() {
-    public boolean filter(final Integer value, final Object ... args) {
+    public boolean accept(final Integer value, final Object ... args) {
       return 1 == value || (3 < value && value < 7) || value == 8;
     }
   };
-  private Integer[] array = null;
 
-  @Test
-  public void testLFor() {
-    System.gc();
+  private static String[] fieldNames = new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
 
-    long start = System.currentTimeMillis();
-    long mem = Runtime.getRuntime().freeMemory();
-    for (int i = 0; i < 1000000; i++)
-      array = For.<Integer>lfor(filter, values1);
+  public static class A {
+    public int a;
+    public int b;
+    public int c;
+  }
 
-    System.out.println("lfor: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
-    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+  public static class B extends A {
+    public int d;
+    public int e;
+  }
 
-    Assert.assertNull(For.<Integer>lfor(filter, values2));
+  public static class C extends B {
+  }
+
+  public static class D extends C {
+  }
+
+  public static class F extends D {
+    public int f;
+    public int g;
+  }
+
+  public static class G extends F {
+    public int h;
+    public int i;
+  }
+
+  public static class H extends G {
+  }
+
+  public static Field[] getFieldsDeep(final Class<?> clazz) {
+    return For.recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, new For.Recurser<Field,Class<?>>() {
+      public boolean accept(final Field field, final Object ... args) {
+        return Modifier.isPublic((field).getModifiers());
+      }
+
+      public Field[] items(final Class<?> clazz) {
+        return clazz.getDeclaredFields();
+      }
+
+      public Class<?> next(final Class<?> clazz) {
+        return clazz.getSuperclass();
+      }
+    });
   }
 
   @Test
-  public void testRFor() {
+  public void testDeepRecursive() {
+    final Field[] fields = getFieldsDeep(H.class);
+    Assert.assertEquals(fieldNames.length, fields.length);
+    for (int i = 0; i < fields.length; i++)
+      Assert.assertEquals(fieldNames[i], fields[i].getName());
+  }
+
+  @Test
+  public void testIterative() {
     System.gc();
 
-    final long start = System.currentTimeMillis();
-    final long mem = Runtime.getRuntime().freeMemory();
-    for (int i = 0; i < 1000000; i++)
-      array = For.<Integer>rfor(values1, filter);
+    Integer[] array = null;
+    long start = System.currentTimeMillis();
+    long mem = Runtime.getRuntime().freeMemory();
+    for (int i = 0; i < 10000000; i++)
+      array = For.<Integer>iterative(values1, Integer.class, filter);
 
-    System.out.println("rfor: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
+    System.out.println("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
     Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
-    array = For.<Integer>rfor(values2, filter);
-    Assert.assertNull(array);
+    array = For.<Integer>iterative(values2, Integer.class, filter);
+    Assert.assertEquals(0, array.length);
+  }
+
+  @Test
+  public void testRecursive() {
+    System.gc();
+
+    Integer[] array = null;
+    final long start = System.currentTimeMillis();
+    final long mem = Runtime.getRuntime().freeMemory();
+    for (int i = 0; i < 10000000; i++)
+      array = For.<Integer>recursiveOrdered(values1, Integer.class, filter);
+
+    System.out.println("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
+    Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
+
+    array = For.<Integer>recursiveOrdered(values2, Integer.class, filter);
+    Assert.assertEquals(0, array.length);
   }
 }

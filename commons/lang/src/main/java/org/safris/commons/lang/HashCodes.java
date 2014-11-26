@@ -1,3 +1,19 @@
+/* Copyright (c) 2014 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.commons.lang;
 
 import java.lang.reflect.Field;
@@ -12,22 +28,22 @@ public final class HashCodes {
   private static final Map<Class<?>,Field[]> blackWhiteListMap = new HashMap<Class<?>,Field[]>();
 
   private static final For.Filter<Field> nonBlacklistFilter = new For.Filter<Field>() {
-    public boolean filter(final Field value, final Object ... args) {
-      final boolean filter = !value.isSynthetic() && !Modifier.isStatic(value.getModifiers()) && value.getAnnotation(NotHashable.class) == null;
-      if (filter)
-        value.setAccessible(true);
+    public boolean accept(final Field item, final Object ... args) {
+      final boolean accept = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(NotHashable.class) == null;
+      if (accept)
+        item.setAccessible(true);
 
-      return filter;
+      return accept;
     }
   };
 
   private static final For.Filter<Field> whitelistFilter = new For.Filter<Field>() {
-    public boolean filter(final Field value, final Object ... args) {
-      final boolean filter = !value.isSynthetic() && !Modifier.isStatic(value.getModifiers()) && value.getAnnotation(Hashable.class) != null;
-      if (filter)
-        value.setAccessible(true);
+    public boolean accept(final Field item, final Object ... args) {
+      final boolean accept = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(Hashable.class) != null;
+      if (accept)
+        item.setAccessible(true);
 
-      return filter;
+      return accept;
     }
   };
 
@@ -98,9 +114,9 @@ public final class HashCodes {
       Field[] fields = blackWhiteListMap.get(cls);
       if (fields == null) {
         final Field[] allFields = Classes.getDeclaredFieldsDeep(cls);
-        fields = For.<Field>rfor(allFields, whitelistFilter);
-        if (fields == null)
-          fields = For.<Field>rfor(allFields, nonBlacklistFilter);
+        fields = For.<Field>recursiveOrdered(allFields, Field.class, whitelistFilter);
+        if (fields.length == 0)
+          fields = For.<Field>recursiveOrdered(allFields, Field.class, nonBlacklistFilter);
 
         blackWhiteListMap.put(cls, fields);
       }

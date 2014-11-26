@@ -1,3 +1,19 @@
+/* Copyright (c) 2014 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.commons.lang;
 
 public class ByteArrayList {
@@ -14,7 +30,7 @@ public class ByteArrayList {
 
   /**
    * Creates a list with a set capacity
-   * 
+   *
    * @param size
    *          The initial capacity of the list
    */
@@ -24,7 +40,7 @@ public class ByteArrayList {
 
   /**
    * Creates a list with a set of values
-   * 
+   *
    * @param values
    *          The values for the list
    */
@@ -56,7 +72,7 @@ public class ByteArrayList {
 
   /**
    * Gets the value in the list at the given index
-   * 
+   *
    * @param index
    *          The index of the value to get
    * @return The value at the given index
@@ -70,7 +86,7 @@ public class ByteArrayList {
 
   /**
    * Adds a value to the end of this list
-   * 
+   *
    * @param value
    *          The value to add to the list
    */
@@ -81,7 +97,7 @@ public class ByteArrayList {
 
   /**
    * Adds a value to this list at the given index
-   * 
+   *
    * @param index
    *          The index to add the value at
    * @param value
@@ -101,7 +117,7 @@ public class ByteArrayList {
 
   /**
    * Adds an array of values to the end of this list
-   * 
+   *
    * @param value
    *          The values to add
    */
@@ -115,7 +131,7 @@ public class ByteArrayList {
 
   /**
    * Adds a list of values to the end of this list
-   * 
+   *
    * @param list
    *          The list of values to add
    */
@@ -129,7 +145,7 @@ public class ByteArrayList {
 
   /**
    * Replaces a value in this list with another value
-   * 
+   *
    * @param index
    *          The index of the value to replace
    * @param value
@@ -147,7 +163,7 @@ public class ByteArrayList {
 
   /**
    * Removes a value from this list
-   * 
+   *
    * @param index
    *          The index of the value to remove
    * @return The value that was removed
@@ -166,7 +182,7 @@ public class ByteArrayList {
 
   /**
    * Removes a value from this list
-   * 
+   *
    * @param value
    *          The value to remove
    * @return Whether the value was found and removed
@@ -184,7 +200,7 @@ public class ByteArrayList {
 
   /**
    * Removes all instances of the given value from this list
-   * 
+   *
    * @param value
    *          The value to remove
    * @return The number of times the value was removed
@@ -204,7 +220,7 @@ public class ByteArrayList {
 
   /**
    * Determines if this list contains a given value
-   * 
+   *
    * @param value
    *          The value to find
    * @return Whether this list contains the given value
@@ -215,7 +231,7 @@ public class ByteArrayList {
 
   /**
    * Counts the number of times a value is represented in this list
-   * 
+   *
    * @param value
    *          The value to count
    * @return The number of times the value appears in this list
@@ -231,7 +247,7 @@ public class ByteArrayList {
 
   /**
    * Finds a value in this list
-   * 
+   *
    * @param value
    *          The value to find
    * @return The first index whose value is the given value
@@ -246,7 +262,7 @@ public class ByteArrayList {
 
   /**
    * Finds a value in this list
-   * 
+   *
    * @param value
    *          The value to find
    * @return The last index whose value is the given value
@@ -270,7 +286,7 @@ public class ByteArrayList {
 
   /**
    * Similary to {@link #toArray()} but creates an array of {@link Integer} wrappers
-   * 
+   *
    * @return The list of values currently in this list
    */
   public Integer[] toObjectArray() {
@@ -295,7 +311,7 @@ public class ByteArrayList {
 
   /**
    * Ensures that this list's capacity is at list the given value
-   * 
+   *
    * @param minCapacity
    *          The minimum capacity for the list
    */

@@ -1,3 +1,19 @@
+/* Copyright (c) 2014 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.commons.util;
 
 import java.lang.reflect.Array;
@@ -5,94 +21,119 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class For {
-  public static interface Filter<T> {
-    public boolean filter(final T value, final Object ... args);
+  public static interface Filter<I> {
+    public boolean accept(final I item, final Object ... args);
   }
 
-  public static interface Recurser<T> {
-    public T[] recurse(final T[] value);
+  public static interface Recurser<I,C> extends Filter<I> {
+    public I[] items(final C container);
+    public C next(final C container);
   }
 
-  public static <I>I[] lfor(final Filter<I> filter, final I[] objects) {
+  public static <I>I[] iterative(final I[] array, final Class<I> type, final Filter<I> filter, final Object ... args) {
+    if (array == null)
+      return null;
+
+    if (type == null)
+      throw new NullPointerException("type == null");
+
     if (filter == null)
       throw new NullPointerException("filter == null");
-    
-    if (objects == null || objects.length == 0)
+
+    final List<I> list = new ArrayList<I>(array.length);
+    for (int i = 0; i < array.length; i++)
+      if (filter.accept(array[i], args))
+        list.add(array[i]);
+
+    return list.toArray((I[])Array.newInstance(type, list.size()));
+  }
+
+  private static <I>I[] recursiveOrdered(final Class<I> type, final Filter<I> filter, final Object[] args, final I[] array, int index, final int depth) {
+    I item;
+    boolean skip = true;
+    if (index < array.length)
+      while ((skip = !filter.accept(item = array[index++], args)) && index < array.length);
+    else
+      return (I[])Array.newInstance(type, depth);
+
+    final I[] ret = recursiveOrdered(type, filter, args, array, index, skip ? depth : depth + 1);
+    if (!skip)
+      ret[depth] = item;
+
+    return ret;
+  }
+
+  public static <I>I[] recursiveOrdered(final I[] array, final Class<I> type, final Filter<I> filter, final Object ... args) {
+    if (array == null)
       return null;
-    
-    final List<I> list = new ArrayList<I>(objects.length);
-    for (int i = 0; i < objects.length; i++) {
-      if (filter.filter(objects[i]))
-        list.add(objects[i]);
+
+    if (type == null)
+      throw new NullPointerException("type == null");
+
+    if (filter == null)
+      throw new NullPointerException("filter == null");
+
+    return recursiveOrdered(type, filter, args, array, 0, 0);
+  }
+
+  private static <I,C>I[] recursiveOrdered(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object[] args, int index, final int depth) {
+    I item;
+    boolean skip = true;
+    if (index < array.length)
+      while ((skip = !recurser.accept(item = array[index++], args)) && index < array.length);
+    else {
+      final C parent = recurser.next(container);
+      return parent == null ? (I[])Array.newInstance(type, depth) : recursiveOrdered(parent, recurser.items(parent), type, recurser, args, 0, depth);
     }
 
-    return list.size() != 0 ? list.toArray((I[])Array.newInstance(objects.getClass().getComponentType(), list.size())) : null;
+    final I[] ret = recursiveOrdered(container, array, type, recurser, args, index, skip ? depth : depth + 1);
+    if (!skip)
+      ret[depth] = item;
+
+    return ret;
   }
 
-  public static <I>I[] rfor(final I[] objects, final Filter<I> filter, final Object ... args) {
-    if (filter == null)
-      throw new NullPointerException("filter == null");
-    
-    if (objects == null || objects.length == 0)
+  public static <I,C>I[] recursiveOrdered(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object ... args) {
+    if (array == null)
       return null;
-    
-    final Object[][] out = new Object[1][];
-    return For.<I>rfor(objects, 0, 0, out, filter, args) ? (I[])out[0] : null;
-  }
 
-  public static <I>I[] rfor(final I[] objects, final Recurser<I> recurser, final Filter<I> filter, final Object ... args) {
+    if (type == null)
+      throw new NullPointerException("type == null");
+
     if (recurser == null)
       throw new NullPointerException("recurser == null");
-    
-    if (filter == null)
-      throw new NullPointerException("filter == null");
-    
-    if (objects == null || objects.length == 0)
-      return null;
-    
-    final Object[][] out = new Object[1][];
-    return For.<I>rfor(objects, recurser, 0, 0, out, filter, args) ? (I[])out[0] : null;
+
+    return recursiveOrdered(container, array, type, recurser, args, 0, 0);
   }
 
-  private static <I>boolean rfor(final I[] objects, int i, final int depth, final Object[][] array, final Filter<I> filter, final Object ... args) {
-    boolean value;
-    while (!(value = filter.filter(objects[i++], args)) && i < objects.length);
-    
-    boolean notNull = true;
-    if (i < objects.length)
-      notNull = For.<I>rfor(objects, i, value ? depth + 1 : depth, array, filter, args);
-    else if (value || depth > 0)
-      array[0] = (Object[])Array.newInstance(objects.getClass().getComponentType(), value ? depth + 1 : depth);
-    else
-      return false;
-
-    if (notNull && value)
-      array[0][depth] = objects[i - 1];
-
-    return notNull;
-  }
-
-  private static <I>boolean rfor(final I[] objects, final Recurser<I> recurser, int i, final int depth, final Object[][] array, final Filter<I> filter, final Object ... args) {
-    boolean value;
-    while (!(value = filter.filter(objects[i++], args)) && i < objects.length);
-    
-    boolean notNull = true;
-    if (i < objects.length)
-      notNull = For.<I>rfor(objects, i, value ? depth + 1 : depth, array, filter, args);
+  private static <I,C>I[] recursiveInverted(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object[] args, int index, final int depth) {
+    I item;
+    boolean skip = true;
+    if (index < array.length)
+      while ((skip = !recurser.accept(item = array[array.length - ++index], args)) && index < array.length);
     else {
-      final I[] next = recurser != null ? recurser.recurse(objects) : null;
-      if (next != null)
-        notNull = For.<I>rfor(next, 0, value ? depth + 1 : depth, array, filter, args);
-      else if (value || depth > 0)
-        array[0] = (Object[])Array.newInstance(objects.getClass().getComponentType(), value ? depth + 1 : depth);
-      else
-        return false;
+      final C parent = recurser.next(container);
+      return parent == null ? (I[])Array.newInstance(type, depth) : recursiveInverted(parent, recurser.items(parent), type, recurser, args, 0, depth);
     }
 
-    if (notNull && value)
-      array[0][depth] = objects[i - 1];
+    final I[] ret = recursiveInverted(container, array, type, recurser, args, index, skip ? depth : depth + 1);
+    if (!skip)
+      ret[ret.length - 1 - depth] = item;
 
-    return notNull;
+    return ret;
+  }
+
+  public static <I,C>I[] recursiveInverted(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object ... args) {
+    if (array == null)
+      return null;
+
+    if (type == null)
+      throw new NullPointerException("type == null");
+
+    if (recurser == null)
+      throw new NullPointerException("recurser == null");
+
+    return recursiveInverted(container, array, type, recurser, args, 0, 0);
   }
 
   private For() {

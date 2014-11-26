@@ -1,3 +1,19 @@
+/* Copyright (c) 2012 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.commons.lang;
 
 public final class Bytes {
@@ -27,7 +43,7 @@ public final class Bytes {
     public static IntArrayList indicesOf(final byte[] bytes, final char ... pattern) {
       return indicesOf(bytes, 0, pattern);
     }
-    
+
     public static IntArrayList indicesOf(final byte[] bytes, final int fromIndex, final char ... pattern) {
       if (bytes == null)
         throw new NullPointerException("data == null");
@@ -36,10 +52,10 @@ public final class Bytes {
       final IntArrayList indices = new IntArrayList();
       while ((index = indexOf(bytes, index + 1, pattern)) != -1)
         indices.add(index);
-      
+
       return indices;
     }
-    
+
     public static int indexOf(final byte[] bytes, final char ... pattern) {
       return indexOf(bytes, 0, pattern);
     }
@@ -62,7 +78,7 @@ public final class Bytes {
       return -1;
     }
   }
-  
+
   public static void replaceAll(final byte[] bytes, final char target, final char replacement) {
     replaceAll(bytes, (byte)target, (byte)replacement);
   }
@@ -221,7 +237,7 @@ public final class Bytes {
 
     return failure;
   }
-  
+
   private static int[][] computeFailure(final char[] ... pattern) {
     final int[][] failure = new int[pattern.length][];
 
@@ -241,7 +257,7 @@ public final class Bytes {
 
     return failure;
   }
-  
+
   public static byte toByte(final short signedByte) {
     if (256 < signedByte || signedByte < 0)
       throw new IllegalArgumentException("256 < signedByte || signedByte < 0");
@@ -314,7 +330,7 @@ public final class Bytes {
   /**
    * Build a Java short from a 2-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
-   * 
+   *
    * @exception IllegalArgumentException
    *              if the specified byte order is not recognized.
    */
@@ -330,7 +346,7 @@ public final class Bytes {
   /**
    * Build a Java int from a 4-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
-   * 
+   *
    * @exception IllegalArgumentException
    *              if the specified byte order is not recognized.
    */
@@ -346,7 +362,7 @@ public final class Bytes {
   /**
    * Build a Java long from an 8-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
-   * 
+   *
    * @exception IllegalArgumentException
    *              if the specified byte order is not recognized.
    */

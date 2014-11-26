@@ -53,6 +53,12 @@ public class HashCodeEqualsToStringsTest {
     }
   }
 
+  private static class F extends D {
+    public F() {
+      super(null);
+    }
+  }
+
   @Test
   public void testHashCode() {
     final int a = HashCodes.hashCode(new A());
@@ -77,5 +83,6 @@ public class HashCodeEqualsToStringsTest {
     System.out.println(ToStrings.toString(new B()));
     System.out.println(ToStrings.toString(new C(E.a)));
     System.out.println(ToStrings.toString(new D(E.b)));
+    System.out.println(ToStrings.toString(new F()));
   }
 }
