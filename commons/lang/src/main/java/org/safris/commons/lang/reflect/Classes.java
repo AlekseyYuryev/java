@@ -26,8 +26,6 @@ import java.util.Map;
 
 import org.safris.commons.util.For;
 
-import sun.reflect.Reflection;
-
 public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
 
@@ -220,7 +218,7 @@ public final class Classes {
     return gcc;
   }
 
-  public static Class<?> forName(final String className, final boolean initialize) {
+  public static Class<?> forName(final String className, final boolean initialize, final Class<?> callerClass) {
     if (className == null || className.length() == 0)
       return null;
 
@@ -238,7 +236,7 @@ public final class Classes {
     catch (final ClassNotFoundException e) {
     }
 
-    classLoader = Reflection.getCallerClass().getClassLoader();
+    classLoader = callerClass.getClassLoader();
     try {
       return Class.forName(className, initialize, classLoader);
     }
@@ -248,8 +246,8 @@ public final class Classes {
     return null;
   }
 
-  public static Class<?> forName(final String className) {
-    return Classes.forName(className, false);
+  public static Class<?> forName(final String className, final Class<?> callerClass) {
+    return Classes.forName(className, false, callerClass);
   }
 
   private static Class<?> getGreatestCommonSuperclass(Class<?> class1, final Class<?> class2) {

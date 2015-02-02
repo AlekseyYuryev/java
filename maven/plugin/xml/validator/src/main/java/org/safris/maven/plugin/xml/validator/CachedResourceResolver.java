@@ -20,10 +20,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.safris.commons.lang.Resources;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
-
-import com.google.common.io.Resources;
 
 /**
  * Half-baked implementation. This is missing the caching routine for the generic case.
@@ -46,7 +45,7 @@ public class CachedResourceResolver implements LSResourceResolver {
             return resource;
 
           resources.put(systemId, resource = new CachedResourceInput());
-          resource.setByteStream(Resources.getResource("XMLSchema.dtd").openStream());
+          resource.setByteStream(Resources.getResource("XMLSchema.dtd").getURL().openStream());
           return resource;
         }
       }
@@ -62,7 +61,7 @@ public class CachedResourceResolver implements LSResourceResolver {
             return resource;
 
           resources.put(systemId, resource = new CachedResourceInput());
-          resource.setByteStream(Resources.getResource("datatypes.dtd").openStream());
+          resource.setByteStream(Resources.getResource("datatypes.dtd").getURL().openStream());
           return resource;
         }
       }
@@ -78,7 +77,7 @@ public class CachedResourceResolver implements LSResourceResolver {
             return resource;
 
           resources.put(systemId, resource = new CachedResourceInput());
-          resource.setByteStream(Resources.getResource("xml.xsd").openStream());
+          resource.setByteStream(Resources.getResource("xml.xsd").getURL().openStream());
           return resource;
         }
       }

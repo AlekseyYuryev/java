@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -76,7 +76,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
 
     new JavaCompiler(destDir, classpath).compile(javaSources);
   }
-  
+
   private static Collection<File> jar(final File destDir, final Collection<SchemaComposite> schemaComposites) throws Exception {
     final Set<NamespaceURI> namespaceURIsAdded = new HashSet<NamespaceURI>();
     final Collection<File> jarFiles = new HashSet<File>();
@@ -92,18 +92,18 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
 
       final Jar jar = new Jar(jarFile);
       jarFiles.add(jarFile);
-      
+
       final String packagePath = packageName.toString().replace('.', '/');
       if (!namespaceURIsAdded.contains(namespaceURI)) {
         namespaceURIsAdded.add(namespaceURI);
-        
+
         final Collection<File> list = Files.listAll(new File(destDir, packagePath));
         if (list != null)
           for (final File file : list)
             if (!file.isDirectory() && (file.getName().endsWith(".java") || file.getName().endsWith(".class")))
               jar.addEntry(Files.relativePath(destDir.getAbsoluteFile(), file.getAbsoluteFile()), Files.getBytes(file));
       }
-      
+
       final URL url = schemaModelComposite.getSchemaDocument().getSchemaReference().getURL();
       String xsdName = packagePath + '/' + packageName;
       if (!schemaModelComposite.getSchemaDocument().getSchemaReference().isInclude())
@@ -114,7 +114,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
 
     return jarFiles;
   }
-  
+
   private static void addXSDs(final URL url, final String filePath, final Jar jar, final File destDir, int includeCount) throws IOException, SAXException {
     final String baseDir = Paths.getParent(filePath);
     String relativeRootPath = null;
@@ -149,10 +149,10 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
                 for (int k = 0; k != -1; k = baseDir.indexOf('/', k + 1))
                   relativeRootPath += "../";
               }
-              
+
               schemaPath = Paths.canonicalize(relativeRootPath + packagePath);
             }
-            
+
             schemaLocation.setNodeValue(schemaPath + "/" + packageName + ".xsd");
             namespace = null;
             schemaLocation = null;

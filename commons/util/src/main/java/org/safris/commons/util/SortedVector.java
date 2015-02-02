@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
-public final class SortedVector<E extends Comparable> extends Vector<E> {
+public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   private static final long serialVersionUID = -4696161917681651124L;
 
   public boolean add(final E e) {
@@ -48,14 +48,14 @@ public final class SortedVector<E extends Comparable> extends Vector<E> {
     int start = 0;
     int end = length;
     int mid = 0;
-    Comparable<?> object;
+    E object;
     int compare;
     while (end >= start) {
       mid = (start + end) / 2;
       if (mid >= length)
         break;
 
-      object = (Comparable<?>)elementData[mid];
+      object = (E)elementData[mid];
       compare = obj.compareTo(object);
       if (compare <= 0)
         end = mid - 1;

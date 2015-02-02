@@ -395,6 +395,14 @@ public final class Bytes {
     throw new UnsupportedOperationException(byteLength + " is not supported");
   }
 
+  public static String toString(final byte ... bytes) {
+    String out = "";
+    for (byte b : bytes)
+      out += String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
+
+    return bytes.length > 0 ? out.substring(1) : "";
+  }
+
   private Bytes() {
   }
 }

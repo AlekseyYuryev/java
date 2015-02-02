@@ -54,7 +54,7 @@ final class CompositeElementStore {
     return elementAudits.get(index);
   }
 
-  protected boolean add(final Binding element, final ElementAudit elementAudit, final boolean addToAudit) {
+  protected <B extends Binding>boolean add(final B element, final ElementAudit<B> elementAudit, final boolean addToAudit) {
     synchronized (elements) {
       if (!elements.add(element))
         throw new BindingRuntimeException("Addition of element should have modified the elements list!");

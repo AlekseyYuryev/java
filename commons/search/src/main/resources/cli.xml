@@ -24,7 +24,7 @@
   <option use="optional">
     <name long="dir" short="d"/>
     <argument label="PATH" use="required"/>
-    <description>root PATH for geenerated Enum source</description>
+    <description>root PATH for generated Enum source</description>
   </option>
   
   <option use="required">
@@ -39,7 +39,7 @@
     <description>fully qualified class name of generated Enum</description>
   </option>
   
-  <option use="required">
+  <option use="optional">
     <name long="inheritsFrom" short="i"/>
     <argument label="PATH" use="required"/>
     <description>fully qualified class name of interface</description>

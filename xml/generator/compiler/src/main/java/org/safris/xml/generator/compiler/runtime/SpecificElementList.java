@@ -23,27 +23,27 @@ import java.util.ListIterator;
 import org.safris.commons.util.IdentityArrayList;
 
 final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> implements BindingList<E> {
-  public static <E extends Binding>SpecificElementList<E> singleton(final ElementAudit<?> elementAudir, final E binding) {
-    final SpecificElementList<E> list = new SpecificElementList<E>(elementAudir, 1);
+  public static <E extends Binding>SpecificElementList<E> singleton(final ElementAudit<E> elementAudit, final E binding) {
+    final SpecificElementList<E> list = new SpecificElementList<E>(elementAudit, 1);
     list.add(binding, false);
     return list;
   }
 
   private static final long serialVersionUID = 4802873640158426470L;
 
-  private final ElementAudit<?> elementAudit;
+  private final ElementAudit<E> elementAudit;
 
-  protected SpecificElementList(final ElementAudit<?> elementAudit, final int initialCapacity) {
+  protected SpecificElementList(final ElementAudit<E> elementAudit, final int initialCapacity) {
     super(initialCapacity);
     this.elementAudit = elementAudit;
   }
 
-  protected SpecificElementList(final ElementAudit<?> elementAudit, Collection<? extends E> c) {
+  protected SpecificElementList(final ElementAudit<E> elementAudit, Collection<? extends E> c) {
     super(c);
     this.elementAudit = elementAudit;
   }
 
-  protected SpecificElementList(final ElementAudit<?> elementAudit) {
+  protected SpecificElementList(final ElementAudit<E> elementAudit) {
     super();
     this.elementAudit = elementAudit;
   }
@@ -139,7 +139,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return new ElementListIterator(index);
   }
 
-  public SpecificElementList<E> clone(final ElementAudit<?> audit) {
+  public SpecificElementList<E> clone(final ElementAudit<E> audit) {
     return new SpecificElementList<E>(audit, this);
   }
 

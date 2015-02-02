@@ -49,4 +49,11 @@ public final class NumbersTest {
     Assert.assertFalse(Numbers.isNumber("-6.626068E-3.4"));
     Assert.assertFalse(Numbers.isNumber("-6.626E068E-34"));
   }
+
+  @Test
+  public void testToString() {
+    Assert.assertEquals("0.00833333333333", Numbers.toString(0.008333333333330742, 14));
+    Assert.assertEquals("0.00833333333334", Numbers.toString(0.008333333333339323, 14));
+    Assert.assertEquals("0.008333333333", Numbers.toString(0.008333333333000000, 14));
+  }
 }

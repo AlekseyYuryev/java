@@ -25,8 +25,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import sun.reflect.Reflection;
-
 public final class Resources {
   public static File getLocationBase(final Class<?> clazz) {
     if (clazz == null)
@@ -62,10 +60,10 @@ public final class Resources {
     if (url != null)
       return new Resource(url, classLoader);
 
-    final Class<?> callerClass = Reflection.getCallerClass();
+    /*final Class<?> callerClass = Reflection.getCallerClass();
     url = callerClass.getResource(name);
     if (url != null)
-      return new Resource(url, classLoader);
+      return new Resource(url, classLoader);*/
 
     return null;
   }
@@ -84,10 +82,10 @@ public final class Resources {
     urls = classLoader.getResources(name);
     combineResources(urls, classLoader, history, resources);
 
-    final Class<?> callerClass = Reflection.getCallerClass();
+    /*final Class<?> callerClass = Reflection.getCallerClass();
     classLoader = callerClass.getClassLoader();
     urls = classLoader.getResources(name);
-    combineResources(urls, classLoader, history, resources);
+    combineResources(urls, classLoader, history, resources);*/
 
     return resources.elements();
   }

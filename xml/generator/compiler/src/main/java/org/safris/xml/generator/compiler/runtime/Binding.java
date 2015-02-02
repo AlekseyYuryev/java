@@ -204,7 +204,7 @@ public abstract class Binding extends AbstractBinding {
         if (xsiPrefix != null)
           namespaceURI = node.getOwnerDocument().getDocumentElement().lookupNamespaceURI(xsiPrefix);
 
-        final Class<? extends Binding> xsiBinding = lookupType(new QName(namespaceURI.intern(), xsiTypeName.intern()));
+        final Class<? extends Binding> xsiBinding = lookupType(new QName(namespaceURI, xsiTypeName.intern()));
         if (xsiBinding == null) {
           if (namespaceURI != null)
             throw new ParseException("Unable to find final class binding for xsi:type <" + xsiTypeName + " xmlns=\"" + namespaceURI + "\">");
@@ -353,15 +353,15 @@ public abstract class Binding extends AbstractBinding {
       elementDirectory.addAfter(after, element, elementAudit);
   }
 
-  protected final boolean _$$addElement(final ElementAudit<? extends Binding> elementAudit, final Binding element) {
+  protected final <B extends Binding>boolean _$$addElement(final ElementAudit<B> elementAudit, final B element) {
     return _$$addElement(elementAudit, element, true);
   }
 
-  protected final boolean _$$addElementNoAudit(final ElementAudit<? extends Binding> elementAudit, final Binding element) {
+  protected final <B extends Binding>boolean _$$addElementNoAudit(final ElementAudit<B> elementAudit, final B element) {
     return _$$addElement(elementAudit, element, false);
   }
 
-  private boolean _$$addElement(final ElementAudit<? extends Binding> elementAudit, final Binding element, final boolean addToAudit) {
+  private <B extends Binding>boolean _$$addElement(final ElementAudit<B> elementAudit, final B element, final boolean addToAudit) {
     if (elementDirectory == null) {
       synchronized (elementsLock) {
         if (elementDirectory == null) {
@@ -386,7 +386,7 @@ public abstract class Binding extends AbstractBinding {
     return true;
   }
 
-  protected static boolean _$$setAttribute(final AttributeAudit audit, final Binding binding, final Binding attribute) {
+  protected static <B extends Binding>boolean _$$setAttribute(final AttributeAudit<B> audit, final Binding binding, final B attribute) {
     if (attribute != null)
       attribute._$$setOwner(($xs_anySimpleType)binding);
 

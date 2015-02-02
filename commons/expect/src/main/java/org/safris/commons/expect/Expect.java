@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -86,51 +86,52 @@ public final class Expect {
     // This is important: since we are not reading from STDERR, we must start a NonBlockingInputStream
     // on it such that its buffer doesn't fill. This is necessary because the STDERR of the sub-process
     // is teed into 2 input streams that both need to be read from: System.err, and process.getErrorStream()
-    new NonBlockingInputStream(process.getErrorStream(), 1024);
-    final InputStream stdout = process.getInputStream();
+    try(final NonBlockingInputStream stream = new NonBlockingInputStream(process.getErrorStream(), 1024)) {
+      final InputStream stdout = process.getInputStream();
 
-    HashTree.Node<ScannerHandler> firstTreeNode = null;
-    final List<$ex_ruleType> rules = processType._rule();
-    final Map<String,ScannerHandler> scannerMap = new HashMap<String,ScannerHandler>();
-    final Map<String,HashTree.Node<ScannerHandler>> treeNodeMap = new HashMap<String,HashTree.Node<ScannerHandler>>();
-    for (final $ex_ruleType rule : rules) {
-      final ScannerHandler scanner = new ScannerHandler(rule._expect$().text()) {
-        public void match(final String match) throws IOException {
-          String response = rule._respond$().text();
-          final Map<String,String> variables = callback.rule(rule._id$().text(), rule._expect$().text(), response);
-          response = dereference(response, variables);
-          if (!response.endsWith("\n"))
-            response += "\n";
+      HashTree.Node<ScannerHandler> firstTreeNode = null;
+      final List<$ex_ruleType> rules = processType._rule();
+      final Map<String,ScannerHandler> scannerMap = new HashMap<String,ScannerHandler>();
+      final Map<String,HashTree.Node<ScannerHandler>> treeNodeMap = new HashMap<String,HashTree.Node<ScannerHandler>>();
+      for (final $ex_ruleType rule : rules) {
+        final ScannerHandler scanner = new ScannerHandler(rule._expect$().text()) {
+          public void match(final String match) throws IOException {
+            String response = rule._respond$().text();
+            final Map<String,String> variables = callback.rule(rule._id$().text(), rule._expect$().text(), response);
+            response = dereference(response, variables);
+            if (!response.endsWith("\n"))
+              response += "\n";
 
-          process.getOutputStream().write(response.getBytes());
-          process.getOutputStream().flush();
-        }
-      };
-      scannerMap.put(rule._id$().text(), scanner);
+            process.getOutputStream().write(response.getBytes());
+            process.getOutputStream().flush();
+          }
+        };
+        scannerMap.put(rule._id$().text(), scanner);
 
-      final HashTree.Node<ScannerHandler> treeNode = new HashTree.Node<ScannerHandler>(scanner);
-      treeNodeMap.put(rule._id$().text(), treeNode);
-      if (firstTreeNode == null)
-        firstTreeNode = treeNode;
+        final HashTree.Node<ScannerHandler> treeNode = new HashTree.Node<ScannerHandler>(scanner);
+        treeNodeMap.put(rule._id$().text(), treeNode);
+        if (firstTreeNode == null)
+          firstTreeNode = treeNode;
+      }
+
+      final List<$ex_processType._tree._node> nodes = processType._tree(0)._node();
+      for (final $ex_processType._tree._node node : nodes) {
+        final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node._rule$().text());
+        final $ex_processType._tree._node._children$ children = node._children$();
+        if (children == null)
+          continue;
+
+        final List<String> childIds = children.text();
+        for (final String childId : childIds)
+          treeNode.addChild(treeNodeMap.get(childId));
+      }
+
+      final HashTree<ScannerHandler> tree = new HashTree<ScannerHandler>();
+      tree.addChild(firstTreeNode);
+
+      final InputStreamScanner scanner = new InputStreamScanner(stdout, tree);
+      scanner.start();
     }
-
-    final List<$ex_processType._tree._node> nodes = processType._tree(0)._node();
-    for (final $ex_processType._tree._node node : nodes) {
-      final HashTree.Node<ScannerHandler> treeNode = treeNodeMap.get(node._rule$().text());
-      final $ex_processType._tree._node._children$ children = node._children$();
-      if (children == null)
-        continue;
-
-      final List<String> childIds = children.text();
-      for (final String childId : childIds)
-        treeNode.addChild(treeNodeMap.get(childId));
-    }
-
-    final HashTree<ScannerHandler> tree = new HashTree<ScannerHandler>();
-    tree.addChild(firstTreeNode);
-
-    final InputStreamScanner scanner = new InputStreamScanner(stdout, tree);
-    scanner.start();
   }
 
   private static String dereference(final String string, final Map<String,String> variables) throws IOException {

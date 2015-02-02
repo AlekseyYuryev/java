@@ -3,6 +3,7 @@ package org.safris.commons.lang;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("unused")
 public class HashCodeEqualsToStringsTest {
   private static enum E {
     a,

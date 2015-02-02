@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -53,7 +53,7 @@ public final class Numbers {
         else if (c == '-') {
           if (i != exponent + 1 && i != 0)
             return false;
-          
+
           negative = true;
         }
         else
@@ -62,7 +62,7 @@ public final class Numbers {
       else if ('9' < c) {
         if (c != 'E')
           return false;
-        
+
         if (1 < exponent || (negative && i == 1) || i - 1 == dot)
           return false;
 
@@ -71,6 +71,11 @@ public final class Numbers {
     }
 
     return true;
+  }
+
+  public static String toString(final double value, final int decimals) {
+    final double factor = Math.pow(10, decimals);
+    return String.valueOf(Math.round(value * factor) / factor);
   }
 
   public static String roundInsignificant(final String value) {

@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.safris.commons.lang.Paths;
+import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
 
-import com.google.common.io.Resources;
 import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
 import com.sun.org.apache.xerces.internal.xni.XNIException;
 import com.sun.org.apache.xerces.internal.xni.parser.XMLEntityResolver;
@@ -45,26 +45,26 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
 
     if ("http://www.w3.org/2001/XMLSchema.xsd".equals(systemId)) {
       final XMLInputSource resource = new XMLInputSource(resourceIdentifier);
-      resource.setByteStream(Resources.getResource("XMLSchema.xsd").openStream());
+      resource.setByteStream(Resources.getResource("XMLSchema.xsd").getURL().openStream());
       return resource;
     }
 
     if ("http://www.w3.org/2001/XMLSchema.dtd".equals(systemId) || "XMLSchema.dtd".equals(systemId)) {
       systemId = "http://www.w3.org/2001/XMLSchema.dtd";
       final XMLInputSource resource = new XMLInputSource(resourceIdentifier);
-      resource.setByteStream(Resources.getResource("XMLSchema.dtd").openStream());
+      resource.setByteStream(Resources.getResource("XMLSchema.dtd").getURL().openStream());
       return resource;
     }
 
     if ("datatypes.dtd".equals(systemId)) {
       final XMLInputSource resource = new XMLInputSource(resourceIdentifier);
-      resource.setByteStream(Resources.getResource("datatypes.dtd").openStream());
+      resource.setByteStream(Resources.getResource("datatypes.dtd").getURL().openStream());
       return resource;
     }
 
     if ("http://www.w3.org/2001/xml.xsd".equals(systemId)) {
       final XMLInputSource resource = new XMLInputSource(resourceIdentifier);
-      resource.setByteStream(Resources.getResource("xml.xsd").openStream());
+      resource.setByteStream(Resources.getResource("xml.xsd").getURL().openStream());
       return resource;
     }
 

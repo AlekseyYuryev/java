@@ -30,8 +30,6 @@ import java.util.Map;
 
 import org.apache.tools.ant.AntClassLoader;
 
-import sun.reflect.Reflection;
-
 public final class ClassLoaders {
   public static boolean isClassLoaded(final ClassLoader classLoader, final String name) {
     if (classLoader == null)
@@ -57,8 +55,7 @@ public final class ClassLoaders {
     final Collection<URL> urls = new HashSet<URL>();
     urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
     urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
-    final Class<?> callerClass = Reflection.getCallerClass();
-    final ClassLoader classLoader = callerClass.getClassLoader();
+    final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     try {
       // TODO: I dont know why, but when running forked JUnit tests
       // TODO: the classpath is not available by calling the getURLs

@@ -22,8 +22,6 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sun.reflect.Reflection;
-
 public final class PackageLoaderTest {
   private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
@@ -34,10 +32,10 @@ public final class PackageLoaderTest {
     if (ClassLoaders.isClassLoaded(classLoader, name))
       return true;
 
-    final Class<?> callerClass = Reflection.getCallerClass();
+    /*final Class<?> callerClass = Reflection.getCallerClass();
     classLoader = callerClass.getClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
-      return true;
+      return true;*/
 
     return false;
   }
