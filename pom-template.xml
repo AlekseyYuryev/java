@@ -25,7 +25,7 @@
   <version>${dev:org.safris}</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description> All projects under org.safris. </description>
+  <description>All projects under org.safris.</description>
   <modules>
     <module>commons</module>
     <module>xml</module>

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -24,9 +24,9 @@ import org.w3c.dom.NodeList;
 public final class DOMs {
   /**
    * Converts a DOM document to a XML string. It handles all children recursively.
-   * 
+   *
    * Note: this only handles elements, attributes and text nodes. It will not handle processing instructions, comments, CDATA or anything else.
-   * 
+   *
    * @param element
    *          element to convert.
    */
@@ -53,7 +53,7 @@ public final class DOMs {
       if (style.isIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>') {
         stringBuffer.append("\n");
         for (int i = 0; i < depth; i++) {
-          stringBuffer.append("\t");
+          stringBuffer.append("  ");
         }
       }
 
@@ -70,10 +70,10 @@ public final class DOMs {
         if (style.isIndent() && stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == '>') {
           stringBuffer.append("\n");
           for (int i = 0; i < depth; i++) {
-            stringBuffer.append("\t");
+            stringBuffer.append("  ");
           }
         }
-        
+
         stringBuffer.append("</").append(nodeName).append(">");
       }
       else {
@@ -103,7 +103,7 @@ public final class DOMs {
       if (style.isIndentAttributes()) {
         stringBuffer.append("\n");
         for (int j = 0; j < depth; j++) {
-          stringBuffer.append("\t");
+          stringBuffer.append("  ");
         }
       }
       else {
@@ -119,7 +119,7 @@ public final class DOMs {
 
   /**
    * Convert the invalid XML characters in a string to character entities.
-   * 
+   *
    * @param textToConvert
    *          the String containing invalid entities.
    * @return String with expanded entities.

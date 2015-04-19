@@ -1,4 +1,4 @@
-/* Copyright (c) 2010 Seva Safris
+/* Copyright (c) 2015 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,16 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net.mail;
+package org.safris.commons.net;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import java.net.InetAddress;
 
-public final class MailClientTest {
-  @Test
-  @Ignore
-  public void testMailClient() throws Exception {
-    final SMTPCredentials smtpCredentials = new SMTPCredentials("smtp.safris.com", "filehost", "FileH0st");
-    MailClient.send(smtpCredentials, "seva@safris.com", new String[] {"seva.safris@gmail.com"}, "test", "test");
+public class InetAddresses {
+  public static String toStringIP(final InetAddress address) {
+    final byte[] bytes = address.getAddress();
+    final StringBuffer buffer = new StringBuffer();
+    for (int i = 0; i < bytes.length; i++) {
+      if (i > 0)
+        buffer.append(".");
+
+      buffer.append(bytes[i] & 0xFF);
+    }
+
+    return buffer.toString();
+  }
+
+  private InetAddresses() {
   }
 }

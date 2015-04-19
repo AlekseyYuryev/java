@@ -57,7 +57,7 @@ public final class ClassLoaders {
     urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
     final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     try {
-      // TODO: I dont know why, but when running forked JUnit tests
+      // TODO: I don't know why, but when running forked JUnit tests
       // TODO: the classpath is not available by calling the getURLs
       // TODO: method. Instead, it is hidden deep inside the URLClassPath
       final Field ucpField = URLClassLoader.class.getDeclaredField("ucp");
@@ -84,8 +84,9 @@ public final class ClassLoaders {
           }
         }
       }
-      else if (classLoader instanceof URLClassLoader)
+      else if (classLoader instanceof URLClassLoader) {
         urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
+      }
     }
 
     return urls.toArray(new URL[urls.size()]);

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -118,9 +118,9 @@ public final class NotationWriter extends Writer<NotationPlan> {
     // EQUALS
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
-    writer.write("if(this == obj)\n");
+    writer.write("if (this == obj)\n");
     writer.write("return true;\n");
-    writer.write("if(!(obj instanceof " + plan.getClassSimpleName() + "))\n");
+    writer.write("if (!(obj instanceof " + plan.getClassSimpleName() + "))\n");
     writer.write("return _$$failEquals();\n");
     writer.write("final " + plan.getClassSimpleName() + " that = (" + plan.getClassSimpleName() + ")obj;\n");
     writer.write("return (_name != null ? _name.equals(that._name) : that._name == null) && ");

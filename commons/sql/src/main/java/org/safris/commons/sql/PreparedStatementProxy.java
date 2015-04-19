@@ -45,8 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
-
-import org.safris.commons.logging.Logger;
+import java.util.logging.Logger;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
   private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
@@ -54,7 +53,13 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
 
   private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
     protected DateFormat initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      return new SimpleDateFormat("yyyy-MM-dd");
+    }
+  };
+
+  private final ThreadLocal<DateFormat> timestampFormat = new ThreadLocal<DateFormat>() {
+    protected DateFormat initialValue() {
+      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     }
   };
 
@@ -77,29 +82,46 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public ResultSet executeQuery() throws SQLException {
+    StringBuilder buffer = null;
+    if (logger.isLoggable(Level.FINE))
+      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeQuery() {\n  ").append(toString());
+
     final PreparedStatement statement = getStatement();
     final long time = System.currentTimeMillis();
-    final ResultSet resultSetOriginal = statement.executeQuery();
-    final ResultSetProxy resultSet = new ResultSetProxy(resultSetOriginal);
-
-    if (logger.getLevel() == Level.FINE) {
-      final StringBuilder buffer = new StringBuilder("[" + statement.toString() + "].executeQuery() {\n");
-      buffer.append(toString());
-      buffer.append("\n} -> " + resultSet.getSize() + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-      logger.fine(buffer.toString());
+    int size = -1;
+    final ResultSetProxy resultSet;
+    try {
+      resultSet = new ResultSetProxy(statement.executeQuery());
+      if (logger.isLoggable(Level.FINE))
+        size = resultSet.getSize();
+    }
+    finally {
+      if (logger.isLoggable(Level.FINE)) {
+        buffer.append("\n} -> ").append(size).append("\t\t").append(System.currentTimeMillis() - time).append("ms");
+        logger.fine(buffer.toString());
+      }
     }
 
     return resultSet;
   }
 
   public int executeUpdate() throws SQLException {
-    final StringBuilder buffer = new StringBuilder("[" + getStatement().toString() + "].executeUpdate() {\n");
-    buffer.append("  " + toString());
+    StringBuilder buffer = null;
+    if (logger.isLoggable(Level.FINE))
+      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeUpdate() {\n  ").append(toString());
 
     final long time = System.currentTimeMillis();
-    final int count = getStatement().executeUpdate();
-    buffer.append("\n} -> " + count + "\t\t" + (System.currentTimeMillis() - time) + "ms");
-    logger.fine(buffer.toString());
+    int count = -1;
+    try {
+      count = getStatement().executeUpdate();
+    }
+    finally {
+      if (logger.isLoggable(Level.FINE)) {
+        buffer.append("\n} -> ").append(count).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
+        logger.fine(buffer.toString());
+      }
+    }
+
     return count;
   }
 
@@ -211,13 +233,21 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public boolean execute() throws SQLException {
-    final long time = System.currentTimeMillis();
-    if (logger.getLevel() == Level.FINE)
-      logger.fine("[" + getStatement().toString() + "].execute() {\n" + toString());
+    StringBuilder buffer = null;
+    if (logger.isLoggable(Level.FINE))
+      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].execute() {\n  ").append(toString());
 
-    final boolean result = getStatement().execute();
-    if (logger.getLevel() == Level.FINE)
-      logger.fine("} -> " + result + "\t\t" + (System.currentTimeMillis() - time) + "ms");
+    final long time = System.currentTimeMillis();
+    boolean result = false;
+    try {
+      result = getStatement().execute();
+    }
+    finally {
+      if (logger.isLoggable(Level.FINE)) {
+        buffer.append("} -> ").append(result).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
+        logger.fine(buffer.toString());
+      }
+    }
 
     return result;
   }
@@ -381,9 +411,11 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
         if (value == NULL)
           buffer.append("NULL");
         else if (value instanceof Date)
-          buffer.append("'" + dateFormat.get().format((Date)value) + "'");
+          buffer.append("'").append(dateFormat.get().format((Date)value)).append("'");
+        else if (value instanceof Timestamp)
+          buffer.append("'").append(timestampFormat.get().format((Timestamp)value)).append("'");
         else if (value instanceof String || value instanceof Byte)
-          buffer.append("'" + value + "'");
+          buffer.append("'").append(value).append("'");
         else if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof BigInteger)
           buffer.append(numberFormat.get().format(value));
         else if (value != null)

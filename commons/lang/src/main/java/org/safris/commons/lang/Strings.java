@@ -189,6 +189,35 @@ public final class Strings {
     return right ? string + String.valueOf(chars) : String.valueOf(chars) + string;
   }
 
+  private static String hex(long i, final int places) {
+    if (i == Long.MIN_VALUE)
+      return "-8000000000000000";
+
+    boolean negative = i < 0;
+    if (negative)
+      i = -i;
+
+    String result = Long.toString(i, 16).toUpperCase();
+    if (result.length() < places)
+      result = "0000000000000000".substring(result.length(), places) + result;
+
+    return negative ? '-' + result : result;
+  }
+
+  public static final String toUTF8Literal(final char ch) {
+    return "\\x" + hex(ch, 2);
+  }
+
+  public static final String toUTF8Literal(final String string) {
+    final StringBuilder buffer = new StringBuilder(string.length() * 4);
+    for (int i = 0; i < string.length(); i++) {
+      char ch = string.charAt(i);
+      buffer.append(toUTF8Literal(ch));
+    }
+
+    return buffer.toString();
+  }
+
   private Strings() {
   }
 }

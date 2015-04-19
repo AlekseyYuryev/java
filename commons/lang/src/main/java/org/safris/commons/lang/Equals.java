@@ -143,6 +143,20 @@ public final class Equals {
     }
   }
 
+  public static boolean pairsEqual(final Object ... pairs) {
+    if (pairs.length == 0)
+      throw new IllegalArgumentException("pairs.length == 0");
+
+    if (pairs.length % 2 != 0)
+      throw new IllegalArgumentException("pairs.length % 2 != 0");
+
+    for (int i = 0; i < pairs.length; i += 2)
+      if (pairs[i] != null ? !pairs[i].equals(pairs[i + 1]) : pairs[i + 1] != null)
+        return false;
+
+    return true;
+  }
+
   private Equals() {
   }
 }

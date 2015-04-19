@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -80,7 +80,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
         return;
 
       if (Form.QUALIFIED.equals(plan.getFormDefault())) {
-        writer.write("if(!node.hasAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
+        writer.write("if (!node.hasAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
         writer.write("{\n");
         if (XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
           writer.write("node.setAttributeNS(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getPrefix() + "\" + \":" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getLocalPart() + "\");\n");
@@ -89,7 +89,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
         writer.write("}\n");
       }
       else {
-        writer.write("if(!node.hasAttribute(\"" + plan.getName().getLocalPart() + "\"))\n");
+        writer.write("if (!node.hasAttribute(\"" + plan.getName().getLocalPart() + "\"))\n");
         if (XSTypeDirectory.QNAME.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName())) {
           writer.write("{\n");
           writer.write("node.setAttribute(\"" + plan.getName().getLocalPart() + "\", \"" + plan.getDefault().getPrefix() + "\" + \":" + plan.getDefault().getLocalPart() + "\");\n");
@@ -110,9 +110,9 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
       return;
 
     if (Form.QUALIFIED.equals(plan.getFormDefault()))
-      writer.write("if(\"" + plan.getName().getNamespaceURI() + "\".equals(attribute.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
+      writer.write("if (\"" + plan.getName().getNamespaceURI() + "\".equals(attribute.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
     else
-      writer.write("if(attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
+      writer.write("if (attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 
     writer.write("{\n");
     writer.write("return _$$setAttribute(this." + plan.getInstanceName() + ", this, (" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getOwnerElement(), attribute));\n");
@@ -130,7 +130,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     if (plan.isRestriction())
       return;
 
-    writer.write("if(" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
+    writer.write("if (" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 

@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -22,6 +22,7 @@ import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.commons.xml.validator.ValidationException;
 import org.safris.commons.xml.validator.Validator;
+import org.safris.xml.generator.compiler.annotation.QName;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
@@ -76,5 +77,10 @@ public abstract class Bindings {
       Validator.getSystemValidator().validateParse(element);
 
     return Binding.parseElement(element, null);
+  }
+
+  public static javax.xml.namespace.QName getTypeName(final Binding binding) {
+    final QName name = binding.getClass().getAnnotation(QName.class);
+    return name != null ? new javax.xml.namespace.QName(name.namespaceURI(), name.localPart(), name.prefix()) : null;
   }
 }

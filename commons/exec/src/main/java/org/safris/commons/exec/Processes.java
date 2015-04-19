@@ -76,19 +76,19 @@ public final class Processes {
     OutputStream teeStdin = null;
     if (stdin != null) {
       final OutputStream processStdin = process.getOutputStream();
-      teeStdin = Streams.tee(processStdin, stdin, stdout);
+      teeStdin = Streams.teeAsync(processStdin, stdin, stdout);
     }
 
     InputStream teeStdout = null;
     if (stdout != null) {
       final InputStream processStdout = process.getInputStream();
-      teeStdout = Streams.tee(processStdout, stdout);
+      teeStdout = Streams.teeAsync(processStdout, stdout);
     }
 
     InputStream teeStderr = null;
     if (stderr != null) {
       final InputStream processStderr = process.getErrorStream();
-      teeStderr = Streams.tee(processStderr, stderr);
+      teeStderr = Streams.teeAsync(processStderr, stderr);
     }
 
     return new PipedProcess(process, teeStdin, teeStdout, teeStderr);
@@ -107,21 +107,21 @@ public final class Processes {
     OutputStream teeStdin = null;
     if (stdin != null) {
       final OutputStream processStdin = process.getOutputStream();
-      teeStdin = Streams.tee(processStdin, stdin, stdout);
+      teeStdin = Streams.teeAsync(processStdin, stdin, stdout);
     }
 
     InputStream teeStdout = null;
     if (stdout != null) {
       final InputStream processStdout = process.getInputStream();
       teeStdout = processStdout;
-      Streams.pipe(processStdout, stdout);
+      Streams.pipeAsync(processStdout, stdout);
     }
 
     InputStream teeStderr = null;
     if (stderr != null) {
       final InputStream processStderr = process.getErrorStream();
       teeStderr = processStderr;
-      Streams.pipe(processStderr, stderr);
+      Streams.pipeAsync(processStderr, stderr);
     }
 
     final Process subProcess = new PipedProcess(process, teeStdin, teeStdout, teeStderr);

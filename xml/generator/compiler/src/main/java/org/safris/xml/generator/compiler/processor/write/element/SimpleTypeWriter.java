@@ -81,10 +81,10 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("public static " + plan.getClassName(parent) + " lookupId(final " + className + " id)\n");
     writer.write("{\n");
     writer.write("final " + Map.class.getName() + "<" + Object.class.getName() + ",? extends " + $xs_ID.class.getName() + "> idMap = namespaceIds.get(NAME.getNamespaceURI());\n");
-    writer.write("if(idMap == null)\n");
+    writer.write("if (idMap == null)\n");
     writer.write("return null;\n");
     writer.write("final " + $xs_ID.class.getName() + " value = idMap.get(" + instanceName + ");\n");
-    writer.write("if(value instanceof " + plan.getClassName(parent) + ")\n");
+    writer.write("if (value instanceof " + plan.getClassName(parent) + ")\n");
     writer.write("return (" + plan.getClassName(parent) + ")value;\n");
     writer.write("return null;\n");
     writer.write("}\n");
@@ -92,11 +92,11 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("public static " + Collection.class.getName() + "<" + plan.getClassName(parent) + "> lookupId()\n");
     writer.write("{\n");
     writer.write("final " + Map.class.getName() + "<" + Object.class.getName() + ",? extends " + $xs_ID.class.getName() + "> idMap = namespaceIds.get(NAME.getNamespaceURI());\n");
-    writer.write("if(idMap == null)\n");
+    writer.write("if (idMap == null)\n");
     writer.write("return null;\n");
     writer.write("final " + Collection.class.getName() + "<" + plan.getClassName(parent) + "> ids = new " + ArrayList.class.getName() + "<" + plan.getClassName(parent) + ">();\n");
     writer.write("for(" + $xs_ID.class.getName() + " id : idMap.values())\n");
-    writer.write("if(id.getClass().equals(" + plan.getClassName(parent) + ".class))\n");
+    writer.write("if (id.getClass().equals(" + plan.getClassName(parent) + ".class))\n");
     writer.write("ids.add((" + plan.getClassName(parent) + ")id);\n");
     writer.write("return ids;\n");
     writer.write("}\n");
@@ -234,7 +234,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("{\n");
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write("for(" + enmClassName + " temp : enms)\n");
-      writer.write("if(temp != null)\n");
+      writer.write("if (temp != null)\n");
       writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
       writer.write("}\n");
 
@@ -242,7 +242,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("{\n");
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write("for(" + enmClassName + " temp : enms)\n");
-      writer.write("if(temp != null)\n");
+      writer.write("if (temp != null)\n");
       writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
       writer.write("}\n");
     }
@@ -268,7 +268,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     if (plan.isList()) {
       writer.write("protected void _$$decode(final " + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(value == null || value.length() == 0)\n");
+      writer.write("if (value == null || value.length() == 0)\n");
       writer.write("return;\n");
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
       writer.write(StringTokenizer.class.getName() + " tokenizer = new " + StringTokenizer.class.getName() + "(value);\n");
@@ -427,7 +427,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
           writer.write("{\n");
           writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
           writer.write("for(" + plan.getClassName(parent) + ".Enum temp : enm)\n");
-          writer.write("if(temp != null)\n");
+          writer.write("if (temp != null)\n");
           writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
           writer.write("}\n");
         }

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -50,7 +50,7 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
   protected void appendSetMethod(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("public void addAny$(" + Binding.class.getName() + " anyAttribute)\n");
     writer.write("{\n");
-    writer.write("if(this.anyAttribute.getAttribute() == null)\n");
+    writer.write("if (this.anyAttribute.getAttribute() == null)\n");
     writer.write("this.anyAttribute.setAttribute(new " + ArrayList.class.getName() + ">());\n");
     writer.write("this.anyAttribute.getAttribute().add(anyAttribute);\n");
     writer.write("}\n");
@@ -63,7 +63,7 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
   protected void appendParse(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
 //      writer.write("else\n");
 //      writer.write("{\n");
-    writer.write("if(this.anyAttribute.getAttribute() == null)\n");
+    writer.write("if (this.anyAttribute.getAttribute() == null)\n");
     writer.write("this.anyAttribute.setAttribute(new " + ArrayList.class.getName() + "<" + Binding.class.getName() + ">());\n");
     writer.write("this.anyAttribute.getAttribute().add(" + Binding.class.getName() + ".parseAttr((" + Element.class.getName() + ")attribute.getParentNode(), attribute));\n");
 //      writer.write("}\n");
@@ -74,7 +74,7 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
   }
 
   protected void appendEquals(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
-    writer.write("if(anyAttribute != null ? !anyAttribute.equals(that.anyAttribute) : that.anyAttribute != null)\n");
+    writer.write("if (anyAttribute != null ? !anyAttribute.equals(that.anyAttribute) : that.anyAttribute != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 

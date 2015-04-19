@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -62,13 +62,7 @@ public final class Paths {
     final String filePath = Paths.canonicalize(file);
     final String dirPath = Paths.canonicalize(dir);
 
-    if (!filePath.startsWith(dirPath))
-      return filePath;
-
-    if (filePath.length() == dirPath.length())
-      return "";
-
-    return filePath.substring(dirPath.length() + 1);
+    return !filePath.startsWith(dirPath) ? filePath : filePath.length() == dirPath.length() ? "" : filePath.substring(dirPath.length() + 1);
   }
 
   public static String getParent(String url) {
@@ -77,10 +71,7 @@ public final class Paths {
 
     url = canonicalize(url);
     final int separator = url.lastIndexOf('/');
-    if (separator > 0)
-      return url.substring(0, separator);
-
-    return url;
+    return separator > 0 ? url.substring(0, separator) : url;
   }
 
   public static String getName(String url) {
@@ -94,10 +85,7 @@ public final class Paths {
       url = url.substring(0, url.length() - 1);
 
     final int separator = url.lastIndexOf('/');
-    if (separator != -1)
-      return url.substring(separator + 1);
-
-    return url;
+    return separator != -1 ? url.substring(separator + 1) : url;
   }
 
   private Paths() {

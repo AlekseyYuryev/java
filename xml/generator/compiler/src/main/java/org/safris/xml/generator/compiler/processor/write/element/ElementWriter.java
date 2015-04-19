@@ -51,10 +51,10 @@ import org.w3c.dom.Node;
 
 public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
   protected static void writeNilMarshal(final StringWriter writer) {
-    writer.write("if(nil != null && !node.hasAttributeNS(XSI_NIL.getNamespaceURI(), XSI_NIL.getLocalPart()))\n");
+    writer.write("if (nil != null && !node.hasAttributeNS(XSI_NIL.getNamespaceURI(), XSI_NIL.getLocalPart()))\n");
     writer.write("{\n");
     writer.write("node.setAttributeNS(XSI_NIL.getNamespaceURI(), XSI_NIL.getPrefix() + \":\" + XSI_NIL.getLocalPart(), " + String.class.getName() + ".valueOf(nil));\n");
-    writer.write("if(!parent.getOwnerDocument().getDocumentElement().hasAttributeNS(XMLNS.getNamespaceURI(), XSI_NIL.getPrefix()))\n");
+    writer.write("if (!parent.getOwnerDocument().getDocumentElement().hasAttributeNS(XMLNS.getNamespaceURI(), XSI_NIL.getPrefix()))\n");
     writer.write("parent.getOwnerDocument().getDocumentElement().setAttributeNS(XMLNS.getNamespaceURI(), XMLNS.getLocalPart() + \":\" + XSI_NIL.getPrefix(), XSI_NIL.getNamespaceURI());\n");
     writer.write("}\n");
   }
@@ -110,20 +110,20 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
     if (!plan.isNested() || Form.QUALIFIED.equals(plan.getFormDefault())) {
       if("".equals(plan.getName().getNamespaceURI().toString()))
-        writer.write("if(element.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+        writer.write("if (element.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
       else
-        writer.write("if(\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+        writer.write("if (\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
 
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
       writer.write("}\n");
-      writer.write("if(" + Binding.class.getName() + "._$$iSsubstitutionGroup(new " + QName.class.getName() + "(element.getNamespaceURI(), element.getLocalName()), \"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
+      writer.write("if (" + Binding.class.getName() + "._$$iSsubstitutionGroup(new " + QName.class.getName() + "(element.getNamespaceURI(), element.getLocalName()), \"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\"))\n");
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element));\n");
       writer.write("}\n");
     }
     else {
-      writer.write("if(\"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
+      writer.write("if (\"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
       writer.write("{\n");
       writer.write("return _$$addElement(this." + plan.getInstanceName() + ", (" + plan.getDeclarationGeneric(parent) + ")" + Binding.class.getName() + ".parse(element, " + plan.getClassName(parent) + ".class));\n");
       writer.write("}\n");
@@ -141,7 +141,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
-    writer.write("if(" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
+    writer.write("if (" + plan.getInstanceName() + " != null ? !" + plan.getInstanceName() + ".equals(that." + plan.getInstanceName() + ") : that." + plan.getInstanceName() + " != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 
@@ -210,7 +210,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     writer.write("{\n");
     writer.write("super(copy);\n");
     if ((plan.getMixed() != null && plan.getMixed()) || plan.getAttributes().size() != 0 || plan.getElements().size() != 0) {
-      writer.write("if(!(copy instanceof " + plan.getClassName(parent) + "))\n");
+      writer.write("if (!(copy instanceof " + plan.getClassName(parent) + "))\n");
       writer.write("return;\n");
       writer.write(plan.getClassName(parent) + " binding = (" + plan.getClassName(parent) + ")copy;\n");
       if (plan.getMixed() != null && plan.getMixed())
@@ -268,7 +268,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
             writer.write("for (" + enumClassName + " temp : enm)\n");
-            writer.write("if(temp != null)\n");
+            writer.write("if (temp != null)\n");
             writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
             writer.write("}\n");
 
@@ -276,7 +276,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
             writer.write("{\n");
             writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
             writer.write("for (" + enumClassName + " temp : enm)\n");
-            writer.write("if(temp != null)\n");
+            writer.write("if (temp != null)\n");
             writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(temp.text);\n");
             writer.write("}\n");
 
@@ -285,7 +285,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
               writer.write("{\n");
               writer.write("super.text(new " + plan.getNativeNonEnumItemClassNameImplementation() + "());\n");
               writer.write("for (" + enumClassName + " temp : text)\n");
-              writer.write("if(temp != null)\n");
+              writer.write("if (temp != null)\n");
               writer.write("((" + List.class.getName() + "<" + plan.getNativeNonEnumItemClassNameInterface() + ">)super.text()).add(temp.text);\n");
               writer.write("}\n");
             }
@@ -441,7 +441,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
       writer.write(Element.class.getName() + " node = marshal(root, name(), typeName(_$$inheritsInstance()));\n");
       writer.write("_$$marshalElements(node);\n");
-      writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
+      writer.write("if (" + Validator.class.getName() + ".getSystemValidator() != null)\n");
       writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
       writer.write("return node;\n");
       writer.write("}\n");
@@ -449,7 +449,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write("{\n");
       writer.write("final " + Element.class.getName() + " node = super.marshal(parent, name, typeName);\n");
       if (plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(text != null)\n");
+        writer.write("if (text != null)\n");
         writer.write("node.appendChild(node.getOwnerDocument().createTextNode(text));\n");
       }
 
@@ -484,7 +484,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
       writer.write(Element.class.getName() + " node = marshal(root, name(), typeName(_$$inheritsInstance()));\n");
       writer.write("_$$marshalElements(node);\n");
-      writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
+      writer.write("if (" + Validator.class.getName() + ".getSystemValidator() != null)\n");
       writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
       writer.write("return node;\n");
       writer.write("}\n");
@@ -504,7 +504,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     if ((plan.getAttributes() != null && plan.getAttributes().size() != 0) || plan.isNillable()) {
       writer.write("protected boolean parseAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
+      writer.write("if (attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
       writer.write("{\n");
       writer.write("return true;\n");
       writer.write("}\n");
@@ -540,11 +540,11 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       writer.write("protected boolean parseElement(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
       if (plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(" + Node.class.getName() + ".TEXT_NODE == element.getNodeType())\n");
+        writer.write("if (" + Node.class.getName() + ".TEXT_NODE == element.getNodeType())\n");
         writer.write("{\n");
-        writer.write("if(element.getNodeValue().length() != 0)\n");
+        writer.write("if (element.getNodeValue().length() != 0)\n");
         writer.write("{\n");
-        writer.write("if(text == null)\n");
+        writer.write("if (text == null)\n");
         writer.write("text = element.getNodeValue();\n");
         writer.write("else\n");
         writer.write("text += element.getNodeValue();\n");
@@ -575,7 +575,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     if (plan.isList() && plan.getSuperType() == null) {
       writer.write("protected void _$$decode(" + Element.class.getName() + " parent, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(value == null || value.length() == 0)\n");
+      writer.write("if (value == null || value.length() == 0)\n");
       writer.write("return;\n");
 
       writer.write("super.text(new " + plan.getNativeItemClassNameImplementation() + "());\n");
@@ -589,11 +589,11 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
       writer.write("protected " + String.class.getName() + " _$$encode(" + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(super.text() == null || ((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).size() == 0)\n");
+      writer.write("if (super.text() == null || ((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).size() == 0)\n");
       writer.write("return null;\n");
       writer.write("String text = \"\";\n");
       writer.write("for(" + plan.getNativeItemClassName() + " temp : (" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text())\n");
-      writer.write("if(temp != null)\n");
+      writer.write("if (temp != null)\n");
       writer.write("text += \" \" + temp;\n");
       writer.write("return text.substring(1);\n");
       writer.write("}\n");
@@ -612,14 +612,14 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     // EQUALS
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
-    writer.write("if(this == obj)\n");
+    writer.write("if (this == obj)\n");
     writer.write("return true;\n");
-    writer.write("if(!(obj instanceof " + plan.getCopyClassName(parent) + "))\n");
+    writer.write("if (!(obj instanceof " + plan.getCopyClassName(parent) + "))\n");
     writer.write("return _$$failEquals();\n");
     if ((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getElements() != null && plan.getElements().size() != 0) || (plan.getMixed() != null && plan.getMixed())) {
       writer.write("final " + plan.getClassName(parent) + " that = (" + plan.getClassName(parent) + ")obj;\n");
       if (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(text != null ? !text.equals(that.text) : that.text != null)\n");
+        writer.write("if (text != null ? !text.equals(that.text) : that.text != null)\n");
         writer.write("return _$$failEquals();\n");
       }
       for (final AttributePlan attribute : plan.getAttributes())

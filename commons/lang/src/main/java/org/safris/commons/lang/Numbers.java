@@ -16,45 +16,174 @@
 
 package org.safris.commons.lang;
 
-public final class Numbers {
-  public static int pow(int base, int exp) {
-    int result = 1;
-    while (exp != 0) {
-      if ((exp & 1) != 0)
-        result *= base;
+import java.math.BigDecimal;
 
-      exp >>= 1;
-      base *= base;
+public final class Numbers {
+  private static final int[] highestBitSet = {
+    0, 1, 2, 2, 3, 3, 3, 3,
+    4, 4, 4, 4, 4, 4, 4, 4,
+    5, 5, 5, 5, 5, 5, 5, 5,
+    5, 5, 5, 5, 5, 5, 5, 5,
+    6, 6, 6, 6, 6, 6, 6, 6,
+    6, 6, 6, 6, 6, 6, 6, 6,
+    6, 6, 6, 6, 6, 6, 6, 6,
+    6, 6, 6, 6, 6, 6, 6, 255, // anything past 63 is a guaranteed overflow with base > 1
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+    255, 255, 255, 255, 255, 255, 255, 255,
+  };
+
+  public static long pow(long base, int exp) {
+    long result = 1;
+
+    switch (highestBitSet[exp]) {
+      case 255: // we use 255 as an overflow marker and return 0 on overflow/underflow
+        return base == 1 ? 1 : base == -1 ? 1 - 2 * (exp & 1) : 0;
+
+      case 6:
+        if ((exp & 1) != 0)
+          result = checkedMultiple(result, base);
+
+        exp >>= 1;
+        base *= base;
+      case 5:
+        if ((exp & 1) != 0)
+          result *= base;
+
+        exp >>= 1;
+        base *= base;
+      case 4:
+        if ((exp & 1) != 0)
+          result *= base;
+
+        exp >>= 1;
+        base *= base;
+      case 3:
+        if ((exp & 1) != 0)
+          result *= base;
+
+        exp >>= 1;
+        base *= base;
+      case 2:
+        if ((exp & 1) != 0)
+          result *= base;
+
+        exp >>= 1;
+        base *= base;
+      case 1:
+        if ((exp & 1) != 0)
+          result *= base;
+
+      default:
+        return result;
+    }
+  }
+
+  public static int[] parseInteger(final String ... value) {
+    final int[] values = new int[value.length];
+    for (int i = 0; i < value.length; i++)
+      values[i] = Integer.parseInt(value[i]);
+
+    return values;
+  }
+
+  public static double[] parseDouble(final String ... value) {
+    final double[] values = new double[value.length];
+    for (int i = 0; i < value.length; i++)
+      values[i] = Double.parseDouble(value[i]);
+
+    return values;
+  }
+
+  public static double parseNumber(String string) {
+    if (string == null || (string = string.trim()).length() == 0 || !isNumber(string))
+      return Double.NaN;
+
+    double scalar = 0;
+    final String[] parts = string.split(" ");
+    if (parts.length == 2) {
+      scalar += new BigDecimal(parts[0]).doubleValue();
+      string = parts[1];
     }
 
-    return result;
+    final int slash = string.indexOf('/');
+    if (slash == 1)
+      scalar += (double)Integer.parseInt(string.substring(0, slash)) / (double)Integer.parseInt(string.substring(slash + 1, string.length()));
+    else
+      scalar += new BigDecimal(string).doubleValue();
+
+    return scalar;
   }
 
-  public static int rotateBits(final int value, final int sizeof, final int distance) {
-    return (distance == 0 ? value : (distance < 0 ? value << -distance | value >> (sizeof + distance) : value >> distance | value << (sizeof - distance))) & (pow(2, sizeof) - 1);
-  }
-
-  public static boolean isNumber(String s) {
-    if (s == null || (s = s.trim()).length() == 0)
+  public static boolean isNumber(String string) {
+    if (string == null || (string = string.trim()).length() == 0)
       return false;
 
-    int exponent = Integer.MIN_VALUE;
-    int dot = Integer.MIN_VALUE;
-    boolean negative = false;
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
+    final String[] parts = string.split(" ");
+    if (parts.length > 2)
+      return false;
+
+    if (parts.length == 2) {
+      final int slash = parts[1].indexOf('/');
+      if (slash == -1)
+        return false;
+
+      return isNumber(parts[0], false) && isNumber(parts[1], true);
+    }
+
+    return isNumber(parts[0], true);
+  }
+
+  private static boolean isNumber(String string, final boolean fraction) {
+    if (string == null || (string = string.trim()).length() == 0)
+      return false;
+
+    boolean dotEncountered = false;
+    boolean expEncountered = false;
+    boolean minusEncountered = false;
+    boolean slashEncountered = false;
+    int factor = 0;
+    for (int i = string.length() - 1; i >= 0; i--) {
+      char c = string.charAt(i);
       if (c < '0') {
-        if (c == '.') {
-          if (dot != Integer.MIN_VALUE)
+        if (c == '/') {
+          if (!fraction || dotEncountered || expEncountered || minusEncountered || slashEncountered)
             return false;
 
-          dot = i;
+          slashEncountered = true;
+        }
+        else if (c == '.') {
+          if (dotEncountered || slashEncountered)
+            return false;
+
+          dotEncountered = true;
         }
         else if (c == '-') {
-          if (i != exponent + 1 && i != 0)
+          if (minusEncountered)
             return false;
 
-          negative = true;
+          minusEncountered = true;
         }
         else
           return false;
@@ -63,14 +192,34 @@ public final class Numbers {
         if (c != 'E')
           return false;
 
-        if (1 < exponent || (negative && i == 1) || i - 1 == dot)
+        if (factor == 0 || expEncountered)
           return false;
 
-        exponent = i;
+        expEncountered = true;
+        factor = 0;
+        minusEncountered = false;
+      }
+      else {
+        if (minusEncountered)
+          return false;
+
+        factor++;
       }
     }
 
     return true;
+  }
+
+  public static long checkedMultiple(final long a, final long b) {
+    final long maximum = Long.signum(a) == Long.signum(b) ? Long.MAX_VALUE : Long.MIN_VALUE;
+    if (a != 0 && (b > 0 && b > maximum / a || b < 0 && b < maximum / a))
+      throw new ArithmeticException("long overflow");
+
+    return a * b;
+  }
+
+  public static int rotateBits(final int value, final int sizeof, final int distance) {
+    return (int)((distance == 0 ? value : (distance < 0 ? value << -distance | value >> (sizeof + distance) : value >> distance | value << (sizeof - distance))) & (pow(2, sizeof) - 1));
   }
 
   public static String toString(final double value, final int decimals) {

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -45,7 +45,7 @@ public final class SchemaReference implements PipelineEntity {
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
 
-  // to de-reference the schemaReference to a targetNamespace
+  // to dereference the schemaReference to a targetNamespace
   private volatile boolean isConnected = false;
   private volatile boolean isResolved = false;
   private URL location;
@@ -77,7 +77,7 @@ public final class SchemaReference implements PipelineEntity {
         throw new IllegalArgumentException("Unknown URL format: " + location);
       }
     }
-    
+
     this.isInclude = isInclude;
     logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
@@ -181,7 +181,7 @@ public final class SchemaReference implements PipelineEntity {
         if (namespaceURI == null)
           namespaceURI = NamespaceURI.getInstance(namespace);
         else if (!namespaceURI.toString().equals(namespace))
-          throw new LexerError("This should never happen!!");
+          throw new LexerError("This should never happen: " + namespaceURI + " != " + namespace);
 
         this.prefix = Prefix.getInstance(prefix);
         logger.fine("linking \"" + namespaceURI + "\" to \"" + this.prefix + "\"");

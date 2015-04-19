@@ -290,7 +290,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     writer.write(Element.class.getName() + " node = marshal(root, name(), typeName(_$$inheritsInstance()));\n");
     if (plan.getElements().size() != 0)
       writer.write("_$$marshalElements(node);\n");
-    writer.write("if(" + Validator.class.getName() + ".getSystemValidator() != null)\n");
+    writer.write("if (" + Validator.class.getName() + ".getSystemValidator() != null)\n");
     writer.write(Validator.class.getName() + ".getSystemValidator().validateMarshal(node);\n");
     writer.write("return node;\n");
     writer.write("}\n");
@@ -300,7 +300,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     if (plan.getElements() != null || plan.getAttributes() != null || plan.getMixed()) {
       writer.write(Element.class.getName() + " node = super.marshal(parent, name, typeName);\n");
       if (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(text != null)\n");
+        writer.write("if (text != null)\n");
         writer.write("node.appendChild(node.getOwnerDocument().createTextNode(text.toString()));\n");
       }
       for (final Object attribute : plan.getAttributes())
@@ -317,7 +317,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     if (plan.getAttributes() != null) {
       writer.write("protected boolean parseAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
-      writer.write("if(attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
+      writer.write("if (attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
       writer.write("{\n");
       writer.write("return true;\n");
       writer.write("}\n");
@@ -345,12 +345,12 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
       writer.write("protected boolean parseElement(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
       if (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(element.getNodeType() == " + Node.class.getName() + ".TEXT_NODE)\n");
+        writer.write("if (element.getNodeType() == " + Node.class.getName() + ".TEXT_NODE)\n");
         writer.write("{\n");
-        writer.write("if(element.getNodeValue().length() != 0)\n");
+        writer.write("if (element.getNodeValue().length() != 0)\n");
         writer.write("{\n");
         writer.write(String.class.getName() + " value = element.getNodeValue().trim();\n");
-        writer.write("if(text == null && value.length() != 0)\n");
+        writer.write("if (text == null && value.length() != 0)\n");
         writer.write("text = new " + String.class.getName() + "(value);\n");
         writer.write("}\n");
         writer.write("return true;\n");
@@ -388,14 +388,14 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     // EQUALS
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
-    writer.write("if(this == obj)\n");
+    writer.write("if (this == obj)\n");
     writer.write("return true;\n");
-    writer.write("if(!(obj instanceof " + plan.getClassName(parent) + "))\n");
+    writer.write("if (!(obj instanceof " + plan.getClassName(parent) + "))\n");
     writer.write("return _$$failEquals();\n");
     if ((plan.getAttributes() != null && plan.getAttributes().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getElements() != null && plan.getElements().size() != 0) || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())) {
       writer.write("final " + plan.getClassName(parent) + " that = (" + plan.getClassName(parent) + ")obj;\n");
       if (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()) {
-        writer.write("if(text != null ? !text.equals(that.text) : that.text != null)\n");
+        writer.write("if (text != null ? !text.equals(that.text) : that.text != null)\n");
         writer.write("return _$$failEquals();\n");
       }
       for (final Object attribute : plan.getAttributes())

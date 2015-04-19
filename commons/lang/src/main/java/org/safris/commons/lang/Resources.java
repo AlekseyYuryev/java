@@ -78,6 +78,7 @@ public final class Resources {
     final Set<URL> history = new HashSet<URL>();
     final Vector<Resource> resources = new Vector<Resource>(1, 1);
     combineResources(urls, classLoader, history, resources);
+
     classLoader = Thread.currentThread().getContextClassLoader();
     urls = classLoader.getResources(name);
     combineResources(urls, classLoader, history, resources);

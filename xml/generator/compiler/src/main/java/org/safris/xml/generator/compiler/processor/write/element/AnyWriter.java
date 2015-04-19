@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -65,7 +65,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 //      }
 //      else
 //      {
-//          writer.write("if(this." + plan.getInstanceName() + ".$value() != null)\n");
+//          writer.write("if (this." + plan.getInstanceName() + ".$value() != null)\n");
 //          writer.write("_$$dequeueElement(this." + plan.getInstanceName() + ");\n");
 //          writer.write("this.any.$value(any);\n");
 //      }
@@ -80,7 +80,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
   protected void appendParse(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
 //      {
-    writer.write("if(element.getNodeType() != " + Node.class.getName() + ".ELEMENT_NODE)\n");
+    writer.write("if (element.getNodeType() != " + Node.class.getName() + ".ELEMENT_NODE)\n");
     writer.write("return;\n");
     writer.write("_$$addElement(this.any, " + Bindings.class.getName() + ".parse((" + Element.class.getName() + ")element));\n");
 //      }
@@ -93,7 +93,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
   }
 
   protected void appendEquals(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
-    writer.write("if(any != null ? !any.equals(that.any) : that.any != null)\n");
+    writer.write("if (any != null ? !any.equals(that.any) : that.any != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 
