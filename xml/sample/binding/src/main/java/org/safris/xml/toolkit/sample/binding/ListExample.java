@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -69,8 +69,8 @@ public class ListExample {
 
       li_roster._employees._employee employee = new li_roster._employees._employee();
       employee._name(new li_roster._employees._employee._name("Woody Harold"));
-      employee._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.MON, li_roster._employees._employee._workDays.TUE, li_roster._employees._employee._workDays.WED));
-      employee._position(new li_roster._employees._employee._position(li_roster._employees._employee._position.STOCKROOM));
+      employee._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.mon, li_roster._employees._employee._workDays.tue, li_roster._employees._employee._workDays.wed));
+      employee._position(new li_roster._employees._employee._position(li_roster._employees._employee._position.stockroom));
       employee._vacationDates(new li_roster._employees._employee._vacationDates(new Date(2008, 8, 12), new Date(2008, 9, 22), new Date(2008, 10, 30)));
       employees.add(employee);
     }
@@ -88,7 +88,7 @@ public class ListExample {
 
       li_roster._volunteers._volunteer volunteer = new li_roster._volunteers._volunteer();
       volunteer._name(new li_roster._employees._employee._name("Michelle Smith"));
-      volunteer._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.MON, li_roster._employees._employee._workDays.TUE, li_roster._employees._employee._workDays.WED));
+      volunteer._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.mon, li_roster._employees._employee._workDays.tue, li_roster._employees._employee._workDays.wed));
       volunteer._breakTimes(new li_roster._volunteers._volunteer._breakTimes(new Time(10, 15, 00), new Time(12, 00, 00), new Time(15, 30, 00)));
       volunteers.add(volunteer);
     }

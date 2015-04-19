@@ -50,7 +50,7 @@ public final class Expect {
     while (tokenizer.hasMoreTokens())
       args.add(tokenizer.nextToken());
 
-    final boolean sync = processType._fork$() != null && $ex_processType._fork$.SYNC.equals(processType._fork$().text());
+    final boolean sync = processType._fork$() != null && $ex_processType._fork$.sync.equals(processType._fork$().text());
     if (exec.startsWith("java")) {
       String className = null;
       final Map<String,String> props = new HashMap<String,String>();

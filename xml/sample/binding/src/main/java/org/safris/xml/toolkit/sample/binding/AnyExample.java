@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -46,7 +46,7 @@ public class AnyExample {
     simple_fruits.simple_fruit(jackfruit);
 
     enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
-    coloredBasket.enums_color$(new enums_color$(enums_color$.BLUE));
+    coloredBasket.enums_color$(new enums_color$(enums_color$.blue));
     coloredBasket._fruits(simple_fruits);
 
     $type_fleshyFruitType berry = new $type_fleshyFruitType() {
@@ -54,8 +54,8 @@ public class AnyExample {
         return new simple_fruit();
       }
     };
-    berry._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
-    berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
+    berry._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.Berry));
+    berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.soft));
 
     // Again, instantiate a nameless element.GenericBasket
     $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
@@ -65,7 +65,7 @@ public class AnyExample {
 //              return new SimpleSpecialFruit();
       }
     };
-    grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
+    grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Grain));
 
     // Again, instantiate a nameless element.
     $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
@@ -73,8 +73,8 @@ public class AnyExample {
         return new simple_fruit();
       }
     };
-    nut._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
-    nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+    nut._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Nut));
+    nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$._5Ftrue));
 //      nut.setDryAttr(new ITypesimple_fruitType.DryAttr(false));
 
     any_trash trash = new any_trash();

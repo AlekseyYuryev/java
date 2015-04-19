@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -39,8 +39,8 @@ public class XsiTypeExample {
         return null;
       }
     };
-    berry._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.BERRY));
-    berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.SOFT));
+    berry._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.Berry));
+    berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.soft));
 
     // Again, instantiate a nameless element.
     $type_fleshyFruitType drupe = new $type_fleshyFruitType() {
@@ -48,8 +48,8 @@ public class XsiTypeExample {
         return null;
       }
     };
-    drupe._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.DRUPE));
-    drupe._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.FLESHY));
+    drupe._name$(new $type_fleshyFruitType._name$($type_fleshyFruitType._name$.Drupe));
+    drupe._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.fleshy));
 
     // Again, instantiate a nameless element.
     $type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType() {
@@ -57,7 +57,7 @@ public class XsiTypeExample {
         return null;
       }
     };
-    legume._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.LEGUME));
+    legume._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.Legume));
 
     // Again, instantiate a nameless element.
     $type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType() {
@@ -65,7 +65,7 @@ public class XsiTypeExample {
         return null;
       }
     };
-    follicle._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.FOLLICLE));
+    follicle._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.Follicle));
 
     // Again, instantiate a nameless element.GenericBasket
     $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType() {
@@ -73,7 +73,7 @@ public class XsiTypeExample {
         return null;
       }
     };
-    grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.GRAIN));
+    grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Grain));
 
     // Again, instantiate a nameless element.
     $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
@@ -81,8 +81,8 @@ public class XsiTypeExample {
         return null;
       }
     };
-    nut._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.NUT));
-    nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$.TRUE));
+    nut._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Nut));
+    nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$._5Ftrue));
 //      nut.addDry$(new ITypesimple_fruitType.Dry$(false));
 
     simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
@@ -94,7 +94,7 @@ public class XsiTypeExample {
     fruits.simple_fruit(nut);
 
     enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
-    coloredBasket.enums_color$(new enums_color$(enums_color$.RED));
+    coloredBasket.enums_color$(new enums_color$(enums_color$.red));
     coloredBasket._fruits(fruits);
 
     // Now verify the integrity of the code representing this XML structure.
