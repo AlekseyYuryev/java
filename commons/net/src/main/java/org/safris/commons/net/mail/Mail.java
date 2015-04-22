@@ -18,10 +18,8 @@ package org.safris.commons.net.mail;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.Authenticator;
@@ -65,6 +63,12 @@ public final class Mail {
 
       if (to.length == 0)
         throw new IllegalArgumentException("to.length == 0");
+    }
+
+    public void success() {
+    }
+
+    public void failure(final MessagingException e) {
     }
 
     public boolean equals(final Object obj) {
@@ -155,11 +159,11 @@ public final class Mail {
       }
     }
 
-    public boolean send(final Credentials credentials, final String subject, final MimeContent content, final String from, final String ... to) throws MessagingException {
-      return send(credentials, new Message(subject, content, from, to)).size() == 0;
+    public void send(final Credentials credentials, final String subject, final MimeContent content, final String from, final String ... to) throws MessagingException {
+      send(credentials, new Message(subject, content, from, to));
     }
 
-    public Set<Message> send(final Credentials credentials, final Message ... message) throws MessagingException {
+    public void send(final Credentials credentials, final Message ... message) throws MessagingException {
       final String protocolString = protocol.toString().toLowerCase();
       final Properties properties = new Properties(defaultProperties);
       final Session session;
@@ -179,7 +183,6 @@ public final class Mail {
         session = Session.getInstance(properties);
       }
 
-      final Set<Message> failed = new HashSet<Message>();
       session.setDebug(debug);
       final Transport transport = session.getTransport(protocolString);
       try {
@@ -206,18 +209,17 @@ public final class Mail {
 
             mimeMessage.saveChanges();
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+            msg.success();
           }
           catch (final MessagingException e) {
             logger.throwing(Mail.class.getName(), "send", e);
-            failed.add(msg);
+            msg.failure(e);
           }
         }
       }
       finally {
         transport.close();
       }
-
-      return failed;
     }
 
     public boolean equals(final Object obj) {

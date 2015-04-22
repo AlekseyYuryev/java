@@ -41,7 +41,7 @@ public class ISTEnumGenerator {
   }
 
   public static void main(final String[] args) throws Exception {
-    main(Options.parse(Resources.getResource("cli.xml").getURL(), args));
+    main(Options.parse(Resources.getResource("cli.xml").getURL(), ISTEnumGenerator.class, args));
   }
 
   public static void main(final Options options) throws Exception {
