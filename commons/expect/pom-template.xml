@@ -78,7 +78,7 @@
           <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
             <destdir explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
             <schemas>
-              <schema>${basedir}/src/main/resources/xsd/expect.xsd</schema>
+              <schema>${basedir}/src/main/resources/expect.xsd</schema>
             </schemas>
           </manifest>
         </configuration>
