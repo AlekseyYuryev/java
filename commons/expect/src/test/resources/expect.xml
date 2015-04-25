@@ -18,7 +18,7 @@
 <ex:script
   xmlns:ex="http://commons.safris.org/expect.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://commons.safris.org/expect.xsd ../../../main/resources/xsd/expect.xsd">
+  xsi:schemaLocation="http://commons.safris.org/expect.xsd http://commons.safris.org/expect.xsd">
   <ex:process exec="java org.safris.commons.expect.ExpectSimulator ${date}">
     <ex:rule id="r1" expect="Would you like to create a roster\?" respond="Y"/>
     <ex:rule id="r2" expect="What is the name of the person\?" respond="${name}"/>

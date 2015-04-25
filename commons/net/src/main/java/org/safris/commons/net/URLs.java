@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -42,10 +42,31 @@ public final class URLs {
     return URL_PATTERN.matcher(path).find();
   }
 
-  public static boolean isLocal(final URL url) throws MalformedURLException {
-    return URLs.toExternalForm(url).startsWith("file:");
+  public static boolean isFile(final URL url) {
+    final String host = url.getHost();
+    return "file".equalsIgnoreCase(url.getProtocol()) && (host == null || host.length() == 0);
   }
-  
+
+  public static boolean isLocal(URL url) {
+    do {
+      if (isFile(url))
+        return true;
+
+      if (!"jar".equalsIgnoreCase(url.getProtocol()))
+        return false;
+
+      final String path = url.getPath();
+      final int bang = path.lastIndexOf('!');
+      try {
+        url = new URL(bang == -1 ? path : path.substring(0, bang));
+      }
+      catch (final MalformedURLException e) {
+        return false;
+      }
+    }
+    while (true);
+  }
+
   public static URL makeUrlFromPath(String absolutePath) throws MalformedURLException {
     if (absolutePath == null)
       return null;
@@ -66,11 +87,11 @@ public final class URLs {
 
     return URLs.canonicalizeURL(url);
   }
-  
+
   public static URL makeUrlFromPath(final URL baseURL, final String path) throws MalformedURLException {
     if (baseURL == null || path == null)
       return null;
-    
+
     final String externalForm = URLs.toExternalForm(baseURL);
     return new URL(externalForm.endsWith("/") ? externalForm + path : externalForm + "/" + path);
   }

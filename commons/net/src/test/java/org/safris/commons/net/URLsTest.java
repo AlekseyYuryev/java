@@ -26,6 +26,21 @@ import org.junit.Test;
 
 public final class URLsTest {
   @Test
+  public void testIsLocal() throws Exception {
+    Assert.assertTrue(URLs.isLocal(new URL("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));
+    Assert.assertTrue(URLs.isLocal(new URL("file:///c:/path/to/the%20file.txt")));
+    Assert.assertTrue(URLs.isLocal(new URL("file:///tmp.txt")));
+    Assert.assertTrue(URLs.isLocal(new URL("jar:file:/root/app.jar!/repository")));
+    Assert.assertFalse(URLs.isLocal(new URL("http://127.0.0.1:8080/a.properties")));
+    Assert.assertFalse(URLs.isLocal(new URL("file://localhost/etc/fstab")));
+    Assert.assertFalse(URLs.isLocal(new URL("file://localhost/c|/WINDOWS/clock.avi")));
+    Assert.assertFalse(URLs.isLocal(new URL("file://hostname/path/to/the%20file.txt")));
+    Assert.assertFalse(URLs.isLocal(new URL("ftp://user:password@server:80/path")));
+    Assert.assertFalse(URLs.isLocal(new URL("https://mail.google.com/mail/u/0/?zx=gc46uk9snw66#inbox")));
+    Assert.assertFalse(URLs.isLocal(new URL("jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class")));
+  }
+
+  @Test
   public void testIsAbsolute() throws Exception {
     Assert.assertTrue(URLs.isAbsolute("c:\\Windows"));
     Assert.assertTrue(URLs.isAbsolute("file:///c:/autoexec.bat"));

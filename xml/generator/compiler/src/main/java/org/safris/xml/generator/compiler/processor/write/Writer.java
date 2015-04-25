@@ -19,12 +19,14 @@ package org.safris.xml.generator.compiler.processor.write;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
 import org.safris.commons.logging.Logger;
+import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.compiler.lang.CompilerError;
@@ -51,7 +53,8 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     if (!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
       return;
 
-    final String display = Files.relativePath(Files.getCwd(), new File(plan.getModel().getSchema().getURL().getFile()).getAbsoluteFile());
+    final URL url = plan.getModel().getSchema().getURL();
+    final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
     final String message = "Compiling {" + plan.getModel().getTargetNamespace() + "} from " + display;
     if (!messages.contains(message)) {
       logger.info(message);

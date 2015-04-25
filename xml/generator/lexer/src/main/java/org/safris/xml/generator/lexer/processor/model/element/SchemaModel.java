@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.safris.commons.io.Files;
+import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.Model;
@@ -64,7 +65,7 @@ public final class SchemaModel extends Model {
 
   public final void setURL(final URL url) {
     this.url = url;
-    final String display = Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile());
+    final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
     logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
   }
 
@@ -106,18 +107,18 @@ public final class SchemaModel extends Model {
   public final String getVersion() {
     return version;
   }
-  
+
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
-    
+
     if (!(obj instanceof SchemaModel))
       return false;
-    
+
     final SchemaModel that = (SchemaModel)obj;
-    return (targetNamespace != null ? targetNamespace.equals(that.targetNamespace) : that.targetNamespace == null) && (url != null ? url.equals(that.url) : that.url == null); 
+    return (targetNamespace != null ? targetNamespace.equals(that.targetNamespace) : that.targetNamespace == null) && (url != null ? url.equals(that.url) : that.url == null);
   }
-  
+
   public int hashCode() {
     return (targetNamespace != null ? targetNamespace.hashCode() : -7) * (url != null ? url.hashCode() : -9);
   }
