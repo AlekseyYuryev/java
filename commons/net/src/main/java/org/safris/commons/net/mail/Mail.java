@@ -41,10 +41,10 @@ public final class Mail {
   public static class Message {
     public final String subject;
     public final MimeContent content;
-    public final String from;
+    public final InternetAddress from;
     public final String[] to;
 
-    public Message(final String subject, final MimeContent content, final String from, final String ... to) {
+    public Message(final String subject, final MimeContent content, final InternetAddress from, final String ... to) {
       this.subject = subject;
       if (subject == null)
         throw new NullPointerException("subject == null");
@@ -159,7 +159,7 @@ public final class Mail {
       }
     }
 
-    public void send(final Credentials credentials, final String subject, final MimeContent content, final String from, final String ... to) throws MessagingException {
+    public void send(final Credentials credentials, final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws MessagingException {
       send(credentials, new Message(subject, content, from, to));
     }
 
@@ -189,13 +189,11 @@ public final class Mail {
         transport.connect(host, port, credentials.username, credentials.password);
         for (final Message msg : message) {
           logger.info("Email: " + Arrays.toString(msg.to));
-          // FIXME: Emails are coming through from a 'default' from address?!?!?!
-          session.getProperties().setProperty("mail." + protocolString + ".from", msg.from);
+          session.getProperties().setProperty("mail." + protocolString + ".from", msg.from.getAddress());
           final MimeMessage mimeMessage = new MimeMessage(session);
 
           try {
-            // FIXME: Emails are coming through from a 'default' from address?!?!?!
-            mimeMessage.setFrom(new InternetAddress(msg.from));
+            mimeMessage.setFrom(msg.from);
 
             final InternetAddress[] addressesTo = new InternetAddress[msg.to.length];
             for (int i = 0; i < msg.to.length; i++)

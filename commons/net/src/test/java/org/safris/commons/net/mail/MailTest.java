@@ -16,19 +16,43 @@
 
 package org.safris.commons.net.mail;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class MailTest {
+  private int successCount = 0;
+
+  private class TestMessage extends Mail.Message  {
+    public TestMessage(final String subject, final MimeContent content, final InternetAddress from, final String ... to) {
+      super(subject, content, from, to);
+    }
+
+    public void success() {
+      ++successCount;
+    }
+
+    public void failure(final MessagingException e) {
+      Assert.fail(e.getMessage());
+    }
+  }
+
   @Test
   @Ignore
   public void testClient() throws Exception {
     final Mail.Credentials smtpCredentials = new Mail.Credentials("filehost", "FileH0st");
     final Mail.Server server = Mail.Server.instance(Mail.Protocol.SMTP, "smtp.safris.com", 465);
-    final Mail.Message message1 = new Mail.Message("test1", new MimeContent("test1", "text/html"), "seva@safris.org", "seva.safris@gmail.com");
-    final Mail.Message message2 = new Mail.Message("test2", new MimeContent("test2", "text/html"), "seva@safris.com", "safris@berkeley.edu");
-    final Mail.Message message3 = new Mail.Message("test3", new MimeContent("test3", "text/html"), "seva@safris.biz", "seva@djseva.com");
-    Assert.assertEquals(0, server.send(smtpCredentials, message1, message2, message3).size());
+    final Mail.Message[] messages = new TestMessage[] {
+      new TestMessage("test1", new MimeContent("test1", "text/html"), new InternetAddress("seva@safris.org", "org"), "seva.safris@gmail.com"),
+      new TestMessage("test2", new MimeContent("test2", "text/html"), new InternetAddress("seva@safris.com", "com"), "safris@berkeley.edu"),
+      new TestMessage("test3", new MimeContent("test3", "text/html"), new InternetAddress("seva@safris.biz", "biz"), "seva@djseva.com")
+    };
+
+    server.send(smtpCredentials, messages);
+
+    Assert.assertEquals(messages.length, successCount);
   }
 }

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -52,6 +52,7 @@ import org.safris.xml.generator.lexer.processor.model.element.KeyModel;
 import org.safris.xml.generator.lexer.processor.model.element.KeyrefModel;
 import org.safris.xml.generator.lexer.processor.model.element.LengthModel;
 import org.safris.xml.generator.lexer.processor.model.element.ListModel;
+import org.safris.xml.generator.lexer.processor.model.element.MaxExclusiveModel;
 import org.safris.xml.generator.lexer.processor.model.element.MaxInclusiveModel;
 import org.safris.xml.generator.lexer.processor.model.element.MaxLengthModel;
 import org.safris.xml.generator.lexer.processor.model.element.MinExclusiveModel;
@@ -95,6 +96,7 @@ import org.safris.xml.generator.lexer.processor.normalize.element.KeyNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.KeyrefNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.LengthNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.ListNormalizer;
+import org.safris.xml.generator.lexer.processor.normalize.element.MaxExclusiveNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.MaxInclusiveNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.MaxLengthNormalizer;
 import org.safris.xml.generator.lexer.processor.normalize.element.MinExclusiveNormalizer;
@@ -147,6 +149,7 @@ public final class NormalizerDirectory implements PipelineDirectory<GeneratorCon
     classes.put(KeyrefModel.class, KeyrefNormalizer.class);
     classes.put(LengthModel.class, LengthNormalizer.class);
     classes.put(ListModel.class, ListNormalizer.class);
+    classes.put(MaxExclusiveModel.class, MaxExclusiveNormalizer.class);
     classes.put(MaxInclusiveModel.class, MaxInclusiveNormalizer.class);
     classes.put(MaxLengthModel.class, MaxLengthNormalizer.class);
     classes.put(MinExclusiveModel.class, MinExclusiveNormalizer.class);

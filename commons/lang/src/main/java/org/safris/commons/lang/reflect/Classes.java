@@ -20,6 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,10 @@ import org.safris.commons.util.For;
 
 public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
+
+  public static Type[] getGenericSuperclasses(final Class<?> cls) {
+    return ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments();
+  }
 
   private static Field checkAccessField(final Field field, final boolean declared) {
     return declared || Modifier.isPublic(field.getModifiers()) ? field : null;
