@@ -37,6 +37,11 @@
       <version>${dev:org.safris.xdb.xdl}</version>
     </dependency>
     <dependency>
+      <groupId>org.safris.xdb</groupId>
+      <artifactId>xde</artifactId>
+      <version>${dev:org.safris.xdb.xde}</version>
+    </dependency>
+    <dependency>
       <groupId>org.safris.maven.plugin.xml</groupId>
       <artifactId>binding</artifactId>
       <version>${dev:org.safris.maven.plugin.xml.binding}</version>

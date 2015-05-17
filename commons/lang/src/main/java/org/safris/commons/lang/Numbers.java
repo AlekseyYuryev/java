@@ -17,6 +17,7 @@
 package org.safris.commons.lang;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public final class Numbers {
   private static final int[] highestBitSet = {
@@ -53,6 +54,8 @@ public final class Numbers {
     255, 255, 255, 255, 255, 255, 255, 255,
     255, 255, 255, 255, 255, 255, 255, 255,
   };
+
+  public static final double LOG2 = Math.log(2);
 
   public static long pow(long base, int exp) {
     long result = 1;
@@ -240,6 +243,16 @@ public final class Numbers {
         break;
 
     return value.substring(0, i + 1);
+  }
+
+  // FIXME: This is not working! it is returning incorrect results
+  public static double log2(BigInteger value) {
+    final int blex = value.bitLength() - 1022; // any value in 60..1023 is ok
+    if (blex > 0)
+      value = value.shiftRight(blex);
+
+    final double result = Math.log(value.doubleValue());
+    return blex > 0 ? result + blex * LOG2 : result;
   }
 
   private Numbers() {

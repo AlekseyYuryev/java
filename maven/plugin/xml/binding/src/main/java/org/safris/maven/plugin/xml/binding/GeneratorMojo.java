@@ -233,8 +233,7 @@ public class GeneratorMojo extends AbstractMojo {
     if (generatorBindings.size() == 0)
       return;
 
-    final File destDirFile = new File(destDir);
-    final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), destDirFile, explodeJars, overwrite), generatorBindings);
+    final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), new File(destDir), explodeJars, overwrite), generatorBindings);
     final Collection<Bundle> bundles = generator.generate();
     addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
   }

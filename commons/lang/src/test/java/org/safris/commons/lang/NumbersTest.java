@@ -16,10 +16,57 @@
 
 package org.safris.commons.lang;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 public final class NumbersTest {
+  public static double testLogBigInteger(final int[] factors, final int[] exponents) {
+    double l1 = 0;
+    BigInteger bi = BigInteger.ONE;
+    for (int i = 0; i < factors.length; i++) {
+      int exponent = exponents[i];
+      int factor = factors[i];
+      if (factor <= 1)
+        continue;
+
+      for (int n = 0; n < exponent; n++)
+        bi = bi.multiply(BigInteger.valueOf(factor));
+
+      l1 += Math.log(factor) * exponent;
+    }
+
+    final double l2 = Numbers.log2(bi);
+    final double err = Math.abs((l2 - l1) / l1);
+    final int decdigits = (int) (l1 / Math.log(10) + 0.5);
+    System.out.printf("e=%e digitss=%d \n", err, decdigits);
+    return err;
+  }
+
+  @Test
+  public void testManyTries() {
+    final int tries = 100;
+
+    final int[] f = {1, 1, 1, 1, 1};
+    final int[] e = {1, 1, 1, 1, 1};
+    final Random r = new Random();
+    double maxerr = 0;
+    for (int n = 0; n < tries; n++) {
+      for (int i = 0; i < f.length; i++) {
+        f[i] = r.nextInt(100000) + 2;
+        e[i] = r.nextInt(1000) + 1;
+      }
+
+      final double err = testLogBigInteger(f, e);
+      if (err > maxerr)
+        maxerr = err;
+    }
+
+    System.out.printf("Max err: %e \n", maxerr);
+  }
+
   @Test
   public void testparseNumber() {
     Assert.assertEquals(2.5, Numbers.parseNumber("2 1/2"), 0);

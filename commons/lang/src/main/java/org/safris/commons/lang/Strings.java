@@ -179,7 +179,7 @@ public final class Strings {
       throw new IllegalArgumentException("length = " + length + " < 0");
 
     final char[] chars = new char[length];
-    Arrays.fill(chars, ' ');
+    Arrays.fill(chars, ch);
     return String.valueOf(chars);
   }
 
@@ -204,11 +204,11 @@ public final class Strings {
     return negative ? '-' + result : result;
   }
 
-  public static final String toUTF8Literal(final char ch) {
+  public static String toUTF8Literal(final char ch) {
     return "\\x" + hex(ch, 2);
   }
 
-  public static final String toUTF8Literal(final String string) {
+  public static String toUTF8Literal(final String string) {
     final StringBuilder buffer = new StringBuilder(string.length() * 4);
     for (int i = 0; i < string.length(); i++) {
       char ch = string.charAt(i);
@@ -216,6 +216,14 @@ public final class Strings {
     }
 
     return buffer.toString();
+  }
+
+  public static int indexOfReverse(final String string, final char ch, int fromIndex) {
+    for (int i = fromIndex; i >= 0; i--)
+      if (string.charAt(i) == ch)
+        return i;
+
+    return -1;
   }
 
   private Strings() {

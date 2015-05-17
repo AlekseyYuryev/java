@@ -3,8 +3,9 @@
 .settings/
 build/
 target/
+derby.log
 pom.xml
-.classpath
-.project
 *.javaproj
 *.sln
+.classpath
+.project

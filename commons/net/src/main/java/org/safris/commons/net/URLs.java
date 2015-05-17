@@ -26,20 +26,18 @@ import java.util.regex.Pattern;
 import org.safris.commons.lang.Paths;
 
 public final class URLs {
-  private static final Pattern URL_PATTERN = Pattern.compile("(^[a-zA-Z0-9]*://)");
-
   private static String formatWindowsPath(final String absolutePath) {
     return absolutePath.replace('\\', '/');
   }
 
   public static boolean isAbsolute(final String path) {
-    if (path == null)
-      throw new NullPointerException();
-
     if (path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
       return true;
 
-    return URL_PATTERN.matcher(path).find();
+    if (path.startsWith("file:/"))
+      return true;
+
+    return path.matches("^([a-zA-Z0-9]+:)?//.*$");
   }
 
   public static boolean isFile(final URL url) {

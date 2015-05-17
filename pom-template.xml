@@ -352,6 +352,7 @@
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>ddl</goal>
+                      <goal>xde</goal>
                       <goal>xsd</goal>
                     </goals>
                   </pluginExecutionFilter>
@@ -395,6 +396,11 @@
         <artifactId>commons-logging</artifactId>
         <version>RELEASE</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.35</version>
       </dependency>
       <dependency>
         <groupId>org.apache.ant</groupId>
