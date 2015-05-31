@@ -141,4 +141,16 @@ public final class NumbersTest {
     Assert.assertEquals("0.00833333333334", Numbers.toString(0.008333333333339323, 14));
     Assert.assertEquals("0.008333333333", Numbers.toString(0.008333333333000000, 14));
   }
+
+  @Test
+  public void testUnsigned() {
+    Assert.assertEquals(0, Numbers.Unsigned.toSigned(Byte.MIN_VALUE));
+    Assert.assertEquals(255, Numbers.Unsigned.toSigned(Byte.MAX_VALUE));
+    Assert.assertEquals(0, Numbers.Unsigned.toSigned(Short.MIN_VALUE));
+    Assert.assertEquals(65535, Numbers.Unsigned.toSigned(Short.MAX_VALUE));
+    Assert.assertEquals(0, Numbers.Unsigned.toSigned(Integer.MIN_VALUE));
+    Assert.assertEquals(4294967295L, Numbers.Unsigned.toSigned(Integer.MAX_VALUE));
+    Assert.assertEquals(BigInteger.valueOf(0), Numbers.Unsigned.toSigned(Long.MIN_VALUE));
+    Assert.assertEquals(new BigInteger("18446744073709551615"), Numbers.Unsigned.toSigned(Long.MAX_VALUE));
+  }
 }

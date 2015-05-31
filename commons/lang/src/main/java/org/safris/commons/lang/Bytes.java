@@ -16,6 +16,10 @@
 
 package org.safris.commons.lang;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 public final class Bytes {
   public static class Byte {
     public static int indexOf(final byte[] bytes, final byte ... pattern) {
@@ -258,13 +262,6 @@ public final class Bytes {
     return failure;
   }
 
-  public static byte toByte(final short signedByte) {
-    if (256 < signedByte || signedByte < 0)
-      throw new IllegalArgumentException("256 < signedByte || signedByte < 0");
-
-    return (byte)(signedByte & 0xff);
-  }
-
   public static void toBytes(final short data, final byte[] bytes, final int offset, final boolean isBigEndian) {
     if (isBigEndian) {
       bytes[offset] = (byte)((data >> 8) & 0xff);
@@ -273,6 +270,28 @@ public final class Bytes {
     else {
       bytes[offset] = (byte)(data & 0xff);
       bytes[offset + 1] = (byte)((data >> 8) & 0xff);
+    }
+  }
+
+  public static void toBytes(final short data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+    if (isBigEndian) {
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+    }
+  }
+
+  public static void toBytes(final short data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+    if (isBigEndian) {
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
     }
   }
 
@@ -288,6 +307,36 @@ public final class Bytes {
       bytes[offset + 1] = (byte)((data >> 8) & 0xff);
       bytes[offset + 2] = (byte)((data >> 16) & 0xff);
       bytes[offset + 3] = (byte)((data >> 24) & 0xff);
+    }
+  }
+
+  public static void toBytes(final int data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+    if (isBigEndian) {
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
+    }
+  }
+
+  public static void toBytes(final int data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+    if (isBigEndian) {
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
     }
   }
 
@@ -314,6 +363,52 @@ public final class Bytes {
     }
   }
 
+  public static void toBytes(final long data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+    if (isBigEndian) {
+      out.write((byte)((data >> 56) & 0xff));
+      out.write((byte)((data >> 48) & 0xff));
+      out.write((byte)((data >> 40) & 0xff));
+      out.write((byte)((data >> 32) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 32) & 0xff));
+      out.write((byte)((data >> 40) & 0xff));
+      out.write((byte)((data >> 48) & 0xff));
+      out.write((byte)((data >> 56) & 0xff));
+    }
+  }
+
+  public static void toBytes(final long data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+    if (isBigEndian) {
+      out.write((byte)((data >> 56) & 0xff));
+      out.write((byte)((data >> 48) & 0xff));
+      out.write((byte)((data >> 40) & 0xff));
+      out.write((byte)((data >> 32) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)(data & 0xff));
+    }
+    else {
+      out.write((byte)(data & 0xff));
+      out.write((byte)((data >> 8) & 0xff));
+      out.write((byte)((data >> 16) & 0xff));
+      out.write((byte)((data >> 24) & 0xff));
+      out.write((byte)((data >> 32) & 0xff));
+      out.write((byte)((data >> 40) & 0xff));
+      out.write((byte)((data >> 48) & 0xff));
+      out.write((byte)((data >> 56) & 0xff));
+    }
+  }
+
   public static void toBytes(final int byteLength, final long data, final byte[] bytes, final int offset, final boolean isBigEndian) {
     if (byteLength == Short.SIZE / 8)
       toBytes((short)data, bytes, offset, isBigEndian);
@@ -323,16 +418,29 @@ public final class Bytes {
       toBytes(data, bytes, offset, isBigEndian);
   }
 
-  public static short toUnsignedByte(final byte b) {
-    return (short)(b & 0xff);
+  public static void toBytes(final int byteLength, final long data, final ByteArrayOutputStream out, final boolean isBigEndian) {
+    if (byteLength == Short.SIZE / 8)
+      toBytes((short)data, out, isBigEndian);
+    else if (byteLength == Integer.SIZE / 8)
+      toBytes((int)data, out, isBigEndian);
+    else if (byteLength == Long.SIZE / 8)
+      toBytes(data, out, isBigEndian);
+  }
+
+  public static void toBytes(final int byteLength, final long data, final RandomAccessFile out, final boolean isBigEndian) throws IOException {
+    if (byteLength == Short.SIZE / 8)
+      toBytes((short)data, out, isBigEndian);
+    else if (byteLength == Integer.SIZE / 8)
+      toBytes((int)data, out, isBigEndian);
+    else if (byteLength == Long.SIZE / 8)
+      toBytes(data, out, isBigEndian);
   }
 
   /**
    * Build a Java short from a 2-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
    *
-   * @exception IllegalArgumentException
-   *              if the specified byte order is not recognized.
+   * @exception IllegalArgumentException if the specified byte order is not recognized.
    */
   public static short toShort(final byte[] bytes, final int offset, final boolean isBigEndian) {
     return (short)toShort(bytes, offset, isBigEndian, true);
@@ -347,8 +455,7 @@ public final class Bytes {
    * Build a Java int from a 4-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
    *
-   * @exception IllegalArgumentException
-   *              if the specified byte order is not recognized.
+   * @exception IllegalArgumentException if the specified byte order is not recognized.
    */
   public static int toInt(final byte[] bytes, final int offset, final boolean isBigEndian) {
     return (int)toInt(bytes, offset, isBigEndian, true);
@@ -363,8 +470,7 @@ public final class Bytes {
    * Build a Java long from an 8-byte signed binary representation. Depending on machine type, byte orders are Big Endian (AS/400, Unix, final System/390
    * byte-order) for signed binary representations, and Little Endian (final Intel 80/86 reversed byte-order) for signed binary representations.
    *
-   * @exception IllegalArgumentException
-   *              if the specified byte order is not recognized.
+   * @exception IllegalArgumentException if the specified byte order is not recognized.
    */
   // FIXME: Support unsigned
   public static long toLong(final byte[] bytes, final int offset, final boolean isBigEndian) {

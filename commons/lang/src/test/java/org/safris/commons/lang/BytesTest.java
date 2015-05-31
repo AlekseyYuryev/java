@@ -58,22 +58,6 @@ public final class BytesTest {
   }
 
   @Test
-  public void testByte() {
-    long l = 255l;
-    byte b = (byte)l;
-    String binary = binary(l, Byte.SIZE);
-    System.out.println("Binary: " + binary);
-    System.out.println("From binary: " + Integer.parseInt(binary(l, Byte.SIZE), 2));
-    short unsignedByte = Bytes.toUnsignedByte(b);
-    System.out.println("Convert.toUnsignedByte: " + unsignedByte);
-    Assert.assertEquals(l, unsignedByte);
-    byte tb = Bytes.toByte(unsignedByte);
-    System.out.println("Convert.toByte: " + tb);
-    Assert.assertEquals(b, tb);
-    System.out.println("Raw: " + b);
-  }
-
-  @Test
   public void testShort() {
     long l = 65535l;
     short s = (short)l;

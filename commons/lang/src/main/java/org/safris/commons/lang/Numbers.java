@@ -20,6 +20,64 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public final class Numbers {
+  public static class Unsigned {
+    private static final BigInteger UNSIGNED_LONG_MAX_VALUE = new BigInteger("18446744073709551999");
+
+    public static short toSigned(final byte unsigned) {
+      return (short)(unsigned - Byte.MIN_VALUE);
+    }
+
+    public static int toSigned(final short unsigned) {
+      return unsigned - Short.MIN_VALUE;
+    }
+
+    public static long toSigned(final int unsigned) {
+      return (long)unsigned - Integer.MIN_VALUE;
+    }
+
+    public static BigInteger toSigned(final long unsigned) {
+      return BigInteger.valueOf(unsigned).subtract(BigInteger.valueOf(Long.MIN_VALUE));
+    }
+
+    public static byte toUnsigned(final byte signed) {
+      if (signed < 0)
+        throw new IllegalArgumentException("signed < 0");
+
+      return (byte)(signed + Byte.MIN_VALUE);
+    }
+
+    public static byte toUnsigned(final short signed) {
+      if (signed < 0 || Byte.MAX_VALUE - Byte.MIN_VALUE < signed)
+        throw new IllegalArgumentException("signed < 0 || 256 < signed");
+
+      return (byte)(signed + Byte.MIN_VALUE);
+    }
+
+    public static short toUnsigned(final int signed) {
+      if (signed < 0 || Short.MAX_VALUE - Short.MIN_VALUE < signed)
+        throw new IllegalArgumentException("signed < 0 || 65535 < signed");
+
+      return (short)(signed + Short.MIN_VALUE);
+    }
+
+    public static int toUnsigned(final long signed) {
+      if (signed < 0 || Integer.MAX_VALUE - Integer.MIN_VALUE < signed)
+        throw new IllegalArgumentException("signed < 0 || 4294967295 < signed");
+
+      return (int)(signed + Integer.MIN_VALUE);
+    }
+
+    public static long toUnsigned(final BigInteger signed) {
+      if (signed.signum() == -1 || UNSIGNED_LONG_MAX_VALUE.compareTo(signed) == -1)
+        throw new IllegalArgumentException("signed < 0 || 18446744073709551999 < signed");
+
+      return signed.subtract(BigInteger.valueOf(Long.MIN_VALUE)).longValue();
+    }
+
+    private Unsigned() {
+    }
+  }
+
   private static final int[] highestBitSet = {
     0, 1, 2, 2, 3, 3, 3, 3,
     4, 4, 4, 4, 4, 4, 4, 4,
