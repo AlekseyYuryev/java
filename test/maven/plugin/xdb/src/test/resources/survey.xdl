@@ -2,7 +2,7 @@
 <database name="survey"
   xmlns="http://xdb.safris.org/xdl.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://xdb.safris.org/xdl.xsd file:/Users/seva/Work/safris/org/xdb/xdl/src/main/resources/xdl.xsd">
+  xsi:schemaLocation="http://xdb.safris.org/xdl.xsd http://xdb.safris.org/xdl.xsd">
   <table name="dish">
     <column name="id" xsi:type="integer" precision="8" unsigned="true" null="false"/>
     <column name="name" xsi:type="char" length="255" null="false"/>

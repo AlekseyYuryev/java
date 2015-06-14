@@ -17,6 +17,7 @@
 package org.safris.commons.net.mail;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.junit.Assert;
@@ -27,7 +28,7 @@ public class MailTest {
   private int successCount = 0;
 
   private class TestMessage extends Mail.Message  {
-    public TestMessage(final String subject, final MimeContent content, final InternetAddress from, final String ... to) {
+    public TestMessage(final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws AddressException {
       super(subject, content, from, to);
     }
 

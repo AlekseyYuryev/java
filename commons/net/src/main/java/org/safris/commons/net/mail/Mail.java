@@ -27,6 +27,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
@@ -39,12 +40,26 @@ public final class Mail {
   }
 
   public static class Message {
+    private static InternetAddress[] toInternetAddress(final String ... emails) throws AddressException {
+      final InternetAddress[] addresses = new InternetAddress[emails.length];
+      for (int i = 0; i < emails.length; i++)
+        addresses[i] = new InternetAddress(emails[i]);
+
+      return addresses;
+    }
+
     public final String subject;
     public final MimeContent content;
     public final InternetAddress from;
-    public final String[] to;
+    public final InternetAddress[] to;
+    public final InternetAddress[] cc;
+    public final InternetAddress[] bcc;
 
-    public Message(final String subject, final MimeContent content, final InternetAddress from, final String ... to) {
+    public Message(final String subject, final MimeContent content, final InternetAddress from, final String[] to, final String[] cc, final String[] bcc) throws AddressException {
+      this(subject, content, from, toInternetAddress(to), toInternetAddress(cc), toInternetAddress(bcc));
+    }
+
+    public Message(final String subject, final MimeContent content, final InternetAddress from, final InternetAddress[] to, final InternetAddress[] cc, final InternetAddress[] bcc) {
       this.subject = subject;
       if (subject == null)
         throw new NullPointerException("subject == null");
@@ -58,11 +73,14 @@ public final class Mail {
         throw new NullPointerException("from == null");
 
       this.to = to;
-      if (to == null)
-        throw new NullPointerException("to == null");
+      this.cc = cc;
+      this.bcc = bcc;
+      if ((to == null || to.length == 0) && (cc == null || cc.length == 0) && (bcc == null || bcc.length == 0))
+        throw new IllegalArgumentException("(to == null || to.length == 0) && (cc == null || cc.length == 0) && (bcc == null || bcc.length == 0)");
+    }
 
-      if (to.length == 0)
-        throw new IllegalArgumentException("to.length == 0");
+    public Message(final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws AddressException {
+      this(subject, content, from, to, null, null);
     }
 
     public void success() {
@@ -79,7 +97,7 @@ public final class Mail {
         return false;
 
       final Message that = (Message)obj;
-      return subject.equals(that.subject) && content.equals(that.content) && from.equals(that.from) && Arrays.equals(to, that.to);
+      return subject.equals(that.subject) && content.equals(that.content) && from.equals(that.from) && Arrays.equals(to, that.to) && Arrays.equals(cc, that.cc) && Arrays.equals(bcc, that.bcc);
     }
 
     public int hashCode() {
@@ -87,7 +105,9 @@ public final class Mail {
       hashCode += 2 * subject.hashCode();
       hashCode += 3 * content.hashCode();
       hashCode += 5 * from.hashCode();
-      hashCode += 7 * to.hashCode();
+      hashCode += 7 * (to != null ? to.hashCode() : -1323);
+      hashCode += 11 * (cc != null ? cc.hashCode() : -1837);
+      hashCode += 13 * (bcc != null ? bcc.hashCode() : -1121);
       return hashCode;
     }
   }
@@ -160,10 +180,14 @@ public final class Mail {
     }
 
     public void send(final Credentials credentials, final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws MessagingException {
-      send(credentials, new Message(subject, content, from, to));
+      send(credentials, new Message(subject, content, from, to, null, null));
     }
 
-    public void send(final Credentials credentials, final Message ... message) throws MessagingException {
+    public void send(final Credentials credentials, final String subject, final MimeContent content, final InternetAddress from, final String[] to, final String[] cc, final String[] bcc) throws MessagingException {
+      send(credentials, new Message(subject, content, from, to, cc, bcc));
+    }
+
+    public void send(final Credentials credentials, final Message ... messages) throws MessagingException {
       final String protocolString = protocol.toString().toLowerCase();
       final Properties properties = new Properties(defaultProperties);
       final Session session;
@@ -187,31 +211,34 @@ public final class Mail {
       final Transport transport = session.getTransport(protocolString);
       try {
         transport.connect(host, port, credentials.username, credentials.password);
-        for (final Message msg : message) {
-          logger.info("Email: " + Arrays.toString(msg.to));
-          session.getProperties().setProperty("mail." + protocolString + ".from", msg.from.getAddress());
+        for (final Message message : messages) {
+          logger.info("Email:\n  to: " + Arrays.toString(message.to) + "\n  cc: " + Arrays.toString(message.to) + "\n  bcc: " + Arrays.toString(message.bcc));
+          session.getProperties().setProperty("mail." + protocolString + ".from", message.from.getAddress());
           final MimeMessage mimeMessage = new MimeMessage(session);
 
           try {
-            mimeMessage.setFrom(msg.from);
+            mimeMessage.setFrom(message.from);
 
-            final InternetAddress[] addressesTo = new InternetAddress[msg.to.length];
-            for (int i = 0; i < msg.to.length; i++)
-              addressesTo[i] = new InternetAddress(msg.to[i]);
+            if (message.to != null)
+              mimeMessage.setRecipients(MimeMessage.RecipientType.TO, message.to);
 
-            mimeMessage.setRecipients(MimeMessage.RecipientType.TO, addressesTo);
+            if (message.cc != null)
+              mimeMessage.setRecipients(MimeMessage.RecipientType.CC, message.cc);
+
+            if (message.bcc != null)
+              mimeMessage.setRecipients(MimeMessage.RecipientType.BCC, message.bcc);
 
             // Setting the Subject and Content Type
-            mimeMessage.setSubject(msg.subject);
-            mimeMessage.setContent(msg.content.getContent(), msg.content.getType());
+            mimeMessage.setSubject(message.subject);
+            mimeMessage.setContent(message.content.getContent(), message.content.getType());
 
             mimeMessage.saveChanges();
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
-            msg.success();
+            message.success();
           }
           catch (final MessagingException e) {
             logger.throwing(Mail.class.getName(), "send", e);
-            msg.failure(e);
+            message.failure(e);
           }
         }
       }

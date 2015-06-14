@@ -58,9 +58,9 @@ public class FormTest {
     test.testSELECT5();
     test.testSELECT6();
     test.testSELECT7();
-    test.testSELECT8();
-    test.testSELECT9();
-    test.testSELECT10();
+//    test.testUPDATE1();
+//    test.testUPDATE2();
+//    test.testINSERT1();
   }
 
   public void testSELECT1() throws SQLException {
@@ -122,17 +122,17 @@ public class FormTest {
     final List<Table[]> rows = select.execute();
   }
 
-  public void testSELECT8() throws SQLException {
+  public void testUPDATE1() throws SQLException {
     INSERT(new survey.MealDish(33, 57, (short)1)).execute();
   }
 
-  public void testSELECT9() throws SQLException {
+  public void testUPDATE2() throws SQLException {
     final survey.MealDish md = new survey.MealDish();
     final UPDATE update = UPDATE(md).SET(md.quantity, PLUS(md.quantity, (short)1)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
     update.execute();
   }
 
-  public void testSELECT10() throws SQLException {
+  public void testINSERT1() throws SQLException {
     final survey.Meal m = new survey.Meal();
     UPDATE(m).SET(m.sent, true).WHERE(EQ(m.id, 5)).execute();
   }
