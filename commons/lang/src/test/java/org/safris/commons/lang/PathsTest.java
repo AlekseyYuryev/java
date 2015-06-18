@@ -44,6 +44,7 @@ public final class PathsTest {
     final Map<String,String> urls = new HashMap<String,String>();
     urls.put("file:///usr", "file:///usr/share/../share");
     urls.put("/usr", "/usr/share/../share/..");
+    urls.put("pom.xml", "arp/../pom.xml");
     urls.put("/", "/usr/share/../share/../../");
     urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
 

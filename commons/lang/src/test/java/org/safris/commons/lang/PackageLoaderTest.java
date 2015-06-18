@@ -65,7 +65,7 @@ public final class PackageLoaderTest {
     }
 
     try {
-      PackageLoader.getSystemPackageLoader().loadPackage(null);
+      PackageLoader.getSystemPackageLoader().loadPackage((String)null);
       Assert.fail("Expected a PackageNotFoundException");
     }
     catch (final PackageNotFoundException e) {

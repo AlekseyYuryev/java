@@ -37,19 +37,20 @@ public final class Paths {
     else
       path = path.replace("//", "/");
 
-    int index;
-    while ((index = path.indexOf("/./")) != -1)
-      path = path.substring(0, index) + path.substring(index + 2);
+    path = path.replace("/./", "");
+    if (path.endsWith("/."))
+      path = path.substring(0, path.length() - 2);
 
     // Process "/../" correctly. This probably isn't very efficient in
     // the general case, but it's probably not bad most of the time.
+    int index;
     while ((index = path.indexOf("/../")) != -1) {
       // Strip of the previous directory - if it exists.
       final int previous = path.lastIndexOf('/', index - 1);
       if (previous != -1)
         path = path.substring(0, previous) + path.substring(index + 3);
       else
-        break;
+        return path.substring(index + 4);
     }
 
     return path;
