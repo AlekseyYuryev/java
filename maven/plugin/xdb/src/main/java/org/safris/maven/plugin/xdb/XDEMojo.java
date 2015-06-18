@@ -42,6 +42,8 @@ public final class XDEMojo extends XDLTransformerMojo {
 
     try {
       EntityGenerator.generate(xdlFile.toURI().toURL(), outDir);
+      project.addTestCompileSourceRoot(outDir.getAbsolutePath());
+      project.addCompileSourceRoot(outDir.getAbsolutePath());
     }
     catch (final Exception e) {
       throw new Error(e);
