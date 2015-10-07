@@ -1,13 +1,14 @@
 package org.safris.commons.jci;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.tools.JavaFileObject;
 
 public final class InMemoryCompiler {
-  public static void compile(final javax.tools.JavaCompiler compiler, final MemoryJavaFileManager fileManager, final Collection<String> options, final List<JavaFileObject> javaFiles, final File outDir) throws Exception {
+  public static void compile(final javax.tools.JavaCompiler compiler, final MemoryJavaFileManager fileManager, final Collection<String> options, final List<JavaFileObject> javaFiles, final File outDir) throws IOException {
     // We specify a task to the compiler. Compiler should use our file
     // manager and our list of "files".
     // Then we run the compilation with call()

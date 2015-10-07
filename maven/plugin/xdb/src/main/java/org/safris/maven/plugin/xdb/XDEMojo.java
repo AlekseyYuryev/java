@@ -19,7 +19,10 @@ package org.safris.maven.plugin.xdb;
 import java.io.File;
 
 import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.safris.xdb.xde.generator.EntityGenerator;
+import org.safris.xdb.xdl.DBVendor;
 
 /**
  * @goal xde
@@ -36,17 +39,18 @@ public final class XDEMojo extends XDLTransformerMojo {
    */
   private MojoExecution execution;
 
-  public void transform(final File xdlFile, final File outDir) {
+  public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
 
     try {
       EntityGenerator.generate(xdlFile.toURI().toURL(), outDir);
-      project.addTestCompileSourceRoot(outDir.getAbsolutePath());
-      project.addCompileSourceRoot(outDir.getAbsolutePath());
     }
     catch (final Exception e) {
-      throw new Error(e);
+      throw new MojoFailureException(e.getMessage(), e);
     }
+
+    project.addTestCompileSourceRoot(outDir.getAbsolutePath());
+    project.addCompileSourceRoot(outDir.getAbsolutePath());
   }
 }

@@ -9,6 +9,7 @@
     <column name="description" xsi:type="char" length="255" null="false"/>
     <column name="type" xsi:type="enum" values="main side" null="false"/>
     <column name="image_url" xsi:type="char" length="255" null="false"/>
+    <column name="created_on" xsi:type="dateTime" null="false"/>
     <constraints>
       <primaryKey>
         <column name="id"/>

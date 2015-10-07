@@ -30,9 +30,7 @@
   <version>${dev:org.safris.maven.plugin.codeguide}</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <packaging>maven-plugin</packaging>
-  <description>
-    Generates javaproj and sln files for the CodeGuide IDE.
-  </description>
+  <description>Generates javaproj and sln files for the CodeGuide IDE.</description>
   <profiles>
     <profile>
       <activation>
@@ -76,12 +74,8 @@
           </execution>
         </executions>
         <configuration>
-          <manifest
-            xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-            <destdir
-              explodeJars="true">
-              ${project.build.directory}/generated-sources/xmlbinding
-            </destdir>
+          <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+            <destdir explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
             <schemas>
               <schema>${basedir}/src/main/resources/xsd/java-project-3.xsd</schema>
             </schemas>

@@ -17,9 +17,10 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.safris.xdb.xdl.DBVendor;
 import org.safris.xdb.xdl.DDLTransform;
 
@@ -38,15 +39,15 @@ public final class DDLTransformMojo extends XDLTransformerMojo {
    */
   private MojoExecution execution;
 
-  public void transform(final File xdlFile, final File outDir) {
+  public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
 
     try {
-      DDLTransform.createDDL(xdlFile.toURI().toURL(), DBVendor.MY_SQL, outDir);
+      DDLTransform.createDDL(xdlFile.toURI().toURL(), vendor, outDir);
     }
-    catch (final MalformedURLException e) {
-      throw new Error(e);
+    catch (final Exception e) {
+      throw new MojoFailureException(e.getMessage(), e);
     }
   }
 }
