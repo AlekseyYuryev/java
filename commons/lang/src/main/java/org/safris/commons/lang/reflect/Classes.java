@@ -268,6 +268,45 @@ public final class Classes {
     return null;
   }
 
+  public static String getName(final Class<?> cls) {
+    if (cls.isArray()) {
+      return getName(cls.getComponentType()) + "[]";
+    }
+
+    if (cls.isPrimitive()) {
+      if (cls == int.class)
+        return "int";
+
+      if (cls == long.class)
+        return "long";
+
+      if (cls == double.class)
+        return "double";
+
+      if (cls == float.class)
+        return "float";
+
+      if (cls == boolean.class)
+        return "boolean";
+
+      if (cls == byte.class)
+        return "byte";
+
+      if (cls == short.class)
+        return "short";
+
+      if (cls == char.class)
+        return "char";
+
+      if (cls == void.class)
+        return "void";
+
+      throw new UnsupportedOperationException("Unknown primitive type: " + cls.getClass());
+    }
+
+    return cls.getName();
+  }
+
   private Classes() {
   }
 }

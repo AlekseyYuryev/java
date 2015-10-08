@@ -30,16 +30,15 @@ public final class TopologicalSortTest {
   @Test
   public void testSort() {
     final Map<String,Set<String>> graph = new HashMap<String,Set<String>>();
-    graph.put("a", new HashSet<String>(Arrays.asList(new String[]{"b"})));
-    graph.put("b", new HashSet<String>(Arrays.asList(new String[]{"c", "d"})));
-    graph.put("c", new HashSet<String>(Arrays.asList(new String[]{"d", "e"})));
-    graph.put("d", new HashSet<String>(Arrays.asList(new String[]{"e", "f"})));
-    graph.put("e", new HashSet<String>(Arrays.asList(new String[]{"g", "i"})));
-    graph.put("f", new HashSet<String>(Arrays.asList(new String[]{"g", "h", "i"})));
+    graph.put("a", new HashSet<String>(Arrays.asList(new String[] {"b"})));
+    graph.put("b", new HashSet<String>(Arrays.asList(new String[] {"c", "d"})));
+    graph.put("c", new HashSet<String>(Arrays.asList(new String[] {"d", "e"})));
+    graph.put("d", new HashSet<String>(Arrays.asList(new String[] {"e"})));
+    graph.put("e", new HashSet<String>(Arrays.asList(new String[] {"f", "g", "h"})));
+    graph.put("f", new HashSet<String>(Arrays.asList(new String[] {"h"})));
     graph.put("g", null);
     graph.put("h", null);
-    graph.put("i", null);
     final List<String> sorted = TopologicalSort.sort(graph);
-    Assert.assertArrayEquals(new String[]{"g", "h", "i", "f", "e", "d", "c", "b", "a"}, sorted.toArray());
+    Assert.assertArrayEquals(new String[] {"g", "h", "f", "e", "d", "c", "b", "a"}, sorted.toArray());
   }
 }

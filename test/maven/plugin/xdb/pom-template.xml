@@ -43,10 +43,12 @@
               <goal>xde</goal>
             </goals>
             <configuration>
+              <vendor>MySQL</vendor>
               <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
                 <destdir>${project.build.directory}/generated-test-sources/xde</destdir>
                 <schemas>
                   <schema>${basedir}/src/test/resources/library.xdl</schema>
+                  <schema>${basedir}/src/test/resources/survey.xdl</schema>
                 </schemas>
               </manifest>
             </configuration>

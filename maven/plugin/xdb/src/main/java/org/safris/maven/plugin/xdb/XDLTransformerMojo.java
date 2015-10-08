@@ -59,9 +59,6 @@ public abstract class XDLTransformerMojo extends AbstractMojo {
     if (manifest.getDestdir() == null)
       throw new MojoExecutionException("destdir is required");
 
-    if (vendor == null)
-      throw new MojoExecutionException("vendor is required");
-
     final Resolver<String> resolver = new MavenPropertyResolver(project);
     for (final String spec : manifest.getSchemas()) {
       final File xdlFile = new File(resolver.resolve(spec));
