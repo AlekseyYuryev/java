@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<json
+  xmlns="http://commons.safris.org/json.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://commons.safris.org/json.xsd http://commons.safris.org/json.xsd">
+  <object name="attachment">
+    <value name="filename" xsi:type="string"/>
+    <value name="data" xsi:type="string"/>
+    <value name="serial" xsi:type="number"/>
+  </object>
+  <object name="signature">
+    <value name="xmldsig" xsi:type="string"/>
+    <value name="pub_rsa" xsi:type="string"/>
+  </object>
+  <object name="message">
+    <value name="subject" xsi:type="string"/>
+    <value name="imortant" xsi:type="boolean"/>
+    <value name="recipients" xsi:type="string" array="true"/>
+    <value xsi:type="object" type="attachment" array="true"/>
+    <value xsi:type="object" type="signature"/>
+  </object>
+</json>

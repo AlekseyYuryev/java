@@ -21,6 +21,12 @@
   xmlns:sp="http://commons.safris.org/datatypes.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
+  <xs:simpleType name="NCWName">
+    <xs:restriction base="xs:NCName">
+      <xs:pattern value="[\S]*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:simpleType name="char">
     <xs:restriction base="xs:normalizedString">
       <xs:maxLength value="1"/>

@@ -332,6 +332,21 @@
                 </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>json</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>jso</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute>
+                      <runOnIncremental>false</runOnIncremental>
+                    </execute>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin.xml</groupId>
                     <artifactId>binding</artifactId>
                     <versionRange>[0.0,)</versionRange>

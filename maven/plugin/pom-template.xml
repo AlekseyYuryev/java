@@ -30,9 +30,6 @@
   <version>${dev:org.safris.maven.plugin}</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Maven plugins.
-  </description>
   <modules>
     <module>dependency</module>
     <module>codeguide</module>
@@ -41,5 +38,7 @@
     <module>cert</module>
     <module>xdb</module>
     <module>codegen</module>
+    <module>version</module>
+    <module>json</module>
   </modules>
 </project>
