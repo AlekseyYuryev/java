@@ -19,6 +19,7 @@ package org.safris.maven.plugin.json;
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -32,6 +33,16 @@ import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
  * @phase generate-sources
  */
 public class JSONMojo extends AbstractMojo {
+  /**
+   * @parameter default-value="${maven.test.skip}"
+   */
+  private Boolean mavenTestSkip = null;
+
+  /**
+   * @parameter expression="${mojoExecution}"
+   */
+  private MojoExecution execution;
+
   /**
    * @parameter default-value="${project}"
    * @required
@@ -49,6 +60,9 @@ public class JSONMojo extends AbstractMojo {
   protected Manifest manifest;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
+    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+      return;
+
     if (manifest == null)
       return;
 
@@ -80,6 +94,9 @@ public class JSONMojo extends AbstractMojo {
       catch (final Exception e) {
         throw new MojoFailureException(e.getMessage(), e);
       }
+
+      project.addTestCompileSourceRoot(outDirFile.getAbsolutePath());
+      project.addCompileSourceRoot(outDirFile.getAbsolutePath());
     }
   }
 }

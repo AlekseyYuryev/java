@@ -15,7 +15,7 @@ import org.safris.commons.lang.Resources;
 public class GeneratorTest {
   @Test
   public void testGenerator() throws Exception {
-    Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
+    //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final Attachment att1 = new Attachment();
     att1.setFilename("data1.text");

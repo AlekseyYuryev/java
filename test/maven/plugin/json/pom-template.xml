@@ -43,7 +43,6 @@
               <goal>jso</goal>
             </goals>
             <configuration>
-              <vendor>MySQL</vendor>
               <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
                 <destdir>${project.build.directory}/generated-test-sources/json</destdir>
                 <schemas>
