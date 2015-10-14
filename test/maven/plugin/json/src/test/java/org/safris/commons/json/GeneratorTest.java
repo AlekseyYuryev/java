@@ -60,7 +60,7 @@ public class GeneratorTest {
     final String encoded = message.toString();
     System.out.println(encoded);
 
-    final Message decoded = (Message)JSO.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
+    final Message decoded = (Message)JSObject.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
     final String reEncoded = decoded.toString();
     System.out.println(reEncoded);
 

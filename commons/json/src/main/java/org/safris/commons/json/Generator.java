@@ -120,22 +120,22 @@ public class Generator {
 
     final String className = Strings.toClassCase(objectName);
     out.append("package json;\n\n");
-    out.append("public class ").append(className).append(" extends " + JSO.class.getName() + " {");
+    out.append("public class ").append(className).append(" extends " + JSObject.class.getName() + " {");
     out.append("\n  private static final ").append(String.class.getName()).append(" name = \"").append(objectName).append("\";\n");
-    out.append("\n  private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Member.class.getName()).append("> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Member.class.getName()).append(">(").append(object._value().size()).append(");");
+    out.append("\n  private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append(">(").append(object._value().size()).append(");");
     out.append("\n  static {");
     out.append("\n    registerBinding(name, ").append(className).append(".class);");
     out.append("\n    try {");
     for (final $json_value value : object._value()) {
       final String valueName = getValueName(value);
-      out.append("\n      bindings.put(\"").append(valueName).append("\", new ").append(Member.class.getName()).append("(").append(className).append(".class.getDeclaredField(\"_").append(Strings.toInstanceCase(valueName)).append("\"), ").append(getType(value)).append(".class, ").append(!value._array$().isNull() && value._array$().text()).append("));");
+      out.append("\n      bindings.put(\"").append(valueName).append("\", new ").append(Binding.class.getName()).append("(").append(className).append(".class.getDeclaredField(\"_").append(Strings.toInstanceCase(valueName)).append("\"), ").append(getType(value)).append(".class, ").append(!value._array$().isNull() && value._array$().text()).append("));");
     }
     out.append("\n    }");
     out.append("\n    catch (final ").append(NoSuchFieldException.class.getName()).append(" e) {");
     out.append("\n      throw new ").append(ExceptionInInitializerError.class.getName()).append("(e);");
     out.append("\n    }");
     out.append("\n  }\n");
-    out.append("\n  protected ").append(Member.class.getName()).append(" lookupBinding(final ").append(String.class.getName()).append(" name) {");
+    out.append("\n  protected ").append(Binding.class.getName()).append(" lookupBinding(final ").append(String.class.getName()).append(" name) {");
     out.append("\n    return bindings.get(name);");
     out.append("\n  }\n");
     out.append("\n  protected " + String.class.getName() + " name() {");

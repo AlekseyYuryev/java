@@ -14,33 +14,32 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.json;
+package org.safris.commons.json.decoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class NumberRecursiveFactory extends RecursiveFactory<Number> {
-  protected Number[] newInstance(final int depth) {
-    return new Double[depth];
+import org.safris.commons.json.JSObjectBase;
+
+public class BooleanDecoder extends Decoder<Boolean> {
+  protected Boolean[] newInstance(final int depth) {
+    return new Boolean[depth];
   }
 
-  public Number decode(final InputStream in, char ch) throws IOException {
-    if (('0' > ch || ch > '9') && ch != '-') {
-      if (JSOUtil.isNull(ch, in))
+  public Boolean decode(final InputStream in, char ch) throws IOException {
+    if (ch != 'f' && ch != 't') {
+      if (JSObjectBase.isNull(ch, in))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
-    final StringBuilder value = new StringBuilder();
-    do {
-      in.mark(24);
-      value.append(ch);
-    }
-    while ('0' <= (ch = JSOUtil.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
+    final StringBuilder value = new StringBuilder(5);
+    value.append(ch);
+    do
+      value.append(JSObjectBase.next(in));
+    while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
 
-    in.reset();
-    final String number = value.toString();
-    return number.contains(".") || number.contains("e") || number.contains("E") ? Double.parseDouble(number) : Integer.parseInt(number);
+    return Boolean.parseBoolean(value.toString());
   }
 }

@@ -16,18 +16,15 @@
 
 package org.safris.commons.json;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class Member {
-  public final Field field;
-  public final Class<?> type;
-  public final boolean array;
-
-  public Member(final Field field, final Class<?> type, final boolean array) {
-    field.setAccessible(true);
-
-    this.field = field;
-    this.type = type;
-    this.array = array;
+public abstract class JSObject extends JSObjectBase {
+  public static JSObject parse(final InputStream in) throws IOException {
+    return JSObject.decode(in, next(in), null);
   }
+
+  protected abstract String name();
+  protected abstract String encode(final int depth);
+  protected abstract Binding lookupBinding(final String name);
 }

@@ -14,29 +14,30 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.json;
+package org.safris.commons.json.decoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class RecursiveFactory<T> {
-  protected abstract T[] newInstance(final int depth);
-  public abstract T decode(final InputStream in, char ch) throws IOException;
-  public final T[] recurse(final InputStream in, final int depth) throws Exception {
-    final T value = decode(in, JSOUtil.next(in));
-    char ch = JSOUtil.next(in);
-    if (ch == ',') {
-      final T[] array = recurse(in, depth + 1);
-      array[depth] = value;
-      return array;
+import org.safris.commons.json.JSObjectBase;
+
+public class StringDecoder extends Decoder<String> {
+  protected String[] newInstance(final int depth) {
+    return new String[depth];
+  }
+
+  public String decode(final InputStream in, char ch) throws IOException {
+    if (ch != '"') {
+      if (JSObjectBase.isNull(ch, in))
+        return null;
+
+      throw new IllegalArgumentException("Malformed JSON");
     }
 
-    if (ch == ']') {
-      final T[] array = newInstance(depth + 1);
-      array[depth] = value;
-      return array;
-    }
+    final StringBuilder value = new StringBuilder();
+    while ((ch = JSObjectBase.nextAny(in)) != '"')
+      value.append(ch);
 
-    throw new IllegalArgumentException("Malformed JSON");
+    return value.toString();
   }
 }

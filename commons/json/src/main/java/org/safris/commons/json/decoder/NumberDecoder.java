@@ -14,28 +14,35 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.json;
+package org.safris.commons.json.decoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class StringRecursiveFactory extends RecursiveFactory<String> {
-  protected String[] newInstance(final int depth) {
-    return new String[depth];
+import org.safris.commons.json.JSObjectBase;
+
+public class NumberDecoder extends Decoder<Number> {
+  protected Number[] newInstance(final int depth) {
+    return new Double[depth];
   }
 
-  public String decode(final InputStream in, char ch) throws IOException {
-    if (ch != '"') {
-      if (JSOUtil.isNull(ch, in))
+  public Number decode(final InputStream in, char ch) throws IOException {
+    if (('0' > ch || ch > '9') && ch != '-') {
+      if (JSObjectBase.isNull(ch, in))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
     final StringBuilder value = new StringBuilder();
-    while ((ch = JSOUtil.nextAny(in)) != '"')
+    do {
+      in.mark(24);
       value.append(ch);
+    }
+    while ('0' <= (ch = JSObjectBase.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
 
-    return value.toString();
+    in.reset();
+    final String number = value.toString();
+    return number.contains(".") || number.contains("e") || number.contains("E") ? Double.parseDouble(number) : Integer.parseInt(number);
   }
 }

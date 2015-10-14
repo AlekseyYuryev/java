@@ -14,17 +14,20 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.json;
+package org.safris.commons.json.decoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 
-public class ObjectRecursiveFactory {
-  public JSO decode(final InputStream in, char ch, final Class<?> clazz) throws IOException {
+import org.safris.commons.json.JSObject;
+import org.safris.commons.json.JSObjectBase;
+
+public class ObjectDecoder extends JSObjectBase {
+  public JSObject decode(final InputStream in, char ch, final Class<?> clazz) throws IOException {
     try {
-      final JSO value = (JSO)clazz.newInstance();
-      value.decode(in, ch);
+      final JSObject value = (JSObject)clazz.newInstance();
+      JSObject.decode(in, ch, value);
       return value;
     }
     catch (final ReflectiveOperationException e) {
@@ -32,29 +35,29 @@ public class ObjectRecursiveFactory {
     }
   }
 
-  public JSO[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws Exception {
-    char ch = JSOUtil.next(in);
-    final JSO value;
+  public JSObject[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws Exception {
+    char ch = JSObjectBase.next(in);
+    final JSObject value;
     if (ch != '{') {
-      if (JSOUtil.isNull(ch, in))
+      if (JSObjectBase.isNull(ch, in))
         value = null;
       else
         throw new IllegalArgumentException("Malformed JSON");
     }
     else {
-      value = (JSO)clazz.newInstance();
-      value.decode(in, ch);
+      value = (JSObject)clazz.newInstance();
+      JSObject.decode(in, ch, value);
     }
 
-    ch = JSOUtil.next(in);
+    ch = JSObjectBase.next(in);
     if (ch == ',') {
-      final JSO[] array = recurse(in, clazz, depth + 1);
+      final JSObject[] array = recurse(in, clazz, depth + 1);
       array[depth] = value;
       return array;
     }
 
     if (ch == ']') {
-      final JSO[] array = (JSO[])Array.newInstance(clazz, depth + 1);
+      final JSObject[] array = (JSObject[])Array.newInstance(clazz, depth + 1);
       array[depth] = value;
       return array;
     }

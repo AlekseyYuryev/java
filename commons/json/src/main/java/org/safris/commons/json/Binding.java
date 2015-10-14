@@ -16,28 +16,24 @@
 
 package org.safris.commons.json;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.lang.reflect.Field;
 
-public class BooleanRecursiveFactory extends RecursiveFactory<Boolean> {
-  protected Boolean[] newInstance(final int depth) {
-    return new Boolean[depth];
+public class Binding {
+  public final Field field;
+  public final Class<?> type;
+  public final boolean array;
+
+  public Binding(final Field field, final Class<?> type, final boolean array) {
+    field.setAccessible(true);
+
+    this.field = field;
+    this.type = type;
+    this.array = array;
   }
 
-  public Boolean decode(final InputStream in, char ch) throws IOException {
-    if (ch != 'f' && ch != 't') {
-      if (JSOUtil.isNull(ch, in))
-        return null;
-
-      throw new IllegalArgumentException("Malformed JSON");
-    }
-
-    final StringBuilder value = new StringBuilder(5);
-    value.append(ch);
-    do
-      value.append(JSOUtil.next(in));
-    while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
-
-    return Boolean.parseBoolean(value.toString());
+  public Binding(final Class<?> type, final boolean array) {
+    this.field = null;
+    this.type = type;
+    this.array = array;
   }
 }
