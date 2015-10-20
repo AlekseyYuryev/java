@@ -83,6 +83,10 @@
       <xs:selector xpath="./json:object/json:*"/>
       <xs:field xpath="@type"/>
     </xs:keyref>
+    <xs:unique name="uniqueValueName">
+      <xs:selector xpath="./json:object/json:value"/>
+      <xs:field xpath="@name"/>
+    </xs:unique>
   </xs:element>
 
 </xs:schema>
