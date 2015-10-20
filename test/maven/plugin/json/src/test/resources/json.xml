@@ -19,7 +19,7 @@
 <json
   xmlns="http://commons.safris.org/json.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://commons.safris.org/json.xsd http://commons.safris.org/json.xsd">
+  xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../../../commons/json/src/main/resources/json.xsd">
   <object name="attachment">
     <value name="filename" xsi:type="string"/>
     <value name="data" xsi:type="string"/>

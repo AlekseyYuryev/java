@@ -72,6 +72,10 @@
             </xs:sequence>
             <xs:attribute name="name" type="xs:NCName" use="required"/>
           </xs:complexType>
+          <xs:unique name="uniqueValueName">
+            <xs:selector xpath="./json:value"/>
+            <xs:field xpath="@name"/>
+          </xs:unique>
         </xs:element>
       </xs:sequence>
     </xs:complexType>
@@ -83,10 +87,6 @@
       <xs:selector xpath="./json:object/json:*"/>
       <xs:field xpath="@type"/>
     </xs:keyref>
-    <xs:unique name="uniqueValueName">
-      <xs:selector xpath="./json:object/json:value"/>
-      <xs:field xpath="@name"/>
-    </xs:unique>
   </xs:element>
 
 </xs:schema>
