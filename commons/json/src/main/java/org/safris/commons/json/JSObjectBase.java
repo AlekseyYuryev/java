@@ -18,6 +18,8 @@ package org.safris.commons.json;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ import org.safris.commons.json.decoder.ObjectDecoder;
 import org.safris.commons.json.decoder.StringDecoder;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
+import org.safris.commons.util.Collections;
 
 public abstract class JSObjectBase {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();
@@ -88,30 +91,16 @@ public abstract class JSObjectBase {
     return number == null ? null : ((double)number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
   }
 
-  protected static String tokenize(final JSObject[] value, final int depth) {
+  protected static <T>String tokenize(final Collection<T> value, final int depth) {
     if (value == null)
       return "null";
 
-    if (value.length == 0)
-      return "[]";
-
-    final StringBuilder out = new StringBuilder();
-    for (final JSObject part : value)
-      out.append(", ").append(part != null ? part.encode(depth) : "null");
-
-    return "[" + out.substring(2) + "]";
-  }
-
-  protected static <T>String tokenize(final T[] value, final int depth) {
-    if (value == null)
-      return "null";
-
-    if (value.length == 0)
+    if (value.size() == 0)
       return "[]";
 
     final StringBuilder out = new StringBuilder();
     for (final T part : value)
-      out.append(", \"").append(part).append("\"");
+      out.append(", ").append(part == null ? "null" : part instanceof JSObject ? ((JSObject)part).encode(depth) : "\"" + part + "\"");
 
     return "[" + out.substring(2) + "]";
   }
@@ -158,16 +147,16 @@ public abstract class JSObjectBase {
               final boolean isArray = ch == '[';
               final Object value;
               if (JSObject.class.isAssignableFrom(member.type)) {
-                value = isArray ? objectDecoder.recurse(in, (Class<? extends JSObject>)member.type, 0) : decode(in, ch, (JSObject)member.type.newInstance());
+                value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(in, (Class<? extends JSObject>)member.type, 0)) : decode(in, ch, (JSObject)member.type.newInstance());
               }
               else if (member.type == String.class) {
-                value = isArray ? stringDecoder.recurse(in, 0) : stringDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
               }
               else if (member.type == Boolean.class) {
-                value = isArray ? booleanDecoder.recurse(in, 0) : booleanDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(in, 0)) : booleanDecoder.decode(in, ch);
               }
               else if (member.type == Number.class) {
-                value = isArray ? numberDecoder.recurse(in, 0) : numberDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, numberDecoder.recurse(in, 0)) : numberDecoder.decode(in, ch);
               }
               else {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);

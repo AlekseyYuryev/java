@@ -17,8 +17,8 @@
 package org.safris.commons.json;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import json.Attachment;
 import json.Message;
@@ -26,7 +26,7 @@ import json.Signature;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.lang.Resources;
+import org.safris.commons.util.Collections;
 
 public class GeneratorTest {
   @Test
@@ -53,8 +53,8 @@ public class GeneratorTest {
     final Message message = new Message();
     message.setSubject("Test subject");
     message.setImortant(true);
-    message.setRecipients("alex", "seva");
-    message.setAttachment(att1, att2, att3, null);
+    message.setRecipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
+    message.setAttachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
     message.setSignature(signature);
 
     final String encoded = message.toString();

@@ -120,6 +120,19 @@ public final class Collections {
     }
   }
 
+  public static <T>Collection<T> asCollection(final Class<? extends Collection> cls, final T ... a) {
+    try {
+      final Collection<T> list = cls.newInstance();
+      for (int i = 0; i < a.length; i++)
+        list.add(a[i]);
+
+      return list;
+    }
+    catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private Collections() {
   }
 }

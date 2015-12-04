@@ -20,11 +20,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
+import org.safris.commons.util.Collections;
 import org.safris.commons.xml.XMLException;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
@@ -78,15 +80,15 @@ public class Generator {
 
   private static String writeField(final $json_value value) {
     final String valueName = getValueName(value);
-    final String type = getType(value);
-    final String arrayGet = value._array$().text() != null && value._array$().text() ? "[]" : "";
-    final String arraySet = value._array$().text() != null && value._array$().text() ? " ..." : "";
+    final boolean isArray = value._array$().text() != null && value._array$().text();
+    final String rawType = getType(value);
+    final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
     final StringBuilder out = new StringBuilder();
-    out.append("\n  private ").append(type).append(" _").append(Strings.toInstanceCase(valueName)).append(arrayGet).append(" = null;\n");
-    out.append("\n  public void set").append(Strings.toClassCase(valueName)).append("(final ").append(type).append(arraySet).append(" value) {");
+    out.append("\n  private ").append(type).append(" _").append(Strings.toInstanceCase(valueName)).append(" = null;\n");
+    out.append("\n  public void set").append(Strings.toClassCase(valueName)).append("(final ").append(type).append(" value) {");
     out.append("\n    this._").append(Strings.toInstanceCase(valueName)).append(" = value;\n  }\n");
-    out.append("\n  public ").append(type).append(arrayGet).append(" get").append(Strings.toClassCase(valueName)).append("() {");
+    out.append("\n  public ").append(type).append(" get").append(Strings.toClassCase(valueName)).append("() {");
     out.append("\n    return this._").append(Strings.toInstanceCase(valueName)).append(";\n  }\n");
     return out.toString();
   }
