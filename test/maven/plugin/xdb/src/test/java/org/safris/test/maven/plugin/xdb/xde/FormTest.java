@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.joda.time.LocalDateTime;
 import org.safris.xdb.xde.Column;
-import org.safris.xdb.xde.EntityDataSource;
-import org.safris.xdb.xde.EntityDataSources;
+import org.safris.xdb.xde.XDEDataSource;
+import org.safris.xdb.xde.XDERegistry;
 import org.safris.xdb.xde.Table;
 import org.safris.xdb.xde.csql.select.SELECT;
 import org.safris.xdb.xde.csql.update.UPDATE;
@@ -42,7 +42,7 @@ public class FormTest {
       throw new ExceptionInInitializerError(e);
     }
 
-    EntityDataSources.register(survey.class, PreparedStatement.class, new EntityDataSource() {
+    XDERegistry.register(survey.class, PreparedStatement.class, new XDEDataSource() {
       public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost/survey?user=survey&password=xqTMy2FluQ");
       }
