@@ -155,7 +155,7 @@
           <uniqueVersion>false</uniqueVersion>
           <id>mvn.repo.safris.org</id>
           <name>safris.org repository</name>
-          <url>file://localhost/home/ci/maven/repository/m2</url>
+          <url>file://localhost/var/lib/mvn/org/m2</url>
         </repository>
       </distributionManagement>
     </profile>
