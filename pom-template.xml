@@ -150,28 +150,6 @@
           </plugins>
         </pluginManagement>
       </build>
-      <distributionManagement>
-        <repository>
-          <uniqueVersion>false</uniqueVersion>
-          <id>mvn.repo.safris.org</id>
-          <name>safris.org repository</name>
-          <url>file://localhost/var/lib/mvn/org/m2</url>
-        </repository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>maven-site-plugin</id>
-      <activation>
-        <property>
-          <name>task-segment:site</name>
-        </property>
-      </activation>
-      <distributionManagement>
-        <site>
-          <id>safris.org</id>
-          <url>file://localhost/home/ci/maven/site</url>
-        </site>
-      </distributionManagement>
     </profile>
   </profiles>
   <build>
@@ -243,10 +221,6 @@
               </property>
             </systemProperties>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
         </plugin>
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
@@ -550,4 +524,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>mvn.repo.safris.org</id>
+      <name>safris.org repository</name>
+      <url>file://localhost/var/lib/mvn/org/m2</url>
+    </repository>
+  </distributionManagement>
 </project>

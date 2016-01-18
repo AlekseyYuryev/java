@@ -19,13 +19,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import org.joda.time.LocalDateTime;
 import org.safris.xdb.xde.Column;
+import org.safris.xdb.xde.RowIterator;
+import org.safris.xdb.xde.Table;
 import org.safris.xdb.xde.XDEDataSource;
 import org.safris.xdb.xde.XDERegistry;
-import org.safris.xdb.xde.Table;
 import org.safris.xdb.xde.csql.select.SELECT;
 import org.safris.xdb.xde.csql.update.UPDATE;
 
@@ -66,7 +66,7 @@ public class FormTest {
   public void testSELECT1() throws SQLException {
     final survey.Dish d = new survey.Dish();
     final SELECT<survey.Dish> select = SELECT(d).FROM(d).WHERE(EQ(d.id, 7));
-    final List<survey.Dish[]> rows = select.execute();
+    final RowIterator<survey.Dish> rows = select.execute();
   }
 
   public void testSELECT2() throws SQLException {
@@ -74,7 +74,7 @@ public class FormTest {
     final survey.Dish d = new survey.Dish();
     final survey.MealDish md = new survey.MealDish();
     final SELECT<Table> select = SELECT(m, d).FROM(m, md, d).WHERE(AND(EQ(m.id, 3), EQ(m.id, md.mealId), EQ(md.dishId, d.id)));
-    final List<Table[]> rows = select.execute();
+    final RowIterator<Table> rows = select.execute();
   }
 
   public void testSELECT3() throws SQLException {
@@ -83,7 +83,7 @@ public class FormTest {
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
     final SELECT<Column<Date>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
-    final List<Column<Date>[]> rows = select.execute();
+    final RowIterator<Column<Date>> rows = select.execute();
   }
 
   public void testSELECT4() throws SQLException {
@@ -91,7 +91,7 @@ public class FormTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     final SELECT<Column<Date>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
-    final List<Column<Date>[]> rows = select.execute();
+    final RowIterator<Column<Date>> rows = select.execute();
   }
 
   public void testSELECT5() throws SQLException {
@@ -119,7 +119,7 @@ public class FormTest {
     final LocalDateTime from = new LocalDateTime();
     final LocalDateTime to = new LocalDateTime();
     final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTEQ(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
-    final List<Table[]> rows = select.execute();
+    final RowIterator<Table> rows = select.execute();
   }
 
   public void testUPDATE1() throws SQLException {
