@@ -1,28 +1,27 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
 package org.safris.commons.xml;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+
+import org.safris.commons.lang.Throwables;
 
 public class XMLError extends Error {
   private static final long serialVersionUID = 2679754040056450837L;
-
-  private final Object lock = new Object();
 
   public XMLError() {
     super();
@@ -34,60 +33,15 @@ public class XMLError extends Error {
 
   public XMLError(final Throwable cause) {
     if (cause instanceof InvocationTargetException)
-      init(cause.getCause().getMessage(), cause.getCause());
+      Throwables.set(this, cause.getCause().getMessage(), cause.getCause());
     else
-      init(cause.getMessage(), cause);
+      Throwables.set(this, cause.getMessage(), cause);
   }
 
   public XMLError(final String message, final Throwable cause) {
     if (cause instanceof InvocationTargetException)
-      init(message != null ? message : cause.getCause().getMessage(), cause.getCause());
+      Throwables.set(this, message != null ? message : cause.getCause().getMessage(), cause.getCause());
     else
-      init(cause.getMessage(), cause);
-  }
-
-  protected final void init(final String message, final Throwable cause) {
-    setMessage(message);
-    overwriteCause(cause.getCause());
-    setStackTrace(cause.getStackTrace());
-  }
-
-  protected final void overwriteCause(final Throwable cause) {
-    if (cause == this)
-      throw new IllegalArgumentException("Self-causation not permitted");
-
-    try {
-      synchronized (lock) {
-        final Field detailMessageField = Throwable.class.getDeclaredField("cause");
-        detailMessageField.setAccessible(true);
-        detailMessageField.set(this, cause);
-      }
-    }
-    catch (final SecurityException e) {
-    }
-    catch (final NoSuchFieldException e) {
-    }
-    catch (final IllegalAccessException e) {
-    }
-    catch (final IllegalArgumentException e) {
-    }
-  }
-
-  protected final void setMessage(final String message) {
-    try {
-      synchronized (lock) {
-        final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
-        detailMessageField.setAccessible(true);
-        detailMessageField.set(this, message);
-      }
-    }
-    catch (final SecurityException e) {
-    }
-    catch (final NoSuchFieldException e) {
-    }
-    catch (final IllegalAccessException e) {
-    }
-    catch (final IllegalArgumentException e) {
-    }
+      Throwables.set(this, cause.getMessage(), cause);
   }
 }

@@ -18,8 +18,50 @@ package org.safris.commons.lang;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 
 public final class Throwables {
+  public static void overwriteCause(final Throwable t, final Throwable cause) {
+    if (cause == t)
+      throw new IllegalArgumentException("Self-causation not permitted");
+
+    try {
+      final Field causeField = Throwable.class.getDeclaredField("cause");
+      causeField.setAccessible(true);
+      causeField.set(t, cause);
+    }
+    catch (final SecurityException e) {
+    }
+    catch (final NoSuchFieldException e) {
+    }
+    catch (final IllegalAccessException e) {
+    }
+    catch (final IllegalArgumentException e) {
+    }
+  }
+
+  public static void setMessage(final Throwable t, final String message) {
+    try {
+      final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
+      detailMessageField.setAccessible(true);
+      detailMessageField.set(t, message);
+    }
+    catch (final SecurityException e) {
+    }
+    catch (final NoSuchFieldException e) {
+    }
+    catch (final IllegalAccessException e) {
+    }
+    catch (final IllegalArgumentException e) {
+    }
+  }
+
+  public static void set(final Throwable t, final String message, final Throwable cause) {
+    Throwables.setMessage(t, message);
+    Throwables.overwriteCause(t, cause.getCause());
+    t.setStackTrace(cause.getStackTrace());
+  }
+
   public static String toString(final Throwable t) {
     if (t == null)
       throw new NullPointerException("t == null");
