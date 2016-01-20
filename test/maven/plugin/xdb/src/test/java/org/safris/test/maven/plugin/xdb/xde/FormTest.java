@@ -7,7 +7,7 @@ import static org.safris.xdb.xde.DML.GT;
 import static org.safris.xdb.xde.DML.INSERT;
 import static org.safris.xdb.xde.DML.LEFT_OUTER;
 import static org.safris.xdb.xde.DML.LT;
-import static org.safris.xdb.xde.DML.LTEQ;
+import static org.safris.xdb.xde.DML.LTE;
 import static org.safris.xdb.xde.DML.MAX;
 import static org.safris.xdb.xde.DML.MIN;
 import static org.safris.xdb.xde.DML.PLUS;
@@ -118,7 +118,7 @@ public class FormTest {
 
     final LocalDateTime from = new LocalDateTime();
     final LocalDateTime to = new LocalDateTime();
-    final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTEQ(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
+    final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Table> rows = select.execute();
   }
 
