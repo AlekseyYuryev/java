@@ -49,6 +49,8 @@ import java.util.logging.Logger;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
   private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
+  private static final Level defaultLogLevel = Level.FINE;
+
   private static final String NULL = "NULL";
 
   private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
@@ -82,23 +84,25 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public ResultSet executeQuery() throws SQLException {
-    StringBuilder buffer = null;
-    if (logger.isLoggable(Level.FINE))
-      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeQuery() {\n  ").append(toString());
-
     final PreparedStatement statement = getStatement();
-    final long time = System.currentTimeMillis();
     int size = -1;
     final ResultSetProxy resultSet;
+    Level logLevel = defaultLogLevel;
+    final long time = System.currentTimeMillis();
     try {
       resultSet = new ResultSetProxy(statement.executeQuery());
-      if (logger.isLoggable(Level.FINE))
+      if (logger.isLoggable(logLevel))
         size = resultSet.getSize();
     }
+    catch (final Throwable t) {
+      logLevel = Level.SEVERE;
+      throw t;
+    }
     finally {
-      if (logger.isLoggable(Level.FINE)) {
+      if (logger.isLoggable(logLevel)) {
+        final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeQuery() {\n  ").append(toString());
         buffer.append("\n} -> ").append(size).append("\t\t").append(System.currentTimeMillis() - time).append("ms");
-        logger.fine(buffer.toString());
+        logger.log(logLevel, buffer.toString());
       }
     }
 
@@ -106,19 +110,21 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public int executeUpdate() throws SQLException {
-    StringBuilder buffer = null;
-    if (logger.isLoggable(Level.FINE))
-      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeUpdate() {\n  ").append(toString());
-
     final long time = System.currentTimeMillis();
     int count = -1;
+    Level logLevel = defaultLogLevel;
     try {
       count = getStatement().executeUpdate();
     }
+    catch (final Throwable t) {
+      logLevel = Level.SEVERE;
+      throw t;
+    }
     finally {
-      if (logger.isLoggable(Level.FINE)) {
+      if (logger.isLoggable(logLevel)) {
+        final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeUpdate() {\n  ").append(toString());
         buffer.append("\n} -> ").append(count).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
-        logger.fine(buffer.toString());
+        logger.log(logLevel, buffer.toString());
       }
     }
 
@@ -233,19 +239,21 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public boolean execute() throws SQLException {
-    StringBuilder buffer = null;
-    if (logger.isLoggable(Level.FINE))
-      buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].execute() {\n  ").append(toString());
-
     final long time = System.currentTimeMillis();
     boolean result = false;
+    Level logLevel = defaultLogLevel;
     try {
       result = getStatement().execute();
     }
+    catch (final Throwable t) {
+      logLevel = Level.SEVERE;
+      throw t;
+    }
     finally {
-      if (logger.isLoggable(Level.FINE)) {
+      if (logger.isLoggable(logLevel)) {
+        final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].execute() {\n  ").append(toString());
         buffer.append("} -> ").append(result).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
-        logger.fine(buffer.toString());
+        logger.log(logLevel, buffer.toString());
       }
     }
 
@@ -253,7 +261,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
   }
 
   public void addBatch() throws SQLException {
-    logger.fine(toString());
+    logger.log(defaultLogLevel, toString());
     getStatement().addBatch();
   }
 
