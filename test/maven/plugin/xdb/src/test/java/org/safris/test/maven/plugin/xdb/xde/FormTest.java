@@ -5,7 +5,7 @@ import static org.safris.xdb.xde.DML.CASE_WHEN;
 import static org.safris.xdb.xde.DML.EQ;
 import static org.safris.xdb.xde.DML.GT;
 import static org.safris.xdb.xde.DML.INSERT;
-import static org.safris.xdb.xde.DML.LEFT_OUTER;
+import static org.safris.xdb.xde.DML.LEFT;
 import static org.safris.xdb.xde.DML.LT;
 import static org.safris.xdb.xde.DML.LTE;
 import static org.safris.xdb.xde.DML.MAX;
@@ -82,7 +82,7 @@ public class FormTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<Column<Date>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
+    final SELECT<Column<Date>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
     final RowIterator<Column<Date>> rows = select.execute();
   }
 
@@ -90,7 +90,7 @@ public class FormTest {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
-    final SELECT<Column<Date>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
+    final SELECT<Column<Date>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
     final RowIterator<Column<Date>> rows = select.execute();
   }
 
@@ -118,7 +118,7 @@ public class FormTest {
 
     final LocalDateTime from = new LocalDateTime();
     final LocalDateTime to = new LocalDateTime();
-    final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT_OUTER, u).ON(EQ(u.email, m.email)).JOIN(LEFT_OUTER, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
+    final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Table> rows = select.execute();
   }
 
