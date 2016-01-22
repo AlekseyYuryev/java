@@ -18,6 +18,7 @@ package org.safris.commons.lang;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -44,6 +45,15 @@ public final class Resources {
       classFile = classFile.substring(0, classFile.length() - clazz.getName().length() - 7);
 
     return new File(classFile);
+  }
+
+  public static Resource getResourceOrFile(final String name) throws MalformedURLException {
+    Resource resource = getResource(name);
+    if (resource != null)
+      return resource;
+
+    final File file = new File(name);
+    return file.exists() ? new Resource(file.toURI().toURL(), ClassLoader.getSystemClassLoader()) : null;
   }
 
   public static Resource getResource(final String name) {
