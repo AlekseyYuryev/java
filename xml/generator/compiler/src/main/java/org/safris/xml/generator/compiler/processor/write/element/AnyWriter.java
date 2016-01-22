@@ -54,7 +54,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 
   protected void appendSetMethod(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
 //      if(plan.getMaxOccurs() > 1)
-    writer.write("public void addAny(" +  Binding.class.getName() + " any)\n");
+    writer.write("public " + Binding.class.getName() + " addAny(" +  Binding.class.getName() + " any)\n");
 //      else
 //          writer.write("public void setAny(" +  Binding.class.getName() + " any)\n");
 
@@ -70,6 +70,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 //          writer.write("this.any.$value(any);\n");
 //      }
 
+    writer.write("return any;\n");
     writer.write("}\n");
   }
 

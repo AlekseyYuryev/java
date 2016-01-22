@@ -92,12 +92,14 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
     writer.write("@" + ElementSpec.class.getName() + "(minOccurs=" + plan.getMinOccurs() + ", maxOccurs=" + plan.getMaxOccurs() + ")\n");
     writeQualifiedName(writer, plan);
-    writer.write("public void " + plan.getClassSimpleName() + "(" + plan.getDeclarationGeneric(parent) + " " + plan.getInstanceName() + ")\n");
+    final String type = plan.getDeclarationGeneric(parent);
+    writer.write("public " + type + " " + plan.getClassSimpleName() + "(" + type + " " + plan.getInstanceName() + ")\n");
     writer.write("{\n");
     if (plan.isRestriction())
       writer.write("super." + plan.getClassSimpleName() + "(" + plan.getInstanceName() + ");\n");
     else
       writer.write("_$$addElement(this." + plan.getInstanceName() + ", " + plan.getInstanceName() + ");\n");
+    writer.write("return " + plan.getInstanceName() + ";\n");
     writer.write("}\n");
   }
 
