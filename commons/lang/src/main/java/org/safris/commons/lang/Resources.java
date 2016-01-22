@@ -48,6 +48,9 @@ public final class Resources {
   }
 
   public static Resource getResourceOrFile(final String name) throws MalformedURLException {
+    if (name == null || name.length() == 0)
+      return null;
+
     Resource resource = getResource(name);
     if (resource != null)
       return resource;
