@@ -18,10 +18,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
 
 import org.joda.time.LocalDateTime;
-import org.safris.xdb.xde.Column;
+import org.safris.xdb.xde.Aggregate;
 import org.safris.xdb.xde.RowIterator;
 import org.safris.xdb.xde.Table;
 import org.safris.xdb.xde.XDEDataSource;
@@ -82,16 +81,16 @@ public class FormTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<Column<Date>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
-    final RowIterator<Column<Date>> rows = select.execute();
+    final SELECT<MIN<LocalDateTime>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
+    final RowIterator<MIN<LocalDateTime>> rows = select.execute();
   }
 
   public void testSELECT4() throws SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
-    final SELECT<Column<Date>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
-    final RowIterator<Column<Date>> rows = select.execute();
+    final SELECT<MAX<LocalDateTime>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
+    final RowIterator<MAX<LocalDateTime>> rows = select.execute();
   }
 
   public void testSELECT5() throws SQLException {
