@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import org.joda.time.LocalDateTime;
 import org.safris.xdb.xde.Aggregate;
 import org.safris.xdb.xde.RowIterator;
-import org.safris.xdb.xde.Table;
+import org.safris.xdb.xde.Entity;
 import org.safris.xdb.xde.XDEDataSource;
 import org.safris.xdb.xde.XDERegistry;
 import org.safris.xdb.xde.csql.select.SELECT;
@@ -64,7 +64,7 @@ public class FormTest {
 
   public void testSELECT1() throws SQLException {
     final survey.Dish d = new survey.Dish();
-    final SELECT<survey.Dish> select = SELECT(d).FROM(d).WHERE(EQ(d.id, 7));
+    final SELECT<survey.Dish> select = SELECT(d, d).FROM(d).WHERE(EQ(d.id, 7));
     final RowIterator<survey.Dish> rows = select.execute();
   }
 
@@ -72,8 +72,8 @@ public class FormTest {
     final survey.Meal m = new survey.Meal();
     final survey.Dish d = new survey.Dish();
     final survey.MealDish md = new survey.MealDish();
-    final SELECT<Table> select = SELECT(m, d).FROM(m, md, d).WHERE(AND(EQ(m.id, 3), EQ(m.id, md.mealId), EQ(md.dishId, d.id)));
-    final RowIterator<Table> rows = select.execute();
+    final SELECT<Entity> select = SELECT(m, d).FROM(m, md, d).WHERE(AND(EQ(m.id, 3), EQ(m.id, md.mealId), EQ(md.dishId, d.id)));
+    final RowIterator<Entity> rows = select.execute();
   }
 
   public void testSELECT3() throws SQLException {
@@ -81,8 +81,8 @@ public class FormTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<MIN<LocalDateTime>> select = SELECT(MIN(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
-    final RowIterator<MIN<LocalDateTime>> rows = select.execute();
+    final SELECT<Aggregate<LocalDateTime>> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
+    final RowIterator<Aggregate<LocalDateTime>> rows = select.execute();
   }
 
   public void testSELECT4() throws SQLException {
@@ -117,8 +117,8 @@ public class FormTest {
 
     final LocalDateTime from = new LocalDateTime();
     final LocalDateTime to = new LocalDateTime();
-    final SELECT<Table> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
-    final RowIterator<Table> rows = select.execute();
+    final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
+    final RowIterator<Entity> rows = select.execute();
   }
 
   public void testUPDATE1() throws SQLException {
