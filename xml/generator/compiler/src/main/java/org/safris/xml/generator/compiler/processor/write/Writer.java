@@ -22,15 +22,14 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
-import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
@@ -40,7 +39,7 @@ import org.safris.xml.generator.lexer.processor.Nameable;
 
 public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
   private static final StringBuffer license = new StringBuffer();
-  protected static final Logger logger = Logger.getLogger(CompilerLoggerName.WRITE);
+  protected static final Logger logger = Logger.getLogger(Writer.class.getName());
   private final Collection<String> messages = new HashSet<String>();
 
   static {

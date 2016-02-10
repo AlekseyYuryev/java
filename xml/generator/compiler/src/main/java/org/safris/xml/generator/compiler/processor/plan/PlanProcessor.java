@@ -20,18 +20,17 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.safris.commons.io.Files;
-import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineProcessor;
-import org.safris.xml.generator.compiler.lang.CompilerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
 public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan<?>> {
-  private static final Logger logger = Logger.getLogger(CompilerLoggerName.PLAN);
+  private static final Logger logger = Logger.getLogger(PlanProcessor.class.getName());
   private Plan<?> root;
 
   public final Collection<Plan<?>> process(final GeneratorContext pipelineContext, final Collection<Model> documents, final PipelineDirectory<GeneratorContext,Model,Plan<?>> directory) {

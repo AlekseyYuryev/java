@@ -25,8 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.safris.commons.logging.Logger;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
@@ -35,13 +35,12 @@ import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
 import org.safris.xml.generator.lexer.lang.LexerError;
-import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public final class SchemaReference implements PipelineEntity {
-  private static final Logger logger = Logger.getLogger(LexerLoggerName.REFERENCE);
+  private static final Logger logger = Logger.getLogger(SchemaReference.class.getName());
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
 

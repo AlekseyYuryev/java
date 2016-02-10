@@ -63,7 +63,7 @@ public abstract class PackageLoader extends ClassLoader {
    * resource. This method will search for all classpath entries in all class
    * loaders.
    *
-   * @param       name    The name of the package.
+   * @param       pkg        The package.
    *
    * @return      A set of all classes for which Class.forName() was called.
    *
@@ -75,6 +75,26 @@ public abstract class PackageLoader extends ClassLoader {
   }
 
   /**
+   * This method will call Class.forName() class in in a given package. This
+   * method will search for all existing package resources in all elements of
+   * the classpath. If the package exists in multiple classpath locations, such
+   * as a couple of jar files and a directory, each of the classpath references
+   * will be used to load all classes in each resource. This method will search
+   * for all classpath entries in all class loaders.
+   *
+   * @param       pkg        The package.
+   * @param       initialize Whether the classes must be initialized
+   *
+   * @return      A set of all classes for which Class.forName() was called.
+   *
+   * @exception   PackageNotFoundException    Gets thrown for a package name
+   * that cannot be found in any classpath resources.
+   */
+  public Set<Class<?>> loadPackage(final Package pkg, final boolean initialize) throws PackageNotFoundException {
+    return loadPackage(pkg.getName(), initialize);
+  }
+
+  /**
    * This method will call Class.forName() and initialize each final class in a
    * given package. This method will search for all existing package resources
    * in all elements of the classpath. If the package exists in multiple
@@ -83,7 +103,8 @@ public abstract class PackageLoader extends ClassLoader {
    * resource. This method will search for all classpath entries in all class
    * loaders.
    *
-   * @param       name    The name of the package.
+   * @param       name       The name of the package.
+   * @param       initialize Whether the classes must be initialized
    *
    * @return      A set of all classes for which Class.forName() was called.
    *
@@ -91,6 +112,26 @@ public abstract class PackageLoader extends ClassLoader {
    * that cannot be found in any classpath resources.
    */
   public Set<Class<?>> loadPackage(final String name) throws PackageNotFoundException {
+    return loadPackage(name, true);
+  }
+
+  /**
+   * This method will call Class.forName() class in in a given package. This
+   * method will search for all existing package resources in all elements of
+   * the classpath. If the package exists in multiple classpath locations, such
+   * as a couple of jar files and a directory, each of the classpath references
+   * will be used to load all classes in each resource. This method will search
+   * for all classpath entries in all class loaders.
+   *
+   * @param       name       The name of the package.
+   * @param       initialize Whether the classes must be initialized
+   *
+   * @return      A set of all classes for which Class.forName() was called.
+   *
+   * @exception   PackageNotFoundException    Gets thrown for a package name
+   * that cannot be found in any classpath resources.
+   */
+  public Set<Class<?>> loadPackage(final String name, final boolean initialize) throws PackageNotFoundException {
     if (name == null || name.length() == 0)
       throw new PackageNotFoundException(name);
 
@@ -173,7 +214,7 @@ public abstract class PackageLoader extends ClassLoader {
 
         for (final Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet()) {
           try {
-            classes.add(Class.forName(entry.getKey(), true, entry.getValue()));
+            classes.add(Class.forName(entry.getKey(), initialize, entry.getValue()));
           }
           catch (final ClassNotFoundException e) {
           }

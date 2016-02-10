@@ -35,11 +35,6 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>logging</artifactId>
-      <version>${dev:org.safris.commons.logging}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
       <artifactId>lang</artifactId>
       <version>${dev:org.safris.commons.lang}</version>
     </dependency>

@@ -20,13 +20,12 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.safris.commons.logging.Logger;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.xml.generator.lexer.lang.LexerError;
-import org.safris.xml.generator.lexer.lang.LexerLoggerName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.composite.SchemaComposite;
 import org.safris.xml.generator.lexer.processor.composite.SchemaNodeComposite;
@@ -77,7 +76,7 @@ import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 import org.w3c.dom.Node;
 
 public final class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
-  protected static final Logger logger = Logger.getLogger(LexerLoggerName.MODEL);
+  protected static final Logger logger = Logger.getLogger(ModelDirectory.class.getName());
 
   private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
   private final Collection<String> keys;

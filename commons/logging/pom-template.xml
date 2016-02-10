@@ -32,11 +32,36 @@
   <description>
     Wrapper around several logging APIs.
   </description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.safris.maven.plugin.xml</groupId>
+        <artifactId>binding</artifactId>
+        <version>${dev:org.safris.maven.plugin.xml.binding}</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+            <destdir explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
+            <schemas>
+              <schema>${basedir}/src/main/resources/logging.xsd</schema>
+            </schemas>
+          </manifest>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>lang</artifactId>
-      <version>${dev:org.safris.commons.lang}</version>
+      <groupId>org.safris.xml.toolkit</groupId>
+      <artifactId>binding</artifactId>
+      <version>${dev:org.safris.xml.toolkit.binding}</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
