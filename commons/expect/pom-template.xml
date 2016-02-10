@@ -32,34 +32,6 @@
   <description>
     Expect is a library for java to automate interactive applications such as telnet, ftp, passwd, fsck, rlogin, tip, etc. With this library you can wrap interactive applications in any java code.
   </description>
-  <profiles>
-    <profile>
-      <activation>
-        <property>
-          <name>!task-segment:site</name>
-        </property>
-      </activation>
-      <!--
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>cobertura</artifactId>
-            <version>${dev:org.safris.maven.plugin.cobertura}</version>
-            <executions>
-              <execution>
-                <goals>
-                	<goal>instrument</goal>
-                	<goal>report</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      -->
-    </profile>
-  </profiles>
   <build>
     <plugins>
       <plugin>

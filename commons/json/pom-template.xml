@@ -29,15 +29,6 @@
   <artifactId>json</artifactId>
   <version>${dev:org.safris.commons.json}</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <profiles>
-    <profile>
-      <activation>
-        <property>
-          <name>!task-segment:site</name>
-        </property>
-      </activation>
-    </profile>
-  </profiles>
   <build>
     <plugins>
       <plugin>

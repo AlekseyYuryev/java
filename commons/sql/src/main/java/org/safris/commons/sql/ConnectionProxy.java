@@ -32,22 +32,11 @@ import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Struct;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public final class ConnectionProxy implements Connection {
-  private static final Map<Connection,ConnectionProxy> instances = new HashMap<Connection,ConnectionProxy>();
-
-  public static ConnectionProxy getInstance(final Connection connection) {
-    ConnectionProxy connectionProxy;
-    if ((connectionProxy = instances.get(connection)) == null)
-      instances.put(connection, connectionProxy = new ConnectionProxy(connection));
-
-    return connectionProxy;
-  }
-
   public static void close(final Connection connection) {
     try {
       if (connection != null && !connection.isClosed())
@@ -59,7 +48,7 @@ public final class ConnectionProxy implements Connection {
 
   private final Connection connection;
 
-  private ConnectionProxy(final Connection connection) {
+  public ConnectionProxy(final Connection connection) {
     this.connection = connection;
   }
 
