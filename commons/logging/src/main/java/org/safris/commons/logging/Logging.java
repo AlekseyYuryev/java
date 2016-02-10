@@ -12,8 +12,9 @@ public class Logging {
     for (final Handler handler : rootLogger.getHandlers())
       handler.setLevel(globalLevel);
 
-    for (final $lg_setting setting : settings)
-      Logger.getLogger(setting._name$().text()).setLevel(Level.parse(setting._level$().text()));
+    if (settings != null)
+      for (final $lg_setting setting : settings)
+        Logger.getLogger(setting._name$().text()).setLevel(Level.parse(setting._level$().text()));
   }
 
   private Logging() {

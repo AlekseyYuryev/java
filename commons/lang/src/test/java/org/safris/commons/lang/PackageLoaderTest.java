@@ -42,7 +42,7 @@ public final class PackageLoaderTest {
 
   @Test
   public void testPackageLoader() throws Exception {
-    final String[] testClasses = new String[]{
+    final String[] testClasses = new String[] {
       "org.junit.PackageLoaderClass1",
       "org.junit.PackageLoaderClass2",
       "org.junit.PackageLoaderClass3",

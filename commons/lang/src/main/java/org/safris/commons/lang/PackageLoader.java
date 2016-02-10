@@ -218,6 +218,8 @@ public abstract class PackageLoader extends ClassLoader {
           }
           catch (final ClassNotFoundException e) {
           }
+          catch (final NoClassDefFoundError e) {
+          }
         }
       }
     }
