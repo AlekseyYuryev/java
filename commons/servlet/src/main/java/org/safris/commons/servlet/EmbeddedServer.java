@@ -1,4 +1,4 @@
-package org.safris.commons.jetty;
+package org.safris.commons.servlet;
 
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,7 +52,6 @@ public class EmbeddedServer {
     final SslContextFactory sslContextFactory = new SslContextFactory();
     sslContextFactory.setKeyStorePath(Resources.getResource(keyStorePath).getURL().toExternalForm());
     sslContextFactory.setKeyStorePassword(keyStorePassword);
-//    sslContextFactory.setKeyManagerPassword("123456");
 
     final ServerConnector connector = new ServerConnector(server, new SslConnectionFactory(sslContextFactory, "http/1.1"), new HttpConnectionFactory(https));
     connector.setPort(port);
@@ -71,53 +71,64 @@ public class EmbeddedServer {
       handler.addServlet(new ServletHolder(servlet), urlPattern);
   }
 
-  private static void addAllServlets(final Package[] packages, final ServletContextHandler handler, final Constraint constraint) {
+  private static ServletContextHandler createServletContextHandler(final $se_realm realm) {
+    final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+
+    final HashLoginService loginService = new HashLoginService(realm._name$().text());
+    for (final $se_realm._credential credential : realm._credential())
+      for (final String role : credential._roles$().text())
+        loginService.putUser(credential._username$().text(), Credential.getCredential(credential._password$().text()), new String[] {role});
+
+    final ConstraintSecurityHandler securityHandler = new ConstraintSecurityHandler();
+    securityHandler.setAuthenticator(new BasicAuthenticator());
+    securityHandler.setRealmName(realm._name$().text());
+    securityHandler.setLoginService(loginService);
+
+    servletContextHandler.setSecurityHandler(securityHandler);
+    return servletContextHandler;
+  }
+
+  private static ServletContextHandler addAllServlets(final Package[] packages, final $se_realm realm) {
+    final ServletContextHandler handler = createServletContextHandler(realm);
     try {
       for (final Package pkg : packages) {
         final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(pkg, false);
+        WebServlet webServlet;
         for (final Class<?> cls : classes) {
-          if (!Modifier.isAbstract(cls.getModifiers()) && HttpServlet.class.isAssignableFrom(cls) && cls.getAnnotation(WebServlet.class) != null) {
+          if (!Modifier.isAbstract(cls.getModifiers()) && HttpServlet.class.isAssignableFrom(cls) && (webServlet = cls.getAnnotation(WebServlet.class)) != null && webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) {
             final HttpServlet servlet = (HttpServlet)cls.newInstance();
-
             final ServletSecurity servletSecurity = cls.getAnnotation(ServletSecurity.class);
-            if (servletSecurity != null)
-              addServlet(handler, constraint, servlet); // FIXME: Finish this! Make this code determine the exact security constraints to apply!
-            else
+            HttpConstraint httpConstraint;
+            if (servletSecurity != null && (httpConstraint = servletSecurity.value()) != null && httpConstraint.rolesAllowed().length > 0) {
+              for (final String urlPattern : webServlet.urlPatterns()) {
+                for (final String role : httpConstraint.rolesAllowed()) {
+                  final ConstraintMapping constraintMapping = new ConstraintMapping();
+                  constraintMapping.setConstraint(getBasicAuthConstraint(role));
+                  constraintMapping.setPathSpec(urlPattern);
+                  final SecurityHandler securityHandler = handler.getSecurityHandler();
+                  if (!(securityHandler instanceof ConstraintSecurityHandler))
+                    throw new Error("SecurityHandler of ServletContextHandler must be a ConstraintSecurityHandler, did you call setConstraintSecurityHandler()?");
+
+                  ((ConstraintSecurityHandler)securityHandler).addConstraintMapping(constraintMapping);
+                }
+              }
+
+              logger.info(servlet.getClass().getSimpleName() + " [" + handler.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(webServlet.urlPatterns()));
               addServlet(handler, servlet);
+            }
+
+            logger.info(servlet.getClass().getName() + " " + Arrays.toString(webServlet.urlPatterns()));
+            for (final String urlPattern : webServlet.urlPatterns())
+              handler.addServlet(new ServletHolder(servlet), urlPattern);
           }
         }
       }
+
+      return handler;
     }
     catch (final Exception e) {
       throw new Error(e);
     }
-  }
-
-  public static void addServlet(final ServletContextHandler handler, final Constraint constraint, final HttpServlet servlet) {
-    final WebServlet annotation = servlet.getClass().getAnnotation(WebServlet.class);
-    if (annotation == null) {
-      logger.warning(servlet.getClass().getSimpleName() + " is missing a @WebServlet annotation, so its urlPatterns spec is unknown");
-      return;
-    }
-
-    if (annotation.urlPatterns() == null || annotation.urlPatterns().length == 0) {
-      logger.warning(servlet.getClass().getSimpleName() + " is missing the urlPatterns spec in its @WebServlet annotation");
-      return;
-    }
-
-    for (final String urlPattern : annotation.urlPatterns()) {
-      final ConstraintMapping constraintMapping = new ConstraintMapping();
-      constraintMapping.setConstraint(constraint);
-      constraintMapping.setPathSpec(urlPattern);
-      final SecurityHandler securityHandler = handler.getSecurityHandler();
-      if (!(securityHandler instanceof ConstraintSecurityHandler))
-        throw new Error("SecurityHandler of ServletContextHandler must be a ConstraintSecurityHandler, did you call setConstraintSecurityHandler()?");
-
-      ((ConstraintSecurityHandler)securityHandler).addConstraintMapping(constraintMapping);
-    }
-
-    logger.info(servlet.getClass().getSimpleName() + " [" + handler.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(annotation.urlPatterns()));
-    addServlet(handler, servlet);
   }
 
   private static final Map<String,Map<String,Constraint>> roleToConstraint = new HashMap<String,Map<String,Constraint>>();
@@ -151,27 +162,11 @@ public class EmbeddedServer {
     return getConstraint(authTypeToConstraint, Constraint.__BASIC_AUTH, role);
   }
 
-  private static void setConstraintSecurityHandler(final ServletContextHandler handler, final String realm, final String role, final String username, final String password) {
-    final HashLoginService loginService = new HashLoginService(realm);
-    loginService.putUser(username, Credential.getCredential(password), new String[] {role});
-
-    final ConstraintSecurityHandler securityHandler = new ConstraintSecurityHandler();
-    securityHandler.setAuthenticator(new BasicAuthenticator());
-    securityHandler.setRealmName(realm);
-    securityHandler.setLoginService(loginService);
-
-    handler.setSecurityHandler(securityHandler);
-  }
-
   private final org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server();
 
-  public EmbeddedServer(final String username, final String password, final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess) {
+  public EmbeddedServer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm) {
     server.setConnectors(new Connector[] {makeConnector(server, port, keyStorePath, keyStorePassword)});
-
-    final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-    final Constraint basicAuthConstraint = getBasicAuthConstraint("user");
-    setConstraintSecurityHandler(servletContextHandler, "Restricted", "user", username, password);
-    addAllServlets(Package.getPackages(), servletContextHandler, basicAuthConstraint);
+    final ServletContextHandler handler = addAllServlets(Package.getPackages(), realm);
 
     final HandlerList handlerList = new HandlerList();
 
@@ -192,7 +187,7 @@ public class EmbeddedServer {
       }
     }
 
-    handlerList.addHandler(servletContextHandler);
+    handlerList.addHandler(handler);
 
     server.setHandler(handlerList);
   }
