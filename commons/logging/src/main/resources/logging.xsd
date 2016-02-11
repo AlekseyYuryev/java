@@ -15,13 +15,11 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <xs:schema
   elementFormDefault="qualified" 
   targetNamespace="http://commons.safris.org/logging.xsd"
   xmlns:lg="http://commons.safris.org/logging.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  
   <xs:simpleType name="level">
     <xs:restriction base="xs:token">
       <xs:enumeration value="OFF"/>
@@ -34,7 +32,6 @@
       <xs:enumeration value="ALL"/>
     </xs:restriction>
   </xs:simpleType>
-  
   <xs:complexType name="setting">
     <xs:attribute name="name" type="xs:NCName" use="required"/>
     <xs:attribute name="level" type="lg:level" use="required"/>
