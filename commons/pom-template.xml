@@ -57,6 +57,6 @@
     <module>measure</module>
     <module>search</module>
     <module>json</module>
-    <module>jetty</module>
+    <module>servlet</module>
   </modules>
 </project>
