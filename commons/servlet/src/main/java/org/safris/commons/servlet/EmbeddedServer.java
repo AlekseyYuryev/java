@@ -58,19 +58,6 @@ public class EmbeddedServer {
     return connector;
   }
 
-  private static void addServlet(final ServletContextHandler handler, final HttpServlet servlet) {
-    final WebServlet annotation = servlet.getClass().getAnnotation(WebServlet.class);
-    if (annotation == null)
-      throw new Error(servlet.getClass().getName() + " does not have a @" + WebServlet.class.getName() + " annotation.");
-
-    if (annotation.urlPatterns() == null || annotation.urlPatterns().length == 0)
-      throw new Error(servlet.getClass().getName() + " does not have urlPatterns parameter in the @" + WebServlet.class.getName() + " annotation.");
-
-    logger.info(servlet.getClass().getName() + " " + Arrays.toString(annotation.urlPatterns()));
-    for (final String urlPattern : annotation.urlPatterns())
-      handler.addServlet(new ServletHolder(servlet), urlPattern);
-  }
-
   private static ServletContextHandler createServletContextHandler(final $se_realm realm) {
     final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
@@ -114,7 +101,6 @@ public class EmbeddedServer {
               }
 
               logger.info(servlet.getClass().getSimpleName() + " [" + handler.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(webServlet.urlPatterns()));
-              addServlet(handler, servlet);
             }
 
             logger.info(servlet.getClass().getName() + " " + Arrays.toString(webServlet.urlPatterns()));
@@ -173,8 +159,9 @@ public class EmbeddedServer {
     if (externalResourcesAccess) {
       // FIXME: HACK: Why cannot I just get the "/" resource? In the IDE it works, but in the stand-alone jar, it does not
       try {
-        final String configResourcePath = Resources.getResource("config.xml").getURL().toExternalForm();
-        final URL rootResourceURL = new URL(configResourcePath.substring(0, configResourcePath.length() - "config.xml".length()));
+        final String resourceName = getClass().getName().replace('.', '/') + ".class";
+        final String configResourcePath = Resources.getResource(resourceName).getURL().toExternalForm();
+        final URL rootResourceURL = new URL(configResourcePath.substring(0, configResourcePath.length() - resourceName.length()));
 
         final ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
