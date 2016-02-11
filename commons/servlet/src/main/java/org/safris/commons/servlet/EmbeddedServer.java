@@ -23,6 +23,7 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -39,7 +40,7 @@ import org.safris.commons.lang.Resources;
 public class EmbeddedServer {
   private static final Logger logger = Logger.getLogger(EmbeddedServer.class.getName());
 
-  private static Connector makeConnector(final org.eclipse.jetty.server.Server server, final int port, final String keyStorePath, final String keyStorePassword) {
+  private static Connector makeConnector(final Server server, final int port, final String keyStorePath, final String keyStorePassword) {
     if (keyStorePath == null || keyStorePassword == null) {
       final ServerConnector connector = new ServerConnector(server);
       connector.setPort(port);
@@ -90,7 +91,7 @@ public class EmbeddedServer {
               for (final String urlPattern : webServlet.urlPatterns()) {
                 for (final String role : httpConstraint.rolesAllowed()) {
                   final ConstraintMapping constraintMapping = new ConstraintMapping();
-                  constraintMapping.setConstraint(getBasicAuthConstraint(role));
+                  constraintMapping.setConstraint(getBasicAuthConstraint(Constraint.__BASIC_AUTH, role));
                   constraintMapping.setPathSpec(urlPattern);
                   final SecurityHandler securityHandler = handler.getSecurityHandler();
                   if (!(securityHandler instanceof ConstraintSecurityHandler))
@@ -124,31 +125,20 @@ public class EmbeddedServer {
     if (constraint != null)
       return constraint;
 
-    synchronized (authTypeToConstraint) {
-      constraint = authTypeToConstraint.get(authType);
-      if (constraint != null)
-        return constraint;
-
-      authTypeToConstraint.put(authType, constraint = new Constraint(authType, role));
-      constraint.setAuthenticate(true);
-      return constraint;
-    }
+    authTypeToConstraint.put(authType, constraint = new Constraint(authType, role));
+    constraint.setAuthenticate(true);
+    return constraint;
   }
 
-  private static Constraint getBasicAuthConstraint(final String role) {
+  private static Constraint getBasicAuthConstraint(final String authType, final String role) {
     Map<String,Constraint> authTypeToConstraint = roleToConstraint.get(role);
-    if (authTypeToConstraint == null) {
-      synchronized (roleToConstraint) {
-        authTypeToConstraint = roleToConstraint.get(role);
-        if (authTypeToConstraint == null)
-          roleToConstraint.put(role, authTypeToConstraint = new HashMap<String,Constraint>());
-      }
-    }
+    if (authTypeToConstraint == null)
+      roleToConstraint.put(role, authTypeToConstraint = new HashMap<String,Constraint>());
 
-    return getConstraint(authTypeToConstraint, Constraint.__BASIC_AUTH, role);
+    return getConstraint(authTypeToConstraint, authType, role);
   }
 
-  private final org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server();
+  private final Server server = new Server();
 
   public EmbeddedServer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm) {
     server.setConnectors(new Connector[] {makeConnector(server, port, keyStorePath, keyStorePassword)});
