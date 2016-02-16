@@ -20,13 +20,17 @@ import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
@@ -55,6 +59,7 @@ import org.safris.commons.lang.Resources;
 
 public class EmbeddedServer {
   private static final Logger logger = Logger.getLogger(EmbeddedServer.class.getName());
+  private static UncaughtServletExceptionHandler uncaughtServletExceptionHandler;
 
   private static Connector makeConnector(final Server server, final int port, final String keyStorePath, final String keyStorePassword) {
     if (keyStorePath == null || keyStorePassword == null) {
@@ -98,8 +103,13 @@ public class EmbeddedServer {
       for (final Package pkg : packages) {
         final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(pkg, false);
         WebServlet webServlet;
+        WebFilter webFilter;
         for (final Class<?> cls : classes) {
-          if (!Modifier.isAbstract(cls.getModifiers()) && HttpServlet.class.isAssignableFrom(cls) && (webServlet = cls.getAnnotation(WebServlet.class)) != null && webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) {
+          if (Modifier.isAbstract(cls.getModifiers()))
+            continue;
+
+          // Add a HttpServlet with a @WebServlet annotation
+          if (HttpServlet.class.isAssignableFrom(cls) && (webServlet = cls.getAnnotation(WebServlet.class)) != null && webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) {
             final HttpServlet servlet = (HttpServlet)cls.newInstance();
             final ServletSecurity servletSecurity = cls.getAnnotation(ServletSecurity.class);
             HttpConstraint httpConstraint;
@@ -120,9 +130,16 @@ public class EmbeddedServer {
               logger.info(servlet.getClass().getSimpleName() + " [" + handler.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(webServlet.urlPatterns()));
             }
 
-            logger.info(servlet.getClass().getName() + " " + Arrays.toString(webServlet.urlPatterns()));
+            logger.info(cls.getName() + " " + Arrays.toString(webServlet.urlPatterns()));
             for (final String urlPattern : webServlet.urlPatterns())
               handler.addServlet(new ServletHolder(servlet), urlPattern);
+          }
+          // Add a Filter with a @WebFilter annotation
+          else if (Filter.class.isAssignableFrom(cls) && (webFilter = cls.getAnnotation(WebFilter.class)) != null && webFilter.urlPatterns() != null && webFilter.urlPatterns().length > 0) {
+            logger.info(cls.getName() + " " + Arrays.toString(webFilter.urlPatterns()));
+            for (final String urlPattern : webFilter.urlPatterns()) {
+              handler.addFilter((Class<? extends Filter>)cls, urlPattern, webFilter.dispatcherTypes().length > 0 ? EnumSet.of(webFilter.dispatcherTypes()[0], webFilter.dispatcherTypes()) : EnumSet.noneOf(DispatcherType.class));
+            }
           }
         }
       }
@@ -152,6 +169,14 @@ public class EmbeddedServer {
       roleToConstraint.put(role, authTypeToConstraint = new HashMap<String,Constraint>());
 
     return getConstraint(authTypeToConstraint, authType, role);
+  }
+
+  public static void setUncaughtServletExceptionHandler(final UncaughtServletExceptionHandler uncaughtServletExceptionHandler) {
+    EmbeddedServer.uncaughtServletExceptionHandler = uncaughtServletExceptionHandler;
+  }
+
+  protected static UncaughtServletExceptionHandler getUncaughtServletExceptionHandler() {
+    return EmbeddedServer.uncaughtServletExceptionHandler;
   }
 
   private final Server server = new Server();
