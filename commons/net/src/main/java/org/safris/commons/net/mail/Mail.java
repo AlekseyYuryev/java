@@ -41,6 +41,9 @@ public final class Mail {
 
   public static class Message {
     private static InternetAddress[] toInternetAddress(final String ... emails) throws AddressException {
+      if (emails == null)
+        return null;
+
       final InternetAddress[] addresses = new InternetAddress[emails.length];
       for (int i = 0; i < emails.length; i++)
         addresses[i] = new InternetAddress(emails[i]);
