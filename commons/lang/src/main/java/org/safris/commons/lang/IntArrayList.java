@@ -77,7 +77,7 @@ public class IntArrayList {
    *          The index of the value to get
    * @return The value at the given index
    */
-  public int get(int index) {
+  public int get(final int index) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
 
@@ -90,7 +90,7 @@ public class IntArrayList {
    * @param value
    *          The value to add to the list
    */
-  public void add(int value) {
+  public void add(final int value) {
     ensureCapacity(theSize + 1);
     theValue[theSize++] = value;
   }
@@ -103,7 +103,7 @@ public class IntArrayList {
    * @param value
    *          The value to add to the list
    */
-  public void add(int index, int value) {
+  public void add(final int index, final int value) {
     if (index < 0 || index > theSize)
       throw new ArrayIndexOutOfBoundsException(index);
 
@@ -121,7 +121,7 @@ public class IntArrayList {
    * @param value
    *          The values to add
    */
-  public void addAll(int[] value) {
+  public void addAll(final int[] value) {
     ensureCapacity(theSize + value.length);
     for (int i = 0; i < value.length; i++)
       theValue[theSize + i] = value[i];
@@ -135,7 +135,7 @@ public class IntArrayList {
    * @param list
    *          The list of values to add
    */
-  public void addAll(IntArrayList list) {
+  public void addAll(final IntArrayList list) {
     ensureCapacity(theSize + list.theSize);
     for (int i = 0; i < list.theSize; i++)
       theValue[theSize + i] = list.theValue[i];
@@ -152,7 +152,7 @@ public class IntArrayList {
    *          The value to replace the old value with
    * @return The old value at the given index
    */
-  public int set(int index, int value) {
+  public int set(final int index, final int value) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
 
@@ -168,7 +168,7 @@ public class IntArrayList {
    *          The index of the value to remove
    * @return The value that was removed
    */
-  public int remove(int index) {
+  public int remove(final int index) {
     if (index < 0 || index >= theSize)
       throw new ArrayIndexOutOfBoundsException(index);
 
@@ -187,7 +187,7 @@ public class IntArrayList {
    *          The value to remove
    * @return Whether the value was found and removed
    */
-  public boolean removeValue(int value) {
+  public boolean removeValue(final int value) {
     for (int i = 0; i < theSize; i++) {
       if (theValue[i] == value) {
         remove(i);
@@ -205,7 +205,7 @@ public class IntArrayList {
    *          The value to remove
    * @return The number of times the value was removed
    */
-  public int removeAll(int value) {
+  public int removeAll(final int value) {
     int ret = 0;
     for (int i = 0; i < theSize; i++) {
       if (theValue[i] == value) {
@@ -225,7 +225,7 @@ public class IntArrayList {
    *          The value to find
    * @return Whether this list contains the given value
    */
-  public boolean contains(int value) {
+  public boolean contains(final int value) {
     return indexOf(value) >= 0;
   }
 
@@ -236,7 +236,7 @@ public class IntArrayList {
    *          The value to count
    * @return The number of times the value appears in this list
    */
-  public int instanceCount(int value) {
+  public int instanceCount(final int value) {
     int ret = 0;
     for (int i = 0; i < theSize; i++)
       if (theValue[i] == value)
@@ -252,7 +252,7 @@ public class IntArrayList {
    *          The value to find
    * @return The first index whose value is the given value
    */
-  public int indexOf(int value) {
+  public int indexOf(final int value) {
     for (int i = 0; i < theSize; i++)
       if (theValue[i] == value)
         return i;
@@ -267,7 +267,7 @@ public class IntArrayList {
    *          The value to find
    * @return The last index whose value is the given value
    */
-  public int lastIndexOf(int value) {
+  public int lastIndexOf(final int value) {
     for (int i = theSize - 1; i >= 0; i--)
       if (theValue[i] == value)
         return i;
@@ -315,7 +315,7 @@ public class IntArrayList {
    * @param minCapacity
    *          The minimum capacity for the list
    */
-  public void ensureCapacity(int minCapacity) {
+  public void ensureCapacity(final int minCapacity) {
     int oldCapacity = theValue.length;
     if (minCapacity > oldCapacity) {
       int[] oldData = theValue;
