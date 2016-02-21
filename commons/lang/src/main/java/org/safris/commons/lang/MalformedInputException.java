@@ -17,9 +17,9 @@
 package org.safris.commons.lang;
 
 /**
- * Checked exception thrown when an input is not legal for a consumer.
+ * Runtime exception thrown when an input is not legal for a consumer.
  */
-public class MalformedInputException extends Exception {
+public class MalformedInputException extends RuntimeException {
   private static final long serialVersionUID = -4170012677350187124L;
 
   public MalformedInputException() {
