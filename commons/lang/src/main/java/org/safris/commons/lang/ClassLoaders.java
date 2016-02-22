@@ -65,6 +65,7 @@ public final class ClassLoaders {
       final Object ucp = ucpField.get(classLoader); // This is a sun.misc.URLClassPath
       final Field lmapField = ucp.getClass().getDeclaredField("lmap");
       lmapField.setAccessible(true);
+      @SuppressWarnings("unchecked")
       final Map<String,Object> lmap = (Map<String,Object>)lmapField.get(ucp);
       for (final String key : lmap.keySet())
         urls.add(new URL(key));

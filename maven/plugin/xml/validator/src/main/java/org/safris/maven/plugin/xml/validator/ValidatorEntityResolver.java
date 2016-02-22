@@ -37,6 +37,7 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
     this.basedir = basedir;
   }
 
+  @Override
   public XMLInputSource resolveEntity(final XMLResourceIdentifier resourceIdentifier) throws IOException, XNIException {
     //System.err.println(resourceIdentifier.getPublicId() + ", " + resourceIdentifier.getBaseSystemId() + ", " + resourceIdentifier.getPublicId() + ", " + resourceIdentifier.getNamespace());
     String systemId = resourceIdentifier.getLiteralSystemId();

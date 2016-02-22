@@ -28,6 +28,7 @@ public final class Equals {
   private static final Map<Class<?>,Field[]> blackWhiteListMap = new HashMap<Class<?>,Field[]>();
 
   private static final For.Filter<Field> nonBlacklistFilter = new For.Filter<Field>() {
+    @Override
     public boolean accept(final Field item, final Object ... args) {
       final boolean filter = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(NotEqualable.class) == null;
       if (filter)
@@ -38,6 +39,7 @@ public final class Equals {
   };
 
   private static final For.Filter<Field> whitelistFilter = new For.Filter<Field>() {
+    @Override
     public boolean accept(final Field item, final Object ... args) {
       final boolean filter = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(Equalable.class) != null;
       if (filter)

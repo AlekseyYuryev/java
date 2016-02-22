@@ -33,15 +33,13 @@ import java.util.jar.JarFile;
 
 /**
  * This utility final class is for loading classes in a package.
- *
- * @author Seva Safris
- * @version 1.4
  */
 public abstract class PackageLoader extends ClassLoader {
   private static final PackageLoader instance = new PackageLoader() {};
   private static final Map<String,Set<Class<?>>> loadedPackages = new HashMap<String,Set<Class<?>>>();
 
   private static final FileFilter classFileFilter = new FileFilter() {
+    @Override
     public boolean accept(final File pathname) {
       return pathname.getName().endsWith(".class");
     }

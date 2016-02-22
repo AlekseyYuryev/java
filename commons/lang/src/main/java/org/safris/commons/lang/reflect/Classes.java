@@ -79,6 +79,7 @@ public final class Classes {
     return field;
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends Annotation>T getDeclaredAnnotation(final Class<?> clazz, final Class<T> annotationType) {
     for (final Annotation annotation : clazz.getDeclaredAnnotations())
       if (annotation.annotationType() == annotationType)
@@ -88,54 +89,68 @@ public final class Classes {
   }
 
   private static final For.Recurser<Field,Class<?>> declaredFieldRecurser = new For.Recurser<Field,Class<?>>() {
+    @Override
     public boolean accept(final Field item, final Object ... args) {
       return true;
     }
 
+    @Override
     public Field[] items(final Class<?> container) {
       return container.getDeclaredFields();
     }
 
+    @Override
     public Class<?> next(final Class<?> container) {
       return container.getSuperclass();
     }
   };
 
   private static final For.Recurser<Field,Class<?>> fieldRecurser = new For.Recurser<Field,Class<?>>() {
+    @Override
     public boolean accept(final Field field, final Object ... args) {
       return Modifier.isPublic((field).getModifiers());
     }
 
+    @Override
     public Field[] items(final Class<?> clazz) {
       return clazz.getDeclaredFields();
     }
 
+    @Override
     public Class<?> next(final Class<?> clazz) {
       return clazz.getSuperclass();
     }
   };
 
   private static final For.Filter<Field> declaredFieldWithAnnotationFilter = new For.Filter<Field>() {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Field item, final Object ... args) {
       return item.getAnnotation((Class)args[0]) != null;
     }
   };
 
   private static final For.Filter<Class<?>> classWithAnnotationFilter = new For.Filter<Class<?>>() {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Class<?> item, final Object ... args) {
       return item.getAnnotation((Class)args[0]) != null;
     }
   };
 
   private static final For.Recurser<Class<?>,Class<?>> classWithAnnotationRecurser = new For.Recurser<Class<?>,Class<?>>() {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Class<?> item, final Object ... args) {
       return item.getAnnotation((Class)args[0]) != null;
     }
 
+    @Override
     public Class<?>[] items(final Class<?> container) {
       return container.getDeclaredClasses();
     }
 
+    @Override
     public Class<?> next(final Class<?> container) {
       return container.getSuperclass();
     }
@@ -171,10 +186,12 @@ public final class Classes {
    * @param comparable
    * @return
    */
+  @SuppressWarnings("unchecked")
   public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
     return For.<Class<?>>recursiveOrdered(clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationFilter, annotationType);
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends Annotation>Class<?>[] getDeclaredClassesWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
     return For.<Class<?>,Class<?>>recursiveInverted(clazz, clazz.getDeclaredClasses(), (Class<Class<?>>)Class.class.getClass(), classWithAnnotationRecurser, annotationType);
   }

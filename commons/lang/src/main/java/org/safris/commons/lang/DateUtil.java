@@ -26,9 +26,10 @@ public class DateUtil {
     return setTimeInPlace(date, hours, minutes, seconds, 0);
   }
 
+  @SuppressWarnings("deprecation")
   public static Date setTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final int timeZoneOffset = date.getTimezoneOffset();
-    date.setTime(((long)(date.getTime() / 1000)) * 1000 + milliseconds);
+    date.setTime((date.getTime() / 1000) * 1000 + milliseconds);
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(seconds);
@@ -66,6 +67,7 @@ public class DateUtil {
     return addTimeInPlace(date, hours, minutes, seconds, 0);
   }
 
+  @SuppressWarnings("deprecation")
   public static Date addTimeInPlace(final Date date, final int hours, final int minutes, final int seconds, final int milliseconds) {
     final int timeZoneOffset = date.getTimezoneOffset();
     date.setTime(date.getTime() + hours * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE + milliseconds);
@@ -91,6 +93,7 @@ public class DateUtil {
     return update;
   }
 
+  @SuppressWarnings("deprecation")
   public static Date dropTimePart(final Date dateTime) {
     return dateTime != null ? new Date(dateTime.getYear(), dateTime.getMonth(), dateTime.getDate()) : null;
   }
@@ -108,6 +111,7 @@ public class DateUtil {
     return setTimeZoneInPlace(new Date(date.getTime()), timeZone);
   }
 
+  @SuppressWarnings("deprecation")
   public static Date setTimeZoneInPlace(final Date date, final TimeZone timeZone) {
     date.setTime(date.getTime() + (timeZone.getOffset(date.getTime()) - date.getTimezoneOffset()) * 60000);
     return date;

@@ -36,14 +36,17 @@ public class CachedResourceInput implements LSInput {
   private String encoding;
   private boolean certifiedText;
 
+  @Override
   public Reader getCharacterStream() {
     return this.reader;
   }
 
+  @Override
   public void setCharacterStream(final Reader characterStream) {
     this.reader = characterStream;
   }
 
+  @Override
   public InputStream getByteStream() {
     if (inputStream == null || inputStreamConsumed)
       return null;
@@ -51,6 +54,7 @@ public class CachedResourceInput implements LSInput {
     return new InputStream() {
       private final ByteArrayOutputStream buffer = new ByteArrayOutputStream(BUFFER_SIZE);
 
+      @Override
       public int read() throws IOException {
         final int in = inputStream.read();
         if (in == -1) {
@@ -66,54 +70,67 @@ public class CachedResourceInput implements LSInput {
     };
   }
 
+  @Override
   public void setByteStream(final InputStream byteStream) {
     this.inputStream = byteStream;
   }
 
+  @Override
   public String getStringData() {
     return this.stringData;
   }
 
+  @Override
   public void setStringData(final String stringData) {
     this.stringData = stringData;
   }
 
+  @Override
   public String getSystemId() {
     return this.systemId;
   }
 
+  @Override
   public void setSystemId(final String systemId) {
     this.systemId = systemId;
   }
 
+  @Override
   public String getPublicId() {
     return this.publicId;
   }
 
+  @Override
   public void setPublicId(final String publicId) {
     this.publicId = publicId;
   }
 
+  @Override
   public String getBaseURI() {
     return this.baseURI;
   }
 
+  @Override
   public void setBaseURI(final String baseURI) {
     this.baseURI = baseURI;
   }
 
+  @Override
   public String getEncoding() {
     return this.encoding;
   }
 
+  @Override
   public void setEncoding(final String encoding) {
     this.encoding = encoding;
   }
 
+  @Override
   public boolean getCertifiedText() {
     return this.certifiedText;
   }
 
+  @Override
   public void setCertifiedText(final boolean certifiedText) {
     this.certifiedText = certifiedText;
   }

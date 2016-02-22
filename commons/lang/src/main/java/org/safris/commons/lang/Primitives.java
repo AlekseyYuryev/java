@@ -60,16 +60,16 @@ public final class Primitives {
         return new Short((short)((Boolean)primitive ? 1 : 0));
 
       if (Integer.class.isAssignableFrom(cls))
-        return new Integer((int)((Boolean)primitive ? 1 : 0));
+        return new Integer((Boolean)primitive ? 1 : 0);
 
       if (Long.class.isAssignableFrom(cls))
-        return new Long((long)((Boolean)primitive ? 1 : 0));
+        return new Long((Boolean)primitive ? 1 : 0);
 
       if (Float.class.isAssignableFrom(cls))
-        return new Float((float)((Boolean)primitive ? 1 : 0));
+        return new Float((Boolean)primitive ? 1 : 0);
 
       if (Double.class.isAssignableFrom(cls))
-        return new Double((double)((Boolean)primitive ? 1 : 0));
+        return new Double((Boolean)primitive ? 1 : 0);
 
       if (Character.class.isAssignableFrom(cls))
         return new Character((char)((Boolean)primitive ? 1 : 0));
@@ -82,19 +82,19 @@ public final class Primitives {
         return new Short((short)((Character)primitive).charValue());
 
       if (Integer.class.isAssignableFrom(cls))
-        return new Integer((int)((Character)primitive).charValue());
+        return new Integer(((Character)primitive).charValue());
 
       if (Long.class.isAssignableFrom(cls))
-        return new Long((long)((Character)primitive).charValue());
+        return new Long(((Character)primitive).charValue());
 
       if (Float.class.isAssignableFrom(cls))
-        return new Float((float)((Character)primitive).charValue());
+        return new Float(((Character)primitive).charValue());
 
       if (Double.class.isAssignableFrom(cls))
-        return new Double((double)((Character)primitive).charValue());
+        return new Double(((Character)primitive).charValue());
 
       if (Boolean.class.isAssignableFrom(cls))
-        return new Boolean((int)((Character)primitive).charValue() != 0);
+        return new Boolean(((Character)primitive).charValue() != 0);
     }
     
     throw new IllegalArgumentException("Unknown cast from " + primitive.getClass().getName() + " to " + cls.getName());

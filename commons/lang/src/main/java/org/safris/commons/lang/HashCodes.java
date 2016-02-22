@@ -28,6 +28,7 @@ public final class HashCodes {
   private static final Map<Class<?>,Field[]> blackWhiteListMap = new HashMap<Class<?>,Field[]>();
 
   private static final For.Filter<Field> nonBlacklistFilter = new For.Filter<Field>() {
+    @Override
     public boolean accept(final Field item, final Object ... args) {
       final boolean accept = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(NotHashable.class) == null;
       if (accept)
@@ -38,6 +39,7 @@ public final class HashCodes {
   };
 
   private static final For.Filter<Field> whitelistFilter = new For.Filter<Field>() {
+    @Override
     public boolean accept(final Field item, final Object ... args) {
       final boolean accept = !item.isSynthetic() && !Modifier.isStatic(item.getModifiers()) && item.getAnnotation(Hashable.class) != null;
       if (accept)
@@ -53,11 +55,11 @@ public final class HashCodes {
     if (boolean.class == field.getType())
       normal = field.getBoolean(obj) ? 1231 : 1237;
     else if (byte.class == field.getType())
-      normal = (int)field.getByte(obj);
+      normal = field.getByte(obj);
     else if (char.class == field.getType())
-      normal = (int)field.getChar(obj);
+      normal = field.getChar(obj);
     else if (short.class == field.getType())
-      normal = (int)field.getShort(obj);
+      normal = field.getShort(obj);
     else if (int.class == field.getType())
       normal = field.getInt(obj);
     else if (long.class == field.getType()) {

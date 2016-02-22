@@ -31,12 +31,13 @@ public final class Arrays {
       }
     }
 
-    final Object[] all = (Object[])Array.newInstance(type, length);
+    @SuppressWarnings("unchecked")
+    final T[] all = (T[])Array.newInstance(type, length);
     int index = 0;
     for (final Object[] a : array)
       System.arraycopy(a, 0, all, index += a.length, a.length);
 
-    return (T[])all;
+    return all;
   }
 
   public static void fillIncremental(final byte[] array, byte start) {

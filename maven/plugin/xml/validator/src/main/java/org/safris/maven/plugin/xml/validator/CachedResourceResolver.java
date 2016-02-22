@@ -30,6 +30,7 @@ import org.w3c.dom.ls.LSResourceResolver;
 public class CachedResourceResolver implements LSResourceResolver {
   private static final Map<String,LSInput> resources = new HashMap<String,LSInput>(4);
 
+  @Override
   public LSInput resolveResource(final String type, final String namespaceURI, final String publicId, String systemId, final String baseURI) {
     try {
       //System.err.println(type + ", " + namespaceURI + ", " + publicId + ", " + systemId + ", " + baseURI);
