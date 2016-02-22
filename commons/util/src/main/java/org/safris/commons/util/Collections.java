@@ -120,6 +120,7 @@ public final class Collections {
     }
   }
 
+  @SafeVarargs
   public static <T>Collection<T> asCollection(final Class<? extends Collection> cls, final T ... a) {
     try {
       final Collection<T> list = cls.newInstance();
