@@ -14,7 +14,7 @@ public final class SQLFormat {
     final StringTokenizer tokenizer = new StringTokenizer(sql, delims, true);
     int depth = 0;
     String out = "";
-    String prev = null;
+//    String prev = null;
     boolean lastReserved = true;
     boolean lastDelimNonWS = false;
     while (tokenizer.hasMoreTokens()) {
