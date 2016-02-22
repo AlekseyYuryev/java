@@ -7,6 +7,7 @@ public class DateUtil {
   public static final short MINUTES_IN_DAY = 24 * 60;
   public static final int MILLISECONDS_IN_MINUTE = 60 * 1000;
   public static final int MILLISECONDS_IN_HOUR = 60 * MILLISECONDS_IN_MINUTE;
+  public static final int MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
 
   public static String getTimeZoneShortName(final String id, final Date date) {
     final TimeZone timezone = TimeZone.getTimeZone(id);
@@ -110,5 +111,8 @@ public class DateUtil {
   public static Date setTimeZoneInPlace(final Date date, final TimeZone timeZone) {
     date.setTime(date.getTime() + (timeZone.getOffset(date.getTime()) - date.getTimezoneOffset()) * 60000);
     return date;
+  }
+
+  private DateUtil() {
   }
 }

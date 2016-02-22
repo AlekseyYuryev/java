@@ -32,6 +32,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.safris.commons.io.Files;
+import org.safris.commons.lang.DateUtil;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
@@ -66,6 +67,7 @@ public final class ValidatorMojo extends AbstractMojo {
 
   private static FileFilter filter(final File dir, final List<String> includes, final List<String> excludes) {
     return new FileFilter() {
+      @Override
       public boolean accept(final File pathname) {
         if (!pathname.isFile())
           return false;
@@ -202,6 +204,7 @@ public final class ValidatorMojo extends AbstractMojo {
     System.setProperty(scheme + ".proxyPort", port);
   }
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     final Collection<Resource> resources = new ArrayList<Resource>();
     if (getResources() != null)
@@ -238,7 +241,11 @@ public final class ValidatorMojo extends AbstractMojo {
         //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
         for (final File file : entry.getValue()) {
           final File recordFile = new File(recordDir, file.getName());
-          if (!recordFile.exists() || recordFile.lastModified() < file.lastModified()) {
+          if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
+            final String fileName = Files.relativePath(entry.getKey().getAbsoluteFile(), file.getAbsoluteFile());
+            log.info("Pre-validated: " + fileName);
+          }
+          else {
             try {
               validate(entry.getKey(), file, log);
               if (!recordFile.createNewFile())
@@ -247,10 +254,6 @@ public final class ValidatorMojo extends AbstractMojo {
             catch (final SAXException e) {
               throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
             }
-          }
-          else {
-            final String fileName = Files.relativePath(entry.getKey().getAbsoluteFile(), file.getAbsoluteFile());
-            log.info("Pre-validated: " + fileName);
           }
         }
       }
