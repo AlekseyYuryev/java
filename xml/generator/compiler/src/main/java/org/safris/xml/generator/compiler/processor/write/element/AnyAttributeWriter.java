@@ -30,10 +30,12 @@ import org.safris.xml.generator.lexer.schema.attribute.Use;
 import org.w3c.dom.Element;
 
 public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
+  @Override
   protected void appendDeclaration(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("private " + AttributeAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + ">> anyAttribute = new " + AttributeAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + ">>(this, null, null, " + Form.QUALIFIED.equals(plan.getFormDefault()) + ", " + Use.REQUIRED.equals(plan.getUse()) + ");\n");
   }
 
+  @Override
   protected void appendGetMethod(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "> getAny$()\n");
     writer.write("{\n");
@@ -47,6 +49,7 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
     writer.write("}\n");
   }
 
+  @Override
   protected void appendSetMethod(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("public void addAny$(" + Binding.class.getName() + " anyAttribute)\n");
     writer.write("{\n");
@@ -56,10 +59,12 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
     writer.write("}\n");
   }
 
+  @Override
   protected void appendMarshal(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("anyAttribute.marshal(node);\n");
   }
 
+  @Override
   protected void appendParse(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
 //      writer.write("else\n");
 //      writer.write("{\n");
@@ -69,19 +74,23 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
 //      writer.write("}\n");
   }
 
+  @Override
   public void appendCopy(final StringWriter writer, final AnyAttributePlan plan, Plan<?> parent, final String variable) {
     writer.write("this.anyAttribute = " + variable + ".anyAttribute;\n");
   }
 
+  @Override
   protected void appendEquals(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("if (anyAttribute != null ? !anyAttribute.equals(that.anyAttribute) : that.anyAttribute != null)\n");
     writer.write("return _$$failEquals();\n");
   }
 
+  @Override
   protected void appendHashCode(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("hashCode += anyAttribute != null ? anyAttribute.hashCode() : -1;\n");
   }
 
+  @Override
   protected void appendClass(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
   }
 }

@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -52,18 +52,21 @@ public abstract class $xs_anySimpleType extends Binding {
   public void text(final Object text) {
     if (isNull())
       throw new BindingRuntimeException("NULL Object is immutable.");
-    
+
     this.text = text;
   }
 
+  @Override
   public Object text() {
     return text;
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     this.text = value;
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     if (text() == null)
       return "";
@@ -76,6 +79,7 @@ public abstract class $xs_anySimpleType extends Binding {
 
   private transient Element parent = null;
 
+  @Override
   protected Element marshal(final Element parent, final QName name, final QName typeName) throws MarshalException {
     this.parent = parent;
     final Element element = super.marshal(parent, name, typeName);
@@ -85,6 +89,7 @@ public abstract class $xs_anySimpleType extends Binding {
     return element;
   }
 
+  @Override
   protected Attr marshalAttr(final String name, final Element parent) throws MarshalException {
     this.parent = parent;
     final Attr attr = parent.getOwnerDocument().createAttribute(name);
@@ -92,6 +97,7 @@ public abstract class $xs_anySimpleType extends Binding {
     return attr;
   }
 
+  @Override
   protected void parseText(final Text text) throws ParseException, ValidationException {
     // Ignore all attributes that have a xsi prefix because these are
     // controlled implicitly by the framework
@@ -106,22 +112,27 @@ public abstract class $xs_anySimpleType extends Binding {
       _$$decode((Element)text.getParentNode(), value);
   }
 
+  @Override
   public QName name() {
     return name(inherits());
   }
 
+  @Override
   protected QName typeName() {
     return null;
   }
 
+  @Override
   public $xs_anySimpleType clone() {
     return new $xs_anySimpleType(this) {
+      @Override
       protected $xs_anySimpleType inherits() {
         return this;
       }
     };
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -140,6 +151,7 @@ public abstract class $xs_anySimpleType extends Binding {
     }
   }
 
+  @Override
   public int hashCode() {
     final String value;
     try {
@@ -155,6 +167,7 @@ public abstract class $xs_anySimpleType extends Binding {
     return value.hashCode();
   }
 
+  @Override
   public String toString() {
     try {
       return String.valueOf(_$$encode(parent));

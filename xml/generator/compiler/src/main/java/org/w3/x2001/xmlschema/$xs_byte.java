@@ -33,6 +33,7 @@ public abstract class $xs_byte extends $xs_short {
     super();
   }
 
+  @Override
   public Byte text() {
     return (Byte)super.text();
   }
@@ -41,16 +42,20 @@ public abstract class $xs_byte extends $xs_short {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Byte.parseByte(String.valueOf(value)));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_byte clone() {
     return new $xs_byte(this) {
+      @Override
       protected $xs_byte inherits() {
         return this;
       }

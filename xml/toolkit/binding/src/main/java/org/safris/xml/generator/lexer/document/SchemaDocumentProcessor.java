@@ -48,6 +48,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
     "redefine"
   };
 
+  @Override
   public Collection<SchemaDocument> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> selectedSchemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> directory) {
     if (selectedSchemas == null || selectedSchemas.size() == 0)
       return null;

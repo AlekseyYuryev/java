@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -33,7 +33,6 @@ import org.safris.xml.generator.compiler.processor.plan.NativeablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.model.AnyableModel;
-import org.safris.xml.generator.lexer.processor.model.EnumerableModel;
 import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.NamedModel;
 import org.safris.xml.generator.lexer.processor.model.element.ComplexTypeModel;
@@ -204,6 +203,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return name;
   }
 
+  @SuppressWarnings("unchecked")
   public SimpleTypePlan(final T model, final Plan<?> parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     if (model instanceof AnyableModel)
@@ -299,6 +299,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return list;
   }
 
+  @Override
   public final String getNativeItemClassNameInterface() {
     return nativeInterface;
   }
@@ -307,6 +308,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return nativeNonEnumInterface;
   }
 
+  @Override
   public final String getNativeItemClassNameImplementation() {
     return nativeImplementation;
   }
@@ -315,6 +317,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return nativeNonEnumImplementation;
   }
 
+  @Override
   public final String getNativeFactory() {
     return nativeFactory;
   }
@@ -323,10 +326,12 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return nonEnumNativeFactory;
   }
 
+  @Override
   public String getSuperClassNameWithoutType() {
     return superClassNameWithoutType;
   }
 
+  @Override
   public final LinkedHashSet<EnumerationPlan> getEnumerations() {
     return enumerations == null ? enumerations = Plan.<EnumerationPlan>analyze(getModel().getEnumerations(), this) : enumerations;
   }
@@ -339,25 +344,29 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
     return nativeNonEnumItemClassName;
   }
 
+  @Override
   public final boolean hasEnumerations() {
     return hasEnumerations == null ? hasEnumerations = hasEnumerations(getModel()) : hasEnumerations;
   }
 
+  @Override
   public final boolean hasSuperEnumerations() {
     if (hasSuperEnumerations != null)
       return hasSuperEnumerations;
 
-    return hasSuperEnumerations = getModel().getSuperType() instanceof EnumerableModel ? hasEnumerations((EnumerableModel)getModel().getSuperType()) : false;
+    return hasSuperEnumerations = hasEnumerations(getModel().getSuperType());
   }
 
   public final Collection<PatternPlan> getPatterns() {
     return patterns == null ? patterns = Plan.<PatternPlan>analyze(getModel().getPatterns(), this) : patterns;
   }
 
+  @Override
   public String getSuperClassNameWithType() {
     return superClassNameWithType;
   }
 
+  @Override
   public Plan<?> getSuperType() {
     if (parsedSuperType)
       return superType;

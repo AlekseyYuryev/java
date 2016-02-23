@@ -37,6 +37,7 @@ import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
   private static final StringBuffer license = new StringBuffer();
   protected static final Logger logger = Logger.getLogger(Writer.class.getName());

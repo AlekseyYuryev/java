@@ -113,6 +113,7 @@ import org.safris.xml.generator.compiler.processor.write.element.UniqueWriter;
 import org.safris.xml.generator.compiler.processor.write.element.WhiteSpaceWriter;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 
+@SuppressWarnings("rawtypes")
 public final class WriterDirectory implements PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> {
   private final Map<Class<? extends Plan>,Class<? extends Writer>> classes = new HashMap<Class<? extends Plan>,Class<? extends Writer>>(39);
   private final Map<Class<? extends Plan>,Writer> instances = new HashMap<Class<? extends Plan>,Writer>(39);
@@ -166,6 +167,7 @@ public final class WriterDirectory implements PipelineDirectory<GeneratorContext
     keys = classes.keySet();
   }
 
+  @Override
   public PipelineEntity getEntity(final Plan<?> entity, final Writer<?> parent) {
     if (!keys.contains(entity.getClass()))
       throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
@@ -184,10 +186,12 @@ public final class WriterDirectory implements PipelineDirectory<GeneratorContext
     }
   }
 
+  @Override
   public PipelineProcessor<GeneratorContext,Plan<?>,Writer<?>> getProcessor() {
     return processor;
   }
 
+  @Override
   public void clear() {
     instances.clear();
   }

@@ -46,6 +46,7 @@ public final class ExtensionModel extends Model {
     this.base = base;
   }
 
+  @SuppressWarnings("rawtypes")
   public final SimpleTypeModel getBase() {
     return base;
   }

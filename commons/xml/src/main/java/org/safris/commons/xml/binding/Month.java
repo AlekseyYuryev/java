@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -87,6 +87,7 @@ public final class Month {
     this(month, null);
   }
 
+  @SuppressWarnings("deprecation")
   public Month(final long time) {
     final java.util.Date date = new java.util.Date(time);
     this.month = date.getMonth() + 1;
@@ -105,6 +106,7 @@ public final class Month {
     return timeZone;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -116,6 +118,7 @@ public final class Month {
     return this.month == that.month && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
   }
 
+  @Override
   public int hashCode() {
     return month ^ 13 + (timeZone != null ? timeZone.hashCode() : -1);
   }
@@ -130,6 +133,7 @@ public final class Month {
     return buffer.toString();
   }
 
+  @Override
   public String toString() {
     return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
   }

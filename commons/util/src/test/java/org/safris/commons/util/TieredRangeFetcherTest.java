@@ -38,10 +38,12 @@ public class TieredRangeFetcherTest {
     final TieredRangeFetcher<Integer,Object> webLoader = new TieredRangeFetcher<Integer,Object>(null) {
       private final Integer[] range = new Integer[] {Integer.MIN_VALUE, Integer.MAX_VALUE};
 
+      @Override
       protected Integer[] range() {
         return range;
       }
 
+      @Override
       protected SortedMap<Integer,Object> select(final Integer from, Integer to) {
         System.out.println("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<Integer,Object>();
@@ -51,6 +53,7 @@ public class TieredRangeFetcherTest {
         return results;
       }
 
+      @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
       }
     };
@@ -58,15 +61,18 @@ public class TieredRangeFetcherTest {
     final TieredRangeFetcher<Integer,Object> dbLoader = new TieredRangeFetcher<Integer,Object>(webLoader) {
       private Integer[] range = new Integer[] {dbFrom, dbTo};
 
+      @Override
       protected Integer[] range() {
         return range;
       }
 
+      @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
         System.out.println("DB -> (" + from + ", " + to + "]");
         return db.subMap(from, to);
       }
 
+      @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
         System.out.println("DB <- (" + from + ", " + to + "]");
         if (range == null) {
@@ -89,15 +95,18 @@ public class TieredRangeFetcherTest {
       private final SortedMap<Integer,Object> cache = new TreeMap<Integer,Object>();
       private Integer[] range = null;
 
+      @Override
       protected Integer[] range() {
         return range;
       }
 
+      @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
         System.out.println("CACHE -> (" + from + ", " + to + "]");
         return cache.subMap(from, to);
       }
 
+      @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
         System.out.println("CACHE <- (" + from + ", " + to + "]");
         if (range == null) {

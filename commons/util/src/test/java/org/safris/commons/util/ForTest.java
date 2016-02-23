@@ -26,6 +26,7 @@ public class ForTest {
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
   private static final For.Filter<Integer> filter = new For.Filter<Integer>() {
+    @Override
     public boolean accept(final Integer value, final Object ... args) {
       return 1 == value || (3 < value && value < 7) || value == 8;
     }
@@ -65,14 +66,17 @@ public class ForTest {
 
   public static Field[] getFieldsDeep(final Class<?> clazz) {
     return For.recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, new For.Recurser<Field,Class<?>>() {
+      @Override
       public boolean accept(final Field field, final Object ... args) {
         return Modifier.isPublic((field).getModifiers());
       }
 
+      @Override
       public Field[] items(final Class<?> clazz) {
         return clazz.getDeclaredFields();
       }
 
+      @Override
       public Class<?> next(final Class<?> clazz) {
         return clazz.getSuperclass();
       }

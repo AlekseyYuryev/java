@@ -100,6 +100,7 @@ public final class SchemaModel extends Model {
     this.targetNamespace = targetNamespace;
   }
 
+  @Override
   public final NamespaceURI getTargetNamespace() {
     return targetNamespace;
   }
@@ -108,6 +109,7 @@ public final class SchemaModel extends Model {
     return version;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -119,10 +121,12 @@ public final class SchemaModel extends Model {
     return (targetNamespace != null ? targetNamespace.equals(that.targetNamespace) : that.targetNamespace == null) && (url != null ? url.equals(that.url) : that.url == null);
   }
 
+  @Override
   public int hashCode() {
     return (targetNamespace != null ? targetNamespace.hashCode() : -7) * (url != null ? url.hashCode() : -9);
   }
 
+  @Override
   public String toString() {
     return UniqueQName.XS.getNamespaceURI() + " " + targetNamespace;
   }

@@ -55,8 +55,7 @@ public class GeneratorTask extends Task implements DynamicElement {
       return;
 
     for (String target : targets) {
-      AntLauncher.main(new String[]
-      {
+      AntLauncher.main(new String[] {
         "-f",
         buildFile.getAbsolutePath(),
         target
@@ -138,11 +137,12 @@ public class GeneratorTask extends Task implements DynamicElement {
 
   private Manifest manifest = null;
 
+  @Override
   public Object createDynamicElement(String p1) throws BuildException {
     if (!"manifest".equals(p1))
       throw new BuildException(getClass().getSimpleName() + " doesn't support the nested \"" + p1 + "\" element.");
 
-    final Enumeration enumeration = this.getWrapper().getChildren();
+    final Enumeration<?> enumeration = this.getWrapper().getChildren();
     while (enumeration.hasMoreElements()) {
       final RuntimeConfigurable element = (RuntimeConfigurable)enumeration.nextElement();
       final Object proxy = element.getProxy();
@@ -156,6 +156,7 @@ public class GeneratorTask extends Task implements DynamicElement {
     return manifest = new Manifest();
   }
 
+  @Override
   public void execute() throws BuildException {
     final Resolver<String> resolver = new AntPropertyResolver(getProject());
     final String buildLocation = getLocation().getFileName();
@@ -167,7 +168,7 @@ public class GeneratorTask extends Task implements DynamicElement {
     Generator generator = null;
     if (manifest.getLink() != null) {
       String href = null;
-      Enumeration tags = getWrapper().getChildren();
+      Enumeration<?> tags = getWrapper().getChildren();
 TOP:
       while (tags.hasMoreElements()) {
         final Object tag = tags.nextElement();
@@ -178,7 +179,7 @@ TOP:
         if (!"manifest".equals(manifestRuntime.getElementTag()))
           continue;
 
-        final Enumeration children = manifestRuntime.getChildren();
+        final Enumeration<?> children = manifestRuntime.getChildren();
         while (children.hasMoreElements()) {
           final Object child = children.nextElement();
           if (!(child instanceof RuntimeConfigurable))

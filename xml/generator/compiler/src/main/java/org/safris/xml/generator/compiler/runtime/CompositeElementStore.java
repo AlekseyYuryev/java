@@ -129,10 +129,12 @@ final class CompositeElementStore {
     }
   }
 
+  @Override
   public CompositeElementStore clone() {
     return new CompositeElementStore(this);
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -144,6 +146,7 @@ final class CompositeElementStore {
     return elements.equals(that.elements) && elementAudits.equals(that.elementAudits);
   }
 
+  @Override
   public int hashCode() {
     return elements.hashCode();
   }

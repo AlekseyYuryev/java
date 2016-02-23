@@ -185,10 +185,12 @@ public final class SAXProperty {
     return property;
   }
 
+  @Override
   public int hashCode() {
     return property.hashCode();
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;

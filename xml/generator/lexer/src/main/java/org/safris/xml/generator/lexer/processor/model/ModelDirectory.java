@@ -130,6 +130,7 @@ public final class ModelDirectory implements PipelineDirectory<GeneratorContext,
     keys = classes.keySet();
   }
 
+  @Override
   public PipelineEntity getEntity(final SchemaComposite entity, final Model parent) {
     if (!(entity instanceof SchemaNodeComposite))
       return null;
@@ -157,10 +158,12 @@ public final class ModelDirectory implements PipelineDirectory<GeneratorContext,
     }
   }
 
+  @Override
   public PipelineProcessor<GeneratorContext,SchemaComposite,Model> getProcessor() {
     return processor;
   }
 
+  @Override
   public void clear() {
   }
 }

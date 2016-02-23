@@ -104,7 +104,7 @@ public final class ElementAudit<T extends Binding> {
     value = null;
   }
 
-  private void marshalNil(final Element element, final Element parent) {
+  private static void marshalNil(final Element element, final Element parent) {
     // NOTE: This makes the assumption that the xmlns:xsi will be present if
     // NOTE: xsi:nil is present, saving us a hasAttributeNS() call.
     if (!element.hasAttributeNS(Binding.XSI_NIL.getNamespaceURI(), Binding.XSI_NIL.getLocalPart())) {
@@ -137,6 +137,7 @@ public final class ElementAudit<T extends Binding> {
     return new ElementAudit<T>(parent, this);
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -147,10 +148,12 @@ public final class ElementAudit<T extends Binding> {
     return value != null ? value.equals(((ElementAudit<?>)obj).value) : ((ElementAudit<?>)obj).value == null;
   }
 
+  @Override
   public int hashCode() {
     return value != null ? value.hashCode() : 0;
   }
 
+  @Override
   public String toString() {
     return value != null ? value.toString() : super.toString();
   }

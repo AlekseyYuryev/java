@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -79,38 +79,47 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     }
   }
 
+  @Override
   public final Boolean getAbstract() {
     return _abstract;
   }
 
+  @Override
   public final void setRestriction(final ElementModel restriction) {
     this.restriction = restriction;
   }
 
+  @Override
   public final ElementModel getRestriction() {
     return restriction;
   }
 
+  @Override
   public final AliasModel getRestrictionOwner() {
     return restrictionOwner;
   }
 
+  @Override
   public final void setRestrictionOwner(final AliasModel restrictionOwner) {
     this.restrictionOwner = restrictionOwner;
   }
 
+  @Override
   public final ElementModel getRef() {
     return ref;
   }
 
+  @Override
   public final void setRef(final ElementModel ref) {
     this.ref = ref;
   }
 
+  @Override
   public final UniqueQName getName() {
     return ref != null ? ref.getName() : super.getName();
   }
 
+  @Override
   public final SimpleTypeModel<?> getSuperType() {
     return ref != null ? ref.getSuperType() : super.getSuperType();
   }
@@ -119,6 +128,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     this.formDefault = formDefault;
   }
 
+  @Override
   public final Form getFormDefault() {
     return formDefault;
   }
@@ -131,10 +141,12 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     return fixed;
   }
 
+  @Override
   public final Occurs getMaxOccurs() {
     return maxOccurs;
   }
 
+  @Override
   public final Occurs getMinOccurs() {
     return minOccurs;
   }
@@ -147,6 +159,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     return substitutionGroup;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -157,6 +170,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     return getRef() == null ? getName().equals(((ElementModel)obj).getName()) : (((ElementModel)obj).getRef() != null ? getRef().getName().equals(((ElementModel)obj).getRef().getName()) : false);
   }
 
+  @Override
   public int hashCode() {
     if (getRef() != null && getRef().getName() != null)
       return ("ref" + getRef().getName().toString()).hashCode();
@@ -167,6 +181,7 @@ public class ElementModel extends ComplexTypeModel<SimpleTypeModel<?>> implement
     return super.hashCode();
   }
 
+  @Override
   public String toString() {
     return UniqueQName.XS.getNamespaceURI() + " " + getName();
   }

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -49,34 +49,41 @@ public class AttributeGroupModel extends NamedModel implements AttributableModel
     }
   }
 
+  @Override
   public final void setRedefine(final AttributeGroupModel redefine) {
     this.redefine = redefine;
   }
 
+  @Override
   public final AttributeGroupModel getRedefine() {
     return redefine;
   }
 
+  @Override
   public final void addAttribute(final AttributeModel attribute) {
     attributes.add(attribute);
   }
 
-  public final void addAllAttributes(final Collection<AttributeModel> attributes) {
+  public static void addAllAttributes(final Collection<AttributeModel> attributes) {
     attributes.addAll(attributes);
   }
 
+  @Override
   public final LinkedHashSet<AttributeModel> getAttributes() {
     return attributes;
   }
 
+  @Override
   public final void setRef(final AttributeGroupModel ref) {
     this.ref = ref;
   }
 
+  @Override
   public final AttributeGroupModel getRef() {
     return ref;
   }
 
+  @Override
   public String toString() {
     return super.toString().replace(TO_STRING_DELIMITER, "ref=\"" + ref + "\"");
   }

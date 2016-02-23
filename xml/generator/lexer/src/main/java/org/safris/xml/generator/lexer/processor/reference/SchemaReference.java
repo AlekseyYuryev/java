@@ -233,6 +233,7 @@ public final class SchemaReference implements PipelineEntity {
     return location;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -244,6 +245,7 @@ public final class SchemaReference implements PipelineEntity {
     return location.equals(that.location) && namespaceURI.equals(that.namespaceURI);
   }
 
+  @Override
   public int hashCode() {
     return location.hashCode() ^ (namespaceURI != null ? namespaceURI.hashCode() : 89432);
   }

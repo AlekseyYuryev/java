@@ -37,6 +37,7 @@ public abstract class $xs_nonPositiveInteger extends $xs_integer {
     super();
   }
 
+  @Override
   public Integer text() {
     return (Integer)super.text();
   }
@@ -45,16 +46,20 @@ public abstract class $xs_nonPositiveInteger extends $xs_integer {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Long.parseLong(value));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_nonPositiveInteger clone() {
     return new $xs_nonPositiveInteger(this) {
+      @Override
       protected $xs_nonPositiveInteger inherits() {
         return this;
       }

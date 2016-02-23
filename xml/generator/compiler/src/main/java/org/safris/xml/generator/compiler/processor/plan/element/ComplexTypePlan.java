@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -44,6 +44,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel<?>> extends SimpleTypePl
   private LinkedHashSet<AttributePlan> attributes;
   private LinkedHashSet<ElementPlan> elements;
 
+  @Override
   public ElementPlan elementRefExistsInParent(final UniqueQName name) {
     // FIXME: This is slow!
     if (getElements() != null)
@@ -57,6 +58,7 @@ public class ComplexTypePlan<T extends ComplexTypeModel<?>> extends SimpleTypePl
     return getSuperType().elementRefExistsInParent(name);
   }
 
+  @SuppressWarnings("unchecked")
   public ComplexTypePlan(final T model, final Plan<?> parent) {
     super(model.getRedefine() != null ? (T)model.getRedefine() : model, parent);
     mixed = getModel().getMixed();
@@ -72,18 +74,22 @@ public class ComplexTypePlan<T extends ComplexTypeModel<?>> extends SimpleTypePl
     return simpleContent;
   }
 
+  @Override
   public final LinkedHashSet<AttributePlan> getAttributes() {
     return attributes == null ? attributes = Plan.<AttributePlan>analyze(getModel().getAttributes(), this) : attributes;
   }
 
+  @Override
   public final LinkedHashSet<ElementPlan> getElements() {
     return elements == null ? elements = Plan.<ElementPlan>analyze(ElementWrapper.asSet(getModel().getMultiplicableModels()), this) : elements;
   }
 
+  @Override
   public final Boolean getMixed() {
     return mixed;
   }
 
+  @Override
   public final Boolean getMixedType() {
     if (mixedType != null)
       return mixedType;

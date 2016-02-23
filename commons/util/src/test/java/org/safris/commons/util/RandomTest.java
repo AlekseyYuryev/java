@@ -58,7 +58,7 @@ public final class RandomTest {
     assertInSpace(alphaNumeric.toCharArray(), ALPHA_NUMERIC);
   }
 
-  private void assertInSpace(final char[] chars, final char[] space) {
+  private static void assertInSpace(final char[] chars, final char[] space) {
     for (final char ch : chars)
       Assert.assertFalse(Arrays.binarySearch(space, ch) == -1);
   }

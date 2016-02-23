@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -33,7 +33,6 @@ import org.safris.xml.generator.lexer.processor.model.Model;
 import org.safris.xml.generator.lexer.processor.model.RestrictableModel;
 import org.safris.xml.generator.lexer.processor.model.element.AttributeModel;
 import org.safris.xml.generator.lexer.processor.model.element.SchemaModel;
-import org.safris.xml.generator.lexer.processor.model.element.SimpleTypeModel;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
 
@@ -66,7 +65,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
       return;
 
     if (isRestriction())
-      superClassNameWithoutType = AliasPlan.getClassName(attribute.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel<?>)getModel().getRestriction());
+      superClassNameWithoutType = AliasPlan.getClassName(attribute.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName(getModel().getRestriction());
     else
       superClassNameWithoutType = AliasPlan.getClassName(attribute.getSuperType(), attribute.getSuperType().getParent());
 
@@ -120,14 +119,17 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return _default;
   }
 
+  @Override
   public final boolean isRestriction() {
     return restriction;
   }
 
+  @Override
   public final AttributeModel getModel() {
     return super.getModel().getRef() != null ? super.getModel().getRef() : super.getModel();
   }
 
+  @Override
   public final String getSuperClassNameWithoutType() {
     return superClassNameWithoutType;
   }
@@ -187,6 +189,7 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return declarationRestrictionSimpleName = JavaBinding.getClassSimpleName((Model)prior);
   }
 
+  @Override
   public final String getSuperClassNameWithType() {
     return superClassNameWithType;
   }
@@ -201,10 +204,12 @@ public class AttributePlan extends SimpleTypePlan<AttributeModel> implements Enu
     return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
   }
 
+  @Override
   public final boolean isNested() {
     return nested;
   }
 
+  @Override
   public final Form getFormDefault() {
     return formDefault;
   }

@@ -280,6 +280,7 @@ public abstract class Binding extends AbstractBinding {
       throw new IllegalArgumentException("Invalid inheritance hierarchy.");
   }
 
+  @SuppressWarnings("unchecked")
   protected BindingList<? extends Binding> fetchChild(final QName name) {
     if (name == null)
       throw new IllegalArgumentException("name == null");
@@ -325,6 +326,7 @@ public abstract class Binding extends AbstractBinding {
     return elementDirectory != null && elementDirectory.size() != 0;
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   protected final void _$$marshalElements(final Element parent) throws MarshalException {
     if (elementDirectory == null || elementDirectory.size() == 0)
       return;
@@ -438,7 +440,7 @@ public abstract class Binding extends AbstractBinding {
 
         final Constructor<? extends Binding> constructor = clazz.getDeclaredConstructor();
         constructor.setAccessible(true);
-        nulls.put(clazz, NULL = (Binding)constructor.newInstance());
+        nulls.put(clazz, NULL = constructor.newInstance());
         NULL.isNull = true;
         return NULL;
       }
@@ -521,7 +523,7 @@ public abstract class Binding extends AbstractBinding {
     return null;
   }
 
-  protected final boolean _$$failEquals() {
+  protected static boolean _$$failEquals() {
     return false;
   }
 
@@ -529,6 +531,7 @@ public abstract class Binding extends AbstractBinding {
     return null;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -539,10 +542,12 @@ public abstract class Binding extends AbstractBinding {
     return true;
   }
 
+  @Override
   public int hashCode() {
     return getClass().getName().hashCode();
   }
 
+  @Override
   public Binding clone() {
     return null;
   }

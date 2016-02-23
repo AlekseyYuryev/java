@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -66,34 +66,42 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel<?>> implemen
     }
   }
 
+  @Override
   public final void setRestriction(final AttributeModel restriction) {
     this.restriction = restriction;
   }
 
+  @Override
   public final AttributeModel getRestriction() {
     return restriction;
   }
 
+  @Override
   public final AliasModel getRestrictionOwner() {
     return restrictionOwner;
   }
 
+  @Override
   public final void setRestrictionOwner(final AliasModel restrictionOwner) {
     this.restrictionOwner = restrictionOwner;
   }
 
+  @Override
   public final AttributeModel getRef() {
     return ref;
   }
 
+  @Override
   public final void setRef(final AttributeModel ref) {
     this.ref = ref;
   }
 
+  @Override
   public final UniqueQName getName() {
     return ref != null ? ref.getName() : super.getName();
   }
 
+  @Override
   public final SimpleTypeModel<?> getSuperType() {
     return ref != null ? ref.getSuperType() : super.getSuperType();
   }
@@ -118,10 +126,12 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel<?>> implemen
     this.formDefault = formDefault;
   }
 
+  @Override
   public final Form getFormDefault() {
     return formDefault;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     final boolean equals = super.equals(obj);
     if (!equals)
@@ -131,10 +141,12 @@ public class AttributeModel extends SimpleTypeModel<SimpleTypeModel<?>> implemen
     return (getRef() == null && that.getRef() == null) || (getRef() != null && getRef().equals(that.getRef()));
   }
 
+  @Override
   public int hashCode() {
     return (getClass().getName() + toString()).hashCode();
   }
 
+  @Override
   public String toString() {
     if (getName() == null) {
       if (getRef() == null)

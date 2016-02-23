@@ -37,6 +37,7 @@ public abstract class $xs_int extends $xs_long {
     super();
   }
 
+  @Override
   public Number text() {
     return super.text();
   }
@@ -45,16 +46,20 @@ public abstract class $xs_int extends $xs_long {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Integer.parseInt(String.valueOf(value)));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_int clone() {
     return new $xs_int(this) {
+      @Override
       protected $xs_int inherits() {
         return this;
       }

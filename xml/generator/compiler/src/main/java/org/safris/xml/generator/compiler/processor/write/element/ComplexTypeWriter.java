@@ -44,41 +44,51 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeWriter<T> {
+  @Override
   protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a declaration");
   }
 
+  @Override
   protected void appendGetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a get method");
   }
 
+  @Override
   protected void appendSetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a set method");
   }
 
+  @Override
   protected void appendMarshal(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a marshal method");
   }
 
+  @Override
   protected void appendParse(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a parse method");
   }
 
+  @Override
   public void appendCopy(final StringWriter writer, final T plan, Plan<?> parent, final String variable) {
     throw new CompilerError("complexType cannot have a copy statement");
   }
 
+  @Override
   protected void appendEquals(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a equals statement");
   }
 
+  @Override
   protected void appendHashCode(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a hashCode statement");
   }
 
+  @Override
   protected void appendClass(final StringWriter writer, final T plan, final Plan<?> parent) {
     writer.write("package " + plan.getPackageName() + ";\n");
 
+    writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
     writeQualifiedName(writer, plan);
     writer.write("public abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + ComplexType.class.getName() + "\n");
     writer.write("{\n");
@@ -95,6 +105,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     writer.write("{\n");
     writer.write("return new " + plan.getClassName(parent) + "()\n");
     writer.write("{\n");
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + plan.getBaseNonXSTypeClassName() + " inherits()\n");
     writer.write("{\n");
     writer.write("return inherits;\n");
@@ -175,6 +186,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
 
     if (plan.hasSimpleContent() && plan.getNativeItemClassNameInterface() != null) {
       if (plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName())) {
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("public " + BindingList.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text()\n");
         writer.write("{\n");
         writer.write("return (" + BindingList.class.getName() + "<" + plan.getNativeItemClassNameInterface() + ">)super.text();\n");
@@ -186,12 +198,14 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
         writer.write("return values != null && -1 < index && index < values.size() ? values.get(index) : null;\n");
         writer.write("}\n");
 
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("public void text(final " + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
         writer.write("{\n");
         writer.write("super.text(text);\n");
         writer.write("}\n");
       }
       else {
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("public " + plan.getNativeItemClassNameInterface() + " text()\n");
         writer.write("{\n");
         if (!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
@@ -207,6 +221,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
           writer.write("}\n");
         }
         else {
+          writer.write("@" + Override.class.getName() + "\n");
           writer.write("public void text(final " + plan.getNativeItemClassNameInterface() + " text)\n");
           writer.write("{\n");
           writer.write("super.text(text);\n");
@@ -215,6 +230,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
       }
     }
     else if (plan.getMixed() != null && plan.getMixed()) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("public " + String.class.getName() + " text()\n");
       writer.write("{\n");
       writer.write("return text;\n");
@@ -227,10 +243,12 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
       writer.write("}\n");
     }
     else if (plan.getMixedType()) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("public " + String.class.getName() + " text()\n");
       writer.write("{\n");
       writer.write("return (" + String.class.getName() + ")super.text();\n");
       writer.write("}\n");
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("public void text(" + String.class.getName() + " text)\n");
       writer.write("{\n");
       writer.write("super.text(text);\n");
@@ -248,26 +266,31 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     }
 
     // INHERITS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected abstract " + plan.getBaseNonXSTypeClassName() + " inherits();\n");
 
     // GETNAME
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + QName.class.getName() + " name()\n");
     writer.write("{\n");
     writer.write("return name(_$$inheritsInstance());\n");
     writer.write("}\n");
 
     // GETTYPE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + QName.class.getName() + " typeName()\n");
     writer.write("{\n");
     writer.write("return NAME;\n");
     writer.write("}\n");
 
     // ELEMENT ITERATORS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + Iterator.class.getName() + "<" + Binding.class.getName() + "> elementIterator()\n");
     writer.write("{\n");
     writer.write("return super.elementIterator();\n");
     writer.write("}\n");
 
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + BindingList.class.getName() + "<? extends " + Binding.class.getName() + "> fetchChild(final " + QName.class.getName() + " name)\n");
     writer.write("{\n");
     writer.write("return super.fetchChild(name);\n");
@@ -284,6 +307,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
 //  writer.write("}\n");
 
     // MARSHAL
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + Element.class.getName() + " marshal() throws " + MarshalException.class.getName() + ", " + ValidationException.class.getName() + "\n");
     writer.write("{\n");
     writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
@@ -295,6 +319,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     writer.write("return node;\n");
     writer.write("}\n");
 
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + Element.class.getName() + " marshal(" + Element.class.getName() + " parent, " + QName.class.getName() + " name, " + QName.class.getName() + " typeName) throws " + MarshalException.class.getName() + "\n");
     writer.write("{\n");
     if (plan.getElements() != null || plan.getAttributes() != null || plan.getMixed()) {
@@ -315,6 +340,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
 
     // PARSE ATTRIBUTE
     if (plan.getAttributes() != null) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("protected boolean parseAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
       writer.write("if (attribute == null || XMLNS.getLocalPart().equals(attribute.getPrefix()))\n");
@@ -333,6 +359,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
       writer.write("}\n");
 
       if (any != null) {
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("protected void parseAnyAttribute(" + Attr.class.getName() + " attribute) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
         writer.write("{\n");
         Writer.writeParse(writer, any, plan);
@@ -342,6 +369,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
 
     // PARSE ELEMENT
     if (plan.getElements() != null || (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed())) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("protected boolean parseElement(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
       writer.write("{\n");
       if (plan.getNativeItemClassNameInterface() == null && plan.getMixed() != null && plan.getMixed()) {
@@ -369,6 +397,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
       writer.write("}\n");
 
       if (any != null) {
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("protected void parseAny(" + Element.class.getName() + " element) throws " + ParseException.class.getName() + ", " + ValidationException.class.getName() + "\n");
         writer.write("{\n");
         Writer.writeParse(writer, any, plan);
@@ -380,12 +409,14 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     //writeIsNull(writer, plan);
 
     // CLONE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + plan.getClassName(parent) + " clone()\n");
     writer.write("{\n");
     writer.write("return " + plan.getClassName(parent) + ".newInstance(this);\n");
     writer.write("}\n");
 
     // EQUALS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
     writer.write("if (this == obj)\n");
@@ -407,6 +438,7 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     writer.write("}\n");
 
     // HASHCODE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public int hashCode()\n");
     writer.write("{\n");
     writer.write("int hashCode = super.hashCode();\n");

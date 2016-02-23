@@ -48,6 +48,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     this.elementAudit = elementAudit;
   }
 
+  @Override
   public Binding getParent() {
     return elementAudit.getParent();
   }
@@ -56,24 +57,28 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return addWithAudit ? elementAudit.getParent()._$$addElementNoAudit(elementAudit, o) && super.add(o) : super.add(o);
   }
 
+  @Override
   public boolean add(final E o) {
     final E after = get(size() - 1);
     elementAudit.getParent()._$$addElementAfter(after, elementAudit, o);
     return super.add(o);
   }
 
+  @Override
   public E set(final int index, final E element) {
     final E original = get(index);
     elementAudit.getParent()._$$replaceElement(original, elementAudit, element);
     return super.set(index, element);
   }
 
+  @Override
   public void add(final int index, final E element) {
     final E before = get(index);
     elementAudit.getParent()._$$addElementBefore(before, elementAudit, element);
     super.add(index, element);
   }
 
+  @Override
   public E remove(final int index) {
     final E element = get(index);
     remove(element);
@@ -95,6 +100,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     throw new BindingRuntimeException("Both lists should have been modified, or none at all.");
   }
 
+  @Override
   public boolean remove(final Object o) {
     final boolean retVal = remove(o, true);
     if (size() == 0)
@@ -103,6 +109,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return retVal;
   }
 
+  @Override
   public boolean removeAll(final Collection<?> c) {
     final boolean retVal = super.removeAll(c);
     if (size() == 0)
@@ -111,6 +118,7 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return retVal;
   }
 
+  @Override
   public boolean retainAll(final Collection<?> c) {
     final boolean retVal = super.retainAll(c);
     if (size() == 0)
@@ -119,19 +127,23 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     return retVal;
   }
 
+  @Override
   public void clear() {
     super.clear();
     elementAudit.reset();
   }
 
+  @Override
   public Iterator<E> iterator() {
     return new ElementIterator();
   }
 
+  @Override
   public ListIterator<E> listIterator() {
     return listIterator(0);
   }
 
+  @Override
   public ListIterator<E> listIterator(final int index) {
     if (index < 0 || index > size())
       throw new IndexOutOfBoundsException("Index: " + index);
@@ -148,16 +160,19 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
     private int cursor = 0;
     private int lastRet = -1;
 
+    @Override
     public boolean hasNext() {
       return iterator.hasNext();
     }
 
+    @Override
     public E next() {
       final E next = iterator.next();
       lastRet = cursor++;
       return next;
     }
 
+    @Override
     public void remove() {
       if (lastRet == -1)
         throw new IllegalStateException();
@@ -179,40 +194,49 @@ final class SpecificElementList<E extends Binding> extends IdentityArrayList<E> 
       listIterator = SpecificElementList.super.listIterator(index);
     }
 
+    @Override
     public boolean hasNext() {
       return listIterator.hasNext();
     }
 
+    @Override
     public E next() {
       return listIterator.next();
     }
 
+    @Override
     public boolean hasPrevious() {
       return listIterator.hasPrevious();
     }
 
+    @Override
     public E previous() {
       return listIterator.previous();
     }
 
+    @Override
     public int nextIndex() {
       return listIterator.nextIndex();
     }
 
+    @Override
     public int previousIndex() {
       return listIterator.previousIndex();
     }
 
+    @Override
     public void remove() {
       final int index = nextIndex() - 1;
       SpecificElementList.this.remove(index);
     }
 
+    @Override
     public void set(final E o) {
       final int index = nextIndex() - 1;
       SpecificElementList.this.set(index, o);
     }
 
+    @Override
     public void add(final E o) {
       final int index = nextIndex() - 1;
       SpecificElementList.this.add(index, o);

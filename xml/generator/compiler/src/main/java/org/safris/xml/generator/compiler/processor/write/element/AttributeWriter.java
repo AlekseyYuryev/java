@@ -24,14 +24,15 @@ import org.safris.xml.generator.compiler.annotation.AttributeSpec;
 import org.safris.xml.generator.compiler.lang.XSTypeDirectory;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AttributePlan;
+import org.safris.xml.generator.compiler.processor.plan.element.SimpleTypePlan;
 import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
 import org.safris.xml.generator.lexer.schema.attribute.Use;
-import org.w3c.dom.Element;
 
 public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
+  @Override
   protected void appendDeclaration(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction())
       return;
@@ -39,6 +40,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("private " + AttributeAudit.class.getName() + "<" + plan.getThisClassNameWithType(parent) + "> " + plan.getInstanceName() + " = new " + AttributeAudit.class.getName() + "<" + plan.getThisClassNameWithType(parent) + ">(this, " + plan.getDefaultInstance(parent) + ", new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\"), " + Form.QUALIFIED.equals(plan.getFormDefault()) + ", " + Use.REQUIRED.equals(plan.getUse()) + ");\n");
   }
 
+  @Override
   protected void appendGetMethod(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     writeQualifiedName(writer, plan);
     writer.write("public " + plan.getDeclarationRestrictionGeneric(parent) + " " + plan.getClassSimpleName() + "()\n");
@@ -50,6 +52,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("}\n");
   }
 
+  @Override
   protected void appendSetMethod(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction()) {
       writer.write("/**\n");
@@ -74,6 +77,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("}\n");
   }
 
+  @Override
   protected void appendMarshal(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction()) {
       if (!plan.isFixed())
@@ -105,6 +109,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write(plan.getInstanceName() + ".marshal(node);\n");
   }
 
+  @Override
   protected void appendParse(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction())
       return;
@@ -115,10 +120,11 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
       writer.write("if (attribute.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(attribute.getLocalName()))\n");
 
     writer.write("{\n");
-    writer.write("return _$$setAttribute(this." + plan.getInstanceName() + ", this, (" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, (" + Element.class.getName() + ")attribute.getOwnerElement(), attribute));\n");
+    writer.write("return _$$setAttribute(this." + plan.getInstanceName() + ", this, (" + plan.getThisClassNameWithType(parent) + ")" + Binding.class.getName() + "._$$parseAttr(" + plan.getClassName(parent) + ".class, attribute.getOwnerElement(), attribute));\n");
     writer.write("}\n");
   }
 
+  @Override
   public void appendCopy(final StringWriter writer, final AttributePlan plan, Plan<?> parent, final String variable) {
     if (plan.isRestriction())
       return;
@@ -126,6 +132,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("this." + plan.getInstanceName() + " = " + variable + "." + plan.getInstanceName() + ";\n");
   }
 
+  @Override
   protected void appendEquals(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction())
       return;
@@ -134,6 +141,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("return _$$failEquals();\n");
   }
 
+  @Override
   protected void appendHashCode(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction())
       return;
@@ -141,12 +149,15 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("hashCode += " + plan.getInstanceName() + " != null ? " + plan.getInstanceName() + ".hashCode() : -1;\n");
   }
 
+  @Override
   protected void appendClass(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRef())
       return;
 
-    if (!plan.isNested())
+    if (!plan.isNested()) {
       writer.write("package " + plan.getPackageName() + ";\n");
+      writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
+    }
 
     writeQualifiedName(writer, plan);
     writer.write("public ");
@@ -201,6 +212,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     getEncodeDecode(writer, plan, parent);
 
     // INHERITS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + plan.getClassSimpleName() + " inherits()\n");
     writer.write("{\n");
     writer.write("return this;\n");
@@ -210,6 +222,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     appendOwner(writer);
 
     // GETNAME
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + QName.class.getName() + " name()\n");
     writer.write("{\n");
     writer.write("return NAME;\n");
@@ -219,6 +232,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     appendPattern(writer, plan.getPatterns());
 
     // GETVALUE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + plan.getNativeItemClassNameInterface() + " text()\n");
     writer.write("{\n");
     if (plan.isRestriction())
@@ -239,6 +253,10 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
 
     // SETVALUE
     if (!plan.hasEnumerations()) {
+      // FIXME: This misses some @Override(s) for situations that inherit from xs types, cause the type of the parameter to the text() method is not known here
+      if (parent != null && ((SimpleTypePlan<?>)parent).getNativeItemClassNameInterface().equals(plan.getNativeItemClassNameInterface()))
+        writer.write("@" + Override.class.getName() + "\n");
+
       writer.write("public void text(" + plan.getNativeItemClassNameInterface() + " text)\n");
       writer.write("{\n");
       writer.write("super.text(text);\n");
@@ -246,12 +264,14 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     }
 
     // CLONE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + plan.getCopyClassName(parent) + " clone()\n");
     writer.write("{\n");
     writer.write("return new " + plan.getClassName(parent) + "(this);\n");
     writer.write("}\n");
 
     // EQUALS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
     // NOTE: This is not checking whether getValue() is equal between this and obj
@@ -260,6 +280,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("}\n");
 
     // HASHCODE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public int hashCode()\n");
     writer.write("{\n");
     writer.write("int hashCode = super.hashCode();\n");

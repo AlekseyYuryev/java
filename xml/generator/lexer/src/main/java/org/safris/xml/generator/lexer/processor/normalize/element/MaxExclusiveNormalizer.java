@@ -25,21 +25,27 @@ public final class MaxExclusiveNormalizer extends Normalizer<MaxExclusiveModel> 
     super(directory);
   }
 
+  @Override
   protected void stage1(final MaxExclusiveModel model) {
   }
 
+  @Override
   protected void stage2(final MaxExclusiveModel model) {
   }
 
+  @Override
   protected void stage3(final MaxExclusiveModel model) {
   }
 
+  @Override
   protected void stage4(final MaxExclusiveModel model) {
   }
 
+  @Override
   protected void stage5(final MaxExclusiveModel model) {
   }
 
+  @Override
   protected void stage6(final MaxExclusiveModel model) {
   }
 }

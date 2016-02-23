@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -69,6 +69,7 @@ public final class Date {
   private final TimeZone timeZone;
   private final long epochTime;
 
+  @SuppressWarnings("deprecation")
   protected Date(final YearMonth yearMonth, final Day day, final TimeZone timeZone) {
     if (yearMonth == null)
       throw new NullPointerException("yearMonth == null");
@@ -119,6 +120,7 @@ public final class Date {
     return timeZone;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -130,6 +132,7 @@ public final class Date {
     return (yearMonth != null ? yearMonth.equals(that.yearMonth) : that.yearMonth == null) && (day != null ? day.equals(that.day) : that.day == null) && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
   }
 
+  @Override
   public int hashCode() {
     return (yearMonth != null ? yearMonth.hashCode() : -1) + (day != null ? day.hashCode() : -1) + (timeZone != null ? timeZone.hashCode() : -1);
   }
@@ -146,6 +149,7 @@ public final class Date {
     return buffer.toString();
   }
 
+  @Override
   public String toString() {
     return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
   }

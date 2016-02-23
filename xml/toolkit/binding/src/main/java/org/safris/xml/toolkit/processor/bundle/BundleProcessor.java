@@ -185,6 +185,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
   protected BundleProcessor() {
   }
 
+  @Override
   public Collection<Bundle> process(final GeneratorContext pipelineContext, final Collection<SchemaComposite> documents, final PipelineDirectory<GeneratorContext,SchemaComposite,Bundle> directory) {
     try {
       BundleProcessor.compile(pipelineContext.getDestdir());
@@ -197,6 +198,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
       // then delete all of the files only leaving the jars.
       if (!pipelineContext.getExplodeJars()) {
         final FileFilter jarFilter = new FileFilter() {
+          @Override
           public boolean accept(final File pathname) {
             return !pathname.getName().endsWith(".jar");
           }

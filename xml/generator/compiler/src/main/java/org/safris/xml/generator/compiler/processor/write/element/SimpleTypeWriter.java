@@ -107,7 +107,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       return;
 
     String accessibility;
-    if (plan instanceof EnumerablePlan && ((EnumerablePlan)plan).hasEnumerations() && !plan.isUnionWithNonEnumeration()) {
+    if (((EnumerablePlan)plan).hasEnumerations() && !plan.isUnionWithNonEnumeration()) {
       accessibility = "protected ";
     }
     else {
@@ -143,7 +143,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     if (!plan.hasEnumerations())
       return;
 
-    if (!(plan instanceof EnumerablePlan) || !((EnumerablePlan)plan).hasEnumerations())
+    if (!((EnumerablePlan)plan).hasEnumerations())
       return;
 
     boolean hasEnumerations = ((EnumerablePlan)plan).hasEnumerations();
@@ -171,12 +171,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
     if (hasEnumerations) {
       if (hasSuperEnumerations) {
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("public int ordinal()\n{\n");
         writer.write("return super.ordinal();\n}\n");
       }
       else {
         writer.write("protected final " + plan.getNativeItemClassName() + " text;\n");
         writer.write("protected final int ordinal;\n");
+        writer.write("@" + Override.class.getName() + "\n");
         writer.write("public int ordinal()\n{\n");
         writer.write("return ordinal;\n}\n");
       }
@@ -200,6 +202,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("}\n");
 
     if (hasEnumerations && !hasSuperEnumerations) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("public " + plan.getNativeItemClassName() + " text()\n");
       writer.write("{\n");
       writer.write("return text;\n");
@@ -247,6 +250,8 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("}\n");
     }
     else {
+      if (hasSuperEnumerations)
+        writer.write("@" + Override.class.getName() + "\n");
       writer.write("public int ordinal()\n");
       writer.write("{\n");
       writer.write("final " + (hasSuperEnumerations ? ((ExtensiblePlan)plan).getSuperClassNameWithoutType() + "." : "") + "Enum enm = Enum.values().get(text());\n");
@@ -266,6 +271,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
   protected static void getEncodeDecode(final StringWriter writer, final SimpleTypePlan<?> plan, final Plan<?> parent) {
     // DECODE & ENCODE
     if (plan.isList()) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("protected void _$$decode(final " + Element.class.getName() + " node, " + String.class.getName() + " value) throws " + ParseException.class.getName() + "\n");
       writer.write("{\n");
       writer.write("if (value == null || value.length() == 0)\n");
@@ -280,6 +286,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
       writer.write("((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).add(" + factoryEntry + ");\n");
       writer.write("}\n");
 
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("protected " + String.class.getName() + " _$$encode(final " + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
       writer.write("{\n");
       writer.write("return super.text() != null && ((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text()).size() != 0 ? " + Collections.class.getName() + ".toString((" + List.class.getName() + "<" + plan.getNativeItemClassName() + ">)super.text(), \" \") : null;\n");
@@ -287,42 +294,51 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     }
   }
 
+  @Override
   protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a declaration");
   }
 
+  @Override
   protected void appendGetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a get method");
   }
 
+  @Override
   protected void appendSetMethod(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a set method");
   }
 
+  @Override
   protected void appendMarshal(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a marshal method");
   }
 
+  @Override
   protected void appendParse(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a parse method");
   }
 
+  @Override
   public void appendCopy(final StringWriter writer, final T plan, Plan<?> parent, final String variable) {
     throw new CompilerError("simpleType cannot have a copy statement");
   }
 
+  @Override
   protected void appendEquals(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a equals statement");
   }
 
+  @Override
   protected void appendHashCode(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a hashCode statement");
   }
 
-  protected final void appendPattern(final StringWriter writer, final Collection<PatternPlan> patterns) {
+  protected static void appendPattern(final StringWriter writer, final Collection<PatternPlan> patterns) {
     if (patterns == null || patterns.size() == 0)
       return;
 
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + String.class.getName() + "[] _$$getPattern()\n");
     writer.write("{\n");
     writer.write("return new " + String.class.getName() + "[]\n");
@@ -335,19 +351,21 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("}\n");
   }
 
-  protected final void appendOwner(final StringWriter writer) {
+  protected static void appendOwner(final StringWriter writer) {
     writer.write("public " + $xs_anySimpleType.class.getName() + " owner()\n");
     writer.write("{\n");
     writer.write("return _$$getOwner();\n");
     writer.write("}\n");
   }
 
+  @Override
   protected void appendClass(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.getName() == null)
       throw new CompilerError("Why are we trying to write a final class that has no name?");
 
     writer.write("package " + plan.getPackageName() + ";\n");
 
+    writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
     writeQualifiedName(writer, plan);
     writer.write("public abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
     writer.write("{\n");
@@ -368,6 +386,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("{\n");
     writer.write("return new " + plan.getClassName(parent) + "()\n");
     writer.write("{\n");
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + plan.getBaseNonXSTypeClassName() + " inherits()\n");
     writer.write("{\n");
     writer.write("return inherits;\n");
@@ -405,6 +424,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("}\n");
 
     if (plan.getNativeItemClassNameInterface() != null) {
+      writer.write("@" + Override.class.getName() + "\n");
       writer.write("public " + plan.getNativeItemClassNameInterface() + " text()\n");
       writer.write("{\n");
       if (!Object.class.getName().equals(plan.getNativeItemClassNameInterface()))
@@ -438,6 +458,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
           writer.write("}\n");
 
           if (plan.isUnionWithNonEnumeration()) {
+            writer.write("@" + Override.class.getName() + "\n");
             writer.write("public void text(final " + plan.getNativeNonEnumItemClassNameInterface() + " text)\n");
             writer.write("{\n");
             writer.write("super.text(text);\n");
@@ -446,12 +467,17 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
         }
       }
       else {
+        // FIXME: This misses some @Override(s) for situations that inherit from xs types, cause the type of the parameter to the text() method is not known here
+        if (parent != null && ((SimpleTypePlan<?>)parent).getNativeItemClassNameInterface().equals(plan.getNativeItemClassNameInterface()))
+          writer.write("@" + Override.class.getName() + "\n");
+
         writer.write("public void text(final " + plan.getNativeItemClassNameInterface() + " text)\n");
         writer.write("{\n");
         writer.write("super.text(text);\n");
         writer.write("}\n");
 
         if (plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName())) {
+          writer.write("@" + Override.class.getName() + "\n");
           writer.write("public void text(final " + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
           writer.write("{\n");
           writer.write("super.text(text);\n");
@@ -464,15 +490,18 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     getEncodeDecode(writer, plan, parent);
 
     // INHERITS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected abstract " + plan.getBaseNonXSTypeClassName() + " inherits();\n");
 
     // GETNAME
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + QName.class.getName() + " name()\n");
     writer.write("{\n");
     writer.write("return name(_$$inheritsInstance());\n");
     writer.write("}\n");
 
     // GETTYPE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + QName.class.getName() + " typeName()\n");
     writer.write("{\n");
     writer.write("return NAME;\n");
@@ -482,15 +511,18 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     appendPattern(writer, plan.getPatterns());
 
     // MARSHAL
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + Attr.class.getName() + " marshalAttr(" + String.class.getName() + " name, " + Element.class.getName() + " parent) throws " + MarshalException.class.getName() + "\n");
     writer.write("{\n");
     writer.write("return super.marshalAttr(name, parent);\n");
     writer.write("}\n");
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + Element.class.getName() + " marshal() throws " + MarshalException.class.getName() + ", " + ValidationException.class.getName() + "\n");
     writer.write("{\n");
     writer.write(Element.class.getName() + " root = createElementNS(name().getNamespaceURI(), name().getLocalPart());\n");
     writer.write("return marshal(root, name(), typeName(_$$inheritsInstance()));\n");
     writer.write("}\n");
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("protected " + Element.class.getName() + " marshal(" + Element.class.getName() + " parent, " + QName.class.getName() + " name, " + QName.class.getName() + " typeName) throws " + MarshalException.class.getName() + "\n");
     writer.write("{\n");
     writer.write("return super.marshal(parent, name, typeName);\n");
@@ -500,12 +532,14 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     //writeIsNull(writer, plan);
 
     // CLONE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public " + plan.getClassName(parent) + " clone()\n");
     writer.write("{\n");
     writer.write("return " + plan.getClassName(parent) + ".newInstance(this);\n");
     writer.write("}\n");
 
     // EQUALS
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public boolean equals(" + Object.class.getName() + " obj)\n");
     writer.write("{\n");
     // NOTE: This is not checking whether getTEXT() is equal between this and obj
@@ -514,6 +548,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     writer.write("}\n");
 
     // HASHCODE
+    writer.write("@" + Override.class.getName() + "\n");
     writer.write("public int hashCode()\n");
     writer.write("{\n");
     writer.write("int hashCode = super.hashCode();\n");

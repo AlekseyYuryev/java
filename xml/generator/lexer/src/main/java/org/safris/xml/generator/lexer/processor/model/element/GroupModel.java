@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -56,43 +56,53 @@ public class GroupModel extends NamedModel implements MultiplicableModel, Nameab
     }
   }
 
+  @Override
   public final void setRedefine(final GroupModel redefine) {
     this.redefine = redefine;
   }
 
+  @Override
   public final GroupModel getRedefine() {
     return redefine;
   }
 
+  @Override
   public final void addMultiplicableModel(final MultiplicableModel multiplicableModel) {
     if (!this.equals(multiplicableModel))
       this.multiplicableModels.add(multiplicableModel);
   }
 
+  @Override
   public final LinkedHashSet<MultiplicableModel> getMultiplicableModels() {
     return multiplicableModels;
   }
 
+  @Override
   public final Occurs getMaxOccurs() {
     return maxOccurs;
   }
 
+  @Override
   public final Occurs getMinOccurs() {
     return minOccurs;
   }
 
+  @Override
   public final void setRef(final GroupModel _ref) {
     this.ref = _ref;
   }
 
+  @Override
   public final GroupModel getRef() {
     return ref;
   }
 
+  @Override
   public int hashCode() {
     return toString().hashCode();
   }
 
+  @Override
   public String toString() {
     return super.toString().replace(TO_STRING_DELIMITER, "maxOccurs=\"" + maxOccurs + "\" minOccurs=\"" + minOccurs + "\" ref=\"" + ref + "\"");
   }

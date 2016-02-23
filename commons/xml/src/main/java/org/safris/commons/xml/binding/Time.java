@@ -188,7 +188,7 @@ public final class Time {
     final Calendar calendar = CalendarUtil.newCalendar(time, this.timeZone);
     this.hour = calendar.get(Calendar.HOUR);
     this.minute = calendar.get(Calendar.MINUTE);
-    this.second = calendar.get(Calendar.SECOND) + (float)calendar.get(Calendar.MILLISECOND) / 1000f;
+    this.second = calendar.get(Calendar.SECOND) + calendar.get(Calendar.MILLISECOND) / 1000f;
   }
 
   public Time(final long time) {
@@ -219,6 +219,7 @@ public final class Time {
     return (int)(second * 1000) + minute * 60000 + hour * 3600000;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -230,6 +231,7 @@ public final class Time {
     return this.hour == that.hour && this.minute == that.minute && this.second == that.second && (timeZone != null ? timeZone.equals(that.timeZone) : that.timeZone == null);
   }
 
+  @Override
   public int hashCode() {
     return hour ^ 3 + minute ^ 5 + (int)(second * 1000) ^ 7 + (timeZone != null ? timeZone.hashCode() : -1);
   }
@@ -273,6 +275,7 @@ public final class Time {
     return buffer.toString();
   }
 
+  @Override
   public String toString() {
     return new StringBuffer(toEmbededString()).append(Time.formatTimeZone(timeZone)).toString();
   }

@@ -32,6 +32,7 @@ public final class SchemaNormalizer extends Normalizer<SchemaModel> {
     super(directory);
   }
 
+  @Override
   protected void stage1(final SchemaModel model) {
     if (CWD == null)
       CWD = Files.getCwd();
@@ -44,18 +45,23 @@ public final class SchemaNormalizer extends Normalizer<SchemaModel> {
     logger.info("Lexing {" + model.getTargetNamespace() + "} from " + display);
   }
 
+  @Override
   protected void stage2(final SchemaModel model) {
   }
 
+  @Override
   protected void stage3(final SchemaModel model) {
   }
 
+  @Override
   protected void stage4(final SchemaModel model) {
   }
 
+  @Override
   protected void stage5(final SchemaModel model) {
   }
 
+  @Override
   protected void stage6(final SchemaModel model) {
   }
 }

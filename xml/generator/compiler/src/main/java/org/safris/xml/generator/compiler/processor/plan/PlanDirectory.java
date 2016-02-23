@@ -166,6 +166,7 @@ public final class PlanDirectory implements PipelineDirectory<GeneratorContext,M
     keys = classes.keySet();
   }
 
+  @Override
   public PipelineEntity getEntity(final Model entity, final Plan<?> parent) {
     if (!keys.contains(entity.getClass()))
       throw new IllegalArgumentException("Unknown key: " + entity.getClass().getSimpleName());
@@ -182,10 +183,12 @@ public final class PlanDirectory implements PipelineDirectory<GeneratorContext,M
     }
   }
 
+  @Override
   public PipelineProcessor<GeneratorContext,Model,Plan<?>> getProcessor() {
     return processor;
   }
 
+  @Override
   public void clear() {
   }
 }

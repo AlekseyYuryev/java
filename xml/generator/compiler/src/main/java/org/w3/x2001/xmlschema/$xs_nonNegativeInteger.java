@@ -39,10 +39,12 @@ public abstract class $xs_nonNegativeInteger extends $xs_integer {
     super();
   }
 
+  @Override
   public Number text() {
     return super.text();
   }
 
+  @Override
   public void text(final BigInteger text) {
     super.text(text != null ? text.longValue() : null);
   }
@@ -51,16 +53,20 @@ public abstract class $xs_nonNegativeInteger extends $xs_integer {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Integer.parseInt(value));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_nonNegativeInteger clone() {
     return new $xs_nonNegativeInteger(this) {
+      @Override
       protected $xs_nonNegativeInteger inherits() {
         return this;
       }

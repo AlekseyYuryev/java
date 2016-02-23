@@ -37,24 +37,30 @@ public abstract class $xs_positiveInteger extends $xs_nonNegativeInteger {
     super();
   }
 
+  @Override
   public Integer text() {
     return (Integer)super.text();
   }
 
+  @Override
   public void text(final Long text) {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Integer.parseInt(value));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_positiveInteger clone() {
     return new $xs_positiveInteger(this) {
+      @Override
       protected $xs_positiveInteger inherits() {
         return this;
       }

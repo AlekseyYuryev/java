@@ -175,10 +175,12 @@ public final class DOMFeature {
     return feature;
   }
 
+  @Override
   public int hashCode() {
     return feature.hashCode();
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;

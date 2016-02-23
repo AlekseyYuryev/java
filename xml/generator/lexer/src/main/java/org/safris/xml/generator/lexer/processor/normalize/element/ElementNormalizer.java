@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -44,6 +44,7 @@ public final class ElementNormalizer extends Normalizer<ElementModel> {
     return all.get(name);
   }
 
+  @Override
   protected void stage1(final ElementModel model) {
     if (model.getName() == null || !(model.getParent() instanceof SchemaModel))
       return;
@@ -52,6 +53,7 @@ public final class ElementNormalizer extends Normalizer<ElementModel> {
       all.put(model.getName(), model);
   }
 
+  @Override
   protected void stage2(final ElementModel model) {
     // First set the elementFormDefault
     Model schema = model.getParent();
@@ -89,9 +91,11 @@ public final class ElementNormalizer extends Normalizer<ElementModel> {
     }
   }
 
+  @Override
   protected void stage3(final ElementModel model) {
   }
 
+  @Override
   protected void stage4(final ElementModel model) {
     Model parent = model;
     while ((parent = parent.getParent()) != null) {
@@ -110,9 +114,11 @@ public final class ElementNormalizer extends Normalizer<ElementModel> {
     }
   }
 
+  @Override
   protected void stage5(final ElementModel model) {
   }
 
+  @Override
   protected void stage6(final ElementModel model) {
     if (model.getName() == null || model.getRef() != null || model.getSuperType() != null)
       return;

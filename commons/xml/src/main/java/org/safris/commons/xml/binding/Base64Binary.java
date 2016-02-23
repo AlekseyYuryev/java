@@ -39,6 +39,7 @@ public final class Base64Binary {
     return bytes;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -50,6 +51,7 @@ public final class Base64Binary {
     return bytes != null ? Arrays.equals(bytes, that.bytes) : that.bytes == null;
   }
 
+  @Override
   public int hashCode() {
     return bytes != null ? Arrays.hashCode(bytes) : -1;
   }
@@ -59,6 +61,7 @@ public final class Base64Binary {
    *
    * @return  The base64 string.
    */
+  @Override
   public String toString() {
     return encoded == null ? encoded = DatatypeConverter.printBase64Binary(bytes) : encoded;
   }

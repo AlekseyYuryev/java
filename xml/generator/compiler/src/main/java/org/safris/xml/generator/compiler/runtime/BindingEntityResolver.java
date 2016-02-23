@@ -76,6 +76,7 @@ public final class BindingEntityResolver implements XMLEntityResolver {
 
   private static final Map<String,URL> schemaReferences = new HashMap<String,URL>();
 
+  @Override
   public XMLInputSource resolveEntity(final XMLResourceIdentifier resourceIdentifier) throws XNIException, IOException {
     if (resourceIdentifier == null)
       return null;

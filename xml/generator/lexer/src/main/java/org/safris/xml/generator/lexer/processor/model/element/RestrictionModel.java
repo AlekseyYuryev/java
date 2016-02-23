@@ -46,6 +46,7 @@ public final class RestrictionModel extends ElementModel {
     this.base = base;
   }
 
+  @SuppressWarnings("rawtypes")
   public final SimpleTypeModel getBase() {
     return base;
   }

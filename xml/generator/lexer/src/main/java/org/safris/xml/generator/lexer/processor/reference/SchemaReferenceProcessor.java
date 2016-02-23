@@ -36,6 +36,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
     protected volatile int count = 0;
   }
 
+  @Override
   public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
     final File destDir = pipelineContext.getDestdir();
     logger.fine("destDir = " + destDir != null ? destDir.getAbsolutePath() : null);
@@ -52,6 +53,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
         // download and cache the schemas into a temporary directory
         for (final SchemaReference schemaReference : schemas) {
           new Thread(threadGroup, schemaReference.getURL().toString()) {
+            @Override
             public void run() {
               try {
                 final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));

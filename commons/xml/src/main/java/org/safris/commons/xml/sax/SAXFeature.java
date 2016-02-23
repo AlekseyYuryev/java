@@ -251,10 +251,12 @@ public final class SAXFeature {
     return feature;
   }
 
+  @Override
   public int hashCode() {
     return feature.hashCode();
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (this == obj)
       return true;
@@ -266,6 +268,7 @@ public final class SAXFeature {
     return feature != null ? feature.equals(saxFeature.feature) : saxFeature.feature == null;
   }
 
+  @Override
   public String toString() {
     return feature;
   }

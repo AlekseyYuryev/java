@@ -37,6 +37,7 @@ public abstract class $xs_unsignedShort extends $xs_unsignedInt {
     super();
   }
 
+  @Override
   public Number text() {
     return super.text();
   }
@@ -45,16 +46,20 @@ public abstract class $xs_unsignedShort extends $xs_unsignedInt {
     super.text(text);
   }
 
+  @Override
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     super.text(Integer.parseInt(value));
   }
 
+  @Override
   protected String _$$encode(final Element parent) throws MarshalException {
     return super.text() != null ? super.text().toString() : "";
   }
 
+  @Override
   public $xs_unsignedShort clone() {
     return new $xs_unsignedShort(this) {
+      @Override
       protected $xs_unsignedShort inherits() {
         return this;
       }

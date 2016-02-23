@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -85,7 +85,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
 
     typeName = element.getSuperType().getName();
     if (isRestriction())
-      superClassNameWithoutType = AliasPlan.getClassName(element.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName((SimpleTypeModel<?>)getModel().getRestriction());
+      superClassNameWithoutType = AliasPlan.getClassName(element.getRestrictionOwner(), null) + "." + JavaBinding.getClassSimpleName(getModel().getRestriction());
     else
       superClassNameWithoutType = AliasPlan.getClassName(element.getSuperType(), element.getSuperType().getParent());
 
@@ -197,10 +197,12 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return isComplexType;
   }
 
+  @Override
   public final boolean isRestriction() {
     return restriction;
   }
 
+  @Override
   public final ElementModel getModel() {
     return super.getModel().getRef() != null ? super.getModel().getRef() : super.getModel();
   }
@@ -209,6 +211,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     this.superClassNameWithoutType = superClassNameWithoutType;
   }
 
+  @Override
   public final String getSuperClassNameWithoutType() {
     return superClassNameWithoutType;
   }
@@ -226,13 +229,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
   }
 
   public final boolean writeNativeConstructor() {
-    if (!isComplexType())
-      return true;
-
-    if (getMixed() == null)
-      return getMixedType();
-    else
-      return getMixed();
+    return !isComplexType() || (getMixed() != null ? getMixed() : getMixedType());
   }
 
   public final UniqueQName getTypeName() {
@@ -284,6 +281,7 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return declarationRestrictionGeneric = AliasPlan.getClassName(first.getRestrictionOwner(), null) + JavaBinding.getClassSimpleName((Model)first);
   }
 
+  @Override
   public final String getSuperClassNameWithType() {
     return superClassNameWithType;
   }
@@ -298,10 +296,12 @@ public class ElementPlan extends ComplexTypePlan<ElementModel> implements Enumer
     return AliasPlan.getClassName(getModel(), parent != null ? parent.getModel() : null);
   }
 
+  @Override
   public final boolean isNested() {
     return nested;
   }
 
+  @Override
   public final Form getFormDefault() {
     return formDefault;
   }

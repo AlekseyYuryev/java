@@ -27,44 +27,54 @@ import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.NotationType;
 
 public final class NotationWriter extends Writer<NotationPlan> {
+  @Override
   protected void appendDeclaration(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a declaration");
   }
 
+  @Override
   protected void appendGetMethod(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a get method");
   }
 
+  @Override
   protected void appendSetMethod(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a set method");
   }
 
+  @Override
   protected void appendMarshal(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a marshal method");
   }
 
+  @Override
   protected void appendParse(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a parse method");
   }
 
+  @Override
   public void appendCopy(final StringWriter writer, final NotationPlan plan, Plan<?> parent, final String variable) {
     throw new CompilerError("notation cannot have a copy statement");
   }
 
+  @Override
   protected void appendEquals(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a equals statement");
   }
 
+  @Override
   protected void appendHashCode(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a hashCode statement");
   }
 
+  @Override
   protected void appendClass(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     writer.write("package " + plan.getPackageName() + ";\n");
 
     // DOCUMENTATION
     writer.write(plan.getDocumentation());
 
+    writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
     writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
     writer.write("{\n");
 

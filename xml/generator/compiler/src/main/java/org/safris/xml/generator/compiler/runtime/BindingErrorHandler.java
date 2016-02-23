@@ -31,10 +31,12 @@ public final class BindingErrorHandler implements ErrorHandler {
   }
 
   // ignore fatal errors (final an exception is guaranteed)
+  @Override
   public void fatalError(final SAXParseException e) throws SAXException {
   }
 
   // treat validation errors as fatal
+  @Override
   public void error(final SAXParseException e) throws SAXParseException {
     final String systemId = e.getSystemId() != null ? " systemId=\"" + e.getSystemId() + "\"" : "";
     logger.severe("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
@@ -42,6 +44,7 @@ public final class BindingErrorHandler implements ErrorHandler {
   }
 
   // dump warnings too
+  @Override
   public void warning(final SAXParseException e) throws SAXParseException {
     final String message = e.getMessage() != null ? " " + e.getMessage() : "";
     logger.warning("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);

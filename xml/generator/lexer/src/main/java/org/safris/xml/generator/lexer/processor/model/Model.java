@@ -172,6 +172,7 @@ public abstract class Model implements PipelineEntity {
     return new QName(xs.getNodeValue().intern(), nodeValue.intern());
   }
 
+  @Override
   public String toString() {
     return "<" + getClass().getSimpleName() + " " + TO_STRING_DELIMITER + "/>";
   }

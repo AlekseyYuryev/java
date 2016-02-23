@@ -170,6 +170,7 @@ public final class NormalizerDirectory implements PipelineDirectory<GeneratorCon
     keys = classes.keySet();
   }
 
+  @Override
   public PipelineEntity getEntity(final Model entity, final Normalizer<?> parent) {
     return lookup(entity.getClass());
   }
@@ -193,10 +194,12 @@ public final class NormalizerDirectory implements PipelineDirectory<GeneratorCon
     }
   }
 
+  @Override
   public PipelineProcessor<GeneratorContext,Model,Normalizer<?>> getProcessor() {
     return processor;
   }
 
+  @Override
   public void clear() {
     instances.clear();
   }

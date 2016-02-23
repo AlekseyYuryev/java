@@ -17,7 +17,6 @@
 package org.safris.xml.generator.compiler.lang;
 
 import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.safris.xml.generator.lexer.lang.UniqueQName;
@@ -71,6 +70,7 @@ public final class NativeBinding {
     return factoryMethod;
   }
 
+  @Override
   public boolean equals(final Object obj) {
     if (obj == this)
       return true;
@@ -82,10 +82,12 @@ public final class NativeBinding {
     return name.equals(nativeBinding.name) && baseClass.equals(nativeBinding.baseClass) && nativeClass.equals(nativeBinding.nativeClass);
   }
 
+  @Override
   public int hashCode() {
     return toString().hashCode();
   }
 
+  @Override
   public String toString() {
     return name.toString() + "\n" + baseClass.toString() + "\n" + nativeClass.toString();
   }
@@ -119,6 +121,7 @@ public final class NativeBinding {
       return list == null ? list = List.class.isAssignableFrom(cls) : list;
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this)
         return true;
@@ -130,10 +133,12 @@ public final class NativeBinding {
       return cls.equals(genericClass.cls) && (type == null && genericClass.type == null || type != null && type.equals(genericClass.type));
     }
 
+    @Override
     public int hashCode() {
       return toString().hashCode();
     }
 
+    @Override
     public String toString() {
       return type != null ? cls.getName() + "<" + type.getName() + ">" : cls.getName();
     }
