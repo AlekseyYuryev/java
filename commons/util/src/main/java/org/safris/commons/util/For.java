@@ -20,6 +20,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public final class For {
   public static interface Filter<I> {
     public boolean accept(final I item, final Object ... args);

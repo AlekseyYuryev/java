@@ -35,7 +35,7 @@ public abstract class MaskedEnum {
   public static boolean check(final int mask, final MaskedEnum enm) {
     return check(mask, enm.ordinal);
   }
-  
+
   @SuppressWarnings("unchecked")
   protected static <T extends MaskedEnum>T valueOf(final Class<T> callingClass, final int ordinal) {
     return ((Map<Integer,T>)enums.get(callingClass)).get(ordinal);
@@ -47,9 +47,9 @@ public abstract class MaskedEnum {
     final List<T> list = new ArrayList<T>();
     for (int i = 0; i < map.size(); i++)
       if ((mask & (1 << i)) != 0)
-        list.add((T)map.get(i));
+        list.add(map.get(i));
 
-    return (T[])list.toArray((T[])Array.newInstance(callingClass, list.size()));
+    return list.toArray((T[])Array.newInstance(callingClass, list.size()));
   }
 
   protected static final Map<Class<?>,Map<Integer,MaskedEnum>> enums = new HashMap<Class<?>,Map<Integer,MaskedEnum>>();

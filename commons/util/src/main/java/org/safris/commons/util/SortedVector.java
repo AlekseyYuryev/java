@@ -23,11 +23,13 @@ import java.util.Vector;
 public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
   private static final long serialVersionUID = -4696161917681651124L;
 
+  @Override
   public boolean add(final E e) {
     addElement(e);
     return true;
   }
 
+  @Override
   public synchronized boolean addAll(final Collection<? extends E> c) {
     final int newSize = elementCount + c.size();
     if (elementData.length < newSize)
@@ -39,10 +41,13 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
     return true;
   }
 
+  @Override
   public boolean addAll(final int index, final Collection<? extends E> c) {
     return addAll(c);
   }
 
+  @Override
+  @SuppressWarnings("unchecked")
   public synchronized void addElement(final E obj) {
     final int length = size();
     int start = 0;
@@ -66,10 +71,12 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
     super.insertElementAt(obj, mid);
   }
 
+  @Override
   public boolean contains(final Object o) {
     return 0 <= indexOf(o, 0);
   }
 
+  @Override
   public synchronized boolean containsAll(final Collection<?> c) {
     for (final Object o : c)
       if (!contains(o))
@@ -78,14 +85,17 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
     return true;
   }
 
+  @Override
   public int indexOf(final Object o, final int index) {
     return Arrays.binarySearch(elementData, index, elementData.length - 1, o);
   }
 
+  @Override
   public void insertElementAt(final E obj, final int index) {
     addElement(obj);
   }
 
+  @Override
   public synchronized boolean retainAll(final Collection<?> c) {
     final Object[] sorted = c.toArray();
     Arrays.sort(sorted);
@@ -119,12 +129,14 @@ public final class SortedVector<E extends Comparable<E>> extends Vector<E> {
     return changed;
   }
 
+  @Override
   public synchronized E set(final int index, final E element) {
     final E removed = remove(index);
     addElement(element);
     return removed;
   }
 
+  @Override
   public void setElementAt(final E obj, final int index) {
     set(index, obj);
   }

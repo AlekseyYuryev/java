@@ -17,57 +17,17 @@
 package org.safris.commons.util;
 
 import java.util.Comparator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public final class ReverseComparator<T extends Comparable<T>> implements Comparator<T> {
-  private static final Map<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator<?>>> instances = new ConcurrentHashMap<Class<? extends Comparator<?>>,ReverseComparator<? extends Comparator<?>>>();
-
-  private static ReverseComparator instance;
-  private static volatile boolean instanceInited;
-  private static final Object instanceMutex = new Object();
-
-  public static <T extends Comparable<T>>ReverseComparator<T> reverse(final Class<? extends Comparator<? super T>> comparatorClass) {
-    ReverseComparator instance = instances.get(comparatorClass);
-    if (instance != null)
-      return instance;
-
-    synchronized (instances) {
-      if ((instance = instances.get(comparatorClass)) != null)
-        return instance;
-
-      instances.put(comparatorClass, instance = new ReverseComparator(comparatorClass));
-      return instance;
-    }
-  }
-
-  public static <T extends Comparable<T>>ReverseComparator<T> reverse() {
-    if (instanceInited)
-      return instance;
-
-    synchronized (instanceMutex) {
-      if (instanceInited)
-        return instance;
-
-      instance = new ReverseComparator();
-      instanceInited = true;
-      return instance;
-    }
-  }
-
   private final Comparator<? super T> comparatorInstance;
 
-  private ReverseComparator(final Class<? extends Comparator<? super T>> comparatorClass) {
+  public ReverseComparator(final Class<? extends Comparator<? super T>> comparatorClass) {
     try {
       this.comparatorInstance = comparatorClass.newInstance();
     }
     catch (final Exception e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private ReverseComparator() {
-    this.comparatorInstance = null;
   }
 
   /**
@@ -102,6 +62,7 @@ public final class ReverseComparator<T extends Comparable<T>> implements Compara
    * @throws ClassCastException if the arguments' types prevent them from
    * 	       being compared by this comparator.
    */
+  @Override
   public int compare(final T o1, final T o2) {
     return comparatorInstance != null ? comparatorInstance.compare(o2, o1) : o2.compareTo(o1);
   }

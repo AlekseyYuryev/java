@@ -44,6 +44,7 @@ public final class Collections {
     try {
       final Field mField = map.getClass().getDeclaredField("m");
       mField.setAccessible(true);
+      @SuppressWarnings("unchecked")
       final Map<? super K,? super V> m = (Map<? super K,? super V>)mField.get(map);
       m.put(key, value);
       return true;
@@ -111,6 +112,7 @@ public final class Collections {
    */
   public static <T>List<T> singletonList(final Class<? extends List<?>> clazz, final T o) {
     try {
+      @SuppressWarnings("unchecked")
       final List<T> list = (List<T>)clazz.newInstance();
       list.add(o);
       return list;
@@ -121,6 +123,7 @@ public final class Collections {
   }
 
   @SafeVarargs
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public static <T>Collection<T> asCollection(final Class<? extends Collection> cls, final T ... a) {
     try {
       final Collection<T> list = cls.newInstance();
