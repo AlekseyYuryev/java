@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.safris.cdm.Audit;
 import org.safris.commons.io.Files;
 
-public final class LexerTest {
+public class LexerTest {
   @Test
   public void testTokenize() throws IOException {
     final File file = new File("../../xml/generator/compiler/src/main/java/org/safris/xml/generator/compiler/runtime/Binding.java");

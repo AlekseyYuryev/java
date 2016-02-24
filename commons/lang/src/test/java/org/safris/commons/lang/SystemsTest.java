@@ -19,7 +19,7 @@ package org.safris.commons.lang;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class SystemsTest {
+public class SystemsTest {
   private static final String NAME = "VAR_DOES_NOT_EXIST";
   private static final String VALUE = "VALUE";
 

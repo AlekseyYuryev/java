@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class ClassLoaderLocalTest {
+public class ClassLoaderLocalTest {
   private static String className = "com.sun.jmx.snmp.ThreadContext";
 
   @Test

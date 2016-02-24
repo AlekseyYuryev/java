@@ -69,6 +69,7 @@ public final class ISTEnumGeneratorMojo extends AbstractMojo {
    */
   private String inheritsFrom;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;

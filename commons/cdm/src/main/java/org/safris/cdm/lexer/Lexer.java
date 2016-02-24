@@ -49,6 +49,7 @@ public class Lexer {
       this.children = new int[ch.length() + 1][];
     }
 
+    @Override
     public String toString() {
       return ch;
     }

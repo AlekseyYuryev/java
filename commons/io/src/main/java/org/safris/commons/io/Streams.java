@@ -103,14 +103,17 @@ public final class Streams {
     }
 
     final int bufferSize = 1024;
-    if (sync)
+    if (sync) {
       Streams.run(src, snk, pipedOut, tee, bufferSize);
-    else
+    }
+    else {
       new Thread(tee ? "tee" : "pipe") {
+        @Override
         public void run() {
           Streams.run(src, snk, pipedOut, tee, bufferSize);
         }
       }.start();
+    }
 
     return pipedIn;
   }

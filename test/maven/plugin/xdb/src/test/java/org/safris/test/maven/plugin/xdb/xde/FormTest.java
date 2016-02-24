@@ -32,6 +32,7 @@ import xdb.xde.survey;
 
 import com.mysql.jdbc.Driver;
 
+@SuppressWarnings("unused")
 public class FormTest {
   static {
     try {
@@ -42,6 +43,7 @@ public class FormTest {
     }
 
     XDERegistry.register(survey.class, PreparedStatement.class, new XDEDataSource() {
+      @Override
       public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost/survey?user=survey&password=xqTMy2FluQ");
       }

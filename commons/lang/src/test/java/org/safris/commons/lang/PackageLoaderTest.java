@@ -22,7 +22,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class PackageLoaderTest {
+public class PackageLoaderTest {
   private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))

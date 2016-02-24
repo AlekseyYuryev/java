@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Java;
  */
 public final class CheckMojo extends CoberturaMojo {
   // FIXME: Finish this!
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     System.exit(1);
     if (getMavenTestSkip() != null && getMavenTestSkip())

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -37,7 +37,7 @@ public final class Functions {
   public static boolean equals(final char[] a, final char[] a2, final int from , final int to) {
       if (a == a2)
         return true;
-      
+
       if (a == null || a2 == null)
         return false;
 
@@ -50,7 +50,7 @@ public final class Functions {
 
       return true;
   }
-  
+
   /**
    * Find the index of the sorted array whose value most closely matches
    * the value provided.
@@ -303,7 +303,7 @@ public final class Functions {
     for (int i = 0; i < values.length; i++)
       rms += values[i] * values[i];
 
-    return Math.sqrt(rms / (double)values.length);
+    return Math.sqrt(rms / values.length);
   }
 
   /**
@@ -324,7 +324,7 @@ public final class Functions {
     for (int i = 0; i < values.length; i++)
       rms += values[i] * values[i];
 
-    return Math.sqrt(rms / (double)values.length);
+    return Math.sqrt(rms / values.length);
   }
 
   /**
@@ -345,7 +345,7 @@ public final class Functions {
     for (int i = 0; i < values.length; i++)
       rms += values[i] * values[i];
 
-    return Math.sqrt(rms / (double)values.length);
+    return Math.sqrt(rms / values.length);
   }
 
   /**
@@ -366,7 +366,7 @@ public final class Functions {
     for (int i = 0; i < values.length; i++)
       rms += values[i] * values[i];
 
-    return Math.sqrt(rms / (double)values.length);
+    return Math.sqrt(rms / values.length);
   }
 
   /**
@@ -387,7 +387,7 @@ public final class Functions {
     for (int i = 0; i < values.length; i++)
       rms += values[i] * values[i];
 
-    return Math.sqrt(rms / (double)values.length);
+    return Math.sqrt(rms / values.length);
   }
 
   /**
@@ -767,7 +767,7 @@ public final class Functions {
     if (value.length == 0)
       throw new NullPointerException("value == null");
 
-    return Functions.sum(value) / (double)value.length;
+    return Functions.sum(value) / value.length;
   }
 
   /**
@@ -907,7 +907,7 @@ public final class Functions {
     if (values.length == 0 || start == end)
       return Double.NaN;
 
-    return Functions.sum(values, start, end) / (double)(end - start);
+    return Functions.sum(values, start, end) / (end - start);
   }
 
   /**
@@ -1498,7 +1498,7 @@ public final class Functions {
       sumSquares += data[i] * data[i];
     }
 
-    final double length = (double)data.length;
+    final double length = data.length;
     final double mean = sumLinear / length;
     double scale = Math.sqrt((sumSquares - sumLinear * mean) / length);
     if (scale == 0d)
@@ -1521,7 +1521,7 @@ public final class Functions {
       sumSquares += data[i] * data[i];
     }
 
-    final double length = (double)data.length;
+    final double length = data.length;
     final double mean = sumLinear / length;
     double scale = Math.sqrt((sumSquares - sumLinear * mean) / length);
     if (scale == 0d)
@@ -1544,7 +1544,7 @@ public final class Functions {
       sumSquares += data[i] * data[i];
     }
 
-    final double length = (double)data.length;
+    final double length = data.length;
     final double mean = sumLinear / length;
     double scale = Math.sqrt((sumSquares - sumLinear * mean) / length);
     if (scale == 0d)
@@ -1567,7 +1567,7 @@ public final class Functions {
       sumSquares += data[i] * data[i];
     }
 
-    final double length = (double)data.length;
+    final double length = data.length;
     final double mean = sumLinear / length;
     double scale = Math.sqrt((sumSquares - sumLinear * mean) / length);
     if (scale == 0d)
@@ -1590,7 +1590,7 @@ public final class Functions {
       sumSquares += data[i] * data[i];
     }
 
-    final double length = (double)data.length;
+    final double length = data.length;
     final double mean = sumLinear / length;
     double scale = Math.sqrt((sumSquares - sumLinear * mean) / length);
     if (scale == 0d)

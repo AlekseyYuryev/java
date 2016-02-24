@@ -22,7 +22,7 @@ import java.util.Random;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class NumbersTest {
+public class NumbersTest {
   public static double testLogBigInteger(final int[] factors, final int[] exponents) {
     double l1 = 0;
     BigInteger bi = BigInteger.ONE;

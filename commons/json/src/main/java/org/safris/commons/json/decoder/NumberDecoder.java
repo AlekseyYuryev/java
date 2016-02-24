@@ -22,10 +22,12 @@ import java.io.InputStream;
 import org.safris.commons.json.JSObjectBase;
 
 public class NumberDecoder extends Decoder<Number> {
+  @Override
   protected Number[] newInstance(final int depth) {
     return new Double[depth];
   }
 
+  @Override
   public Number decode(final InputStream in, char ch) throws IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
       if (JSObjectBase.isNull(ch, in))

@@ -22,10 +22,12 @@ import java.io.InputStream;
 import org.safris.commons.json.JSObjectBase;
 
 public class BooleanDecoder extends Decoder<Boolean> {
+  @Override
   protected Boolean[] newInstance(final int depth) {
     return new Boolean[depth];
   }
 
+  @Override
   public Boolean decode(final InputStream in, char ch) throws IOException {
     if (ch != 'f' && ch != 't') {
       if (JSObjectBase.isNull(ch, in))

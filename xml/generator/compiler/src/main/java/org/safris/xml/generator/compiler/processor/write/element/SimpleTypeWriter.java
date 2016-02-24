@@ -365,7 +365,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
     writer.write("package " + plan.getPackageName() + ";\n");
 
-    writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
+    writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     writeQualifiedName(writer, plan);
     writer.write("public abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
     writer.write("{\n");

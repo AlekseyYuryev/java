@@ -22,7 +22,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class ELsTest {
+public class ELsTest {
   @Test
   public void testDereference() {
     final Map<String,String> variables = new HashMap<String,String>();

@@ -77,7 +77,7 @@ public final class InstallCert {
       if (!file.exists() || !file.isFile())
         file = new File(dir, "cacerts");
     }
-    
+
     System.out.println("Loading KeyStore " + file.getAbsolutePath() + "...");
     InputStream in = new FileInputStream(file);
     KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -87,7 +87,7 @@ public final class InstallCert {
     final SSLContext context = SSLContext.getInstance("TLS");
     final TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
     tmf.init(ks);
-    
+
     final X509TrustManager defaultTrustManager = (X509TrustManager)tmf.getTrustManagers()[0];
     final SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
     context.init(null, new TrustManager[] {tm}, null);
@@ -167,7 +167,7 @@ public final class InstallCert {
       sb.append(HEXDIGITS[b & 15]);
       sb.append(' ');
     }
-    
+
     return sb.toString();
   }
 
@@ -179,14 +179,17 @@ public final class InstallCert {
       this.tm = tm;
     }
 
+    @Override
     public X509Certificate[] getAcceptedIssuers() {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
       this.chain = chain;
       tm.checkServerTrusted(chain, authType);

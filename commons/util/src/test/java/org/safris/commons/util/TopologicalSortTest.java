@@ -26,7 +26,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class TopologicalSortTest {
+public class TopologicalSortTest {
   @Test
   public void testSort() {
     final Map<String,Set<String>> graph = new HashMap<String,Set<String>>();

@@ -23,7 +23,7 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class ExpectTest {
+public class ExpectTest {
   @Test
   // FIXME
   @Ignore("FIXME")
@@ -32,11 +32,13 @@ public final class ExpectTest {
       private final Map<String,String> variables = new HashMap<String,String>();
       private int index = -1;
 
+      @Override
       public Map<String,String> process(final String exec) {
         variables.put("date", "080630");
         return variables;
       }
 
+      @Override
       public Map<String,String> rule(final String ruleId, final String prompt, final String response) {
         if (!"r2".equals(ruleId))
           return variables;

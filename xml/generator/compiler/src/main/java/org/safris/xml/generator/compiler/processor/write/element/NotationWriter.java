@@ -74,7 +74,7 @@ public final class NotationWriter extends Writer<NotationPlan> {
     // DOCUMENTATION
     writer.write(plan.getDocumentation());
 
-    writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
+    writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
     writer.write("{\n");
 

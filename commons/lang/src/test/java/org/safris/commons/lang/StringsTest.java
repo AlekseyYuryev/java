@@ -19,7 +19,7 @@ package org.safris.commons.lang;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class StringsTest {
+public class StringsTest {
   private static final String UPPER_CASE = "HELLO WORLD";
   private static final String LOWER_CASE = "hello world";
 

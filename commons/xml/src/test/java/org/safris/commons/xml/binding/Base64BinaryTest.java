@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class Base64BinaryTest {
+public class Base64BinaryTest {
   private static void assertEquals(final String data, final String base64) {
     final Base64Binary base64Binary = new Base64Binary(data.getBytes());
     final String base64String = base64Binary.toString();

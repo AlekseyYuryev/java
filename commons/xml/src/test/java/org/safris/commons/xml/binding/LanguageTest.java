@@ -3,7 +3,7 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class LanguageTest {
+public class LanguageTest {
   @Test
   public void testLanguage() {
     try {

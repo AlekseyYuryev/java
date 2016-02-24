@@ -22,7 +22,7 @@ import java.util.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class SortedVectorTest {
+public class SortedVectorTest {
   @Test
   public void testSortedVector() {
     final Vector<String> vector = new SortedVector<String>();

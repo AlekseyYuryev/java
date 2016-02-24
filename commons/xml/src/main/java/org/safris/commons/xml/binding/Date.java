@@ -67,9 +67,8 @@ public final class Date {
   private final YearMonth yearMonth;
   private final Day day;
   private final TimeZone timeZone;
-  private final long epochTime;
+//  private final long epochTime;
 
-  @SuppressWarnings("deprecation")
   protected Date(final YearMonth yearMonth, final Day day, final TimeZone timeZone) {
     if (yearMonth == null)
       throw new NullPointerException("yearMonth == null");
@@ -77,11 +76,10 @@ public final class Date {
     if (day == null)
       throw new NullPointerException("day == null");
 
-    new MonthDay(yearMonth.getMonth(), day.getDay());
     this.yearMonth = yearMonth;
     this.day = day;
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
-    epochTime = java.util.Date.UTC(yearMonth.getYear() - 1900, yearMonth.getMonth() - 1, day.getDay(), 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
+//    epochTime = java.util.Date.UTC(yearMonth.getYear() - 1900, yearMonth.getMonth() - 1, day.getDay(), 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
   }
 
   public Date(final int year, final int month, int day, final TimeZone timeZone) {

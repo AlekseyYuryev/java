@@ -19,7 +19,7 @@ package org.safris.commons.math;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class MovingAverageTest {
+public class MovingAverageTest {
   @Test
   public void testMovingAverage() {
     final double[] vals = new double[] {1, 2, 4, 1, 2, 3, 7};

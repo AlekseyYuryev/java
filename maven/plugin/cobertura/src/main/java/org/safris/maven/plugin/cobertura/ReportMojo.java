@@ -31,6 +31,7 @@ import org.apache.tools.ant.taskdefs.Java;
  * @phase verify
  */
 public final class ReportMojo extends CoberturaMojo {
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (getMavenTestSkip() != null && getMavenTestSkip())
       return;

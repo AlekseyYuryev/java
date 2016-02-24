@@ -156,7 +156,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
 
     if (!plan.isNested()) {
       writer.write("package " + plan.getPackageName() + ";\n");
-      writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
+      writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     }
 
     writeQualifiedName(writer, plan);

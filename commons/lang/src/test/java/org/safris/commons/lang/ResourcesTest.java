@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class ResourcesTest {
+public class ResourcesTest {
   private static final File JAVA_HOME = new File(System.getProperty("java.home").replace(" ", "%20"));
   private static final File RT_JAR;
 

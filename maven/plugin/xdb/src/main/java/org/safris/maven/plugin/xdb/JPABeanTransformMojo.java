@@ -28,6 +28,7 @@ import org.safris.xdb.xdl.JPABeanTransform;
  * @phase generate-sources
  */
 public final class JPABeanTransformMojo extends XDLTransformerMojo {
+  @Override
   public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
       JPABeanTransform.createJPABeans(xdlFile, outDir);

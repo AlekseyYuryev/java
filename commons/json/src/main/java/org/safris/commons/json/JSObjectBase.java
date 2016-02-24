@@ -88,7 +88,7 @@ public abstract class JSObjectBase {
   }
 
   protected static String format(final Number number) {
-    return number == null ? null : ((double)number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
+    return number == null ? null : (number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
   }
 
   protected static <T>String tokenize(final Collection<T> value, final int depth) {
@@ -105,7 +105,6 @@ public abstract class JSObjectBase {
     return "[" + out.substring(2) + "]";
   }
 
-  @SuppressWarnings("unchecked")
   protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
@@ -147,7 +146,7 @@ public abstract class JSObjectBase {
               final boolean isArray = ch == '[';
               final Object value;
               if (JSObject.class.isAssignableFrom(member.type)) {
-                value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(in, (Class<? extends JSObject>)member.type, 0)) : decode(in, ch, (JSObject)member.type.newInstance());
+                value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(in, member.type, 0)) : decode(in, ch, (JSObject)member.type.newInstance());
               }
               else if (member.type == String.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
@@ -171,7 +170,7 @@ public abstract class JSObjectBase {
             }
 
             if (ch != ',') {
-              out.append((char)ch);
+              out.append(ch);
             }
           }
         }

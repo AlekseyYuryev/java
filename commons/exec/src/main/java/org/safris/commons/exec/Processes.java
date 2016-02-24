@@ -34,6 +34,7 @@ import org.safris.commons.io.Streams;
 import org.safris.commons.lang.ClassLoaders;
 
 public final class Processes {
+  @SuppressWarnings("unchecked")
   public static final Class<?> getExecutedClass() {
     try {
       final Field field = ClassLoader.class.getDeclaredField("classes");
@@ -222,26 +223,32 @@ public final class Processes {
       this.stderr = stderr;
     }
 
+    @Override
     public OutputStream getOutputStream() {
       return stdin != null ? stdin : process.getOutputStream();
     }
 
+    @Override
     public InputStream getInputStream() {
       return stdout != null ? stdout : process.getInputStream();
     }
 
+    @Override
     public InputStream getErrorStream() {
       return stderr != null ? stderr : process.getErrorStream();
     }
 
+    @Override
     public int waitFor() throws InterruptedException {
       return process.waitFor();
     }
 
+    @Override
     public int exitValue() {
       return process.exitValue();
     }
 
+    @Override
     public void destroy() {
       process.destroy();
     }

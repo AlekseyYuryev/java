@@ -64,6 +64,7 @@ public class GeneratorMojo extends AbstractMojo {
   }
 
   private static final FileFilter classesFilter = new FileFilter() {
+    @Override
     public boolean accept(File pathname) {
       final String name = pathname.getName();
       return name != null && !name.endsWith(".class") && !name.endsWith(".java");
@@ -97,6 +98,7 @@ public class GeneratorMojo extends AbstractMojo {
    */
   private MojoExecution execution;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
@@ -107,7 +109,7 @@ public class GeneratorMojo extends AbstractMojo {
     final Resolver<String> resolver = new MavenPropertyResolver(project);
     final Build build = project.getBuild();
     if (build != null && build.getPlugins() != null) {
-      for (final Plugin plugin : (List<Plugin>)build.getPlugins()) {
+      for (final Plugin plugin : build.getPlugins()) {
         if (!"binding".equals(plugin.getArtifactId()))
           continue;
 
@@ -115,7 +117,7 @@ public class GeneratorMojo extends AbstractMojo {
         Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
 
         if (configuration == null)
-          configuration = (Xpp3Dom)execution.getConfiguration();
+          configuration = execution.getConfiguration();
         else if (execution.getConfiguration() != null)
           getLog().warn("Detected plugin- & execution-level configuration, which is not supported yet.");
 
@@ -238,8 +240,9 @@ public class GeneratorMojo extends AbstractMojo {
     addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
   }
 
+  @SuppressWarnings("unchecked")
   private void addCompileSourceRoot(final String path, final Collection<Bundle> bundles) throws MojoExecutionException {
-    if (bundles == null || path == null || project == null || !(project instanceof MavenProject))
+    if (bundles == null || path == null || project == null)
       return;
 
     try {

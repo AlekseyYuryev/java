@@ -62,6 +62,7 @@ public final class CertMojo extends AbstractMojo {
     return repositories;
   }
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     for (final Repository repository : getRepositories()) {
       if (repository.getUrl().startsWith("https") && !checkedURLs.contains(repository.getUrl())) {

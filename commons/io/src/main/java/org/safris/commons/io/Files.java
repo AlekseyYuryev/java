@@ -42,6 +42,7 @@ public final class Files {
   }
 
   private static final FileFilter anyFilter = new FileFilter() {
+    @Override
     public boolean accept(final File pathname) {
       return true;
     }
@@ -54,6 +55,7 @@ public final class Files {
       this.original = original;
     }
 
+    @Override
     public boolean accept(final File pathname) {
       return original.accept(pathname) || pathname.isDirectory();
     }

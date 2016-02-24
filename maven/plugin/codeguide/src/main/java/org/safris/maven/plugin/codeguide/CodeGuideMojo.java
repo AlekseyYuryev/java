@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -83,6 +83,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * file.separator. On UNIX systems the value of this field is '/'; on
    * Microsoft Windows systems it is '\'. The default is File.separator
    */
+  @Override
   public String getFileSeparator() {
     return fileSeparator;
   }
@@ -100,6 +101,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * path list. On UNIX systems, this character is ':'; on Microsoft Windows
    * systems it is ';'.
    */
+  @Override
   public String getPathSeparator() {
     return pathSeparator;
   }
@@ -114,6 +116,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Used to look up Artifacts in the remote repository.
    */
+  @Override
   public ArtifactFactory getFactory() {
     return factory;
   }
@@ -128,6 +131,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Used to look up Artifacts in the remote repository.
    */
+  @Override
   public ArtifactResolver getResolver() {
     return resolver;
   }
@@ -142,6 +146,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * paths refer to the actual files store in the local repository (the
    * stipVersion parameter does nothing then).
    */
+  @Override
   public String getRepositoryPath() {
     return repositoryPath;
   }
@@ -156,6 +161,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Location of the local repository.
    */
+  @Override
   public ArtifactRepository getLocal() {
     return local;
   }
@@ -170,6 +176,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * List of Remote Repositories used by the resolver
    */
+  @Override
   public List<ArtifactRepository> getRemoteRepos() {
     return remoteRepos;
   }
@@ -184,6 +191,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * POM
    */
+  @Override
   public MavenProject getProject() {
     return project;
   }
@@ -197,6 +205,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * If we should exclude transitive dependencies
    */
+  @Override
   public boolean getExcludeTransitive() {
     return excludeTransitive;
   }
@@ -211,6 +220,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * Comma Separated list of Types to include. Empty String indicates include
    * everything (default).
    */
+  @Override
   public String getIncludeTypes() {
     return includeTypes;
   }
@@ -225,6 +235,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * Comma Separated list of Types to exclude. Empty String indicates don't
    * exclude anything (default).
    */
+  @Override
   public String getExcludeTypes() {
     return excludeTypes;
   }
@@ -238,6 +249,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Scope to include. An Empty string indicates all scopes (default).
    */
+  @Override
   public String getIncludeScope() {
     return includeScope;
   }
@@ -251,6 +263,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Scope to exclude. An empty string indicates no scopes (default).
    */
+  @Override
   public String getExcludeScope() {
     return excludeScope;
   }
@@ -265,6 +278,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * Comma Separated list of Classifiers to include. Empty String indicates
    * include everything (default).
    */
+  @Override
   public String getIncludeClassifiers() {
     return includeClassifiers;
   }
@@ -279,6 +293,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * Comma Separated list of Classifiers to exclude. Empty String indicates
    * don't exclude anything (default).
    */
+  @Override
   public String getExcludeClassifiers() {
     return excludeClassifiers;
   }
@@ -292,6 +307,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Specify classifier to look for. Example: sources
    */
+  @Override
   public String getClassifier() {
     return classifier;
   }
@@ -306,6 +322,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
    * Specify type to look for when constructing artifact based on classifier.
    * Example: java-source,jar,war
    */
+  @Override
   public String getType() {
     return type;
   }
@@ -319,6 +336,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of Artifact names too exclude.
    */
+  @Override
   public String getExcludeArtifactIds() {
     return excludeArtifactIds;
   }
@@ -332,6 +350,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of Artifact names to include.
    */
+  @Override
   public String getIncludeArtifactIds() {
     return includeArtifactIds;
   }
@@ -345,6 +364,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of GroupId Names to exclude.
    */
+  @Override
   public String getExcludeGroupIds() {
     return excludeGroupIds;
   }
@@ -358,6 +378,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of GroupIds to include.
    */
+  @Override
   public String getIncludeGroupIds() {
     return includeGroupIds;
   }
@@ -375,6 +396,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of Artifact names too exclude.
    */
+  @Override
   public String getExcludeGroupIdArtifactIds() {
     return excludeGroupIdArtifactIds;
   }
@@ -388,6 +410,7 @@ public abstract class CodeGuideMojo extends AbstractMojo implements DependencyPr
   /**
    * Comma separated list of Artifact names to include.
    */
+  @Override
   public String getIncludeGroupIdArtifactIds() {
     return includeGroupIdArtifactIds;
   }

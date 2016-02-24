@@ -1,15 +1,15 @@
 /* Copyright (c) 2014 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -115,7 +115,7 @@ public abstract class Dimension {
 
     // FIXME: This is not used yet
     private static final Map<Class<?>,Unit> defaults = new HashMap<Class<?>,Unit>();
-    
+
     protected final String name;
     protected final double factor;
 
@@ -130,10 +130,10 @@ public abstract class Dimension {
       else {
         if (defaults.containsKey(getClass().getDeclaringClass()))
           throw new IllegalArgumentException("Attempted to assign two default Unit(s) for " + getClass().getDeclaringClass());
-        
+
         defaults.put(getClass().getDeclaringClass(), basis);
       }
-      
+
       // printConversionTable();
       // System.out.println("-------------");
     }
@@ -144,7 +144,7 @@ public abstract class Dimension {
 
       if (this == basis)
         return 1;
-      
+
       Map<Unit,Double> unitToFactor = basisToUnitFactors.get(basis);
       Double factor = null;
       if (unitToFactor != null)
@@ -160,6 +160,7 @@ public abstract class Dimension {
       return factor != null ? 1 / factor : 1;
     }
 
+    @Override
     public String toString() {
       return name;
     }
@@ -180,38 +181,42 @@ public abstract class Dimension {
       this.unit = unit;
       this.value = value;
     }
-    
+
+    @SuppressWarnings("unchecked")
     protected Scalar<U> replicate(final double value) {
       try {
-        return (Scalar<U>)getClass().getConstructor(double.class, unit.getClass()).newInstance(value, unit);
+        return getClass().getConstructor(double.class, unit.getClass()).newInstance(value, unit);
       }
       catch (final Exception e) {
         throw new Error(e);
       }
     }
-    
+
     public double value(final U unit) {
       return value * this.unit.getFactor(unit);
     }
 
+    @Override
     public boolean equals(final Object obj) {
       return this == obj || (obj instanceof Scalar && ((Scalar<?>)obj).value == value && ((Scalar<?>)obj).unit == unit);
     }
 
+    @Override
     public int hashCode() {
       return (int)Double.doubleToLongBits(value);
     }
 
+    @Override
     public String toString() {
       return value + " " + unit.name;
     }
   }
-  
+
   protected static abstract class Vector<I extends Scalar<? extends Unit>,J extends Scalar<? extends Unit>> {
     /*private static double scalar(final Scalar<?> s, final Unit unit) {
       return s.value * s.unit.getFactor(unit);
     }*/
-    
+
     public final I i;
     public final J j;
 
@@ -220,14 +225,17 @@ public abstract class Dimension {
       this.j = j;
     }
 
+    @Override
     public boolean equals(final Object obj) {
       return this == obj || (obj instanceof Vector && super.equals(obj) && (i != null ? i.equals(((Vector<?,?>)obj).i) : ((Vector<?,?>)obj).j == null) && (j != null ? j.equals(((Vector<?,?>)obj).j) : ((Vector<?,?>)obj).j == null));
     }
 
+    @Override
     public int hashCode() {
       return super.hashCode() + (i != null ? i.hashCode() : -1) + (j != null ? j.hashCode() : -1);
     }
 
+    @Override
     public String toString() {
       return "(" + (i != null ? i.toString() : "null") + ", " + (j != null ? j.toString() : "null") + ")";
     }

@@ -20,6 +20,7 @@ import com.sun.jmx.snmp.ThreadContext;
 
 // FIXME: This is really a ClassLoaderThreadLocal because it uses the
 // FIXME: ThreadContext class. Is there an alternative?
+@SuppressWarnings("unchecked")
 public final class ClassLoaderLocal<T> {
   private final ThreadContext threadContext;
 

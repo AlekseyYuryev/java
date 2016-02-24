@@ -95,6 +95,7 @@ public final class Expect {
       final Map<String,HashTree.Node<ScannerHandler>> treeNodeMap = new HashMap<String,HashTree.Node<ScannerHandler>>();
       for (final $ex_ruleType rule : rules) {
         final ScannerHandler scanner = new ScannerHandler(rule._expect$().text()) {
+          @Override
           public void match(final String match) throws IOException {
             String response = rule._respond$().text();
             final Map<String,String> variables = callback.rule(rule._id$().text(), rule._expect$().text(), response);

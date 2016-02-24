@@ -92,6 +92,7 @@ public final class Mail {
     public void failure(final MessagingException e) {
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this)
         return true;
@@ -103,6 +104,7 @@ public final class Mail {
       return subject.equals(that.subject) && content.equals(that.content) && from.equals(that.from) && Arrays.equals(to, that.to) && Arrays.equals(cc, that.cc) && Arrays.equals(bcc, that.bcc);
     }
 
+    @Override
     public int hashCode() {
       int hashCode = 0;
       hashCode += 2 * subject.hashCode();
@@ -201,6 +203,7 @@ public final class Mail {
         // properties.put("mail." + protocolString + ".user", credentials.username);
 
         session = Session.getInstance(properties, new Authenticator() {
+          @Override
           protected PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(credentials.username, credentials.password);
           }
@@ -250,6 +253,7 @@ public final class Mail {
       }
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this)
         return true;
@@ -261,6 +265,7 @@ public final class Mail {
       return host.equals(that.host) && protocol == that.protocol && port == that.port;
     }
 
+    @Override
     public int hashCode() {
       int hashCode = 0;
       hashCode += 2 * host.hashCode();
@@ -284,6 +289,7 @@ public final class Mail {
         throw new NullPointerException("password == null");
     }
 
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this)
         return true;
@@ -295,6 +301,7 @@ public final class Mail {
       return username.equals(that.username) && password.equals(that.password);
     }
 
+    @Override
     public int hashCode() {
       int hashCode = 0;
       hashCode += 2 * username.hashCode();

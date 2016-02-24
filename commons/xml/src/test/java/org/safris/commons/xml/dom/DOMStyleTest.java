@@ -19,7 +19,7 @@ package org.safris.commons.xml.dom;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class DOMStyleTest {
+public class DOMStyleTest {
   @Test
   public void testConsolidate() {
     Assert.assertNull(DOMStyle.consolidate((DOMStyle[])null));

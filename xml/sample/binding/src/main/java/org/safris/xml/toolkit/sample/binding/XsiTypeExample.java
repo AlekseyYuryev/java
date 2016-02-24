@@ -35,6 +35,7 @@ public class XsiTypeExample {
     // we need to instantiate a nameless element. Once this element is
     // put into the basket, the element will obtain the needed name.
     $type_fleshyFruitType berry = new $type_fleshyFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }
@@ -44,6 +45,7 @@ public class XsiTypeExample {
 
     // Again, instantiate a nameless element.
     $type_fleshyFruitType drupe = new $type_fleshyFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }
@@ -53,6 +55,7 @@ public class XsiTypeExample {
 
     // Again, instantiate a nameless element.
     $type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }
@@ -61,6 +64,7 @@ public class XsiTypeExample {
 
     // Again, instantiate a nameless element.
     $type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }
@@ -69,6 +73,7 @@ public class XsiTypeExample {
 
     // Again, instantiate a nameless element.GenericBasket
     $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }
@@ -77,6 +82,7 @@ public class XsiTypeExample {
 
     // Again, instantiate a nameless element.
     $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return null;
       }

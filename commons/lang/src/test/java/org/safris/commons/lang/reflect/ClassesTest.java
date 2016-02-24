@@ -33,7 +33,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ClassesTest {
+public class ClassesTest {
   private final Map<Class<?>[],Class<?>> classes = new HashMap<Class<?>[],Class<?>>();
 
   @Before

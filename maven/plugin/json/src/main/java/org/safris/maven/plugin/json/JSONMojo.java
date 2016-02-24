@@ -59,6 +59,7 @@ public class JSONMojo extends AbstractMojo {
    */
   protected Manifest manifest;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;

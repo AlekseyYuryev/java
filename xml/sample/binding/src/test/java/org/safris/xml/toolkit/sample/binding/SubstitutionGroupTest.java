@@ -21,6 +21,7 @@ import org.junit.Test;
 
 public class SubstitutionGroupTest extends AbstractTest {
   @Test
+  @Override
   public void testExample() throws Exception {
     Assert.assertTrue(verifyBinding(new SubstitutionGroupExample().runExample()));
   }

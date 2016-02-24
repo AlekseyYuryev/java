@@ -39,6 +39,7 @@ public final class DDLTransformMojo extends XDLTransformerMojo {
    */
   private MojoExecution execution;
 
+  @Override
   public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     if (vendor == null)
       throw new MojoExecutionException("vendor is required");

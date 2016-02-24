@@ -22,7 +22,7 @@ import java.io.PipedOutputStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class NonBlockingInputStreamTest {
+public class NonBlockingInputStreamTest {
   @Test
   public void testInputStream() throws Exception {
     final PipedOutputStream out = new PipedOutputStream();

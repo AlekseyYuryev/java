@@ -28,6 +28,7 @@ import org.safris.xdb.xdl.XSDTransform;
  * @phase generate-sources
  */
 public final class XSDTransformMojo extends XDLTransformerMojo {
+  @Override
   public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
       XSDTransform.createXSD(xdlFile, outDir);

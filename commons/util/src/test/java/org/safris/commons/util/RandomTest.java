@@ -21,7 +21,7 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class RandomTest {
+public class RandomTest {
   private static final char[] ALPHA = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();

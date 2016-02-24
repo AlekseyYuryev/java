@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class DurationTest {
+public class DurationTest {
   @Test
   public void testDuration() {
     try {

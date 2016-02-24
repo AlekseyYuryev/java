@@ -21,7 +21,7 @@ import java.util.TimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class TimeTest {
+public class TimeTest {
   @Test
   public void testTime() {
     try {

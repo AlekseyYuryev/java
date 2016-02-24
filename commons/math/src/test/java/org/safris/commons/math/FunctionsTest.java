@@ -19,7 +19,7 @@ package org.safris.commons.math;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class FunctionsTest {
+public class FunctionsTest {
   @Test
   public void testBinaryClosestSearch() {
     final int[] sorted = new int[] {1, 3, 5, 9};

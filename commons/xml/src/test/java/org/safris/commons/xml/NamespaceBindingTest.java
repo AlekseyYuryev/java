@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class NamespaceBindingTest {
+public class NamespaceBindingTest {
   private final Map<String,String> map = new HashMap<String,String>();
 
   @Before

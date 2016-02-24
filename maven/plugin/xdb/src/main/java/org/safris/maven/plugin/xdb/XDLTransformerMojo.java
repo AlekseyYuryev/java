@@ -49,6 +49,7 @@ public abstract class XDLTransformerMojo extends AbstractMojo {
    */
   protected Manifest manifest;
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (manifest == null)
       return;

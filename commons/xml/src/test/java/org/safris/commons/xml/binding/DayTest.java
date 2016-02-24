@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class DayTest {
+public class DayTest {
   @Test
   public void testDay() {
     try {

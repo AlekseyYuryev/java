@@ -170,7 +170,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
 
     if (!plan.isNested()) {
       writer.write("package " + plan.getPackageName() + ";\n");
-      writer.write("@" + SuppressWarnings.class.getName() + "(\"unchecked\")\n");
+      writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     }
 
     writeQualifiedName(writer, plan);

@@ -18,15 +18,18 @@ public class Location {
     final double d = 2 * Distance.R.value(Distance.Unit.KM) * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return new Distance(d, Distance.Unit.KM);
   }
-  
+
+  @Override
   public boolean equals(final Object obj) {
     return obj == this || (obj instanceof Location && (latitude != null ? latitude.equals(((Location)obj).latitude) : ((Location)obj).latitude == null) && (longitude != null ? longitude.equals(((Location)obj).longitude) : ((Location)obj).longitude == null));
   }
-  
+
+  @Override
   public int hashCode() {
     return (latitude != null ? (int)Double.doubleToLongBits(latitude.value(Angle.Unit.RAD)) : -1) + (longitude != null ? (int)Double.doubleToLongBits(longitude.value(Angle.Unit.RAD)) : -1);
   }
-  
+
+  @Override
   public String toString() {
     return "(" + (latitude != null ? latitude.value(Angle.Unit.DEG) : "?") + "N, " + (longitude != null ? longitude.value(Angle.Unit.DEG) : "?") + "E)";
   }

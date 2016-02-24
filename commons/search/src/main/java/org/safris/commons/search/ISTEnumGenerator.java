@@ -35,6 +35,7 @@ public class ISTEnumGenerator {
       this.tree = new int[name.length() + 1][];
     }
 
+    @Override
     public String toString() {
       return name;
     }

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class PathsTest {
+public class PathsTest {
   @Test
   public void testGetName() throws Exception {
     final Map<String,String> paths = new HashMap<String,String>();

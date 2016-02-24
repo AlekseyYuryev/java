@@ -33,6 +33,7 @@ import org.safris.commons.io.Files;
  * @phase test-compile
  */
 public final class InstrumentMojo extends CoberturaMojo {
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (getMavenTestSkip() != null && getMavenTestSkip())
       return;

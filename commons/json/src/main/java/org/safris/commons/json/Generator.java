@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
-import org.safris.commons.util.Collections;
 import org.safris.commons.xml.XMLException;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
@@ -137,14 +136,17 @@ public class Generator {
     out.append("\n      throw new ").append(ExceptionInInitializerError.class.getName()).append("(e);");
     out.append("\n    }");
     out.append("\n  }\n");
+    out.append("\n  @").append(Override.class.getName());
     out.append("\n  protected ").append(Binding.class.getName()).append(" lookupBinding(final ").append(String.class.getName()).append(" name) {");
     out.append("\n    return bindings.get(name);");
     out.append("\n  }\n");
+    out.append("\n  @").append(Override.class.getName());
     out.append("\n  protected " + String.class.getName() + " name() {");
     out.append("\n    return name;");
     out.append("\n  }\n");
     for (final $json_value value : object._value())
       out.append(writeField(value));
+    out.append("\n  @").append(Override.class.getName());
     out.append("\n  protected " + String.class.getName() + " encode(final int depth) {");
     out.append("\n    final ").append(StringBuilder.class.getName()).append(" out = new ").append(StringBuilder.class.getName()).append("();");
     out.append("\n    out.append(\"{\\n\");");
@@ -158,6 +160,7 @@ public class Generator {
     out.append("\n    out.append(pad(depth - 1)).append(\"}\");");
     out.append("\n    return out.toString();\n  }\n");
 
+    out.append("\n  @").append(Override.class.getName());
     out.append("\n  public " + String.class.getName() + " toString() {");
     out.append("\n    final ").append(StringBuilder.class.getName()).append(" out = new ").append(StringBuilder.class.getName()).append("();");
     out.append("\n    out.append(\"{\\n  \\\"").append(object._name$().text()).append("\\\": \").append(encode(2)).append(\"\\n}\");");

@@ -1,15 +1,15 @@
 /* Copyright (c) 2012 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -30,6 +30,7 @@ public final class RandomAccessInputStream extends InputStream {
     this.file = new RandomAccessFile(file, "r");
   }
 
+  @Override
   public int available() throws IOException {
     final long availableBytes = file.length() - file.getFilePointer();
     if (availableBytes > 0x7fffffffl)
@@ -38,10 +39,12 @@ public final class RandomAccessInputStream extends InputStream {
     return (int)availableBytes;
   }
 
+  @Override
   public void close() throws IOException {
     file.close();
   }
 
+  @Override
   public void mark(final int readlimit) {
     try {
       this.mark = file.getFilePointer();
@@ -51,22 +54,27 @@ public final class RandomAccessInputStream extends InputStream {
     }
   }
 
+  @Override
   public boolean markSupported() {
     return true;
   }
 
+  @Override
   public int read() throws IOException {
     return file.read();
   }
 
+  @Override
   public int read(final byte[] b) throws IOException {
     return file.read(b);
   }
 
+  @Override
   public int read(final byte[] b, final int off, final int len) throws IOException {
     return file.read(b, off, len);
   }
 
+  @Override
   public void reset() throws IOException {
     if (mark < 0)
       throw new IOException("Invalid mark position");
@@ -74,6 +82,7 @@ public final class RandomAccessInputStream extends InputStream {
     file.seek(mark);
   }
 
+  @Override
   public long skip(final long n) throws IOException {
     final long position = file.getFilePointer();
     try {

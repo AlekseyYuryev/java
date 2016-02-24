@@ -27,7 +27,7 @@ import org.safris.commons.xml.validator.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class BindingValidatorTest {
+public class BindingValidatorTest {
   /**
    * This test verifies that the correct implementation of the SAXParser is used
    * within the validator. A SAXParser implementation other than the default

@@ -21,6 +21,7 @@ import org.junit.Test;
 
 public class XsiTypeTest extends AbstractTest {
   @Test
+  @Override
   public void testExample() {
     Assert.assertTrue(verifyBinding(new XsiTypeExample().runExample()));
   }

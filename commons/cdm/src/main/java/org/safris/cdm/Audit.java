@@ -67,6 +67,7 @@ public class Audit {
     scope.push(index);
   }
 
+  @Override
   public String toString() {
     final StringBuffer buffer = new StringBuffer();
     for (final Index index : indices)

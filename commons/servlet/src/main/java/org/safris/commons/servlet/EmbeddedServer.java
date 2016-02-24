@@ -97,6 +97,7 @@ public class EmbeddedServer {
     return servletContextHandler;
   }
 
+  @SuppressWarnings("unchecked")
   private static ServletContextHandler addAllServlets(final Package[] packages, final $se_realm realm) {
     final ServletContextHandler handler = createServletContextHandler(realm);
     try {

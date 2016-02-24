@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -42,8 +42,9 @@ public final class DependencyFilter {
    * Retrieves dependencies, either direct only or all including transitive.
    *
    * @return  A HashSet of artifacts
-   * @throws  MojoExecutionException  if an error occured.
+   * @throws  MojoExecutionException  if an error occurred.
    */
+  @SuppressWarnings("unchecked")
   public static Set<Artifact> getResolvedDependencies(final DependencyProperties properties) throws MojoExecutionException {
     final DependencyStatusSets status = getDependencySets(properties);
     return status.getResolvedDependencies();
@@ -59,6 +60,7 @@ public final class DependencyFilter {
    *          on the projects dependencies
    * @throws  MojoExecutionException
    */
+  @SuppressWarnings("unchecked")
   protected static DependencyStatusSets getDependencySets(final DependencyProperties properties) throws MojoExecutionException {
     // start with all artifacts.
     Set<Artifact> artifacts = new HashSet<Artifact>(properties.getProject().getArtifacts());
@@ -77,13 +79,7 @@ public final class DependencyFilter {
     artifacts = filter.filter(artifacts, properties.getLog());
     artifacts.add(properties.getProject().getArtifact());
     // transform artifacts if classifier is set
-    DependencyStatusSets status = null;
-    if (StringUtils.isNotEmpty(properties.getClassifier()))
-      status = getClassifierTranslatedDependencies(artifacts, properties);
-    else
-      status = filterMarkedDependencies(artifacts, properties.getLog());
-
-    return status;
+    return StringUtils.isNotEmpty(properties.getClassifier()) ? getClassifierTranslatedDependencies(artifacts, properties) : filterMarkedDependencies(artifacts, properties.getLog());
   }
 
   /**
@@ -95,6 +91,7 @@ public final class DependencyFilter {
    *          information on the projects dependencies
    * @throws  MojoExecutionException
    */
+  @SuppressWarnings("unchecked")
   protected static DependencyStatusSets getClassifierTranslatedDependencies(Set<Artifact> artifacts, final DependencyProperties properties) throws MojoExecutionException {
     final Set<Artifact> unResolvedArtifacts = new HashSet<Artifact>();
     Set<Artifact> resolvedArtifacts = artifacts;
@@ -135,6 +132,7 @@ public final class DependencyFilter {
    * @return  DependencyStatusSets
    * @throws  MojoExecutionException
    */
+  @SuppressWarnings("unchecked")
   protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts, final Log log) throws MojoExecutionException {
     // remove files that have markers already
     final FilterArtifacts filter = new FilterArtifacts();

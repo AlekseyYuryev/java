@@ -22,10 +22,12 @@ import java.io.InputStream;
 import org.safris.commons.json.JSObjectBase;
 
 public class StringDecoder extends Decoder<String> {
+  @Override
   protected String[] newInstance(final int depth) {
     return new String[depth];
   }
 
+  @Override
   public String decode(final InputStream in, char ch) throws IOException {
     if (ch != '"') {
       if (JSObjectBase.isNull(ch, in))

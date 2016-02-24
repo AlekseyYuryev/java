@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class JNDIsTest {
+public class JNDIsTest {
   @Test
   @Ignore("Ignored because javax.transaction artifact is not in repo1.maven.org")
   public void testJNDIs() throws NamingException {

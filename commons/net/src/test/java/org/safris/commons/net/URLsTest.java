@@ -24,7 +24,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class URLsTest {
+public class URLsTest {
   @Test
   public void testIsLocal() throws Exception {
     Assert.assertTrue(URLs.isLocal(new URL("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));

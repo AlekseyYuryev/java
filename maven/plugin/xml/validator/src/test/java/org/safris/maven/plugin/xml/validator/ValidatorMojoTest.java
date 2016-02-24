@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-public final class ValidatorMojoTest {
+public class ValidatorMojoTest {
   @Test
   public void testValidate() throws Exception {
     final File dir = new File(".");

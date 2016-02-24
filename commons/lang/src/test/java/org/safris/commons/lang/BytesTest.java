@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class BytesTest {
+public class BytesTest {
   public static String binary(final long byteValue, final int typeSize) {
     String byteValueString = "";
     for (int j = 0; j <= typeSize - 1; j++) {

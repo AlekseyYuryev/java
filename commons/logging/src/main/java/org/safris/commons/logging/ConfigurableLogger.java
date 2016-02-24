@@ -47,6 +47,7 @@ import org.safris.commons.test.TestRuntime;
 
 public final class ConfigurableLogger implements FileEventListener {
   private static final Formatter formatter = new Formatter() {
+    @Override
     public String format(final LogRecord record) {
       return new SimpleDateFormat("yyMMdd HH:mm:ss").format(System.currentTimeMillis()) + " " + record.getLevel().toString().toUpperCase() + ": " + record.getMessage() + "\n";
     }
@@ -139,6 +140,7 @@ public final class ConfigurableLogger implements FileEventListener {
     }
   }
 
+  @Override
   public void onModify(final File file) {
     try {
       final InputStream in = file.toURI().toURL().openStream();
@@ -151,6 +153,7 @@ public final class ConfigurableLogger implements FileEventListener {
     }
   }
 
+  @Override
   public void onDelete(final File file) {
     ConfigurableLogger.getLogger().warning(file.getName() + " has been deleted.");
   }

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -22,13 +22,13 @@ import java.util.Scanner;
 
 public final class ExpectSimulator {
   private static List<Prompt> prompts = new ArrayList<Prompt>();
-  
+
   private static final class Prompt {
     private List<String> answers = new ArrayList<String>();
-    private String prompt;
-    private String matchLeft;
+    private final String prompt;
+    private final String matchLeft;
     private Prompt left;
-    private String matchRight;
+    private final String matchRight;
     private Prompt right;
 
     public Prompt(final String prompt, final String matchLeft, Prompt left, final String matchRight, final Prompt right) {
@@ -40,10 +40,6 @@ public final class ExpectSimulator {
       prompts.add(this);
     }
 
-    public void setPrompt(final String prompt) {
-      this.prompt = prompt;
-    }
-
     public String getPrompt() {
       return prompt;
     }
@@ -52,16 +48,8 @@ public final class ExpectSimulator {
       this.left = left;
     }
 
-    public Prompt getLeft() {
-      return left;
-    }
-
     public void setRight(final Prompt right) {
       this.right = right;
-    }
-
-    public Prompt getRight() {
-      return right;
     }
 
     public Prompt getNext(final String line) {
@@ -69,7 +57,7 @@ public final class ExpectSimulator {
         answers.add(line);
         return left;
       }
-      
+
       if (line.matches(matchRight)) {
         answers.add(line);
         return right;

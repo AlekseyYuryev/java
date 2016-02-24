@@ -39,6 +39,7 @@ public final class XDEMojo extends XDLTransformerMojo {
    */
   private MojoExecution execution;
 
+  @Override
   public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;

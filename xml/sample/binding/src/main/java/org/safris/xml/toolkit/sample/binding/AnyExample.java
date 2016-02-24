@@ -50,6 +50,7 @@ public class AnyExample {
     coloredBasket._fruits(simple_fruits);
 
     $type_fleshyFruitType berry = new $type_fleshyFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
       }
@@ -60,6 +61,7 @@ public class AnyExample {
     // Again, instantiate a nameless element.GenericBasket
     $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
     {
+      @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
 //              return new SimpleSpecialFruit();
@@ -69,6 +71,7 @@ public class AnyExample {
 
     // Again, instantiate a nameless element.
     $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
+      @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
       }

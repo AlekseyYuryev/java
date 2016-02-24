@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class HexBinaryTest {
+public class HexBinaryTest {
   private static void assertEquals(final String data, final String base64) {
     final HexBinary hexBinary = new HexBinary(data.getBytes());
     final String hexString = hexBinary.toString();

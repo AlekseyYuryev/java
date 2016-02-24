@@ -13,9 +13,11 @@ import javax.servlet.annotation.WebFilter;
 
 @WebFilter(filterName = "UncaughtServletExceptionFilter", urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST})
 public class UncaughtServletExceptionFilter implements Filter {
+  @Override
   public void init(final FilterConfig filterConfig) throws ServletException {
   }
 
+  @Override
   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
     final UncaughtServletExceptionHandler uncaughtExceptionHandler = EmbeddedServer.getUncaughtServletExceptionHandler();
     try {
@@ -43,6 +45,7 @@ public class UncaughtServletExceptionFilter implements Filter {
     }
   }
 
+  @Override
   public void destroy() {
   }
 }

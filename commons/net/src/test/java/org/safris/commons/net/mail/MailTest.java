@@ -32,10 +32,12 @@ public class MailTest {
       super(subject, content, from, to);
     }
 
+    @Override
     public void success() {
       ++successCount;
     }
 
+    @Override
     public void failure(final MessagingException e) {
       Assert.fail(e.getMessage());
     }
