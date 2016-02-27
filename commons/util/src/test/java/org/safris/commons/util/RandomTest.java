@@ -20,8 +20,9 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class RandomTest {
+public class RandomTest extends LoggableTest {
   private static final char[] ALPHA = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
@@ -43,17 +44,17 @@ public class RandomTest {
     }
 
     final String alpha = Random.alpha(16);
-    System.out.println(alpha);
+    log(alpha);
     Assert.assertEquals(16, alpha.length());
     assertInSpace(alpha.toCharArray(), ALPHA);
 
     final String numeric = Random.numeric(16);
-    System.out.println(numeric);
+    log(numeric);
     Assert.assertEquals(16, numeric.length());
     assertInSpace(numeric.toCharArray(), NUMERIC);
 
     final String alphaNumeric = Random.alphaNumeric(16);
-    System.out.println(alphaNumeric);
+    log(alphaNumeric);
     Assert.assertEquals(16, alphaNumeric.length());
     assertInSpace(alphaNumeric.toCharArray(), ALPHA_NUMERIC);
   }

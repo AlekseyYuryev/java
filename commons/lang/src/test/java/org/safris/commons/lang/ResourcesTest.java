@@ -21,8 +21,9 @@ import java.util.Enumeration;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ResourcesTest {
+public class ResourcesTest extends LoggableTest {
   private static final File JAVA_HOME = new File(System.getProperty("java.home").replace(" ", "%20"));
   private static final File RT_JAR;
 

@@ -18,8 +18,9 @@ package org.safris.commons.lang;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class StringsTest {
+public class StringsTest extends LoggableTest {
   private static final String UPPER_CASE = "HELLO WORLD";
   private static final String LOWER_CASE = "hello world";
 

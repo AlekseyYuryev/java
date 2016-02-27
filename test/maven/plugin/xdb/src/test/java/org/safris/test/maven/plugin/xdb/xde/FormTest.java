@@ -20,20 +20,21 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.joda.time.LocalDateTime;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.xde.Aggregate;
-import org.safris.xdb.xde.RowIterator;
 import org.safris.xdb.xde.Entity;
+import org.safris.xdb.xde.RowIterator;
 import org.safris.xdb.xde.XDEDataSource;
 import org.safris.xdb.xde.XDERegistry;
 import org.safris.xdb.xde.csql.select.SELECT;
 import org.safris.xdb.xde.csql.update.UPDATE;
 
-import xdb.xde.survey;
-
 import com.mysql.jdbc.Driver;
 
+import xdb.xde.survey;
+
 @SuppressWarnings("unused")
-public class FormTest {
+public class FormTest extends LoggableTest {
   static {
     try {
       Class.forName(Driver.class.getName());

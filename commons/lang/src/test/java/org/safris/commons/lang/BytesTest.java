@@ -5,8 +5,9 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class BytesTest {
+public class BytesTest extends LoggableTest {
   public static String binary(final long byteValue, final int typeSize) {
     String byteValueString = "";
     for (int j = 0; j <= typeSize - 1; j++) {
@@ -62,19 +63,19 @@ public class BytesTest {
     long l = 65535l;
     short s = (short)l;
     String binary = binary(l, Short.SIZE);
-    System.out.println("Binary: " + binary);
-    System.out.println("From binary: " + Integer.parseInt(binary(l, Short.SIZE), 2));
+    log("Binary: " + binary);
+    log("From binary: " + Integer.parseInt(binary(l, Short.SIZE), 2));
     byte[] bytes = new byte[Short.SIZE / 8];
     Bytes.toBytes(s, bytes, 0, true);
-    System.out.println("Convert.toBytes: " + Arrays.toString(bytes));
+    log("Convert.toBytes: " + Arrays.toString(bytes));
     Assert.assertArrayEquals(new byte[] {(byte)-1, (byte)-1}, bytes);
     int unsignedShort = Bytes.toShort(bytes, 0, true, false);
-    System.out.println("Convert.to[unsigned]Short: " + unsignedShort);
+    log("Convert.to[unsigned]Short: " + unsignedShort);
     Assert.assertEquals(l, unsignedShort);
     short signedShort = Bytes.toShort(bytes, 0, true);
-    System.out.println("Convert.to[signed]Short: " + signedShort);
+    log("Convert.to[signed]Short: " + signedShort);
     Assert.assertEquals(s, signedShort);
-    System.out.println("Raw: " + s);
+    log("Raw: " + s);
   }
 
   @Test
@@ -82,39 +83,39 @@ public class BytesTest {
     long l = 4294967295l;
     int i = (int)l;
     String binary = binary(l, Integer.SIZE);
-    System.out.println("Binary: " + binary);
-    System.out.println("From binary: " + Long.parseLong(binary(l, Integer.SIZE), 2));
+    log("Binary: " + binary);
+    log("From binary: " + Long.parseLong(binary(l, Integer.SIZE), 2));
     byte[] bytes = new byte[Integer.SIZE / 8];
     Bytes.toBytes(i, bytes, 0, true);
-    System.out.println("Convert.toBytes: " + Arrays.toString(bytes));
+    log("Convert.toBytes: " + Arrays.toString(bytes));
     Assert.assertArrayEquals(new byte[] {(byte)-1, (byte)-1, (byte)-1, (byte)-1}, bytes);
     long unsignedInt = Bytes.toInt(bytes, 0, true, false);
-    System.out.println("Convert.to[unsigned]Int: " + unsignedInt);
+    log("Convert.to[unsigned]Int: " + unsignedInt);
     Assert.assertEquals(l, unsignedInt);
     int signedInt = Bytes.toInt(bytes, 0, true);
-    System.out.println("Convert.to[signed]Int: " + signedInt);
+    log("Convert.to[signed]Int: " + signedInt);
     Assert.assertEquals(i, signedInt);
-    System.out.println("Raw: " + i);
+    log("Raw: " + i);
   }
 
   @Test
   public void testLong() {
     long l = 9223372036854775807l;
     String binary = binary(l, Long.SIZE);
-    System.out.println("Binary: " + binary);
-    //System.out.println("From binary: " + Long.parseLong(binary(l, Long.SIZE), 2));
+    log("Binary: " + binary);
+    //log("From binary: " + Long.parseLong(binary(l, Long.SIZE), 2));
     byte[] bytes = new byte[Long.SIZE / 8];
     Bytes.toBytes(l, bytes, 0, true);
-    System.out.println("Convert.toBytes: " + Arrays.toString(bytes));
+    log("Convert.toBytes: " + Arrays.toString(bytes));
     Assert.assertArrayEquals(new byte[] {127, (byte)-1, (byte)-1, (byte)-1, (byte)-1, (byte)-1, (byte)-1, (byte)-1}, bytes);
     long signedInt = Bytes.toLong(bytes, 0, true);
-    System.out.println("Convert.to[signed]Int: " + signedInt);
+    log("Convert.to[signed]Int: " + signedInt);
     Assert.assertEquals(l, signedInt);
-    System.out.println("Raw: " + l);
+    log("Raw: " + l);
   }
 
   @Test
-  @Ignore
+  @Ignore("Implement this")
   public void testArbitrary() {
     // TODO: Implement this!
   }

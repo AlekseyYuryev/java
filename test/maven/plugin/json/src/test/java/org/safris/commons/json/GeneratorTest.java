@@ -20,15 +20,16 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
+import org.safris.commons.util.Collections;
+
 import json.Attachment;
 import json.Message;
 import json.Signature;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.safris.commons.util.Collections;
-
-public class GeneratorTest {
+public class GeneratorTest extends LoggableTest {
   @Test
   public void testGenerator() throws Exception {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
@@ -58,11 +59,11 @@ public class GeneratorTest {
     message.setSignature(signature);
 
     final String encoded = message.toString();
-    System.out.println(encoded);
+    log(encoded);
 
     final Message decoded = (Message)JSObject.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
     final String reEncoded = decoded.toString();
-    System.out.println(reEncoded);
+    log(reEncoded);
 
     Assert.assertEquals(encoded, reEncoded);
   }

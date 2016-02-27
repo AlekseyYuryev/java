@@ -29,9 +29,9 @@ import org.safris.xml.toolkit.sample.binding.list.$li_volunteerType;
 import org.safris.xml.toolkit.sample.binding.list.li_roster;
 import org.xml.sax.InputSource;
 
-public class ListExample {
+public class ListSample {
   public static void main(final String[] args) throws Exception {
-    new SubstitutionGroupExample().runExample();
+    new SubstitutionGroupSample().runSample();
   }
 
   private static void printCommon(final $li_staffType staffType) {
@@ -44,7 +44,7 @@ public class ListExample {
       System.out.println("\t" + workDay);
   }
 
-  public Binding runExample() throws Exception {
+  public Binding runSample() throws Exception {
     File file = new File("src/main/resources/xml/list.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");

@@ -6,8 +6,9 @@ import javax.naming.NamingException;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class JNDIsTest {
+public class JNDIsTest extends LoggableTest {
   @Test
   @Ignore("Ignored because javax.transaction artifact is not in repo1.maven.org")
   public void testJNDIs() throws NamingException {

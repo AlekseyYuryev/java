@@ -25,8 +25,9 @@ import java.util.StringTokenizer;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ClassLoaderLocalTest {
+public class ClassLoaderLocalTest extends LoggableTest {
   private static String className = "com.sun.jmx.snmp.ThreadContext";
 
   @Test
@@ -48,17 +49,17 @@ public class ClassLoaderLocalTest {
     System.gc();
 
     final Object tc2 = ClassLoader.getSystemClassLoader().loadClass(className).getDeclaredMethod("get", String.class).invoke(null, "YES");
-    System.out.println(tc2);
+    log(tc2.toString());
     print(classLoaderReference);
   }
 
   private void print(final WeakReference<URLClassLoader> classLoaderReference) {
-    System.out.println("----");
+    log("----");
     if (classLoaderReference.get() != null)
-      System.out.println("Weak: " + ClassLoaders.isClassLoaded(classLoaderReference.get(), className) + " " + classLoaderReference.get().getClass().getClassLoader());
-    System.out.println("Current: " + ClassLoaders.isClassLoaded(getClass().getClassLoader(), className) + " " + getClass().getClassLoader());
-    System.out.println("Context: " + ClassLoaders.isClassLoaded(Thread.currentThread().getContextClassLoader(), className) + " " + Thread.currentThread().getClass().getClassLoader());
-    System.out.println("System: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getClass().getClassLoader());
-    System.out.println("Bootstrap: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getParent().getClass().getClassLoader());
+      log("Weak: " + ClassLoaders.isClassLoaded(classLoaderReference.get(), className) + " " + classLoaderReference.get().getClass().getClassLoader());
+    log("Current: " + ClassLoaders.isClassLoaded(getClass().getClassLoader(), className) + " " + getClass().getClassLoader());
+    log("Context: " + ClassLoaders.isClassLoaded(Thread.currentThread().getContextClassLoader(), className) + " " + Thread.currentThread().getClass().getClassLoader());
+    log("System: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getClass().getClassLoader());
+    log("Bootstrap: " + ClassLoaders.isClassLoaded(ClassLoader.getSystemClassLoader(), className) + " " + ClassLoader.getSystemClassLoader().getParent().getClass().getClassLoader());
   }
 }

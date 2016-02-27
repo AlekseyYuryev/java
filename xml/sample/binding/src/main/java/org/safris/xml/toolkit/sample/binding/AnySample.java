@@ -26,12 +26,12 @@ import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
 import org.safris.xml.toolkit.sample.binding.xsitype.$type_fleshyFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.$type_indehiscentDryFruitType;
 
-public class AnyExample {
+public class AnySample {
   public static void main(final String[] args) {
-    new AnyExample().runExample();
+    new AnySample().runSample();
   }
 
-  public Binding runExample() {
+  public Binding runSample() {
     simple_fruit strawberry = new simple_fruit();
     strawberry._name$(new simple_fruit._name$("strawberry"));
     strawberry._sweet$(new simple_fruit._sweet$(true));

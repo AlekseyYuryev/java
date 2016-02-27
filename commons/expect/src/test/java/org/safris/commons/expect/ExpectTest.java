@@ -22,8 +22,9 @@ import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ExpectTest {
+public class ExpectTest extends LoggableTest {
   @Test
   // FIXME
   @Ignore("FIXME")

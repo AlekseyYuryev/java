@@ -21,9 +21,10 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class NumbersTest {
-  public static double testLogBigInteger(final int[] factors, final int[] exponents) {
+public class NumbersTest extends LoggableTest {
+  private double testLogBigInteger(final int[] factors, final int[] exponents) {
     double l1 = 0;
     BigInteger bi = BigInteger.ONE;
     for (int i = 0; i < factors.length; i++) {
@@ -41,7 +42,7 @@ public class NumbersTest {
     final double l2 = Numbers.log2(bi);
     final double err = Math.abs((l2 - l1) / l1);
     final int decdigits = (int) (l1 / Math.log(10) + 0.5);
-    System.out.printf("e=%e digitss=%d \n", err, decdigits);
+    logf("e=%e digitss=%d", err, decdigits);
     return err;
   }
 
@@ -64,17 +65,14 @@ public class NumbersTest {
         maxerr = err;
     }
 
-    System.out.printf("Max err: %e \n", maxerr);
+    logf("Max err: %e", maxerr);
   }
 
   @Test
-  public void testparseNumber() {
+  public void testParseNumber() {
     Assert.assertEquals(2.5, Numbers.parseNumber("2 1/2"), 0);
     Assert.assertEquals(2.75, Numbers.parseNumber("2 3/4"), 0);
-  }
 
-  @Test
-  public void testparseNumber2() {
     Assert.assertEquals(0, Numbers.parseNumber("0"), 0);
     Assert.assertEquals(299792458, Numbers.parseNumber(" 299792458"), 0);
     Assert.assertEquals(-299792458, Numbers.parseNumber("-299792458 "), 0);

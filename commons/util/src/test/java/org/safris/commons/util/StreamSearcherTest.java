@@ -21,8 +21,9 @@ import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class StreamSearcherTest {
+public class StreamSearcherTest extends LoggableTest {
   @Test
   public void testStreamSearcher() throws IOException {
     final StreamSearcher.Byte searcher = new StreamSearcher.Byte(new byte[] {0, 0, 0}, new byte[] {1, 1, 1});

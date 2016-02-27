@@ -21,8 +21,9 @@ import java.io.PipedOutputStream;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class NonBlockingInputStreamTest {
+public class NonBlockingInputStreamTest extends LoggableTest {
   @Test
   public void testInputStream() throws Exception {
     final PipedOutputStream out = new PipedOutputStream();

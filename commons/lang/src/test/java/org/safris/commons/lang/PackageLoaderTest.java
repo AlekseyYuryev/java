@@ -21,8 +21,9 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class PackageLoaderTest {
+public class PackageLoaderTest extends LoggableTest {
   private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
@@ -59,7 +60,7 @@ public class PackageLoaderTest {
       classNames.add(loadedClass.getName());
 
     for (final String testClass : testClasses) {
-      System.out.println(testClass);
+      log(testClass);
       Assert.assertTrue(classNames.contains(testClass));
       Assert.assertTrue(isClassLoaded(testClass));
     }

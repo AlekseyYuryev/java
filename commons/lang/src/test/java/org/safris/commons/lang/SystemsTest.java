@@ -18,8 +18,9 @@ package org.safris.commons.lang;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class SystemsTest {
+public class SystemsTest extends LoggableTest {
   private static final String NAME = "VAR_DOES_NOT_EXIST";
   private static final String VALUE = "VALUE";
 

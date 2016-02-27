@@ -32,18 +32,19 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ClassesTest {
+public class ClassesTest extends LoggableTest {
   private final Map<Class<?>[],Class<?>> classes = new HashMap<Class<?>[],Class<?>>();
 
   @Before
   public void setUp() {
-    classes.put(new Class[]{String.class}, String.class);
-    classes.put(new Class[]{String.class, Integer.class}, Object.class);
-    classes.put(new Class[]{Long.class, Integer.class}, Number.class);
-    classes.put(new Class[]{ArrayList.class, LinkedList.class}, AbstractList.class);
-    classes.put(new Class[]{HashSet.class, LinkedHashSet.class}, HashSet.class);
-    classes.put(new Class[]{FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
+    classes.put(new Class[] {String.class}, String.class);
+    classes.put(new Class[] {String.class, Integer.class}, Object.class);
+    classes.put(new Class[] {Long.class, Integer.class}, Number.class);
+    classes.put(new Class[] {ArrayList.class, LinkedList.class}, AbstractList.class);
+    classes.put(new Class[] {HashSet.class, LinkedHashSet.class}, HashSet.class);
+    classes.put(new Class[] {FileInputStream.class, ByteArrayInputStream.class, DataInputStream.class, FilterInputStream.class}, InputStream.class);
   }
 
   @Test

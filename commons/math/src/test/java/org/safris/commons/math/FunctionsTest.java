@@ -18,8 +18,9 @@ package org.safris.commons.math;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class FunctionsTest {
+public class FunctionsTest extends LoggableTest {
   @Test
   public void testBinaryClosestSearch() {
     final int[] sorted = new int[] {1, 3, 5, 9};

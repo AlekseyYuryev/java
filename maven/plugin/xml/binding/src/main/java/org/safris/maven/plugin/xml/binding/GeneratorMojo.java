@@ -55,7 +55,7 @@ public class GeneratorMojo extends AbstractMojo {
     if (!pomFile.exists())
       throw new MojoFailureException("File does not exist: " + pomFile.getAbsolutePath());
 
-    MavenLauncher.main(new String[]{"-e", "-f", pomFile.getAbsolutePath(), "org.safris.maven.plugin.xml:binding:generate"});
+    MavenLauncher.main(new String[] {"-e", "-f", pomFile.getAbsolutePath(), "org.safris.maven.plugin.xml:binding:generate"});
   }
 
   private static void usage() {

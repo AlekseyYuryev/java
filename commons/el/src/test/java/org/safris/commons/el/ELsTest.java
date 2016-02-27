@@ -21,8 +21,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ELsTest {
+public class ELsTest extends LoggableTest {
   @Test
   public void testDereference() {
     final Map<String,String> variables = new HashMap<String,String>();

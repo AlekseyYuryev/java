@@ -25,12 +25,12 @@ import org.safris.xml.toolkit.sample.binding.xsitype.$type_dehiscentDryFruitType
 import org.safris.xml.toolkit.sample.binding.xsitype.$type_fleshyFruitType;
 import org.safris.xml.toolkit.sample.binding.xsitype.$type_indehiscentDryFruitType;
 
-public class XsiTypeExample {
+public class XsiTypeSample {
   public static void main(final String[] args) {
-    new XsiTypeExample().runExample();
+    new XsiTypeSample().runSample();
   }
 
-  public Binding runExample() {
+  public Binding runSample() {
     // Since there is no element declaration for the fleshyFruitType,
     // we need to instantiate a nameless element. Once this element is
     // put into the basket, the element will obtain the needed name.

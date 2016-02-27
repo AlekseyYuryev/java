@@ -21,8 +21,9 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ForTest {
+public class ForTest extends LoggableTest {
   private static final Integer[] values1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 4, 0, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8};
   private static final Integer[] values2 = {0, 0, 0, 0, 0, 0, 0, 0};
   private static final For.Filter<Integer> filter = new For.Filter<Integer>() {
@@ -101,7 +102,7 @@ public class ForTest {
     for (int i = 0; i < 10000000; i++)
       array = For.<Integer>iterative(values1, Integer.class, filter);
 
-    System.out.println("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
+    log("iterative: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
     Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
     array = For.<Integer>iterative(values2, Integer.class, filter);
@@ -118,7 +119,7 @@ public class ForTest {
     for (int i = 0; i < 10000000; i++)
       array = For.<Integer>recursiveOrdered(values1, Integer.class, filter);
 
-    System.out.println("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
+    log("recursive: " + (System.currentTimeMillis() - start) + "ms " + (mem - Runtime.getRuntime().freeMemory()) + " bytes");
     Assert.assertArrayEquals(new Integer[] {1, 4, 5, 6, 8}, array);
 
     array = For.<Integer>recursiveOrdered(values2, Integer.class, filter);

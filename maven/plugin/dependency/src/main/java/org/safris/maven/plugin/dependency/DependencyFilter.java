@@ -22,18 +22,18 @@ import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.dependency.utils.DependencyStatusSets;
-import org.apache.maven.plugin.dependency.utils.filters.ArtifactIdFilter;
-import org.apache.maven.plugin.dependency.utils.filters.ClassifierFilter;
-import org.apache.maven.plugin.dependency.utils.filters.FilterArtifacts;
-import org.apache.maven.plugin.dependency.utils.filters.GroupIdFilter;
-import org.apache.maven.plugin.dependency.utils.filters.ScopeFilter;
-import org.apache.maven.plugin.dependency.utils.filters.TransitivityFilter;
-import org.apache.maven.plugin.dependency.utils.filters.TypeFilter;
 import org.apache.maven.plugin.dependency.utils.resolvers.ArtifactsResolver;
 import org.apache.maven.plugin.dependency.utils.resolvers.DefaultArtifactsResolver;
 import org.apache.maven.plugin.dependency.utils.translators.ArtifactTranslator;
 import org.apache.maven.plugin.dependency.utils.translators.ClassifierTypeTranslator;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.shared.artifact.filter.collection.ArtifactFilterException;
+import org.apache.maven.shared.artifact.filter.collection.ArtifactIdFilter;
+import org.apache.maven.shared.artifact.filter.collection.ClassifierFilter;
+import org.apache.maven.shared.artifact.filter.collection.FilterArtifacts;
+import org.apache.maven.shared.artifact.filter.collection.GroupIdFilter;
+import org.apache.maven.shared.artifact.filter.collection.ScopeFilter;
+import org.apache.maven.shared.artifact.filter.collection.TypeFilter;
 import org.codehaus.plexus.util.StringUtils;
 import org.safris.maven.plugin.dependency.filter.GroupIdArtifactIdFilter;
 
@@ -44,7 +44,6 @@ public final class DependencyFilter {
    * @return  A HashSet of artifacts
    * @throws  MojoExecutionException  if an error occurred.
    */
-  @SuppressWarnings("unchecked")
   public static Set<Artifact> getResolvedDependencies(final DependencyProperties properties) throws MojoExecutionException {
     final DependencyStatusSets status = getDependencySets(properties);
     return status.getResolvedDependencies();
@@ -59,6 +58,7 @@ public final class DependencyFilter {
    * @return  DependencyStatusSets - Bean of TreeSets that contains information
    *          on the projects dependencies
    * @throws  MojoExecutionException
+   * @throws  ArtifactFilterException
    */
   @SuppressWarnings("unchecked")
   protected static DependencyStatusSets getDependencySets(final DependencyProperties properties) throws MojoExecutionException {
@@ -67,7 +67,6 @@ public final class DependencyFilter {
 
     // add filters in well known order, least specific to most specific
     final FilterArtifacts filter = new FilterArtifacts();
-    filter.addFilter(new TransitivityFilter(properties.getProject().getDependencyArtifacts(), properties.getExcludeTransitive()));
     filter.addFilter(new ScopeFilter(properties.getIncludeScope(), properties.getExcludeScope()));
     filter.addFilter(new TypeFilter(properties.getIncludeTypes(), properties.getExcludeTypes()));
     filter.addFilter(new ClassifierFilter(properties.getIncludeClassifiers(), properties.getExcludeClassifiers()));
@@ -76,10 +75,15 @@ public final class DependencyFilter {
     filter.addFilter(new GroupIdArtifactIdFilter(properties.getIncludeGroupIdArtifactIds(), properties.getExcludeGroupIdArtifactIds()));
 
     // perform filtering
-    artifacts = filter.filter(artifacts, properties.getLog());
-    artifacts.add(properties.getProject().getArtifact());
-    // transform artifacts if classifier is set
-    return StringUtils.isNotEmpty(properties.getClassifier()) ? getClassifierTranslatedDependencies(artifacts, properties) : filterMarkedDependencies(artifacts, properties.getLog());
+    try {
+      artifacts = filter.filter(artifacts);
+      artifacts.add(properties.getProject().getArtifact());
+      // transform artifacts if classifier is set
+      return StringUtils.isNotEmpty(properties.getClassifier()) ? getClassifierTranslatedDependencies(artifacts, properties) : filterMarkedDependencies(artifacts, properties.getLog());
+    }
+    catch (final ArtifactFilterException e) {
+      throw new MojoExecutionException(e.getMessage(), e);
+    }
   }
 
   /**
@@ -90,9 +94,9 @@ public final class DependencyFilter {
    * @return  DependencyStatusSets - Bean of TreeSets that contains
    *          information on the projects dependencies
    * @throws  MojoExecutionException
+   * @throws  ArtifactFilterException
    */
-  @SuppressWarnings("unchecked")
-  protected static DependencyStatusSets getClassifierTranslatedDependencies(Set<Artifact> artifacts, final DependencyProperties properties) throws MojoExecutionException {
+  protected static DependencyStatusSets getClassifierTranslatedDependencies(Set<Artifact> artifacts, final DependencyProperties properties) throws ArtifactFilterException, MojoExecutionException {
     final Set<Artifact> unResolvedArtifacts = new HashSet<Artifact>();
     Set<Artifact> resolvedArtifacts = artifacts;
     DependencyStatusSets status = new DependencyStatusSets();
@@ -131,15 +135,16 @@ public final class DependencyFilter {
    * @param   artifacts
    * @return  DependencyStatusSets
    * @throws  MojoExecutionException
+   * @throws ArtifactFilterException
    */
   @SuppressWarnings("unchecked")
-  protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts, final Log log) throws MojoExecutionException {
+  protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts, final Log log) throws ArtifactFilterException, MojoExecutionException {
     // remove files that have markers already
     final FilterArtifacts filter = new FilterArtifacts();
     filter.clearFilters();
 //      filter.addFilter(getMarkedArtifactFilter());
 
-    final Set<Artifact> unMarkedArtifacts = filter.filter(artifacts, log);
+    final Set<Artifact> unMarkedArtifacts = filter.filter(artifacts);
 
     // calculate the skipped artifacts
     final Set<Artifact> skippedArtifacts = new HashSet<Artifact>();

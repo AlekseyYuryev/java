@@ -18,8 +18,9 @@ package org.safris.ant.task.xml.binding;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class AntPropertyResolverTest {
+public class AntPropertyResolverTest extends LoggableTest {
   @Test
   public void testAntPropertyResolver() {
     final AntPropertyResolver antPropertyResolver = new AntPropertyResolver(null);

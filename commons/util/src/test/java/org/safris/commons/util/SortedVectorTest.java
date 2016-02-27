@@ -21,34 +21,35 @@ import java.util.Vector;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class SortedVectorTest {
+public class SortedVectorTest extends LoggableTest {
   @Test
   public void testSortedVector() {
     final Vector<String> vector = new SortedVector<String>();
     vector.addElement("f");
-    Assert.assertArrayEquals(new String[]{"f"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"f"}, vector.toArray());
     vector.addElement("b");
-    Assert.assertArrayEquals(new String[]{"b", "f"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"b", "f"}, vector.toArray());
     vector.addElement("g");
-    Assert.assertArrayEquals(new String[]{"b", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"b", "f", "g"}, vector.toArray());
     vector.addElement("c");
-    Assert.assertArrayEquals(new String[]{"b", "c", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"b", "c", "f", "g"}, vector.toArray());
     vector.addElement("a");
-    Assert.assertArrayEquals(new String[]{"a", "b", "c", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"a", "b", "c", "f", "g"}, vector.toArray());
     vector.addElement("d");
-    Assert.assertArrayEquals(new String[]{"a", "b", "c", "d", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "f", "g"}, vector.toArray());
     vector.addElement("e");
-    Assert.assertArrayEquals(new String[]{"a", "b", "c", "d", "e", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f", "g"}, vector.toArray());
     vector.remove("c");
-    Assert.assertArrayEquals(new String[]{"a", "b", "d", "e", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"a", "b", "d", "e", "f", "g"}, vector.toArray());
     vector.set(0, "d");
-    Assert.assertArrayEquals(new String[]{"b", "d", "d", "e", "f", "g"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"b", "d", "d", "e", "f", "g"}, vector.toArray());
     vector.set(4, "h");
-    Assert.assertArrayEquals(new String[]{"b", "d", "d", "e", "g", "h"}, vector.toArray());
-    vector.retainAll(Arrays.<String>asList(new String[]{"a", "d", "f", "g", "h"}));
-    Assert.assertArrayEquals(new String[]{"d", "d", "g", "h"}, vector.toArray());
-    vector.retainAll(Arrays.<String>asList(new String[]{"a", "d", "d", "d", "h"}));
-    Assert.assertArrayEquals(new String[]{"d", "d", "h"}, vector.toArray());
+    Assert.assertArrayEquals(new String[] {"b", "d", "d", "e", "g", "h"}, vector.toArray());
+    vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "f", "g", "h"}));
+    Assert.assertArrayEquals(new String[] {"d", "d", "g", "h"}, vector.toArray());
+    vector.retainAll(Arrays.<String>asList(new String[] {"a", "d", "d", "d", "h"}));
+    Assert.assertArrayEquals(new String[] {"d", "d", "h"}, vector.toArray());
   }
 }

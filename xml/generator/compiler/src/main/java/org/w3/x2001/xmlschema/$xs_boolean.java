@@ -37,8 +37,8 @@ public abstract class $xs_boolean extends $xs_anySimpleType {
   }
 
   static {
-    valueMap.put(true, new String[]{"true", "1"});
-    valueMap.put(false, new String[]{"false", "0"});
+    valueMap.put(true, new String[] {"true", "1"});
+    valueMap.put(false, new String[] {"false", "0"});
   }
 
   public $xs_boolean(final $xs_boolean binding) {

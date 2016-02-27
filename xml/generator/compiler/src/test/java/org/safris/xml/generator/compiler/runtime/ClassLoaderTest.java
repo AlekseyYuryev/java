@@ -21,25 +21,27 @@ import java.io.IOException;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ClassLoaderTest {
+public class ClassLoaderTest extends LoggableTest {
   public static void main(final String[] args) throws Exception {
     if (args == null || args.length == 0) {
       new ClassLoaderTest().testClassLoaders();
       return;
     }
 
+    final ClassLoaderTest test = new ClassLoaderTest();
     if ("weak".equals(args[0]))
-      testClassLoader(new WeakClassLoader());
+      test.testClassLoader(new WeakClassLoader());
     else if ("system".equals(args[0]))
-      testClassLoader(ClassLoader.getSystemClassLoader());
+      test.testClassLoader(ClassLoader.getSystemClassLoader());
     else
       throw new Error("Unknown classLoader option");
 
     Runtime.getRuntime().gc();
   }
 
-  private static float testClassLoader(final java.lang.ClassLoader classLoader) throws Exception {
+  private float testClassLoader(final java.lang.ClassLoader classLoader) throws Exception {
     long freeMemoryBeforeLoad = Runtime.getRuntime().freeMemory();
 //      PackageLoader.getSystemPackageLoader().loadPackage("org.safris.xml.toolkit.component.runtime");
     long freeMemoryAfterLoad = Runtime.getRuntime().freeMemory();
@@ -48,13 +50,13 @@ public class ClassLoaderTest {
 
     long freeMemoryAfterUnload = Runtime.getRuntime().freeMemory();
     float ratio = (float)freeMemoryAfterUnload / (float)freeMemoryAfterLoad;
-    System.out.println(classLoader.getClass().getName());
-    System.out.println("{");
-    System.out.println("\tFree Memory Before Load: " + freeMemoryBeforeLoad);
-    System.out.println("\tFree Memory After Load: " + freeMemoryAfterLoad);
-    System.out.println("\tFree Memory After Unload: " + freeMemoryAfterUnload);
-    System.out.println("\tratio: " + ratio);
-    System.out.println("}");
+    log(classLoader.getClass().getName());
+    log("{");
+    log("\tFree Memory Before Load: " + freeMemoryBeforeLoad);
+    log("\tFree Memory After Load: " + freeMemoryAfterLoad);
+    log("\tFree Memory After Unload: " + freeMemoryAfterUnload);
+    log("\tratio: " + ratio);
+    log("}");
     return ratio;
   }
 
@@ -91,7 +93,7 @@ public class ClassLoaderTest {
     if (classpath.length() != 0)
       System.setProperty("java.class.path", System.getProperty("java.class.path") + classpath);
 
-    /*      Process process = Forks.fork(ClassLoaderTest.class, new String[]{loader});
+    /*      Process process = Forks.fork(ClassLoaderTest.class, new String[] {loader});
      InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
      InputStreamReader errorStreamReader = new InputStreamReader(process.getErrorStream());
      BufferedReader bufferedInputReader = new BufferedReader(inputStreamReader);
@@ -103,11 +105,11 @@ public class ClassLoaderTest {
      if(line.contains("ratio: "))
      ratio = Float.parseFloat(line.substring(line.indexOf(": ") + 2));
 
-     System.out.println(line);
+     log(line);
      }
 
      while((line = bufferedErrorReader.readLine()) != null)
-     System.out.println(line);
+     log(line);
 
      try
      {

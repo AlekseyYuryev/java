@@ -28,9 +28,10 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.measure.Dimension.Unit;
+import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Combinations;
 
-public class MeasurementTest {
+public class MeasurementTest extends LoggableTest {
   private static Dimension.Unit[] getUnits(final Class<?> unitClass) throws Exception {
     final List<Dimension.Unit> units = new ArrayList<Dimension.Unit>();
     final Field[] fields = unitClass.getDeclaredFields();
@@ -75,7 +76,7 @@ public class MeasurementTest {
     return factoryMethod;
   }
 
-  private static void assertMeasurementUnits(final Class<?> dimensionClass, final Class<?> ... unitClasses) throws Exception {
+  private void assertMeasurementUnits(final Class<?> dimensionClass, final Class<?> ... unitClasses) throws Exception {
     Constructor<?> constructor = null;
     Constructor<?>[] constructors = dimensionClass.getConstructors();
     for (int i = 0; i < constructors.length; i++) {
@@ -96,19 +97,19 @@ public class MeasurementTest {
     for (final Dimension.Unit[] from : combinations) {
       final Class<?> unitType = constructor.getParameterTypes()[1];
       final Method factoryMethod = getFactoryMethod(unitType);
-      final Object[] fromArgs = factoryMethod != null ? new Object[] {factoryMethod.invoke(null, from)} : from;
+      final Object[] fromArgs = factoryMethod != null ? new Object[] {factoryMethod.invoke(null, (Object[])from)} : from;
       final Object measurement = constructor.newInstance(toArgs(value, fromArgs));
       for (final Dimension.Unit[] to : combinations) {
         final Method[] methods = measurement.getClass().getMethods();
         for (final Method method : methods) {
           if ("value".equals(method.getName())) {
-            final Object[] toArgs = factoryMethod != null ? new Object[] {factoryMethod.invoke(null, to)} : to;
+            final Object[] toArgs = factoryMethod != null ? new Object[] {factoryMethod.invoke(null, (Object[])to)} : to;
             final double scalar = (double)method.invoke(measurement, toArgs);
             final Object measurement2 = constructor.newInstance(toArgs(scalar, toArgs));
             final double back = (double)method.invoke(measurement2, fromArgs);
             System.out.print(measurement + " = " + measurement2 + " = " + constructor.newInstance(toArgs(back, fromArgs)));
             Assert.assertEquals(value, back, 0.000001);
-            System.out.println(" [OK]");
+            log("[OK]");
           }
         }
       }
@@ -126,6 +127,6 @@ public class MeasurementTest {
     assertMeasurementUnits(Volume.class, Volume.Unit.class);
     assertMeasurementUnits(Density.class, Mass.Unit.class, Volume.Unit.class);
     Velocity v = new Velocity(new Angle(45, Angle.Unit.DEG), new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)));
-    System.out.println(v.value(new Angle(-45, Angle.Unit.DEG)));
+    log(v.value(new Angle(-45, Angle.Unit.DEG)));
   }
 }

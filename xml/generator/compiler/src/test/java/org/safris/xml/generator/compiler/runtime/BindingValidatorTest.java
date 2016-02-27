@@ -22,12 +22,13 @@ import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.commons.xml.validator.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class BindingValidatorTest {
+public class BindingValidatorTest extends LoggableTest {
   /**
    * This test verifies that the correct implementation of the SAXParser is used
    * within the validator. A SAXParser implementation other than the default

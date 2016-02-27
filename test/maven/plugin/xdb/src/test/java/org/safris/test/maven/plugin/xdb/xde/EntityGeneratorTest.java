@@ -21,9 +21,10 @@ import java.io.File;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.commons.lang.Resources;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.xde.generator.EntityGenerator;
 
-public class EntityGeneratorTest {
+public class EntityGeneratorTest extends LoggableTest {
   public static void main(final String[] args) throws Exception {
     new EntityGeneratorTest().test();
   }

@@ -17,11 +17,11 @@
 package org.safris.maven.plugin.dependency.filter;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugin.dependency.utils.filters.AbstractArtifactFeatureFilter;
+import org.apache.maven.shared.artifact.filter.collection.AbstractArtifactFeatureFilter;
 
 public final class GroupIdArtifactIdFilter extends AbstractArtifactFeatureFilter {
   public GroupIdArtifactIdFilter(final String include, final String exclude) {
-    super(include, exclude, "Artifact");
+    super(include, exclude);
   }
 
   @Override

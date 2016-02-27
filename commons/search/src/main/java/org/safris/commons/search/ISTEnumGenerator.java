@@ -180,6 +180,7 @@ public class ISTEnumGenerator {
     code += "    return word.token.length() <= position || word.token.charAt(position) != ch ? null : word;\n";
     code += "  }\n\n";
 
+    code += "  @" + Override.class.getName() + "\n";
     code += "  public " + String.class.getName() + " toString() {\n";
     code += "    return token;\n";
     code += "  }\n";

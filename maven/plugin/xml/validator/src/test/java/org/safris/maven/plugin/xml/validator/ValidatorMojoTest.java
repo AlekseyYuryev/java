@@ -20,9 +20,10 @@ import java.io.File;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 import org.xml.sax.SAXException;
 
-public class ValidatorMojoTest {
+public class ValidatorMojoTest extends LoggableTest {
   @Test
   public void testValidate() throws Exception {
     final File dir = new File(".");
@@ -41,7 +42,7 @@ public class ValidatorMojoTest {
     }
     catch (final SAXException e) {
       if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/"))
-        System.err.println(e.getMessage());
+        log(e.getMessage());
       else
         Assert.fail(e.getMessage());
     }

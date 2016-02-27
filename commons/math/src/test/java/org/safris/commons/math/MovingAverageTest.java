@@ -18,8 +18,9 @@ package org.safris.commons.math;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class MovingAverageTest {
+public class MovingAverageTest extends LoggableTest {
   @Test
   public void testMovingAverage() {
     final double[] vals = new double[] {1, 2, 4, 1, 2, 3, 7};

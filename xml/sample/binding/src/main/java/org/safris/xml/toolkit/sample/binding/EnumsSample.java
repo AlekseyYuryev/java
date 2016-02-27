@@ -21,12 +21,12 @@ import org.safris.xml.toolkit.sample.binding.enums.enums_color$;
 import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
 import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
 
-public class EnumsExample {
+public class EnumsSample {
   public static void main(final String[] args) {
-    new EnumsExample().runExample();
+    new EnumsSample().runSample();
   }
 
-  public Binding runExample() {
+  public Binding runSample() {
     simple_fruit strawberry = new simple_fruit();
     strawberry._name$(new simple_fruit._name$("strawberry"));
     strawberry._sweet$(new simple_fruit._sweet$(true));

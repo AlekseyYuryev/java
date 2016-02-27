@@ -19,10 +19,10 @@ package org.safris.xml.toolkit.sample.binding;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SimpleTest extends AbstractTest {
+public class SimpleTest extends SampleTest {
   @Test
   @Override
-  public void testExample() {
-    Assert.assertTrue(verifyBinding(new SimpleExample().runExample()));
+  public void testSample() throws Exception {
+    Assert.assertTrue(verifyBinding(new SimpleSample().runSample()));
   }
 }

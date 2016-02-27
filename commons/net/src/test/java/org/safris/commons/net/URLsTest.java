@@ -23,8 +23,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class URLsTest {
+public class URLsTest extends LoggableTest {
   @Test
   public void testIsLocal() throws Exception {
     Assert.assertTrue(URLs.isLocal(new URL("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));
@@ -65,39 +66,39 @@ public class URLsTest {
     final Map<URL,String[]> relative = new HashMap<URL,String[]>();
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
       absolute.put(new URL("file", "", "/c:/Windows"), "c:\\Windows");
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows\\", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"c:\\Windows\\", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows\\", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[]{"\\c:\\Windows\\", "\\system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "\\system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows\\", "system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows\\", "\\system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows", "system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows", "\\system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows\\", "system32"});
+      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows\\", "\\system32"});
     }
     else {
       absolute.put(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf");
       absolute.put(new URL("file", "", "/initrd.img"), "initrd.img");
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"", "etc/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"", "/etc/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"etc/resolv.conf", ""});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"/etc/resolv.conf", ""});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"etc", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"etc", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"etc/", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"etc/", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"/etc", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"/etc", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"/etc/", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[]{"/etc/", "/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"", "etc/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"", "/etc/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/resolv.conf", ""});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/resolv.conf", ""});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc", "resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc", "/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/", "resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/", "/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc", "resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc", "/resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/", "resolv.conf"});
+      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/", "/resolv.conf"});
     }
 
     absolute.put(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp");
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"", "http://www.google.com/webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com/webhp", ""});
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com/", "webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com", "webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com", "/webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[]{"http://www.google.com/", "/webhp"});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"", "http://www.google.com/webhp"});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/webhp", ""});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/", "webhp"});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com", "webhp"});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com", "/webhp"});
+    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/", "/webhp"});
     for (final Map.Entry<URL,String> entry : absolute.entrySet())
       Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()));
 

@@ -29,12 +29,12 @@ import org.safris.xml.toolkit.sample.binding.substitutiongroup.sg_stockList;
 import org.safris.xml.toolkit.sample.binding.substitutiongroup.sg_umbrella;
 import org.xml.sax.InputSource;
 
-public class SubstitutionGroupExample {
+public class SubstitutionGroupSample {
   public static void main(final String[] args) throws Exception {
-    new SubstitutionGroupExample().runExample();
+    new SubstitutionGroupSample().runSample();
   }
 
-  public Binding runExample() throws Exception {
+  public Binding runSample() throws Exception {
     File file = new File("src/main/resources/xml/substitutionGroup.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");

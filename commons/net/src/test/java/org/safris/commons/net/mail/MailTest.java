@@ -23,8 +23,9 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class MailTest {
+public class MailTest extends LoggableTest {
   private int successCount = 0;
 
   private class TestMessage extends Mail.Message  {

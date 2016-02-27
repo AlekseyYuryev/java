@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.rmi.UnexpectedException;
 
 import org.safris.cdm.Audit;
-import org.safris.commons.test.PerfStat;
 import org.safris.commons.util.StreamSearcher;
 
 public class Lexer {
@@ -66,7 +65,7 @@ public class Lexer {
    * So far, best performance is with FileInputStream, reading chars.
    */
   public static Audit tokenize(final File file) throws IOException {
-    PerfStat.mark("Lexer", "tokenize");
+//    PerfStat.mark("Lexer", "tokenize");
     final char[] chars = new char[(int)file.length()];
     final Audit audit = new Audit(file, chars);
     final InputStreamReader in = new FileReader(file);
@@ -394,7 +393,7 @@ public class Lexer {
     audit.push(token, i - len + 1, len);
 
     in.close();
-    PerfStat.mark("Lexer", "tokenize");
+//    PerfStat.mark("Lexer", "tokenize");
     return audit;
   }
 }

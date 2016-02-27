@@ -73,7 +73,7 @@ public final class CertMojo extends AbstractMojo {
           if (url.getPort() != -1)
             arg += ":" + url.getPort();
 
-          InstallCert.main(new String[]{arg});
+          InstallCert.main(new String[] {arg});
           checkedURLs.add(repository.getUrl());
         }
         catch (final FileNotFoundException e) {

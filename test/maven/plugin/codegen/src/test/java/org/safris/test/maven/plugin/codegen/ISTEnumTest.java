@@ -16,13 +16,16 @@
 
 package org.safris.test.maven.plugin.codegen;
 
+import java.util.logging.Level;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.lang.Arrays;
 import org.safris.commons.lang.Strings;
 import org.safris.commons.search.ISTEnumUtil;
+import org.safris.commons.test.LoggableTest;
 
-public class ISTEnumTest {
+public class ISTEnumTest extends LoggableTest {
   private static Keyword testToken(final Keyword[] keywords, final String token) {
     int[] indices = new int[keywords.length];
     Arrays.fillIncremental(indices, 0);
@@ -43,18 +46,18 @@ public class ISTEnumTest {
     return keyword;
   }
 
-  private static void assertEquals(final Keyword expected, final Keyword actual) {
+  private void assertEquals(final Keyword expected, final Keyword actual) {
     if (actual == null) {
-      System.err.println("[FAIL] " + actual + " == null");
+      log(Level.SEVERE, actual + " == null");
       Assert.fail();
     }
 
     if (expected != actual) {
-      System.err.println("[FAIL] " + actual + " != " + actual);
+      log(Level.SEVERE, actual + " != " + actual);
       Assert.fail();
     }
 
-//    System.out.println("[OK] " + result);
+//    log("[OK] " + result);
   }
 
   private static String print(final Keyword[] keywords) {

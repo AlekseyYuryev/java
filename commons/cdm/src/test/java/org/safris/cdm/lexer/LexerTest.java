@@ -23,8 +23,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.safris.cdm.Audit;
 import org.safris.commons.io.Files;
+import org.safris.commons.test.LoggableTest;
 
-public class LexerTest {
+public class LexerTest extends LoggableTest {
   @Test
   public void testTokenize() throws IOException {
     final File file = new File("../../xml/generator/compiler/src/main/java/org/safris/xml/generator/compiler/runtime/Binding.java");
@@ -35,7 +36,7 @@ public class LexerTest {
     Assert.assertEquals(expected, out);
     /*for (int x = 0; x < indices.size(); x++) {
       final Index index = indices.get(x);
-      System.out.println(Strings.padFixed(index.token + ":", 16) + new String(bytes, index.start, index.length + 1));
+      log(Strings.padFixed(index.token + ":", 16) + new String(bytes, index.start, index.length + 1));
     }*/
   }
 }

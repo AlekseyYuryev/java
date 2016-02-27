@@ -18,8 +18,9 @@ package org.safris.commons.measure;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class AngleTest {
+public class AngleTest extends LoggableTest {
   @Test
   public void testDMS() {
     final Angle latitude = new Angle(3.58324, Angle.Unit.DEG);

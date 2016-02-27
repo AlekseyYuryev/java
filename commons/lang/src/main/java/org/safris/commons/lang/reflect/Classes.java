@@ -105,6 +105,23 @@ public final class Classes {
     }
   };
 
+  private static final For.Recurser<Method,Class<?>> declaredMethodRecurser = new For.Recurser<Method,Class<?>>() {
+    @Override
+    public boolean accept(final Method item, final Object ... args) {
+      return true;
+    }
+
+    @Override
+    public Method[] items(final Class<?> container) {
+      return container.getDeclaredMethods();
+    }
+
+    @Override
+    public Class<?> next(final Class<?> container) {
+      return container.getSuperclass();
+    }
+  };
+
   private static final For.Recurser<Field,Class<?>> fieldRecurser = new For.Recurser<Field,Class<?>>() {
     @Override
     public boolean accept(final Field field, final Object ... args) {
@@ -126,6 +143,14 @@ public final class Classes {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean accept(final Field item, final Object ... args) {
+      return item.getAnnotation((Class)args[0]) != null;
+    }
+  };
+
+  private static final For.Filter<Method> declaredMethodWithAnnotationFilter = new For.Filter<Method>() {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public boolean accept(final Method item, final Object ... args) {
       return item.getAnnotation((Class)args[0]) != null;
     }
   };
@@ -171,8 +196,27 @@ public final class Classes {
     return For.<Field>recursiveOrdered(clazz.getDeclaredFields(), Field.class, declaredFieldWithAnnotationFilter, annotationType);
   }
 
-  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(Class<?> clazz, final Class<T> annotationType) {
+  public static <T extends Annotation>Field[] getDeclaredFieldsWithAnnotationDeep(final Class<?> clazz, final Class<T> annotationType) {
     return For.<Field,Class<?>>recursiveInverted(clazz, clazz.getDeclaredFields(), Field.class, declaredFieldRecurser, annotationType);
+  }
+
+  /**
+   * Find declared Field(s) in the clazz that have an annotation annotationType, executing a comparator callback for content matching.
+   *
+   * The comparator compareTo method may return: 0 if there is a match, -1 if there if no match, and 1 if there is a match & to return Field result after this
+   * match.
+   *
+   * @param clazz
+   * @param annotationType
+   * @param comparable
+   * @return
+   */
+  public static <T extends Annotation>Method[] getDeclaredMethodsWithAnnotation(final Class<?> clazz, final Class<T> annotationType) {
+    return For.<Method>recursiveOrdered(clazz.getDeclaredMethods(), Method.class, declaredMethodWithAnnotationFilter, annotationType);
+  }
+
+  public static <T extends Annotation>Method[] getDeclaredMethodsWithAnnotationDeep(final Class<?> clazz, final Class<T> annotationType) {
+    return For.<Method,Class<?>>recursiveInverted(clazz, clazz.getDeclaredMethods(), Method.class, declaredMethodRecurser, annotationType);
   }
 
   /**

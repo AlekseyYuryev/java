@@ -2,8 +2,9 @@ package org.safris.commons.xml.binding;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class LanguageTest {
+public class LanguageTest extends LoggableTest {
   @Test
   public void testLanguage() {
     try {

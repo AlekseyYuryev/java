@@ -23,8 +23,9 @@ package org.safris.commons.search;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class DamerauLevenshteinDistanceTest {
+public class DamerauLevenshteinDistanceTest extends LoggableTest {
   @Test
   public void testDistance() {
     Assert.assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", ""));
@@ -55,7 +56,7 @@ public class DamerauLevenshteinDistanceTest {
   @Test
   @SuppressWarnings("unused")
   public void testInvalidCosts() {
-    System.out.println(new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Where's Your Head At", "Wheres Y"));
+    log(new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Where's Your Head At", "Wheres Y"));
     try {
       new DamerauLevenshteinDistance(1, 1, 1, 0);
       Assert.fail();

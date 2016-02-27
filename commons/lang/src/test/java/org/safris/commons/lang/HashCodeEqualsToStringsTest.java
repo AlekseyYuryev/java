@@ -2,13 +2,12 @@ package org.safris.commons.lang;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
 @SuppressWarnings("unused")
-public class HashCodeEqualsToStringsTest {
+public class HashCodeEqualsToStringsTest extends LoggableTest {
   private static enum E {
-    a,
-    b,
-    c
+    a, b, c
   }
 
   private static class A {
@@ -80,10 +79,10 @@ public class HashCodeEqualsToStringsTest {
 
   @Test
   public void testToStrings() {
-    System.out.println(ToStrings.toString(new A()));
-    System.out.println(ToStrings.toString(new B()));
-    System.out.println(ToStrings.toString(new C(E.a)));
-    System.out.println(ToStrings.toString(new D(E.b)));
-    System.out.println(ToStrings.toString(new F()));
+    log(ToStrings.toString(new A()));
+    log(ToStrings.toString(new B()));
+    log(ToStrings.toString(new C(E.a)));
+    log(ToStrings.toString(new D(E.b)));
+    log(ToStrings.toString(new F()));
   }
 }

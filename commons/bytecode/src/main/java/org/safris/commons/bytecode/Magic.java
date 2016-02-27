@@ -24,7 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public final class Magic {
-  private static final int[] validMagic = new int[]{0xca, 0xfe, 0xba, 0xbe};
+  private static final int[] validMagic = new int[] {0xca, 0xfe, 0xba, 0xbe};
 
   public static void main(final String[] args) throws IOException {
     for (int i = 0; i < args.length; i++)

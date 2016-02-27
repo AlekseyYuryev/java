@@ -24,9 +24,9 @@ import java.util.TreeMap;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.util.TieredRangeFetcher;
+import org.safris.commons.test.LoggableTest;
 
-public class TieredRangeFetcherTest {
+public class TieredRangeFetcherTest extends LoggableTest {
   @Test
   public void testTieredFetcher() {
     final int dbFrom = 20;
@@ -45,7 +45,7 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, Integer to) {
-        System.out.println("WEB -> (" + from + ", " + to + "]");
+        log("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<Integer,Object>();
         for (int i = from; i < to; i++)
           results.put(i, i);
@@ -68,13 +68,13 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        System.out.println("DB -> (" + from + ", " + to + "]");
+        log("DB -> (" + from + ", " + to + "]");
         return db.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        System.out.println("DB <- (" + from + ", " + to + "]");
+        log("DB <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }
@@ -102,13 +102,13 @@ public class TieredRangeFetcherTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        System.out.println("CACHE -> (" + from + ", " + to + "]");
+        log("CACHE -> (" + from + ", " + to + "]");
         return cache.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        System.out.println("CACHE <- (" + from + ", " + to + "]");
+        log("CACHE <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }
@@ -131,7 +131,6 @@ public class TieredRangeFetcherTest {
 //  DB -> (8, 10]
 //  CACHE <- (8, 10]
 //  CACHE -> (8, 12]
-    System.out.println();
     assertEquals(4, cacheLoader.fetch(8, 12).size());
 
 //  WEB -> (20, 24]
@@ -139,7 +138,6 @@ public class TieredRangeFetcherTest {
 //  DB -> (20, 24]
 //  CACHE <- (20, 24]
 //  CACHE -> (18, 24]
-    System.out.println();
     assertEquals(6, cacheLoader.fetch(18, 24).size());
 
 //  WEB -> (24, 28]
@@ -147,7 +145,6 @@ public class TieredRangeFetcherTest {
 //  DB -> (24, 28]
 //  CACHE <- (24, 28]
 //  CACHE -> (28, 30]
-    System.out.println();
     assertEquals(2, cacheLoader.fetch(28, 30).size());
 
 //  WEB -> (4, 8]
@@ -155,11 +152,9 @@ public class TieredRangeFetcherTest {
 //  DB -> (4, 8]
 //  CACHE <- (4, 8]
 //  CACHE -> (4, 6]
-    System.out.println();
     assertEquals(2, cacheLoader.fetch(4, 6).size());
 
 //  CACHE -> (8, 26]
-    System.out.println();
     assertEquals(18, cacheLoader.fetch(8, 26).size());
   }
 }

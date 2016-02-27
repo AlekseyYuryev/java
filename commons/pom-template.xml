@@ -30,9 +30,6 @@
   <version>${dev:org.safris.commons}</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Commons source.
-  </description>
   <modules>
     <module>logging</module>
     <module>pipeline</module>
@@ -40,7 +37,7 @@
     <module>jndi</module>
     <module>lang</module>
     <module>security</module>
-    <module>test</module>
+    <!--module>test</module-->
     <module>math</module>
     <module>el</module>
     <module>cli</module>

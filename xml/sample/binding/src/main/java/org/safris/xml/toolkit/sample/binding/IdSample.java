@@ -27,12 +27,12 @@ import org.safris.xml.toolkit.sample.binding.id.id_directory;
 import org.w3.x2001.xmlschema.$xs_IDREFS;
 import org.xml.sax.InputSource;
 
-public class IdExample {
+public class IdSample {
   public static void main(final String[] args) throws Exception {
-    new IdExample().runExample();
+    new IdSample().runSample();
   }
 
-  public Binding runExample() throws Exception {
+  public Binding runSample() throws Exception {
     File file = new File("src/main/resources/xml/id.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");

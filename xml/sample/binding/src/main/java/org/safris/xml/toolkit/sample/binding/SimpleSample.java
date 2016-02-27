@@ -20,12 +20,12 @@ import org.safris.xml.generator.compiler.runtime.Binding;
 import org.safris.xml.toolkit.sample.binding.simple.simple_fruit;
 import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
 
-public class SimpleExample {
+public class SimpleSample {
   public static void main(final String[] args) {
-    new SimpleExample().runExample();
+    new SimpleSample().runSample();
   }
 
-  public Binding runExample() {
+  public Binding runSample() {
     simple_fruit strawberry = new simple_fruit();
     strawberry._name$(new simple_fruit._name$("strawberry"));
     strawberry._sweet$(new simple_fruit._sweet$(true));

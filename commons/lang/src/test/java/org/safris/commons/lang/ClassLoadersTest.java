@@ -4,8 +4,9 @@ import java.net.URL;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public class ClassLoadersTest {
+public class ClassLoadersTest extends LoggableTest {
   @Test
   public void test() {
     final URL[] urls = ClassLoaders.getClassPath();
