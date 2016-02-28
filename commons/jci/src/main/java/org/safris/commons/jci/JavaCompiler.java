@@ -131,7 +131,6 @@ public final class JavaCompiler {
     args[i++] = "javac";
     args[i++] = "-Xlint:none";
     args[i++] = "-J-Xmx256m";
-    args[i++] = "-J-XX:MaxPermSize=128m";
     args[i++] = "-d";
     args[i++] = destDir.getAbsolutePath();
     args[i++] = "-cp";

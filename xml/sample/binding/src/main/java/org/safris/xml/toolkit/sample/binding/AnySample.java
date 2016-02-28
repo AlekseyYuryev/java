@@ -32,24 +32,24 @@ public class AnySample {
   }
 
   public Binding runSample() {
-    simple_fruit strawberry = new simple_fruit();
+    final simple_fruit strawberry = new simple_fruit();
     strawberry._name$(new simple_fruit._name$("strawberry"));
     strawberry._sweet$(new simple_fruit._sweet$(true));
 
-    simple_fruit jackfruit = new simple_fruit();
+    final simple_fruit jackfruit = new simple_fruit();
     jackfruit._name$(new simple_fruit._name$("jackfruit"));
     jackfruit._sweet$(new simple_fruit._sweet$(false));
     jackfruit._dry$(new simple_fruit._dry$(false));
 
-    simple_fruitBasket._fruits simple_fruits = new simple_fruitBasket._fruits();
+    final simple_fruitBasket._fruits simple_fruits = new simple_fruitBasket._fruits();
     simple_fruits.simple_fruit(strawberry);
     simple_fruits.simple_fruit(jackfruit);
 
-    enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+    final enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
     coloredBasket.enums_color$(new enums_color$(enums_color$.blue));
     coloredBasket._fruits(simple_fruits);
 
-    $type_fleshyFruitType berry = new $type_fleshyFruitType() {
+    final $type_fleshyFruitType berry = new $type_fleshyFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
@@ -59,18 +59,16 @@ public class AnySample {
     berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.soft));
 
     // Again, instantiate a nameless element.GenericBasket
-    $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType()
-    {
+    final $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
-//              return new SimpleSpecialFruit();
       }
     };
     grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Grain));
 
     // Again, instantiate a nameless element.
-    $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
+    final $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return new simple_fruit();
@@ -80,7 +78,7 @@ public class AnySample {
     nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$._5Ftrue));
 //      nut.setDryAttr(new ITypesimple_fruitType.DryAttr(false));
 
-    any_trash trash = new any_trash();
+    final any_trash trash = new any_trash();
     trash.addAny(coloredBasket);
     trash.addAny(berry);
     trash.addAny(grain);

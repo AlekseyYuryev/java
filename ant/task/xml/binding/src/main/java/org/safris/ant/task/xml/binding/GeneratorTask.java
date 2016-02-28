@@ -44,7 +44,7 @@ public class GeneratorTask extends Task implements DynamicElement {
   public static void main(final String[] args) throws BuildException {
     // FIXME: Finish implementing this!
     if (args.length != 1)
-      usage();
+      trapPrintUsage();
 
     final File buildFile = new File(args[0]);
     if (!buildFile.exists())
@@ -130,7 +130,7 @@ public class GeneratorTask extends Task implements DynamicElement {
     return targets;
   }
 
-  private static void usage() {
+  private static void trapPrintUsage() {
     System.err.println("Usage: GeneratorTask <build.xml>");
     System.exit(1);
   }

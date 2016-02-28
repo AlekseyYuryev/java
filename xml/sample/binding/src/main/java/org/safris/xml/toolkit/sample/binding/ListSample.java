@@ -19,6 +19,7 @@ package org.safris.xml.toolkit.sample.binding;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+
 import org.safris.commons.xml.binding.Date;
 import org.safris.commons.xml.binding.Time;
 import org.safris.xml.generator.compiler.runtime.Binding;
@@ -35,39 +36,39 @@ public class ListSample {
   }
 
   private static void printCommon(final $li_staffType staffType) {
-    String name = staffType._name(0).text();
+    final String name = staffType._name(0).text();
     System.out.println("Name: " + name);
 
-    List<String> workDays = staffType._workDays(0).text();
+    final List<String> workDays = staffType._workDays(0).text();
     System.out.println("Work Days: " + name);
     for (String workDay : workDays)
       System.out.println("\t" + workDay);
   }
 
   public Binding runSample() throws Exception {
-    File file = new File("src/main/resources/xml/list.xml");
+    final File file = new File("src/main/resources/xml/list.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 
     if (!file.canRead())
       throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
-    li_roster roster = (li_roster)Bindings.parse(new InputSource(new FileInputStream(file)));
+    final li_roster roster = (li_roster)Bindings.parse(new InputSource(new FileInputStream(file)));
     if (roster._employees() != null && roster._employees().size() != -1) {
-      List<$li_employeeType> employees = roster._employees(0)._employee();
-      for ($li_employeeType employee : employees) {
+      final List<$li_employeeType> employees = roster._employees(0)._employee();
+      for (final $li_employeeType employee : employees) {
         printCommon(employee);
 
-        String position = employee._position(0).text();
+        final String position = employee._position(0).text();
         System.out.println("Position: " + position);
 
-        List<Date> vacationDates = employee._vacationDates(0).text();
+        final List<Date> vacationDates = employee._vacationDates(0).text();
         System.out.println("Vacation Dates:");
         for (Date vacationDate : vacationDates)
           System.out.println("\t" + vacationDate);
       }
 
-      li_roster._employees._employee employee = new li_roster._employees._employee();
+      final li_roster._employees._employee employee = new li_roster._employees._employee();
       employee._name(new li_roster._employees._employee._name("Woody Harold"));
       employee._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.mon, li_roster._employees._employee._workDays.tue, li_roster._employees._employee._workDays.wed));
       employee._position(new li_roster._employees._employee._position(li_roster._employees._employee._position.stockroom));
@@ -76,17 +77,17 @@ public class ListSample {
     }
 
     if (roster._volunteers() != null && roster._volunteers().size() != -1) {
-      List<$li_volunteerType> volunteers = roster._volunteers(0)._volunteer();
-      for ($li_volunteerType volunteer : volunteers) {
+      final List<$li_volunteerType> volunteers = roster._volunteers(0)._volunteer();
+      for (final $li_volunteerType volunteer : volunteers) {
         printCommon(volunteer);
 
-        List<Time> breakTimes = volunteer._breakTimes(0).text();
+        final List<Time> breakTimes = volunteer._breakTimes(0).text();
         System.out.println("Break Times:");
-        for (Time breakTime : breakTimes)
+        for (final Time breakTime : breakTimes)
           System.out.println("\t" + breakTime);
       }
 
-      li_roster._volunteers._volunteer volunteer = new li_roster._volunteers._volunteer();
+      final li_roster._volunteers._volunteer volunteer = new li_roster._volunteers._volunteer();
       volunteer._name(new li_roster._employees._employee._name("Michelle Smith"));
       volunteer._workDays(new li_roster._employees._employee._workDays(li_roster._employees._employee._workDays.mon, li_roster._employees._employee._workDays.tue, li_roster._employees._employee._workDays.wed));
       volunteer._breakTimes(new li_roster._volunteers._volunteer._breakTimes(new Time(10, 15, 00), new Time(12, 00, 00), new Time(15, 30, 00)));

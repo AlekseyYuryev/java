@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.safris.commons.io.Files;
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
@@ -66,7 +67,7 @@ public final class SchemaModel extends Model {
   public final void setURL(final URL url) {
     this.url = url;
     final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
-    logger.info("Scanning {" + getTargetNamespace() + "} from " + display);
+    Log.info("Scanning {" + getTargetNamespace() + "} from " + display);
   }
 
   public final URL getURL() {

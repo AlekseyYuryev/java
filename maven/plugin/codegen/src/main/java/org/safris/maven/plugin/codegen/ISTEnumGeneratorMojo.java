@@ -19,17 +19,17 @@ package org.safris.maven.plugin.codegen;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.maven.AdvancedMojo;
 import org.safris.commons.search.ISTEnumGenerator;
 
 /**
  * @goal istenum
  */
-public final class ISTEnumGeneratorMojo extends AbstractMojo {
+public final class ISTEnumGeneratorMojo extends AdvancedMojo {
   /**
    * @parameter default-value="${project}"
    * @readonly

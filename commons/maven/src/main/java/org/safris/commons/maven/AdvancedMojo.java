@@ -14,25 +14,18 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.logging;
+package org.safris.commons.maven;
 
-import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.maven.plugin.AbstractMojo;
 
-public final class Logging {
-  public static void setLevel(final Level globalLevel, final List<$lg_setting> settings) {
-    final Logger rootLogger = Logger.getLogger("");
-    rootLogger.setLevel(globalLevel);
-    for (final Handler handler : rootLogger.getHandlers())
-      handler.setLevel(globalLevel);
+public abstract class AdvancedMojo extends AbstractMojo {
+  private static AdvancedMojo instance;
 
-    if (settings != null)
-      for (final $lg_setting setting : settings)
-        Logger.getLogger(setting._name$().text()).setLevel(Level.parse(setting._level$().text()));
+  protected static AdvancedMojo getMojo() {
+    return instance;
   }
 
-  private Logging() {
+  public AdvancedMojo() {
+    instance = this;
   }
 }

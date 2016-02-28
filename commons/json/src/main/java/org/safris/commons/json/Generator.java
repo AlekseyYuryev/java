@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
+import org.safris.commons.maven.Log;
 import org.safris.commons.xml.XMLException;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
@@ -38,7 +39,7 @@ public class Generator {
   public static void generate(final URL url, final File destDir) throws IOException, XMLException {
     final json_json json = (json_json)Bindings.parse(new InputSource(url.openStream()));
     if (json._object() == null) {
-      System.err.println("[ERROR] Missing <object> elements: " + url.toExternalForm());
+      Log.error("Missing <object> elements: " + url.toExternalForm());
       return;
     }
 
@@ -113,7 +114,7 @@ public class Generator {
   private static void writeJavaClass(final json_json._object object, final File outDir) throws IOException {
     final String objectName = object._name$().text();
     if (object._value() == null) {
-      System.err.println("[ERROR] <object name='" + objectName + "'> is missing values.");
+      Log.error("<object name='" + objectName + "'> is missing values.");
       return;
     }
 

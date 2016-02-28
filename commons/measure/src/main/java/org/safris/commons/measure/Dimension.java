@@ -107,6 +107,9 @@ public abstract class Dimension {
       }
     }
 
+    /**
+     * Print the conversion table to stdout
+     */
     public static void printConversionTable() {
       for (final Map.Entry<Unit,Map<Unit,Double>> entry : basisToUnitFactors.entrySet())
         for (final Map.Entry<Unit,Double> entry2 : entry.getValue().entrySet())

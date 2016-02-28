@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -35,26 +35,26 @@ public class SubstitutionGroupSample {
   }
 
   public Binding runSample() throws Exception {
-    File file = new File("src/main/resources/xml/substitutionGroup.xml");
+    final File file = new File("src/main/resources/xml/substitutionGroup.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 
     if (!file.canRead())
       throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
-    sg_stockList stockList = (sg_stockList)Bindings.parse(new InputSource(new FileInputStream(file)));
-    List<$sg_productType> products = stockList.sg_product();
-    for ($sg_productType product : products) {
+    final sg_stockList stockList = (sg_stockList)Bindings.parse(new InputSource(new FileInputStream(file)));
+    final List<$sg_productType> products = stockList.sg_product();
+    for (final $sg_productType product : products) {
       if (product instanceof sg_shirt) {
-        sg_shirt shirt = (sg_shirt)product;
+        final sg_shirt shirt = (sg_shirt)product;
         System.out.println("There are " + shirt._amount(0).text() + " of '" + shirt._name(0).text() + "' shirts colored " + shirt._color(0).text() + ", size " + shirt._size(0).text());
       }
       else if (product instanceof sg_hat) {
-        sg_hat hat = (sg_hat)product;
+        final sg_hat hat = (sg_hat)product;
         System.out.println("There are " + hat._amount(0).text() + " of '" + hat._name(0).text() + "' hats, size " + hat._size(0).text());
       }
       else if (product instanceof sg_umbrella) {
-        sg_umbrella umbrella = (sg_umbrella)product;
+        final sg_umbrella umbrella = (sg_umbrella)product;
         System.out.println("There are " + umbrella._amount(0).text() + " of '" + umbrella._name(0).text() + "' umbrellas");
       }
     }

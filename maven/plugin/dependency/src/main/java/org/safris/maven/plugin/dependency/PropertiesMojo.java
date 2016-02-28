@@ -21,10 +21,10 @@ import java.util.List;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.maven.AdvancedMojo;
 
-public abstract class PropertiesMojo extends AbstractMojo implements DependencyProperties {
+public abstract class PropertiesMojo extends AdvancedMojo implements DependencyProperties {
   /**
    * @parameter default-value="" expression="${mdep.fileSeparator}"
    */

@@ -60,7 +60,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class Generator extends AbstractGenerator {
-  private static void usage() {
+  private static void trapPrintUsage() {
     System.err.println("Usage: Generator [OPTIONS] <-d DEST_DIR> <SCHEMA_XSD>");
     System.err.println("");
     System.err.println("Mandatory arguments:");
@@ -74,7 +74,7 @@ public final class Generator extends AbstractGenerator {
 
   public static void main(final String[] args) {
     if (args.length == 0 || args[0] == null || args[0].length() == 0)
-      usage();
+      trapPrintUsage();
 
     boolean explodeJars = false;
     boolean overwrite = false;

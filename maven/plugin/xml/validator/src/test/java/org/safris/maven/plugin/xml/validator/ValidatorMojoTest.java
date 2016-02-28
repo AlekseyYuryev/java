@@ -27,9 +27,9 @@ public class ValidatorMojoTest extends LoggableTest {
   @Test
   public void testValidate() throws Exception {
     final File dir = new File(".");
-    ValidatorMojo.validate(dir, new File("src/test/resources/xml/valid.xml"), null);
+    ValidatorMojo.validate(dir, new File("src/test/resources/xml/valid.xml"));
     try {
-      ValidatorMojo.validate(dir, new File("src/test/resources/xml/invalid.xml"), null);
+      ValidatorMojo.validate(dir, new File("src/test/resources/xml/invalid.xml"));
       Assert.fail("Should have failed.");
     }
     catch (final SAXException e) {
@@ -38,7 +38,7 @@ public class ValidatorMojoTest extends LoggableTest {
     }
 
     try {
-      ValidatorMojo.validate(dir, new File("src/test/resources/xsd/test.xsd"), null);
+      ValidatorMojo.validate(dir, new File("src/test/resources/xsd/test.xsd"));
     }
     catch (final SAXException e) {
       if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/"))

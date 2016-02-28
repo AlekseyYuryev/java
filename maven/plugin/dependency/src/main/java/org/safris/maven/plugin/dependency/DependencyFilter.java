@@ -26,7 +26,6 @@ import org.apache.maven.plugin.dependency.utils.resolvers.ArtifactsResolver;
 import org.apache.maven.plugin.dependency.utils.resolvers.DefaultArtifactsResolver;
 import org.apache.maven.plugin.dependency.utils.translators.ArtifactTranslator;
 import org.apache.maven.plugin.dependency.utils.translators.ClassifierTypeTranslator;
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.artifact.filter.collection.ArtifactFilterException;
 import org.apache.maven.shared.artifact.filter.collection.ArtifactIdFilter;
 import org.apache.maven.shared.artifact.filter.collection.ClassifierFilter;
@@ -79,7 +78,7 @@ public final class DependencyFilter {
       artifacts = filter.filter(artifacts);
       artifacts.add(properties.getProject().getArtifact());
       // transform artifacts if classifier is set
-      return StringUtils.isNotEmpty(properties.getClassifier()) ? getClassifierTranslatedDependencies(artifacts, properties) : filterMarkedDependencies(artifacts, properties.getLog());
+      return StringUtils.isNotEmpty(properties.getClassifier()) ? getClassifierTranslatedDependencies(artifacts, properties) : filterMarkedDependencies(artifacts);
     }
     catch (final ArtifactFilterException e) {
       throw new MojoExecutionException(e.getMessage(), e);
@@ -108,7 +107,7 @@ public final class DependencyFilter {
       final ArtifactTranslator artifactTranslator = new ClassifierTypeTranslator(properties.getClassifier(), properties.getType(), properties.getFactory());
       artifacts = artifactTranslator.translate(artifacts, properties.getLog());
 
-      status = filterMarkedDependencies(artifacts, properties.getLog());
+      status = filterMarkedDependencies(artifacts);
 
       // the not skipped artifacts are in the resolved set.
       artifacts = status.getResolvedDependencies();
@@ -138,7 +137,7 @@ public final class DependencyFilter {
    * @throws ArtifactFilterException
    */
   @SuppressWarnings("unchecked")
-  protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts, final Log log) throws ArtifactFilterException, MojoExecutionException {
+  protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts) throws ArtifactFilterException, MojoExecutionException {
     // remove files that have markers already
     final FilterArtifacts filter = new FilterArtifacts();
     filter.clearFilters();

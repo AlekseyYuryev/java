@@ -26,6 +26,7 @@ import java.net.URLDecoder;
 import java.security.SecureClassLoader;
 
 import org.safris.commons.io.Files;
+import org.safris.commons.maven.Log;
 
 public final class WeakClassLoader extends SecureClassLoader {
   private final java.lang.ClassLoader parent;
@@ -72,7 +73,7 @@ public final class WeakClassLoader extends SecureClassLoader {
       decodedUrl = URLDecoder.decode(url.getFile(), "UTF-8");
     }
     catch (final UnsupportedEncodingException e) {
-      System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
+      Log.error("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
     }
 
     Class<?> bindingClass = null;
@@ -84,7 +85,7 @@ public final class WeakClassLoader extends SecureClassLoader {
       return parent != null ? parent.loadClass(name) : WeakClassLoader.getSystemClassLoader().loadClass(name);
     }
     catch (final IOException e) {
-      System.err.println("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
+      Log.error("ClassLoader: findClass(" + name + ")\n" + e.getMessage());
     }
 
     return bindingClass;

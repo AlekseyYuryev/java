@@ -16,14 +16,12 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
-import java.util.logging.Logger;
-
+import org.safris.commons.maven.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public final class BindingErrorHandler implements ErrorHandler {
-  private final Logger logger = Logger.getLogger(BindingErrorHandler.class.getName());
   private static final BindingErrorHandler instance = new BindingErrorHandler();
 
   public static BindingErrorHandler getInstance() {
@@ -39,7 +37,7 @@ public final class BindingErrorHandler implements ErrorHandler {
   @Override
   public void error(final SAXParseException e) throws SAXParseException {
     final String systemId = e.getSystemId() != null ? " systemId=\"" + e.getSystemId() + "\"" : "";
-    logger.severe("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
+    Log.error("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
     throw e;
   }
 
@@ -47,7 +45,7 @@ public final class BindingErrorHandler implements ErrorHandler {
   @Override
   public void warning(final SAXParseException e) throws SAXParseException {
     final String message = e.getMessage() != null ? " " + e.getMessage() : "";
-    logger.warning("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
+    Log.warn("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
   }
 
   private BindingErrorHandler() {

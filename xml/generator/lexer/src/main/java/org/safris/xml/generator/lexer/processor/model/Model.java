@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.safris.commons.maven.Log;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.xml.generator.lexer.lang.LexerError;
@@ -34,7 +34,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class Model implements PipelineEntity {
-  protected static final Logger logger = Logger.getLogger(Model.class.getName());
   protected static final String TO_STRING_DELIMITER = "TO_STRING_DELIMITER";
 
   private final Collection<Model> children = new ArrayList<Model>();
@@ -68,7 +67,7 @@ public abstract class Model implements PipelineEntity {
 
   protected final void registerSchemaLocation(final NamespaceURI namespaceURI, final URL schemaReference) {
     if (getParent() != null) {
-      logger.fine("registering schema location \"" + namespaceURI + "\" to \"" + schemaReference.toExternalForm() + "\"");
+      Log.debug("registering schema location \"" + namespaceURI + "\" to \"" + schemaReference.toExternalForm() + "\"");
       getParent().registerSchemaLocation(namespaceURI, schemaReference);
       return;
     }

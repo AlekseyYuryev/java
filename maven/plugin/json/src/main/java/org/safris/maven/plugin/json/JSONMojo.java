@@ -18,12 +18,12 @@ package org.safris.maven.plugin.json;
 
 import java.io.File;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.json.Generator;
+import org.safris.commons.maven.AdvancedMojo;
 import org.safris.commons.util.Resolver;
 import org.safris.maven.plugin.xml.binding.Manifest;
 import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
@@ -32,7 +32,7 @@ import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
  * @goal jso
  * @phase generate-sources
  */
-public class JSONMojo extends AbstractMojo {
+public class JSONMojo extends AdvancedMojo {
   /**
    * @parameter default-value="${maven.test.skip}"
    */

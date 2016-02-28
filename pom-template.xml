@@ -26,14 +26,6 @@
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
   <description>All projects under org.safris.</description>
-  <modules>
-    <module>commons</module>
-    <module>xml</module>
-    <module>ant</module>
-    <module>maven</module>
-    <module>xdb</module>
-    <module>test</module>
-  </modules>
   <url>http://www.safris.org/</url>
   <organization>
     <name>Seva Safris</name>
@@ -150,6 +142,41 @@
           </plugins>
         </pluginManagement>
       </build>
+    </profile>
+    <profile>
+      <id>core</id>
+      <activation>
+        <property>
+          <name>core</name>
+        </property>
+      </activation>
+      <modules>
+        <module>commons</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property>
+          <name>!core</name>
+        </property>
+      </activation>
+      <modules>
+        <module>commons</module>
+        <module>xml</module>
+        <module>ant</module>
+        <module>maven</module>
+        <module>xdb</module>
+        <module>test</module>
+      </modules>
+      <dependencies>
+        <dependency>
+          <groupId>org.safris.commons</groupId>
+          <artifactId>test</artifactId>
+          <version>${dev:org.safris.commons.test}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
   <build>
@@ -531,12 +558,6 @@
     <dependency>
       <groupId>cobertura</groupId>
       <artifactId>cobertura</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>test</artifactId>
-      <version>${dev:org.safris.commons.test}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

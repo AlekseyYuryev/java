@@ -16,13 +16,10 @@
 
 package org.safris.xml.generator.lexer.processor.normalize;
 
-import java.util.logging.Logger;
-
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
 public abstract class Normalizer<T extends Model> implements PipelineEntity {
-  protected static final Logger logger = Logger.getLogger(Normalizer.class.getName());
   private final NormalizerDirectory directory;
 
   public Normalizer(final NormalizerDirectory directory) {

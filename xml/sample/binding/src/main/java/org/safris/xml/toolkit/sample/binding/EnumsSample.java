@@ -27,20 +27,20 @@ public class EnumsSample {
   }
 
   public Binding runSample() {
-    simple_fruit strawberry = new simple_fruit();
+    final simple_fruit strawberry = new simple_fruit();
     strawberry._name$(new simple_fruit._name$("strawberry"));
     strawberry._sweet$(new simple_fruit._sweet$(true));
 
-    simple_fruit jackfruit = new simple_fruit();
+    final simple_fruit jackfruit = new simple_fruit();
     jackfruit._name$(new simple_fruit._name$("jackfruit"));
     jackfruit._sweet$(new simple_fruit._sweet$(false));
     jackfruit._dry$(new simple_fruit._dry$(false));
 
-    enums_coloredFruitBasket._fruits simple_fruits = new enums_coloredFruitBasket._fruits();
+    final enums_coloredFruitBasket._fruits simple_fruits = new enums_coloredFruitBasket._fruits();
     simple_fruits.simple_fruit(strawberry);
     simple_fruits.simple_fruit(jackfruit);
 
-    enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+    final enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
     coloredBasket.enums_color$(new enums_color$(enums_color$.blue));
     coloredBasket._fruits(simple_fruits);
 

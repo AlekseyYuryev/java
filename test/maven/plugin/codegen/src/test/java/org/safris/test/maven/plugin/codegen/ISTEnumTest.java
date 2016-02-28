@@ -46,18 +46,12 @@ public class ISTEnumTest extends LoggableTest {
     return keyword;
   }
 
-  private void assertEquals(final Keyword expected, final Keyword actual) {
-    if (actual == null) {
-      log(Level.SEVERE, actual + " == null");
-      Assert.fail();
-    }
+  private static void assertEquals(final Keyword expected, final Keyword actual) {
+    if (actual == null)
+      Assert.fail(actual + " == null");
 
-    if (expected != actual) {
-      log(Level.SEVERE, actual + " != " + actual);
-      Assert.fail();
-    }
-
-//    log("[OK] " + result);
+    if (expected != actual)
+      Assert.fail(actual + " != " + actual);
   }
 
   private static String print(final Keyword[] keywords) {

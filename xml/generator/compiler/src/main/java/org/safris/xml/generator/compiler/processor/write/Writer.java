@@ -22,10 +22,10 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.logging.Logger;
 
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
@@ -40,7 +40,6 @@ import org.safris.xml.generator.lexer.processor.Nameable;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
   private static final StringBuffer license = new StringBuffer();
-  protected static final Logger logger = Logger.getLogger(Writer.class.getName());
   private final Collection<String> messages = new HashSet<String>();
 
   static {
@@ -56,16 +55,17 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     final URL url = plan.getModel().getSchema().getURL();
     final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
     final String message = "Compiling {" + plan.getModel().getTargetNamespace() + "} from " + display;
+
     if (!messages.contains(message)) {
-      logger.info(message);
       messages.add(message);
+      Log.info(message);
     }
 
     final Nameable<?> nameable = (Nameable<?>)plan;
     try {
       final String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
       if (pkg == null) {
-        System.err.println("The binding configuration does not specify a package for " + ((Nameable<?>)plan).getName().getNamespaceURI());
+        Log.error("The binding configuration does not specify a package for " + ((Nameable<?>)plan).getName().getNamespaceURI());
         System.exit(1);
       }
 

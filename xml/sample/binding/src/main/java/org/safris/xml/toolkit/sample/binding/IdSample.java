@@ -33,27 +33,27 @@ public class IdSample {
   }
 
   public Binding runSample() throws Exception {
-    File file = new File("src/main/resources/xml/id.xml");
+    final File file = new File("src/main/resources/xml/id.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 
     if (!file.canRead())
       throw new Error("File " + file.getAbsolutePath() + " is not readable.");
 
-    id_directory directory = (id_directory)Bindings.parse(new InputSource(new FileInputStream(file)));
-    List<$id_bookType> books = directory._book();
-    for ($id_bookType book : books) {
-      String shortName = book._author(0).text();
-      id_directory._author._id$ authorId = id_directory._author._id$.lookupId(shortName);
-      id_directory._author author = (id_directory._author)authorId.owner();
+    final id_directory directory = (id_directory)Bindings.parse(new InputSource(new FileInputStream(file)));
+    final List<$id_bookType> books = directory._book();
+    for (final $id_bookType book : books) {
+      final String shortName = book._author(0).text();
+      final id_directory._author._id$ authorId = id_directory._author._id$.lookupId(shortName);
+      final id_directory._author author = (id_directory._author)authorId.owner();
       System.out.print(author._name(0).text() + " is the author of " + book._title(0).text() + ".");
       if (book._co_authors() != null) {
-        $xs_IDREFS co_authors = book._co_authors(0);
+        final $xs_IDREFS co_authors = book._co_authors(0);
         if (co_authors.text() != null) {
           StringBuffer buffer = new StringBuffer();
           for (Object co_authorHandle : co_authors.text()) {
-            id_directory._author._id$ co_authorId = id_directory._author._id$.lookupId((String)co_authorHandle);
-            id_directory._author co_author = (id_directory._author)co_authorId.owner();
+            final id_directory._author._id$ co_authorId = id_directory._author._id$.lookupId((String)co_authorHandle);
+            final id_directory._author co_author = (id_directory._author)co_authorId.owner();
             buffer.append(", ").append(co_author._name(0).text());
           }
 

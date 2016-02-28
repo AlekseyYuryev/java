@@ -29,13 +29,16 @@
   <artifactId>test</artifactId>
   <version>${dev:org.safris.commons.test}</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Wrappers for common test patterns.
-  </description>
+  <description>Wrappers for common test patterns.</description>
   <dependencies>
     <dependency>
       <artifactId>junit</artifactId>
       <groupId>junit</groupId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>maven</artifactId>
+      <version>${dev:org.safris.commons.maven}</version>
     </dependency>
   </dependencies>
 </project>

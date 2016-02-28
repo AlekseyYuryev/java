@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -27,6 +27,7 @@ import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.reflect.Classes;
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.NamespaceBinding;
 
@@ -50,7 +51,7 @@ public abstract class AbstractBinding implements Cloneable {
       BindingEntityResolver.registerSchemaLocation(namespaceURI, new URL(parent + "/" + schemaReference));
     }
     catch (final MalformedURLException e) {
-      System.err.println("[ERROR] Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
+      Log.error("Cannot register: systemId=\"" + namespaceURI + "\"\n\tclassName=\"" + className.getName() + "\"\n\tschemaReference=\"" + schemaReference + "\"");
     }
   }
 
@@ -93,7 +94,7 @@ public abstract class AbstractBinding implements Cloneable {
   protected static Object _$$getTEXT(final Binding binding) {
     return binding.text();
   }
-  
+
   protected static QName getClassQName(final Class<? extends Binding> binding) {
     final org.safris.xml.generator.compiler.annotation.QName name = Classes.getDeclaredAnnotation(binding, org.safris.xml.generator.compiler.annotation.QName.class);
     return new QName(name.namespaceURI().intern(), name.localPart().intern(), name.prefix().intern());

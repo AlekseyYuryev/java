@@ -29,7 +29,12 @@
   <artifactId>util</artifactId>
   <version>${dev:org.safris.commons.util}</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    A utilities component that contains random utilities that are used by numerous modules.
-  </description>
+  <description>A utilities component that contains random utilities that are used by numerous modules.</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>test</artifactId>
+      <version>${dev:org.safris.commons.test}</version>
+    </dependency>
+  </dependencies>
 </project>

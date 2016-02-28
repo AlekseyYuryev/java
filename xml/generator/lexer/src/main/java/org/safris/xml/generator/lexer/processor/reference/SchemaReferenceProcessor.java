@@ -19,8 +19,8 @@ package org.safris.xml.generator.lexer.processor.reference;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.logging.Logger;
 
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
@@ -29,8 +29,6 @@ import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 
 public final class SchemaReferenceProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> {
-  private static final Logger logger = Logger.getLogger(SchemaReferenceProcessor.class.getName());
-
   // FIXME: There still exists a deadlock condition!!
   private static final class Counter {
     protected volatile int count = 0;
@@ -39,7 +37,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
   @Override
   public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
     final File destDir = pipelineContext.getDestdir();
-    logger.fine("destDir = " + destDir != null ? destDir.getAbsolutePath() : null);
+    Log.debug("destDir = " + destDir != null ? destDir.getAbsolutePath() : null);
 
     final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
     try {
@@ -49,7 +47,7 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
         counter.count = 0;
 
         final ThreadGroup threadGroup = new ThreadGroup("SchemaReferenceProcess");
-        logger.fine("created SchemaReferenceProcess ThreadGroup");
+        Log.debug("created SchemaReferenceProcess ThreadGroup");
         // download and cache the schemas into a temporary directory
         for (final SchemaReference schemaReference : schemas) {
           new Thread(threadGroup, schemaReference.getURL().toString()) {
@@ -57,27 +55,27 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
             public void run() {
               try {
                 final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-                logger.fine("checking whether directory is up-to-date: " + directory.getAbsolutePath());
+                Log.debug("checking whether directory is up-to-date: " + directory.getAbsolutePath());
                 if (pipelineContext.getOverwrite() || !directory.exists() || directory.lastModified() < pipelineContext.getManifestLastModified()) {
-                  logger.fine("adding: " + directory.getAbsolutePath());
+                  Log.debug("adding: " + directory.getAbsolutePath());
                   selectedSchemas.add(schemaReference);
                 }
                 else {
                   for (final File file : directory.listFiles()) {
-                    logger.fine("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
+                    Log.debug("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
                     if (schemaReference.getLastModified() < file.lastModified())
                       continue;
 
-                    logger.fine("adding: " + directory.getAbsolutePath());
+                    Log.debug("adding: " + directory.getAbsolutePath());
                     selectedSchemas.add(schemaReference);
-                    logger.fine("deleting files in: " + directory.getAbsolutePath());
+                    Log.debug("deleting files in: " + directory.getAbsolutePath());
                     for (final File deleteMe : directory.listFiles())
                       deleteMe.delete();
 
                     return;
                   }
 
-                  logger.info("Bindings for " + URLs.getName(schemaReference.getURL()) + " are up-to-date.");
+                  Log.info("Bindings for " + URLs.getName(schemaReference.getURL()) + " are up-to-date.");
                 }
               }
               catch (final Exception e) {

@@ -38,15 +38,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.model.Repository;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.safris.commons.maven.AdvancedMojo;
 
 /**
  * @goal import
  * @phase compile
  */
-public final class CertMojo extends AbstractMojo {
+public final class CertMojo extends AdvancedMojo {
   public static final Set<String> checkedURLs = new HashSet<String>();
 
   /**

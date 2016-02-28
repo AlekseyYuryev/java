@@ -20,8 +20,8 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import org.safris.commons.maven.Log;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
@@ -76,8 +76,6 @@ import org.safris.xml.generator.lexer.processor.model.element.WhiteSpaceModel;
 import org.w3c.dom.Node;
 
 public final class ModelDirectory implements PipelineDirectory<GeneratorContext,SchemaComposite,Model> {
-  protected static final Logger logger = Logger.getLogger(ModelDirectory.class.getName());
-
   private final Map<String,Class<? extends Model>> classes = new HashMap<String,Class<? extends Model>>(39);
   private final Collection<String> keys;
   private final ModelProcessor processor = new ModelProcessor();
@@ -141,7 +139,7 @@ public final class ModelDirectory implements PipelineDirectory<GeneratorContext,
       throw new IllegalArgumentException("Node key without local name");
 
     if (!keys.contains(elementName)) {
-      logger.warning("Unknown schema element <" + (schemaNodeComposite.getNode().getPrefix() != null ? schemaNodeComposite.getNode().getPrefix() + ":" : "") + elementName + ">");
+      Log.warn("Unknown schema element <" + (schemaNodeComposite.getNode().getPrefix() != null ? schemaNodeComposite.getNode().getPrefix() + ":" : "") + elementName + ">");
       elementName = null;
     }
 

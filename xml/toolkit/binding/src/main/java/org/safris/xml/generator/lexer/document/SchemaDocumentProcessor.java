@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Stack;
-import java.util.logging.Logger;
 
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
@@ -41,8 +41,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public final class SchemaDocumentProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument> {
-  protected static final Logger logger = Logger.getLogger(SchemaDocumentProcessor.class.getName());
-
   private static final String[] includeStrings = new String[] {
     "include",
     "redefine"
@@ -91,7 +89,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
                     duplicates = new ArrayList<URL>();
 
                 duplicates.add(schemaLocationURL);
-                logger.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + schemaDocument.getSchemaReference().getNamespaceURI() + "}");
+                Log.info("Adding " + new File(schemaLocationURL.getFile()).getName() + " for {" + schemaDocument.getSchemaReference().getNamespaceURI() + "}");
                 includeLoopCheck.put(schemaDocument.getSchemaReference().getNamespaceURI(), duplicates);
               }
             }
@@ -112,7 +110,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
               }
 
               if (!duplicate.equals(schemaLocationURL)) {
-                logger.severe("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n[x] " + schemaDocument.getSchemaReference().getURL() + "\n[1] " + duplicate + "\n[2] " + schemaLocationURL);
+                Log.error("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n[x] " + schemaDocument.getSchemaReference().getURL() + "\n[1] " + duplicate + "\n[2] " + schemaLocationURL);
                 System.exit(1);
               }
             }
@@ -122,7 +120,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
         }
       }
       catch (final MalformedURLException e) {
-        logger.severe("Unknown URL format: " + schemaReference.getURL());
+        Log.error("Unknown URL format: " + schemaReference.getURL());
         System.exit(1);
       }
 

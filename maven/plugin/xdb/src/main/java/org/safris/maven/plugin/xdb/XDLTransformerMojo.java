@@ -18,16 +18,16 @@ package org.safris.maven.plugin.xdb;
 
 import java.io.File;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.maven.AdvancedMojo;
 import org.safris.commons.util.Resolver;
 import org.safris.maven.plugin.xml.binding.Manifest;
 import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
 import org.safris.xdb.xdl.DBVendor;
 
-public abstract class XDLTransformerMojo extends AbstractMojo {
+public abstract class XDLTransformerMojo extends AdvancedMojo {
   /**
    * @parameter default-value="${project}"
    * @required

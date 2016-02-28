@@ -25,8 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.xml.NamespaceURI;
@@ -40,7 +40,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public final class SchemaReference implements PipelineEntity {
-  private static final Logger logger = Logger.getLogger(SchemaReference.class.getName());
   private static final Map<NamespaceURI,Prefix> namespaceURIToPrefix = new HashMap<NamespaceURI,Prefix>();
   private static final Map<Prefix,NamespaceURI> prefixToNamespaceURI = new HashMap<Prefix,NamespaceURI>();
 
@@ -78,13 +77,13 @@ public final class SchemaReference implements PipelineEntity {
     }
 
     this.isInclude = isInclude;
-    logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
+    Log.debug("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
   public SchemaReference(final URL location) {
     this.location = location;
     this.isInclude = null;
-    logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
+    Log.debug("new SchemaReference(\"" + this.location.toExternalForm() + "\")");
   }
 
   public SchemaReference(final URL location, final NamespaceURI namespaceURI, final Prefix prefix, final boolean isInclude) {
@@ -92,14 +91,14 @@ public final class SchemaReference implements PipelineEntity {
     this.namespaceURI = namespaceURI;
     this.prefix = prefix;
     this.isInclude = isInclude;
-    logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\", \"" + prefix + "\")");
+    Log.debug("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\", \"" + prefix + "\")");
   }
 
   public SchemaReference(final URL location, final NamespaceURI namespaceURI, final boolean isInclude) {
     this.location = location;
     this.namespaceURI = namespaceURI;
     this.isInclude = isInclude;
-    logger.fine("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\")");
+    Log.debug("new SchemaReference(\"" + this.location.toExternalForm() + "\", \"" + namespaceURI + "\")");
   }
 
   public NamespaceURI getNamespaceURI() {
@@ -183,7 +182,7 @@ public final class SchemaReference implements PipelineEntity {
           throw new LexerError("This should never happen: " + namespaceURI + " != " + namespace);
 
         this.prefix = Prefix.getInstance(prefix);
-        logger.fine("linking \"" + namespaceURI + "\" to \"" + this.prefix + "\"");
+        Log.debug("linking \"" + namespaceURI + "\" to \"" + this.prefix + "\"");
         UniqueQName.linkPrefixNamespace(namespaceURI, this.prefix);
         isResolved = true;
       }
@@ -203,10 +202,10 @@ public final class SchemaReference implements PipelineEntity {
       while (tryCount++ < 10) {
         try {
           this.inputStream = connection.getInputStream();
-          logger.fine("opened connection to: " + location.toExternalForm());
+          Log.debug("opened connection to: " + location.toExternalForm());
         }
         catch (final FileNotFoundException e) {
-          logger.info("File not found: " + location.toExternalForm());
+          Log.error("File not found: " + location.toExternalForm());
           System.exit(1);
         }
         catch (final IOException e) {

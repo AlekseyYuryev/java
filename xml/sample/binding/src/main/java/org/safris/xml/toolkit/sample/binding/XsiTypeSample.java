@@ -34,7 +34,7 @@ public class XsiTypeSample {
     // Since there is no element declaration for the fleshyFruitType,
     // we need to instantiate a nameless element. Once this element is
     // put into the basket, the element will obtain the needed name.
-    $type_fleshyFruitType berry = new $type_fleshyFruitType() {
+    final $type_fleshyFruitType berry = new $type_fleshyFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -44,7 +44,7 @@ public class XsiTypeSample {
     berry._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.soft));
 
     // Again, instantiate a nameless element.
-    $type_fleshyFruitType drupe = new $type_fleshyFruitType() {
+    final $type_fleshyFruitType drupe = new $type_fleshyFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -54,7 +54,7 @@ public class XsiTypeSample {
     drupe._pericarp$(new $type_fleshyFruitType._pericarp$($type_fleshyFruitType._pericarp$.fleshy));
 
     // Again, instantiate a nameless element.
-    $type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType() {
+    final $type_dehiscentDryFruitType legume = new $type_dehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -63,7 +63,7 @@ public class XsiTypeSample {
     legume._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.Legume));
 
     // Again, instantiate a nameless element.
-    $type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType() {
+    final $type_dehiscentDryFruitType follicle = new $type_dehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -72,7 +72,7 @@ public class XsiTypeSample {
     follicle._name$(new $type_dehiscentDryFruitType._name$($type_dehiscentDryFruitType._name$.Follicle));
 
     // Again, instantiate a nameless element.GenericBasket
-    $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType() {
+    final $type_indehiscentDryFruitType grain = new $type_indehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -81,7 +81,7 @@ public class XsiTypeSample {
     grain._name$(new $type_indehiscentDryFruitType._name$($type_indehiscentDryFruitType._name$.Grain));
 
     // Again, instantiate a nameless element.
-    $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
+    final $type_indehiscentDryFruitType nut = new $type_indehiscentDryFruitType() {
       @Override
       protected $simple_fruitType inherits() {
         return null;
@@ -91,7 +91,7 @@ public class XsiTypeSample {
     nut._dry$(new $type_indehiscentDryFruitType._dry$($type_indehiscentDryFruitType._dry$._5Ftrue));
 //      nut.addDry$(new ITypesimple_fruitType.Dry$(false));
 
-    simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
+    final simple_fruitBasket._fruits fruits = new simple_fruitBasket._fruits();
     fruits.simple_fruit(berry);
     fruits.simple_fruit(drupe);
     fruits.simple_fruit(legume);
@@ -99,7 +99,7 @@ public class XsiTypeSample {
     fruits.simple_fruit(grain);
     fruits.simple_fruit(nut);
 
-    enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
+    final enums_coloredFruitBasket coloredBasket = new enums_coloredFruitBasket();
     coloredBasket.enums_color$(new enums_color$(enums_color$.red));
     coloredBasket._fruits(fruits);
 

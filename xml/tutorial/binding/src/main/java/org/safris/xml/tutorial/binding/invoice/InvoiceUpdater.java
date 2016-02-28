@@ -34,7 +34,7 @@ public class InvoiceUpdater {
 
   public static void main(final String[] args) throws Exception {
     if (args.length == 0)
-      usage();
+      trapPrintUsage();
 
     final File file = new File(args[0]);
 
@@ -48,7 +48,7 @@ public class InvoiceUpdater {
     DOMs.domToString(invoice.marshal(), DOMStyle.INDENT);
   }
 
-  private static void usage() {
+  private static void trapPrintUsage() {
     System.err.println("Usage: InvoiceUpdater <invoice.xml>");
     System.exit(1);
   }

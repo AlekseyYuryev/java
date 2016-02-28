@@ -18,10 +18,10 @@ package org.safris.maven.plugin.cobertura;
 
 import java.io.File;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.maven.AdvancedMojo;
 
-public abstract class CoberturaMojo extends AbstractMojo {
+public abstract class CoberturaMojo extends AdvancedMojo {
   /**
    * @parameter expression="${project}"
    * @readonly

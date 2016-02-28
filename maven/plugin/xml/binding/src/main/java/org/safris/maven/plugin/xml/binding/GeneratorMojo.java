@@ -25,13 +25,13 @@ import java.util.List;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.lang.Paths;
+import org.safris.commons.maven.AdvancedMojo;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.Resolver;
 import org.safris.commons.util.zip.Zips;
@@ -46,7 +46,7 @@ import org.w3c.dom.Document;
 /**
  * @goal generate
  */
-public class GeneratorMojo extends AbstractMojo {
+public class GeneratorMojo extends AdvancedMojo {
   public static void main(final String[] args) throws MojoFailureException {
     if (args.length != 1)
       usage();

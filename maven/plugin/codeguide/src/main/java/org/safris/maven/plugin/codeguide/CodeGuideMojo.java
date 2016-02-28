@@ -22,11 +22,11 @@ import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.maven.AdvancedMojo;
 import org.safris.maven.plugin.dependency.DependencyProperties;
 
-public abstract class CodeGuideMojo extends AbstractMojo implements DependencyProperties {
+public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyProperties {
   /**
    * @parameter expression="${project.build.sourceDirectory}"
    */

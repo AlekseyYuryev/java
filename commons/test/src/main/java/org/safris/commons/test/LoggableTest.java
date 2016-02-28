@@ -22,11 +22,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import org.junit.AfterClass;
 import org.junit.AssumptionViolatedException;
@@ -38,72 +33,28 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.safris.commons.maven.Log;
 
 public abstract class LoggableTest {
-  private static final Logger logger = Logger.getLogger(LoggableTest.class.getName());
-  private static final List<CustomLogRecord> logRecords = new LinkedList<CustomLogRecord>();
+  private static final List<Log.Record> logRecords = new LinkedList<Log.Record>();
   private static final Map<Class<? extends LoggableTest>,Boolean> classToMutex = new HashMap<Class<? extends LoggableTest>,Boolean>();
 
-  static {
-    if (logger.getLevel() == null)
-      logger.setLevel(Level.INFO);
+  private static void log(final Log.Record record) {
+    final String logLevel = record.getLevel().toString();
+    final String sourceClassSimpleName = record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf('.') + 1);
+    final int callerLength = sourceClassSimpleName.length() + record.getSourceMethodName().length();
+    final int padLevel = record.getMaxLevelLength() - logLevel.length();
+    final int padCaller = record.getMaxCallerLength() - callerLength;
+    final String logStatus = record.getStatus() != null ? " [" + record.getStatus() + "]" : "";
+//    final int headerLength = 1 + logLevel.length() + 2 + padLevel + sourceClassSimpleName.length() + 1 + log.getSourceMethodName().length() + 2 + padCaller + logStatus.length() + 1;
+    final int headerLength = 1 + logLevel.length() + 2;
+    final String newlinePad = createRepeat(' ', headerLength);
 
-    final ConsoleHandler handler = new ConsoleHandler();
-    handler.setFormatter(new Formatter() {
-      @Override
-      public String format(final LogRecord record) {
-        final CustomLogRecord log = (CustomLogRecord)record;
-        final String logLevel = log.getLevel().toString();
-        final String sourceClassSimpleName = log.getSourceClassName().substring(log.getSourceClassName().lastIndexOf('.') + 1);
-        final int callerLength = sourceClassSimpleName.length() + log.getSourceMethodName().length();
-        final int padLevel = log.getMaxLevelLength() - logLevel.length();
-        final int padCaller = log.getMaxCallerLength() - callerLength;
-        final String logStatus = log.status != null ? " [" + log.status + "]" : "";
-//        final int headerLength = 1 + logLevel.length() + 2 + padLevel + sourceClassSimpleName.length() + 1 + log.getSourceMethodName().length() + 2 + padCaller + logStatus.length() + 1;
-        final int headerLength = 1 + logLevel.length() + 2;
-        final String newlinePad = createRepeat(' ', headerLength);
-
-        return "[" + logLevel + "] " + createRepeat(' ', padLevel) + sourceClassSimpleName + "." + log.getSourceMethodName() + "()" + createRepeat(' ', padCaller) + logStatus + (log.getMessage() != null ? " " + (log.getMessage().contains("\n") ? ("\n" + log.getMessage()).replace("\n", "\n" + newlinePad) : log.getMessage()) : "") + "\n";
-      }
-    });
-
-    logger.setUseParentHandlers(false);
-    logger.addHandler(handler);
-  }
-
-  private static class CustomLogRecord extends LogRecord {
-    private static final long serialVersionUID = 2537795956151950685L;
-
-    public final String status;
-    private int maxLevelLength;
-    private int maxCallerLength;
-
-    public CustomLogRecord(final Level level, final String msg, final String status) {
-      super(level, msg);
-      this.status = status;
-    }
-
-    public int getMaxLevelLength() {
-      return maxLevelLength;
-    }
-
-    public void setMaxLevelLength(final int maxLevelLength) {
-      this.maxLevelLength = maxLevelLength;
-    }
-
-    public int getMaxCallerLength() {
-      return maxCallerLength;
-    }
-
-    public void setMaxCallerLength(final int maxCallerLength) {
-      this.maxCallerLength = maxCallerLength;
-    }
+    final String message = createRepeat(' ', padLevel) + sourceClassSimpleName + "." + record.getSourceMethodName() + "()" + createRepeat(' ', padCaller) + logStatus + (record.getMessage() != null ? " " + (record.getMessage().contains("\n") ? ("\n" + record.getMessage()).replace("\n", "\n" + newlinePad) : record.getMessage()) : "");
+    Log.log(record.getLevel(), message);
   }
 
   private static String createRepeat(final char ch, final int length) {
-    if (length < 0)
-      throw new IllegalArgumentException("length = " + length + " < 0");
-
     final char[] chars = new char[length];
     Arrays.fill(chars, ch);
     return String.valueOf(chars);
@@ -113,7 +64,7 @@ public abstract class LoggableTest {
   public static final void flushLogs() {
     int maxLevelLength = 0;
     int maxCallerLength = 0;
-    for (final CustomLogRecord logRecord : logRecords) {
+    for (final Log.Record logRecord : logRecords) {
       final int levelLength = logRecord.getLevel().toString().length();
       if (maxLevelLength < levelLength)
         maxLevelLength = levelLength;
@@ -124,10 +75,10 @@ public abstract class LoggableTest {
     }
 
     while (logRecords.size() > 0) {
-      final CustomLogRecord logRecord = logRecords.remove(0);
+      final Log.Record logRecord = logRecords.remove(0);
       logRecord.setMaxLevelLength(maxLevelLength);
       logRecord.setMaxCallerLength(maxCallerLength);
-      logger.log(logRecord);
+      log(logRecord);
     }
   }
 
@@ -151,26 +102,17 @@ public abstract class LoggableTest {
       if ("init".equals(description.getMethodName()))
         return;
 
-      final CustomLogRecord logRecord = new CustomLogRecord(logger.getLevel(), null, "SUCCESS");
-      logRecord.setSourceMethodName(description.getMethodName());
-      logRecord.setSourceClassName(description.getClassName());
-      logRecords.add(logRecord);
+      logRecords.add(new Log.Record(Log.Level.INFO, null, Log.Status.SUCCESS, description.getClassName(), description.getMethodName()));
     }
 
     @Override
     protected void failed(final Throwable e, final Description description) {
-      final CustomLogRecord logRecord = new CustomLogRecord(Level.SEVERE, null, "FAILURE");
-      logRecord.setSourceMethodName(description.getMethodName());
-      logRecord.setSourceClassName(description.getClassName());
-      logRecords.add(logRecord);
+      logRecords.add(new Log.Record(Log.Level.ERROR, null, Log.Status.FAILURE, description.getClassName(), description.getMethodName()));
     }
 
     @Override
     protected void skipped(final AssumptionViolatedException e, final Description description) {
-      final CustomLogRecord logRecord = new CustomLogRecord(Level.WARNING, null, "SKIPPED");
-      logRecord.setSourceMethodName(description.getMethodName());
-      logRecord.setSourceClassName(description.getClassName());
-      logRecords.add(logRecord);
+      logRecords.add(new Log.Record(Log.Level.WARNING, null, Log.Status.SKIPPED, description.getClassName(), description.getMethodName()));
     }
   };
 
@@ -192,10 +134,7 @@ public abstract class LoggableTest {
         if (ignore == null)
           continue;
 
-        final CustomLogRecord logRecord = new CustomLogRecord(Level.WARNING, ignore.value().length() != 0 ? ignore.value() : null, "IGNORED");
-        logRecord.setSourceMethodName(method.getName());
-        logRecord.setSourceClassName(method.getDeclaringClass().getName());
-        logRecords.add(logRecord);
+        logRecords.add(new Log.Record(Log.Level.WARNING, ignore.value().length() != 0 ? ignore.value() : null, Log.Status.IGNORED, method.getDeclaringClass().getName(), method.getName()));
       }
 
       classToMutex.put(getClass(), true);
@@ -207,25 +146,19 @@ public abstract class LoggableTest {
   public final void init() {
   }
 
-  protected final void log(final Level level, final Object message) {
-    final CustomLogRecord logRecord = new CustomLogRecord(level, message != null ? message.toString() : null, "RUNNING");
-    logRecord.setSourceMethodName(methodName);
-    logRecord.setSourceClassName(className);
-    logRecords.add(logRecord);
+  protected final void log(final Log.Level level, final Object message) {
+    logRecords.add(new Log.Record(level, message != null ? message.toString() : null, Log.Status.RUNNING, className, methodName));
   }
 
   protected final void log(final Object message) {
-    log(logger.getLevel(), message);
+    log(Log.Level.INFO, message);
   }
 
-  protected final void logf(final Level level, final String format, final Object ... args) {
-    final CustomLogRecord logRecord = new CustomLogRecord(level, String.format(format, args), "RUNNING");
-    logRecord.setSourceMethodName(methodName);
-    logRecord.setSourceClassName(className);
-    logRecords.add(logRecord);
+  protected final void logf(final Log.Level level, final String format, final Object ... args) {
+    logRecords.add(new Log.Record(level, String.format(format, args), Log.Status.RUNNING, className, methodName));
   }
 
   protected final void logf(final String format, final Object ... args) {
-    logf(logger.getLevel(), format, args);
+    logf(Log.Level.INFO, format, args);
   }
 }

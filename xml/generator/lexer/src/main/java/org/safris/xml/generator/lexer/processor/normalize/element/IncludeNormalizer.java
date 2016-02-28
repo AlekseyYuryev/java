@@ -19,6 +19,7 @@ package org.safris.xml.generator.lexer.processor.normalize.element;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.safris.commons.maven.Log;
 import org.safris.xml.generator.lexer.processor.model.element.IncludeModel;
 import org.safris.xml.generator.lexer.processor.normalize.Normalizer;
 import org.safris.xml.generator.lexer.processor.normalize.NormalizerDirectory;
@@ -41,7 +42,7 @@ public final class IncludeNormalizer extends Normalizer<IncludeModel> {
       return;
 
     messages.add(message);
-    logger.info(message);
+    Log.info(message);
   }
 
   @Override

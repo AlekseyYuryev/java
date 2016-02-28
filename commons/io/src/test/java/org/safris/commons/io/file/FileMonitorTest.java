@@ -20,16 +20,17 @@ import java.io.File;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.test.LoggableTest;
 
-public final class FileMonitorTest implements FileEventListener {
+public final class FileMonitorTest extends LoggableTest implements FileEventListener {
   @Override
   public void onModify(final File file) {
-    System.out.println(file.getName() + " modified.");
+    log(file.getName() + " modified.");
   }
 
   @Override
   public void onDelete(final File file) {
-    System.out.println(file.getName() + " deleted.");
+    log(file.getName() + " deleted.");
   }
 
   @Test
@@ -42,6 +43,6 @@ public final class FileMonitorTest implements FileEventListener {
     monitor.addListener(this);
     monitor.start();
     Thread.sleep(1000);
-    System.out.println("main done!");
+    log("main done!");
   }
 }

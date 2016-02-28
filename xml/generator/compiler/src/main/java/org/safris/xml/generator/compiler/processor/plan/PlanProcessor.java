@@ -20,9 +20,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 import org.safris.commons.io.Files;
+import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineProcessor;
@@ -30,7 +30,6 @@ import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.model.Model;
 
 public final class PlanProcessor implements PipelineProcessor<GeneratorContext,Model,Plan<?>> {
-  private static final Logger logger = Logger.getLogger(PlanProcessor.class.getName());
   private Plan<?> root;
 
   @Override
@@ -43,7 +42,7 @@ public final class PlanProcessor implements PipelineProcessor<GeneratorContext,M
 
       final URL url = model.getSchema().getURL();
       final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
-      logger.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
+      Log.info("Parsing {" + model.getTargetNamespace() + "} from " + display);
 
       for (final Model child : model.getChildren())
         disclose(child, root, plans, pipelineContext, directory);

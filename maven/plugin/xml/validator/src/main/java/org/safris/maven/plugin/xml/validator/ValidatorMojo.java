@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.DateUtil;
+import org.safris.commons.maven.AdvancedMojo;
+import org.safris.commons.maven.Log;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
  * @requiresDependencyResolution test
  * @phase compile
  */
-public final class ValidatorMojo extends AbstractMojo {
+public final class ValidatorMojo extends AdvancedMojo {
   private static final String delimeter = "://";
 
   private static void convertToRegex(final List<String> list) {
@@ -150,7 +150,7 @@ public final class ValidatorMojo extends AbstractMojo {
     validator.validate(new StreamSource(file));
   }*/
 
-  protected static void validate(final File dir, final File file, final Log log) throws IOException, SAXException {
+  protected static void validate(final File dir, final File file) throws IOException, SAXException {
     final SAXParser saxParser = SAXParsers.createParser();
     // Set the features.
     saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
@@ -168,13 +168,10 @@ public final class ValidatorMojo extends AbstractMojo {
     saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile()));
 
     // Set the ErrorHandler.
-    saxParser.setErrorHandler(ValidatorErrorHandler.getInstance(log));
+    saxParser.setErrorHandler(ValidatorErrorHandler.instance());
 
     final String fileName = Files.relativePath(dir.getAbsoluteFile(), file.getAbsoluteFile());
-    if (log != null)
-      log.info("   Validating: " + fileName);
-    else
-      System.out.println("   Validating: " + fileName);
+    Log.info("   Validating: " + fileName);
 
     // Parse.
     saxParser.parse(new InputSource(new FileInputStream(file)));
@@ -236,18 +233,17 @@ public final class ValidatorMojo extends AbstractMojo {
     recordDir.mkdirs();
 
     try {
-      final Log log = getLog();
       for (final Map.Entry<File,Collection<File>> entry : files.entrySet()) {
         //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
         for (final File file : entry.getValue()) {
           final File recordFile = new File(recordDir, file.getName());
           if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
             final String fileName = Files.relativePath(entry.getKey().getAbsoluteFile(), file.getAbsoluteFile());
-            log.info("Pre-validated: " + fileName);
+            Log.info("Pre-validated: " + fileName);
           }
           else {
             try {
-              validate(entry.getKey(), file, log);
+              validate(entry.getKey(), file);
               if (!recordFile.createNewFile())
                 recordFile.setLastModified(file.lastModified());
             }
