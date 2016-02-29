@@ -4,7 +4,6 @@
 build/
 target/
 derby.log
-pom.xml
 *.javaproj
 *.sln
 .classpath

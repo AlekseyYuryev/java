@@ -80,7 +80,7 @@ public final class Log {
     }
   }
 
-  public static void log(final Level level, final String message) {
+  public static void log(final Level level, final Object message) {
     log(level, message, null);
   }
 
@@ -88,21 +88,22 @@ public final class Log {
     log(level, null, error);
   }
 
-  public static void log(final Level level, final String message, final Throwable error) {
+  public static void log(final Level level, final Object message, final Throwable error) {
+    final String string = message != null ? message.toString() : "null";
     final AdvancedMojo mojo = AdvancedMojo.getMojo();
     if (mojo == null)
-      toStdErr(level, message, error); // FIXME: How do we determine if we are in "DEBUG" mode?
+      toStdErr(level, string, error); // FIXME: How do we determine if we are in "DEBUG" mode?
     else if (level == Level.ERROR)
-      mojo.getLog().error(message, error);
+      mojo.getLog().error(string, error);
     else if (level == Level.WARNING)
-      mojo.getLog().warn(message, error);
+      mojo.getLog().warn(string, error);
     else if (level == Level.INFO)
-      mojo.getLog().info(message, error);
+      mojo.getLog().info(string, error);
     else if (mojo.getLog().isDebugEnabled())
-      mojo.getLog().debug(message, error);
+      mojo.getLog().debug(string, error);
   }
 
-  public static void debug(final String message) {
+  public static void debug(final Object message) {
     debug(message, null);
   }
 
@@ -110,11 +111,11 @@ public final class Log {
     debug(null, error);
   }
 
-  public static void debug(final String message, final Throwable error) {
+  public static void debug(final Object message, final Throwable error) {
     log(Level.DEBUG, message, error);
   }
 
-  public static void info(final String message) {
+  public static void info(final Object message) {
     info(message, null);
   }
 
@@ -122,11 +123,11 @@ public final class Log {
     info(null, error);
   }
 
-  public static void info(final String message, final Throwable error) {
+  public static void info(final Object message, final Throwable error) {
     log(Level.INFO, message, error);
   }
 
-  public static void warn(final String message) {
+  public static void warn(final Object message) {
     warn(message, null);
   }
 
@@ -134,11 +135,11 @@ public final class Log {
     warn(null, error);
   }
 
-  public static void warn(final String message, final Throwable error) {
+  public static void warn(final Object message, final Throwable error) {
     log(Level.WARNING, message, error);
   }
 
-  public static void error(final String message) {
+  public static void error(final Object message) {
     error(message, null);
   }
 
@@ -146,11 +147,11 @@ public final class Log {
     error(null, error);
   }
 
-  public static void error(final String message, final Throwable error) {
+  public static void error(final Object message, final Throwable error) {
     log(Level.ERROR, message, error);
   }
 
-  private static void toStdErr(final Level level, final String message, final Throwable error) {
+  private static void toStdErr(final Level level, final Object message, final Throwable error) {
     System.err.println("[" + level + "] " + (message != null ? message : ""));
     if (error != null)
       error.printStackTrace();
