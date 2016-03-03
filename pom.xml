@@ -126,7 +126,6 @@
       <modules>
         <module>commons</module>
         <module>maven</module>
-        <module>test</module>
       </modules>
     </profile>
     <profile>
