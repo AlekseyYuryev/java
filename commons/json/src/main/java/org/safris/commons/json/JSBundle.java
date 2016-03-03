@@ -16,17 +16,6 @@
 
 package org.safris.commons.json;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-public abstract class JSObject extends JSObjectBase {
-  public static JSObject parse(final InputStream in) throws DecodeException, IOException {
-    return JSObject.decode(in, next(in), null);
-  }
-
-  protected abstract String name();
-  protected abstract String encode(final int depth);
-  protected abstract Binding lookupBinding(final String name);
-
-  protected abstract JSBundle bundle();
+public abstract class JSBundle {
+  protected abstract String getSpec();
 }

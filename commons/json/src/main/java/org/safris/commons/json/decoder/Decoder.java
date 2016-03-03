@@ -26,7 +26,7 @@ public abstract class Decoder<T> extends JSObjectBase {
 
   public abstract T decode(final InputStream in, char ch) throws IOException;
 
-  public final T[] recurse(final InputStream in, final int depth) throws Exception {
+  public final T[] recurse(final InputStream in, final int depth) throws IOException {
     final T value = decode(in, JSObjectBase.next(in));
     char ch = JSObjectBase.next(in);
     if (ch == ',') {

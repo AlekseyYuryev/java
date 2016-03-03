@@ -1,13 +1,17 @@
-package org.safris.maven.plugin.cert;
+package org.safris.maven.plugin.version;
 
 public class ModuleId {
   protected static boolean equal(final ModuleId a, final ModuleId b) {
     return (a.groupId() != null ? a.groupId().equals(b.groupId()) : b.groupId() == null) && (a.artifactId() != null ? a.artifactId().equals(b.artifactId()) : b.artifactId() == null) && (a.version() != null ? a.version().equals(b.version()) : b.version() == null);
   }
 
+  protected static String toString(final ModuleId moduleId) {
+    return moduleId.groupId() + ":" + moduleId.artifactId() + ":" + moduleId.version();
+  }
+
   private final String groupId;
   private final String artifactId;
-  private final String version;
+  private final Version version;
 
   public ModuleId(final String xmlTag) {
     int start = xmlTag.indexOf("<groupId>");
@@ -24,13 +28,17 @@ public class ModuleId {
 
     this.groupId = groupId;
     this.artifactId = artifactId;
-    this.version = version;
+    this.version = version != null ? new Version(version) : null;
   }
 
-  public ModuleId(final String groupId, final String artifactId, final String version) {
+  public ModuleId(final String groupId, final String artifactId, final Version version) {
     this.groupId = groupId;
     this.artifactId = artifactId;
     this.version = version;
+  }
+
+  public ModuleId(final ModuleId copy) {
+    this(copy.groupId(), copy.artifactId(), copy.version());
   }
 
   public String groupId() {
@@ -41,7 +49,7 @@ public class ModuleId {
     return artifactId;
   }
 
-  public String version() {
+  public Version version() {
     return version;
   }
 
@@ -67,6 +75,6 @@ public class ModuleId {
 
   @Override
   public String toString() {
-    return groupId() + ":" + artifactId() + ":" + version();
+    return toString(this);
   }
 }

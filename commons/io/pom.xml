@@ -29,9 +29,7 @@
   <artifactId>io</artifactId>
   <version>0.5.10-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Commons IO is a library of utilities to assist with developing IO functionality.
-  </description>
+  <description>Commons IO is a library of utilities to assist with developing IO functionality.</description>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>

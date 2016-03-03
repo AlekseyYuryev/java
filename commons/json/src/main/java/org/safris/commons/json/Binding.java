@@ -19,20 +19,16 @@ package org.safris.commons.json;
 import java.lang.reflect.Field;
 
 public class Binding {
+  public final String name;
   public final Field field;
   public final Class<?> type;
   public final boolean array;
 
-  public Binding(final Field field, final Class<?> type, final boolean array) {
+  public Binding(final String name, final Field field, final Class<?> type, final boolean array) {
     field.setAccessible(true);
 
+    this.name = name;
     this.field = field;
-    this.type = type;
-    this.array = array;
-  }
-
-  public Binding(final Class<?> type, final boolean array) {
-    this.field = null;
     this.type = type;
     this.array = array;
   }

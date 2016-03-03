@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.cert;
+package org.safris.maven.plugin.version;
 
 import java.util.ArrayList;
 import java.util.List;

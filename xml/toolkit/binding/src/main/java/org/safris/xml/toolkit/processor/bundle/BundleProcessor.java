@@ -206,7 +206,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
 
         final Collection<File> files = Files.listAll(pipelineContext.getDestdir(), jarFilter);
         for (final File file : files)
-          Files.deleteAllOnExit(file);
+          Files.deleteAllOnExit(file.toPath());
       }
 
       return bundles;

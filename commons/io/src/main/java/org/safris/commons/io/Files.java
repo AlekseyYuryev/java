@@ -23,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,9 +44,9 @@ public final class Files {
     return TEMP_DIR == null ? TEMP_DIR = new File(System.getProperty("java.io.tmpdir")) : TEMP_DIR;
   }
 
-  private static final FileFilter anyFilter = new FileFilter() {
+  private static final DirectoryStream.Filter<Path> anyFilter = new DirectoryStream.Filter<Path>() {
     @Override
-    public boolean accept(final File pathname) {
+    public boolean accept(final Path entry) {
       return true;
     }
   };
@@ -62,36 +65,40 @@ public final class Files {
   }
 
   // FIXME: Implement this iteratively
-  private static boolean deleteAll(final File file, final FileFilter filter, final boolean onExit) throws IOException {
-    if (file == null)
-      return false;
+  private static void deleteAll(final Path path, final DirectoryStream.Filter<Path> filter, final boolean onExit) throws IOException {
+    if (path == null)
+      return;
 
-    boolean deleted = true;
-    if (file.isDirectory())
-      for (final File child : file.listFiles())
-        deleted = deleteAll(child, filter, onExit) && deleted;
-
-    if (!onExit)
-      return file.delete();
-
-    file.deleteOnExit();
-    return false;
+    if (java.nio.file.Files.isDirectory(path)) {
+      try (final DirectoryStream<Path> stream = java.nio.file.Files.newDirectoryStream(path, filter)) {
+        for (final Path entry : stream) {
+          if (java.nio.file.Files.isDirectory(entry))
+            deleteAll(entry, filter, onExit);
+        }
+      }
+    }
+    else if (onExit) {
+      java.nio.file.Files.newOutputStream(path, StandardOpenOption.DELETE_ON_CLOSE);
+    }
+    else {
+      java.nio.file.Files.delete(path);
+    }
   }
 
-  public static void deleteAllOnExit(final File pathname, final FileFilter filter) throws IOException {
-    deleteAll(pathname, filter, true);
+  public static void deleteAllOnExit(final Path path, final DirectoryStream.Filter<Path> filter) throws IOException {
+    deleteAll(path, filter, true);
   }
 
-  public static boolean deleteAll(final File pathname, final FileFilter filter) throws IOException {
-    return deleteAll(pathname, filter, false);
+  public static void deleteAll(final Path path, final DirectoryStream.Filter<Path> filter) throws IOException {
+    deleteAll(path, filter, false);
   }
 
-  public static void deleteAllOnExit(final File pathname) throws IOException {
-    deleteAll(pathname, anyFilter, true);
+  public static void deleteAllOnExit(final Path path) throws IOException {
+    deleteAll(path, anyFilter, true);
   }
 
-  public static boolean deleteAll(final File pathname) throws IOException {
-    return deleteAll(pathname, anyFilter, false);
+  public static void deleteAll(final Path path) throws IOException {
+    deleteAll(path, anyFilter, false);
   }
 
   public static String getBasename(final File file) throws IOException {
@@ -151,10 +158,13 @@ public final class Files {
   /**
    * Copy a file or directory from <code>from</code> to <code>to</code>.
    *
-   * @param from <code>File</code> to copy from.
-   * @param to <code>File</code> to copy to.
+   * @param from
+   *          <code>File</code> to copy from.
+   * @param to
+   *          <code>File</code> to copy to.
    *
-   * @exception IOException If there is an error handling either the from file, or the to file.
+   * @exception IOException
+   *              If there is an error handling either the from file, or the to file.
    */
   public static void copy(final File from, final File to) throws IOException {
     if (from == null)
@@ -231,7 +241,7 @@ public final class Files {
     // Read in the bytes
     int offset = 0;
     int numRead = 0;
-    while (offset < bytes.length    && (numRead = in.read(bytes, offset, bytes.length - offset)) >= 0)
+    while (offset < bytes.length && (numRead = in.read(bytes, offset, bytes.length - offset)) >= 0)
       offset += numRead;
 
     // Close the input stream and return bytes

@@ -18,6 +18,7 @@ package org.safris.commons.json;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public abstract class JSObjectBase {
     return number == null ? null : (number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
   }
 
-  protected static <T>String tokenize(final Collection<T> value, final int depth) {
+  protected static <T> String tokenize(final Collection<T> value, final int depth) {
     if (value == null)
       return "null";
 
@@ -105,41 +106,44 @@ public abstract class JSObjectBase {
     return "[" + out.substring(2) + "]";
   }
 
-  protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws IOException {
+  protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
     final StringBuilder out = new StringBuilder();
-    try {
-      while (true) {
-        if (ch == '{') {
-          if (hasOpenBrace)
-            throw new IllegalArgumentException("Malformed JSON");
+    while (true) {
+      if (ch == '{') {
+        if (hasOpenBrace)
+          throw new DecodeException("Malformed JSON", jsObject);
 
-          hasOpenBrace = true;
-        }
-        else {
-          if (!hasOpenBrace)
-            throw new IllegalArgumentException("Malformed JSON");
+        hasOpenBrace = true;
+      }
+      else {
+        if (!hasOpenBrace)
+          throw new DecodeException("Malformed JSON", jsObject);
 
-          if (ch == '"') {
-            if (!hasStartQuote) {
-              hasStartQuote = true;
-            }
-            else {
-              hasStartQuote = false;
-              ch = next(in);
-              if (ch != ':')
-                throw new IllegalArgumentException("Malformed JSON");
+        if (ch == '"') {
+          if (!hasStartQuote) {
+            hasStartQuote = true;
+          }
+          else {
+            hasStartQuote = false;
+            ch = next(in);
+            if (ch != ':')
+              throw new DecodeException("Malformed JSON", jsObject);
 
+            try {
               // Special case for parsing the container object
               if (jsObject == null) {
                 final Class<? extends JSObject> clazz = bindings.get(out.toString());
+                if (clazz == null)
+                  throw new DecodeException("Unknown container name: " + out, jsObject);
+
                 return decode(in, next(in), clazz.newInstance());
               }
 
               final Binding member = jsObject.lookupBinding(out.toString());
               if (member == null)
-                throw new IllegalArgumentException("Unexpected object: " + out);
+                throw new DecodeException("Unknown object name: " + out, jsObject);
 
               out.setLength(0);
               ch = next(in);
@@ -150,6 +154,9 @@ public abstract class JSObjectBase {
               }
               else if (member.type == String.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
+                final Pattern pattern = member.field.getAnnotation(Pattern.class);
+                if (pattern != null && value != null && !((String)value).matches(pattern.value()))
+                  throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
               }
               else if (member.type == Boolean.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(in, 0)) : booleanDecoder.decode(in, ch);
@@ -161,25 +168,51 @@ public abstract class JSObjectBase {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);
               }
 
+              final NotNull notNull = member.field.getAnnotation(NotNull.class);
+              if (notNull != null && value == null)
+                throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
+
               member.field.set(jsObject, value);
             }
-          }
-          else {
-            if (ch == '}') {
-              return jsObject;
-            }
-
-            if (ch != ',') {
-              out.append(ch);
+            catch (final ReflectiveOperationException e) {
+              throw new Error(e);
             }
           }
         }
+        else {
+          if (ch == '}') {
+            try {
+              final Field[] fields = jsObject.getClass().getDeclaredFields();
+              for (final Field field : fields) {
+                if (field.getName().endsWith("WasSet"))
+                  continue;
 
-        ch = next(in);
+                field.setAccessible(true);
+                if (field.get(jsObject) == null) {
+                  final Field wasSetField = jsObject.getClass().getDeclaredField(field.getName() + "WasSet");
+                  wasSetField.setAccessible(true);
+                  if (!wasSetField.getBoolean(jsObject))
+                    throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" is missing", jsObject);
+
+                  if (field.getAnnotation(NotNull.class) != null)
+                    throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" cannot be null", jsObject);
+                }
+              }
+            }
+            catch (final ReflectiveOperationException e) {
+              throw new Error(e);
+            }
+
+            return jsObject;
+          }
+
+          if (ch != ',') {
+            out.append(ch);
+          }
+        }
       }
-    }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+
+      ch = next(in);
     }
   }
 }

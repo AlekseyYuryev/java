@@ -20,11 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 
+import org.safris.commons.json.DecodeException;
 import org.safris.commons.json.JSObject;
 import org.safris.commons.json.JSObjectBase;
 
 public class ObjectDecoder extends JSObjectBase {
-  public JSObject decode(final InputStream in, char ch, final Class<?> clazz) throws IOException {
+  public JSObject decode(final InputStream in, char ch, final Class<?> clazz) throws DecodeException, IOException {
     try {
       final JSObject value = (JSObject)clazz.newInstance();
       JSObject.decode(in, ch, value);
@@ -35,7 +36,7 @@ public class ObjectDecoder extends JSObjectBase {
     }
   }
 
-  public JSObject[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws Exception {
+  public JSObject[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws DecodeException, IOException {
     char ch = JSObjectBase.next(in);
     final JSObject value;
     if (ch != '{') {
@@ -45,7 +46,13 @@ public class ObjectDecoder extends JSObjectBase {
         throw new IllegalArgumentException("Malformed JSON");
     }
     else {
-      value = (JSObject)clazz.newInstance();
+      try {
+        value = (JSObject)clazz.newInstance();
+      }
+      catch (final ReflectiveOperationException e) {
+        throw new Error(e);
+      }
+
       JSObject.decode(in, ch, value);
     }
 

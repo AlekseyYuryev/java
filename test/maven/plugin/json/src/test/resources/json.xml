@@ -15,14 +15,20 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-<json
+<json bundleName="api"
   xmlns="http://commons.safris.org/json.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../../../commons/json/src/main/resources/json.xsd">
   <object name="attachment">
-    <value name="filename" xsi:type="string"/>
-    <value name="data" xsi:type="string"/>
-    <value name="serial" xsi:type="number"/>
+    <value name="filename" xsi:type="string" null="false">
+      <description>The filename.</description>
+    </value>
+    <value name="data" xsi:type="string" pattern="[0-9A-F]*">
+      <description>The data.</description>
+    </value>
+    <value name="serial" xsi:type="number" null="false">
+      <description>The serial.</description>
+    </value>
   </object>
   <object name="signature">
     <value name="xmldsig" xsi:type="string"/>

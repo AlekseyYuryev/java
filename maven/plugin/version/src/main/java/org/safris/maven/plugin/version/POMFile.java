@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.cert;
+package org.safris.maven.plugin.version;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,6 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -33,20 +32,41 @@ import java.util.Set;
 
 import org.apache.maven.DuplicateProjectException;
 import org.apache.maven.MavenExecutionException;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.lang.Pair;
+import org.safris.commons.lang.Paths;
 
 public class POMFile extends ModuleId {
-  private static final Map<ModuleId,POMFile> pomFiles = new HashMap<ModuleId,POMFile>();
+  private static final Map<POMFile,POMFile> pomFiles = new HashMap<POMFile,POMFile>();
 
-  public static Collection<UpdateCommand> getPendingUpdates() {
-    final Set<UpdateCommand> updates = new LinkedHashSet<UpdateCommand>();
+  public static Set<POMFile> getPendingUpdates() {
+    final Set<POMFile> updates = new LinkedHashSet<POMFile>();
     for (final POMFile pomFile : pomFiles.values())
-      updates.addAll(pomFile.updates);
+      if (pomFile.newVersion() != null)
+        updates.add(pomFile);
 
     return updates;
   }
 
-  public static POMFile parse(final File file, final String text) throws IOException, MavenExecutionException {
+  public static POMFile entry(final File file) throws IOException, MavenExecutionException {
+    final String text = new String(Files.readAllBytes(file.toPath()));
+    final POMFile pomFile = parse(file, text, "project");
+
+    // Drill down to the root parent, and then resolve the dependency tree from there
+    POMFile parentPomFile;
+    for (parentPomFile = pomFile; parentPomFile.parent() != null; parentPomFile = parentPomFile.parent());
+
+    // Resolve all modules of all sub-modules
+    POMFile.resolveModules(parentPomFile.modules());
+
+    // Resolve all relations of all sub-modules
+    parentPomFile.resolveRelations();
+    POMFile.resolveRelations(parentPomFile.modules());
+
+    return pomFile;
+  }
+
+  protected static POMFile parse(final File file, final String text) throws IOException, MavenExecutionException {
     return parse(file, text, "project");
   }
 
@@ -62,7 +82,10 @@ public class POMFile extends ModuleId {
     final int[][] relativePathIndex = VersionUtil.indexOfTag(text, "project/parent/relativePath");
     final File file = new File(dir, relativePathIndex != null ? text.substring(relativePathIndex[0][0], relativePathIndex[0][1]).trim() : "../pom.xml");
     final POMFile pomFile = parse(file, new String(Files.readAllBytes(file.toPath())), "project");
-    return ModuleId.equal(parentId, pomFile) ? pomFile : null;
+    if (!ModuleId.equal(parentId, pomFile))
+      throw new MavenExecutionException("Version of parent pom is expected to be " + parentId + ", but was found to be " + ModuleId.toString(pomFile), file);
+
+    return pomFile;
   }
 
   private static ModuleId parseModuleId(final String text, final String scope) {
@@ -76,33 +99,39 @@ public class POMFile extends ModuleId {
     final String groupId = groupIdIndex == null ? null : text.substring(groupIdIndex[0][0], groupIdIndex[0][1]).trim();
 
     final int[][] versionIndex = VersionUtil.indexOfTag(text, scope + "/version");
-    final String version = versionIndex == null ? null : text.substring(versionIndex[0][0], versionIndex[0][1]).trim();
+    final Version version = versionIndex == null ? null : new Version(text.substring(versionIndex[0][0], versionIndex[0][1]).trim());
     return new ModuleId(groupId, artifactId, version);
   }
 
-  private static void checkSame(final ModuleId moduleId, final POMFile a, final POMFile b) throws IOException, MavenExecutionException {
-    if (!a.file.getCanonicalPath().equals(b.file.getCanonicalPath()))
-      throw new DuplicateProjectException("Identical module IDs.", Collections.singletonMap(moduleId.toString(), Arrays.asList(a.file, b.file)));
+  private static void checkSame(final POMFile a, final POMFile b) throws IOException, MavenExecutionException {
+    try {
+      if (!a.file.getCanonicalPath().equals(b.file.getCanonicalPath()))
+        throw new DuplicateProjectException("Identical module IDs.", Collections.singletonMap(ModuleId.toString(a), Arrays.asList(a.file, b.file)));
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private static POMFile parse(final File file, final String text, final String scope) throws IOException, MavenExecutionException {
-    final ModuleId moduleId = parseModuleId(text, scope);
-
-    POMFile prototype = new POMFile(file, text, moduleId.groupId(), moduleId.artifactId(), moduleId.version());
-    POMFile instance = pomFiles.get(moduleId);
+    POMFile prototype = new POMFile(file, text, scope);
+    if ("version".equals(prototype.artifactId())) {
+      int i = 9090;
+    }
+    POMFile instance = pomFiles.get(prototype);
     if (instance != null) {
-      POMFile.checkSame(moduleId, prototype, instance);
+      POMFile.checkSame(prototype, instance);
       return instance;
     }
 
     synchronized (pomFiles) {
       instance = pomFiles.get(prototype);
       if (instance != null) {
-        POMFile.checkSame(moduleId, prototype, instance);
+        POMFile.checkSame(prototype, instance);
         return instance;
       }
 
-      pomFiles.put(moduleId, prototype);
+      pomFiles.put(prototype, prototype);
       return prototype;
     }
   }
@@ -111,45 +140,23 @@ public class POMFile extends ModuleId {
     return POMFile.makeFromParent(file.getParentFile(), text);
   }
 
-  private static ThreadLocal<Boolean> resolving = new ThreadLocal<Boolean>() {
-    @Override
-    protected Boolean initialValue() {
-      return Boolean.FALSE;
-    }
-  };
-
   private final File file;
   private final String text;
   private String newText;
-  private volatile boolean parentPOMFileInited = false;
+  private boolean parentPOMFileInited = false;
   private POMFile parentPOMFile;
 
   private final POMFile groupDeclarator;
   private final POMFile versionDeclarator;
 
-  private POMFile(final File file, final String text, final String groupId, final String artifactId, final String version) throws IOException, MavenExecutionException {
-    super(groupId, artifactId, version);
+  private POMFile(final File file, final String text, final String scope) throws IOException, MavenExecutionException {
+    super(parseModuleId(text, scope));
     this.file = file;
     this.text = text;
     this.newText = text;
 
-    groupDeclarator = groupId != null ? this : getParent() != null ? getParent().groupDeclarator : null;
-    versionDeclarator = version != null ? this : getParent() != null ? getParent().versionDeclarator : null;
-
-    if (!resolving.get()) {
-      resolving.set(true);
-
-      // Drill down to the root parent, and then resolve the dependency tree from there
-      POMFile parentPomFile;
-      for (parentPomFile = this; parentPomFile.getParent() != null; parentPomFile = parentPomFile.getParent());
-
-      // Resolve all modules of all sub-modules
-      POMFile.resolveModules(parentPomFile.getModules());
-
-      // Resolve all relations of all sub-modules
-      parentPomFile.resolveRelations();
-      POMFile.resolveRelations(parentPomFile.getModules());
-    }
+    groupDeclarator = groupId() != null ? this : parent() != null ? parent().groupDeclarator : null;
+    versionDeclarator = version() != null ? this : parent() != null ? parent().versionDeclarator : null;
   }
 
   @Override
@@ -158,7 +165,7 @@ public class POMFile extends ModuleId {
   }
 
   @Override
-  public String version() {
+  public Version version() {
     return versionDeclarator != this && versionDeclarator != null ? versionDeclarator.version() : super.version();
   }
 
@@ -166,12 +173,12 @@ public class POMFile extends ModuleId {
     return file;
   }
 
-  private void setParent(final POMFile parentPOMFile) {
+  private void parent(final POMFile parentPOMFile) {
     this.parentPOMFile = parentPOMFile;
     parentPOMFileInited = true;
   }
 
-  public POMFile getParent() throws IOException, MavenExecutionException {
+  public POMFile parent() throws IOException, MavenExecutionException {
     if (parentPOMFileInited)
       return parentPOMFile;
 
@@ -181,7 +188,7 @@ public class POMFile extends ModuleId {
 
   private POMFile[] modules = null;
 
-  public POMFile[] getModules() throws IOException, MavenExecutionException {
+  public POMFile[] modules() throws IOException, MavenExecutionException {
     if (modules != null)
       return modules;
 
@@ -199,7 +206,7 @@ public class POMFile extends ModuleId {
         final String moduleName = newText.substring(moduleIndex[0], moduleIndex[1]).trim();
         final File pomFile = new File(file.getParent(), moduleName + "/pom.xml");
         modules[i] = POMFile.parse(pomFile, new String(Files.readAllBytes(pomFile.toPath())));
-        modules[i].setParent(this);
+        modules[i].parent(this);
       }
 
       return this.modules = modules;
@@ -208,13 +215,13 @@ public class POMFile extends ModuleId {
 
   private static void resolveModules(final POMFile[] modules) throws IOException, MavenExecutionException {
     for (final POMFile module : modules)
-      resolveModules(module.getModules());
+      resolveModules(module.modules());
   }
 
   private static void resolveRelations(final POMFile[] modules) throws IOException, MavenExecutionException {
     for (final POMFile module : modules) {
       module.resolveRelations();
-      resolveRelations(module.getModules());
+      resolveRelations(module.modules());
     }
   }
 
@@ -226,10 +233,10 @@ public class POMFile extends ModuleId {
     if (pomFile != null)
       return new ManagedModuleId(pomFile.groupId(), pomFile.artifactId(), pomFile.version(), pomFile, dependency ? DependencyType.MANAGED_DEPENDENCY : DependencyType.MANAGED_PLUGIN);
 
-    if (getParent() == null)
+    if (parent() == null)
       return null;
 
-    return getParent().getManagedVersion(moduleId, dependency);
+    return parent().getManagedVersion(moduleId, dependency);
   }
 
   private volatile Boolean relationsResolved = false;
@@ -245,7 +252,7 @@ public class POMFile extends ModuleId {
   }
 
   private List<ManagedPOMFile> parseModuleIds(final DependencyType dependencyType) throws IOException, MavenExecutionException {
-    final int[][] indices = VersionUtil.indexOfTag(text, dependencyType.scope);
+    final int[][] indices = VersionUtil.indexOfTag(text, dependencyType.scope());
     final List<ManagedPOMFile> moduleIds = new ArrayList<ManagedPOMFile>();
     if (indices != null) {
       for (final int[] index : indices) {
@@ -264,6 +271,10 @@ public class POMFile extends ModuleId {
   }
 
   private void resolveRelations() throws IOException, MavenExecutionException {
+    if ("version".equals(artifactId())) {
+      int i = 9090;
+    }
+
     if (relationsResolved)
       return;
 
@@ -271,7 +282,7 @@ public class POMFile extends ModuleId {
       if (relationsResolved)
         return;
 
-      final POMFile parentPOMFile = getParent();
+      final POMFile parentPOMFile = parent();
       if (parentPOMFile != null)
         dependents.add(new ManagedPOMFile(parentPOMFile.versionDeclarator, DependencyType.POM, parentPOMFile));
 
@@ -297,43 +308,28 @@ public class POMFile extends ModuleId {
     }
   }
 
-  private final Set<UpdateCommand> updates = new LinkedHashSet<UpdateCommand>();
+  private Version newVersion = null;
 
-  public void addUpdate(final UpdateCommand command) {
-    updates.add(command);
+  public Version newVersion() {
+    return newVersion;
   }
 
-  public Set<UpdateCommand> updateCommands() {
-    return updates;
-  }
-
-  public void increaseVersion() throws IOException, MavenExecutionException {
-    addUpdate(new UpdateCommand("project", this, VersionUtil.increaseVersion(version())));
-
+  public void checkIncreaseVersion(final Version.Part incrementPart) throws MojoExecutionException {
+    newVersion = this.version().increment(incrementPart);
     for (final ManagedPOMFile dependent : dependents) {
 //      (dependent.manager() != null ? dependent.manager() : dependent.pomFile()).addUpdate(new UpdateCommand(dependent.dependencyType().scope, this, VersionUtil.increaseVersion(version())));
       if (dependent.manager() != null)
-        dependent.manager().increaseVersion();
+        dependent.manager().checkIncreaseVersion(incrementPart);
 
-      dependent.pomFile().increaseVersion();
+      dependent.pomFile().checkIncreaseVersion(incrementPart);
     }
   }
 
-  public void commit(final boolean updateParentPomVersion) throws IOException {
-    if (updateParentPomVersion) {
-      final int[][] versionIndex = VersionUtil.indexOfTag(newText, "project/parent/version");
-      final String version = versionIndex == null ? null : newText.substring(versionIndex[0][0], versionIndex[0][1]).trim();
-      newText = newText.substring(0, versionIndex[0][0]) + VersionUtil.increaseVersion(version) + newText.substring(versionIndex[0][1]);
-    }
-
+  public void addToTransaction(final Transaction transaction) throws IOException {
     final int[][] versionIndex = VersionUtil.indexOfTag(newText, "project/version");
-    final String version = versionIndex == null ? null : newText.substring(versionIndex[0][0], versionIndex[0][1]).trim();
-    newText = newText.substring(0, versionIndex[0][0]) + VersionUtil.increaseVersion(version) + newText.substring(versionIndex[0][1]);
+    newText = newText.substring(0, versionIndex[0][0]) + newVersion + newText.substring(versionIndex[0][1]);
 
-    final RandomAccessFile raf = new RandomAccessFile(file, "rw");
-    raf.write(newText.getBytes());
-    raf.setLength(raf.getFilePointer());
-    raf.close();
+    transaction.addFile(file, newText.getBytes());
   }
 
   public void rollback() throws IOException {
@@ -354,7 +350,7 @@ public class POMFile extends ModuleId {
       return false;
 
     final POMFile that = (POMFile)obj;
-    return file != null ? file.equals(that.file) : that.file == null;
+    return file != null ? Paths.equal(file, that.file) : that.file == null;
   }
 
   @Override

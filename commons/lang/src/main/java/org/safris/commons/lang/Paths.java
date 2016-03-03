@@ -16,6 +16,8 @@
 
 package org.safris.commons.lang;
 
+import java.io.File;
+
 public final class Paths {
   public static boolean isAbsolute(final String path) {
     if (path == null)
@@ -87,6 +89,10 @@ public final class Paths {
 
     final int separator = url.lastIndexOf('/');
     return separator != -1 ? url.substring(separator + 1) : url;
+  }
+
+  public static boolean equal(final File a, final File b) {
+    return a != null ? b != null && Paths.canonicalize(a.getAbsolutePath()).equals(Paths.canonicalize(b.getAbsolutePath())) : b == null;
   }
 
   private Paths() {

@@ -30,9 +30,29 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <modules>
-    <module>codegen</module>
-    <module>json</module>
-    <module>xdb</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property>
+          <name>!core</name>
+        </property>
+      </activation>
+      <modules>
+        <module>codegen</module>
+        <module>xdb</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>core</id>
+      <activation>
+        <property>
+          <name>core</name>
+        </property>
+      </activation>
+      <modules>
+        <module>json</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

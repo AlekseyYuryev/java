@@ -51,7 +51,6 @@
         <module>bytecode</module>
         <module>xml</module>
         <module>expect</module>
-        <module>io</module>
         <module>net</module>
         <module>exec</module>
         <module>jci</module>
@@ -69,6 +68,7 @@
         </property>
       </activation>
       <modules>
+        <module>io</module>
         <module>lang</module>
         <module>maven</module>
         <module>test</module>

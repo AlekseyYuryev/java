@@ -30,17 +30,37 @@
   <version>1.7.18-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <modules>
-    <module>dependency</module>
-    <module>codeguide</module>
-    <module>xml</module>
-    <module>cobertura</module>
-    <module>cert</module>
-    <module>xdb</module>
-    <module>codegen</module>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property>
+          <name>!core</name>
+        </property>
+      </activation>
+      <modules>
+        <module>dependency</module>
+        <module>codeguide</module>
+        <module>xml</module>
+        <module>cobertura</module>
+        <module>cert</module>
+        <module>xdb</module>
+        <module>codegen</module>
+        <module>json</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>core</id>
+      <activation>
+        <property>
+          <name>core</name>
+        </property>
+      </activation>
+      <modules>
     <module>version</module>
-    <module>json</module>
-  </modules>
+      </modules>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>

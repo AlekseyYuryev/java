@@ -23,7 +23,11 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
   <xs:complexType name="value" abstract="true">
+    <xs:sequence minOccurs="0">
+      <xs:element name="description" type="xs:string"/>
+    </xs:sequence>
     <xs:attribute name="array" type="xs:boolean"/>
+    <xs:attribute name="null" type="xs:boolean" default="true"/>
   </xs:complexType>
   
   <xs:complexType name="name" abstract="true">
@@ -36,7 +40,9 @@
   
   <xs:complexType name="string">
     <xs:complexContent>
-      <xs:extension base="json:name"/>
+      <xs:extension base="json:name">
+        <xs:attribute name="pattern" type="xs:string"/>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
@@ -78,6 +84,7 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
+      <xs:attribute name="bundleName" type="xs:NCName" use="required"/>
     </xs:complexType>
     <xs:key name="keyObjectName">
       <xs:selector xpath="./json:object"/>

@@ -38,6 +38,6 @@ public class ExternalTest extends LoggableTest {
     if (process.exitValue() != 0)
       Assert.fail();
 
-    Files.deleteAllOnExit(new File(POM_PATH + "target"));
+    Files.deleteAllOnExit(new File(POM_PATH + "target").toPath());
   }
 }

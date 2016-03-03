@@ -17,8 +17,9 @@
 package org.safris.commons.jci;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileOutputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -72,14 +73,14 @@ public final class JavaCompiler {
 
     final File tempDir = new File(UUID.randomUUID().toString());
     toDir(tempDir, javaSources);
-    final FileFilter fileFilter = new FileFilter() {
+    final DirectoryStream.Filter<Path> fileFilter = new DirectoryStream.Filter<Path>() {
       @Override
-      public boolean accept(final File pathname) {
+      public boolean accept(final Path entry) {
         return true;
       }
     };
 
-    Files.deleteAllOnExit(tempDir, fileFilter);
+    Files.deleteAllOnExit(tempDir.toPath(), fileFilter);
     try {
       toDir(tempDir, javaSources);
       final Collection<File> files = Files.listAll(tempDir);
@@ -94,7 +95,7 @@ public final class JavaCompiler {
       Zips.add(destJar.getFile(), selected);
     }
     finally {
-      Files.deleteAllOnExit(tempDir, fileFilter);
+      Files.deleteAllOnExit(tempDir.toPath(), fileFilter);
     }
   }
 

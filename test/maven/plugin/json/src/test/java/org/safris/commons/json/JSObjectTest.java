@@ -25,43 +25,78 @@ import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 
-import json.Attachment;
-import json.Message;
-import json.Signature;
+import json.api;
 
-public class GeneratorTest extends LoggableTest {
+public class JSObjectTest extends LoggableTest {
   @Test
-  public void testGenerator() throws Exception {
+  public void testJSObject() throws Exception {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
-    final Attachment att1 = new Attachment();
-    att1.setFilename("data1.text");
+    final api.Attachment att1 = new api.Attachment();
     att1.setSerial(2);
+    att1.setData("AAA332");
 
-    final Attachment att2 = new Attachment();
+    try {
+      att1.toString();
+    }
+    catch (final EncodeException e) {
+      if (!e.getMessage().startsWith("\"filename\" cannot be null"))
+        throw e;
+    }
+
+    att1.setFilename("data1.txt");
+
+    final api.Attachment att2 = new api.Attachment();
     att2.setData("data2");
+    att2.setFilename("data2.txt");
     att2.setSerial(-2.424242424);
 
-    final Attachment att3 = new Attachment();
-    att3.setFilename("data3.text");
-    att3.setData("data3");
+    try {
+      att2.toString();
+    }
+    catch (final EncodeException e) {
+      if (!e.getMessage().startsWith("\"data\" does not match pattern"))
+        throw e;
+    }
+
+    att2.setData("438DA4");
+
+    final api.Attachment att3 = new api.Attachment();
+    att3.setFilename("data3.txt");
+    att3.setData("8A8CEF");
     att3.setSerial(99999);
 
-    final Signature signature = new Signature();
+    final api.Signature signature = new api.Signature();
     signature.setPubRsa("pub_rsa");
     signature.setXmldsig("xmldsig");
 
-    final Message message = new Message();
+    final api.Message message = new api.Message();
     message.setSubject("Test subject");
     message.setImortant(true);
     message.setRecipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
     message.setAttachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
     message.setSignature(signature);
 
-    final String encoded = message.toString();
+    String encoded = message.toString();
     log(encoded);
 
-    final Message decoded = (Message)JSObject.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
+    try {
+      JSObject.parse(new ByteArrayInputStream(encoded.replace("438DA4", "XXX").getBytes(StandardCharsets.UTF_8)));
+    }
+    catch (final DecodeException e) {
+      if (!e.getMessage().startsWith("\"data\" does not match pattern"))
+        throw e;
+    }
+
+    try {
+      JSObject.parse(new ByteArrayInputStream(encoded.replace("\"filename\": \"data1.txt\", ", "").getBytes(StandardCharsets.UTF_8)));
+    }
+    catch (final DecodeException e) {
+      if (!e.getMessage().startsWith("\"filename\" is missing"))
+        throw e;
+    }
+
+    final api.Message decoded = (api.Message)JSObject.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
     final String reEncoded = decoded.toString();
     log(reEncoded);
 

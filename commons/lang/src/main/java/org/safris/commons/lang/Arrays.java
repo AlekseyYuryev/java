@@ -19,6 +19,18 @@ package org.safris.commons.lang;
 import java.lang.reflect.Array;
 
 public final class Arrays {
+  public static abstract class Filter<T> {
+    public abstract T filter(final T value);
+  }
+
+  @SafeVarargs
+  public static <T>T[] filter(final Filter<T> filter, final T ... array) {
+    for (int i = 0; i < array.length; i++)
+      array[i] = filter.filter(array[i]);
+
+    return array;
+  }
+
   @SafeVarargs
   public static <T>T[] addAll(final T[] ... array) {
     int length = 0;

@@ -117,32 +117,6 @@
       </dependencyManagement>
     </profile>
     <profile>
-      <id>maven-assembly-plugin</id>
-      <activation>
-        <property>
-          <name>task-segment:deploy</name>
-        </property>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <executions>
-                <execution>
-                	<phase>package</phase>
-                	<goals>
-                		<goal>single</goal>
-                	</goals>
-                </execution>
-              </executions>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-    <profile>
       <id>core</id>
       <activation>
         <property>
@@ -151,6 +125,8 @@
       </activation>
       <modules>
         <module>commons</module>
+        <module>maven</module>
+        <module>test</module>
       </modules>
     </profile>
     <profile>
@@ -203,6 +179,21 @@
           </includes>-->
         </configuration>
       </plugin>
+      <!--plugin>
+        <groupId>org.safris.maven.plugin</groupId>
+        <artifactId>version</artifactId>
+        <version>0.1.1-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>update</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <incrementPart>PATCH</incrementPart>
+        </configuration>
+      </plugin-->
     </plugins>
     <pluginManagement>
       <plugins>

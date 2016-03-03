@@ -1,4 +1,4 @@
-package org.safris.maven.plugin.cert;
+package org.safris.maven.plugin.version;
 
 public class ManagedPOMFile extends ManagedReference {
   private final POMFile pomFile;
