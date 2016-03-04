@@ -18,6 +18,7 @@ package org.safris.commons.json;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 public abstract class JSObject extends JSObjectBase {
   public static JSObject parse(final InputStream in) throws DecodeException, IOException {
@@ -26,7 +27,7 @@ public abstract class JSObject extends JSObjectBase {
 
   protected abstract String _name();
   protected abstract String _encode(final int depth);
-  protected abstract Binding _lookupBinding(final String name);
+  protected abstract Map<String,Binding> _bindings();
 
   protected abstract JSBundle _bundle();
 }

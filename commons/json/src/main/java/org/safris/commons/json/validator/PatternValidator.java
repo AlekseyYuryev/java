@@ -1,8 +1,6 @@
 package org.safris.commons.json.validator;
 
-import org.safris.commons.json.JSObject;
-
-public class PatternValidator implements Validator<String> {
+public class PatternValidator extends  Validator<String> {
   private final String pattern;
 
   public PatternValidator(final String pattern) {

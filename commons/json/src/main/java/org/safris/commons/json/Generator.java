@@ -56,7 +56,8 @@ public class Generator {
     String out = "";
 
     out += "package json;";
-    out += "\n\npublic class " + bundleName + " extends " + JSBundle.class.getName() + " {";
+    out += "\n\n@" + SuppressWarnings.class.getName() + "(\"all\")";
+    out += "\npublic class " + bundleName + " extends " + JSBundle.class.getName() + " {";
     out += "\n  private static " + bundleName + " instance = null;";
     out += "\n\n  protected static " + bundleName + " instance() {";
     out += "\n    return instance == null ? instance = new " + bundleName + "() : instance;";
@@ -64,7 +65,7 @@ public class Generator {
 
     out += "\n\n    @" + Override.class.getName();
     out += "\n  protected " + String.class.getName() + " getSpec() {";
-    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT, DOMStyle.INDENT_ATTRS).replace("\n", "\\n").replace("\"", "\\\"") + "\";";
+    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\n", "\\n").replace("\"", "\\\"") + "\";";
     out += "\n  }";
 
     for (final json_json._object object : json._object()) {
@@ -123,14 +124,7 @@ public class Generator {
 
     out += "\n\n    public void " + methodName + "(final " + type + " value) {";
     out += "\n      if (this." + instanceName + " == null)";
-    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, \"" + valueName + "\"";
-    if (value instanceof $json_string) {
-      final $json_string string = ($json_string)value;
-      if (string._pattern$().text() != null)
-        out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()) + "\")";
-    }
-    out += ");";
-
+    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, bindings.get(\"" + valueName + "\"));";
     out += "\n\n      this." + instanceName + ".value(value);\n    }\n";
     out += "\n    public " + type + " " + methodName + "() {";
     out += "\n      return this." + instanceName + " != null ? this." + instanceName + ".value() : null;\n    }\n";
@@ -179,9 +173,16 @@ public class Generator {
       final String valueName = getValueName(value);
       final String rawType = getType(value);
       final boolean isArray = value._array$().text() != null && value._array$().text();
-      final String type = isArray ? Collection.class.getName() : rawType;
+      final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "(\"" + valueName + "\", " + className + ".class.getDeclaredMethod(\"" + Strings.toInstanceCase(valueName) + "\", " + type + ".class), " + className + ".class.getDeclaredField(\"_" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + (!value._array$().isNull() && value._array$().text()) + "));";
+      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredMethod(\"" + Strings.toInstanceCase(valueName) + "\", " + (isArray ? Collection.class.getName() : rawType) + ".class), " + className + ".class.getDeclaredField(\"_" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + (!value._array$().isNull() && value._array$().text()) + ", " + !value._null$().text();
+      if (value instanceof $json_string) {
+        final $json_string string = ($json_string)value;
+        if (string._pattern$().text() != null)
+          out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()) + "\")";
+      }
+
+      out += "));";
     }
     out += "\n      }";
     out += "\n      catch (final " + ReflectiveOperationException.class.getName() + " e) {";
@@ -189,8 +190,8 @@ public class Generator {
     out += "\n      }";
     out += "\n    }\n";
     out += "\n    @" + Override.class.getName();
-    out += "\n    protected " + Binding.class.getName() + " _lookupBinding(final " + String.class.getName() + " name) {";
-    out += "\n      return bindings.get(name);";
+    out += "\n    protected " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "> _bindings() {";
+    out += "\n      return bindings;";
     out += "\n    }\n";
     out += "\n    @" + Override.class.getName();
     out += "\n    protected " + JSBundle.class.getName() + " _bundle() {";

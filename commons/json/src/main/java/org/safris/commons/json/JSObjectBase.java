@@ -137,7 +137,7 @@ public abstract class JSObjectBase {
                 return decode(in, next(in), clazz.newInstance());
               }
 
-              final Binding member = jsObject._lookupBinding(out.toString());
+              final Binding member = jsObject._bindings().get(out.toString());
               if (member == null)
                 throw new DecodeException("Unknown object name: " + out, jsObject);
 
@@ -179,18 +179,13 @@ public abstract class JSObjectBase {
         else {
           if (ch == '}') {
             try {
-              final Field[] fields = jsObject.getClass().getDeclaredFields();
-              for (final Field field : fields) {
-                if (field.getType() != Property.class)
-                  continue;
-
-                field.setAccessible(true);
-                final Property<?> property = (Property<?>)field.get(jsObject);
+              for (final Binding binding : jsObject._bindings().values()) {
+                final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (property == null)
-                  throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" is missing", jsObject);
+                  throw new DecodeException("\"" + binding.name + "\" is missing", jsObject);
 
-                if (property.value() == null && field.getAnnotation(NotNull.class) != null)
-                  throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" cannot be null", jsObject);
+                if (property.value() == null && binding.notNull)
+                  throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
               }
             }
             catch (final ReflectiveOperationException e) {
