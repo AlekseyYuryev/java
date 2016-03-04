@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.safris.commons.json.validator.PatternValidator;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
 import org.safris.commons.maven.Log;
@@ -60,7 +61,8 @@ public class Generator {
     out += "\n    return instance == null ? instance = new " + bundleName + "() : instance;";
     out += "\n  }";
 
-    out += "\n\n  protected " + String.class.getName() + " getSpec() {";
+    out += "\n\n    @" + Override.class.getName();
+    out += "\n  protected " + String.class.getName() + " getSpec() {";
     out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT, DOMStyle.INDENT_ATTRS).replace("\n", "\\n").replace("\"", "\\\"") + "\";";
     out += "\n  }";
 
@@ -68,7 +70,7 @@ public class Generator {
       out += writeJavaClass(bundleName, object, outDir);
     }
 
-    out += "\n  private " + bundleName + "() {\n";
+    out += "\n\n  private " + bundleName + "() {";
     out += "\n  }";
     out += "\n}";
     final FileOutputStream fos = new FileOutputStream(new File(outDir, bundleName + ".java"));
@@ -108,59 +110,52 @@ public class Generator {
     final String rawType = getType(value);
     final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-    final StringBuilder out = new StringBuilder();
+    final String instanceName = "_" + Strings.toInstanceCase(valueName);
+    final String methodName = Strings.toInstanceCase(valueName);
 
-    out.append("\n    @").append(Name.class.getName()).append("(\"").append(valueName).append("\")");
+    String out = "";
+    out += "\n    @" + Name.class.getName() + "(\"" + valueName + "\")";
     if (!value._null$().text())
-      out.append("\n    @").append(NotNull.class.getName());
+      out += "\n    @" + NotNull.class.getName();
 
+    out += "\n    private " + Property.class.getName() + "<" + type + "> " + instanceName + " = null;";
+
+    out += "\n\n    public void " + methodName + "(final " + type + " value) {";
+    out += "\n      if (this." + instanceName + " == null)";
+    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, \"" + valueName + "\"";
     if (value instanceof $json_string) {
       final $json_string string = ($json_string)value;
       if (string._pattern$().text() != null)
-        out.append("\n    @").append(Pattern.class.getName()).append("(\"").append(string._pattern$().text()).append("\")");
+        out += ", new " + PatternValidator.class.getName() + "(\"" + string._pattern$().text() + "\")";
     }
+    out += ");";
 
-    out.append("\n    private ").append(type).append(" _").append(Strings.toInstanceCase(valueName)).append(" = null;");
-    out.append("\n    private boolean _").append(Strings.toInstanceCase(valueName)).append("WasSet = false;\n");
-    out.append("\n    public void set").append(Strings.toClassCase(valueName)).append("(final ").append(type).append(" value) {");
-    out.append("\n      this._").append(Strings.toInstanceCase(valueName)).append(" = value;");
-    out.append("\n      this._").append(Strings.toInstanceCase(valueName)).append("WasSet = true;\n    }\n");
-    out.append("\n    public ").append(type).append(" get").append(Strings.toClassCase(valueName)).append("() {");
-    out.append("\n      return this._").append(Strings.toInstanceCase(valueName)).append(";\n    }\n");
+    out += "\n\n      this." + instanceName + ".value(value);\n    }\n";
+    out += "\n    public " + type + " " + methodName + "() {";
+    out += "\n      return this." + instanceName + " != null ? this." + instanceName + ".value() : null;\n    }\n";
     return out.toString();
   }
 
   private static String writeEncode(final $json_value value) {
     final String valueName = getValueName(value);
-    final String instanceName = Strings.toInstanceCase(valueName);
+    final String instanceName = "_" + Strings.toInstanceCase(valueName);
     String out = "";
     if (!value._null$().text()) {
-      out += "\n\n      if (_" + instanceName + " == null)";
+      out += "\n\n      if (" + instanceName + " == null)";
       out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null.\", this);";
-    }
-
-    if (value instanceof $json_string) {
-      final $json_string string = ($json_string)value;
-      if (string._pattern$().text() != null) {
-        out += "\n\n      if (_" + instanceName + " != null && !_" + instanceName + ".matches(\"" + string._pattern$().text() + "\"))";
-        out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" does not match pattern \\\"" + string._pattern$().text() + "\\\": \\\"\" + _" + instanceName + " + \"\\\"\", this);";
-      }
     }
 
     out += "\n\n      out.append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (!value._array$().isNull() && value._array$().text())
-      return out + "tokenize(_" + instanceName + ", depth + 1)).append(\"";
+      return out + "tokenize(" + instanceName + ".encode(), depth + 1) + \"";
 
     if (value instanceof $json_object)
-      return out + "_" + instanceName + " != null ? _" + instanceName + ".encode(depth + 1) : \"null\").append(\"";
+      return out + "" + instanceName + " != null && " + instanceName + ".value() != null ? " + instanceName + ".encode()._encode(depth + 1) : \"null\").append(\"";
 
     if (value instanceof $json_string)
-      return out + "_" + instanceName + " != null ? \"\\\"\" + _" + instanceName + " + \"\\\"\" : \"null\").append(\"";
+      return out + "" + instanceName + " != null && " + instanceName + ".value() != null ? \"\\\"\" + " + instanceName + ".encode() + \"\\\"\" : \"null\").append(\"";
 
-    if (value instanceof $json_number)
-      return out + "format(_" + instanceName + ")).append(\"";
-
-    return out + "_" + instanceName + ").append(\"";
+    return out + "" + instanceName + ".encode() + \"";
   }
 
   private static String writeJavaClass(final String bundleName, final json_json._object object, final File outDir) throws IOException {
@@ -170,58 +165,61 @@ public class Generator {
       return "";
     }
 
-    final StringBuilder out = new StringBuilder();
+    String out = "";
 
     final String className = Strings.toClassCase(objectName);
-    out.append("\n\n  public static class ").append(className).append(" extends " + JSObject.class.getName() + " {");
-    out.append("\n    private static final ").append(String.class.getName()).append(" name = \"").append(objectName).append("\";\n");
-    out.append("\n    private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append(">(").append(object._value().size()).append(");");
-    out.append("\n    static {");
-    out.append("\n      registerBinding(name, ").append(className).append(".class);");
-    out.append("\n      try {");
+    out += "\n\n  public static class " + className + " extends " + JSObject.class.getName() + " {";
+    out += "\n    private static final " + String.class.getName() + " name = \"" + objectName + "\";\n";
+    out += "\n    private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + ">(" + object._value().size() + ");";
+    out += "\n    static {";
+    out += "\n      registerBinding(name, " + className + ".class);";
+    out += "\n      try {";
     for (final $json_value value : object._value()) {
       final String valueName = getValueName(value);
-      out.append("\n        bindings.put(\"").append(valueName).append("\", new ").append(Binding.class.getName()).append("(\"").append(valueName).append("\", ").append(className).append(".class.getDeclaredField(\"_").append(Strings.toInstanceCase(valueName)).append("\"), ").append(getType(value)).append(".class, ").append(!value._array$().isNull() && value._array$().text()).append("));");
+      final String rawType = getType(value);
+      final boolean isArray = value._array$().text() != null && value._array$().text();
+      final String type = isArray ? Collection.class.getName() : rawType;
+
+      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "(\"" + valueName + "\", " + className + ".class.getDeclaredMethod(\"" + Strings.toInstanceCase(valueName) + "\", " + type + ".class), " + className + ".class.getDeclaredField(\"_" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + (!value._array$().isNull() && value._array$().text()) + "));";
     }
-    out.append("\n      }");
-    out.append("\n      catch (final ").append(NoSuchFieldException.class.getName()).append(" e) {");
-    out.append("\n        throw new ").append(ExceptionInInitializerError.class.getName()).append("(e);");
-    out.append("\n      }");
-    out.append("\n    }\n");
-    out.append("\n    @").append(Override.class.getName());
-    out.append("\n    protected ").append(Binding.class.getName()).append(" lookupBinding(final ").append(String.class.getName()).append(" name) {");
-    out.append("\n      return bindings.get(name);");
-    out.append("\n    }\n");
-    out.append("\n    @").append(Override.class.getName());
-    out.append("\n    protected ").append(JSBundle.class.getName()).append(" bundle() {");
-    out.append("\n      return " + bundleName + ".instance();");
-    out.append("\n    }\n");
-    out.append("\n    @").append(Override.class.getName());
-    out.append("\n    protected " + String.class.getName() + " name() {");
-    out.append("\n      return name;");
-    out.append("\n    }\n");
+    out += "\n      }";
+    out += "\n      catch (final " + ReflectiveOperationException.class.getName() + " e) {";
+    out += "\n        throw new " + ExceptionInInitializerError.class.getName() + "(e);";
+    out += "\n      }";
+    out += "\n    }\n";
+    out += "\n    @" + Override.class.getName();
+    out += "\n    protected " + Binding.class.getName() + " _lookupBinding(final " + String.class.getName() + " name) {";
+    out += "\n      return bindings.get(name);";
+    out += "\n    }\n";
+    out += "\n    @" + Override.class.getName();
+    out += "\n    protected " + JSBundle.class.getName() + " _bundle() {";
+    out += "\n      return " + bundleName + ".instance();";
+    out += "\n    }\n";
+    out += "\n    @" + Override.class.getName();
+    out += "\n    protected " + String.class.getName() + " _name() {";
+    out += "\n      return name;";
+    out += "\n    }\n";
     for (final $json_value value : object._value())
-      out.append(writeField(value));
-    out.append("\n    @").append(Override.class.getName());
-    out.append("\n    protected " + String.class.getName() + " encode(final int depth) {");
-    out.append("\n      final ").append(StringBuilder.class.getName()).append(" out = new ").append(StringBuilder.class.getName()).append("();");
-    out.append("\n      out.append(\"{\\n\");");
+      out += writeField(value);
+    out += "\n    @" + Override.class.getName();
+    out += "\n    protected " + String.class.getName() + " _encode(final int depth) {";
+    out += "\n      final " + StringBuilder.class.getName() + " out = new " + StringBuilder.class.getName() + "();";
+    out += "\n      out.append(\"{\\n\");";
     if (object._value().size() > 0) {
       for (int i = 0; i < object._value().size() - 1; i++)
-        out.append(writeEncode(object._value(i))).append(", \\n\");");
+        out += writeEncode(object._value(i)) + ", \\n\");";
 
-      out.append(writeEncode(object._value(object._value().size() - 1))).append("\\n\");");
+      out += writeEncode(object._value(object._value().size() - 1)) + "\\n\");";
     }
 
-    out.append("\n      out.append(pad(depth - 1)).append(\"}\");");
-    out.append("\n      return out.toString();\n    }\n");
+    out += "\n      out.append(pad(depth - 1) + \"}\");";
+    out += "\n      return out.toString();\n    }\n";
 
-    out.append("\n    @").append(Override.class.getName());
-    out.append("\n    public " + String.class.getName() + " toString() {");
-    out.append("\n      final ").append(StringBuilder.class.getName()).append(" out = new ").append(StringBuilder.class.getName()).append("();");
-    out.append("\n      out.append(\"{\\n  \\\"").append(object._name$().text()).append("\\\": \").append(encode(2)).append(\"\\n}\");");
-    out.append("\n      return out.toString();\n    }\n");
-    out.append("  }");
+    out += "\n    @" + Override.class.getName();
+    out += "\n    public " + String.class.getName() + " toString() {";
+    out += "\n      return \"{\\n  \\\"" + object._name$().text() + "\\\": \" + _encode(2) + \"\\n}\";";
+    out += "\n    }\n";
+    out += "  }";
 
     return out.toString();
   }

@@ -24,9 +24,9 @@ public abstract class JSObject extends JSObjectBase {
     return JSObject.decode(in, next(in), null);
   }
 
-  protected abstract String name();
-  protected abstract String encode(final int depth);
-  protected abstract Binding lookupBinding(final String name);
+  protected abstract String _name();
+  protected abstract String _encode(final int depth);
+  protected abstract Binding _lookupBinding(final String name);
 
-  protected abstract JSBundle bundle();
+  protected abstract JSBundle _bundle();
 }

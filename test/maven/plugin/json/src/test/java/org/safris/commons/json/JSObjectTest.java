@@ -33,8 +33,8 @@ public class JSObjectTest extends LoggableTest {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final api.Attachment att1 = new api.Attachment();
-    att1.setSerial(2);
-    att1.setData("AAA332");
+    att1.serial(2);
+    att1.data("AAA332");
 
     try {
       att1.toString();
@@ -44,12 +44,12 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att1.setFilename("data1.txt");
+    att1.filename("data1.txt");
 
     final api.Attachment att2 = new api.Attachment();
-    att2.setData("data2");
-    att2.setFilename("data2.txt");
-    att2.setSerial(-2.424242424);
+    att2.data("data2");
+    att2.filename("data2.txt");
+    att2.serial(-2.424242424);
 
     try {
       att2.toString();
@@ -59,23 +59,23 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att2.setData("438DA4");
+    att2.data("438DA4");
 
     final api.Attachment att3 = new api.Attachment();
-    att3.setFilename("data3.txt");
-    att3.setData("8A8CEF");
-    att3.setSerial(99999);
+    att3.filename("data3.txt");
+    att3.data("8A8CEF");
+    att3.serial(99999);
 
     final api.Signature signature = new api.Signature();
-    signature.setPubRsa("pub_rsa");
-    signature.setXmldsig("xmldsig");
+    signature.pubRsa("pub_rsa");
+    signature.xmldsig("xmldsig");
 
     final api.Message message = new api.Message();
-    message.setSubject("Test subject");
-    message.setImortant(true);
-    message.setRecipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
-    message.setAttachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
-    message.setSignature(signature);
+    message.subject("Test subject");
+    message.imortant(true);
+    message.recipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
+    message.attachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
+    message.signature(signature);
 
     String encoded = message.toString();
     log(encoded);

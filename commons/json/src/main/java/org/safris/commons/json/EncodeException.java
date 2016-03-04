@@ -16,6 +16,6 @@ public class EncodeException extends RuntimeException {
   }
 
   public EncodeException(final String message, final JSObject jsObject, final Throwable cause) {
-    super(message != null ? (jsObject != null ? message + "\n" + jsObject.bundle().getSpec() : message) : (jsObject != null ? jsObject.bundle().getSpec() : null), cause);
+    super(message != null ? (jsObject != null ? message + "\n" + jsObject._bundle().getSpec() : message) : (jsObject != null ? jsObject._bundle().getSpec() : null), cause);
   }
 }

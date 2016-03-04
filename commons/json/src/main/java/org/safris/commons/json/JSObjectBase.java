@@ -88,10 +88,6 @@ public abstract class JSObjectBase {
     return ch == 'n' && next(in) == 'u' && next(in) == 'l' && next(in) == 'l';
   }
 
-  protected static String format(final Number number) {
-    return number == null ? null : (number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
-  }
-
   protected static <T> String tokenize(final Collection<T> value, final int depth) {
     if (value == null)
       return "null";
@@ -101,7 +97,7 @@ public abstract class JSObjectBase {
 
     final StringBuilder out = new StringBuilder();
     for (final T part : value)
-      out.append(", ").append(part == null ? "null" : part instanceof JSObject ? ((JSObject)part).encode(depth) : "\"" + part + "\"");
+      out.append(", ").append(part == null ? "null" : part instanceof JSObject ? ((JSObject)part)._encode(depth) : "\"" + part + "\"");
 
     return "[" + out.substring(2) + "]";
   }
@@ -141,7 +137,7 @@ public abstract class JSObjectBase {
                 return decode(in, next(in), clazz.newInstance());
               }
 
-              final Binding member = jsObject.lookupBinding(out.toString());
+              final Binding member = jsObject._lookupBinding(out.toString());
               if (member == null)
                 throw new DecodeException("Unknown object name: " + out, jsObject);
 
@@ -154,9 +150,9 @@ public abstract class JSObjectBase {
               }
               else if (member.type == String.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
-                final Pattern pattern = member.field.getAnnotation(Pattern.class);
-                if (pattern != null && value != null && !((String)value).matches(pattern.value()))
-                  throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
+//                final Pattern pattern = member.field.getAnnotation(Pattern.class);
+//                if (pattern != null && value != null && !((String)value).matches(pattern.value()))
+//                  throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
               }
               else if (member.type == Boolean.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(in, 0)) : booleanDecoder.decode(in, ch);
@@ -168,11 +164,12 @@ public abstract class JSObjectBase {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);
               }
 
-              final NotNull notNull = member.field.getAnnotation(NotNull.class);
+              final NotNull notNull = member.property.getAnnotation(NotNull.class);
               if (notNull != null && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
 
-              member.field.set(jsObject, value);
+              member.set.invoke(jsObject, value);
+              ((Property<?>)member.property.get(jsObject)).decode();
             }
             catch (final ReflectiveOperationException e) {
               throw new Error(e);
@@ -184,19 +181,16 @@ public abstract class JSObjectBase {
             try {
               final Field[] fields = jsObject.getClass().getDeclaredFields();
               for (final Field field : fields) {
-                if (field.getName().endsWith("WasSet"))
+                if (field.getType() != Property.class)
                   continue;
 
                 field.setAccessible(true);
-                if (field.get(jsObject) == null) {
-                  final Field wasSetField = jsObject.getClass().getDeclaredField(field.getName() + "WasSet");
-                  wasSetField.setAccessible(true);
-                  if (!wasSetField.getBoolean(jsObject))
-                    throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" is missing", jsObject);
+                final Property<?> property = (Property<?>)field.get(jsObject);
+                if (property == null)
+                  throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" is missing", jsObject);
 
-                  if (field.getAnnotation(NotNull.class) != null)
-                    throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" cannot be null", jsObject);
-                }
+                if (property.value() == null && field.getAnnotation(NotNull.class) != null)
+                  throw new DecodeException("\"" + field.getAnnotation(Name.class).value() + "\" cannot be null", jsObject);
               }
             }
             catch (final ReflectiveOperationException e) {
