@@ -29,6 +29,7 @@ import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
 import org.safris.commons.maven.Log;
 import org.safris.commons.xml.XMLException;
+import org.safris.commons.xml.XMLText;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.Bindings;
@@ -126,7 +127,7 @@ public class Generator {
     if (value instanceof $json_string) {
       final $json_string string = ($json_string)value;
       if (string._pattern$().text() != null)
-        out += ", new " + PatternValidator.class.getName() + "(\"" + string._pattern$().text() + "\")";
+        out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()) + "\")";
     }
     out += ");";
 
