@@ -19,16 +19,16 @@ package org.safris.commons.json.decoder;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.safris.commons.json.JSObjectBase;
+import org.safris.commons.json.JSObjects;
 
-public abstract class Decoder<T> extends JSObjectBase {
+public abstract class Decoder<T> extends JSObjects {
   protected abstract T[] newInstance(final int depth);
 
   public abstract T decode(final InputStream in, char ch) throws IOException;
 
   public final T[] recurse(final InputStream in, final int depth) throws IOException {
-    final T value = decode(in, JSObjectBase.next(in));
-    char ch = JSObjectBase.next(in);
+    final T value = decode(in, JSObjects.next(in));
+    char ch = JSObjects.next(in);
     if (ch == ',') {
       final T[] array = recurse(in, depth + 1);
       array[depth] = value;

@@ -16,18 +16,21 @@
 
 package org.safris.commons.json;
 
+import static org.safris.commons.json.JSObjects.decode;
+import static org.safris.commons.json.JSObjects.next;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public abstract class JSObject extends JSObjectBase {
+public abstract class JSObject {
   public static JSObject parse(final InputStream in) throws DecodeException, IOException {
-    return JSObject.decode(in, next(in), null);
+    return decode(in, next(in), null);
   }
 
   protected abstract String _name();
   protected abstract String _encode(final int depth);
-  protected abstract Map<String,Binding> _bindings();
+  protected abstract Map<String,Binding<?>> _bindings();
 
   protected abstract JSBundle _bundle();
 }

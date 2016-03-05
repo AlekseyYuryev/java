@@ -19,7 +19,7 @@ package org.safris.commons.json.decoder;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.safris.commons.json.JSObjectBase;
+import org.safris.commons.json.JSObjects;
 
 public class NumberDecoder extends Decoder<Number> {
   @Override
@@ -30,7 +30,7 @@ public class NumberDecoder extends Decoder<Number> {
   @Override
   public Number decode(final InputStream in, char ch) throws IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
-      if (JSObjectBase.isNull(ch, in))
+      if (JSObjects.isNull(ch, in))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -41,7 +41,7 @@ public class NumberDecoder extends Decoder<Number> {
       in.mark(24);
       value.append(ch);
     }
-    while ('0' <= (ch = JSObjectBase.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
+    while ('0' <= (ch = JSObjects.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
 
     in.reset();
     final String number = value.toString();

@@ -22,13 +22,13 @@ import java.lang.reflect.Array;
 
 import org.safris.commons.json.DecodeException;
 import org.safris.commons.json.JSObject;
-import org.safris.commons.json.JSObjectBase;
+import org.safris.commons.json.JSObjects;
 
-public class ObjectDecoder extends JSObjectBase {
+public class ObjectDecoder extends JSObjects {
   public JSObject decode(final InputStream in, char ch, final Class<?> clazz) throws DecodeException, IOException {
     try {
       final JSObject value = (JSObject)clazz.newInstance();
-      JSObject.decode(in, ch, value);
+      JSObjects.decode(in, ch, value);
       return value;
     }
     catch (final ReflectiveOperationException e) {
@@ -37,10 +37,10 @@ public class ObjectDecoder extends JSObjectBase {
   }
 
   public JSObject[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws DecodeException, IOException {
-    char ch = JSObjectBase.next(in);
+    char ch = JSObjects.next(in);
     final JSObject value;
     if (ch != '{') {
-      if (JSObjectBase.isNull(ch, in))
+      if (JSObjects.isNull(ch, in))
         value = null;
       else
         throw new IllegalArgumentException("Malformed JSON");
@@ -53,10 +53,10 @@ public class ObjectDecoder extends JSObjectBase {
         throw new Error(e);
       }
 
-      JSObject.decode(in, ch, value);
+      JSObjects.decode(in, ch, value);
     }
 
-    ch = JSObjectBase.next(in);
+    ch = JSObjects.next(in);
     if (ch == ',') {
       final JSObject[] array = recurse(in, clazz, depth + 1);
       array[depth] = value;

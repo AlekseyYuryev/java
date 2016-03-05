@@ -116,12 +116,7 @@ public class Generator {
     final String methodName = Strings.toInstanceCase(valueName);
 
     String out = "";
-    out += "\n    @" + Name.class.getName() + "(\"" + valueName + "\")";
-    if (!value._null$().text())
-      out += "\n    @" + NotNull.class.getName();
-
     out += "\n    private " + Property.class.getName() + "<" + type + "> " + instanceName + " = null;";
-
     out += "\n\n    public void " + methodName + "(final " + type + " value) {";
     out += "\n      if (this." + instanceName + " == null)";
     out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, bindings.get(\"" + valueName + "\"));";

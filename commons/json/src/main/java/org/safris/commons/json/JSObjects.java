@@ -18,7 +18,6 @@ package org.safris.commons.json;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
 import org.safris.commons.util.Collections;
 
-public abstract class JSObjectBase {
+public abstract class JSObjects {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();
   private static final NumberDecoder numberDecoder = new NumberDecoder();
   private static final StringDecoder stringDecoder = new StringDecoder();
@@ -137,7 +136,7 @@ public abstract class JSObjectBase {
                 return decode(in, next(in), clazz.newInstance());
               }
 
-              final Binding member = jsObject._bindings().get(out.toString());
+              final Binding<?> member = jsObject._bindings().get(out.toString());
               if (member == null)
                 throw new DecodeException("Unknown object name: " + out, jsObject);
 
@@ -164,8 +163,7 @@ public abstract class JSObjectBase {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);
               }
 
-              final NotNull notNull = member.property.getAnnotation(NotNull.class);
-              if (notNull != null && value == null)
+              if (member.notNull && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
 
               member.set.invoke(jsObject, value);
@@ -179,7 +177,7 @@ public abstract class JSObjectBase {
         else {
           if (ch == '}') {
             try {
-              for (final Binding binding : jsObject._bindings().values()) {
+              for (final Binding<?> binding : jsObject._bindings().values()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (property == null)
                   throw new DecodeException("\"" + binding.name + "\" is missing", jsObject);
