@@ -48,6 +48,14 @@
         <module>codegen</module>
         <module>json</module>
       </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.safris.maven.plugin</groupId>
+            <artifactId>version</artifactId>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>core</id>
@@ -57,7 +65,7 @@
         </property>
       </activation>
       <modules>
-    <module>version</module>
+        <module>version</module>
       </modules>
     </profile>
   </profiles>

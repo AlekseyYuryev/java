@@ -91,7 +91,7 @@ public final class Log {
   public static void log(final Level level, final Object message, final Throwable error) {
     final String string = message != null ? message.toString() : "null";
     final AdvancedMojo mojo = AdvancedMojo.getMojo();
-    if (mojo == null)
+    if (mojo == null || mojo.getLog() == null)
       toStdErr(level, string, error); // FIXME: How do we determine if we are in "DEBUG" mode?
     else if (level == Level.ERROR)
       mojo.getLog().error(string, error);

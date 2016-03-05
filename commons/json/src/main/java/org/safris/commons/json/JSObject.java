@@ -16,14 +16,11 @@
 
 package org.safris.commons.json;
 
-import static org.safris.commons.json.JSObjects.decode;
-import static org.safris.commons.json.JSObjects.next;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public abstract class JSObject {
+public abstract class JSObject extends JSObjectUtil {
   public static JSObject parse(final InputStream in) throws DecodeException, IOException {
     return decode(in, next(in), null);
   }

@@ -329,7 +329,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
         }
         else {
           // FIXME: This misses some @Override(s) for situations that inherit from xs types, cause the type of the parameter to the text() method is not known here
-          if (((SimpleTypePlan<?>)parent).getNativeItemClassNameInterface().equals(plan.getNativeItemClassNameInterface()))
+          if (parent != null && ((SimpleTypePlan<?>)parent).getNativeItemClassNameInterface().equals(plan.getNativeItemClassNameInterface()))
             writer.write("@" + Override.class.getName() + "\n");
 
           writer.write("public void text(final " + plan.getNativeItemClassNameInterface() + " text)\n");

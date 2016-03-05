@@ -29,7 +29,5 @@
   <artifactId>math</artifactId>
   <version>0.4.11-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Lightweight, self-contained mathematics and statistics components.
-  </description>
+  <description>Lightweight, self-contained mathematics and statistics components.</description>
 </project>

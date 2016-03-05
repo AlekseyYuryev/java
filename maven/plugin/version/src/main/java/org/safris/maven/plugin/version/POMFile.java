@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -30,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.maven.DuplicateProjectException;
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.lang.Pair;
@@ -103,33 +100,16 @@ public class POMFile extends ModuleId {
     return new ModuleId(groupId, artifactId, version);
   }
 
-  private static void checkSame(final POMFile a, final POMFile b) throws IOException, MavenExecutionException {
-    try {
-      if (!a.file.getCanonicalPath().equals(b.file.getCanonicalPath()))
-        throw new DuplicateProjectException("Identical module IDs.", Collections.singletonMap(ModuleId.toString(a), Arrays.asList(a.file, b.file)));
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   private static POMFile parse(final File file, final String text, final String scope) throws IOException, MavenExecutionException {
-    POMFile prototype = new POMFile(file, text, scope);
-    if ("version".equals(prototype.artifactId())) {
-      int i = 9090;
-    }
+    final POMFile prototype = new POMFile(file, text, scope);
     POMFile instance = pomFiles.get(prototype);
-    if (instance != null) {
-      POMFile.checkSame(prototype, instance);
+    if (instance != null)
       return instance;
-    }
 
     synchronized (pomFiles) {
       instance = pomFiles.get(prototype);
-      if (instance != null) {
-        POMFile.checkSame(prototype, instance);
+      if (instance != null)
         return instance;
-      }
 
       pomFiles.put(prototype, prototype);
       return prototype;

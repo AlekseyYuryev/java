@@ -31,7 +31,7 @@ import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
 import org.safris.commons.util.Collections;
 
-public abstract class JSObjects {
+public abstract class JSObjectUtil {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();
   private static final NumberDecoder numberDecoder = new NumberDecoder();
   private static final StringDecoder stringDecoder = new StringDecoder();

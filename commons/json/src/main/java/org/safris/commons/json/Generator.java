@@ -119,7 +119,7 @@ public class Generator {
     out += "\n    private " + Property.class.getName() + "<" + type + "> " + instanceName + " = null;";
     out += "\n\n    public void " + methodName + "(final " + type + " value) {";
     out += "\n      if (this." + instanceName + " == null)";
-    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, bindings.get(\"" + valueName + "\"));";
+    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
     out += "\n\n      this." + instanceName + ".value(value);\n    }\n";
     out += "\n    public " + type + " " + methodName + "() {";
     out += "\n      return this." + instanceName + " != null ? this." + instanceName + ".value() : null;\n    }\n";
@@ -160,7 +160,7 @@ public class Generator {
     final String className = Strings.toClassCase(objectName);
     out += "\n\n  public static class " + className + " extends " + JSObject.class.getName() + " {";
     out += "\n    private static final " + String.class.getName() + " name = \"" + objectName + "\";\n";
-    out += "\n    private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + ">(" + object._value().size() + ");";
+    out += "\n    private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + object._value().size() + ");";
     out += "\n    static {";
     out += "\n      registerBinding(name, " + className + ".class);";
     out += "\n      try {";
@@ -185,7 +185,7 @@ public class Generator {
     out += "\n      }";
     out += "\n    }\n";
     out += "\n    @" + Override.class.getName();
-    out += "\n    protected " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "> _bindings() {";
+    out += "\n    protected " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> _bindings() {";
     out += "\n      return bindings;";
     out += "\n    }\n";
     out += "\n    @" + Override.class.getName();

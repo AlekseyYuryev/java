@@ -19,7 +19,7 @@ package org.safris.commons.json.decoder;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.safris.commons.json.JSObjects;
+import org.safris.commons.json.JSObjectUtil;
 
 public class StringDecoder extends Decoder<String> {
   @Override
@@ -30,14 +30,14 @@ public class StringDecoder extends Decoder<String> {
   @Override
   public String decode(final InputStream in, char ch) throws IOException {
     if (ch != '"') {
-      if (JSObjects.isNull(ch, in))
+      if (JSObjectUtil.isNull(ch, in))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
     final StringBuilder value = new StringBuilder();
-    while ((ch = JSObjects.nextAny(in)) != '"')
+    while ((ch = JSObjectUtil.nextAny(in)) != '"')
       value.append(ch);
 
     return value.toString();
