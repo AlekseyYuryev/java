@@ -47,7 +47,7 @@
               <pom>pom.xml</pom>
               <profiles>
                 <profile>!default</profile>
-                <profile>maven.test.run</profile>
+                <profile>integratin-test</profile>
               </profiles>
               <goals>
                 <goal>test</goal>
@@ -68,7 +68,7 @@
       </build>
     </profile>
     <profile>
-      <id>maven.test.run</id>
+      <id>integratin-test</id>
       <build>
         <plugins>
           <plugin>

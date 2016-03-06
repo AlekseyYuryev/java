@@ -18,7 +18,7 @@
 <json bundleName="api"
   xmlns="http://commons.safris.org/json.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../../../commons/json/src/main/resources/json.xsd">
+  xsi:schemaLocation="http://commons.safris.org/json.xsd ../../main/resources/json.xsd">
   <object name="attachment">
     <value name="filename" xsi:type="string" null="false">
       <description>The filename.</description>

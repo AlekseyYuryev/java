@@ -15,34 +15,28 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <cli
   xmlns="http://commons.safris.org/cli.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://commons.safris.org/cli.xsd http://commons.safris.org/cli.xsd">
-  
   <option use="optional">
     <name long="dir" short="d"/>
     <argument label="PATH" use="required"/>
     <description>root PATH for generated Enum source</description>
   </option>
-  
   <option use="required">
     <name long="file" short="f"/>
     <argument label="FILE" use="required"/>
     <description>file containing list of search tokens</description>
   </option>
-  
   <option use="required">
     <name long="className" short="c"/>
     <argument label="PATH" use="required"/>
     <description>fully qualified class name of generated Enum</description>
   </option>
-  
   <option use="optional">
     <name long="inheritsFrom" short="i"/>
     <argument label="PATH" use="required"/>
     <description>fully qualified class name of interface</description>
   </option>
-  
 </cli>

@@ -30,11 +30,81 @@
   <version>0.2.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <configuration>
+              <pom>pom.xml</pom>
+              <profiles>
+                <profile>!default</profile>
+                <profile>integratin-test</profile>
+              </profiles>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <streamLogs>true</streamLogs>
+              <noLog>true</noLog>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>install</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>integratin-test</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.safris.maven.plugin</groupId>
+            <artifactId>xdb</artifactId>
+            <version>0.2.1-SNAPSHOT</version>
+            <executions>
+              <execution>
+                <id>xdb</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>xde</goal>
+                </goals>
+                <configuration>
+                  <vendor>MySQL</vendor>
+                  <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
+                    <destdir>${project.build.directory}/generated-test-sources/xde</destdir>
+                    <schemas>
+                      <schema>${basedir}/src/test/resources/library.xdl</schema>
+                      <schema>${basedir}/src/test/resources/survey.xdl</schema>
+                    </schemas>
+                  </manifest>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.safris.xdb</groupId>
-      <artifactId>xdl</artifactId>
-      <version>0.2.1-SNAPSHOT</version>
+      <groupId>org.safris.maven.plugin.xml</groupId>
+      <artifactId>binding</artifactId>
+      <version>2.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.safris.xdb</groupId>
@@ -42,13 +112,18 @@
       <version>0.2.3-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.safris.maven.plugin.xml</groupId>
-      <artifactId>binding</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
+      <groupId>org.safris.xdb</groupId>
+      <artifactId>xdl</artifactId>
+      <version>0.2.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-dependency-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

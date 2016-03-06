@@ -1,5 +1,3 @@
-package org.safris.maven.plugin.cert;
-
 //
 //KeyStoreImport.java
 //
@@ -32,6 +30,8 @@ package org.safris.maven.plugin.cert;
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+package org.safris.maven.plugin.cert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

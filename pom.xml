@@ -139,7 +139,6 @@
         <module>ant</module>
         <module>commons</module>
         <module>maven</module>
-        <module>test</module>
         <module>xdb</module>
         <module>xml</module>
       </modules>
@@ -274,6 +273,19 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
                     <execute>
                       <runOnIncremental>false</runOnIncremental>
                     </execute>
@@ -356,17 +368,15 @@
                 </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
-                    <groupId>org.safris.maven.plugin.xml</groupId>
-                    <artifactId>binding</artifactId>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>version</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
-                      <goal>generate</goal>
+                      <goal>update</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute>
-                      <runOnIncremental>false</runOnIncremental>
-                    </execute>
+                    <ignore/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -378,6 +388,21 @@
                       <goal>ddl</goal>
                       <goal>xde</goal>
                       <goal>xsd</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute>
+                      <runOnIncremental>false</runOnIncremental>
+                    </execute>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin.xml</groupId>
+                    <artifactId>binding</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>generate</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
