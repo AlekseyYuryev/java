@@ -221,6 +221,18 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
           <version>2.0.0</version>
+          <configuration>
+            <pom>pom.xml</pom>
+            <streamLogs>true</streamLogs>
+            <noLog>true</noLog>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
