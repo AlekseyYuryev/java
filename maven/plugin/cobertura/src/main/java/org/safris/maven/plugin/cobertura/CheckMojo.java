@@ -16,23 +16,24 @@
 
 package org.safris.maven.plugin.cobertura;
 
-import net.sourceforge.cobertura.ant.CheckTask;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Java;
 
-/**
- * @goal check
- * @phase verify
- */
+import net.sourceforge.cobertura.ant.CheckTask;
+
+@Mojo(name = "check", defaultPhase = LifecyclePhase.VERIFY)
+@Execute(goal = "check")
 public final class CheckMojo extends CoberturaMojo {
   // FIXME: Finish this!
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     System.exit(1);
-    if (getMavenTestSkip() != null && getMavenTestSkip())
+    if (getMavenTestSkip())
       return;
 
     if (getBasedir() == null)
@@ -46,7 +47,7 @@ public final class CheckMojo extends CoberturaMojo {
 
     final Project project = new Project();
     project.addTaskDefinition("java", Java.class);
-    project.setBasedir(getBasedir());
+    project.setBasedir(getBasedir().getAbsolutePath());
 
     final CheckTask checkTask = new CheckTask();
     checkTask.setDataFile(getDataFile().getAbsolutePath());

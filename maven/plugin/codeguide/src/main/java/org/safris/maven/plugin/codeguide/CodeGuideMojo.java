@@ -22,59 +22,49 @@ import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.model.Resource;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
 import org.safris.maven.plugin.dependency.DependencyProperties;
 
 public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyProperties {
-  /**
-   * @parameter expression="${project.build.sourceDirectory}"
-   */
+  @Parameter(property = "project.build.sourceDirectory", readonly = true, required = true)
   private String sourceDirectory;
 
   public String getSourceDirectory() {
     return sourceDirectory;
   }
 
-  /**
-   * @parameter expression="${project.build.testSourceDirectory}"
-   */
+  @Parameter(property = "project.build.testSourceDirectory", readonly = true, required = true)
   private String testSourceDirectory;
 
   public String getTestSourceDirectory() {
     return testSourceDirectory;
   }
 
-  /**
-   * @parameter expression="${project.build.directory}"
-   */
+  @Parameter(property = "project.build.directory", readonly = true, required = true)
   private String directory;
 
   public String getDirectory() {
     return directory;
   }
 
-  /**
-   * @parameter expression="${project.resources}"
-   */
+  @Parameter(property = "project.resources", readonly = true, required = true)
   private List<Resource> resources;
 
   public List<Resource> getResources() {
     return resources;
   }
 
-  /**
-   * @parameter expression="${project.testResources}"
-   */
+  @Parameter(property = "project.testResources", readonly = true, required = true)
   private List<Resource> testResources;
 
   public List<Resource> getTestResources() {
     return testResources;
   }
 
-  /**
-   * @parameter default-value="" expression="${mdep.fileSeparator}"
-   */
+  @Parameter(property = "mdep.fileSeparator")
   private String fileSeparator;
 
   /**
@@ -88,9 +78,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return fileSeparator;
   }
 
-  /**
-   * @parameter default-value="" expression="${mdep.pathSeparator}"
-   */
+  @Parameter(property = "mdep.pathSeparator")
   private String pathSeparator;
 
   /**
@@ -106,11 +94,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return pathSeparator;
   }
 
-  /**
-   * @component role="org.apache.maven.artifact.factory.ArtifactFactory"
-   * @required
-   * @readonly
-   */
+  @Component
   private ArtifactFactory factory;
 
   /**
@@ -121,11 +105,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return factory;
   }
 
-  /**
-   * @component role="org.apache.maven.artifact.resolver.ArtifactResolver"
-   * @required
-   * @readonly
-   */
+  @Component
   private ArtifactResolver resolver;
 
   /**
@@ -136,9 +116,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return resolver;
   }
 
-  /**
-   * @parameter default-value="${settings.localRepository}" expression="${mdep.repositoryPath}"
-   */
+  @Parameter(property = "settings.localRepository", readonly = true, required = true)
   private String repositoryPath;
 
   /**
@@ -151,11 +129,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return repositoryPath;
   }
 
-  /**
-   * @parameter expression="${localRepository}"
-   * @readonly
-   * @required
-   */
+  @Parameter(property = "localRepository", readonly = true, required = true)
   private ArtifactRepository local;
 
   /**
@@ -166,11 +140,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return local;
   }
 
-  /**
-   * @parameter expression="${project.remoteArtifactRepositories}"
-   * @readonly
-   * @required
-   */
+  @Parameter(property = "project.remoteArtifactRepositories", readonly = true, required = true)
   private List<ArtifactRepository> remoteRepos;
 
   /**
@@ -181,11 +151,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return remoteRepos;
   }
 
-  /**
-   * @parameter expression="${project}"
-   * @readonly
-   * @required
-   */
+  @Component
   private MavenProject project;
 
   /**
@@ -196,10 +162,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return project;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeTransitive}" default-value="false"
-   */
+  @Parameter(property = "excludeTransitive", defaultValue = "false")
   private boolean excludeTransitive;
 
   /**
@@ -210,10 +173,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeTransitive;
   }
 
-  /**
-   * @parameter expression="${includeTypes}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeTypes", defaultValue = "")
   private String includeTypes;
 
   /**
@@ -225,10 +185,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return includeTypes;
   }
 
-  /**
-   * @parameter expression="${excludeTypes}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeTypes", defaultValue = "")
   private String excludeTypes;
 
   /**
@@ -240,10 +197,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeTypes;
   }
 
-  /**
-   * @parameter expression="${includeScope}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeScope", defaultValue = "")
   private String includeScope;
 
   /**
@@ -254,10 +208,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return includeScope;
   }
 
-  /**
-   * @parameter expression="${excludeScope}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeScope", defaultValue = "")
   private String excludeScope;
 
   /**
@@ -268,10 +219,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeScope;
   }
 
-  /**
-   * @parameter expression="${includeClassifiers}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeClassifiers", defaultValue = "")
   private String includeClassifiers;
 
   /**
@@ -283,10 +231,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return includeClassifiers;
   }
 
-  /**
-   * @parameter expression="${excludeClassifiers}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeClassifiers", defaultValue = "")
   private String excludeClassifiers;
 
   /**
@@ -298,10 +243,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeClassifiers;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${classifier}" default-value=""
-   */
+  @Parameter(property = "classifier", defaultValue = "")
   private String classifier;
 
   /**
@@ -312,10 +254,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return classifier;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${type}" default-value="java-source"
-   */
+  @Parameter(property = "type", defaultValue = "java-source")
   private String type;
 
   /**
@@ -327,10 +266,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return type;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "excludeArtifactIds", defaultValue = "")
   private String excludeArtifactIds;
 
   /**
@@ -341,10 +277,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "includeArtifactIds", defaultValue = "")
   private String includeArtifactIds;
 
   /**
@@ -355,10 +288,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return includeArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeGroupIds}" default-value=""
-   */
+  @Parameter(property = "excludeGroupIds", defaultValue = "")
   private String excludeGroupIds;
 
   /**
@@ -369,10 +299,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeGroupIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeGroupIds}" default-value=""
-   */
+  @Parameter(property = "includeGroupIds", defaultValue = "")
   private String includeGroupIds;
 
   /**
@@ -383,10 +310,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return includeGroupIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "excludeArtifactIds", defaultValue = "")
   private String excludeGroupIdArtifactIds;
 
   public void setExcludeGroupIdArtifactIds(final String excludeGroupIdArtifactIds) {
@@ -401,10 +325,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return excludeGroupIdArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "includeArtifactIds", defaultValue = "")
   private String includeGroupIdArtifactIds;
 
   /**

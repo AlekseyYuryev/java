@@ -18,62 +18,44 @@ package org.safris.maven.plugin.cobertura;
 
 import java.io.File;
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
 
 public abstract class CoberturaMojo extends AdvancedMojo {
-  /**
-   * @parameter expression="${project}"
-   * @readonly
-   * @required
-   */
+  @Component
   private MavenProject project;
 
   protected MavenProject getProject() {
     return project;
   }
 
-  /**
-   * @parameter default-value="${maven.test.skip}"
-   * @readonly
-   * @required
-   */
-  private Boolean mavenTestSkip = null;
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  private boolean mavenTestSkip;
 
-  protected Boolean getMavenTestSkip() {
+  protected boolean getMavenTestSkip() {
     return mavenTestSkip;
   }
 
-  /**
-   * @parameter default-value="${basedir}"
-   * @readonly
-   * @required
-   */
-  private String basedir = null;
+  @Parameter(property = "basedir", readonly = true, required = true)
+  private File basedir = null;
 
-  protected String getBasedir() {
+  protected File getBasedir() {
     return basedir;
   }
 
-  /**
-   * @parameter default-value="${project.build.directory}"
-   * @readonly
-   * @required
-   */
-  private String directory = null;
+  @Parameter(property = "project.build.directory", readonly = true, required = true)
+  private File directory = null;
 
-  protected String getDirectory() {
+  protected File getDirectory() {
     return directory;
   }
 
-  /**
-   * @parameter default-value="${project.build.sourceDirectory}"
-   * @readonly
-   * @required
-   */
-  private String sourceDirectory = null;
+  @Parameter(property = "project.build.sourceDirectory", readonly = true, required = true)
+  private File sourceDirectory = null;
 
-  protected String getSourceDirectory() {
+  protected File getSourceDirectory() {
     return sourceDirectory;
   }
 

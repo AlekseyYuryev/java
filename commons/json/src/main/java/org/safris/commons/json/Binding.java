@@ -30,6 +30,7 @@ public class Binding<T> {
   public final boolean notNull;
   public final Validator<T>[] validators;
 
+  @SafeVarargs
   public Binding(final String name, final Method set, final Field property, final Class<?> type, final boolean array, final boolean notNull, final Validator<T> ... validators) {
     property.setAccessible(true);
     this.name = name;

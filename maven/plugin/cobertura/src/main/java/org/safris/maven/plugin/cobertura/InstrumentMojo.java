@@ -19,23 +19,24 @@ package org.safris.maven.plugin.cobertura;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.cobertura.ant.InstrumentTask;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.safris.commons.io.Files;
 
-/**
- * @goal instrument
- * @phase test-compile
- */
+import net.sourceforge.cobertura.ant.InstrumentTask;
+
+@Mojo(name = "instrument", defaultPhase = LifecyclePhase.TEST_COMPILE)
+@Execute(goal = "instrument")
 public final class InstrumentMojo extends CoberturaMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (getMavenTestSkip() != null && getMavenTestSkip())
+    if (getMavenTestSkip())
       return;
 
     if (getProject() == null)
@@ -69,7 +70,7 @@ public final class InstrumentMojo extends CoberturaMojo {
 
     final Project project = new Project();
     project.addTaskDefinition("java", Java.class);
-    project.setBasedir(getBasedir());
+    project.setBasedir(getBasedir().getAbsolutePath());
 
     final InstrumentTask instrumentTask = new InstrumentTask();
     instrumentTask.setProject(project);

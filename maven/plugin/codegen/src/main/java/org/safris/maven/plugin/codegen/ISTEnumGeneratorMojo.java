@@ -22,66 +22,52 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
 import org.safris.commons.search.ISTEnumGenerator;
 
-/**
- * @goal istenum
- */
+@Mojo(name = "istenum", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "istenum")
 public final class ISTEnumGeneratorMojo extends AdvancedMojo {
-  /**
-   * @parameter default-value="${project}"
-   * @readonly
-   * @required
-   */
+  @Component
   public MavenProject project;
 
-  /**
-   * @parameter default-value="${mojoExecution}"
-   * @readonly
-   * @required
-   */
+  @Component
   private MojoExecution execution;
 
-  /**
-   * @parameter default-value="${maven.test.skip}"
-   */
-  private Boolean mavenTestSkip;
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  private boolean mavenTestSkip;
 
-  /**
-   * @parameter default-value="${file}"
-   */
-  private String file;
+  @Parameter(property = "file")
+  private File file;
 
-  /**
-   * @parameter default-value="${dir}"
-   */
-  private String dir;
+  @Parameter(property = "dir")
+  private File dir;
 
-  /**
-   * @parameter default-value="${className}"
-   */
+  @Parameter(property = "className")
   private String className;
 
-  /**
-   * @parameter default-value="${inheritsFrom}"
-   */
+  @Parameter(property = "inheritsFrom")
   private String inheritsFrom;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+    if (mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
 
     try {
-      ISTEnumGenerator.generate(className, inheritsFrom, new File(dir, className.replace('.', '/') + ".java"), new File(file));
+      ISTEnumGenerator.generate(className, inheritsFrom, new File(dir, className.replace('.', '/') + ".java"), file);
     }
     catch (final IOException e) {
       throw new MojoFailureException(e.getMessage(), e);
     }
 
-    project.addTestCompileSourceRoot(dir);
-    project.addCompileSourceRoot(dir);
+    project.addTestCompileSourceRoot(dir.getAbsolutePath());
+    project.addCompileSourceRoot(dir.getAbsolutePath());
   }
 }

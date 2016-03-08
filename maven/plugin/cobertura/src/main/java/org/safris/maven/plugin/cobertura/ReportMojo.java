@@ -22,24 +22,25 @@ import net.sourceforge.cobertura.ant.ReportTask;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Java;
 
-/**
- * @goal report
- * @phase verify
- */
+@Mojo(name = "report", defaultPhase = LifecyclePhase.VERIFY)
+@Execute(goal = "report")
 public final class ReportMojo extends CoberturaMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (getMavenTestSkip() != null && getMavenTestSkip())
+    if (getMavenTestSkip())
       return;
 
     if (getProject() == null)
       throw new NullPointerException("project == null");
 
-    if ("pom".equals(getProject().getPackaging()) || !new File(getSourceDirectory()).exists())
+    if ("pom".equals(getProject().getPackaging()) || !getSourceDirectory().exists())
       return;
 
     if (getBasedir() == null)
@@ -52,12 +53,12 @@ public final class ReportMojo extends CoberturaMojo {
 
     final Project project = new Project();
     project.addTaskDefinition("java", Java.class);
-    project.setBasedir(getBasedir());
+    project.setBasedir(getBasedir().getAbsolutePath());
 
     final ReportTask reportTask = new ReportTask();
     reportTask.setProject(project);
     reportTask.setDestDir(coberturaReportDir);
-    reportTask.setSrcDir(getSourceDirectory());
+    reportTask.setSrcDir(getSourceDirectory().getAbsolutePath());
     reportTask.setDataFile(getDataFile().getAbsolutePath());
     reportTask.setFormat("html");
     try {

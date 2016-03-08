@@ -16,8 +16,6 @@
 
 package org.safris.test.maven.plugin.codegen;
 
-import java.util.logging.Level;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.lang.Arrays;

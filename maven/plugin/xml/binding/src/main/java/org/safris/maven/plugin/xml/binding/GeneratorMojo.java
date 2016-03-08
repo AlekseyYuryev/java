@@ -28,6 +28,11 @@ import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.lang.Paths;
@@ -43,9 +48,8 @@ import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.w3.x2001.xmlschema.$xs_boolean;
 import org.w3c.dom.Document;
 
-/**
- * @goal generate
- */
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "generate")
 public class GeneratorMojo extends AdvancedMojo {
   public static void main(final String[] args) throws MojoFailureException {
     if (args.length != 1)
@@ -71,36 +75,24 @@ public class GeneratorMojo extends AdvancedMojo {
     }
   };
 
-  /**
-   * @parameter default-value="${project}"
-   * @readonly
-   * @required
-   */
-  private MavenProject project;
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  private boolean mavenTestSkip;
 
-  /**
-   * @parameter default-value="${maven.test.skip}"
-   */
-  private Boolean mavenTestSkip;
+  @Parameter(property = "basedir", readonly = true, required = true)
+  private File basedir;
 
-  /**
-   * @parameter default-value="${basedir}"
-   */
-  private String basedir;
-
-  /**
-   * @parameter
-   */
+  @Parameter(property = "manifest", required = true)
   private Manifest manifest;
 
-  /**
-   * @parameter expression="${mojoExecution}"
-   */
+  @Component
   private MojoExecution execution;
+
+  @Component
+  private MavenProject project;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+    if (mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
 
     String href = null;
@@ -180,7 +172,7 @@ public class GeneratorMojo extends AdvancedMojo {
         if (phase != null && !phase.contains("test"))
           break;
 
-        if (mavenTestSkip == null || !mavenTestSkip)
+        if (!mavenTestSkip)
           break;
 
         return;
@@ -210,7 +202,7 @@ public class GeneratorMojo extends AdvancedMojo {
         throw new MojoExecutionException(e.getMessage(), e);
       }
 
-      final Generator generator = new Generator(new File(basedir), document.getDocumentElement(), hrefFile.lastModified(), resolver);
+      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), resolver);
       final Collection<Bundle> bundles = generator.generate();
       addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
       return;

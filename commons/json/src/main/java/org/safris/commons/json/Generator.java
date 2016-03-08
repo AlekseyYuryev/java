@@ -174,7 +174,7 @@ public class Generator {
       if (value instanceof $json_string) {
         final $json_string string = ($json_string)value;
         if (string._pattern$().text() != null)
-          out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()) + "\")";
+          out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\") + "\")";
       }
 
       out += "));";
