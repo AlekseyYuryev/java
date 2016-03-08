@@ -65,7 +65,7 @@ public class Generator {
 
     out += "\n\n    @" + Override.class.getName();
     out += "\n  protected " + String.class.getName() + " getSpec() {";
-    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\n", "\\n").replace("\"", "\\\"") + "\";";
+    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\n", "\\n").replace("\\", "\\\\").replace("\"", "\\\"") + "\";";
     out += "\n  }";
 
     for (final json_json._object object : json._object()) {
