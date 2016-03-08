@@ -17,20 +17,21 @@
 package org.safris.maven.plugin.codeguide.sln;
 
 import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.safris.maven.plugin.codeguide.javaproj.JavaProjectMojo;
 
-/**
- * @goal sln
- * @requiresDependencyResolution test
- * @phase process-test-sources
- */
+@Mojo(name = "sln", requiresDependencyResolution = ResolutionScope.TEST, defaultPhase = LifecyclePhase.PROCESS_TEST_SOURCES)
+@Execute(goal = "sln")
 public final class SolutionMojo extends JavaProjectMojo {
   @Override
   public void execute() throws MojoExecutionException {
     super.execute();
 
-    // Write the Solution file
     try {
       SolutionWriter.write(getStateManager().getSolution());
     }

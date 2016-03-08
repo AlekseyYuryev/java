@@ -39,24 +39,21 @@ import java.util.Set;
 import org.apache.maven.model.Repository;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.maven.AdvancedMojo;
 
-/**
- * @goal import
- * @phase compile
- */
+@Mojo(name = "import", defaultPhase = LifecyclePhase.COMPILE)
+@Execute(goal = "import")
 public final class CertMojo extends AdvancedMojo {
   public static final Set<String> checkedURLs = new HashSet<String>();
 
-  /**
-   * @parameter expression="${project.repositories}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "project.repositories", readonly = true, required = true)
+  private boolean mavenTestSkip;
   private List<Repository> repositories;
 
-  /**
-   * Repositories used by the POB.
-   */
   public List<Repository> getRepositories() {
     return repositories;
   }

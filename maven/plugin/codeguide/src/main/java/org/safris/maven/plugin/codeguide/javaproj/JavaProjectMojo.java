@@ -29,6 +29,10 @@ import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.ClassLoaderLocal;
 import org.safris.maven.plugin.codeguide.CodeGuideMojo;
@@ -37,11 +41,8 @@ import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.DependencyMojo;
 import org.safris.maven.plugin.dependency.GroupArtifact;
 
-/**
- * @goal javaproj
- * @requiresDependencyResolution test
- * @phase process-test-sources
- */
+@Mojo(name = "javaproj", requiresDependencyResolution = ResolutionScope.TEST, defaultPhase = LifecyclePhase.PROCESS_TEST_SOURCES)
+@Execute(goal = "javaproj")
 public class JavaProjectMojo extends CodeGuideMojo {
   private static final ClassLoaderLocal<StateManager> classLoaderLocal = new ClassLoaderLocal<StateManager>(ClassLoader.getSystemClassLoader());
   private static final FileFilter resourceFileFilter = new FileFilter() {
