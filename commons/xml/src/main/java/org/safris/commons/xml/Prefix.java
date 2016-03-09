@@ -33,12 +33,12 @@ public final class Prefix {
   public static final Prefix EMPTY = new Prefix("");
 
   private final String prefix;
-  private final String title;
-  private final String lower;
+//  private final String title;
+//  private final String lower;
 
   private Prefix(final String prefix) {
     this.prefix = prefix;
-    if (prefix.equals(prefix.toUpperCase())) {
+    /*if (prefix.equals(prefix.toUpperCase())) {
       title = prefix;
       lower = prefix.toLowerCase();
     }
@@ -49,7 +49,7 @@ public final class Prefix {
     else {
       title = prefix.substring(0, 1).toUpperCase() + prefix.substring(1);
       lower = prefix;
-    }
+    }*/
   }
 
   @Override

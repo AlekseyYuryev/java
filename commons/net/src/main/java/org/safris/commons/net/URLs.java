@@ -69,7 +69,7 @@ public final class URLs {
       return null;
 
     URL url;
-    if (absolutePath.contains("://")) {
+    if (absolutePath.contains(":/")) {
       url = new URL(absolutePath);
     }
     else {
