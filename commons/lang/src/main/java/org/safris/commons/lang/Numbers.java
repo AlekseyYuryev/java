@@ -271,6 +271,14 @@ public final class Numbers {
     return true;
   }
 
+  public static boolean isWhole(final float number) {
+    return (int)number == number;
+  }
+
+  public static boolean isWhole(final double number) {
+    return (int)number == number;
+  }
+
   public static long checkedMultiple(final long a, final long b) {
     final long maximum = Long.signum(a) == Long.signum(b) ? Long.MAX_VALUE : Long.MIN_VALUE;
     if (a != 0 && (b > 0 && b > maximum / a || b < 0 && b < maximum / a))

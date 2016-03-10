@@ -78,9 +78,6 @@ public final class Decimal extends Number {
 
   @Override
   public String toString() {
-    if (longValue() == doubleValue())
-      return String.valueOf(longValue());
-
-    return String.valueOf(doubleValue());
+    return longValue() == doubleValue() ? String.valueOf(longValue()) : String.valueOf(doubleValue());
   }
 }
