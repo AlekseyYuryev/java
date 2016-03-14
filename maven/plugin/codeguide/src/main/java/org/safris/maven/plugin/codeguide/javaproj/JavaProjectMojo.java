@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Execute;
@@ -157,7 +158,11 @@ public class JavaProjectMojo extends CodeGuideMojo {
       try {
         final Artifact artifact = getFactory().createArtifact(dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion() + "-sources", dependency.getScope(), dependency.getType());
         artifact.setBaseVersion(dependency.getVersion());
-        getResolver().resolve(artifact, getRemoteRepos(), getLocal());
+        final ArtifactResolutionRequest request = new ArtifactResolutionRequest();
+        request.setArtifact(artifact);
+        request.setRemoteRepostories(getRemoteRepos());
+        request.setLocalRepository(getLocal());
+        getResolver().resolve(request);
         sourcesExist = true;
       }
       catch (final Exception e) {
