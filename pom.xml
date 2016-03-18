@@ -191,6 +191,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
+          <version>RELEASE</version>
           <dependencies>
             <dependency>
               <groupId>ant</groupId>
@@ -209,6 +210,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.5.1</version>
           <configuration>
             <fork>true</fork>
             <meminitial>256m</meminitial>

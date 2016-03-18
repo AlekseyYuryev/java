@@ -21,13 +21,13 @@ import java.util.List;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
 
 public abstract class PropertiesMojo extends AdvancedMojo implements DependencyProperties {
-  /**
-   * @parameter default-value="" expression="${mdep.fileSeparator}"
-   */
+  @Parameter(property = "mdep.fileSeparator")
   private String fileSeparator;
 
   /**
@@ -41,9 +41,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return fileSeparator;
   }
 
-  /**
-   * @parameter default-value="" expression="${mdep.pathSeparator}"
-   */
+  @Parameter(property = "mdep.pathSeparator")
   private String pathSeparator;
 
   /**
@@ -59,11 +57,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return pathSeparator;
   }
 
-  /**
-   * @component role="org.apache.maven.artifact.factory.ArtifactFactory"
-   * @required
-   * @readonly
-   */
+  @Component
   private ArtifactFactory factory;
 
   /**
@@ -74,11 +68,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return factory;
   }
 
-  /**
-   * @component role="org.apache.maven.artifact.resolver.ArtifactResolver"
-   * @required
-   * @readonly
-   */
+  @Component
   private ArtifactResolver resolver;
 
   /**
@@ -89,9 +79,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return resolver;
   }
 
-  /**
-   * @parameter default-value="${settings.localRepository}" expression="${mdep.repositoryPath}"
-   */
+  @Parameter(property = "settings.localRepository", readonly = true, required = true)
   private String repositoryPath;
 
   /**
@@ -104,11 +92,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return repositoryPath;
   }
 
-  /**
-   * @parameter expression="${localRepository}"
-   * @readonly
-   * @required
-   */
+  @Parameter(property = "localRepository", readonly = true, required = true)
   private ArtifactRepository local;
 
   /**
@@ -119,11 +103,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return local;
   }
 
-  /**
-   * @parameter expression="${project.remoteArtifactRepositories}"
-   * @readonly
-   * @required
-   */
+  @Parameter(property = "project.remoteArtifactRepositories", readonly = true, required = true)
   private List<ArtifactRepository> remoteRepos;
 
   /**
@@ -134,11 +114,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return remoteRepos;
   }
 
-  /**
-   * @parameter expression="${project}"
-   * @readonly
-   * @required
-   */
+  @Component
   private MavenProject project;
 
   /**
