@@ -21,7 +21,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 
 public final class Throwables {
-  public static void overwriteCause(final Throwable t, final Throwable cause) {
+  public static void set(final Throwable t, final Throwable cause) {
     if (cause == t)
       throw new IllegalArgumentException("Self-causation not permitted");
 
@@ -40,7 +40,7 @@ public final class Throwables {
     }
   }
 
-  public static void setMessage(final Throwable t, final String message) {
+  public static void set(final Throwable t, final String message) {
     try {
       final Field detailMessageField = Throwable.class.getDeclaredField("detailMessage");
       detailMessageField.setAccessible(true);
@@ -57,8 +57,8 @@ public final class Throwables {
   }
 
   public static void set(final Throwable t, final String message, final Throwable cause) {
-    Throwables.setMessage(t, message);
-    Throwables.overwriteCause(t, cause.getCause());
+    Throwables.set(t, message);
+    Throwables.set(t, cause.getCause());
     t.setStackTrace(cause.getStackTrace());
   }
 
