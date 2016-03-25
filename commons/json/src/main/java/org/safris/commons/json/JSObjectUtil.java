@@ -113,8 +113,12 @@ public abstract class JSObjectUtil {
         hasOpenBrace = true;
       }
       else {
-        if (!hasOpenBrace)
+        if (!hasOpenBrace) {
+          if (isNull(ch, in))
+            return null;
+
           throw new DecodeException("Malformed JSON", jsObject);
+        }
 
         if (ch == '"') {
           if (!hasStartQuote) {
