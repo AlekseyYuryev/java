@@ -77,11 +77,11 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
       final StringWriter stringWriter = new StringWriter();
       writer.appendClass(stringWriter, plan, null);
       final String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
-      final FileOutputStream out = new FileOutputStream(absoluteFilePath);
-      out.write(license.toString().getBytes());
-      out.write(text.getBytes());
-      out.flush();
-      out.close();
+      try (final FileOutputStream out = new FileOutputStream(absoluteFilePath)) {
+        out.write(license.toString().getBytes());
+        out.write(text.getBytes());
+        out.flush();
+      }
     }
     catch (final Exception e) {
       throw new CompilerError(e);

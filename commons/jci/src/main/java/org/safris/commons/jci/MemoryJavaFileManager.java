@@ -52,9 +52,9 @@ public final class MemoryJavaFileManager extends ForwardingJavaFileManager<JavaF
       if (!file.getParentFile().exists())
         file.getParentFile().mkdirs();
 
-      final FileOutputStream fos = new FileOutputStream(file);
-      fos.write(entry.getValue().getBytes());
-      fos.close();
+      try (final FileOutputStream fos = new FileOutputStream(file)) {
+        fos.write(entry.getValue().getBytes());
+      }
     }
 
     return map.values();

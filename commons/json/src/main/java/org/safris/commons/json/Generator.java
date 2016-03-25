@@ -75,9 +75,9 @@ public class Generator {
     out += "\n\n  private " + bundleName + "() {";
     out += "\n  }";
     out += "\n}";
-    final FileOutputStream fos = new FileOutputStream(new File(outDir, bundleName + ".java"));
-    fos.write(out.toString().getBytes());
-    fos.close();
+    try (final FileOutputStream fos = new FileOutputStream(new File(outDir, bundleName + ".java"))) {
+      fos.write(out.toString().getBytes());
+    }
   }
 
   private static String getType(final $json_value value) {
@@ -148,7 +148,7 @@ public class Generator {
     return out + "" + instanceName + ".encode() + \"";
   }
 
-  private static String writeJavaClass(final String bundleName, final json_json._object object, final File outDir) throws IOException {
+  private static String writeJavaClass(final String bundleName, final json_json._object object, final File outDir) {
     final String objectName = object._name$().text();
     if (object._value() == null) {
       Log.error("<object name='" + objectName + "'> is missing values.");

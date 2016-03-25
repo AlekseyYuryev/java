@@ -123,7 +123,7 @@ public final class Collections {
   }
 
   @SafeVarargs
-  @SuppressWarnings({"rawtypes", "unchecked"})
+  @SuppressWarnings({"rawtypes"})
   public static <T>Collection<T> asCollection(final Class<? extends Collection> cls, final T ... a) {
     try {
       final Collection<T> list = cls.newInstance();

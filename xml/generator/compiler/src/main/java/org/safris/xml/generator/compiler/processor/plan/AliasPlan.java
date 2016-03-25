@@ -54,7 +54,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
   private String className = null;
   private String classInconvertibleName = null;
   private String classSimpleName = null;
-  private String schemaReference = null;
+//  private String schemaReference = null;
   private String xsdLocation = null;
 
   public AliasPlan(final T model, final Plan<?> parent) {
@@ -62,7 +62,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
     if (getModel() != null)
       documentation = Plan.<DocumentationPlan>analyze(getModel().getDocumentation(), this);
 
-    schemaReference = model.getSchema().getURL().toString();
+//    schemaReference = model.getSchema().getURL().toString();
     xsdLocation = model.getSchema().getTargetNamespace().getPackageName().toString() + ".xsd";
   }
 

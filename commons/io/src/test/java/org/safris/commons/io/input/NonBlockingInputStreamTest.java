@@ -25,6 +25,7 @@ import org.safris.commons.test.LoggableTest;
 
 public class NonBlockingInputStreamTest extends LoggableTest {
   @Test
+  @SuppressWarnings("resource")
   public void testInputStream() throws Exception {
     final PipedOutputStream out = new PipedOutputStream();
     final NonBlockingInputStream in = new NonBlockingInputStream(new PipedInputStream(out), 7);

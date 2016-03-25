@@ -37,11 +37,9 @@ public final class BindingFileFilter implements FileFilter {
     if (pathname.isDirectory())
       return true;
 
-    try {
-      final InputStream in = pathname.toURI().toURL().openStream();
+    try (final InputStream in = pathname.toURI().toURL().openStream()) {
       final byte[] bytes = new byte[33];
       in.read(bytes);
-      in.close();
       return new String(bytes).contains("Seva Safris");
     }
     catch (final IOException e) {

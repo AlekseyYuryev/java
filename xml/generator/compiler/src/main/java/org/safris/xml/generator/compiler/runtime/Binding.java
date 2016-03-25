@@ -67,8 +67,7 @@ public abstract class Binding extends AbstractBinding {
         return prefix;
 
       short i = 0;
-      while (parent.lookupNamespaceURI("ns" + ++i) != null)
-        ;
+      while (parent.lookupNamespaceURI("ns" + ++i) != null);
       prefix = "ns" + i;
     }
 
@@ -174,6 +173,9 @@ public abstract class Binding extends AbstractBinding {
     return Binding._$$parseAttr(classBinding, element, node);
   }
 
+  /**
+   * @throws ValidationException
+   */
   protected static Binding parseElement(final Element node, Class<? extends Binding> defaultClass) throws ParseException, ValidationException {
     final String localName = node.getLocalName();
     String namespaceURI = node.getNamespaceURI();
@@ -456,10 +458,16 @@ public abstract class Binding extends AbstractBinding {
     return isNull;
   }
 
+  /**
+   * @throws MarshalException
+   */
   protected Attr marshalAttr(final String name, final Element parent) throws MarshalException {
     throw new BindingError("This is a template that must be overridden");
   }
 
+  /**
+   * @throws MarshalException
+   */
   protected Element marshal(final Element parent, QName name, final QName typeName) throws MarshalException {
     boolean substitutionGroup = _$$isSubstitutionGroup(name) || _$$isSubstitutionGroup(name(inherits()));
     if (substitutionGroup)
@@ -489,32 +497,62 @@ public abstract class Binding extends AbstractBinding {
     return false;
   }
 
+  /**
+   * @throws MarshalException
+   * @throws ValidationException
+   */
   protected Element marshal() throws MarshalException, ValidationException {
     final Element root = createElementNS(name().getNamespaceURI(), name().getLocalPart());
     return marshal(root, name(), typeName());
   }
 
+  /**
+   * @throws ParseException
+   * @throws ValidationException
+   */
   protected boolean parseElement(final Element element) throws ParseException, ValidationException {
     return false;
   }
 
+  /**
+   * @throws ParseException
+   * @throws ValidationException
+   */
   protected boolean parseAttribute(final Attr attribute) throws ParseException, ValidationException {
     return false;
   }
 
+  /**
+   * @throws ParseException
+   * @throws ValidationException
+   */
   protected void parseText(final Text text) throws ParseException, ValidationException {
   }
 
+  /**
+   * @throws ParseException
+   * @throws ValidationException
+   */
   protected void parseAny(final Element element) throws ParseException, ValidationException {
   }
 
+  /**
+   * @throws ParseException
+   * @throws ValidationException
+   */
   protected void parseAnyAttribute(final Attr attribute) throws ParseException, ValidationException {
   }
 
+  /**
+   * @throws ParseException
+   */
   protected void _$$decode(final Element parent, final String value) throws ParseException {
     throw new BindingError("This is a template that must be overridden, otherwise it shouldn't be called");
   }
 
+  /**
+   * @throws MarshalException
+   */
   protected String _$$encode(final Element parent) throws MarshalException {
     throw new BindingError("This is a template that must be overridden, otherwise it shouldn't be called");
   }

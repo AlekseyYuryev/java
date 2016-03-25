@@ -78,10 +78,10 @@ public final class InstallCert {
     }
 
     System.out.println("Loading KeyStore " + file.getAbsolutePath() + "...");
-    InputStream in = new FileInputStream(file);
-    KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-    ks.load(in, passphrase);
-    in.close();
+    final KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+    try (InputStream in = new FileInputStream(file)) {
+      ks.load(in, passphrase);
+    }
 
     final SSLContext context = SSLContext.getInstance("TLS");
     final TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -93,7 +93,7 @@ public final class InstallCert {
     SSLSocketFactory factory = context.getSocketFactory();
 
     System.out.println("Opening connection to " + host + ":" + port + "...");
-    SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
+    final SSLSocket socket = (SSLSocket)factory.createSocket(host, port);
     socket.setSoTimeout(10000);
     try {
       System.out.println("Starting SSL handshake...");
@@ -113,13 +113,13 @@ public final class InstallCert {
       return;
     }
 
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     System.out.println();
     System.out.println("Server sent " + chain.length + " certificate(s):");
     System.out.println();
-    MessageDigest sha1 = MessageDigest.getInstance("SHA1");
-    MessageDigest md5 = MessageDigest.getInstance("MD5");
+    final MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+    final MessageDigest md5 = MessageDigest.getInstance("MD5");
     for (int i = 0; i < chain.length; i++) {
       X509Certificate cert = chain[i];
       System.out.println(" " + (i + 1) + " Subject " + cert.getSubjectDN());
@@ -132,7 +132,7 @@ public final class InstallCert {
     }
 
     System.out.println("Enter certificate to add to trusted keystore or 'q' to quit: [1]");
-    String line = reader.readLine().trim();
+    final String line = reader.readLine().trim();
     int k;
     try {
       k = line.length() == 0 ? 0 : Integer.parseInt(line) - 1;
@@ -143,12 +143,12 @@ public final class InstallCert {
     }
 
     final X509Certificate cert = chain[k];
-    String alias = host + "-" + (k + 1);
+    final String alias = host + "-" + (k + 1);
     ks.setCertificateEntry(alias, cert);
 
-    final OutputStream out = new FileOutputStream(file);
-    ks.store(out, passphrase);
-    out.close();
+    try (final OutputStream out = new FileOutputStream(file)) {
+      ks.store(out, passphrase);
+    }
 
     System.out.println();
     System.out.println(cert);

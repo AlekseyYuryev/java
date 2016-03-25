@@ -185,7 +185,6 @@ public abstract class Dimension {
       this.value = value;
     }
 
-    @SuppressWarnings("unchecked")
     protected Scalar<U> replicate(final double value) {
       try {
         return getClass().getConstructor(double.class, unit.getClass()).newInstance(value, unit);

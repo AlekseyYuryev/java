@@ -251,10 +251,6 @@ public class POMFile extends ModuleId {
   }
 
   private void resolveRelations() throws IOException, MavenExecutionException {
-    if ("version".equals(artifactId())) {
-      int i = 9090;
-    }
-
     if (relationsResolved)
       return;
 
@@ -308,16 +304,15 @@ public class POMFile extends ModuleId {
   public void addToTransaction(final Transaction transaction) throws IOException {
     final int[][] versionIndex = VersionUtil.indexOfTag(newText, "project/version");
     newText = newText.substring(0, versionIndex[0][0]) + newVersion + newText.substring(versionIndex[0][1]);
-
     transaction.addFile(file, newText.getBytes());
   }
 
   public void rollback() throws IOException {
     if (newText != null) {
-      final RandomAccessFile raf = new RandomAccessFile(file, "rw");
-      raf.write(text.getBytes());
-      raf.setLength(raf.getFilePointer());
-      raf.close();
+      try (final RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
+        raf.write(text.getBytes());
+        raf.setLength(raf.getFilePointer());
+      }
     }
   }
 

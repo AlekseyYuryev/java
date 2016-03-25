@@ -232,7 +232,6 @@ public class GeneratorMojo extends AdvancedMojo {
     addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
   }
 
-  @SuppressWarnings("unchecked")
   private void addCompileSourceRoot(final String path, final Collection<Bundle> bundles) throws MojoExecutionException {
     if (bundles == null || path == null || project == null)
       return;

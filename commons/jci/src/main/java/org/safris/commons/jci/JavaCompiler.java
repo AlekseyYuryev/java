@@ -119,13 +119,12 @@ public final class JavaCompiler {
       classpath = locationBase.getAbsolutePath() + File.pathSeparator + classpath;
 
     final File tempFile = File.createTempFile("xml", ".tmp");
-    final FileOutputStream out = new FileOutputStream(tempFile);
-    for (final File javaSource : javaSources) {
-      out.write(javaSource.getAbsolutePath().getBytes());
-      out.write('\n');
+    try (final FileOutputStream out = new FileOutputStream(tempFile)) {
+      for (final File javaSource : javaSources) {
+        out.write(javaSource.getAbsolutePath().getBytes());
+        out.write('\n');
+      }
     }
-
-    out.close();
 
     int i = 0;
     final String[] args = new String[9];

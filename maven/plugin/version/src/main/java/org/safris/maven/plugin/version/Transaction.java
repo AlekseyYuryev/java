@@ -38,10 +38,11 @@ public class Transaction {
 
   public void addFile(final File file, final byte[] contents) throws IOException {
     final File tempFile = new File(tempDir, file.getName() + "-" + Strings.getRandomAlphaNumericString(6));
-    final RandomAccessFile raf = new RandomAccessFile(tempFile, "rw");
-    raf.write(contents);
-    raf.setLength(raf.getFilePointer());
-    raf.close();
+    try (final RandomAccessFile raf = new RandomAccessFile(tempFile, "rw")) {
+      raf.write(contents);
+      raf.setLength(raf.getFilePointer());
+    }
+
     realToTemp.put(file, tempFile);
   }
 

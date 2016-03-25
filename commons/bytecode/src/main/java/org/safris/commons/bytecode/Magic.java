@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -34,50 +34,49 @@ public final class Magic {
   private static void changeClassVersion(final File file, final int version) throws IOException {
     final File inFile = file;
     final File tempFile = new File(file + ".tmp");
-    final DataInputStream in = new DataInputStream(new FileInputStream(inFile));
-    final DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+    try (
+      final DataInputStream in = new DataInputStream(new FileInputStream(inFile));
+      final DataOutputStream out = new DataOutputStream(new FileOutputStream(tempFile));
+    ) {
+      final int[] magic = new int[4];
+      for (int i = 0; i < magic.length; i++) {
+        magic[i] = in.read();
+        if (validMagic[i] != magic[i]) {
+          in.close();
+          out.close();
+          tempFile.deleteOnExit();
+          throw new Error(file.getName() + " is not a valid class!");
+        }
 
-    final int[] magic = new int[4];
-    for (int i = 0; i < magic.length; i++) {
-      magic[i] = in.read();
-      if (validMagic[i] != magic[i]) {
+        out.write(magic[i]);
+      }
+
+      final int[] minor = new int[2];
+      for (int i = 0; i < minor.length; i++)
+        minor[i] = in.read();
+
+      out.write(0);
+      out.write(0);
+
+      final int[] major = new int[2];
+      for (int i = 0; i < major.length; i++)
+        major[i] = in.read();
+
+      if ((major[0] | major[1]) == version) {
         in.close();
         out.close();
         tempFile.deleteOnExit();
-        throw new Error(file.getName() + " is not a valid class!");
+        System.out.println(file.getName() + " is already version " + version);
+        System.exit(1);
       }
 
-      out.write(magic[i]);
+      out.write(0);
+      out.write(version);
+
+      int ch = -1;
+      while ((ch = in.read()) != -1)
+        out.write(ch);
     }
-
-    final int[] minor = new int[2];
-    for (int i = 0; i < minor.length; i++)
-      minor[i] = in.read();
-
-    out.write(0);
-    out.write(0);
-
-    final int[] major = new int[2];
-    for (int i = 0; i < major.length; i++)
-      major[i] = in.read();
-
-    if ((major[0] | major[1]) == version) {
-      in.close();
-      out.close();
-      tempFile.deleteOnExit();
-      System.out.println(file.getName() + " is already version " + version);
-      System.exit(1);
-    }
-
-    out.write(0);
-    out.write(version);
-
-    int ch = -1;
-    while ((ch = in.read()) != -1)
-      out.write(ch);
-
-    in.close();
-    out.close();
 
     tempFile.renameTo(inFile);
   }

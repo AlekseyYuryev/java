@@ -45,7 +45,7 @@ public final class VersionMojo extends AdvancedMojo {
   private static final File cwd = new File(System.getProperty("user.dir"));
   private static final File repoDir = GitUtil.findRepositoryDir(cwd);
 
-  private static Version getPreviousVersion(final POMFile pomFile, final Map<String,Entry> originals) throws IOException, MavenExecutionException, MojoExecutionException {
+  private static Version getPreviousVersion(final POMFile pomFile, final Map<String,Entry> originals) throws IOException, MavenExecutionException {
     final OriginalResolver.Entry oldEntry = originals.get(Paths.canonicalize(pomFile.file().getAbsolutePath().substring(repoDir.getAbsolutePath().length() + 1)));
     return oldEntry == null ? null : POMFile.parse(null, oldEntry.text).version();
   }

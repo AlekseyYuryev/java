@@ -159,7 +159,6 @@ public final class RestrictionNormalizer extends Normalizer<RestrictionModel> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   protected void stage3(final RestrictionModel model) {
     if (model.getBase() == null || model.getBase().getName() == null)
       return;

@@ -52,11 +52,10 @@ public final class For {
   private static <I>I[] recursiveOrdered(final Class<I> type, final Filter<I> filter, final Object[] args, final I[] array, int index, final int depth) {
     I item;
     boolean skip = true;
-    if (index < array.length)
-      while ((skip = !filter.accept(item = array[index++], args)) && index < array.length);
-    else
+    if (index >= array.length)
       return (I[])Array.newInstance(type, depth);
 
+    while ((skip = !filter.accept(item = array[index++], args)) && index < array.length);
     final I[] ret = recursiveOrdered(type, filter, args, array, index, skip ? depth : depth + 1);
     if (!skip)
       ret[depth] = item;
@@ -80,13 +79,12 @@ public final class For {
   private static <I,C>I[] recursiveOrdered(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object[] args, int index, final int depth) {
     I item;
     boolean skip = true;
-    if (index < array.length)
-      while ((skip = !recurser.accept(item = array[index++], args)) && index < array.length);
-    else {
+    if (index >= array.length) {
       final C parent = recurser.next(container);
       return parent == null ? (I[])Array.newInstance(type, depth) : recursiveOrdered(parent, recurser.items(parent), type, recurser, args, 0, depth);
     }
 
+    while ((skip = !recurser.accept(item = array[index++], args)) && index < array.length);
     final I[] ret = recursiveOrdered(container, array, type, recurser, args, index, skip ? depth : depth + 1);
     if (!skip)
       ret[depth] = item;
@@ -110,13 +108,12 @@ public final class For {
   private static <I,C>I[] recursiveInverted(final C container, final I[] array, final Class<I> type, final Recurser<I,C> recurser, final Object[] args, int index, final int depth) {
     I item;
     boolean skip = true;
-    if (index < array.length)
-      while ((skip = !recurser.accept(item = array[array.length - ++index], args)) && index < array.length);
-    else {
+    if (index >= array.length) {
       final C parent = recurser.next(container);
       return parent == null ? (I[])Array.newInstance(type, depth) : recursiveInverted(parent, recurser.items(parent), type, recurser, args, 0, depth);
     }
 
+    while ((skip = !recurser.accept(item = array[array.length - ++index], args)) && index < array.length);
     final I[] ret = recursiveInverted(container, array, type, recurser, args, index, skip ? depth : depth + 1);
     if (!skip)
       ret[ret.length - 1 - depth] = item;

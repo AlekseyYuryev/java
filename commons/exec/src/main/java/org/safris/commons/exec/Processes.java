@@ -130,21 +130,21 @@ public final class Processes {
     return subProcess;
   }
 
-  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, Map<String,String> props, final Class<?> clazz, final String ... args) throws IOException, InterruptedException {
+  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, Map<String,String> props, final Class<?> clazz, final String ... args) throws IOException {
     final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(null, getSystemProperties(), clazz, args));
     return process;
   }
 
-  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final String[] vmArgs, final Map<String,String> props, final Class<?> clazz, final String ... args) throws IOException, InterruptedException {
+  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final String[] vmArgs, final Map<String,String> props, final Class<?> clazz, final String ... args) throws IOException {
     final Process process = forkAsync(stdin, stdout, stderr, createJavaCommand(vmArgs, getSystemProperties(), clazz, args));
     return process;
   }
 
-  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final String[] vmArgs, final Class<?> clazz, final String ... args) throws IOException, InterruptedException {
+  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final String[] vmArgs, final Class<?> clazz, final String ... args) throws IOException {
     return forkAsync(stdin, stdout, stderr, vmArgs, getSystemProperties(), clazz, args);
   }
 
-  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final Class<?> clazz, final String ... args) throws IOException, InterruptedException {
+  public static Process forkAsync(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final Class<?> clazz, final String ... args) throws IOException {
     return forkAsync(stdin, stdout, stderr, null, getSystemProperties(), clazz, args);
   }
 

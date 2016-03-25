@@ -17,7 +17,6 @@
 package org.safris.maven.plugin.version;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -42,7 +41,7 @@ public class GitUtil {
         iterator.remove();
   }
 
-  public static Set<String> lookupChangedFiles(final File dir, final File repoDir, final Git git) throws GitAPIException, IOException {
+  public static Set<String> lookupChangedFiles(final File dir, final File repoDir, final Git git) throws GitAPIException {
     final Status status = git.status().call();
     final Set<String> changes = new HashSet<String>();
     changes.addAll(status.getChanged());

@@ -59,8 +59,7 @@ public final class AttributeNormalizer extends Normalizer<AttributeModel> {
     // First set the attributeFormDefault value
     Model schema = model.getParent();
     if (schema != null)
-      while (!((schema = schema.getParent()) instanceof SchemaModel) && schema != null)
-        ;
+      while (!((schema = schema.getParent()) instanceof SchemaModel) && schema != null);
 
     if (schema != null)
       model.setFormDefault(((SchemaModel)schema).getAttributeFormDefault());

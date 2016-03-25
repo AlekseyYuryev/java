@@ -59,7 +59,6 @@ public final class DependencyFilter {
    * @throws  MojoExecutionException
    * @throws  ArtifactFilterException
    */
-  @SuppressWarnings("unchecked")
   protected static DependencyStatusSets getDependencySets(final DependencyProperties properties) throws MojoExecutionException {
     // start with all artifacts.
     Set<Artifact> artifacts = new HashSet<Artifact>(properties.getProject().getArtifacts());
@@ -136,7 +135,6 @@ public final class DependencyFilter {
    * @throws  MojoExecutionException
    * @throws ArtifactFilterException
    */
-  @SuppressWarnings("unchecked")
   protected static DependencyStatusSets filterMarkedDependencies(final Set<Artifact> artifacts) throws ArtifactFilterException, MojoExecutionException {
     // remove files that have markers already
     final FilterArtifacts filter = new FilterArtifacts();

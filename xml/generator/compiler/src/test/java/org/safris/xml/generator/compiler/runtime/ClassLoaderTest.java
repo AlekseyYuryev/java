@@ -17,7 +17,6 @@
 package org.safris.xml.generator.compiler.runtime;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -63,7 +62,8 @@ public class ClassLoaderTest extends LoggableTest {
   @Test
   // FIXME
   @Ignore("FIXME")
-  public void testClassLoaders() throws IOException {
+  @SuppressWarnings("unused")
+  public void testClassLoaders() {
     Runtime.getRuntime().gc();
     // FIXME: The scenario that is tested here is the more performant than the other.
     float system = fork("system");
@@ -78,7 +78,7 @@ public class ClassLoaderTest extends LoggableTest {
     //assertTrue("Custom classLoader is NOT more efficient than System classLoader!", weak < system);
   }
 
-  private static float fork(final String loader) throws IOException {
+  private static float fork(final String loader) {
     String classpath = "";
     String userDir = System.getProperty("user.dir");
     String localRepository = System.getProperty("localRepository");

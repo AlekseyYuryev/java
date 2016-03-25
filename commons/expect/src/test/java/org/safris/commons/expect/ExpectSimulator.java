@@ -101,10 +101,10 @@ public final class ExpectSimulator {
     Prompt prompt = r1;
     while (prompt != null) {
       System.out.print(prompt.getPrompt() + " ");
-      final Scanner input = new Scanner(System.in);
-      final String line = input.nextLine().trim();
-      input.close();
-      prompt = prompt.getNext(line);
+      try (final Scanner input = new Scanner(System.in)) {
+        final String line = input.nextLine().trim();
+        prompt = prompt.getNext(line);
+      }
     }
 
     for (final Prompt p : prompts)

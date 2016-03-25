@@ -64,15 +64,15 @@ public class KeyStoreImport {
       final KeyStore keyStore;
       if (keyStoreFileName != null) {
         keyStore = KeyStore.getInstance("jks");
-        final FileInputStream keyStoreInputStream = new FileInputStream(keyStoreFileName);
-        keyStore.load(keyStoreInputStream, keyStorePassword.toCharArray());
-        keyStoreInputStream.close();
+        try (final FileInputStream keyStoreInputStream = new FileInputStream(keyStoreFileName)) {
+          keyStore.load(keyStoreInputStream, keyStorePassword.toCharArray());
+        }
 
         makeKeystore(keyStore, certificateStream, key, entryAlias, privateKeyEntryPassword);
 
-        final FileOutputStream keyStoreOutputStream = new FileOutputStream(keyStoreFileName);
-        keyStore.store(keyStoreOutputStream, keyStorePassword.toCharArray());
-        keyStoreOutputStream.close();
+        try (final FileOutputStream keyStoreOutputStream = new FileOutputStream(keyStoreFileName)) {
+          keyStore.store(keyStoreOutputStream, keyStorePassword.toCharArray());
+        }
       }
       else {
         keyStore = makeKeystore(null, certificateStream, key, entryAlias, privateKeyEntryPassword);

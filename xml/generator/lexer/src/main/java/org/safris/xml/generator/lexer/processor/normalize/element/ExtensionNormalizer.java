@@ -119,7 +119,6 @@ public final class ExtensionNormalizer extends Normalizer<ExtensionModel> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   protected void stage3(final ExtensionModel model) {
     if (model.getBase() == null || model.getBase().getName() == null)
       return;

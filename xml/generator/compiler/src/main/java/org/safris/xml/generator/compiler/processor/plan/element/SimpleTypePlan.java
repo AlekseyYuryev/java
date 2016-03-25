@@ -165,7 +165,7 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
   private String baseNonXSTypeClassName = null;
 
   private UniqueQName superTypeName = null;
-  private UniqueQName baseNonXSTypeName = null;
+//  private UniqueQName baseNonXSTypeName = null;
   private UniqueQName baseXSTypeName = null;
   private UniqueQName baseXSItemTypeName = null;
   private UniqueQName baseXSNonEnumItemTypeName = null;
@@ -211,8 +211,8 @@ public class SimpleTypePlan<T extends SimpleTypeModel<?>> extends AliasPlan<T> i
 
     // Gets the XS pre-simpleType name of the type
     final SimpleTypeModel<?> baseNonXSType = digBaseNonXSType(model);
-    if (baseNonXSType != null)
-      baseNonXSTypeName = baseNonXSType.getName();
+//    if (baseNonXSType != null)
+//      baseNonXSTypeName = baseNonXSType.getName();
 
     superTypeName = model.getSuperType().getName();
     superClassNameWithoutType = AliasPlan.getClassName(model.getSuperType(), null);

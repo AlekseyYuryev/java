@@ -130,10 +130,10 @@ public final class ConfigurableLogger implements FileEventListener {
         constructRecord.add(new LogRecord(Level.WARNING, "Starting logger without FileMonitor: " + url));
       }
 
-      final InputStream in = url.openStream();
-      final String loggingProperties = new String(Streams.getBytes(in));
-      in.close();
-      initConfig(loggingProperties);
+      try (final InputStream in = url.openStream()) {
+        final String loggingProperties = new String(Streams.getBytes(in));
+        initConfig(loggingProperties);
+      }
     }
     catch (final Exception e) {
       constructRecord.add(new LogRecord(Level.WARNING, "Unable to load logging.properties: " + e.getMessage()));
@@ -143,10 +143,10 @@ public final class ConfigurableLogger implements FileEventListener {
   @Override
   public void onModify(final File file) {
     try {
-      final InputStream in = file.toURI().toURL().openStream();
-      final String loggingProperties = new String(Streams.getBytes(in));
-      in.close();
-      initConfig(loggingProperties);
+      try (final InputStream in = file.toURI().toURL().openStream()) {
+        final String loggingProperties = new String(Streams.getBytes(in));
+        initConfig(loggingProperties);
+      }
     }
     catch (final IOException e) {
       ConfigurableLogger.getLogger().warning("Unable to absorb " + file.getName() + " changes due to: " + e.getMessage());

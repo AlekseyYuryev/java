@@ -186,8 +186,8 @@ public class ISTEnumGenerator {
     code += "  }\n";
     code += "}";
 
-    final FileOutputStream out = new FileOutputStream(file);
-    out.write(code.getBytes());
-    out.close();
+    try (final FileOutputStream out = new FileOutputStream(file)) {
+      out.write(code.getBytes());
+    }
   }
 }

@@ -101,7 +101,7 @@ public final class Files {
     deleteAll(path, anyFilter, false);
   }
 
-  public static String getBasename(final File file) throws IOException {
+  public static String getBasename(final File file) {
     if (file == null)
       throw new IllegalArgumentException("file == null");
 
@@ -201,18 +201,17 @@ public final class Files {
   }
 
   private static void copyFile(final File from, final File to) throws IOException {
-    final FileInputStream in = new FileInputStream(from);
-    final FileChannel sourceChannel = in.getChannel();
+    try (final FileInputStream in = new FileInputStream(from);
+      final FileChannel sourceChannel = in.getChannel();
+      final FileOutputStream out = new FileOutputStream(to);
+      final FileChannel destinationChannel = out.getChannel();
+    ) {
+      sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
+      sourceChannel.close();
+      in.close();
 
-    final FileOutputStream out = new FileOutputStream(to);
-    final FileChannel destinationChannel = out.getChannel();
-
-    sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-    sourceChannel.close();
-    in.close();
-
-    destinationChannel.close();
-    out.close();
+      destinationChannel.close();
+    }
   }
 
   public static String relativePath(final File dir, final File file) {
@@ -221,43 +220,38 @@ public final class Files {
   }
 
   public static byte[] getBytes(final File file) throws IOException {
-    final InputStream in = new FileInputStream(file);
+    try (final InputStream in = new FileInputStream(file)) {
+      // Get the size of the file
+      final long length = file.length();
 
-    // Get the size of the file
-    final long length = file.length();
+      // You cannot create an array using a long type.
+      // It needs to be an int type.
+      // Before converting to an int type, check
+      // to ensure that file is not larger than Integer.MAX_VALUE.
+      if (length > Integer.MAX_VALUE)
+        throw new IllegalArgumentException("File is too large to fit in a byte array");
 
-    // You cannot create an array using a long type.
-    // It needs to be an int type.
-    // Before converting to an int type, check
-    // to ensure that file is not larger than Integer.MAX_VALUE.
-    if (length > Integer.MAX_VALUE) {
-      in.close();
-      throw new IllegalArgumentException("File is too large to fit in a byte array");
+      // Create the byte array to hold the data
+      final byte[] bytes = new byte[(int)length];
+
+      // Read in the bytes
+      int offset = 0;
+      int numRead = 0;
+      while (offset < bytes.length && (numRead = in.read(bytes, offset, bytes.length - offset)) >= 0)
+        offset += numRead;
+
+      // Ensure all the bytes have been read in
+      if (offset < bytes.length)
+        throw new IOException("Could not completely read file " + file.getName());
+
+      return bytes;
     }
-
-    // Create the byte array to hold the data
-    final byte[] bytes = new byte[(int)length];
-
-    // Read in the bytes
-    int offset = 0;
-    int numRead = 0;
-    while (offset < bytes.length && (numRead = in.read(bytes, offset, bytes.length - offset)) >= 0)
-      offset += numRead;
-
-    // Close the input stream and return bytes
-    in.close();
-
-    // Ensure all the bytes have been read in
-    if (offset < bytes.length)
-      throw new IOException("Could not completely read file " + file.getName());
-
-    return bytes;
   }
 
   public static void writeFile(final File file, final byte[] bytes) throws IOException {
-    final FileOutputStream out = new FileOutputStream(file);
-    out.write(bytes);
-    out.close();
+    try (final FileOutputStream out = new FileOutputStream(file)) {
+      out.write(bytes);
+    }
   }
 
   public static File commonality(final File[] files) throws IOException {

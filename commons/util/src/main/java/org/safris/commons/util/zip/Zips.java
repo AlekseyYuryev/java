@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -52,53 +52,52 @@ public final class Zips {
     targetDir.mkdirs();
 
     // read jar-file:
-    final ZipFile zip = new ZipFile(zipFile);
-    final String targetPath = targetDir.getAbsolutePath() + File.separator;
-    final byte[] buffer = new byte[READ_BUFFER_SIZE];
-    final Enumeration<? extends ZipEntry> enumeration = zip.entries();
-    while (enumeration.hasMoreElements()) {
-      final ZipEntry entry = enumeration.nextElement();
-      if (entry.isDirectory())
-        continue;
+    try (final ZipFile zip = new ZipFile(zipFile)) {
+      final String targetPath = targetDir.getAbsolutePath() + File.separator;
+      final byte[] buffer = new byte[READ_BUFFER_SIZE];
+      final Enumeration<? extends ZipEntry> enumeration = zip.entries();
+      while (enumeration.hasMoreElements()) {
+        final ZipEntry entry = enumeration.nextElement();
+        if (entry.isDirectory())
+          continue;
 
-      // do not copy anything from the package cache:
-      if (entry.getName().indexOf("package cache") != -1)
-        continue;
+        // do not copy anything from the package cache:
+        if (entry.getName().indexOf("package cache") != -1)
+          continue;
 
-      final File file = new File(targetPath + entry.getName());
-      if (filter != null && !filter.accept(file))
-        continue;
+        final File file = new File(targetPath + entry.getName());
+        if (filter != null && !filter.accept(file))
+          continue;
 
-      if (!file.getParentFile().exists())
-        file.getParentFile().mkdirs();
+        if (!file.getParentFile().exists())
+          file.getParentFile().mkdirs();
 
-      final FileOutputStream out = new FileOutputStream(file);
-      final InputStream in = zip.getInputStream(entry);
-      int read;
-      while ((read = in.read(buffer)) != -1)
-        out.write(buffer, 0, read);
-
-      in.close();
-      out.close();
+        try (
+          final FileOutputStream out = new FileOutputStream(file);
+          final InputStream in = zip.getInputStream(entry);
+        ) {
+          int read;
+          while ((read = in.read(buffer)) != -1)
+            out.write(buffer, 0, read);
+        }
+      }
     }
-    
-    zip.close();
   }
 
   public static String gunzip(final InputStream inputStream) throws IOException {
     if (inputStream == null)
       throw new NullPointerException("inputStream == null");
 
-    final GZIPInputStream zipInputStream = new GZIPInputStream(new BufferedInputStream(inputStream));
-    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    try (final GZIPInputStream zipInputStream = new GZIPInputStream(new BufferedInputStream(inputStream))) {
+      final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-    int length;
-    final byte[] buffer = new byte[READ_BUFFER_SIZE];
-    while ((length = zipInputStream.read(buffer, 0, READ_BUFFER_SIZE)) != -1)
-      outputStream.write(buffer, 0, length);
+      int length;
+      final byte[] buffer = new byte[READ_BUFFER_SIZE];
+      while ((length = zipInputStream.read(buffer, 0, READ_BUFFER_SIZE)) != -1)
+        outputStream.write(buffer, 0, length);
 
-    zipInputStream.close();
-    return new String(outputStream.toByteArray());
+      return new String(outputStream.toByteArray());
+    }
   }
 
   public static String gunzip(final byte[] bytes) throws IOException {
@@ -129,39 +128,37 @@ public final class Zips {
 
     final byte[] bytes = new byte[WRITE_BUFFER_SIZE];
 
-    final ZipInputStream in = new ZipInputStream(new FileInputStream(tempFile));
-    final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file));
+    try (
+      final ZipInputStream in = new ZipInputStream(new FileInputStream(tempFile));
+      final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file));
+    ) {
+      ZipEntry entry;
+      WHILE:
+      while ((entry = in.getNextEntry()) != null) {
+        final String name = entry.getName();
+        for (final CachedFile fileWrapper : files)
+          if (fileWrapper.getPath().equals(name))
+            break WHILE;
 
-    ZipEntry entry;
-    WHILE:
-    while ((entry = in.getNextEntry()) != null) {
-      final String name = entry.getName();
-      for (final CachedFile fileWrapper : files)
-        if (fileWrapper.getPath().equals(name))
-          break WHILE;
+        // Add ZIP entry to output stream.
+        out.putNextEntry(new ZipEntry(name));
+        // Transfer bytes from the ZIP file to the output file
+        int length;
+        while ((length = in.read(bytes)) > 0)
+          out.write(bytes, 0, length);
+      }
 
-      // Add ZIP entry to output stream.
-      out.putNextEntry(new ZipEntry(name));
-      // Transfer bytes from the ZIP file to the output file
-      int length;
-      while ((length = in.read(bytes)) > 0)
-        out.write(bytes, 0, length);
+      // Compress the files
+      for (final CachedFile cachedFile : files) {
+        // Add ZIP entry to output stream.
+        out.putNextEntry(new ZipEntry(cachedFile.getPath()));
+        // Transfer bytes from the file to the ZIP file
+        out.write(cachedFile.getBytes());
+        // Complete the entry
+        out.closeEntry();
+      }
     }
 
-    // Close the streams
-    in.close();
-    // Compress the files
-    for (final CachedFile cachedFile : files) {
-      // Add ZIP entry to output stream.
-      out.putNextEntry(new ZipEntry(cachedFile.getPath()));
-      // Transfer bytes from the file to the ZIP file
-      out.write(cachedFile.getBytes());
-      // Complete the entry
-      out.closeEntry();
-    }
-
-    // Complete the ZIP file
-    out.close();
     tempFile.delete();
     return true;
   }
