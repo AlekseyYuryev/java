@@ -69,12 +69,16 @@
   <xs:element name="json">
     <xs:complexType>
       <xs:sequence>
+        <xs:sequence minOccurs="0">
+          <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
         <xs:element name="object" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence maxOccurs="unbounded">
-              <xs:choice>
-                <xs:element name="value" type="json:value"/>
-              </xs:choice>
+              <xs:sequence minOccurs="0">
+                <xs:element name="description" type="xs:string"/>
+              </xs:sequence>
+              <xs:element name="value" type="json:value"/>
             </xs:sequence>
             <xs:attribute name="name" type="xs:NCName" use="required"/>
           </xs:complexType>
