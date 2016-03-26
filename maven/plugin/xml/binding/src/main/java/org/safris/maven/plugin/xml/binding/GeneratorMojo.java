@@ -51,22 +51,6 @@ import org.w3c.dom.Document;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
 public class GeneratorMojo extends AdvancedMojo {
-  public static void main(final String[] args) throws MojoFailureException {
-    if (args.length != 1)
-      usage();
-
-    final File pomFile = new File(args[0]);
-    if (!pomFile.exists())
-      throw new MojoFailureException("File does not exist: " + pomFile.getAbsolutePath());
-
-    MavenLauncher.main(new String[] {"-e", "-f", pomFile.getAbsolutePath(), "org.safris.maven.plugin.xml:binding:generate"});
-  }
-
-  private static void usage() {
-    System.err.println("Usage: GeneratorMojo <pom.xml>");
-    System.exit(1);
-  }
-
   private static final FileFilter classesFilter = new FileFilter() {
     @Override
     public boolean accept(File pathname) {
