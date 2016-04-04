@@ -17,13 +17,13 @@
 package org.safris.xml.toolkit.sample.binding;
 
 import org.safris.xml.generator.compiler.runtime.Binding;
-import org.safris.xml.toolkit.sample.binding.enums.enums_color$;
-import org.safris.xml.toolkit.sample.binding.enums.enums_coloredFruitBasket;
-import org.safris.xml.toolkit.sample.binding.simple.$simple_fruitType;
-import org.safris.xml.toolkit.sample.binding.simple.simple_fruitBasket;
-import org.safris.xml.toolkit.sample.binding.xsitype.$type_dehiscentDryFruitType;
-import org.safris.xml.toolkit.sample.binding.xsitype.$type_fleshyFruitType;
-import org.safris.xml.toolkit.sample.binding.xsitype.$type_indehiscentDryFruitType;
+import org.safris.xml.toolkit.sample.binding.enums.xe.enums_color$;
+import org.safris.xml.toolkit.sample.binding.enums.xe.enums_coloredFruitBasket;
+import org.safris.xml.toolkit.sample.binding.simple.xe.$simple_fruitType;
+import org.safris.xml.toolkit.sample.binding.simple.xe.simple_fruitBasket;
+import org.safris.xml.toolkit.sample.binding.xsitype.xe.$type_dehiscentDryFruitType;
+import org.safris.xml.toolkit.sample.binding.xsitype.xe.$type_fleshyFruitType;
+import org.safris.xml.toolkit.sample.binding.xsitype.xe.$type_indehiscentDryFruitType;
 
 public class XsiTypeSample {
   public static void main(final String[] args) {

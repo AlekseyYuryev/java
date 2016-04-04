@@ -42,8 +42,8 @@ import org.safris.xml.generator.compiler.runtime.Enum;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
-import org.w3.x2001.xmlschema.$xs_ID;
-import org.w3.x2001.xmlschema.$xs_anySimpleType;
+import org.w3.x2001.xmlschema.xe.$xs_ID;
+import org.w3.x2001.xmlschema.xe.$xs_anySimpleType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -363,11 +363,8 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
     if (plan.getName() == null)
       throw new CompilerError("Why are we trying to write a final class that has no name?");
 
-    writer.write("package " + plan.getPackageName() + ";\n");
-
-    writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     writeQualifiedName(writer, plan);
-    writer.write("public abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
+    writer.write("public static abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
     writer.write("{\n");
 
     writer.write("private static final " + QName.class.getName() + " NAME = getClassQName(" + plan.getClassName(parent) + ".class);\n");

@@ -22,15 +22,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import noNamespace._buildProperties;
-import noNamespace._javaProject3;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
 import org.safris.xml.generator.compiler.runtime.MarshalException;
+
+import noNamespace.xe._buildProperties;
+import noNamespace.xe._javaProject3;
 
 public final class JavaProjectWriter {
   public static void write(final JavaProject javaProject) throws IOException, MarshalException, MojoExecutionException, XMLException {

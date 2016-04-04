@@ -248,7 +248,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
     try {
       for (final JavaProject project : stateManager.getJavaProjects()) {
         resolveDependencies(project, stateManager);
-        // For the sources, we dont want to add the same relative
+        // For the sources, we don't want to add the same relative
         if (project == javaProject)
           javaProject.setSourceFiles(filterDuplicateSources(javaProject, findSources()));
 

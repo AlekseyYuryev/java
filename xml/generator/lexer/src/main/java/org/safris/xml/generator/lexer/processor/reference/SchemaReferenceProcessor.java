@@ -29,10 +29,9 @@ import org.safris.xml.generator.lexer.lang.LexerError;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 
 public final class SchemaReferenceProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaReference> {
-  // FIXME: There still exists a deadlock condition!!
-  private static final class Counter {
-    protected volatile int count = 0;
-  }
+//  private static final class Counter {
+//    protected volatile int count = 0;
+//  }
 
   @Override
   public Collection<SchemaReference> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> schemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaReference> directory) {
@@ -42,57 +41,43 @@ public final class SchemaReferenceProcessor implements PipelineEntity, PipelineP
     final Collection<SchemaReference> selectedSchemas = new LinkedHashSet<SchemaReference>(3);
     try {
       // select schemas that should be generated based on timestamps
-      synchronized (schemas) {
-        final Counter counter = new Counter();
-        counter.count = 0;
+//      final Counter counter = new Counter();
 
-        final ThreadGroup threadGroup = new ThreadGroup("SchemaReferenceProcess");
-        Log.debug("created SchemaReferenceProcess ThreadGroup");
-        // download and cache the schemas into a temporary directory
-        for (final SchemaReference schemaReference : schemas) {
-          new Thread(threadGroup, schemaReference.getURL().toString()) {
-            @Override
-            public void run() {
-              try {
-                final File directory = new File(destDir, schemaReference.getNamespaceURI().getPackageName().toString().replace('.', File.separatorChar));
-                Log.debug("checking whether directory is up-to-date: " + directory.getAbsolutePath());
-                if (pipelineContext.getOverwrite() || !directory.exists() || directory.lastModified() < pipelineContext.getManifestLastModified()) {
-                  Log.debug("adding: " + directory.getAbsolutePath());
-                  selectedSchemas.add(schemaReference);
-                }
-                else {
-                  for (final File file : directory.listFiles()) {
-                    Log.debug("checking whether file in directory is up-to-date: " + file.getAbsolutePath());
-                    if (schemaReference.getLastModified() < file.lastModified())
-                      continue;
-
-                    Log.debug("adding: " + directory.getAbsolutePath());
-                    selectedSchemas.add(schemaReference);
-                    Log.debug("deleting files in: " + directory.getAbsolutePath());
-                    for (final File deleteMe : directory.listFiles())
-                      deleteMe.delete();
-
-                    return;
-                  }
-
-                  Log.info("Bindings for " + URLs.getName(schemaReference.getURL()) + " are up-to-date.");
-                }
+//      final ThreadGroup threadGroup = new ThreadGroup("SchemaReferenceProcess");
+//      Log.debug("created SchemaReferenceProcess ThreadGroup");
+      // download and cache the schemas into a temporary directory
+      for (final SchemaReference schemaReference : schemas) {
+//        new Thread(threadGroup, schemaReference.getURL().toString()) {
+//          @Override
+//          public void run() {
+            try {
+              final File containerClass = new File(destDir, schemaReference.getNamespaceURI().getPackage().replace('.', File.separatorChar) + File.separator + "xe.java");
+              Log.debug("checking whether class is up-to-date: " + containerClass.getAbsolutePath());
+              if (pipelineContext.getOverwrite() || !containerClass.exists() || containerClass.lastModified() < pipelineContext.getManifestLastModified()) {
+                Log.debug("adding: " + containerClass.getAbsolutePath());
+                selectedSchemas.add(schemaReference);
               }
-              catch (final Exception e) {
-                throw new LexerError(e);
+              else {
+                Log.info("Bindings for " + URLs.getName(schemaReference.getURL()) + " are up-to-date.");
               }
-              finally {
-                synchronized (schemas) {
-                  ++counter.count;
-                  schemas.notify();
-                }
-              }
+
+//              synchronized (counter) {
+//                ++counter.count;
+//                counter.notify();
+//              }
             }
-          }.start();
-        }
+            catch (final Exception e) {
+              throw new LexerError(e);
+            }
+//          }
+//        }.start();
+//      }
 
-        while (counter.count != schemas.size())
-          schemas.wait();
+//      synchronized (schemas) {
+//        synchronized (counter) {
+//          while (counter.count != schemas.size())
+//            counter.wait();
+//        }
       }
     }
     catch (final Exception e) {

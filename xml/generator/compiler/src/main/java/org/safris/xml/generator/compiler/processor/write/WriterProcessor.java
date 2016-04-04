@@ -74,13 +74,18 @@ public final class WriterProcessor implements PipelineProcessor<GeneratorContext
     return null;
   }
 
-  protected final void tailRecurse(final GeneratorContext pipelineContext, final Collection<Plan<?>> models, final PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> directory) {
-    if (models == null || models.size() == 0)
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  protected final void tailRecurse(final GeneratorContext pipelineContext, final Collection<Plan<?>> plans, final PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> directory) {
+    if (plans == null || plans.size() == 0)
       return;
 
-    for (final Plan<?> model : models)
-      if (model != null)
-        tailRecurse(pipelineContext, disclose(pipelineContext, model, directory), directory);
+    for (final Plan<?> plan : plans)
+      if (plan != null)
+        tailRecurse(pipelineContext, disclose(pipelineContext, plan, directory), directory);
+
+    for (final Plan<?> plan : plans)
+      if (plan != null)
+        ((Writer)root).closeFile(((Writer<?>)directory.getEntity(plan, null)), plan, pipelineContext.getDestdir());
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})

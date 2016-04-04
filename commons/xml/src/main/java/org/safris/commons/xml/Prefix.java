@@ -22,6 +22,8 @@ import java.util.Map;
 public final class Prefix {
   private static final Map<String,Prefix> instances = new HashMap<String,Prefix>();
 
+  public static final Prefix EMPTY = getInstance("");
+
   public static Prefix getInstance(final String prefix) {
     Prefix value = instances.get(prefix);
     if (value == null)
@@ -29,8 +31,6 @@ public final class Prefix {
 
     return value;
   }
-
-  public static final Prefix EMPTY = new Prefix("");
 
   private final String prefix;
 //  private final String title;

@@ -61,9 +61,8 @@ public final class JavaBinding {
     if (!(model instanceof Nameable) || ((Nameable<?>)model).getName() == null)
       throw new CompilerError("Method being called on a model with no name");
 
-    final String pkg = ((Nameable<?>)model).getName().getNamespaceURI().getPackageName().toString();
-    final String simpleName = getClassSimpleName(model);
-    return pkg + "." + simpleName;
+    final Nameable<?> nameable = ((Nameable<?>)model);
+    return nameable.getName().getNamespaceURI().getPackage() + ".xe." + getClassSimpleName(model);
   }
 
   private static boolean isRef(final Model model) {
@@ -75,7 +74,7 @@ public final class JavaBinding {
   }
 
   private static Prefix getPrefix(final Model model) {
-    return !JavaBinding.isNested(model) || JavaBinding.isRef(model) || model instanceof AttributeModel && Form.QUALIFIED.equals(((AttributeModel)model).getForm()) ? ((Nameable<?>)model).getName().getPrefix() : Prefix.EMPTY;
+    return !JavaBinding.isNested(model) || JavaBinding.isRef(model) || (model instanceof AttributeModel && Form.QUALIFIED.equals(((AttributeModel)model).getForm())) ? ((Nameable<?>)model).getName().getPrefix() : Prefix.EMPTY;
   }
 
   public static String getClassSimpleName(final Model model) {

@@ -151,7 +151,7 @@ public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyPr
     return remoteRepos;
   }
 
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
 
   /**

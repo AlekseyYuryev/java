@@ -69,12 +69,9 @@ public final class NotationWriter extends Writer<NotationPlan> {
 
   @Override
   protected void appendClass(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
-    writer.write("package " + plan.getPackageName() + ";\n");
-
     // DOCUMENTATION
     writer.write(plan.getDocumentation());
 
-    writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
     writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
     writer.write("{\n");
 

@@ -21,6 +21,10 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.json.Generator;
 import org.safris.commons.maven.AdvancedMojo;
@@ -28,40 +32,30 @@ import org.safris.commons.util.Resolver;
 import org.safris.maven.plugin.xml.binding.Manifest;
 import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
 
-/**
- * @goal jso
- * @phase generate-sources
- */
+@Mojo(name = "jso", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "jso")
 public class JSONMojo extends AdvancedMojo {
-  /**
-   * @parameter default-value="${maven.test.skip}"
-   */
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
   private Boolean mavenTestSkip = null;
 
-  /**
-   * @parameter expression="${mojoExecution}"
-   */
+  @Parameter(property = "manifest", required = true)
+  protected Manifest manifest;
+
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
 
-  /**
-   * @parameter default-value="${project}"
-   * @required
-   */
-  protected MavenProject project = null;
+  @Parameter(defaultValue = "${project}", readonly = true)
+  protected MavenProject project;
 
   /**
-   * @parameter default-value="${basedir}"
+   * @parameter expression="${mojoExecution.lifecyclePhase}"
    */
-  protected String basedir = null;
-
-  /**
-   * @parameter
-   */
-  protected Manifest manifest;
+  @Parameter(defaultValue = "${mojoExecution.lifecyclePhase}")
+  private String lifecyclePhase;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase() != null && execution.getLifecyclePhase().contains("test"))
       return;
 
     if (manifest == null)

@@ -37,7 +37,6 @@ import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.util.jar.Jar;
 import org.safris.commons.xml.NamespaceBinding;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.commons.xml.PackageName;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
@@ -84,8 +83,8 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
     for (final SchemaComposite schemaComposite : schemaComposites) {
       final SchemaModelComposite schemaModelComposite = (SchemaModelComposite)schemaComposite;
       final NamespaceURI namespaceURI = schemaModelComposite.getSchemaDocument().getSchemaReference().getNamespaceURI();
-      final PackageName packageName = namespaceURI.getPackageName();
-      final File jarFile = new File(destDir, packageName + ".jar");
+      final String pkg = namespaceURI.getPackage();
+      final File jarFile = new File(destDir, pkg + ".jar");
       if (jarFile.exists())
         if (!jarFile.delete())
           throw new BindingError("Unable to delete the existing jar: " + jarFile.getAbsolutePath());
@@ -93,7 +92,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
       final Jar jar = new Jar(jarFile);
       jarFiles.add(jarFile);
 
-      final String packagePath = packageName.toString().replace('.', '/');
+      final String packagePath = pkg.replace('.', '/');
       if (!namespaceURIsAdded.contains(namespaceURI)) {
         namespaceURIsAdded.add(namespaceURI);
 
@@ -105,7 +104,7 @@ public final class BundleProcessor implements PipelineEntity, PipelineProcessor<
       }
 
       final URL url = schemaModelComposite.getSchemaDocument().getSchemaReference().getURL();
-      String xsdName = packagePath + '/' + packageName;
+      String xsdName = packagePath + '/' + pkg;
       if (!schemaModelComposite.getSchemaDocument().getSchemaReference().isInclude())
         addXSDs(url, xsdName + ".xsd", jar, destDir, 0);
 

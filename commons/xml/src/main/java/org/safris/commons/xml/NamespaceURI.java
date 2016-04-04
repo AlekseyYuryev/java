@@ -60,18 +60,18 @@ public final class NamespaceURI {
   }
 
   private final String namespaceURI;
-  private final PackageName packageName;
+  private final String _package;
 
   private NamespaceURI(final String namespaceURI) {
     if (namespaceURI == null)
       throw new NullPointerException("namespaceURI == null");
 
     this.namespaceURI = namespaceURI.intern();
-    this.packageName = new PackageName(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+    this._package = NamespaceBinding.getPackageFromNamespace(namespaceURI);
   }
 
-  public PackageName getPackageName() {
-    return packageName;
+  public String getPackage() {
+    return _package;
   }
 
   @Override

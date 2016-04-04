@@ -18,10 +18,13 @@ package org.safris.xml.generator.compiler.processor.write;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
@@ -30,10 +33,10 @@ import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.xml.generator.compiler.lang.CompilerError;
-import org.safris.xml.generator.compiler.lang.JavaBinding;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
+import org.safris.xml.generator.compiler.runtime.Schema;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
 
@@ -46,6 +49,54 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     license.append("/* .-------------------------------------------------------------. */\n");
     license.append("/* | GENERATED CODE - XML Binding [xml.safris.org] - DO NOT EDIT | */\n");
     license.append("/* '-------------------------------------------------------------' */\n\n");
+  }
+
+  private static final Map<File,FileOutputStream> fileToOutputStream = new HashMap<File,FileOutputStream>();
+
+  private File getFile(final Writer<T> writer, final T plan, final File destDir) {
+    final URL url = plan.getModel().getSchema().getURL();
+    final String display = URLs.isLocal(url) ? Files.relativePath(Files.getCwd().getAbsoluteFile(), new File(url.getFile()).getAbsoluteFile()) : url.toExternalForm();
+    final String message = "Compiling {" + plan.getModel().getTargetNamespace() + "} from " + display;
+
+    if (!messages.contains(message)) {
+      messages.add(message);
+      Log.info(message);
+    }
+
+    final Nameable<?> nameable = (Nameable<?>)plan;
+    try {
+      if (nameable.getName().getNamespaceURI().getPackage() == null) {
+        Log.error("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
+        System.exit(1);
+      }
+
+      final String packageName = nameable.getName().getNamespaceURI().getPackage();
+      return new File(new File(destDir, packageName.replace('.', '/')), "xe.java");
+    }
+    catch (final Exception e) {
+      throw new CompilerError(e);
+    }
+  }
+
+  protected void closeFile(final Writer<T> writer, final T plan, final File destDir) {
+    if (!(plan instanceof AliasPlan) || (plan instanceof NestablePlan && ((NestablePlan)plan).isNested()))
+      return;
+
+    final File file = getFile(writer, plan, destDir);
+    final FileOutputStream out = fileToOutputStream.get(file);
+    if (out == null)
+      return;
+
+    try {
+      out.write('\n');
+      out.write('}');
+      out.close();
+    }
+    catch (final IOException e) {
+      throw new CompilerError(e);
+    }
+
+    fileToOutputStream.remove(file);
   }
 
   protected void writeFile(final Writer<T> writer, final T plan, final File destDir) {
@@ -62,26 +113,30 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     }
 
     final Nameable<?> nameable = (Nameable<?>)plan;
+    if (nameable.getName().getNamespaceURI().getPackage() == null) {
+      Log.error("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
+      System.exit(1);
+    }
+
+    final String packageName = nameable.getName().getNamespaceURI().getPackage();
+
+    final File file = new File(new File(destDir, packageName.replace('.', '/')), "xe.java");
+    FileOutputStream out = fileToOutputStream.get(file);
     try {
-      final String pkg = nameable.getName().getNamespaceURI().getPackageName().toString();
-      if (pkg == null) {
-        Log.error("The binding configuration does not specify a package for " + ((Nameable<?>)plan).getName().getNamespaceURI());
-        System.exit(1);
+      if (out == null) {
+        file.getParentFile().mkdirs();
+        fileToOutputStream.put(file, out = new FileOutputStream(file));
+        out.write(license.toString().getBytes());
+        out.write(("package " + packageName + ";\n\n").getBytes());
+        out.write(("@" + SuppressWarnings.class.getName() + "(\"all\")").getBytes());
+        out.write(("public class xe extends " + Schema.class.getName() + " {").getBytes());
       }
 
-      final File directory = new File(destDir, pkg.replace('.', '/'));
-      directory.mkdirs();
-
-      final String fileName = JavaBinding.getClassSimpleName(plan.getModel()) + ".java";
-      final String absoluteFilePath = directory.getAbsolutePath() + File.separator + fileName;
       final StringWriter stringWriter = new StringWriter();
       writer.appendClass(stringWriter, plan, null);
       final String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
-      try (final FileOutputStream out = new FileOutputStream(absoluteFilePath)) {
-        out.write(license.toString().getBytes());
-        out.write(text.getBytes());
-        out.flush();
-      }
+      out.write(text.getBytes());
+      out.flush();
     }
     catch (final Exception e) {
       throw new CompilerError(e);

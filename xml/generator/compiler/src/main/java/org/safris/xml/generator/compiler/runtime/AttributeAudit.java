@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.w3.x2001.xmlschema.$xs_anySimpleType;
+import org.w3.x2001.xmlschema.xe.$xs_anySimpleType;
 import org.w3c.dom.Element;
 
 public final class AttributeAudit<T> {

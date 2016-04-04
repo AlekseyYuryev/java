@@ -52,7 +52,7 @@ import org.safris.xml.generator.lexer.processor.reference.SchemaReferenceDirecto
 import org.safris.xml.toolkit.processor.bundle.Bundle;
 import org.safris.xml.toolkit.processor.bundle.BundleDirectory;
 import org.safris.xml.toolkit.processor.timestamp.TimestampDirectory;
-import org.w3.x2001.xmlschema.$xs_boolean;
+import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

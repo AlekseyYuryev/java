@@ -28,7 +28,6 @@ import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -45,7 +44,7 @@ import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.toolkit.binding.Generator;
 import org.safris.xml.toolkit.processor.bundle.Bundle;
-import org.w3.x2001.xmlschema.$xs_boolean;
+import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Document;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
@@ -68,10 +67,10 @@ public class GeneratorMojo extends AdvancedMojo {
   @Parameter(property = "manifest", required = true)
   private Manifest manifest;
 
-  @Component
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
 
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
 
   @Override

@@ -21,6 +21,7 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.xdb.xde.generator.EntityGenerator;
 import org.safris.xdb.xdl.DBVendor;
 
@@ -29,14 +30,10 @@ import org.safris.xdb.xdl.DBVendor;
  * @phase generate-sources
  */
 public final class XDEMojo extends XDLTransformerMojo {
-  /**
-   * @parameter default-value="${maven.test.skip}"
-   */
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
   private Boolean mavenTestSkip = null;
 
-  /**
-   * @parameter expression="${mojoExecution}"
-   */
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
 
   @Override

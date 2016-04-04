@@ -18,13 +18,12 @@ package org.safris.maven.plugin.cobertura;
 
 import java.io.File;
 
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
 
 public abstract class CoberturaMojo extends AdvancedMojo {
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
 
   protected MavenProject getProject() {

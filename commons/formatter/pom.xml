@@ -29,7 +29,5 @@
   <artifactId>formatter</artifactId>
   <version>0.4.12-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    A source formatting component that formats generated source-code.
-  </description>
+  <description>A source formatting component that formats generated source-code.</description>
 </project>

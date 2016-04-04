@@ -56,6 +56,7 @@ import org.eclipse.jetty.util.security.Credential;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Resources;
+import org.safris.commons.servlet.xe.$se_realm;
 
 public class EmbeddedServer {
   private static final Logger logger = Logger.getLogger(EmbeddedServer.class.getName());

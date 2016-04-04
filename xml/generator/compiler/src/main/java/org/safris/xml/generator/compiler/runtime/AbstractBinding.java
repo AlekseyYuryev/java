@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.reflect.Classes;
@@ -62,7 +61,10 @@ public abstract class AbstractBinding implements Cloneable {
   private static void loadPackage(final String namespaceURI) {
     // FIXME: Look this over. Also make a dedicated RuntimeException for this.
     try {
-      PackageLoader.getSystemPackageLoader().loadPackage(NamespaceBinding.getPackageFromNamespace(namespaceURI));
+      final Class<?> schemaClass = Class.forName(NamespaceBinding.getPackageFromNamespace(namespaceURI) + ".xe");
+      final Class<?>[] innerClasses = schemaClass.getClasses();
+      for (final Class<?> innerClass : innerClasses)
+        Class.forName(innerClass.getName());
     }
     catch (final Exception e) {
       throw new RuntimeException(e);

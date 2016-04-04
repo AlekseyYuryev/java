@@ -30,7 +30,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
       return null;
 
     if (model.getParent() instanceof SchemaModel || XSTypeDirectory.parseType(model.getName()) != null)
-      return model.getName().getNamespaceURI().getPackageName().toString() + "." + JavaBinding.getClassSimpleName(model);
+      return model.getName().getNamespaceURI().getPackage() + ".xe." + JavaBinding.getClassSimpleName(model);
 
     Model check = model;
     while ((check = check.getParent()) != null)
@@ -43,7 +43,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
           return getClassName((AliasModel)parent, null) + "." + JavaBinding.getClassSimpleName(model);
       while((parent = parent.getParent()) != null);
 
-    return model.getName().getNamespaceURI().getPackageName().toString() + "." + JavaBinding.getClassSimpleName(model);
+    return model.getName().getNamespaceURI().getPackage() + ".xe." + JavaBinding.getClassSimpleName(model);
   }
 
   private DocumentationPlan documentation = null;
@@ -63,7 +63,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
       documentation = Plan.<DocumentationPlan>analyze(getModel().getDocumentation(), this);
 
 //    schemaReference = model.getSchema().getURL().toString();
-    xsdLocation = model.getSchema().getTargetNamespace().getPackageName().toString() + ".xsd";
+    xsdLocation = model.getSchema().getTargetNamespace().getPackage() + ".xsd";
   }
 
   public final String getXsdLocation() {
@@ -101,9 +101,5 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 
   public final String getClassSimpleName() {
     return classSimpleName == null ? classSimpleName = JavaBinding.getClassSimpleName(getModel()) : classSimpleName;
-  }
-
-  public final String getPackageName() {
-    return packageName == null ? packageName = getName().getNamespaceURI().getPackageName().toString() : packageName;
   }
 }

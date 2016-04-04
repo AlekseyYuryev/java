@@ -37,7 +37,7 @@ public final class ISTEnumGeneratorMojo extends AdvancedMojo {
   @Component
   public MavenProject project;
 
-  @Component
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
 
   @Parameter(property = "maven.test.skip", defaultValue = "false")

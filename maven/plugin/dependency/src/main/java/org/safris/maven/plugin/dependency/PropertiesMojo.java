@@ -114,7 +114,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return remoteRepos;
   }
 
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
 
   /**

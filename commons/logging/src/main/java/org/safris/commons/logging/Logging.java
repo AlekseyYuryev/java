@@ -21,6 +21,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.safris.commons.logging.xe.$lg_setting;
+
 public final class Logging {
   public static void setLevel(final Level globalLevel, final List<$lg_setting> settings) {
     final Logger rootLogger = Logger.getLogger("");

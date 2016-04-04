@@ -45,7 +45,7 @@ import org.safris.xml.generator.compiler.runtime.MarshalException;
 import org.safris.xml.generator.compiler.runtime.ParseException;
 import org.safris.xml.generator.compiler.runtime.SimpleType;
 import org.safris.xml.generator.lexer.schema.attribute.Form;
-import org.w3.x2001.xmlschema.$xs_boolean;
+import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -168,16 +168,9 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     if (plan.isRef() || plan.getRepeatedExtension() != null)
       return;
 
-    if (!plan.isNested()) {
-      writer.write("package " + plan.getPackageName() + ";\n");
-      writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
-    }
-
     writeQualifiedName(writer, plan);
-    writer.write("public ");
-    if (plan.isNested())
-      writer.write("static ");
-    else if (plan.isAbstract())
+    writer.write("public static ");
+    if (plan.isAbstract())
       writer.write("abstract ");
 
     writer.write("class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + (plan.isComplexType() ? ComplexType.class.getName() : SimpleType.class.getName()) + "\n");

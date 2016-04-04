@@ -154,17 +154,8 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     if (plan.isRef())
       return;
 
-    if (!plan.isNested()) {
-      writer.write("package " + plan.getPackageName() + ";\n");
-      writer.write("@" + SuppressWarnings.class.getName() + "(\"all\")\n");
-    }
-
     writeQualifiedName(writer, plan);
-    writer.write("public ");
-    if (plan.isNested())
-      writer.write("static ");
-
-    writer.write("class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
+    writer.write("public static class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
     writer.write("{\n");
     writer.write("private static final " + QName.class.getName() + " NAME = getClassQName(" + plan.getClassName(parent) + ".class);\n");
 
