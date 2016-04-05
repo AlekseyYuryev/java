@@ -95,7 +95,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final AnyPlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final AnyPlan plan, final Plan<?> parent, final String variable) {
     writer.write("this.any = " + variable + ".any;\n");
   }
 

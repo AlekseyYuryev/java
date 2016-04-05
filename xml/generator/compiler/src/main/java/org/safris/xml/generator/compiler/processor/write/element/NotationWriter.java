@@ -28,6 +28,12 @@ import org.safris.xml.generator.compiler.runtime.NotationType;
 
 public final class NotationWriter extends Writer<NotationPlan> {
   @Override
+  protected void appendRegistration(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
+    writer.write("_$$registerNotation(new " + plan.getClassSimpleName() + "());\n");
+    writer.write("_$$registerSchemaLocation(" + plan.getClassName(parent) + ".NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final NotationPlan plan, final Plan<?> parent) {
     throw new CompilerError("notation cannot have a declaration");
   }
@@ -53,7 +59,7 @@ public final class NotationWriter extends Writer<NotationPlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final NotationPlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final NotationPlan plan, final Plan<?> parent, final String variable) {
     throw new CompilerError("notation cannot have a copy statement");
   }
 
@@ -74,14 +80,7 @@ public final class NotationWriter extends Writer<NotationPlan> {
 
     writer.write("public final class " + plan.getClassSimpleName() + " extends " + NotationType.class.getName() + "\n");
     writer.write("{\n");
-
     writer.write("private static final " + QName.class.getName() + " NAME = new " + QName.class.getName() + "(\"" + plan.getName().getNamespaceURI() + "\", \"" + plan.getName().getLocalPart() + "\", \"" + plan.getName().getPrefix() + "\");\n");
-
-    writer.write("static\n");
-    writer.write("{\n");
-    writer.write("_$$registerNotation(new " + plan.getClassSimpleName() + "());\n");
-    writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
-    writer.write("}\n");
 
     writer.write("private final " + String.class.getName() + " _name = \"" + plan.getName().getLocalPart() + "\";\n");
     writer.write("private final " + String.class.getName() + " _public = " + (plan.getPublic() != null ? "\"" + plan.getPublic() + "\"" : "null") + ";\n");

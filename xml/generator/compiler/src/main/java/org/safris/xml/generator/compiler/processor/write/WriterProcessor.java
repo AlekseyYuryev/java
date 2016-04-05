@@ -31,6 +31,10 @@ import org.safris.xml.generator.lexer.processor.Nameable;
 public final class WriterProcessor implements PipelineProcessor<GeneratorContext,Plan<?>,Writer<?>> {
   private final Writer<?> root = new Writer<Plan<?>>() {
     @Override
+    protected void appendRegistration(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
+    }
+
+    @Override
     protected void appendDeclaration(final StringWriter writer, final Plan<?> plan, final Plan<?> parent) {
     }
 

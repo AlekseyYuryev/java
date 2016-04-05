@@ -295,6 +295,12 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
   }
 
   @Override
+  protected void appendRegistration(final StringWriter writer, final T plan, final Plan<?> parent) {
+    writer.write("_$$registerType(" + plan.getClassName(parent) + ".NAME, " + plan.getClassName(parent) + ".class);\n");
+    writer.write("_$$registerSchemaLocation(" + plan.getClassName(parent) + ".NAME.getNamespaceURI(), " + plan.getClassSimpleName() + ".class, \"" + plan.getXsdLocation() + "\");\n");
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("simpleType cannot have a declaration");
   }
@@ -320,7 +326,7 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final T plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final T plan, final Plan<?> parent, final String variable) {
     throw new CompilerError("simpleType cannot have a copy statement");
   }
 
@@ -371,12 +377,6 @@ public class SimpleTypeWriter<T extends SimpleTypePlan<?>> extends Writer<T> {
 
     // ID LOOKUP
     writeIdLookup(writer, plan, parent);
-
-    writer.write("static\n");
-    writer.write("{\n");
-    writer.write("_$$registerType(NAME, " + plan.getClassName(parent) + ".class);\n");
-    writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassSimpleName() + ".class, \"" + plan.getXsdLocation() + "\");\n");
-    writer.write("}\n");
 
     // FACTORY METHOD
     writer.write("protected static " + plan.getClassSimpleName() + " newInstance(final " + plan.getBaseNonXSTypeClassName() + " inherits)\n");

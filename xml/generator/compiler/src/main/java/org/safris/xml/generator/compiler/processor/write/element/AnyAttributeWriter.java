@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
+import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;
@@ -30,6 +31,10 @@ import org.safris.xml.generator.lexer.schema.attribute.Use;
 import org.w3c.dom.Element;
 
 public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
+  @Override
+  protected void appendRegistration(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
+  }
+
   @Override
   protected void appendDeclaration(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent) {
     writer.write("private " + AttributeAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + ">> anyAttribute = new " + AttributeAudit.class.getName() + "<" + List.class.getName() + "<" + Binding.class.getName() + ">>(this, null, null, " + Form.QUALIFIED.equals(plan.getFormDefault()) + ", " + Use.REQUIRED.equals(plan.getUse()) + ");\n");
@@ -75,7 +80,7 @@ public final class AnyAttributeWriter extends Writer<AnyAttributePlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final AnyAttributePlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final AnyAttributePlan plan, final Plan<?> parent, final String variable) {
     writer.write("this.anyAttribute = " + variable + ".anyAttribute;\n");
   }
 

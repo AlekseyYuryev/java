@@ -19,43 +19,47 @@ package org.safris.xml.generator.compiler.processor.write.element;
 import java.io.StringWriter;
 
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.processor.plan.element.MaxInclusivePlan;
+import org.safris.xml.generator.compiler.processor.plan.element.MaxExclusivePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
-public final class MaxExclusiveWriter extends Writer<MaxInclusivePlan> {
+public final class MaxExclusiveWriter extends Writer<MaxExclusivePlan> {
   @Override
-  protected void appendDeclaration(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendRegistration(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendGetMethod(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendDeclaration(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendSetMethod(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendGetMethod(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendMarshal(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendSetMethod(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendParse(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendMarshal(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final MaxInclusivePlan plan, Plan<?> parent, final String variable) {
+  protected void appendParse(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendEquals(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  public void appendCopy(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent, final String variable) {
   }
 
   @Override
-  protected void appendHashCode(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendEquals(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 
   @Override
-  protected void appendClass(final StringWriter writer, final MaxInclusivePlan plan, final Plan<?> parent) {
+  protected void appendHashCode(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
+  }
+
+  @Override
+  protected void appendClass(final StringWriter writer, final MaxExclusivePlan plan, final Plan<?> parent) {
   }
 }

@@ -45,6 +45,12 @@ import org.w3c.dom.Node;
 
 public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeWriter<T> {
   @Override
+  protected void appendRegistration(final StringWriter writer, final T plan, final Plan<?> parent) {
+    writer.write("_$$registerType(" + plan.getClassName(parent) + ".NAME, " + plan.getClassName(parent) + ".class);\n");
+    writer.write("_$$registerSchemaLocation(" + plan.getClassName(parent) + ".NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     throw new CompilerError("complexType cannot have a declaration");
   }
@@ -90,12 +96,6 @@ public class ComplexTypeWriter<T extends ComplexTypePlan<?>> extends SimpleTypeW
     writer.write("public static abstract class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + ComplexType.class.getName() + "\n");
     writer.write("{\n");
     writer.write("private static final " + QName.class.getName() + " NAME = getClassQName(" + plan.getClassName(parent) + ".class);\n");
-
-    writer.write("static\n");
-    writer.write("{\n");
-    writer.write("_$$registerType(NAME, " + plan.getClassName(parent) + ".class);\n");
-    writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
-    writer.write("}\n");
 
     // FACTORY METHOD
     writer.write("protected static " + plan.getClassSimpleName() + " newInstance(final " + plan.getBaseNonXSTypeClassName() + " inherits)\n");

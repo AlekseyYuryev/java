@@ -24,6 +24,10 @@ import org.safris.xml.generator.compiler.processor.write.Writer;
 
 public final class MinLengthWriter extends Writer<MinLengthPlan> {
   @Override
+  protected void appendRegistration(final StringWriter writer, final MinLengthPlan plan, final Plan<?> parent) {
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final MinLengthPlan plan, final Plan<?> parent) {
   }
 
@@ -44,7 +48,7 @@ public final class MinLengthWriter extends Writer<MinLengthPlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final MinLengthPlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final MinLengthPlan plan, final Plan<?> parent, final String variable) {
   }
 
   @Override

@@ -24,6 +24,10 @@ import org.safris.xml.generator.compiler.processor.write.Writer;
 
 public final class ListWriter extends Writer<ListPlan> {
   @Override
+  protected void appendRegistration(final StringWriter writer, final ListPlan plan, final Plan<?> parent) {
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final ListPlan plan, final Plan<?> parent) {
   }
 
@@ -44,7 +48,7 @@ public final class ListWriter extends Writer<ListPlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final ListPlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final ListPlan plan, final Plan<?> parent, final String variable) {
   }
 
   @Override

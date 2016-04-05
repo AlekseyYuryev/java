@@ -33,6 +33,13 @@ import org.safris.xml.generator.lexer.schema.attribute.Use;
 
 public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
   @Override
+  protected void appendRegistration(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
+    // REASON: Attributes that are not defined globally do not need to be resolvable globally.
+    if (!plan.isNested())
+      writer.write("_$$registerSchemaLocation(" + plan.getClassName(parent) + ".NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final AttributePlan plan, final Plan<?> parent) {
     if (plan.isRestriction())
       return;
@@ -125,7 +132,7 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final AttributePlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final AttributePlan plan, final Plan<?> parent, final String variable) {
     if (plan.isRestriction())
       return;
 
@@ -158,14 +165,6 @@ public final class AttributeWriter extends SimpleTypeWriter<AttributePlan> {
     writer.write("public static class " + plan.getClassSimpleName() + " extends " + plan.getSuperClassNameWithType() + " implements " + SimpleType.class.getName() + "\n");
     writer.write("{\n");
     writer.write("private static final " + QName.class.getName() + " NAME = getClassQName(" + plan.getClassName(parent) + ".class);\n");
-
-    // REASON: Attributes that are not defined globally do not need to be resolvable globally.
-    if (!plan.isNested()) {
-      writer.write("static\n");
-      writer.write("{\n");
-      writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
-      writer.write("}\n");
-    }
 
     // ID LOOKUP
     writeIdLookup(writer, plan, parent);

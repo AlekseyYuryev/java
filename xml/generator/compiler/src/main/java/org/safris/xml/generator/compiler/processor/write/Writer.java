@@ -17,7 +17,6 @@
 package org.safris.xml.generator.compiler.processor.write;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.safris.commons.formatter.SourceFormat;
 import org.safris.commons.io.Files;
 import org.safris.commons.maven.Log;
 import org.safris.commons.net.URLs;
@@ -36,22 +34,14 @@ import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.AliasPlan;
 import org.safris.xml.generator.compiler.processor.plan.NestablePlan;
 import org.safris.xml.generator.compiler.processor.plan.Plan;
-import org.safris.xml.generator.compiler.runtime.Schema;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.Nameable;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
-  private static final StringBuffer license = new StringBuffer();
   private final Collection<String> messages = new HashSet<String>();
 
-  static {
-    license.append("/* .-------------------------------------------------------------. */\n");
-    license.append("/* | GENERATED CODE - XML Binding [xml.safris.org] - DO NOT EDIT | */\n");
-    license.append("/* '-------------------------------------------------------------' */\n\n");
-  }
-
-  private static final Map<File,FileOutputStream> fileToOutputStream = new HashMap<File,FileOutputStream>();
+  private static final Map<File,ClassFile> fileToClassFile = new HashMap<File,ClassFile>();
 
   private File getFile(final Writer<T> writer, final T plan, final File destDir) {
     final URL url = plan.getModel().getSchema().getURL();
@@ -83,20 +73,18 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
       return;
 
     final File file = getFile(writer, plan, destDir);
-    final FileOutputStream out = fileToOutputStream.get(file);
-    if (out == null)
+    final ClassFile classFile = fileToClassFile.get(file);
+    if (classFile == null)
       return;
 
     try {
-      out.write('\n');
-      out.write('}');
-      out.close();
+      classFile.close();
     }
     catch (final IOException e) {
       throw new CompilerError(e);
     }
 
-    fileToOutputStream.remove(file);
+    fileToClassFile.remove(file);
   }
 
   protected void writeFile(final Writer<T> writer, final T plan, final File destDir) {
@@ -121,22 +109,18 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     final String packageName = nameable.getName().getNamespaceURI().getPackage();
 
     final File file = new File(new File(destDir, packageName.replace('.', '/')), "xe.java");
-    FileOutputStream out = fileToOutputStream.get(file);
+    ClassFile classFile = fileToClassFile.get(file);
     try {
-      if (out == null) {
-        file.getParentFile().mkdirs();
-        fileToOutputStream.put(file, out = new FileOutputStream(file));
-        out.write(license.toString().getBytes());
-        out.write(("package " + packageName + ";\n\n").getBytes());
-        out.write(("@" + SuppressWarnings.class.getName() + "(\"all\")").getBytes());
-        out.write(("public class xe extends " + Schema.class.getName() + " {").getBytes());
-      }
+      if (classFile == null)
+        fileToClassFile.put(file, classFile = new ClassFile(file, packageName));
 
-      final StringWriter stringWriter = new StringWriter();
+      StringWriter stringWriter = new StringWriter();
+      writer.appendRegistration(stringWriter, plan, null);
+      classFile.addRegistrationText(stringWriter.toString());
+
+      stringWriter = new StringWriter();
       writer.appendClass(stringWriter, plan, null);
-      final String text = SourceFormat.getDefaultFormat().format(stringWriter.toString());
-      out.write(text.getBytes());
-      out.flush();
+      classFile.addClassText(stringWriter.toString());
     }
     catch (final Exception e) {
       throw new CompilerError(e);
@@ -181,6 +165,7 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
 
   protected static PipelineDirectory<GeneratorContext,Plan<?>,Writer<?>> directory = null;
 
+  protected abstract void appendRegistration(final StringWriter writer, final T plan, final Plan<?> parent);
   protected abstract void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent);
   protected abstract void appendGetMethod(final StringWriter writer, final T plan, final Plan<?> parent);
   protected abstract void appendSetMethod(final StringWriter writer, final T plan, final Plan<?> parent);

@@ -61,6 +61,14 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
   }
 
   @Override
+  protected void appendRegistration(final StringWriter writer, final T plan, final Plan<?> parent) {
+    if (!plan.isNested()) {
+      writer.write("_$$registerElement(" + plan.getClassName(parent) + ".NAME, " + plan.getClassName(parent) + ".class);\n");
+      writer.write("_$$registerSchemaLocation(" + plan.getClassName(parent) + ".NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
+    }
+  }
+
+  @Override
   protected void appendDeclaration(final StringWriter writer, final T plan, final Plan<?> parent) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
@@ -139,7 +147,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final T plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final T plan, final Plan<?> parent, final String variable) {
     if (plan.isRestriction() || plan.getRepeatedExtension() != null)
       return;
 
@@ -181,14 +189,6 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     // SUBSTITUTION GROUP
     if (plan.getSubstitutionGroup() != null)
       writer.write("private static final " + QName.class.getName() + " SUBSTITUTION_GROUP = new " + QName.class.getName() + "(\"" + plan.getSubstitutionGroup().getNamespaceURI() + "\", \"" + plan.getSubstitutionGroup().getLocalPart() + "\");\n");
-
-    if (!plan.isNested()) {
-      writer.write("static\n");
-      writer.write("{\n");
-      writer.write("_$$registerElement(NAME, " + plan.getClassName(parent) + ".class);\n");
-      writer.write("_$$registerSchemaLocation(NAME.getNamespaceURI(), " + plan.getClassName(null) + ".class, \"" + plan.getXsdLocation() + "\");\n");
-      writer.write("}\n");
-    }
 
     // ID LOOKUP
     writeIdLookup(writer, plan, parent);

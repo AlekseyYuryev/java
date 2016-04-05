@@ -16,6 +16,7 @@
 
 package org.safris.xml.generator.compiler.runtime;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -62,11 +63,11 @@ public abstract class AbstractBinding implements Cloneable {
     // FIXME: Look this over. Also make a dedicated RuntimeException for this.
     try {
       final Class<?> schemaClass = Class.forName(NamespaceBinding.getPackageFromNamespace(namespaceURI) + ".xe");
-      final Class<?>[] innerClasses = schemaClass.getClasses();
-      for (final Class<?> innerClass : innerClasses)
-        Class.forName(innerClass.getName());
+      final Method method = schemaClass.getDeclaredMethod("_$$register");
+      method.setAccessible(true);
+      method.invoke(null);
     }
-    catch (final Exception e) {
+    catch (final ReflectiveOperationException e) {
       throw new RuntimeException(e);
     }
   }

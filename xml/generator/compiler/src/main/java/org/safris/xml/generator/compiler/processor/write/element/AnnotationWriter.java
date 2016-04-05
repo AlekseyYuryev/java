@@ -17,11 +17,16 @@
 package org.safris.xml.generator.compiler.processor.write.element;
 
 import java.io.StringWriter;
+
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnnotationPlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 
 public final class AnnotationWriter extends Writer<AnnotationPlan> {
+  @Override
+  protected void appendRegistration(final StringWriter writer, final AnnotationPlan plan, final Plan<?> parent) {
+  }
+
   @Override
   protected void appendDeclaration(final StringWriter writer, final AnnotationPlan plan, final Plan<?> parent) {
   }
@@ -43,7 +48,7 @@ public final class AnnotationWriter extends Writer<AnnotationPlan> {
   }
 
   @Override
-  public void appendCopy(final StringWriter writer, final AnnotationPlan plan, Plan<?> parent, final String variable) {
+  public void appendCopy(final StringWriter writer, final AnnotationPlan plan, final Plan<?> parent, final String variable) {
   }
 
   @Override
