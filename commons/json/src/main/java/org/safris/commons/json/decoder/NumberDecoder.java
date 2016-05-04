@@ -38,12 +38,10 @@ public class NumberDecoder extends Decoder<Number> {
 
     final StringBuilder value = new StringBuilder();
     do {
-      in.mark(24);
       value.append(ch);
     }
     while ('0' <= (ch = JSObjectUtil.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
 
-    in.reset();
     final String number = value.toString();
     return number.contains(".") || number.contains("e") || number.contains("E") ? Double.parseDouble(number) : Integer.parseInt(number);
   }
