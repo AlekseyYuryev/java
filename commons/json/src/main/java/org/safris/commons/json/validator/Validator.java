@@ -16,9 +16,16 @@
 
 package org.safris.commons.json.validator;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 public abstract class Validator<T> {
   public static <T>String[] validate(final Validator<T>[] validators, final T value) {
-    return validate(validators, value, 0, 0);
+    return validators.length > 0 ? validate(validators, value, 0, 0) : null;
+  }
+
+  public static <T>String[] validate(final Validator<T>[] validators, final Collection<T> values) {
+    return validators.length > 0 ? validate(validators, values, values.iterator(), 0, 0) : null;
   }
 
   private static <T>String[] validate(final Validator<T>[] validators, final T value, final int index, final int depth) {
@@ -27,6 +34,22 @@ public abstract class Validator<T> {
 
     final String error = validators[index].validate(value);
     final String[] errors = validate(validators, value, index + 1, error != null ? depth + 1 : depth);
+    if (error != null)
+      errors[depth] = error;
+
+    return errors;
+  }
+
+  private static <T>String[] validate(final Validator<T>[] validators, final Collection<T> values, final Iterator<T> iterator, final int index, final int depth) {
+    if (!iterator.hasNext()) {
+      if (index + 1 == validators.length)
+        return new String[depth];
+
+      return validate(validators, values, values.iterator(), index + 1, depth);
+    }
+
+    final String error = validators[index].validate(iterator.next());
+    final String[] errors = validate(validators, values, iterator, index, error != null ? depth + 1 : depth);
     if (error != null)
       errors[depth] = error;
 

@@ -16,7 +16,7 @@
 
 package org.safris.commons.json.validator;
 
-public class PatternValidator extends  Validator<String> {
+public class PatternValidator extends Validator<String> {
   private final String pattern;
 
   public PatternValidator(final String pattern) {

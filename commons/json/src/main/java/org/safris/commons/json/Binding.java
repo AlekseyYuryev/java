@@ -18,6 +18,7 @@ package org.safris.commons.json;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.safris.commons.json.validator.Validator;
 
@@ -28,10 +29,10 @@ public class Binding<T> {
   public final Class<?> type;
   public final boolean array;
   public final boolean notNull;
-  public final Validator<T>[] validators;
+  public final Validator<?>[] validators;
 
   @SafeVarargs
-  public Binding(final String name, final Method set, final Field property, final Class<?> type, final boolean array, final boolean notNull, final Validator<T> ... validators) {
+  public Binding(final String name, final Method set, final Field property, final Class<?> type, final boolean array, final boolean notNull, final Validator<?> ... validators) {
     property.setAccessible(true);
     this.name = name;
     this.set = set;
@@ -42,15 +43,19 @@ public class Binding<T> {
     this.validators = validators;
   }
 
-  protected String validate(final T value) {
-    final String[] errors = Validator.validate(validators, value);
-    if (errors.length == 0)
+  private String errorsToString(final String[] errors) {
+    if (errors == null || errors.length == 0)
       return null;
 
-    String message = "";
+    final StringBuilder message = new StringBuilder();
     for (final String error : errors)
-      message += "\n\"" + name + "\" " + error;
+      message.append("\n\"").append(name).append("\" ").append(error);
 
     return message.substring(1);
+  }
+
+  @SuppressWarnings("unchecked")
+  protected String validate(final Object value) {
+    return errorsToString(value instanceof Collection ? Validator.validate((Validator<T>[])validators, (Collection<T>)value) : Validator.validate((Validator<T>[])validators, (T)value));
   }
 }
