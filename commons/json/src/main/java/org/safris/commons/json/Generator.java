@@ -142,7 +142,8 @@ public class Generator {
       out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null.\", this);";
     }
 
-    out += "\n\n      out.append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
+    out += "\n\n      if (" + instanceName + " != null)";
+    out += "\n        out.append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (!value._array$().isNull() && value._array$().text())
       return out + "tokenize(" + instanceName + ".encode(), depth + 1) + \"";
 
@@ -216,7 +217,7 @@ public class Generator {
       out += writeEncode(object._value(object._value().size() - 1)) + "\\n\");";
     }
 
-    out += "\n      out.append(pad(depth - 1) + \"}\");";
+    out += "\n\n      out.append(pad(depth - 1) + \"}\");";
     out += "\n      return out.toString();\n    }\n";
 
     out += "\n    @" + Override.class.getName();

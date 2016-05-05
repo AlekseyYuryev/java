@@ -31,6 +31,7 @@ public final class Arrays {
     return array;
   }
 
+  // FIXME: This has bugs!
   @SafeVarargs
   public static <T>T[] addAll(final T[] ... array) {
     int length = 0;

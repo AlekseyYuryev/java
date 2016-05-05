@@ -27,20 +27,16 @@ public abstract class Decoder<T> extends JSObjectUtil {
   public abstract T decode(final InputStream in, char ch) throws IOException;
 
   public final T[] recurse(final InputStream in, final int depth) throws IOException {
-    final T value = decode(in, JSObjectUtil.next(in));
     char ch = JSObjectUtil.next(in);
-    if (ch == ',') {
-      final T[] array = recurse(in, depth + 1);
-      array[depth] = value;
-      return array;
-    }
+    if (ch == ']')
+      return newInstance(depth);
 
-    if (ch == ']') {
-      final T[] array = newInstance(depth + 1);
-      array[depth] = value;
-      return array;
-    }
+    if (ch == ',')
+      return recurse(in, depth);
 
-    throw new IllegalArgumentException("Malformed JSON");
+    final T value = decode(in, ch);
+    final T[] array = recurse(in, depth + 1);
+    array[depth] = value;
+    return array;
   }
 }

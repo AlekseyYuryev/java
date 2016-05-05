@@ -74,6 +74,7 @@ public class JSObjectTest extends LoggableTest {
     message.subject("Test subject");
     message.imortant(true);
     message.recipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
+    message.emptyarray(new ArrayList<String>());
     message.attachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
     message.signature(signature);
 

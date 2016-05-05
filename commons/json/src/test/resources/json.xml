@@ -38,6 +38,7 @@
     <value name="subject" xsi:type="string"/>
     <value name="imortant" xsi:type="boolean"/>
     <value name="recipients" xsi:type="string" array="true" pattern=".+"/>
+    <value name="emptyarray" xsi:type="string" array="true" pattern=".+"/>
     <value xsi:type="object" type="attachment" array="true"/>
     <value xsi:type="object" type="signature"/>
   </object>
