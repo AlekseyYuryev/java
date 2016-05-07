@@ -18,6 +18,7 @@ package org.safris.commons.json.decoder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 
 import org.safris.commons.json.JSObjectUtil;
 
@@ -40,6 +41,6 @@ public class StringDecoder extends Decoder<String> {
     while ((ch = JSObjectUtil.nextAny(in)) != '"')
       value.append(ch);
 
-    return value.toString();
+    return URLDecoder.decode(value.toString(), "UTF-8");
   }
 }

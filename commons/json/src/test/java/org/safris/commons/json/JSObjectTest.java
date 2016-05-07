@@ -72,6 +72,7 @@ public class JSObjectTest extends LoggableTest {
 
     final api.Message message = new api.Message();
     message.subject("Test subject");
+    message.url("http://www.thesaurus.com/browse/cool?s=t");
     message.imortant(true);
     message.recipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
     message.emptyarray(new ArrayList<String>());

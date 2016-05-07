@@ -16,7 +16,42 @@
 
 package org.safris.commons.json;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Property<T> {
+  @SuppressWarnings("unchecked")
+  private static <T>T encode(final T value, final JSObject jsObject) {
+    if (value instanceof Number) {
+      final Number number = (Number)value;
+      return (T)(number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
+    }
+
+    if (value instanceof String) {
+      try {
+        return (T)URLEncoder.encode((String)value, "UTF-8");
+      }
+      catch (final UnsupportedEncodingException e) {
+        throw new EncodeException(e.getMessage(), jsObject, e);
+      }
+    }
+
+    return value;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T>T decode(final T value, final JSObject jsObject) throws DecodeException {
+    try {
+      return value instanceof String ? (T)URLDecoder.decode(((String)value), "UTF-8") : value;
+    }
+    catch (final UnsupportedEncodingException e) {
+      throw new DecodeException(e.getMessage(), jsObject, e);
+    }
+  }
+
   private final JSObject jsObject;
   private final Binding<T> binding;
   private T value;
@@ -40,17 +75,34 @@ public class Property<T> {
     if (error != null)
       throw new EncodeException(error, jsObject);
 
-    if (value instanceof Number) {
-      final Number number = (Number)value;
-      return (T)(number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
+    if (value instanceof Collection<?>) {
+      final Collection<T> collection = (Collection<T>)value;
+      final Collection<T> encoded = new ArrayList<T>(collection.size());
+      for (final T item : collection)
+        encoded.add(encode(item, jsObject));
+
+      return (T)encoded;
     }
 
-    return value;
+    return encode(value, jsObject);
   }
 
+  @SuppressWarnings("unchecked")
   public void decode() throws DecodeException {
     final String error = binding.validate(value);
     if (error != null)
       throw new DecodeException(error, jsObject);
+
+    if (value instanceof Collection<?>) {
+      final Collection<T> collection = (Collection<T>)value;
+      final Collection<T> decoded = new ArrayList<T>(collection.size());
+      for (final T item : collection)
+        decoded.add(decode(item, jsObject));
+
+      this.value = (T)decoded;
+    }
+    else {
+      this.value = decode(value, jsObject);
+    }
   }
 }
