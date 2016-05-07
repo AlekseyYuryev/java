@@ -17,10 +17,10 @@
 package org.safris.commons.json;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import org.safris.commons.net.URIComponent;
 
 public class Property<T> {
   @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ public class Property<T> {
 
     if (value instanceof String) {
       try {
-        return (T)URLEncoder.encode((String)value, "UTF-8");
+        return (T)URIComponent.encode((String)value, "UTF-8");
       }
       catch (final UnsupportedEncodingException e) {
         throw new EncodeException(e.getMessage(), jsObject, e);
@@ -45,7 +45,7 @@ public class Property<T> {
   @SuppressWarnings("unchecked")
   private static <T>T decode(final T value, final JSObject jsObject) throws DecodeException {
     try {
-      return value instanceof String ? (T)URLDecoder.decode(((String)value), "UTF-8") : value;
+      return value instanceof String ? (T)URIComponent.decode(((String)value), "UTF-8") : value;
     }
     catch (final UnsupportedEncodingException e) {
       throw new DecodeException(e.getMessage(), jsObject, e);
