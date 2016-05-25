@@ -143,17 +143,17 @@ public class Generator {
     }
 
     out += "\n\n      if (" + instanceName + " != null)";
-    out += "\n        out.append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
+    out += "\n        out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (!value._array$().isNull() && value._array$().text())
-      return out + "tokenize(" + instanceName + ".encode(), depth + 1) + \"";
+      return out + "tokenize(" + instanceName + ".encode(), depth + 1));";
 
     if (value instanceof $json_object)
-      return out + "" + instanceName + " != null && " + instanceName + ".value() != null ? " + instanceName + ".encode()._encode(depth + 1) : \"null\").append(\"";
+      return out + instanceName + " != null && " + instanceName + ".value() != null ? " + instanceName + ".encode()._encode(depth + 1) : \"null\");";
 
     if (value instanceof $json_string)
-      return out + "" + instanceName + " != null && " + instanceName + ".value() != null ? \"\\\"\" + " + instanceName + ".encode() + \"\\\"\" : \"null\").append(\"";
+      return out + instanceName + " != null && " + instanceName + ".value() != null ? \"\\\"\" + " + instanceName + ".encode() + \"\\\"\" : \"null\");";
 
-    return out + "" + instanceName + ".encode() + \"";
+    return out + instanceName + ".encode());";
   }
 
   private static String writeJavaClass(final String bundleName, final json_json._object object, final File outDir) {
@@ -209,16 +209,12 @@ public class Generator {
     out += "\n    @" + Override.class.getName();
     out += "\n    protected " + String.class.getName() + " _encode(final int depth) {";
     out += "\n      final " + StringBuilder.class.getName() + " out = new " + StringBuilder.class.getName() + "();";
-    out += "\n      out.append(\"{\\n\");";
-    if (object._value().size() > 0) {
-      for (int i = 0; i < object._value().size() - 1; i++)
-        out += writeEncode(object._value(i)) + ", \\n\");";
+    if (object._value().size() > 0)
+      for (int i = 0; i < object._value().size(); i++)
+        out += writeEncode(object._value(i));
 
-      out += writeEncode(object._value(object._value().size() - 1)) + "\\n\");";
-    }
-
-    out += "\n\n      out.append(pad(depth - 1) + \"}\");";
-    out += "\n      return out.toString();\n    }\n";
+    out += "\n\n      out.append(\"\\n\" + pad(depth - 1) + \"}\");";
+    out += "\n      return \"{\" + out.substring(1);\n    }\n";
 
     out += "\n    @" + Override.class.getName();
     out += "\n    public " + String.class.getName() + " toString() {";
