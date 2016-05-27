@@ -132,14 +132,6 @@ public abstract class JSObjectUtil {
 
             try {
               // Special case for parsing the container object
-              if (jsObject == null) {
-                final Class<? extends JSObject> clazz = bindings.get(out.toString());
-                if (clazz == null)
-                  throw new DecodeException("Unknown container name: " + out, jsObject);
-
-                return decode(in, next(in), clazz.newInstance());
-              }
-
               final Binding<?> member = jsObject._bindings().get(out.toString());
               if (member == null)
                 throw new DecodeException("Unknown object name: " + out, jsObject);

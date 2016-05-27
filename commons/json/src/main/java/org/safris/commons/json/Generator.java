@@ -218,7 +218,7 @@ public class Generator {
 
     out += "\n    @" + Override.class.getName();
     out += "\n    public " + String.class.getName() + " toString() {";
-    out += "\n      return \"{\\n  \\\"" + object._name$().text() + "\\\": \" + _encode(2) + \"\\n}\";";
+    out += "\n      return _encode(2);";
     out += "\n    }\n";
     out += "  }";
 

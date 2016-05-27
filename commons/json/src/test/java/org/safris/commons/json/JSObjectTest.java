@@ -83,7 +83,7 @@ public class JSObjectTest extends LoggableTest {
     log(encoded);
 
     try {
-      JSObject.parse(new ByteArrayInputStream(encoded.replace("438DA4", "XXX").getBytes(StandardCharsets.UTF_8)));
+      JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.replace("438DA4", "XXX").getBytes(StandardCharsets.UTF_8)));
     }
     catch (final DecodeException e) {
       if (!e.getMessage().startsWith("\"data\" does not match pattern"))
@@ -91,14 +91,14 @@ public class JSObjectTest extends LoggableTest {
     }
 
     try {
-      JSObject.parse(new ByteArrayInputStream(encoded.replace("\"filename\": \"data1.txt\", ", "").getBytes(StandardCharsets.UTF_8)));
+      JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.replace("\"filename\": \"data1.txt\", ", "").getBytes(StandardCharsets.UTF_8)));
     }
     catch (final DecodeException e) {
       if (!e.getMessage().startsWith("\"filename\" is missing"))
         throw e;
     }
 
-    final api.Message decoded = (api.Message)JSObject.parse(new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
+    final api.Message decoded = JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
     final String reEncoded = decoded.toString();
     log(reEncoded);
 

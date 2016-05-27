@@ -21,8 +21,15 @@ import java.io.InputStream;
 import java.util.Map;
 
 public abstract class JSObject extends JSObjectUtil {
-  public static JSObject parse(final InputStream in) throws DecodeException, IOException {
-    return decode(in, next(in), null);
+  @SuppressWarnings("unchecked")
+  public static <T extends JSObject>T parse(final Class<T> clazz, final InputStream in) throws DecodeException, IOException {
+    JSObject jsObject = null;
+    try {
+      return (T)decode(in, next(in), jsObject = clazz.newInstance());
+    }
+    catch (final InstantiationException | IllegalAccessException e) {
+      throw new DecodeException(jsObject, e);
+    }
   }
 
   protected abstract String _name();
