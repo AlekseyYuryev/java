@@ -40,6 +40,16 @@ public class JSObjectTest extends LoggableTest {
       att1.toString();
     }
     catch (final EncodeException e) {
+      if (!e.getMessage().startsWith("\"filename\" is required"))
+        throw e;
+    }
+
+    att1.filename.set(null);
+
+    try {
+      att1.toString();
+    }
+    catch (final EncodeException e) {
       if (!e.getMessage().startsWith("\"filename\" cannot be null"))
         throw e;
     }

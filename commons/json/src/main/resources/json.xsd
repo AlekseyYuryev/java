@@ -27,7 +27,7 @@
       <xs:element name="description" type="xs:string"/>
     </xs:sequence>
     <xs:attribute name="array" type="xs:boolean"/>
-    <xs:attribute name="required" type="xs:boolean" default="false"/>
+    <xs:attribute name="required" type="xs:boolean" default="true"/>
     <xs:attribute name="null" type="xs:boolean" default="true"/>
   </xs:complexType>
   

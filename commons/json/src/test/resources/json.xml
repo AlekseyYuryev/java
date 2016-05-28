@@ -38,7 +38,7 @@
     <value name="subject" xsi:type="string"/>
     <value name="url" xsi:type="string" pattern="((https?|ftp)://[\w\d:#@%/;$()~_?'\+-=\\\.&amp;]+)"/>
     <value name="imortant" xsi:type="boolean"/>
-    <value name="requiredArray" xsi:type="boolean" array="true" required="true" null="false"/>
+    <value name="requiredArray" xsi:type="boolean" array="true" null="false"/>
     <value name="notRequired" xsi:type="boolean" required="false"/>
     <value name="notRequiredArray" xsi:type="boolean" array="true" required="false"/>
     <value name="recipients" xsi:type="string" array="true" pattern=".+"/>
