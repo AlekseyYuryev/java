@@ -31,6 +31,22 @@ public abstract class JSObject extends JSObjectUtil {
     }
   }
 
+  protected static <T>T get(final Property<T> property) {
+    return property.get();
+  }
+
+  protected static <T>boolean wasSet(final Property<T> property) {
+    return property.wasSet();
+  }
+
+  protected static <T>T encode(final Property<T> property) throws EncodeException {
+    return property.encode();
+  }
+
+  protected static <T>void decode(final Property<T> property) throws DecodeException {
+    property.decode();
+  }
+
   protected abstract String _name();
   protected abstract String _encode(final int depth);
   protected abstract Map<String,Binding<?>> _bindings();
