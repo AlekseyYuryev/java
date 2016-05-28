@@ -23,12 +23,11 @@ import java.util.Map;
 public abstract class JSObject extends JSObjectUtil {
   @SuppressWarnings("unchecked")
   public static <T extends JSObject>T parse(final Class<T> clazz, final InputStream in) throws DecodeException, IOException {
-    JSObject jsObject = null;
     try {
-      return (T)decode(in, next(in), jsObject = clazz.newInstance());
+      return (T)decode(in, next(in), clazz.newInstance());
     }
     catch (final InstantiationException | IllegalAccessException e) {
-      throw new DecodeException(jsObject, e);
+      throw new RuntimeException(e);
     }
   }
 

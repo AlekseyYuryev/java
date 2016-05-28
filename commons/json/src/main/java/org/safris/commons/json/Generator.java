@@ -119,41 +119,42 @@ public class Generator {
     final String rawType = getType(value);
     final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-    final String instanceName = "_" + Strings.toInstanceCase(valueName);
-    final String methodName = Strings.toInstanceCase(valueName);
+    final String instanceName = Strings.toInstanceCase(valueName);
 
     String out = "";
-    out += "\n    private " + Property.class.getName() + "<" + type + "> " + instanceName + " = null;";
-    out += "\n\n    public void " + methodName + "(final " + type + " value) {";
-    out += "\n      if (this." + instanceName + " == null)";
-    out += "\n        this." + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
-    out += "\n\n      this." + instanceName + ".value(value);\n    }\n";
-    out += "\n    public " + type + " " + methodName + "() {";
-    out += "\n      return this." + instanceName + " != null ? this." + instanceName + ".value() : null;\n    }\n";
-    return out.toString();
+    out += "\n    public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
+    out += "\n\n    public " + type + " " + instanceName + "() {";
+    out += "\n      return get(" + instanceName + ");";
+    out += "\n    }";
+    return out;
   }
 
   private static String writeEncode(final $json_value value) {
     final String valueName = getValueName(value);
-    final String instanceName = "_" + Strings.toInstanceCase(valueName);
+    final String instanceName = Strings.toInstanceCase(valueName);
     String out = "";
-    if (!value._null$().text()) {
-      out += "\n\n      if (" + instanceName + " == null)";
-      out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null.\", this);";
+    if (value._required$().text()) {
+      out += "\n\n      if (!wasSet(" + instanceName + "))";
+      out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" is required\", this);";
     }
 
-    out += "\n\n      if (" + instanceName + " != null)";
+    if (!value._null$().text()) {
+      out += "\n\n      if (wasSet(" + instanceName + ") && get(" + instanceName + ") == null)";
+      out += "\n        throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null\", this);";
+    }
+
+    out += "\n\n      if (wasSet(" + instanceName + "))";
     out += "\n        out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (!value._array$().isNull() && value._array$().text())
-      return out + "tokenize(" + instanceName + ".encode(), depth + 1));";
+      return out + "tokenize(encode(" + instanceName + "), depth + 1));";
 
     if (value instanceof $json_object)
-      return out + instanceName + " != null && " + instanceName + ".value() != null ? " + instanceName + ".encode()._encode(depth + 1) : \"null\");";
+      return out + instanceName + " != null && get(" + instanceName + ") != null ? encode(" + instanceName + ")._encode(depth + 1) : \"null\");";
 
     if (value instanceof $json_string)
-      return out + instanceName + " != null && " + instanceName + ".value() != null ? \"\\\"\" + " + instanceName + ".encode() + \"\\\"\" : \"null\");";
+      return out + instanceName + " != null && get(" + instanceName + ") != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");";
 
-    return out + instanceName + ".encode());";
+    return out + "encode(" + instanceName + "));";
   }
 
   private static String writeJavaClass(final String bundleName, final json_json._object object, final File outDir) {
@@ -167,10 +168,10 @@ public class Generator {
 
     final String className = Strings.toClassCase(objectName);
     out += "\n\n  public static class " + className + " extends " + JSObject.class.getName() + " {";
-    out += "\n    private static final " + String.class.getName() + " name = \"" + objectName + "\";\n";
+    out += "\n    private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
     out += "\n    private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + object._value().size() + ");";
     out += "\n    static {";
-    out += "\n      registerBinding(name, " + className + ".class);";
+    out += "\n      registerBinding(_name, " + className + ".class);";
     out += "\n      try {";
     for (final $json_value value : object._value()) {
       final String valueName = getValueName(value);
@@ -178,7 +179,7 @@ public class Generator {
       final boolean isArray = value._array$().text() != null && value._array$().text();
       final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredMethod(\"" + Strings.toInstanceCase(valueName) + "\", " + (isArray ? Collection.class.getName() : rawType) + ".class), " + className + ".class.getDeclaredField(\"_" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + isArray + ", " + !value._null$().text();
+      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredField(\"" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + isArray + ", " + !value._required$().text() + ", " + !value._null$().text();
       if (value instanceof $json_string) {
         final $json_string string = ($json_string)value;
         if (string._pattern$().text() != null)
@@ -202,7 +203,7 @@ public class Generator {
     out += "\n    }\n";
     out += "\n    @" + Override.class.getName();
     out += "\n    protected " + String.class.getName() + " _name() {";
-    out += "\n      return name;";
+    out += "\n      return _name;";
     out += "\n    }\n";
     for (final $json_value value : object._value())
       out += writeField(value);

@@ -54,6 +54,7 @@ public class Property<T> {
 
   private final JSObject jsObject;
   private final Binding<T> binding;
+  private boolean wasSet = false;
   private T value;
 
   public Property(final JSObject jsObject, final Binding<T> binding) {
@@ -61,16 +62,26 @@ public class Property<T> {
     this.binding = binding;
   }
 
-  public T value() {
+  protected T get() {
     return value;
   }
 
-  public void value(final T value) {
+  public void set(final T value) {
+    this.wasSet = true;
     this.value = value;
   }
 
+  public void clear() {
+    this.wasSet = false;
+    this.value = null;
+  }
+
+  protected boolean wasSet() {
+    return wasSet;
+  }
+
   @SuppressWarnings("unchecked")
-  public T encode() throws EncodeException {
+  protected T encode() throws EncodeException {
     final String error = binding.validate(value);
     if (error != null)
       throw new EncodeException(error, jsObject);
@@ -88,7 +99,7 @@ public class Property<T> {
   }
 
   @SuppressWarnings("unchecked")
-  public void decode() throws DecodeException {
+  protected void decode() throws DecodeException {
     final String error = binding.validate(value);
     if (error != null)
       throw new DecodeException(error, jsObject);

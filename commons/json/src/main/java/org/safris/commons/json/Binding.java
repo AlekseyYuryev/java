@@ -17,28 +17,27 @@
 package org.safris.commons.json;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Collection;
 
 import org.safris.commons.json.validator.Validator;
 
 public class Binding<T> {
   public final String name;
-  public final Method set;
   public final Field property;
   public final Class<?> type;
   public final boolean array;
+  public final boolean required;
   public final boolean notNull;
   public final Validator<?>[] validators;
 
   @SafeVarargs
-  public Binding(final String name, final Method set, final Field property, final Class<?> type, final boolean array, final boolean notNull, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
     property.setAccessible(true);
     this.name = name;
-    this.set = set;
     this.property = property;
     this.type = type;
     this.array = array;
+    this.required = required;
     this.notNull = notNull;
     this.validators = validators;
   }

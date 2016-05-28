@@ -101,6 +101,9 @@ public abstract class JSObjectUtil {
     return "[" + out.substring(2) + "]";
   }
 
+  @SuppressWarnings({
+      "rawtypes", "unchecked"
+  })
   protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
@@ -120,17 +123,17 @@ public abstract class JSObjectUtil {
           throw new DecodeException("Malformed JSON", jsObject);
         }
 
-        if (ch == '"') {
-          if (!hasStartQuote) {
-            hasStartQuote = true;
-          }
-          else {
-            hasStartQuote = false;
-            ch = next(in);
-            if (ch != ':')
-              throw new DecodeException("Malformed JSON", jsObject);
+        try {
+          if (ch == '"') {
+            if (!hasStartQuote) {
+              hasStartQuote = true;
+            }
+            else {
+              hasStartQuote = false;
+              ch = next(in);
+              if (ch != ':')
+                throw new DecodeException("Malformed JSON", jsObject);
 
-            try {
               // Special case for parsing the container object
               final Binding<?> member = jsObject._bindings().get(out.toString());
               if (member == null)
@@ -145,9 +148,9 @@ public abstract class JSObjectUtil {
               }
               else if (member.type == String.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
-//                final Pattern pattern = member.field.getAnnotation(Pattern.class);
-//                if (pattern != null && value != null && !((String)value).matches(pattern.value()))
-//                  throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
+                // final Pattern pattern = member.field.getAnnotation(Pattern.class);
+                // if (pattern != null && value != null && !((String)value).matches(pattern.value()))
+                // throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
               }
               else if (member.type == Boolean.class) {
                 value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(in, 0)) : booleanDecoder.decode(in, ch);
@@ -162,36 +165,34 @@ public abstract class JSObjectUtil {
               if (member.notNull && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
 
-              member.set.invoke(jsObject, value);
-              ((Property<?>)member.property.get(jsObject)).decode();
+              final Property property = (Property)member.property.get(jsObject);
+              property.set(value);
+              property.decode();
             }
-            catch (final ReflectiveOperationException e) {
-              throw new Error(e);
+          }
+          else {
+            if (ch == '}') {
+              for (final Binding<?> binding : jsObject._bindings().values()) {
+                final Property<?> property = (Property<?>)binding.property.get(jsObject);
+                if (property == null) {
+                  if (binding.required)
+                    throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
+                }
+                else if (property.get() == null && binding.notNull) {
+                  throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
+                }
+              }
+
+              return jsObject;
+            }
+
+            if (ch != ',') {
+              out.append(ch);
             }
           }
         }
-        else {
-          if (ch == '}') {
-            try {
-              for (final Binding<?> binding : jsObject._bindings().values()) {
-                final Property<?> property = (Property<?>)binding.property.get(jsObject);
-                if (property == null)
-                  throw new DecodeException("\"" + binding.name + "\" is missing", jsObject);
-
-                if (property.value() == null && binding.notNull)
-                  throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
-              }
-            }
-            catch (final ReflectiveOperationException e) {
-              throw new Error(e);
-            }
-
-            return jsObject;
-          }
-
-          if (ch != ',') {
-            out.append(ch);
-          }
+        catch (final ReflectiveOperationException e) {
+          throw new Error(e);
         }
       }
 

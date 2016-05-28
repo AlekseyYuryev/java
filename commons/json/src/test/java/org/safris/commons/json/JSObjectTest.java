@@ -33,8 +33,8 @@ public class JSObjectTest extends LoggableTest {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final api.Attachment att1 = new api.Attachment();
-    att1.serial(2);
-    att1.data("AAA332");
+    att1.serial.set(2);
+    att1.data.set("AAA332");
 
     try {
       att1.toString();
@@ -44,12 +44,12 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att1.filename("data1.txt");
+    att1.filename.set("data1.txt");
 
     final api.Attachment att2 = new api.Attachment();
-    att2.data("data2");
-    att2.filename("data2.txt");
-    att2.serial(-2.424242424);
+    att2.data.set("data2");
+    att2.filename.set("data2.txt");
+    att2.serial.set(-2.424242424);
 
     try {
       att2.toString();
@@ -59,27 +59,56 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att2.data("438DA4");
+    att2.data.set("438DA4");
 
     final api.Attachment att3 = new api.Attachment();
-    att3.filename("data3.txt");
-    att3.data("8A8CEF");
-    att3.serial(99999);
+    att3.filename.set("data3.txt");
+    att3.data.set("8A8CEF");
+    att3.serial.set(99999);
 
     final api.Signature signature = new api.Signature();
-    signature.pubRsa("pub_rsa");
-    signature.xmldsig("xmldsig");
+    signature.pubRsa.set("pub_rsa");
+    signature.xmldsig.set("xmldsig");
 
     final api.Message message = new api.Message();
-    message.subject("Test subject");
-    message.url("http://www.thesaurus.com/browse/cool?s=t");
-    message.imortant(true);
-    message.recipients(Collections.asCollection(ArrayList.class, "alex", "seva"));
-    message.emptyarray(new ArrayList<String>());
-    message.attachment(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
-    message.signature(signature);
+    message.subject.set("Test subject");
+    message.url.set("http://www.thesaurus.com/browse/cool?s=t");
+    message.imortant.set(true);
+    message.recipients.set(Collections.asCollection(ArrayList.class, "alex", "seva"));
+    message.emptyarray.set(new ArrayList<String>());
+    message.attachment.set(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
+    message.signature.set(signature);
 
-    String encoded = message.toString();
+    String encoded;
+    try {
+      encoded = message.toString();
+    }
+    catch (final EncodeException e) {
+      if (!e.getMessage().startsWith("\"requiredArray\" is required"))
+        throw e;
+    }
+
+    message.requiredArray.set(null);
+    try {
+      encoded = message.toString();
+    }
+    catch (final EncodeException e) {
+      if (!e.getMessage().startsWith("\"requiredArray\" cannot be null"))
+        throw e;
+    }
+
+    message.requiredArray.set(new ArrayList<Boolean>());
+
+    message.notRequired.set(true);
+    message.notRequired.clear();
+
+    message.notRequiredArray.set(null);
+    message.notRequiredArray.clear();
+
+    encoded = message.toString();
+    if (encoded.indexOf("notRequired") != -1)
+      Assert.fail("message.notRequired or message.notRequiredArray should not be present in the encoded string");
+
     log(encoded);
 
     try {
