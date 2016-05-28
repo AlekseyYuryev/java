@@ -70,9 +70,9 @@ public class Generator {
     out += "\n    return instance == null ? instance = new " + bundleName + "() : instance;";
     out += "\n  }";
 
-    out += "\n\n    @" + Override.class.getName();
+    out += "\n\n  @" + Override.class.getName();
     out += "\n  protected " + String.class.getName() + " getSpec() {";
-    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\n", "\\n").replace("\\", "\\\\").replace("\"", "\\\"") + "\";";
+    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n") + "\";";
     out += "\n  }";
 
     for (final json_json._object object : json._object()) {
