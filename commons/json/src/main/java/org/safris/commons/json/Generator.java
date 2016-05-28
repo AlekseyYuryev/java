@@ -214,8 +214,9 @@ public class Generator {
       for (int i = 0; i < object._value().size(); i++)
         out += writeEncode(object._value(i));
 
-    out += "\n\n      out.append(\"\\n\" + pad(depth - 1) + \"}\");";
-    out += "\n      return \"{\" + out.substring(1);\n    }\n";
+    out += "\n\n      out.append(\"\\n\").append(pad(depth - 1)).append(\"}\");";
+    out += "\n      out.setCharAt(0, '{');";
+    out += "\n      return out.toString();\n    }\n";
 
     out += "\n    @" + Override.class.getName();
     out += "\n    public " + String.class.getName() + " toString() {";
