@@ -162,7 +162,7 @@ public abstract class JSObjectUtil {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);
               }
 
-              if (member.notNull && value == null)
+              if (member.required && member.notNull && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
 
               final Property property = (Property)member.property.get(jsObject);
@@ -174,11 +174,16 @@ public abstract class JSObjectUtil {
             if (ch == '}') {
               for (final Binding<?> binding : jsObject._bindings().values()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
-                if (binding.required && !property.wasSet())
-                  throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
+                if (binding.required) {
+                  if (!property.wasSet())
+                    throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
 
-                if (property.get() == null && binding.notNull)
+                  if (binding.notNull && property.get() == null)
+                    throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
+                }
+                else if (property.wasSet() && binding.notNull && property.get() == null) {
                   throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
+                }
               }
 
               return jsObject;
@@ -196,5 +201,8 @@ public abstract class JSObjectUtil {
 
       ch = next(in);
     }
+  }
+
+  private static void checkRequiredNotNull(final Binding<?> binding) {
   }
 }
