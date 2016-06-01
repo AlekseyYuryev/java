@@ -174,13 +174,11 @@ public abstract class JSObjectUtil {
             if (ch == '}') {
               for (final Binding<?> binding : jsObject._bindings().values()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
-                if (property == null) {
-                  if (binding.required)
-                    throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
-                }
-                else if (property.get() == null && binding.notNull) {
+                if (binding.required && !property.wasSet())
+                  throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
+
+                if (property.get() == null && binding.notNull)
                   throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
-                }
               }
 
               return jsObject;

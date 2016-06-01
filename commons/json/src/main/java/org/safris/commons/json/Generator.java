@@ -179,7 +179,7 @@ public class Generator {
       final boolean isArray = value._array$().text() != null && value._array$().text();
       final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredField(\"" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + isArray + ", " + !value._required$().text() + ", " + !value._null$().text();
+      out += "\n        bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredField(\"" + Strings.toInstanceCase(valueName) + "\"), " + rawType + ".class, " + isArray + ", " + value._required$().text() + ", " + !value._null$().text();
       if (value instanceof $json_string) {
         final $json_string string = ($json_string)value;
         if (string._pattern$().text() != null)
