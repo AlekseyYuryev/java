@@ -532,12 +532,12 @@
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-security</artifactId>
-        <version>RELEASE</version>
+        <version>9.2.10.v20150310</version> <!-- FIXME: RELEASE is missing HashLoginService.putUser() -->
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-servlet</artifactId>
-        <version>RELEASE</version>
+        <version>9.2.10.v20150310</version> <!-- FIXME: RELEASE is missing HashLoginService.putUser() -->
       </dependency>
       <dependency>
         <groupId>tyrex</groupId>
