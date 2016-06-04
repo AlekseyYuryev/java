@@ -35,7 +35,7 @@ public class UncaughtServletExceptionFilter implements Filter {
 
   @Override
   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-    final UncaughtServletExceptionHandler uncaughtExceptionHandler = EmbeddedServer.getUncaughtServletExceptionHandler();
+    final UncaughtServletExceptionHandler uncaughtExceptionHandler = EmbeddedServletContainer.getUncaughtServletExceptionHandler();
     try {
       chain.doFilter(request, response);
     }
