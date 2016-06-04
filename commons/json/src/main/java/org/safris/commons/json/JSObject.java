@@ -16,6 +16,7 @@
 
 package org.safris.commons.json;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -29,6 +30,10 @@ public abstract class JSObject extends JSObjectUtil {
     catch (final InstantiationException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static <T extends JSObject>T parse(final Class<T> clazz, final String json) throws DecodeException, IOException {
+    return parse(clazz, new ByteArrayInputStream(json.getBytes()));
   }
 
   protected static <T>T get(final Property<T> property) {
