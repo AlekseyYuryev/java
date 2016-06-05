@@ -101,9 +101,7 @@ public abstract class JSObjectUtil {
     return "[" + out.substring(2) + "]";
   }
 
-  @SuppressWarnings({
-      "rawtypes", "unchecked"
-  })
+  @SuppressWarnings({"rawtypes", "unchecked"})
   protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
@@ -201,8 +199,5 @@ public abstract class JSObjectUtil {
 
       ch = next(in);
     }
-  }
-
-  private static void checkRequiredNotNull(final Binding<?> binding) {
   }
 }

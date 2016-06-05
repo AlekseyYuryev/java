@@ -122,7 +122,7 @@ public class Generator {
     final String instanceName = Strings.toInstanceCase(valueName);
 
     String out = "";
-    out += "\n    public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
+    out += "\n\n    public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
     out += "\n\n    public " + type + " " + instanceName + "() {";
     out += "\n      return get(" + instanceName + ");";
     out += "\n    }";
@@ -204,10 +204,10 @@ public class Generator {
     out += "\n    @" + Override.class.getName();
     out += "\n    protected " + String.class.getName() + " _name() {";
     out += "\n      return _name;";
-    out += "\n    }\n";
+    out += "\n    }";
     for (final $json_value value : object._value())
       out += writeField(value);
-    out += "\n    @" + Override.class.getName();
+    out += "\n\n    @" + Override.class.getName();
     out += "\n    protected " + String.class.getName() + " _encode(final int depth) {";
     out += "\n      final " + StringBuilder.class.getName() + " out = new " + StringBuilder.class.getName() + "();";
     if (object._value().size() > 0)
@@ -220,7 +220,7 @@ public class Generator {
 
     out += "\n    @" + Override.class.getName();
     out += "\n    public " + String.class.getName() + " toString() {";
-    out += "\n      return _encode(2);";
+    out += "\n      return _encode(1);";
     out += "\n    }\n";
     out += "  }";
 
