@@ -138,6 +138,7 @@
       <modules>
         <module>ant</module>
         <module>commons</module>
+        <module>jetty</module>
         <module>maven</module>
         <module>xdb</module>
         <module>xml</module>
