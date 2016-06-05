@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2008 Seva Safris
+  Copyright (c) 2014 Seva Safris
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -26,39 +26,52 @@
     <version>2.0.1-SNAPSHOT</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>servlet</artifactId>
-  <version>0.2.1-SNAPSHOT</version>
+  <artifactId>cdm</artifactId>
+  <version>0.0.6-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <build>
     <plugins>
       <plugin>
-        <groupId>org.safris.maven.plugin.xml</groupId>
-        <artifactId>binding</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <groupId>org.safris.maven.plugin</groupId>
+        <artifactId>codegen</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <goals>
-              <goal>generate</goal>
+              <goal>istenum</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
-          <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
-            <destdir explodeJars="true">${project.build.directory}/generated-sources/xmlbinding</destdir>
-            <schemas>
-              <schema>${basedir}/src/main/resources/servlet.xsd</schema>
-            </schemas>
-          </manifest>
+          <file>${basedir}/src/main/resources/keywords.txt</file>
+          <dir>${project.build.directory}/generated-sources/istenum</dir>
+          <className>org.safris.cdm.lexer.Keyword</className>
+          <inheritsFrom>org.safris.cdm.lexer.Lexer.Token</inheritsFrom>
         </configuration>
       </plugin>
-    </plugins>    
+    </plugins>
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.safris.xml.toolkit</groupId>
-      <artifactId>binding</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>lang</artifactId>
+      <version>0.4.18-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>cli</artifactId>
+      <version>0.5.16-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>search</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>test</artifactId>
+      <version>1.1.5-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

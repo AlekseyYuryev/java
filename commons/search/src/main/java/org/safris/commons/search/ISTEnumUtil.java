@@ -17,7 +17,7 @@
 package org.safris.commons.search;
 
 public final class ISTEnumUtil {
-  public static int binarySearch(final Enum<?>[] full, final int[] partial, final char key, int index) {
+  public static int binarySearch(final Enum<?>[] full, final int[] partial, final char key, final int index) {
     int low = 0;
     int high = partial.length - 1;
 
