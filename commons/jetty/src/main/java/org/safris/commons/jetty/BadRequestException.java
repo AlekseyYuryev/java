@@ -1,4 +1,4 @@
-package org.safris.commons.servlet;
+package org.safris.commons.jetty;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
