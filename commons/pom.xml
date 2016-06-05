@@ -59,6 +59,7 @@
         <module>search</module>
         <module>json</module>
         <module>servlet</module>
+        <module>jetty</module>
       </modules>
     </profile>
     <profile>
