@@ -100,7 +100,7 @@ public abstract class EmbeddedServletContext {
 
   private final Server server = new Server();
 
-  public EmbeddedServletContext(int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final ServletContextHandler context) {
+  public EmbeddedServletContext(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final ServletContextHandler context) {
     server.setConnectors(new Connector[] {makeConnector(server, port, keyStorePath, keyStorePassword)});
 
     final HandlerList handlerList = new HandlerList();
