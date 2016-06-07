@@ -42,7 +42,6 @@
         <module>dependency</module>
         <module>codeguide</module>
         <module>xml</module>
-        <module>cobertura</module>
         <module>cert</module>
         <module>xdb</module>
         <module>codegen</module>
