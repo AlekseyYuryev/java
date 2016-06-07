@@ -166,10 +166,7 @@ public final class Strings {
   }
 
   public static String toClassCase(final String string) {
-    if (string == null)
-      return null;
-
-    return string.length() != 0 ? Character.toUpperCase(string.charAt(0)) + toCamelCase(string).substring(1) : string;
+    return string == null ? null : string.length() != 0 ? Character.toUpperCase(string.charAt(0)) + toCamelCase(string).substring(1) : string;
   }
 
   // FIXME: This means that there can be name collisions!

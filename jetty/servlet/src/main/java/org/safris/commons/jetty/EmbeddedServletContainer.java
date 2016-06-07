@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServlet;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.SecurityHandler;
+import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.security.Constraint;
@@ -46,6 +47,7 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
   @SuppressWarnings("unchecked")
   private static ServletContextHandler addAllServlets(final Package[] packages, final $se_realm realm) {
     final ServletContextHandler context = createServletContextHandler(realm);
+    context.setErrorHandler(new ErrorHandler());
     try {
       for (final Package pkg : packages) {
         Set<Class<?>> classes;
