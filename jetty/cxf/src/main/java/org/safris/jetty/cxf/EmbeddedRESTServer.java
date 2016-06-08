@@ -16,8 +16,6 @@
 
 package org.safris.jetty.cxf;
 
-import java.util.logging.Logger;
-
 import javax.ws.rs.core.Application;
 
 import org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet;
@@ -27,8 +25,6 @@ import org.safris.commons.jetty.EmbeddedServletContext;
 import org.safris.commons.servlet.xe.$se_realm;
 
 public class EmbeddedRESTServer extends EmbeddedServletContext {
-  private static final Logger logger = Logger.getLogger(EmbeddedRESTServer.class.getName());
-
   public EmbeddedRESTServer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm, final Application application) {
     super(port, keyStorePath, keyStorePassword, externalResourcesAccess, addAllServlets(realm, application));
   }

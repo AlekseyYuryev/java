@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.safris.xml.generator.compiler.processor.plan.Plan;
 import org.safris.xml.generator.compiler.processor.plan.element.AnyAttributePlan;
-import org.safris.xml.generator.compiler.processor.plan.element.WhiteSpacePlan;
 import org.safris.xml.generator.compiler.processor.write.Writer;
 import org.safris.xml.generator.compiler.runtime.AttributeAudit;
 import org.safris.xml.generator.compiler.runtime.Binding;

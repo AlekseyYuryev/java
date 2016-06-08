@@ -90,7 +90,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
   }
 
-  private boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet) {
+  private static boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet) {
     boolean isAllowed = false;
 
     // Step 1. Fetch password from database and match with password in argument

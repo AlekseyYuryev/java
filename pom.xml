@@ -52,6 +52,8 @@
     <url>https://svn.repo.safris.org/safris/</url>
   </scm>
   <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <profiles>
@@ -216,8 +218,6 @@
             <fork>true</fork>
             <meminitial>256m</meminitial>
             <maxmem>4096m</maxmem>
-            <source>1.8</source>
-            <target>1.8</target>
           </configuration>
         </plugin>
         <plugin>

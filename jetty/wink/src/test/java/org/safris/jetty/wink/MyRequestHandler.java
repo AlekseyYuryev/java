@@ -5,8 +5,6 @@ import java.util.Properties;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -25,8 +23,8 @@ public class MyRequestHandler implements RequestHandler {
     final UriInfo info = context.getUriInfo();
     System.out.println("RequestHandler: The path relative to the base URI is : " + info.getPath());
 
-    final HttpServletRequest httpRequest = context.getAttribute(HttpServletRequest.class);
-    final HttpHeaders httpHeaders = context.getAttribute(HttpHeaders.class);
+//    final HttpServletRequest httpRequest = context.getAttribute(HttpServletRequest.class);
+//    final HttpHeaders httpHeaders = context.getAttribute(HttpHeaders.class);
     final SearchResult searchResult = context.getAttribute(SearchResult.class);
     final Method method = searchResult.getMethod().getMetadata().getReflectionMethod();
     if (method.isAnnotationPresent(PermitAll.class) || method.getDeclaringClass().isAnnotationPresent(PermitAll.class)) {

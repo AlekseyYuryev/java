@@ -48,7 +48,7 @@ public abstract class AliasPlan<T extends AliasModel> extends NamedPlan<T> imple
 
   private DocumentationPlan documentation = null;
 
-  private String packageName = null;
+//  private String packageName = null;
   private String instanceName = null;
 
   private String className = null;
