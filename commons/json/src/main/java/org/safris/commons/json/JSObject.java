@@ -19,7 +19,7 @@ package org.safris.commons.json;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.Collection;
 
 public abstract class JSObject extends JSObjectUtil {
   @SuppressWarnings("unchecked")
@@ -53,8 +53,14 @@ public abstract class JSObject extends JSObjectUtil {
   }
 
   protected abstract String _name();
-  protected abstract String _encode(final int depth);
-  protected abstract Map<String,Binding<?>> _bindings();
+
+  protected String _encode(final int depth) {
+    return "";
+  }
+
+  protected abstract Binding<?> _getBinding(final String name);
+
+  protected abstract Collection<Binding<?>> _bindings();
 
   protected abstract JSBundle _bundle();
 }

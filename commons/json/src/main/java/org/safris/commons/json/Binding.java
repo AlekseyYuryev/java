@@ -25,17 +25,19 @@ public class Binding<T> {
   public final String name;
   public final Field property;
   public final Class<?> type;
+  public final boolean isAbstract;
   public final boolean array;
   public final boolean required;
   public final boolean notNull;
   public final Validator<?>[] validators;
 
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
     property.setAccessible(true);
     this.name = name;
     this.property = property;
     this.type = type;
+    this.isAbstract = isAbstract;
     this.array = array;
     this.required = required;
     this.notNull = notNull;

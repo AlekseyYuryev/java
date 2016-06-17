@@ -19,6 +19,7 @@ package org.safris.commons.json;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 
 import json.api;
+import json.api.Attachment;
 
 public class JSObjectTest extends LoggableTest {
   @Test
@@ -81,12 +83,16 @@ public class JSObjectTest extends LoggableTest {
     signature.xmldsig.set("xmldsig");
 
     final api.Message message = new api.Message();
-    message.subject.set("Test subject");
-    message.url.set("http://www.thesaurus.com/browse/cool?s=t");
-    message.imortant.set(true);
-    message.recipients.set(Collections.asCollection(ArrayList.class, "alex", "seva"));
+    final String subject = "Test subject";
+    message.subject.set(subject);
+    final String url = "http://www.thesaurus.com/browse/cool?s=t";
+    message.url.set(url);
+    message.important.set(true);
+    final Collection<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
+    message.recipients.set(recipients);
     message.emptyarray.set(new ArrayList<String>());
-    message.attachment.set(Collections.asCollection(ArrayList.class, att1, att2, att3, null));
+    final Collection<Attachment> attachment = Collections.asCollection(ArrayList.class, att1, att2, att3, null);
+    message.attachment.set(attachment);
     message.signature.set(signature);
 
     String encoded;
@@ -142,5 +148,12 @@ public class JSObjectTest extends LoggableTest {
     log(reEncoded);
 
     Assert.assertEquals(encoded, reEncoded);
+    Assert.assertEquals(subject, decoded.subject());
+    Assert.assertEquals(url, decoded.url());
+    Assert.assertEquals(true, decoded.important());
+    Assert.assertEquals(recipients, decoded.recipients());
+    Assert.assertEquals(0, decoded.emptyarray().size());
+    Assert.assertArrayEquals(attachment.toArray(), decoded.attachment().toArray());
+    Assert.assertEquals(signature, decoded.signature());
   }
 }

@@ -19,6 +19,8 @@ package org.safris.commons.json;
 public class EncodeException extends RuntimeException {
   private static final long serialVersionUID = -5907473656780591942L;
 
+  private final JSObject jsObject;
+
   public EncodeException(final JSObject jsObject) {
     this(null, jsObject, null);
   }
@@ -32,6 +34,15 @@ public class EncodeException extends RuntimeException {
   }
 
   public EncodeException(final String message, final JSObject jsObject, final Throwable cause) {
-    super(message != null ? (jsObject != null ? message + "\n" + jsObject._bundle().getSpec() : message) : (jsObject != null ? jsObject._bundle().getSpec() : null), cause);
+    super(message, cause);
+    this.jsObject = jsObject;
+  }
+
+  public String getSpec() {
+    return jsObject._bundle().getSpec();
+  }
+
+  public JSObject getObject() {
+    return jsObject;
   }
 }

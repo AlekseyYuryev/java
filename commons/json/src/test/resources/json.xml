@@ -19,31 +19,36 @@
   xmlns="http://commons.safris.org/json.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://commons.safris.org/json.xsd ../../main/resources/json.xsd">
-  <object name="attachment">
-    <value name="filename" xsi:type="string" null="false">
-      <description>The filename.</description>
-    </value>
-    <value name="data" xsi:type="string" pattern="[0-9A-F]*">
-      <description>The data.</description>
-    </value>
-    <value name="serial" xsi:type="number" null="false">
-      <description>The serial.</description>
-    </value>
+  
+  <object abstract="true" name="xmldsigType">
+    <property name="xmldsig" xsi:type="string"/>
   </object>
-  <object name="signature">
-    <value name="xmldsig" xsi:type="string"/>
-    <value name="pub_rsa" xsi:type="string"/>
+  <object abstract="true" name="pubRsaType" extends="xmldsigType">
+    <property name="pub_rsa" xsi:type="string"/>
+  </object>
+  <object name="signature" extends="pubRsaType"/>
+  
+  <object name="attachment">
+    <property name="filename" xsi:type="string" null="false">
+      <description>The filename.</description>
+    </property>
+    <property name="data" xsi:type="string" pattern="[0-9A-F]*">
+      <description>The data.</description>
+    </property>
+    <property name="serial" xsi:type="number" null="false">
+      <description>The serial.</description>
+    </property>
   </object>
   <object name="message">
-    <value name="subject" xsi:type="string"/>
-    <value name="url" xsi:type="string" pattern="((https?|ftp)://[\w\d:#@%/;$()~_?'\+-=\\\.&amp;]+)"/>
-    <value name="imortant" xsi:type="boolean"/>
-    <value name="requiredArray" xsi:type="boolean" array="true" null="false"/>
-    <value name="notRequired" xsi:type="boolean" required="false"/>
-    <value name="notRequiredArray" xsi:type="boolean" array="true" required="false"/>
-    <value name="recipients" xsi:type="string" array="true" pattern=".+"/>
-    <value name="emptyarray" xsi:type="string" array="true" pattern=".+"/>
-    <value xsi:type="object" type="attachment" array="true"/>
-    <value xsi:type="object" type="signature"/>
+    <property name="subject" xsi:type="string"/>
+    <property name="url" xsi:type="string" pattern="((https?|ftp)://[\w\d:#@%/;$()~_?'\+-=\\\.&amp;]+)"/>
+    <property name="important" xsi:type="boolean"/>
+    <property name="requiredArray" xsi:type="boolean" array="true" null="false"/>
+    <property name="notRequired" xsi:type="boolean" required="false"/>
+    <property name="notRequiredArray" xsi:type="boolean" array="true" required="false"/>
+    <property name="recipients" xsi:type="string" array="true" pattern=".+"/>
+    <property name="emptyarray" xsi:type="string" array="true" pattern=".+"/>
+    <property xsi:type="ref" type="attachment" array="true"/>
+    <property xsi:type="ref" type="signature"/>
   </object>
 </json>

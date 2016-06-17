@@ -87,6 +87,12 @@ public abstract class JSObjectUtil {
     return ch == 'n' && next(in) == 'u' && next(in) == 'l' && next(in) == 'l';
   }
 
+  protected static String encode(final JSObject object, final int depth) {
+    final StringBuilder out = new StringBuilder("{\n");
+    out.append(object._encode(depth)).append("\n").append(pad(depth - 1)).append("}");
+    return out.toString();
+  }
+
   protected static <T> String tokenize(final Collection<T> value, final int depth) {
     if (value == null)
       return "null";
@@ -96,7 +102,7 @@ public abstract class JSObjectUtil {
 
     final StringBuilder out = new StringBuilder();
     for (final T part : value)
-      out.append(", ").append(part == null ? "null" : part instanceof JSObject ? ((JSObject)part)._encode(depth) : "\"" + part + "\"");
+      out.append(", ").append(part == null ? "null" : part instanceof JSObject ? encode((JSObject)part, depth) : "\"" + part + "\"");
 
     return "[" + out.substring(2) + "]";
   }
@@ -133,7 +139,7 @@ public abstract class JSObjectUtil {
                 throw new DecodeException("Malformed JSON", jsObject);
 
               // Special case for parsing the container object
-              final Binding<?> member = jsObject._bindings().get(out.toString());
+              final Binding<?> member = jsObject._getBinding(out.toString());
               if (member == null)
                 throw new DecodeException("Unknown object name: " + out, jsObject);
 
@@ -142,6 +148,9 @@ public abstract class JSObjectUtil {
               final boolean isArray = ch == '[';
               final Object value;
               if (JSObject.class.isAssignableFrom(member.type)) {
+                if (member.isAbstract)
+                  throw new DecodeException("\"" + member.name + "\" is an abstract type", jsObject);
+
                 value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(in, member.type, 0)) : decode(in, ch, (JSObject)member.type.newInstance());
               }
               else if (member.type == String.class) {
@@ -170,7 +179,7 @@ public abstract class JSObjectUtil {
           }
           else {
             if (ch == '}') {
-              for (final Binding<?> binding : jsObject._bindings().values()) {
+              for (final Binding<?> binding : jsObject._bindings()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (binding.required) {
                   if (!property.wasSet())

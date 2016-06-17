@@ -22,7 +22,7 @@
   xmlns:json="http://commons.safris.org/json.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
-  <xs:complexType name="value" abstract="true">
+  <xs:complexType name="property" abstract="true">
     <xs:sequence minOccurs="0">
       <xs:element name="description" type="xs:string"/>
     </xs:sequence>
@@ -33,7 +33,7 @@
   
   <xs:complexType name="name" abstract="true">
     <xs:complexContent>
-      <xs:extension base="json:value">
+      <xs:extension base="json:property">
         <xs:attribute name="name" type="xs:NCName" use="required"/>
       </xs:extension>
     </xs:complexContent>
@@ -59,10 +59,21 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="ref">
+    <xs:complexContent>
+      <xs:extension base="json:property">
+        <xs:attribute name="type" type="xs:NCName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <xs:complexType name="object">
     <xs:complexContent>
-      <xs:extension base="json:value">
-        <xs:attribute name="type" type="xs:NCName" use="required"/>
+      <xs:extension base="json:property">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="property" type="json:property"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:NCName" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -70,18 +81,15 @@
   <xs:element name="json">
     <xs:complexType>
       <xs:sequence>
-        <xs:sequence minOccurs="0">
-          <xs:element name="description" type="xs:string"/>
-        </xs:sequence>
-        <xs:element name="object" minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" name="description" type="xs:string"/>
+        <xs:element name="object" minOccurs="1" maxOccurs="unbounded">
           <xs:complexType>
-            <xs:sequence maxOccurs="unbounded">
-              <xs:sequence minOccurs="0">
-                <xs:element name="description" type="xs:string"/>
-              </xs:sequence>
-              <xs:element name="value" type="json:value"/>
-            </xs:sequence>
-            <xs:attribute name="name" type="xs:NCName" use="required"/>
+            <xs:complexContent>
+              <xs:extension base="json:object">
+                <xs:attribute name="extends" type="xs:string"/>
+                <xs:attribute name="abstract" type="xs:boolean" default="false"/>
+              </xs:extension>
+            </xs:complexContent>
           </xs:complexType>
           <xs:unique name="uniqueValueName">
             <xs:selector xpath="./json:value"/>
@@ -95,9 +103,13 @@
       <xs:selector xpath="./json:object"/>
       <xs:field xpath="@name"/>
     </xs:key>
-    <xs:keyref name="keyrefObjectName" refer="json:keyObjectName">
+    <xs:keyref name="keyrefObjectType" refer="json:keyObjectName">
       <xs:selector xpath="./json:object/json:*"/>
       <xs:field xpath="@type"/>
+    </xs:keyref>
+    <xs:keyref name="keyrefObjectExtends" refer="json:keyObjectName">
+      <xs:selector xpath="./json:*"/>
+      <xs:field xpath="@extends"/>
     </xs:keyref>
   </xs:element>
 
