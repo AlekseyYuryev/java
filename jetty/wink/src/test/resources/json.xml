@@ -20,10 +20,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../commons/json/src/main/resources/json.xsd">
   <object name="fruit">
-    <value name="name" xsi:type="string"/>
+    <property name="name" xsi:type="string"/>
   </object>
   <object name="basket">
-    <value name="color" xsi:type="string" null="true"/>
-    <value xsi:type="object" type="fruit" array="true" required="false" null="false"/>
+    <property name="color" xsi:type="string" null="true"/>
+    <property xsi:type="ref" type="fruit" array="true" required="false" null="false"/>
   </object>
 </json>
