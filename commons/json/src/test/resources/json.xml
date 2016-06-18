@@ -28,17 +28,11 @@
   </object>
   <object name="signature" extends="pubRsaType"/>
   
-  <object name="attachment">
-    <property name="filename" xsi:type="string" null="false">
-      <description>The filename.</description>
-    </property>
-    <property name="data" xsi:type="string" pattern="[0-9A-F]*">
-      <description>The data.</description>
-    </property>
-    <property name="serial" xsi:type="number" null="false">
-      <description>The serial.</description>
-    </property>
+  <object abstract="true" name="partialData">
+    <property name="a" xsi:type="string" pattern="[0-9A-F]*"/>
+    <property name="b" xsi:type="string" pattern="[0-9A-F]*"/>
   </object>
+  
   <object name="message">
     <property name="subject" xsi:type="string"/>
     <property name="url" xsi:type="string" pattern="((https?|ftp)://[\w\d:#@%/;$()~_?'\+-=\\\.&amp;]+)"/>
@@ -48,7 +42,18 @@
     <property name="notRequiredArray" xsi:type="boolean" array="true" required="false"/>
     <property name="recipients" xsi:type="string" array="true" pattern=".+"/>
     <property name="emptyarray" xsi:type="string" array="true" pattern=".+"/>
-    <property xsi:type="ref" type="attachment" array="true"/>
+    <property name="attachment" xsi:type="object" array="true">
+      <property name="filename" xsi:type="string" null="false">
+        <description>The filename.</description>
+      </property>
+      <property name="data" xsi:type="object" extends="partialData">
+        <description>The data.</description>
+        <property name="c" xsi:type="string" pattern="[0-9A-F]*"/>
+      </property>
+      <property name="serial" xsi:type="number" null="false">
+        <description>The serial.</description>
+      </property>
+    </property>
     <property xsi:type="ref" type="signature"/>
   </object>
 </json>

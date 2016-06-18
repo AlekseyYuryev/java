@@ -74,6 +74,7 @@
           <xs:element name="property" type="json:property"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:NCName" use="required"/>
+        <xs:attribute name="extends" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -86,7 +87,6 @@
           <xs:complexType>
             <xs:complexContent>
               <xs:extension base="json:object">
-                <xs:attribute name="extends" type="xs:string"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
               </xs:extension>
             </xs:complexContent>
@@ -104,7 +104,7 @@
       <xs:field xpath="@name"/>
     </xs:key>
     <xs:keyref name="keyrefObjectType" refer="json:keyObjectName">
-      <xs:selector xpath="./json:object/json:*"/>
+      <xs:selector xpath="./json:object/json:property | ./json:object/json:property/json:property | ./json:object/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property/json:property/json:property"/>
       <xs:field xpath="@type"/>
     </xs:keyref>
     <xs:keyref name="keyrefObjectExtends" refer="json:keyObjectName">

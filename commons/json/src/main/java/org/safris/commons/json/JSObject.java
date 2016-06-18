@@ -36,6 +36,10 @@ public abstract class JSObject extends JSObjectUtil {
     return parse(clazz, new ByteArrayInputStream(json.getBytes()));
   }
 
+  protected static <T>void clone(final Property<T> property, final Property<T> clone) {
+    property.clone(clone);
+  }
+
   protected static <T>T get(final Property<T> property) {
     return property.get();
   }
@@ -54,6 +58,12 @@ public abstract class JSObject extends JSObjectUtil {
 
   protected static <T>void decode(final Property<T> property) throws DecodeException {
     property.decode();
+  }
+
+  public JSObject(final JSObject clone) {
+  }
+
+  public JSObject() {
   }
 
   protected abstract String _name();

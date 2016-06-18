@@ -62,6 +62,11 @@ public class Property<T> {
     this.binding = binding;
   }
 
+  protected void clone(final Property<T> clone) {
+    this.wasSet = clone.wasSet;
+    this.value = clone.value;
+  }
+
   protected T get() {
     return value;
   }

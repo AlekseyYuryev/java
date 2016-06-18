@@ -27,16 +27,19 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 
 import json.api;
-import json.api.Attachment;
 
 public class JSObjectTest extends LoggableTest {
   @Test
   public void testJSObject() throws Exception {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
-    final api.Attachment att1 = new api.Attachment();
+    final api.Message.Attachment att1 = new api.Message.Attachment();
     att1.serial(2);
-    att1.data("AAA332");
+    final api.Message.Attachment.Data data1 = new api.Message.Attachment.Data();
+    att1.data(data1);
+    data1.a("1A");
+    data1.b("1B");
+    data1.c("1C");
 
     try {
       att1.toString();
@@ -58,8 +61,13 @@ public class JSObjectTest extends LoggableTest {
 
     att1.filename("data1.txt");
 
-    final api.Attachment att2 = new api.Attachment();
-    att2.data("data2");
+    final api.Message.Attachment att2 = new api.Message.Attachment();
+    final api.Message.Attachment.Data data2 = new api.Message.Attachment.Data();
+    att2.data(data2);
+    data2.a("2X");
+    data2.b("2B");
+    data2.c("2C");
+
     att2.filename("data2.txt");
     att2.serial(-2.424242424);
 
@@ -67,15 +75,19 @@ public class JSObjectTest extends LoggableTest {
       att2.toString();
     }
     catch (final EncodeException e) {
-      if (!e.getMessage().startsWith("\"data\" does not match pattern"))
+      if (!e.getMessage().startsWith("\"a\" does not match pattern"))
         throw e;
     }
 
-    att2.data("438DA4");
+    data2.a("2A");
 
-    final api.Attachment att3 = new api.Attachment();
+    final api.Message.Attachment att3 = new api.Message.Attachment();
     att3.filename("data3.txt");
-    att3.data("8A8CEF");
+    final api.Message.Attachment.Data data3 = new api.Message.Attachment.Data();
+    att3.data(data3);
+    data3.a("3A");
+    data3.b("3B");
+    data3.c("3C");
     att3.serial(99999);
 
     final api.Signature signature = new api.Signature();
@@ -91,7 +103,7 @@ public class JSObjectTest extends LoggableTest {
     final Collection<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
     message.recipients(recipients);
     message.emptyarray(new ArrayList<String>());
-    final Attachment[] attachment = {att1, att2, att3, null};
+    final api.Message.Attachment[] attachment = {att1, att2, att3, null};
     message.attachment(attachment);
     message.signature(signature);
 
