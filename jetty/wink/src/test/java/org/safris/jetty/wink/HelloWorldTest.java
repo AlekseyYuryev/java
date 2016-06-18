@@ -38,19 +38,19 @@ public class HelloWorldTest {
     @GET
     public Basket getV1() {
       final Basket basket = new Basket();
-      basket.color.set("pink");
-      basket.fruit.set(new HashSet<Fruit>());
+      basket.color("pink");
+      basket.fruit(new HashSet<Fruit>());
 
       Fruit fruit = new Fruit();
-      fruit.name.set("Apple");
+      fruit.name("Apple");
       basket.fruit().add(fruit);
 
       fruit = new Fruit();
-      fruit.name.set("Orange");
+      fruit.name("Orange");
       basket.fruit().add(fruit);
 
       fruit = new Fruit();
-      fruit.name.set("Banana");
+      fruit.name("Banana");
       basket.fruit().add(fruit);
 
       return basket;
@@ -59,19 +59,19 @@ public class HelloWorldTest {
     @GET
     public Basket getV2() {
       final Basket basket = new Basket();
-      basket.color.set("pink");
-      basket.fruit.set(new HashSet<Fruit>());
+      basket.color("pink");
+      basket.fruit(new HashSet<Fruit>());
 
       Fruit fruit = new Fruit();
-      fruit.name.set("Apple");
+      fruit.name("Apple");
       basket.fruit().add(fruit);
 
       fruit = new Fruit();
-      fruit.name.set("Orange");
+      fruit.name("Orange");
       basket.fruit().add(fruit);
 
       fruit = new Fruit();
-      fruit.name.set("Banana");
+      fruit.name("Banana");
       basket.fruit().add(fruit);
 
       return basket;
@@ -81,15 +81,15 @@ public class HelloWorldTest {
     @Path("{id}")
     public Fruit get(@PathParam("id") final String id) {
       final Fruit fruit = new Fruit();
-      fruit.name.set(id);
+      fruit.name(id);
       return fruit;
     }
 
     @POST
     public Basket post(final Fruit fruit) {
       final Basket basket = new Basket();
-      basket.color.set("pink");
-      basket.fruit.set(new HashSet<Fruit>());
+      basket.color("pink");
+      basket.fruit(new HashSet<Fruit>());
       basket.fruit().add(fruit);
       return basket;
     }

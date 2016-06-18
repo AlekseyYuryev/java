@@ -40,6 +40,10 @@ public abstract class JSObject extends JSObjectUtil {
     return property.get();
   }
 
+  protected static <T>void set(final Property<T> property, final T value) {
+    property.set(value);
+  }
+
   protected static <T>boolean wasSet(final Property<T> property) {
     return property.wasSet();
   }

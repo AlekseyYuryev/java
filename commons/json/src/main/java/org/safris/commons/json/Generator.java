@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,6 +136,14 @@ public class Generator {
     out += "\n\n    public " + type + " " + instanceName + "() {";
     out += "\n      return get(" + instanceName + ");";
     out += "\n    }";
+    out += "\n\n    public void " + instanceName + "(final " + type + " value) {";
+    out += "\n      set(" + instanceName + ", value);";
+    out += "\n    }";
+    if (isArray) {
+      out += "\n\n    public void " + instanceName + "(final " + rawType + " ... value) {";
+      out += "\n      set(" + instanceName + ", " + Arrays.class.getName() + ".asList(value));";
+      out += "\n    }";
+    }
     return out;
   }
 

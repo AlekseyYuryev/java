@@ -66,7 +66,7 @@ public class Property<T> {
     return value;
   }
 
-  public void set(final T value) {
+  protected void set(final T value) {
     this.wasSet = true;
     this.value = value;
   }

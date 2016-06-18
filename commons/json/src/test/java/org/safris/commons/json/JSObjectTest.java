@@ -35,8 +35,8 @@ public class JSObjectTest extends LoggableTest {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final api.Attachment att1 = new api.Attachment();
-    att1.serial.set(2);
-    att1.data.set("AAA332");
+    att1.serial(2);
+    att1.data("AAA332");
 
     try {
       att1.toString();
@@ -46,7 +46,7 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att1.filename.set(null);
+    att1.filename(null);
 
     try {
       att1.toString();
@@ -56,12 +56,12 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att1.filename.set("data1.txt");
+    att1.filename("data1.txt");
 
     final api.Attachment att2 = new api.Attachment();
-    att2.data.set("data2");
-    att2.filename.set("data2.txt");
-    att2.serial.set(-2.424242424);
+    att2.data("data2");
+    att2.filename("data2.txt");
+    att2.serial(-2.424242424);
 
     try {
       att2.toString();
@@ -71,29 +71,29 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    att2.data.set("438DA4");
+    att2.data("438DA4");
 
     final api.Attachment att3 = new api.Attachment();
-    att3.filename.set("data3.txt");
-    att3.data.set("8A8CEF");
-    att3.serial.set(99999);
+    att3.filename("data3.txt");
+    att3.data("8A8CEF");
+    att3.serial(99999);
 
     final api.Signature signature = new api.Signature();
-    signature.pubRsa.set("pub_rsa");
-    signature.xmldsig.set("xmldsig");
+    signature.pubRsa("pub_rsa");
+    signature.xmldsig("xmldsig");
 
     final api.Message message = new api.Message();
     final String subject = "Test subject";
-    message.subject.set(subject);
+    message.subject(subject);
     final String url = "http://www.thesaurus.com/browse/cool?s=t";
-    message.url.set(url);
-    message.important.set(true);
+    message.url(url);
+    message.important(true);
     final Collection<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
-    message.recipients.set(recipients);
-    message.emptyarray.set(new ArrayList<String>());
-    final Collection<Attachment> attachment = Collections.asCollection(ArrayList.class, att1, att2, att3, null);
-    message.attachment.set(attachment);
-    message.signature.set(signature);
+    message.recipients(recipients);
+    message.emptyarray(new ArrayList<String>());
+    final Attachment[] attachment = {att1, att2, att3, null};
+    message.attachment(attachment);
+    message.signature(signature);
 
     String encoded;
     try {
@@ -104,7 +104,7 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    message.requiredArray.set(null);
+    message.requiredArray((Collection<Boolean>)null);
     try {
       encoded = message.toString();
     }
@@ -113,12 +113,12 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    message.requiredArray.set(new ArrayList<Boolean>());
+    message.requiredArray(new ArrayList<Boolean>());
 
-    message.notRequired.set(true);
+    message.notRequired(true);
     message.notRequired.clear();
 
-    message.notRequiredArray.set(null);
+    message.notRequiredArray((Collection<Boolean>)null);
     message.notRequiredArray.clear();
 
     encoded = message.toString();
@@ -153,7 +153,7 @@ public class JSObjectTest extends LoggableTest {
     Assert.assertEquals(true, decoded.important());
     Assert.assertEquals(recipients, decoded.recipients());
     Assert.assertEquals(0, decoded.emptyarray().size());
-    Assert.assertArrayEquals(attachment.toArray(), decoded.attachment().toArray());
+    Assert.assertArrayEquals(attachment, decoded.attachment().toArray());
     Assert.assertEquals(signature, decoded.signature());
   }
 }
