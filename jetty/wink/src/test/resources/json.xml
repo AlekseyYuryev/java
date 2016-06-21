@@ -24,6 +24,6 @@
   </object>
   <object name="basket">
     <property name="color" xsi:type="string" null="true"/>
-    <property xsi:type="ref" type="fruit" array="true" required="false" null="false"/>
+    <property xsi:type="ref" object="fruit" array="true" required="false" null="false"/>
   </object>
 </json>
