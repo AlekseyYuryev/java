@@ -109,7 +109,7 @@ public class Generator {
       return Boolean.class.getName();
 
     if (property instanceof $json_ref)
-      return Strings.toClassCase((($json_ref)property)._type$().text());
+      return Strings.toClassCase((($json_ref)property)._object$().text());
 
     if (property instanceof $json_object)
       return Collections.toString(parent, ".") + "." + Strings.toClassCase((($json_object)property)._name$().text());
@@ -122,7 +122,7 @@ public class Generator {
       return (($json_name)property)._name$().text();
 
     if (property instanceof $json_ref)
-      return (($json_ref)property)._type$().text();
+      return (($json_ref)property)._object$().text();
 
     if (property instanceof $json_object)
       return (($json_object)property)._name$().text();

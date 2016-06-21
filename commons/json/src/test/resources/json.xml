@@ -54,6 +54,6 @@
         <description>The serial.</description>
       </property>
     </property>
-    <property xsi:type="ref" type="signature"/>
+    <property xsi:type="ref" object="signature"/>
   </object>
 </json>
