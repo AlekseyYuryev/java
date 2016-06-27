@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 
@@ -167,5 +168,10 @@ public class JSObjectTest extends LoggableTest {
     Assert.assertEquals(0, decoded.emptyarray().size());
     Assert.assertArrayEquals(attachment, decoded.attachment().toArray());
     Assert.assertEquals(signature, decoded.signature());
+  }
+
+  @Test
+  public void testPayPalObject() throws Exception {
+    JSObject.parse(api.PayPalEvent.class, Resources.getResource("paypal.json").getURL().openStream());
   }
 }

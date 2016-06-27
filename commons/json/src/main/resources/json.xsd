@@ -111,6 +111,10 @@
       <xs:selector xpath="./json:*"/>
       <xs:field xpath="@extends"/>
     </xs:keyref>
+    <xs:keyref name="keyrefObjectRef" refer="json:keyObjectName">
+      <xs:selector xpath="./json:object | ./json:object/json:property | ./json:object/json:property/json:property | ./json:object/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property/json:property | ./json:object/json:property/json:property/json:property/json:property/json:property/json:property/json:property"/>
+      <xs:field xpath="@object"/>
+    </xs:keyref>
   </xs:element>
 
 </xs:schema>

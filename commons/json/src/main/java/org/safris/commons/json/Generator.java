@@ -52,7 +52,7 @@ public class Generator {
     Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]));
   }
 
-  public static void generate(final URL url, final File destDir) throws IOException, XMLException {
+  public static void generate(final URL url, final File destDir) throws GeneratorExecutionException, IOException, XMLException {
     final json_json json = (json_json)Bindings.parse(new InputSource(url.openStream()));
     if (json._object() == null) {
       Log.error("Missing <object> elements: " + url.toExternalForm());
@@ -98,7 +98,7 @@ public class Generator {
 
   private static final Map<String,json_json._object> objectNameToObject = new HashMap<String,json_json._object>();
 
-  private static String getType(final Stack<String> parent, final $json_property property) {
+  private static String getType(final Stack<String> parent, final $json_property property) throws GeneratorExecutionException {
     if (property instanceof $json_string)
       return String.class.getName();
 
@@ -108,8 +108,13 @@ public class Generator {
     if (property instanceof $json_boolean)
       return Boolean.class.getName();
 
-    if (property instanceof $json_ref)
-      return Strings.toClassCase((($json_ref)property)._object$().text());
+    if (property instanceof $json_ref) {
+      final String objectName = (($json_ref)property)._object$().text();
+      if (!objectNameToObject.get(objectName)._abstract$().isNull() && objectNameToObject.get(objectName)._abstract$().text())
+        throw new GeneratorExecutionException("Cannot ref to an abstract object \"" + objectName + "\"");
+
+      return Strings.toClassCase(objectName);
+    }
 
     if (property instanceof $json_object)
       return Collections.toString(parent, ".") + "." + Strings.toClassCase((($json_object)property)._name$().text());
@@ -134,7 +139,7 @@ public class Generator {
     return Strings.toInstanceCase(getPropertyName(property));
   }
 
-  private static String writeField(final Stack<String> parent, final $json_property property, final int depth) {
+  private static String writeField(final Stack<String> parent, final $json_property property, final int depth) throws GeneratorExecutionException {
     final String valueName = getPropertyName(property);
     final boolean isArray = property._array$().text() != null && property._array$().text();
     final String rawType = getType(parent, property);
@@ -189,7 +194,7 @@ public class Generator {
     return out + "encode(" + instanceName + "));\n";
   }
 
-  private static String writeJavaClass(final Stack<String> parent, final $json_object object, final int depth) {
+  private static String writeJavaClass(final Stack<String> parent, final $json_object object, final int depth) throws GeneratorExecutionException {
     final String objectName = object._name$().text();
     String out = "";
 
