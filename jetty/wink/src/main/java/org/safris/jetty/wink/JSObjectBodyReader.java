@@ -2,6 +2,7 @@ package org.safris.jetty.wink;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
@@ -25,7 +26,7 @@ public class JSObjectBodyReader implements MessageBodyReader<JSObject> {
   @Override
   public JSObject readFrom(final Class<JSObject> rawType, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String,String> httpHeaders, final InputStream entityStream) throws IOException {
     try {
-      return JSObject.parse(rawType, entityStream);
+      return JSObject.parse(rawType, new InputStreamReader(entityStream));
     }
     catch (final DecodeException e) {
       throw new BadRequestException(e);

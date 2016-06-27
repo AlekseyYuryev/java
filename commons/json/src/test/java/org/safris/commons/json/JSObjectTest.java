@@ -16,8 +16,8 @@
 
 package org.safris.commons.json;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -141,7 +141,7 @@ public class JSObjectTest extends LoggableTest {
     log(encoded);
 
     try {
-      JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.replace("438DA4", "XXX").getBytes(StandardCharsets.UTF_8)));
+      JSObject.parse(api.Message.class, new StringReader(encoded.replace("438DA4", "XXX")));
     }
     catch (final DecodeException e) {
       if (!e.getMessage().startsWith("\"data\" does not match pattern"))
@@ -149,14 +149,14 @@ public class JSObjectTest extends LoggableTest {
     }
 
     try {
-      JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.replace("\"filename\": \"data1.txt\", ", "").getBytes(StandardCharsets.UTF_8)));
+      JSObject.parse(api.Message.class, new StringReader(encoded.replace("\"filename\": \"data1.txt\", ", "")));
     }
     catch (final DecodeException e) {
       if (!e.getMessage().startsWith("\"filename\" is missing"))
         throw e;
     }
 
-    final api.Message decoded = JSObject.parse(api.Message.class, new ByteArrayInputStream(encoded.getBytes(StandardCharsets.UTF_8)));
+    final api.Message decoded = JSObject.parse(api.Message.class, new StringReader(encoded));
     final String reEncoded = decoded.toString();
     log(reEncoded);
 
@@ -172,6 +172,6 @@ public class JSObjectTest extends LoggableTest {
 
   @Test
   public void testPayPalObject() throws Exception {
-    JSObject.parse(api.PayPalEvent.class, Resources.getResource("paypal.json").getURL().openStream());
+    JSObject.parse(api.PayPalEvent.class, new InputStreamReader(Resources.getResource("paypal.json").getURL().openStream()));
   }
 }

@@ -17,7 +17,7 @@
 package org.safris.commons.json.decoder;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 
 import org.safris.commons.json.JSObjectUtil;
 
@@ -28,9 +28,9 @@ public class BooleanDecoder extends Decoder<Boolean> {
   }
 
   @Override
-  public Boolean decode(final InputStream in, char ch) throws IOException {
+  public Boolean decode(final Reader reader, char ch) throws IOException {
     if (ch != 'f' && ch != 't') {
-      if (JSObjectUtil.isNull(ch, in))
+      if (JSObjectUtil.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -39,7 +39,7 @@ public class BooleanDecoder extends Decoder<Boolean> {
     final StringBuilder value = new StringBuilder(5);
     value.append(ch);
     do
-      value.append(JSObjectUtil.next(in));
+      value.append(JSObjectUtil.next(reader));
     while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
 
     return Boolean.parseBoolean(value.toString());

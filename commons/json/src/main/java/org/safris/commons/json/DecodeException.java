@@ -19,30 +19,32 @@ package org.safris.commons.json;
 public class DecodeException extends Exception {
   private static final long serialVersionUID = -1234230677110958751L;
 
-  private final JSObject jsObject;
+  private final String json;
+  private final JSBundle jsBundle;
 
-  public DecodeException(final JSObject jsObject) {
-    this(null, jsObject, null);
+  public DecodeException(final String json, final JSBundle jsBundle) {
+    this(null, json, jsBundle, null);
   }
 
-  public DecodeException(final String message, final JSObject jsObject) {
-    this(message, jsObject, null);
+  public DecodeException(final String message, final String json, final JSBundle jsBundle) {
+    this(message, json, jsBundle, null);
   }
 
-  public DecodeException(final JSObject jsObject, final Throwable cause) {
-    this(null, jsObject, cause);
+  public DecodeException(final String json, final JSBundle jsBundle, final Throwable cause) {
+    this(null, json, jsBundle, cause);
   }
 
-  public DecodeException(final String message, final JSObject jsObject, final Throwable cause) {
-    super(message, cause);
-    this.jsObject = jsObject;
+  public DecodeException(final String message, final String json, final JSBundle jsBundle, final Throwable cause) {
+    super(message != null ? message + "\n" + json : json, cause);
+    this.json = json;
+    this.jsBundle = jsBundle;
+  }
+
+  public String getJSON() {
+    return json;
   }
 
   public String getSpec() {
-    return jsObject._bundle().getSpec();
-  }
-
-  public JSObject getObject() {
-    return jsObject;
+    return jsBundle.getSpec();
   }
 }

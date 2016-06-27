@@ -17,18 +17,19 @@
 package org.safris.commons.json.decoder;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.lang.reflect.Array;
 
 import org.safris.commons.json.DecodeException;
 import org.safris.commons.json.JSObject;
 import org.safris.commons.json.JSObjectUtil;
+import org.safris.commons.util.StringBuilderReader;
 
 public class ObjectDecoder extends JSObjectUtil {
-  public JSObject decode(final InputStream in, char ch, final Class<?> clazz) throws DecodeException, IOException {
+  public JSObject decode(final StringBuilderReader reader, char ch, final Class<?> clazz) throws DecodeException, IOException {
     try {
       final JSObject value = (JSObject)clazz.newInstance();
-      JSObjectUtil.decode(in, ch, value);
+      JSObjectUtil.decode(reader, ch, value);
       return value;
     }
     catch (final ReflectiveOperationException e) {
@@ -36,11 +37,11 @@ public class ObjectDecoder extends JSObjectUtil {
     }
   }
 
-  public JSObject[] recurse(final InputStream in, final Class<?> clazz, final int depth) throws DecodeException, IOException {
-    char ch = JSObjectUtil.next(in);
+  public JSObject[] recurse(final StringBuilderReader reader, final Class<?> clazz, final int depth) throws DecodeException, IOException {
+    char ch = JSObjectUtil.next(reader);
     final JSObject value;
     if (ch != '{') {
-      if (JSObjectUtil.isNull(ch, in))
+      if (JSObjectUtil.isNull(ch, reader))
         value = null;
       else
         throw new IllegalArgumentException("Malformed JSON");
@@ -53,12 +54,12 @@ public class ObjectDecoder extends JSObjectUtil {
         throw new Error(e);
       }
 
-      JSObjectUtil.decode(in, ch, value);
+      JSObjectUtil.decode(reader, ch, value);
     }
 
-    ch = JSObjectUtil.next(in);
+    ch = JSObjectUtil.next(reader);
     if (ch == ',') {
-      final JSObject[] array = recurse(in, clazz, depth + 1);
+      final JSObject[] array = recurse(reader, clazz, depth + 1);
       array[depth] = value;
       return array;
     }

@@ -17,7 +17,7 @@
 package org.safris.commons.json.decoder;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.net.URLDecoder;
 
 import org.safris.commons.json.JSObjectUtil;
@@ -29,16 +29,16 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final InputStream in, char ch) throws IOException {
+  public String decode(final Reader reader, char ch) throws IOException {
     if (ch != '"') {
-      if (JSObjectUtil.isNull(ch, in))
+      if (JSObjectUtil.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
     final StringBuilder value = new StringBuilder();
-    while ((ch = JSObjectUtil.nextAny(in)) != '"')
+    while ((ch = JSObjectUtil.nextAny(reader)) != '"')
       value.append(ch);
 
     return URLDecoder.decode(value.toString(), "UTF-8");

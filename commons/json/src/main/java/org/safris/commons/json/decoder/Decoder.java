@@ -17,25 +17,25 @@
 package org.safris.commons.json.decoder;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 
 import org.safris.commons.json.JSObjectUtil;
 
 public abstract class Decoder<T> extends JSObjectUtil {
   protected abstract T[] newInstance(final int depth);
 
-  public abstract T decode(final InputStream in, char ch) throws IOException;
+  public abstract T decode(final Reader reader, char ch) throws IOException;
 
-  public final T[] recurse(final InputStream in, final int depth) throws IOException {
-    char ch = JSObjectUtil.next(in);
+  public final T[] recurse(final Reader reader, final int depth) throws IOException {
+    char ch = JSObjectUtil.next(reader);
     if (ch == ']')
       return newInstance(depth);
 
     if (ch == ',')
-      return recurse(in, depth);
+      return recurse(reader, depth);
 
-    final T value = decode(in, ch);
-    final T[] array = recurse(in, depth + 1);
+    final T value = decode(reader, ch);
+    final T[] array = recurse(reader, depth + 1);
     array[depth] = value;
     return array;
   }

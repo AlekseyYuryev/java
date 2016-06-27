@@ -16,65 +16,36 @@
 
 package org.safris.commons.json;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.Collection;
+
+import org.safris.commons.util.StringBuilderReader;
 
 public abstract class JSObject extends JSObjectUtil {
   @SuppressWarnings("unchecked")
-  public static <T extends JSObject>T parse(final Class<T> clazz, final InputStream in) throws DecodeException, IOException {
+  public static <T extends JSObject>T parse(final Class<T> clazz, final Reader reader) throws DecodeException, IOException {
     try {
-      return (T)decode(in, next(in), clazz.newInstance());
+      final StringBuilderReader stringBuilderReader = reader instanceof StringBuilderReader ? (StringBuilderReader) reader : new StringBuilderReader(reader, new StringBuilder());
+      return (T)decode(stringBuilderReader, next(stringBuilderReader), clazz.newInstance());
     }
     catch (final InstantiationException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static <T extends JSObject>T parse(final Class<T> clazz, final String json) throws DecodeException, IOException {
-    return parse(clazz, new ByteArrayInputStream(json.getBytes()));
-  }
-
-  protected static <T>void clone(final Property<T> property, final Property<T> clone) {
-    property.clone(clone);
-  }
-
-  protected static <T>T get(final Property<T> property) {
-    return property.get();
-  }
-
-  protected static <T>void set(final Property<T> property, final T value) {
-    property.set(value);
-  }
-
-  protected static <T>boolean wasSet(final Property<T> property) {
-    return property.wasSet();
-  }
-
-  protected static <T>T encode(final Property<T> property) throws EncodeException {
-    return property.encode();
-  }
-
-  protected static <T>void decode(final Property<T> property) throws DecodeException {
-    property.decode();
-  }
-
-  public JSObject(final JSObject clone) {
+  public JSObject(final JSObject object) {
   }
 
   public JSObject() {
   }
 
-  protected abstract String _name();
-
   protected String _encode(final int depth) {
     return "";
   }
 
+  protected abstract String _name();
   protected abstract Binding<?> _getBinding(final String name);
-
   protected abstract Collection<Binding<?>> _bindings();
-
   protected abstract JSBundle _bundle();
 }

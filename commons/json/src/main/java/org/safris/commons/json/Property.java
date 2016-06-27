@@ -16,11 +16,14 @@
 
 package org.safris.commons.json;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.safris.commons.io.Readers;
 import org.safris.commons.net.URIComponent;
+import org.safris.commons.util.StringBuilderReader;
 
 public class Property<T> {
   @SuppressWarnings("unchecked")
@@ -48,7 +51,7 @@ public class Property<T> {
       return value instanceof String ? (T)URIComponent.decode(((String)value), "UTF-8") : value;
     }
     catch (final UnsupportedEncodingException e) {
-      throw new DecodeException(e.getMessage(), jsObject, e);
+      throw new DecodeException(e.getMessage(), jsObject._bundle(), e);
     }
   }
 
@@ -104,10 +107,12 @@ public class Property<T> {
   }
 
   @SuppressWarnings("unchecked")
-  protected void decode() throws DecodeException {
+  protected void decode(final StringBuilderReader reader) throws DecodeException, IOException {
     final String error = binding.validate(value);
-    if (error != null)
-      throw new DecodeException(error, jsObject);
+    if (error != null) {
+      Readers.readFully(reader);
+      throw new DecodeException(error, reader.getStringBuilder().toString(), jsObject._bundle());
+    }
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;

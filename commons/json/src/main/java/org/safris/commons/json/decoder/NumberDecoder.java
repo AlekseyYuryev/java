@@ -17,7 +17,7 @@
 package org.safris.commons.json.decoder;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 
 import org.safris.commons.json.JSObjectUtil;
 
@@ -28,9 +28,9 @@ public class NumberDecoder extends Decoder<Number> {
   }
 
   @Override
-  public Number decode(final InputStream in, char ch) throws IOException {
+  public Number decode(final Reader reader, char ch) throws IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
-      if (JSObjectUtil.isNull(ch, in))
+      if (JSObjectUtil.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -40,7 +40,7 @@ public class NumberDecoder extends Decoder<Number> {
     do {
       value.append(ch);
     }
-    while ('0' <= (ch = JSObjectUtil.nextAny(in)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
+    while ('0' <= (ch = JSObjectUtil.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
 
     final String number = value.toString();
     return number.contains(".") || number.contains("e") || number.contains("E") ? Double.parseDouble(number) : Long.parseLong(number);

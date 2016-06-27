@@ -17,12 +17,13 @@
 package org.safris.commons.json;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.safris.commons.io.Readers;
 import org.safris.commons.json.decoder.BooleanDecoder;
 import org.safris.commons.json.decoder.NumberDecoder;
 import org.safris.commons.json.decoder.ObjectDecoder;
@@ -30,6 +31,7 @@ import org.safris.commons.json.decoder.StringDecoder;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
 import org.safris.commons.util.Collections;
+import org.safris.commons.util.StringBuilderReader;
 
 public abstract class JSObjectUtil {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();
@@ -48,6 +50,30 @@ public abstract class JSObjectUtil {
     }
   }
 
+  protected static <T>void clone(final Property<T> property, final Property<T> clone) {
+    property.clone(clone);
+  }
+
+  protected static <T>T get(final Property<T> property) {
+    return property.get();
+  }
+
+  protected static <T>void set(final Property<T> property, final T value) {
+    property.set(value);
+  }
+
+  protected static <T>boolean wasSet(final Property<T> property) {
+    return property.wasSet();
+  }
+
+  protected static <T>T encode(final Property<T> property) throws EncodeException {
+    return property.encode();
+  }
+
+  protected static <T>void decode(final Property<T> property, final StringBuilderReader reader) throws DecodeException, IOException {
+    property.decode(reader);
+  }
+
   protected static void registerBinding(final String name, final Class<? extends JSObject> bindingClass) {
     bindings.put(name, bindingClass);
   }
@@ -60,31 +86,29 @@ public abstract class JSObjectUtil {
     return out.toString();
   }
 
-  protected static char next(final java.io.InputStream in) throws java.io.IOException {
+  protected static char next(final Reader reader) throws IOException {
     int ch;
     while (true) {
-      ch = in.read();
-      if (ch == -1)
-        throw new java.io.IOException("EOS");
+      if ((ch = reader.read()) == -1)
+        throw new IOException("EOS");
 
       if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r')
         return (char)ch;
     }
   }
 
-  protected static char nextAny(final java.io.InputStream in) throws java.io.IOException {
+  protected static char nextAny(final Reader reader) throws IOException {
     int ch;
     while (true) {
-      ch = in.read();
-      if (ch == -1)
-        throw new java.io.IOException("EOS");
+      if ((ch = reader.read()) == -1)
+        throw new IOException("EOS");
 
       return (char)ch;
     }
   }
 
-  protected static boolean isNull(char ch, final InputStream in) throws IOException {
-    return ch == 'n' && next(in) == 'u' && next(in) == 'l' && next(in) == 'l';
+  protected static boolean isNull(char ch, final Reader reader) throws IOException {
+    return ch == 'n' && next(reader) == 'u' && next(reader) == 'l' && next(reader) == 'l';
   }
 
   protected static String encode(final JSObject object, final int depth) {
@@ -108,23 +132,26 @@ public abstract class JSObjectUtil {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  protected static JSObject decode(final InputStream in, char ch, final JSObject jsObject) throws DecodeException, IOException {
+  protected static JSObject decode(final StringBuilderReader reader, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
     final StringBuilder out = new StringBuilder();
     while (true) {
       if (ch == '{') {
-        if (hasOpenBrace)
-          throw new DecodeException("Malformed JSON", jsObject);
+        if (hasOpenBrace) {
+          Readers.readFully(reader);
+          throw new DecodeException("Malformed JSON", reader.getStringBuilder().toString(), jsObject._bundle());
+        }
 
         hasOpenBrace = true;
       }
       else {
         if (!hasOpenBrace) {
-          if (isNull(ch, in))
+          if (isNull(ch, reader))
             return null;
 
-          throw new DecodeException("Malformed JSON", jsObject);
+          Readers.readFully(reader);
+          throw new DecodeException("Malformed JSON", reader.getStringBuilder().toString(), jsObject._bundle());
         }
 
         try {
@@ -134,47 +161,55 @@ public abstract class JSObjectUtil {
             }
             else {
               hasStartQuote = false;
-              ch = next(in);
-              if (ch != ':')
-                throw new DecodeException("Malformed JSON", jsObject);
+              ch = next(reader);
+              if (ch != ':') {
+                Readers.readFully(reader);
+                throw new DecodeException("Malformed JSON", reader.getStringBuilder().toString(), jsObject._bundle());
+              }
 
               // Special case for parsing the container object
               final Binding<?> member = jsObject._getBinding(out.toString());
-              if (member == null)
-                throw new DecodeException("Unknown object name: " + out, jsObject);
+              if (member == null) {
+                Readers.readFully(reader);
+                throw new DecodeException("Unknown object name: " + out, reader.getStringBuilder().toString(), jsObject._bundle());
+              }
 
               out.setLength(0);
-              ch = next(in);
+              ch = next(reader);
               final boolean isArray = ch == '[';
               final Object value;
               if (JSObject.class.isAssignableFrom(member.type)) {
-                if (member.isAbstract)
-                  throw new DecodeException("\"" + member.name + "\" is an abstract type", jsObject);
+                if (member.isAbstract) {
+                  Readers.readFully(reader);
+                  throw new DecodeException("\"" + member.name + "\" is an abstract type", reader.getStringBuilder().toString(), jsObject._bundle());
+                }
 
-                value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(in, member.type, 0)) : decode(in, ch, (JSObject)member.type.newInstance());
+                value = isArray ? Collections.asCollection(ArrayList.class, objectDecoder.recurse(reader, member.type, 0)) : decode(reader, ch, (JSObject)member.type.newInstance());
               }
               else if (member.type == String.class) {
-                value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(in, 0)) : stringDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, stringDecoder.recurse(reader, 0)) : stringDecoder.decode(reader, ch);
                 // final Pattern pattern = member.field.getAnnotation(Pattern.class);
                 // if (pattern != null && value != null && !((String)value).matches(pattern.value()))
                 // throw new DecodeException("\"" + member.name + "\" does not match pattern \"" + pattern.value() + "\": " + value + "\"", jsObject);
               }
               else if (member.type == Boolean.class) {
-                value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(in, 0)) : booleanDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, booleanDecoder.recurse(reader, 0)) : booleanDecoder.decode(reader, ch);
               }
               else if (member.type == Number.class) {
-                value = isArray ? Collections.asCollection(ArrayList.class, numberDecoder.recurse(in, 0)) : numberDecoder.decode(in, ch);
+                value = isArray ? Collections.asCollection(ArrayList.class, numberDecoder.recurse(reader, 0)) : numberDecoder.decode(reader, ch);
               }
               else {
                 throw new UnsupportedOperationException("Unexpected type: " + member.type);
               }
 
-              if (member.required && member.notNull && value == null)
-                throw new DecodeException("\"" + member.name + "\" cannot be null", jsObject);
+              if (member.required && member.notNull && value == null) {
+                Readers.readFully(reader);
+                throw new DecodeException("\"" + member.name + "\" cannot be null", reader.getStringBuilder().toString(), jsObject._bundle());
+              }
 
               final Property property = (Property)member.property.get(jsObject);
               property.set(value);
-              property.decode();
+              property.decode(reader);
             }
           }
           else {
@@ -182,14 +217,19 @@ public abstract class JSObjectUtil {
               for (final Binding<?> binding : jsObject._bindings()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (binding.required) {
-                  if (!property.wasSet())
-                    throw new DecodeException("\"" + binding.name + "\" is required", jsObject);
+                  if (!property.wasSet()) {
+                    Readers.readFully(reader);
+                    throw new DecodeException("\"" + binding.name + "\" is required", reader.getStringBuilder().toString(), jsObject._bundle());
+                  }
 
-                  if (binding.notNull && property.get() == null)
-                    throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
+                  if (binding.notNull && property.get() == null) {
+                    Readers.readFully(reader);
+                    throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.getStringBuilder().toString(), jsObject._bundle());
+                  }
                 }
                 else if (property.wasSet() && binding.notNull && property.get() == null) {
-                  throw new DecodeException("\"" + binding.name + "\" cannot be null", jsObject);
+                  Readers.readFully(reader);
+                  throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.getStringBuilder().toString(), jsObject._bundle());
                 }
               }
 
@@ -206,7 +246,7 @@ public abstract class JSObjectUtil {
         }
       }
 
-      ch = next(in);
+      ch = next(reader);
     }
   }
 }
