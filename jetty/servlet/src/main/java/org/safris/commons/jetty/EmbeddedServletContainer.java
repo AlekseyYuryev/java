@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebFilter;
@@ -86,8 +87,11 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
             }
 
             logger.info(cls.getName() + " " + Arrays.toString(webServlet.urlPatterns()));
-            for (final String urlPattern : webServlet.urlPatterns())
-              context.addServlet(new ServletHolder(servlet), urlPattern);
+            for (final String urlPattern : webServlet.urlPatterns()) {
+              final ServletHolder servletHolder = new ServletHolder(servlet);
+              servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
+              context.addServlet(servletHolder, urlPattern);
+            }
           }
           // Add a Filter with a @WebFilter annotation
           else if (Filter.class.isAssignableFrom(cls) && (webFilter = cls.getAnnotation(WebFilter.class)) != null && webFilter.urlPatterns() != null && webFilter.urlPatterns().length > 0) {

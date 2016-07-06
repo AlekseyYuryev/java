@@ -94,13 +94,25 @@ public final class Log {
     if (mojo == null || mojo.getLog() == null)
       toStdErr(level, string, error); // FIXME: How do we determine if we are in "DEBUG" mode?
     else if (level == Level.ERROR)
-      mojo.getLog().error(string, error);
+      if (error != null)
+        mojo.getLog().error(string, error);
+      else
+        mojo.getLog().error(string);
     else if (level == Level.WARNING)
-      mojo.getLog().warn(string, error);
+      if (error != null)
+        mojo.getLog().warn(string, error);
+      else
+        mojo.getLog().warn(string);
     else if (level == Level.INFO)
-      mojo.getLog().info(string, error);
+      if (error != null)
+        mojo.getLog().info(string, error);
+      else
+        mojo.getLog().info(string);
     else if (mojo.getLog().isDebugEnabled())
-      mojo.getLog().debug(string, error);
+      if (error != null)
+        mojo.getLog().debug(string, error);
+      else
+        mojo.getLog().debug(string);
   }
 
   public static void debug(final Object message) {

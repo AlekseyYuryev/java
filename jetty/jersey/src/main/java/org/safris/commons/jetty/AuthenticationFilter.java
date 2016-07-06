@@ -98,7 +98,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     // Access the database and do this part yourself
     // String userRole = userMgr.getUserRole(username);
 
-    if (username.equals("howtodoinjava") && password.equals("password")) {
+    if ("howtodoinjava".equals(username) && "password".equals(password)) {
       String userRole = "ADMIN";
 
       // Step 2. Verify user role

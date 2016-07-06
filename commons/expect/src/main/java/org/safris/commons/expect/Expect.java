@@ -70,7 +70,7 @@ public final class Expect {
 
           className = arg;
         }
-        else if (!arg.equals("java"))
+        else if (!"java".equals(arg))
           javaArgs.add(arg);
       }
 

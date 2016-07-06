@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -125,7 +125,7 @@ public final class NamespaceBinding {
     result.add(jls77String(dns.substring(0, end)));
 
     // JAXB draft example implies removal of www
-    if (result.size() >= 3 && result.get(result.size() - 1).toLowerCase().equals("www"))
+    if (result.size() >= 3 && "www".equals(result.get(result.size() - 1).toLowerCase()))
       result.remove(result.size() - 1);
 
     return result;
@@ -161,7 +161,7 @@ public final class NamespaceBinding {
       results = new ArrayList<String>();
       results.add(uri.substring(0, colon));
     }
-    else if (colon >= 0 && uri.substring(0, colon).equals("java")) {
+    else if (colon >= 0 && "java".equals(uri.substring(0, colon))) {
       results = Arrays.<String>asList(uri.substring(colon + 1).split("\\."));
     }
     else {
@@ -241,7 +241,7 @@ public final class NamespaceBinding {
 
   /**
    * split an xml name into words via JAXB approach, upcasing first letter of each word as needed, if upcase is true
-   * 
+   *
    * ncname is xml ncname (i.e. no colons).
    */
   private static void addCapped(final List<String> list, final String string) {
