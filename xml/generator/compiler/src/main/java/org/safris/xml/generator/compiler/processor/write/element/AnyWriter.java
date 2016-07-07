@@ -30,7 +30,7 @@ import org.w3c.dom.Node;
 public final class AnyWriter extends ElementWriter<AnyPlan> {
   @Override
   protected void appendDeclaration(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
-//      if(plan.getMaxOccurs() > 1)
+//      if (plan.getMaxOccurs() > 1)
     writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + ">(this, " + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
 //      else
 //          writer.write("private " + ElementAudit.class.getName() + "<" + Binding.class.getName() + "> any = new " + ElementAudit.class.getName() + "<" + Binding.class.getName() + ">(" + plan.getDefaultInstance(parent) + ", null, null, true, " + plan.isNillable() + ", " + plan.getMinOccurs() + ", " + plan.getMaxOccurs() + ");\n");
@@ -38,7 +38,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 
   @Override
   protected void appendGetMethod(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
-//      if(plan.getMaxOccurs() > 1)
+//      if (plan.getMaxOccurs() > 1)
     writer.write("public " + List.class.getName() + "<" +  Binding.class.getName() + "> getAny()\n");
 //      else
 //          writer.write("public " + Binding.class.getName() + " getAny()\n");
@@ -56,13 +56,13 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 
   @Override
   protected void appendSetMethod(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
-//      if(plan.getMaxOccurs() > 1)
+//      if (plan.getMaxOccurs() > 1)
     writer.write("public " + Binding.class.getName() + " addAny(" +  Binding.class.getName() + " any)\n");
 //      else
 //          writer.write("public void setAny(" +  Binding.class.getName() + " any)\n");
 
     writer.write("{\n");
-//      if(plan.getMaxOccurs() > 1)
+//      if (plan.getMaxOccurs() > 1)
 //      {
     writer.write("_$$addElement(this.any, any);\n");
 //      }
@@ -84,7 +84,7 @@ public final class AnyWriter extends ElementWriter<AnyPlan> {
 
   @Override
   protected void appendParse(final StringWriter writer, final AnyPlan plan, final Plan<?> parent) {
-//      if(plan.getMaxOccurs() > 1)
+//      if (plan.getMaxOccurs() > 1)
 //      {
     writer.write("if (element.getNodeType() != " + Node.class.getName() + ".ELEMENT_NODE)\n");
     writer.write("return;\n");

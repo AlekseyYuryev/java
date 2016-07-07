@@ -73,7 +73,7 @@ public final class SourceFormat {
       FormatModule module = modules.get(i);
       token = module.format(formated, token);
 
-      /*if(FormatModule.getLastModule() instanceof OpenBracketModule && !formated.endsWith("\n") && !token.startsWith("\n"))
+      /*if (FormatModule.getLastModule() instanceof OpenBracketModule && !formated.endsWith("\n") && !token.startsWith("\n"))
        {
        for(int j = 0; j < module.getDepth(); j++)
        {

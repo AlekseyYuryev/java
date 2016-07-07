@@ -43,7 +43,7 @@ public abstract class Plan<T extends Model> implements PipelineEntity {
         // If there is a name conflict with a parent type, then skip
         // adding this in duplicate. Otherwise there will be conflicts
         // with method names.
-//              if(owner.getSuperType() != null && model instanceof Nameable && owner.getSuperType().elementRefExistsInParent(((Nameable)model).getName()))
+//              if (owner.getSuperType() != null && model instanceof Nameable && owner.getSuperType().elementRefExistsInParent(((Nameable)model).getName()))
 //                  continue;
 
         if (model instanceof ElementWrapper) {

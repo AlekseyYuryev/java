@@ -100,9 +100,8 @@ public class ClassLoaderTest extends LoggableTest {
      BufferedReader bufferedErrorReader = new BufferedReader(errorStreamReader);
      String line = null;
      float ratio = 0;
-     while((line = bufferedInputReader.readLine()) != null)
-     {
-     if(line.contains("ratio: "))
+     while((line = bufferedInputReader.readLine()) != null) {
+     if (line.contains("ratio: "))
      ratio = Float.parseFloat(line.substring(line.indexOf(": ") + 2));
 
      log(line);
@@ -111,8 +110,7 @@ public class ClassLoaderTest extends LoggableTest {
      while((line = bufferedErrorReader.readLine()) != null)
      log(line);
 
-     try
-     {
+     try {
      process.waitFor();
      }
      catch(final InterruptedException e)

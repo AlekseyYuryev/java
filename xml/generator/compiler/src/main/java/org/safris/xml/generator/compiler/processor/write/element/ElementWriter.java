@@ -125,7 +125,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       return;
 
     if (!plan.isNested() || Form.QUALIFIED.equals(plan.getFormDefault())) {
-      if("".equals(plan.getName().getNamespaceURI().toString()))
+      if ("".equals(plan.getName().getNamespaceURI().toString()))
         writer.write("if (element.getNamespaceURI() == null && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
       else
         writer.write("if (\"" + plan.getName().getNamespaceURI() + "\".equals(element.getNamespaceURI()) && \"" + plan.getName().getLocalPart() + "\".equals(element.getLocalName()))\n");
@@ -338,7 +338,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
           }
         }
 
-//        if(plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
+//        if (plan.getNativeItemClassName() == null && XSTypeDirectory.ANYSIMPLETYPE.getNativeBinding().getName().equals(plan.getBaseXSItemTypeName()))
 //        {
 //          writer.write("public void text(" + List.class.getName() + "<" + plan.getNativeItemClassNameInterface() + "> text)\n");
 //          writer.write("{\n");
@@ -491,7 +491,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       for (final AttributePlan attribute : plan.getAttributes())
         Writer.writeMarshal(writer, attribute, plan);
 
-//      if(plan.getElements().size() != 0)
+//      if (plan.getElements().size() != 0)
 //        writer.write("_$$marshalElements(node);\n");
 //      for(final ElementPlan element : plan.getElements())
 //        Writer.writeMarshal(writer, element, plan);
@@ -553,7 +553,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
       }
 
       if (plan.isNillable()) {
-        writer.write("else if(XSI_NIL.getNamespaceURI().equals(attribute.getNamespaceURI()) && XSI_NIL.getLocalPart().equals(attribute.getLocalName()))\n");
+        writer.write("else if (XSI_NIL.getNamespaceURI().equals(attribute.getNamespaceURI()) && XSI_NIL.getLocalPart().equals(attribute.getLocalName()))\n");
         writer.write("{\n");
         writer.write("this.nil = " + $xs_boolean.class.getName() + ".parseBoolean(attribute.getNodeValue());\n");
         writer.write("return true;\n");
@@ -683,7 +683,7 @@ public class ElementWriter<T extends ElementPlan> extends ComplexTypeWriter<T> {
     writer.write("{\n");
     writer.write("int hashCode = super.hashCode();\n");
     writer.write("hashCode += NAME.hashCode();\n");
-//    if(plan.getMixed() != null && plan.getMixed())
+//    if (plan.getMixed() != null && plan.getMixed())
 //      writer.write("hashCode += text != null ? text.hashCode() : -1;\n");
     for (final AttributePlan attribute : plan.getAttributes())
       Writer.writeHashCode(writer, attribute, plan);
