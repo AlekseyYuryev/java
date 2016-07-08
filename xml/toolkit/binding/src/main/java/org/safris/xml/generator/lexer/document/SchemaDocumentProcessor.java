@@ -32,11 +32,13 @@ import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.xml.NamespaceURI;
+import org.safris.xml.generator.compiler.runtime.BindingRuntimeException;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
 import org.safris.xml.toolkit.binding.AbstractGenerator;
+import org.safris.xml.toolkit.binding.GeneratorError;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -109,10 +111,8 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
                 continue;
               }
 
-              if (!duplicate.equals(schemaLocationURL)) {
-                Log.error("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n[x] " + schemaDocument.getSchemaReference().getURL() + "\n[1] " + duplicate + "\n[2] " + schemaLocationURL);
-                System.exit(1);
-              }
+              if (!duplicate.equals(schemaLocationURL))
+                throw new GeneratorError("There are two schemaReferences that define the namespace {" + importNamespaceURI + "}:\n[x] " + schemaDocument.getSchemaReference().getURL() + "\n[1] " + duplicate + "\n[2] " + schemaLocationURL);
             }
           }
 
@@ -121,7 +121,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
       }
       catch (final MalformedURLException e) {
         Log.error("Unknown URL format: " + schemaReference.getURL());
-        System.exit(1);
+        throw new BindingRuntimeException(e);
       }
 
       schemas.addAll(schemasToGenerate);

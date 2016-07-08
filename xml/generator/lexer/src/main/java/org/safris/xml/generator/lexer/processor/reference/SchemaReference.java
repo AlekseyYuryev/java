@@ -205,8 +205,7 @@ public final class SchemaReference implements PipelineEntity {
           Log.debug("opened connection to: " + location.toExternalForm());
         }
         catch (final FileNotFoundException e) {
-          Log.error("File not found: " + location.toExternalForm());
-          System.exit(1);
+          throw new LexerError("File not found: " + location.toExternalForm());
         }
         catch (final IOException e) {
           if ("Connection refused".equals(e.getMessage()) && tryCount == 10)

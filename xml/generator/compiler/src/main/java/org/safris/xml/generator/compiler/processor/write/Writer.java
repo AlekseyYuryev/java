@@ -55,10 +55,8 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
 
     final Nameable<?> nameable = (Nameable<?>)plan;
     try {
-      if (nameable.getName().getNamespaceURI().getPackage() == null) {
-        Log.error("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
-        System.exit(1);
-      }
+      if (nameable.getName().getNamespaceURI().getPackage() == null)
+        throw new CompilerError("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
 
       final String packageName = nameable.getName().getNamespaceURI().getPackage();
       return new File(new File(destDir, packageName.replace('.', '/')), "xe.java");
@@ -101,10 +99,8 @@ public abstract class Writer<T extends Plan<?>> implements PipelineEntity {
     }
 
     final Nameable<?> nameable = (Nameable<?>)plan;
-    if (nameable.getName().getNamespaceURI().getPackage() == null) {
-      Log.error("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
-      System.exit(1);
-    }
+    if (nameable.getName().getNamespaceURI().getPackage() == null)
+      throw new CompilerError("The binding configuration does not specify a class name for " + ((Nameable<?>)plan).getName().getNamespaceURI());
 
     final String packageName = nameable.getName().getNamespaceURI().getPackage();
 

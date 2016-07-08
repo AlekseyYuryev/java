@@ -19,6 +19,7 @@ package org.safris.commons.net;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -62,8 +63,8 @@ public class URLsTest extends LoggableTest {
 
   @Test
   public void testMakeUrlFromPath() throws Exception {
-    final Map<URL,String> absolute = new HashMap<URL,String>();
-    final Map<URL,String[]> relative = new HashMap<URL,String[]>();
+    final Map<URL,String> absolute = new LinkedHashMap<URL,String>();
+    final Map<URL,String[]> relative = new LinkedHashMap<URL,String[]>();
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
       absolute.put(new URL("file", "", "/c:/Windows"), "c:\\Windows");
       relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "system32"});
