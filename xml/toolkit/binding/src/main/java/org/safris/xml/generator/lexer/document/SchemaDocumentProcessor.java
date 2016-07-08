@@ -32,7 +32,6 @@ import org.safris.commons.pipeline.PipelineDirectory;
 import org.safris.commons.pipeline.PipelineEntity;
 import org.safris.commons.pipeline.PipelineProcessor;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.xml.generator.compiler.runtime.BindingRuntimeException;
 import org.safris.xml.generator.lexer.lang.UniqueQName;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.document.SchemaDocument;
@@ -43,10 +42,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public final class SchemaDocumentProcessor implements PipelineEntity, PipelineProcessor<GeneratorContext,SchemaReference,SchemaDocument> {
-  private static final String[] includeStrings = new String[] {
-    "include",
-    "redefine"
-  };
+  private static final String[] includeStrings = new String[] {"include","redefine"};
 
   @Override
   public Collection<SchemaDocument> process(final GeneratorContext pipelineContext, final Collection<SchemaReference> selectedSchemas, final PipelineDirectory<GeneratorContext,SchemaReference,SchemaDocument> directory) {
@@ -120,8 +116,7 @@ public final class SchemaDocumentProcessor implements PipelineEntity, PipelinePr
         }
       }
       catch (final MalformedURLException e) {
-        Log.error("Unknown URL format: " + schemaReference.getURL());
-        throw new BindingRuntimeException(e);
+        throw new GeneratorError(e);
       }
 
       schemas.addAll(schemasToGenerate);
