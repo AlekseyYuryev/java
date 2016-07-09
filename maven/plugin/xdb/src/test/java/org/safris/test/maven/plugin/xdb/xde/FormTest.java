@@ -42,8 +42,8 @@ import org.safris.xdb.xde.Entity;
 import org.safris.xdb.xde.RowIterator;
 import org.safris.xdb.xde.XDEDataSource;
 import org.safris.xdb.xde.XDERegistry;
-import org.safris.xdb.xde.csql.select.SELECT;
-import org.safris.xdb.xde.csql.update.UPDATE;
+import org.safris.xdb.xde.spec.select.SELECT;
+import org.safris.xdb.xde.spec.update.UPDATE;
 
 import com.mysql.jdbc.Driver;
 
