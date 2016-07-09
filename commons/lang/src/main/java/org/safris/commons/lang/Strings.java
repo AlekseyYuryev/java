@@ -226,6 +226,11 @@ public final class Strings {
     return -1;
   }
 
+  public static String getAlpha(final int number) {
+    int scale;
+    return number < '{' - 'a' ? String.valueOf((char)('a' + number)) : getAlpha((scale = number / ('{' - 'a')) - 1) + String.valueOf((char)('a' + number - scale * ('{' - 'a')));
+  }
+
   private Strings() {
   }
 }

@@ -123,4 +123,18 @@ public class StringsTest extends LoggableTest {
     Assert.assertEquals("hello woRLD", Strings.toUpperCase(LOWER_CASE, 8));
     Assert.assertEquals("hello WORLD", Strings.toUpperCase(LOWER_CASE, 6));
   }
+
+  @Test
+  public void testGetAlpha() {
+    Assert.assertEquals("a", Strings.getAlpha(0));
+    Assert.assertEquals("aa", Strings.getAlpha(26));
+    Assert.assertEquals("aaa", Strings.getAlpha(26 * 26 + 26));
+    Assert.assertEquals("aaaa", Strings.getAlpha(26 * 26 * 26 + 26 * 26 + 26));
+
+    Assert.assertEquals("f", Strings.getAlpha(5));
+    Assert.assertEquals("z", Strings.getAlpha(25));
+
+    Assert.assertEquals("ac", Strings.getAlpha(28));
+    Assert.assertEquals("za", Strings.getAlpha(676));
+  }
 }
