@@ -28,9 +28,9 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Paths;
+import org.safris.commons.maven.Resolver;
 import org.safris.commons.net.URLs;
 import org.safris.commons.pipeline.Pipeline;
-import org.safris.commons.util.Resolver;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.compiler.lang.CompilerError;
 import org.safris.xml.generator.compiler.processor.plan.Plan;

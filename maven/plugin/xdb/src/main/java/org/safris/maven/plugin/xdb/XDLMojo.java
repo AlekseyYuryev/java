@@ -17,37 +17,34 @@
 package org.safris.maven.plugin.xdb;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.safris.commons.xml.XMLException;
 import org.safris.xdb.xdl.DBVendor;
 import org.safris.xdb.xdl.DDLTransform;
 
-/**
- * @goal ddl
- * @phase generate-sources
- */
-public final class DDLTransformMojo extends XDLTransformerMojo {
-  @Parameter(property = "maven.test.skip", defaultValue = "false")
-  private Boolean mavenTestSkip = null;
+@Mojo(name = "xdl", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "xdl")
+public final class XDLMojo extends XDBMojo {
+  @Parameter(property = "vendor", required = true)
+  private String vendor;
 
   @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
 
   @Override
-  public void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException {
-    if (vendor == null)
-      throw new MojoExecutionException("vendor is required");
-
-    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
-      return;
-
+  public void execute(final File xdlFile, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      DDLTransform.createDDL(xdlFile.toURI().toURL(), vendor, outDir);
+      DDLTransform.createDDL(xdlFile.toURI().toURL(), DBVendor.parse(vendor), outDir);
     }
-    catch (final Exception e) {
+    catch (final IOException | XMLException e) {
       throw new MojoFailureException(e.getMessage(), e);
     }
   }

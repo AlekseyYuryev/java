@@ -45,23 +45,15 @@ import org.safris.xdb.xde.XDERegistry;
 import org.safris.xdb.xde.spec.select.SELECT;
 import org.safris.xdb.xde.spec.update.UPDATE;
 
-import com.mysql.jdbc.Driver;
-
 import xdb.xde.survey;
 
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {
   static {
-    try {
-      Class.forName(Driver.class.getName());
-    }
-    catch (final ClassNotFoundException e) {
-      throw new ExceptionInInitializerError(e);
-    }
-
     XDERegistry.register(survey.class, PreparedStatement.class, new XDEDataSource() {
       @Override
       public Connection getConnection() throws SQLException {
+        // TODO: Replace with Derby
         return DriverManager.getConnection("jdbc:mysql://localhost/survey?user=survey&password=xqTMy2FluQ");
       }
     });

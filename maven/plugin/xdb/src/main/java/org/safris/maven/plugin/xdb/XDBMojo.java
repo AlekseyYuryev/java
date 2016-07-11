@@ -18,36 +18,31 @@ package org.safris.maven.plugin.xdb;
 
 import java.io.File;
 
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.maven.AdvancedMojo;
-import org.safris.commons.util.Resolver;
-import org.safris.maven.plugin.xml.binding.Manifest;
-import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
-import org.safris.xdb.xdl.DBVendor;
+import org.safris.commons.maven.Manifest;
+import org.safris.commons.maven.MavenPropertyResolver;
+import org.safris.commons.maven.Resolver;
 
-public abstract class XDLTransformerMojo extends AdvancedMojo {
-  /**
-   * @parameter default-value="${project}"
-   * @required
-   */
-  protected MavenProject project = null;
+@Mojo(name = "xdb", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+public abstract class XDBMojo extends AdvancedMojo {
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  private Boolean mavenTestSkip = null;
 
-  /**
-   * @parameter default-value="${basedir}"
-   */
-  protected String basedir = null;
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+  private MojoExecution execution;
 
-  /**
-   * @parameter
-   */
-  protected String vendor;
+  @Parameter(defaultValue = "${project}", readonly = true)
+  protected MavenProject project;
 
-  /**
-   * @parameter
-   */
-  protected Manifest manifest;
+  @Parameter(property = "manifest", required = true)
+  private Manifest manifest;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -59,6 +54,9 @@ public abstract class XDLTransformerMojo extends AdvancedMojo {
 
     if (manifest.getDestdir() == null)
       throw new MojoExecutionException("destdir is required");
+
+    if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
+      return;
 
     final Resolver<String> resolver = new MavenPropertyResolver(project);
     for (final String spec : manifest.getSchemas()) {
@@ -76,9 +74,9 @@ public abstract class XDLTransformerMojo extends AdvancedMojo {
         throw new MojoExecutionException("Unable to create directory: " + outDirFile.getAbsolutePath());
       }
 
-      transform(xdlFile, DBVendor.parse(vendor), outDirFile);
+      execute(xdlFile, outDirFile);
     }
   }
 
-  public abstract void transform(final File xdlFile, final DBVendor vendor, final File outDir) throws MojoExecutionException, MojoFailureException;
+  public abstract void execute(final File xdlFile, final File outDir) throws MojoExecutionException, MojoFailureException;
 }

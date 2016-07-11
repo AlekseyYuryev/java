@@ -30,7 +30,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
-import org.safris.commons.util.Resolver;
+import org.safris.commons.maven.Resolver;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xml.generator.lexer.processor.GeneratorContext;
 import org.safris.xml.generator.lexer.processor.reference.SchemaReference;

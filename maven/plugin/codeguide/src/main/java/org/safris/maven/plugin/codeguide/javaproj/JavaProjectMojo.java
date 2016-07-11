@@ -160,7 +160,7 @@ public class JavaProjectMojo extends CodeGuideMojo {
         artifact.setBaseVersion(dependency.getVersion());
         final ArtifactResolutionRequest request = new ArtifactResolutionRequest();
         request.setArtifact(artifact);
-        request.setRemoteRepostories(getRemoteRepos());
+        request.setRemoteRepositories(getRemoteRepos());
         request.setLocalRepository(getLocal());
         getResolver().resolve(request);
         sourcesExist = true;

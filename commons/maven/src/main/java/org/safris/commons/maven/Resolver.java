@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.util;
+package org.safris.commons.maven;
 
 public interface Resolver<T> {
   public T resolve(final T string);

@@ -17,7 +17,7 @@
 package org.safris.ant.task.xml.binding;
 
 import org.apache.tools.ant.Project;
-import org.safris.commons.util.Resolver;
+import org.safris.commons.maven.Resolver;
 
 public class AntPropertyResolver implements Resolver<String> {
   private final Project project;

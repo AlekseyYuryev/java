@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -96,11 +95,6 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.safris.maven.plugin.xml</groupId>
-      <artifactId>binding</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>org.safris.xdb</groupId>
       <artifactId>xde</artifactId>
       <version>0.2.3-SNAPSHOT</version>
@@ -111,13 +105,8 @@
       <version>0.2.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-dependency-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>test</scope>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
     </dependency>
   </dependencies>
 </project>

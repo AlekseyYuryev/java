@@ -28,9 +28,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.json.Generator;
 import org.safris.commons.maven.AdvancedMojo;
-import org.safris.commons.util.Resolver;
-import org.safris.maven.plugin.xml.binding.Manifest;
-import org.safris.maven.plugin.xml.binding.MavenPropertyResolver;
+import org.safris.commons.maven.Manifest;
+import org.safris.commons.maven.MavenPropertyResolver;
+import org.safris.commons.maven.Resolver;
 
 @Mojo(name = "jso", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "jso")

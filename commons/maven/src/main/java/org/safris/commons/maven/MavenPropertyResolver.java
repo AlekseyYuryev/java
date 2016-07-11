@@ -14,10 +14,9 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml.binding;
+package org.safris.commons.maven;
 
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.util.Resolver;
 
 public class MavenPropertyResolver implements Resolver<String> {
   private final MavenProject project;
