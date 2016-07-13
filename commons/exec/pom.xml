@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -29,9 +28,7 @@
   <artifactId>exec</artifactId>
   <version>0.5.12-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    API for dealing with external process execution and environment management in Java.
-  </description>
+  <description>API for dealing with external process execution and environment management in Java.</description>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>

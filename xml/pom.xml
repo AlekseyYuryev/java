@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -30,21 +29,7 @@
   <version>2.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    XML projects.
-  </description>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <excludeModules>test</excludeModules>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <description>XML projects.</description>
   <modules>
     <module>generator</module>
     <module>toolkit</module>

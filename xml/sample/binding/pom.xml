@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -29,7 +28,7 @@
   <artifactId>binding</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>This module contains sample code of the XML Binding application that may be used by developers as a tutorial.</description>
+  <description>Contains sample code of the XML Binding application that may be used by developers as a tutorial.</description>
   <build>
     <plugins>
       <plugin>

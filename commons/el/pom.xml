@@ -29,7 +29,5 @@
   <artifactId>el</artifactId>
   <version>0.4.10-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Expression Language tools.
-  </description>
+  <description>Expression Language tools.</description>
 </project>

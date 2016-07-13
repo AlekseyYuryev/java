@@ -16,19 +16,15 @@
 
 package org.safris.commons.lang;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-
-import org.apache.tools.ant.AntClassLoader;
 
 public final class ClassLoaders {
   public static boolean isClassLoaded(final ClassLoader classLoader, final String name) {
@@ -40,10 +36,7 @@ public final class ClassLoaders {
       method.setAccessible(true);
       return method.invoke(classLoader, name) != null;
     }
-    catch (final InvocationTargetException e) {
-      return false;
-    }
-    catch (final NoSuchMethodException e) {
+    catch (final InvocationTargetException | NoSuchMethodException e) {
       return false;
     }
     catch (final IllegalAccessException e) {
@@ -71,23 +64,8 @@ public final class ClassLoaders {
         urls.add(new URL(key));
     }
     catch (final Exception e) {
-      // TODO: Oh well, try the regular approach
-      if (classLoader instanceof AntClassLoader) {
-        final String fullClasspath = ((AntClassLoader)classLoader).getClasspath();
-        if (fullClasspath != null) {
-          final String[] classpaths = fullClasspath.split(File.pathSeparator);
-          for (final String classpath : classpaths) {
-            try {
-              urls.add(new File(classpath).toURI().toURL());
-            }
-            catch (final MalformedURLException e2) {
-            }
-          }
-        }
-      }
-      else if (classLoader instanceof URLClassLoader) {
+      if (classLoader instanceof URLClassLoader)
         urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
-      }
     }
 
     return urls.toArray(new URL[urls.size()]);
