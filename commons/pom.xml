@@ -45,7 +45,6 @@
         <module>jndi</module>
         <module>security</module>
         <module>math</module>
-        <module>el</module>
         <module>cli</module>
         <module>sql</module>
         <module>dbcp</module>

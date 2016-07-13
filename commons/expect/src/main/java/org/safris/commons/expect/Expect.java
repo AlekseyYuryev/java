@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.safris.commons.el.ELs;
-import org.safris.commons.el.ExpressionFormatException;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.expect.xe.$ex_processType;
 import org.safris.commons.expect.xe.$ex_ruleType;
@@ -36,6 +34,8 @@ import org.safris.commons.expect.xe.ex_script;
 import org.safris.commons.io.input.NonBlockingInputStream;
 import org.safris.commons.io.scanner.InputStreamScanner;
 import org.safris.commons.io.scanner.ScannerHandler;
+import org.safris.commons.util.ELs;
+import org.safris.commons.util.ExpressionFormatException;
 import org.safris.commons.util.HashTree;
 import org.safris.xml.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;

@@ -99,10 +99,8 @@ public abstract class LoggableTest {
   public final TestWatcher watchman = new TestWatcher() {
     @Override
     protected void succeeded(final Description description) {
-      if ("init".equals(description.getMethodName()))
-        return;
-
-      logRecords.add(new Log.Record(Log.Level.INFO, null, Log.Status.SUCCESS, description.getClassName(), description.getMethodName()));
+      if (!"init".equals(description.getMethodName()))
+        logRecords.add(new Log.Record(Log.Level.INFO, null, Log.Status.SUCCESS, description.getClassName(), description.getMethodName()));
     }
 
     @Override

@@ -36,7 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 
-import org.safris.commons.el.ELs;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Streams;
 import org.safris.commons.io.file.FileEventListener;
@@ -44,6 +43,7 @@ import org.safris.commons.io.file.FileMonitor;
 import org.safris.commons.lang.Resource;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.TestRuntime;
+import org.safris.commons.util.ELs;
 
 public final class ConfigurableLogger implements FileEventListener {
   private static final Formatter formatter = new Formatter() {

@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -29,9 +28,7 @@
   <artifactId>expect</artifactId>
   <version>0.2.15-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>
-    Expect is a library for java to automate interactive applications such as telnet, ftp, passwd, fsck, rlogin, tip, etc. With this library you can wrap interactive applications in any java code.
-  </description>
+  <description>Expect is a library for java to automate interactive applications such as telnet, ftp, passwd, fsck, rlogin, tip, etc. With this library you can wrap interactive applications in any java code.</description>
   <build>
     <plugins>
       <plugin>
@@ -65,8 +62,8 @@
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>el</artifactId>
-      <version>0.4.10-SNAPSHOT</version>
+      <artifactId>util</artifactId>
+      <version>0.4.14-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.el;
+package org.safris.commons.util;
 
 public final class ExpressionFormatException extends RuntimeException {
   private static final long serialVersionUID = 4220959991784197879L;
