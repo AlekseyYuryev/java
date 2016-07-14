@@ -22,18 +22,20 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>commons</artifactId>
-    <version>1.8.2-SNAPSHOT</version>
+    <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
   <artifactId>math</artifactId>
-  <version>1.4.2-SNAPSHOT</version>
+  <version>1.4.2</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>Lightweight, self-contained mathematics and statistics components.</description>
+  <description>
+    Lightweight, self-contained mathematics and statistics components.
+  </description>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>test</artifactId>
-      <version>1.1.6-SNAPSHOT</version>
+      <version>1.1.6</version>
     </dependency>
   </dependencies>
 </project>

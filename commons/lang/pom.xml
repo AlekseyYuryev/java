@@ -22,13 +22,15 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>commons</artifactId>
-    <version>1.8.2-SNAPSHOT</version>
+    <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
   <artifactId>lang</artifactId>
-  <version>1.6.4-SNAPSHOT</version>
+  <version>1.6.4</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>Provides extra functionality for classes in the java.lang package.</description>
+  <description>
+    Provides extra functionality for classes in the java.lang package.
+  </description>
   <profiles>
     <profile>
       <id>maven-invoker-plugin</id>
@@ -74,7 +76,7 @@
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>util</artifactId>
-      <version>1.5.7-SNAPSHOT</version>
+      <version>1.5.7</version>
     </dependency>
   </dependencies>
 </project>

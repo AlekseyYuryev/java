@@ -22,11 +22,11 @@
   <parent>
     <groupId>org.safris.ant</groupId>
     <artifactId>task</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.4.2</version>
   </parent>
   <groupId>org.safris.ant.task</groupId>
   <artifactId>xsb</artifactId>
-  <version>2.1.2-SNAPSHOT</version>
+  <version>2.1.2</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <description>
     The Ant builder is an Ant task that can be used in a build.xml definition for the
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.safris.xsb</groupId>
       <artifactId>runtime</artifactId>
-      <version>2.1.2-SNAPSHOT</version>
+      <version>2.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.ant</groupId>

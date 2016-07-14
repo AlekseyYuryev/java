@@ -104,42 +104,24 @@ public class GeneratorMojo extends AdvancedMojo {
         }
 
         for (int i = 0; i < configuration.getChildCount(); i++) {
-          final Xpp3Dom bindings = configuration.getChild(i);
-          if ("manifest".equals(bindings.getName())) {
-            for (int j = 0; j < bindings.getChildCount(); j++) {
-              final Xpp3Dom link = bindings.getChild(j);
-              if ("link".equals(link.getName())) {
-                String attributeName = null;
-                final String[] names = link.getAttributeNames();
-                for (String name : names) {
-                  if (name.endsWith("href")) {
-                    attributeName = name;
-                    break;
-                  }
-                }
-
-                if (attributeName == null)
-                  throw new MojoFailureException("There is an error in your manifest xml. Please consult the manifest.xsd for proper usage.");
-
-                href = link.getAttribute(attributeName);
+          final Xpp3Dom manifest = configuration.getChild(i);
+          if ("manifest".equals(manifest.getName())) {
+            for (final String attribute : manifest.getAttributeNames()) {
+              if (attribute.endsWith("href")) {
+                href = manifest.getAttribute(attribute);
                 break;
               }
-              else if ("destdir".equals(link.getName())) {
-                String explodeJarsName = null;
-                String overwriteName = null;
-                final String[] names = link.getAttributeNames();
-                for (String name : names) {
-                  if (name.endsWith("explodeJars"))
-                    explodeJarsName = name;
-                  else if (name.endsWith("overwrite"))
-                    overwriteName = name;
+            }
+
+            for (int j = 0; j < manifest.getChildCount(); j++) {
+              final Xpp3Dom destdir = manifest.getChild(i);
+              if ("destdir".equals(destdir.getName())) {
+                for (final String attribute : destdir.getAttributeNames()) {
+                  if (attribute.endsWith("explodeJars"))
+                    explodeJars = $xs_boolean.parseBoolean(destdir.getAttribute(attribute));
+                  else if (attribute.endsWith("overwrite"))
+                    overwrite = $xs_boolean.parseBoolean(destdir.getAttribute(attribute));
                 }
-
-                if (explodeJarsName != null)
-                  explodeJars = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
-
-                if (overwriteName != null)
-                  overwrite = $xs_boolean.parseBoolean(link.getAttribute(explodeJarsName));
 
                 break;
               }

@@ -22,18 +22,20 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>commons</artifactId>
-    <version>1.8.2-SNAPSHOT</version>
+    <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
   <artifactId>jci</artifactId>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.1</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>Java Compiler Interface.</description>
+  <description>
+    Java Compiler Interface.
+  </description>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>exec</artifactId>
-      <version>1.2.7-SNAPSHOT</version>
+      <version>1.2.7</version>
     </dependency>
   </dependencies>
 </project>

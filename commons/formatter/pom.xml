@@ -22,11 +22,13 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>commons</artifactId>
-    <version>1.8.2-SNAPSHOT</version>
+    <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
   <artifactId>formatter</artifactId>
-  <version>0.4.4-SNAPSHOT</version>
+  <version>0.4.4</version>
   <name>${project.groupId}.${project.artifactId}</name>
-  <description>A source formatting component that formats generated source-code.</description>
+  <description>
+    A source formatting component that formats generated source-code.
+  </description>
 </project>

@@ -22,10 +22,10 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>maven</artifactId>
-    <version>1.8.1-SNAPSHOT</version>
+    <version>1.8.1</version>
   </parent>
   <groupId>org.safris.maven</groupId>
   <artifactId>core</artifactId>
-  <version>0.9.13-SNAPSHOT</version>
+  <version>0.9.13</version>
   <name>${project.groupId}.${project.artifactId}</name>
 </project>
