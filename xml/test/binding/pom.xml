@@ -31,11 +31,6 @@
   <description>This module contains test code of the XML Binding application that may be used by developers as a tutorial.</description>
   <profiles>
     <profile>
-      <activation>
-        <property>
-          <name>!maven.test.skip</name>
-        </property>
-      </activation>
       <build>
         <plugins>
           <plugin>
@@ -44,7 +39,7 @@
             <version>1.2.7</version>
             <executions>
               <execution>
-                <phase>generate-sources</phase>
+                <phase>generate-test-sources</phase>
                 <goals>
                 	<goal>generate</goal>
                 </goals>
@@ -53,10 +48,7 @@
             <configuration>
               <manifest xmlns="http://xml.safris.org/toolkit/binding/manifest.xsd">
                 <!--<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${basedir}/src/test/resources/xml/manifest.xml"/>-->
-            <destdir
-              explodeJars="true">
-              ${project.build.directory}/generated-sources/xmlbinding
-            </destdir>
+            <destdir explodeJars="true">${project.build.directory}/generated-sources/xsb</destdir>
             <schemas>
               <schema>${basedir}/src/test/resources/xsd/calendar.xsd</schema>
             </schemas>
@@ -67,8 +59,7 @@
       </build>
     </profile>
   </profiles>
-  <!--
-  <build>
+  <!--build>
     <plugins>
       <plugin>
         <groupId>org.safris.maven.plugin</groupId>
@@ -84,8 +75,7 @@
         </executions>
       </plugin>
     </plugins>
-  </build>
-  -->
+  </build-->
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
@@ -115,8 +105,7 @@
       <artifactId>xercesImpl</artifactId>
       <scope>test</scope>
     </dependency>
-<!--
-    <dependency>
+    <!--dependency>
       <groupId>xalan</groupId>
       <artifactId>xalan</artifactId>
       <scope>test</scope>
@@ -135,7 +124,6 @@
       <groupId>xml-security</groupId>
       <artifactId>xmlsec</artifactId>
       <scope>test</scope>
-    </dependency>
--->
+    </dependency-->
   </dependencies>
 </project>
