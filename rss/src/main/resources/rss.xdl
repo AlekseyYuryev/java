@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="rss" xmlns="http://xdb.safris.org/xdl.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xdb.safris.org/xdl.xsd http://xdb.safris.org/xdl.xsd">
+  <table name="timestamp" abstract="true">
+    <column name="created_on" xsi:type="dateTime" null="false" generateOnInsert="TIMESTAMP"/>
+  </table>  
+  <table name="item" extends="timestamp">
+    <column name="about" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="title" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="link" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="description" xsi:type="char" variant="true" length="2047" null="false"/> 
+    <column name="date" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="language" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="rights" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="source" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="type" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="encolosure" xsi:type="char" variant="true" length="255" null="false"/> 
+    <column name="issued" xsi:type="dateTime" null="false"/>
+    <constraints>
+      <primaryKey>
+        <column name="about"/>
+      </primaryKey>
+    </constraints>
+  </table>
+</database>

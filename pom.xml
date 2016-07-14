@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org</groupId>
   <artifactId>safris</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>1.7.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
   <url>http://www.safris.org/</url>
@@ -142,24 +142,24 @@
         <module>jetty</module>
         <module>maven</module>
         <module>xdb</module>
-        <module>xml</module>
+        <module>xsb</module>
       </modules>
       <dependencies>
         <dependency>
           <groupId>org.safris.commons</groupId>
           <artifactId>test</artifactId>
-          <version>1.1.5-SNAPSHOT</version>
+          <version>1.1.6-SNAPSHOT</version>
           <scope>test</scope>
         </dependency>
       </dependencies>
-      <build>
+      <!--build>
         <plugins>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
             <artifactId>version</artifactId>
           </plugin>
         </plugins>
-      </build>
+      </build-->
     </profile>
   </profiles>
   <build>
@@ -397,8 +397,8 @@
                 </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
-                    <groupId>org.safris.maven.plugin.xml</groupId>
-                    <artifactId>binding</artifactId>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>xsb</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>generate</goal>

@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,11 +22,11 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>commons</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>1.8.2-SNAPSHOT</version>
   </parent>
   <groupId>org.safris.commons</groupId>
   <artifactId>test</artifactId>
-  <version>1.1.5-SNAPSHOT</version>
+  <version>1.1.6-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <description>Wrappers for common test patterns.</description>
   <profiles>
@@ -61,14 +60,14 @@
     </profile>
     <profile>
       <id>version</id>
-      <build>
+      <!--build>
         <plugins>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
             <artifactId>version</artifactId>
           </plugin>
         </plugins>
-      </build>
+      </build-->
     </profile>
   </profiles>
   <dependencies>
@@ -77,9 +76,9 @@
       <groupId>junit</groupId>
     </dependency>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>maven</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <groupId>org.safris.maven</groupId>
+      <artifactId>common</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

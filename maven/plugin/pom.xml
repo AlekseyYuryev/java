@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,11 +22,11 @@
   <parent>
     <groupId>org.safris</groupId>
     <artifactId>maven</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>1.8.1-SNAPSHOT</version>
   </parent>
   <groupId>org.safris.maven</groupId>
   <artifactId>plugin</artifactId>
-  <version>1.7.18-SNAPSHOT</version>
+  <version>1.8.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}.${project.artifactId}</name>
   <profiles>
@@ -41,20 +40,21 @@
       <modules>
         <module>dependency</module>
         <module>codeguide</module>
+        <module>xsb</module>
         <module>xml</module>
         <module>cert</module>
         <module>xdb</module>
         <module>codegen</module>
         <module>json</module>
       </modules>
-      <build>
+      <!--build>
         <plugins>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
             <artifactId>version</artifactId>
           </plugin>
         </plugins>
-      </build>
+      </build-->
     </profile>
     <profile>
       <id>core</id>
@@ -70,9 +70,9 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>maven</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <groupId>org.safris.maven</groupId>
+      <artifactId>common</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
