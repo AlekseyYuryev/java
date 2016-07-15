@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>security</artifactId>
   <version>1.0.9</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     Wrappers for common security patterns.
   </description>

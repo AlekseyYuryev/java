@@ -27,7 +27,7 @@
   <groupId>org.safris.jetty</groupId>
   <artifactId>jersey</artifactId>
   <version>0.2.3</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
       <groupId>org.safris.jetty</groupId>

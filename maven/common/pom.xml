@@ -27,7 +27,7 @@
   <groupId>org.safris.maven</groupId>
   <artifactId>common</artifactId>
   <version>1.0.0</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <profiles>
     <profile>
       <id>maven-invoker-plugin</id>

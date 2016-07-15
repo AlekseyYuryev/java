@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>cdm</artifactId>
   <version>0.0.6</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <build>
     <plugins>
       <plugin>

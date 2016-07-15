@@ -28,7 +28,7 @@
   <artifactId>commons</artifactId>
   <version>1.8.2</version>
   <packaging>pom</packaging>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <profiles>
     <profile>
       <id>default</id>

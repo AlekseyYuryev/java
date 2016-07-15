@@ -16,9 +16,9 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 <json bundleName="json"
-  xmlns="http://commons.safris.org/json.xsd"
+  xmlns="http://xrs.safris.org/xjb.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../commons/json/src/main/resources/json.xsd">
+  xsi:schemaLocation="http://commons.safris.org/json.xsd ../../../../../xrs/xjb/src/main/resources/xjb.xsd">
   <object name="fruit">
     <property name="name" xsi:type="string"/>
   </object>

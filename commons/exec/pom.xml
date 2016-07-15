@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>exec</artifactId>
   <version>1.2.7</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     API for dealing with external process execution and environment management
     in Java.

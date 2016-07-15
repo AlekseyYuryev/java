@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>math</artifactId>
   <version>1.4.2</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     Lightweight, self-contained mathematics and statistics components.
   </description>

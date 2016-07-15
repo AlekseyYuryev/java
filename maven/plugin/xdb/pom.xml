@@ -28,7 +28,7 @@
   <artifactId>xdb</artifactId>
   <version>1.3.2</version>
   <packaging>maven-plugin</packaging>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <build>
     <plugins>
       <plugin>

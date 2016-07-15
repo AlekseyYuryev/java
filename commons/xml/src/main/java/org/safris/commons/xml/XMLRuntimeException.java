@@ -1,4 +1,4 @@
-/* Copyright (c) 2006 Seva Safris
+/* Copyright (c) 2016 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,26 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xsb.generator.lexer.lang;
+package org.safris.commons.xml;
 
-import org.safris.commons.xml.XMLRuntimeException;
+public class XMLRuntimeException extends RuntimeException {
+  private static final long serialVersionUID = -3340367766867602639L;
 
-public final class LexerFailureException extends XMLRuntimeException {
-  private static final long serialVersionUID = 7086955029486763018L;
-
-  public LexerFailureException() {
+  public XMLRuntimeException() {
     super();
   }
 
-  public LexerFailureException(final String message) {
+  public XMLRuntimeException(final String message) {
     super(message);
   }
 
-  public LexerFailureException(final Throwable cause) {
+  public XMLRuntimeException(final Throwable cause) {
     super(cause);
   }
 
-  public LexerFailureException(final String message, final Throwable cause) {
+  public XMLRuntimeException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

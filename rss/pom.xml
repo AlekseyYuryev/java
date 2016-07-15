@@ -27,7 +27,7 @@
   <groupId>org.safris</groupId>
   <artifactId>rss</artifactId>
   <version>2.0.1</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <build>
     <plugins>
       <plugin>

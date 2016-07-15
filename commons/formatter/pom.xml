@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>formatter</artifactId>
   <version>0.4.4</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     A source formatting component that formats generated source-code.
   </description>

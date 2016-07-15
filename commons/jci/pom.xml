@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>jci</artifactId>
   <version>1.2.1</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     Java Compiler Interface.
   </description>

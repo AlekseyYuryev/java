@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>xml</artifactId>
   <version>1.0.2</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     Utility classes for XML-related functions.
   </description>

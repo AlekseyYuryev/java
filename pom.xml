@@ -23,7 +23,7 @@
   <artifactId>safris</artifactId>
   <version>1.7.1</version>
   <packaging>pom</packaging>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <url>http://www.safris.org/</url>
   <organization>
     <name>Seva Safris</name>
@@ -141,8 +141,8 @@
         <module>commons</module>
         <module>jetty</module>
         <module>maven</module>
-        <module>xjb</module>
         <module>xdb</module>
+        <module>xrs</module>
         <module>xsb</module>
       </modules>
       <dependencies>

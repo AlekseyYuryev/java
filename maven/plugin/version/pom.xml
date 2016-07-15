@@ -27,7 +27,7 @@
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>version</artifactId>
   <version>0.1.1</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <packaging>maven-plugin</packaging>
   <build>
     <plugins>

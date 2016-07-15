@@ -27,7 +27,7 @@
   <groupId>org.safris.commons</groupId>
   <artifactId>logging</artifactId>
   <version>1.0.6</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     Wrapper around several logging APIs.
   </description>

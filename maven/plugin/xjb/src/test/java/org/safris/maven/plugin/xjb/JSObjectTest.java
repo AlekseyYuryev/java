@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.json;
+package org.safris.maven.plugin.xjb;
 
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -23,12 +23,12 @@ import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.json.DecodeException;
-import org.safris.commons.json.EncodeException;
-import org.safris.commons.json.JSObject;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
+import org.safris.xrs.xjb.DecodeException;
+import org.safris.xrs.xjb.EncodeException;
+import org.safris.xrs.xjb.JSObject;
 
 import json.api;
 

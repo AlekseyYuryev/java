@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.json;
+package org.safris.maven.plugin.xjb;
 
 import java.io.File;
 
@@ -26,15 +26,15 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.json.Generator;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
 import org.safris.maven.common.MavenPropertyResolver;
 import org.safris.maven.common.Resolver;
+import org.safris.xrs.xjb.Generator;
 
-@Mojo(name = "jso", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-@Execute(goal = "jso")
-public class JSONMojo extends AdvancedMojo {
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "generate")
+public class XJBMojo extends AdvancedMojo {
   @Parameter(property = "maven.test.skip", defaultValue = "false")
   private Boolean mavenTestSkip = null;
 
@@ -47,9 +47,6 @@ public class JSONMojo extends AdvancedMojo {
   @Parameter(defaultValue = "${project}", readonly = true)
   protected MavenProject project;
 
-  /**
-   * @parameter expression="${mojoExecution.lifecyclePhase}"
-   */
   @Parameter(defaultValue = "${mojoExecution.lifecyclePhase}")
   private String lifecyclePhase;
 

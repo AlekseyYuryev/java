@@ -27,7 +27,7 @@
   <groupId>org.safris.ant.task</groupId>
   <artifactId>xsb</artifactId>
   <version>2.1.2</version>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     The Ant builder is an Ant task that can be used in a build.xml definition for the
     generation of classes bound to a particular XSD.

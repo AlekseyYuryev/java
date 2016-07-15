@@ -28,7 +28,7 @@
   <artifactId>plugin</artifactId>
   <version>1.8.0</version>
   <packaging>pom</packaging>
-  <name>${project.groupId}.${project.artifactId}</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <profiles>
     <profile>
       <id>default</id>
