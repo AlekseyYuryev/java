@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.ant.task.xml.binding;
+package org.safris.ant.task.xsb;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
-import org.safris.commons.maven.Resolver;
 import org.safris.commons.xml.dom.DOMParsers;
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.toolkit.binding.Generator;
+import org.safris.maven.common.Resolver;
+import org.safris.xsb.generator.lexer.processor.GeneratorContext;
+import org.safris.xsb.generator.lexer.processor.reference.SchemaReference;
+import org.safris.xsb.runtime.binding.Generator;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

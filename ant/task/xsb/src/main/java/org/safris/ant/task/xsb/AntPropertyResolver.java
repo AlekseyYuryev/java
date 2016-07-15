@@ -14,10 +14,10 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.ant.task.xml.binding;
+package org.safris.ant.task.xsb;
 
 import org.apache.tools.ant.Project;
-import org.safris.commons.maven.Resolver;
+import org.safris.maven.common.Resolver;
 
 public class AntPropertyResolver implements Resolver<String> {
   private final Project project;

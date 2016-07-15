@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.maven;
+package org.safris.maven.common;
 
 public final class Log {
   public static enum Level {

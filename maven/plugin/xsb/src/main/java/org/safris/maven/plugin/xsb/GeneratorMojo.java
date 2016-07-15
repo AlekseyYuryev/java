@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml.binding;
+package org.safris.maven.plugin.xsb;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -35,17 +35,17 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.lang.Paths;
-import org.safris.commons.maven.AdvancedMojo;
-import org.safris.commons.maven.Manifest;
-import org.safris.commons.maven.MavenPropertyResolver;
-import org.safris.commons.maven.Resolver;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.dom.DOMParsers;
-import org.safris.xml.generator.lexer.processor.GeneratorContext;
-import org.safris.xml.generator.lexer.processor.reference.SchemaReference;
-import org.safris.xml.toolkit.binding.Generator;
-import org.safris.xml.toolkit.processor.bundle.Bundle;
+import org.safris.maven.common.AdvancedMojo;
+import org.safris.maven.common.Manifest;
+import org.safris.maven.common.MavenPropertyResolver;
+import org.safris.maven.common.Resolver;
+import org.safris.xsb.generator.lexer.processor.GeneratorContext;
+import org.safris.xsb.generator.lexer.processor.reference.SchemaReference;
+import org.safris.xsb.runtime.binding.Generator;
+import org.safris.xsb.runtime.processor.bundle.Bundle;
 import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Document;
 

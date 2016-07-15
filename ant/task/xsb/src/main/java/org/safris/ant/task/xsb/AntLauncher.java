@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.ant.task.xml.binding;
+package org.safris.ant.task.xsb;
 
 import org.apache.tools.ant.Main;
 

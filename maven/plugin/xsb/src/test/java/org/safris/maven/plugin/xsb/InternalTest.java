@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml.binding;
+package org.safris.maven.plugin.xsb;
 
 import java.io.File;
 
