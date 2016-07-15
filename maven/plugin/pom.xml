@@ -38,13 +38,13 @@
         </property>
       </activation>
       <modules>
-        <module>dependency</module>
-        <module>codeguide</module>
-        <module>xsb</module>
         <module>cert</module>
-        <module>xdb</module>
         <module>codegen</module>
-        <module>json</module>
+        <module>codeguide</module>
+        <module>dependency</module>
+        <module>xdb</module>
+        <module>xjb</module>
+        <module>xsb</module>
       </modules>
       <!--build>
         <plugins>

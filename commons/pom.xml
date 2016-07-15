@@ -51,7 +51,6 @@
         <module>jci</module>
         <module>measure</module>
         <module>search</module>
-        <module>json</module>
         <module>servlet</module>
       </modules>
     </profile>

@@ -141,6 +141,7 @@
         <module>commons</module>
         <module>jetty</module>
         <module>maven</module>
+        <module>xjb</module>
         <module>xdb</module>
         <module>xsb</module>
       </modules>
@@ -275,13 +276,13 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>json</artifactId>
+          <artifactId>xjb</artifactId>
           <version>1.1.3</version>
           <executions>
             <execution>
               <phase>generate-sources</phase>
               <goals>
-                <goal>jso</goal>
+                <goal>generate</goal>
               </goals>
             </execution>
           </executions>
@@ -412,10 +413,10 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>json</artifactId>
+                    <artifactId>xjb</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
-                      <goal>jso</goal>
+                      <goal>generate</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
