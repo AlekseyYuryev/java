@@ -44,7 +44,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
             <configuration>
-              <goalPrefix>istenum</goalPrefix>
+              <goalPrefix>codegen</goalPrefix>
             </configuration>
             <executions>
               <execution>

@@ -51,7 +51,7 @@ import org.w3c.dom.Document;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
-public class GeneratorMojo extends AdvancedMojo {
+public class XSBMojo extends AdvancedMojo {
   private static final FileFilter classesFilter = new FileFilter() {
     @Override
     public boolean accept(final File pathname) {

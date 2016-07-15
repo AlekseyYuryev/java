@@ -35,7 +35,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>import</goalPrefix>
+          <goalPrefix>cert</goalPrefix>
         </configuration>
         <executions>
           <execution>

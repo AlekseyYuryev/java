@@ -34,7 +34,7 @@ public class InternalTest extends LoggableTest {
   @Test
   @Ignore
   public void testInternal() throws Exception {
-    final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, GeneratorMojo.class, POM_PATH + "pom-internal.xml");
+    final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, XSBMojo.class, POM_PATH + "pom-internal.xml");
     if (process.exitValue() != 0)
       Assert.fail();
 

@@ -38,7 +38,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>javaproj</goalPrefix>
+          <goalPrefix>codeguide</goalPrefix>
         </configuration>
         <executions>
           <execution>
