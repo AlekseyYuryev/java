@@ -26,17 +26,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.DateUtil;
-import org.safris.commons.maven.AdvancedMojo;
-import org.safris.commons.maven.Log;
 import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
 import org.safris.commons.xml.sax.SAXProperty;
+import org.safris.maven.common.AdvancedMojo;
+import org.safris.maven.common.Log;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -248,7 +252,7 @@ public final class ValidatorMojo extends AdvancedMojo {
                 recordFile.setLastModified(file.lastModified());
             }
             catch (final SAXException e) {
-              throw new MojoFailureException("Failed to validate xml.", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()), "Reason: " + e.getMessage() + "\n");
+              throw new MojoFailureException("Failed to validate xml.", "", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()) + "\nReason: " + e.getMessage() + "\n");
             }
           }
         }

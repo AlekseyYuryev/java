@@ -36,7 +36,7 @@ import org.eclipse.jgit.api.Git;
 import org.safris.commons.lang.Arrays;
 import org.safris.commons.lang.Enums;
 import org.safris.commons.lang.Paths;
-import org.safris.commons.maven.AdvancedMojo;
+import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.plugin.version.OriginalResolver.Entry;
 
 @Mojo(name = "update", defaultPhase = LifecyclePhase.VALIDATE)

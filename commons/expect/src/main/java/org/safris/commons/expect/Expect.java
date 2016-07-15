@@ -37,7 +37,7 @@ import org.safris.commons.io.scanner.ScannerHandler;
 import org.safris.commons.util.ELs;
 import org.safris.commons.util.ExpressionFormatException;
 import org.safris.commons.util.HashTree;
-import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xsb.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
 public final class Expect {

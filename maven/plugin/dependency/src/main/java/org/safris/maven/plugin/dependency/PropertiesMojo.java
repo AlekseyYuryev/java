@@ -24,7 +24,7 @@ import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.maven.AdvancedMojo;
+import org.safris.maven.common.AdvancedMojo;
 
 public abstract class PropertiesMojo extends AdvancedMojo implements DependencyProperties {
   @Parameter(property = "mdep.fileSeparator")

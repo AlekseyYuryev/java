@@ -33,7 +33,7 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.safris.commons.maven.Log;
+import org.safris.maven.common.Log;
 
 public abstract class LoggableTest {
   private static final List<Log.Record> logRecords = new LinkedList<Log.Record>();

@@ -16,7 +16,7 @@
 
 package org.safris.maven.plugin.xml.validator;
 
-import org.safris.commons.maven.Log;
+import org.safris.maven.common.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

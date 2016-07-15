@@ -27,7 +27,7 @@ import org.safris.commons.io.Files;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
-import org.safris.xml.generator.compiler.runtime.MarshalException;
+import org.safris.xsb.generator.compiler.runtime.MarshalException;
 
 import noNamespace.xe._buildProperties;
 import noNamespace.xe._javaProject3;

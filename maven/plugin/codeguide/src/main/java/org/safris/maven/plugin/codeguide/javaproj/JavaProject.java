@@ -26,7 +26,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.maven.plugin.codeguide.sln.Solution;
 import org.safris.maven.plugin.dependency.GroupArtifact;
-import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.xsb.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
 import noNamespace.xe._javaProject3;

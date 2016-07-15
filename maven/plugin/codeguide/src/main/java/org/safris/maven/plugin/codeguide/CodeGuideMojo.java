@@ -25,7 +25,7 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.maven.AdvancedMojo;
+import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.plugin.dependency.DependencyProperties;
 
 public abstract class CodeGuideMojo extends AdvancedMojo implements DependencyProperties {

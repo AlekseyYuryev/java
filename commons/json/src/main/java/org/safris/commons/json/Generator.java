@@ -38,13 +38,13 @@ import org.safris.commons.json.xe.json_json;
 import org.safris.commons.json.validator.PatternValidator;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
-import org.safris.commons.maven.Log;
 import org.safris.commons.util.Collections;
 import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.XMLText;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
-import org.safris.xml.generator.compiler.runtime.Bindings;
+import org.safris.maven.common.Log;
+import org.safris.xsb.generator.compiler.runtime.Bindings;
 import org.xml.sax.InputSource;
 
 public class Generator {

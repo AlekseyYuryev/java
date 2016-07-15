@@ -157,11 +157,11 @@
           <!--plugin>
             <groupId>org.safris.maven.plugin</groupId>
             <artifactId>version</artifactId>
-          </plugin-->
+          </plugin>
           <plugin>
             <groupId>org.safris.maven.plugin.xml</groupId>
             <artifactId>validator</artifactId>
-          </plugin>
+          </plugin-->
         </plugins>
       </build>
     </profile>

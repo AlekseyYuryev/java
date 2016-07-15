@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Strings;
-import org.safris.commons.maven.Log;
+import org.safris.maven.common.Log;
 
 public class Transaction {
   private static final File tempDir = new File(new File(System.getProperty("java.io.tmpdir")), Transaction.class.getPackage().getName());
