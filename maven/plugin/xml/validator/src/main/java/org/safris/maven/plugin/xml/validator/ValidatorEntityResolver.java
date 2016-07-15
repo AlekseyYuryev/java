@@ -18,7 +18,11 @@ package org.safris.maven.plugin.xml.validator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
 
 import org.safris.commons.lang.Paths;
 import org.safris.commons.lang.Resources;
@@ -31,6 +35,8 @@ import com.sun.org.apache.xerces.internal.xni.parser.XMLInputSource;
 
 @SuppressWarnings("restriction")
 public final class ValidatorEntityResolver implements XMLEntityResolver {
+  private static final int[] REDIRECT_CODES = new int[] {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
+
   private final File basedir;
 
   public ValidatorEntityResolver(final File basedir) {
@@ -38,6 +44,7 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
   }
 
   @Override
+  @SuppressWarnings("resource")
   public XMLInputSource resolveEntity(final XMLResourceIdentifier resourceIdentifier) throws IOException, XNIException {
     //System.err.println(resourceIdentifier.getPublicId() + ", " + resourceIdentifier.getBaseSystemId() + ", " + resourceIdentifier.getPublicId() + ", " + resourceIdentifier.getNamespace());
     String systemId = resourceIdentifier.getLiteralSystemId();
@@ -86,8 +93,18 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
     if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
       resourceIdentifier.setLiteralSystemId(url.getPath());
 
+    final URLConnection connection = url.openConnection();
+    final InputStream in;
+    if (connection instanceof HttpURLConnection && Arrays.binarySearch(REDIRECT_CODES, ((HttpURLConnection)connection).getResponseCode()) > 0) {
+      final String location = connection.getHeaderField("Location");
+      in = new URL(location).openConnection().getInputStream();
+    }
+    else {
+      in = connection.getInputStream();
+    }
+
     final XMLInputSource inputSource = new XMLInputSource(resourceIdentifier);
-    inputSource.setByteStream(url.openStream());
+    inputSource.setByteStream(in);
     return inputSource;
   }
 }

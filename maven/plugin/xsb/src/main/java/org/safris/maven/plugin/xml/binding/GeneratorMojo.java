@@ -54,7 +54,7 @@ import org.w3c.dom.Document;
 public class GeneratorMojo extends AdvancedMojo {
   private static final FileFilter classesFilter = new FileFilter() {
     @Override
-    public boolean accept(File pathname) {
+    public boolean accept(final File pathname) {
       final String name = pathname.getName();
       return name != null && !name.endsWith(".class") && !name.endsWith(".java");
     }
@@ -161,7 +161,7 @@ public class GeneratorMojo extends AdvancedMojo {
       if (!hrefFile.isFile())
         throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" is not a file.");
 
-      Document document = null;
+      final Document document;
       try {
         document = DOMParsers.newDocumentBuilder().parse(hrefFile);
       }
