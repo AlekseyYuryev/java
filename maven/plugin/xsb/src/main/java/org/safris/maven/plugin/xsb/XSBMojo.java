@@ -114,7 +114,7 @@ public class XSBMojo extends AdvancedMojo {
             }
 
             for (int j = 0; j < manifest.getChildCount(); j++) {
-              final Xpp3Dom destdir = manifest.getChild(i);
+              final Xpp3Dom destdir = manifest.getChild(j);
               if ("destdir".equals(destdir.getName())) {
                 for (final String attribute : destdir.getAttributeNames()) {
                   if (attribute.endsWith("explodeJars"))
