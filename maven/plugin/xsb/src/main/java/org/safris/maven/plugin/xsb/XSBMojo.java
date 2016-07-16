@@ -42,10 +42,10 @@ import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
 import org.safris.maven.common.MavenPropertyResolver;
 import org.safris.maven.common.Resolver;
+import org.safris.xsb.compiler.processor.GeneratorContext;
+import org.safris.xsb.compiler.processor.reference.SchemaReference;
 import org.safris.xsb.generator.binding.Generator;
 import org.safris.xsb.generator.processor.bundle.Bundle;
-import org.safris.xsb.lexer.processor.GeneratorContext;
-import org.safris.xsb.lexer.processor.reference.SchemaReference;
 import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Document;
 
