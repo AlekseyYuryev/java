@@ -125,10 +125,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return project;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeTransitive}" default-value="false"
-   */
+  @Parameter(property = "excludeTransitive", defaultValue = "")
   private boolean excludeTransitive;
 
   /**
@@ -139,10 +136,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeTransitive;
   }
 
-  /**
-   * @parameter expression="${includeTypes}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeTypes", defaultValue = "")
   private String includeTypes;
 
   /**
@@ -154,10 +148,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return includeTypes;
   }
 
-  /**
-   * @parameter expression="${excludeTypes}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeTypes", defaultValue = "")
   private String excludeTypes;
 
   /**
@@ -169,10 +160,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeTypes;
   }
 
-  /**
-   * @parameter expression="${includeScope}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeScope", defaultValue = "")
   private String includeScope;
 
   /**
@@ -183,10 +171,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return includeScope;
   }
 
-  /**
-   * @parameter expression="${excludeScope}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeScope", defaultValue = "")
   private String excludeScope;
 
   /**
@@ -197,10 +182,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeScope;
   }
 
-  /**
-   * @parameter expression="${includeClassifiers}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "includeClassifiers", defaultValue = "")
   private String includeClassifiers;
 
   /**
@@ -212,10 +194,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return includeClassifiers;
   }
 
-  /**
-   * @parameter expression="${excludeClassifiers}" default-value=""
-   * @optional
-   */
+  @Parameter(property = "excludeClassifiers", defaultValue = "")
   private String excludeClassifiers;
 
   /**
@@ -227,10 +206,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeClassifiers;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${classifier}" default-value=""
-   */
+  @Parameter(property = "classifier", defaultValue = "")
   private String classifier;
 
   /**
@@ -241,10 +217,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return classifier;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${type}" default-value="java-source"
-   */
+  @Parameter(property = "type", defaultValue = "")
   private String type;
 
   /**
@@ -256,10 +229,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return type;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "excludeArtifactIds", defaultValue = "")
   private String excludeArtifactIds;
 
   /**
@@ -270,10 +240,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "includeArtifactIds", defaultValue = "")
   private String includeArtifactIds;
 
   /**
@@ -284,10 +251,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return includeArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeGroupIds}" default-value=""
-   */
+  @Parameter(property = "excludeGroupIds", defaultValue = "")
   private String excludeGroupIds;
 
   /**
@@ -298,10 +262,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeGroupIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeGroupIds}" default-value=""
-   */
+  @Parameter(property = "includeGroupIds", defaultValue = "")
   private String includeGroupIds;
 
   /**
@@ -312,10 +273,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return includeGroupIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${excludeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "excludeArtifactIds", defaultValue = "")
   private String excludeGroupIdArtifactIds;
 
   /**
@@ -326,10 +284,7 @@ public abstract class PropertiesMojo extends AdvancedMojo implements DependencyP
     return excludeGroupIdArtifactIds;
   }
 
-  /**
-   * @optional
-   * @parameter expression="${includeArtifactIds}" default-value=""
-   */
+  @Parameter(property = "includeArtifactIds", defaultValue = "")
   private String includeGroupIdArtifactIds;
 
   /**

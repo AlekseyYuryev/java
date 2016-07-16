@@ -22,7 +22,6 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -34,8 +33,8 @@ import org.safris.maven.common.AdvancedMojo;
 @Mojo(name = "istenum", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "istenum")
 public final class ISTEnumGeneratorMojo extends AdvancedMojo {
-  @Component
-  public MavenProject project;
+  @Parameter(defaultValue = "${project}", readonly = true)
+  private MavenProject project;
 
   @Parameter(defaultValue = "${mojoExecution}", readonly = true)
   private MojoExecution execution;
