@@ -53,15 +53,9 @@ public final class ConfigurableLogger implements FileEventListener {
     }
   };
 
-  private static String applicationName = null;
   private static final List<LogRecord> constructRecord = new ArrayList<LogRecord>();
   private static final String loggerName = "";
   private static ConfigurableLogger logger = null;
-
-  static {
-    final Class<?> executedClass = Processes.getExecutedClass();
-    applicationName = executedClass != null ? executedClass.getSimpleName() : null;
-  }
 
   public static java.util.logging.Logger getLogger() {
     if (logger != null)
@@ -162,7 +156,7 @@ public final class ConfigurableLogger implements FileEventListener {
     try {
       synchronized (wrappedLogger) {
         final Map<String,String> env = new HashMap<String,String>(System.getenv());
-        env.put("APPLICATION_NAME", applicationName != null ? applicationName : "web");
+        env.put("APPLICATION_NAME", "web");
 
         //env.put("DATE", DateFormat.format(System.currentTimeMillis()));
         env.put("PID", String.valueOf(Processes.getPID()));

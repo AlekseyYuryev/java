@@ -34,23 +34,6 @@ import org.safris.commons.io.Streams;
 import org.safris.commons.lang.ClassLoaders;
 
 public final class Processes {
-  @SuppressWarnings("unchecked")
-  public static final Class<?> getExecutedClass() {
-    try {
-      final Field field = ClassLoader.class.getDeclaredField("classes");
-      field.setAccessible(true);
-      final Vector<Class<?>> classes = (Vector<Class<?>>)field.get(ClassLoader.getSystemClassLoader());
-      for (final Class<?> cls : classes)  {
-        if ((cls.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT && cls.getName().startsWith("com.barclaysglobal"))
-          return cls;
-      }
-    }
-    catch (final Exception e) {
-    }
-
-    return null;
-  }
-
   public static int getPID() {
     final String pidAtHost = ManagementFactory.getRuntimeMXBean().getName();
     if (pidAtHost == null)
