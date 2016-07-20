@@ -28,7 +28,7 @@ public class InternalTest extends LoggableTest {
 
   @Test
   public void testInternal() throws Exception {
-    final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, GeneratorTask.class, new String[] {BUILD_PATH + "build-internal.xml"});
+    final Process process = Processes.forkSync(System.in, System.out, System.err, false, DEBUG_VM_ARGS, GeneratorTask.class, new String[] {BUILD_PATH + "build-internal.xml"});
     if (process.exitValue() != 0)
       Assert.fail();
   }

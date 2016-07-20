@@ -34,7 +34,7 @@ public class ExternalTest extends LoggableTest {
   @Test
   @Ignore
   public void testExternal() throws Exception {
-    final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, XSBMojo.class, POM_PATH + "pom-external.xml");
+    final Process process = Processes.forkSync(System.in, System.out, System.err, false, DEBUG_VM_ARGS, XSBMojo.class, POM_PATH + "pom-external.xml");
     if (process.exitValue() != 0)
       Assert.fail();
 

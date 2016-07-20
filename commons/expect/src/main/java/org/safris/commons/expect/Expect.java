@@ -75,15 +75,15 @@ public final class Expect {
       }
 
       if (sync)
-        process = Processes.forkSync(in, out, err, props, Class.forName(className), javaArgs.toArray(new String[javaArgs.size()]));
+        process = Processes.forkSync(in, out, err, false, props, Class.forName(className), javaArgs.toArray(new String[javaArgs.size()]));
       else
-        process = Processes.forkAsync(in, out, err, props, Class.forName(className), javaArgs.toArray(new String[javaArgs.size()]));
+        process = Processes.forkAsync(in, out, err, false, props, Class.forName(className), javaArgs.toArray(new String[javaArgs.size()]));
     }
     else {
       if (sync)
-        process = Processes.forkSync(in, out, err, new String[args.size()]);
+        process = Processes.forkSync(in, out, err, false, new String[args.size()]);
       else
-        process = Processes.forkAsync(in, out, err, args.toArray(new String[args.size()]));
+        process = Processes.forkAsync(in, out, err, false, args.toArray(new String[args.size()]));
     }
 
     // This is important: since we are not reading from STDERR, we must start a NonBlockingInputStream

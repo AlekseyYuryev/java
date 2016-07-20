@@ -26,6 +26,8 @@ import java.io.PipedOutputStream;
 import org.safris.commons.io.output.TeeOutputStream;
 
 public final class Streams {
+  private static final int DEFAULT_SOCKET_BUFFER_SIZE = 65536;
+
   /**
    * Reads all bytes from the input stream and returns the resulting buffer
    * array. This method blocks until all contents have been read, end of
@@ -46,9 +48,8 @@ public final class Streams {
     if (in == null)
       return null;
 
-    final int bufferSize = 1024;
-    final ByteArrayOutputStream buffer = new ByteArrayOutputStream(bufferSize);
-    final byte[] data = new byte[bufferSize];
+    final ByteArrayOutputStream buffer = new ByteArrayOutputStream(DEFAULT_SOCKET_BUFFER_SIZE);
+    final byte[] data = new byte[DEFAULT_SOCKET_BUFFER_SIZE];
     int length = -1;
     while ((length = in.read(data)) != -1)
       buffer.write(data, 0, length);
@@ -90,27 +91,36 @@ public final class Streams {
     pipe(src, snk, false, false);
   }
 
+  public static InputStream merge(final InputStream a, final InputStream b) throws IOException {
+    final PipedOutputStream pipedOut = new PipedOutputStream();
+    final InputStream pipedIn = new PipedInputStream(pipedOut, DEFAULT_SOCKET_BUFFER_SIZE);
+
+    Streams.pipeAsync(a, pipedOut);
+    Streams.pipeAsync(b, pipedOut);
+
+    return pipedIn;
+  }
+
   private static InputStream pipe(final InputStream src, final OutputStream snk, final boolean tee, final boolean sync) throws IOException {
     final PipedOutputStream pipedOut;
     final InputStream pipedIn;
     if (tee) {
       pipedOut = new PipedOutputStream();
-      pipedIn = new PipedInputStream(pipedOut);
+      pipedIn = new PipedInputStream(pipedOut, DEFAULT_SOCKET_BUFFER_SIZE);
     }
     else {
       pipedOut = null;
       pipedIn = null;
     }
 
-    final int bufferSize = 1024;
     if (sync) {
-      Streams.run(src, snk, pipedOut, tee, bufferSize);
+      Streams.pipe(src, snk, pipedOut, DEFAULT_SOCKET_BUFFER_SIZE);
     }
     else {
       new Thread(tee ? "tee" : "pipe") {
         @Override
         public void run() {
-          Streams.run(src, snk, pipedOut, tee, bufferSize);
+          Streams.pipe(src, snk, pipedOut, DEFAULT_SOCKET_BUFFER_SIZE);
         }
       }.start();
     }
@@ -118,22 +128,51 @@ public final class Streams {
     return pipedIn;
   }
 
-  private static void run(final InputStream src, final OutputStream snk, final PipedOutputStream pipedOut, final boolean tee, final int bufferSize) {
-    int length = 0;
+  private static boolean dismissException(final IOException e) {
+    return "Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage());
+  }
+
+  private static void pipe(final InputStream src, final OutputStream snk, final PipedOutputStream pipedOut, final int bufferSize) {
+    int length;
     final byte[] bytes = new byte[bufferSize];
     try {
-      while ((length = src.read(bytes)) != -1) {
-        if (tee) {
-          pipedOut.write(bytes, 0, length);
+      if (pipedOut != null) {
+        if (snk != null) {
+          while ((length = src.read(bytes)) != -1) {
+            pipedOut.write(bytes, 0, length);
+            snk.write(bytes, 0, length);
+
+            pipedOut.flush();
+            snk.flush();
+          }
+
+          pipedOut.flush();
+          snk.flush();
+        }
+        else {
+          while ((length = src.read(bytes)) != -1) {
+            pipedOut.write(bytes, 0, length);
+
+            pipedOut.flush();
+          }
+
           pipedOut.flush();
         }
+      }
+      else if (snk != null) {
+        while ((length = src.read(bytes)) != -1) {
+          snk.write(bytes, 0, length);
+          snk.flush();
+        }
 
-        snk.write(bytes, 0, length);
         snk.flush();
+      }
+      else {
+        while ((length = src.read(bytes)) != -1);
       }
     }
     catch (final IOException e) {
-      if ("Write end dead".equals(e.getMessage()) || "Broken pipe".equals(e.getMessage()) || "Pipe broken".equals(e.getMessage()) || "Stream closed".equals(e.getMessage()) || "Pipe closed".equals(e.getMessage()) || "Bad file number".equals(e.getMessage()))
+      if (dismissException(e))
         return;
 
       e.printStackTrace();

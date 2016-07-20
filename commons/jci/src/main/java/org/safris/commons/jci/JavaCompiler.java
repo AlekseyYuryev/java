@@ -137,7 +137,7 @@ public final class JavaCompiler {
     args[i++] = classpath;
     args[i++] = "@" + tempFile.getAbsolutePath();
 
-    Processes.forkSync(null, System.out, System.err, args);
+    Processes.forkSync(null, System.out, System.err, false, args);
     tempFile.deleteOnExit();
   }
 }

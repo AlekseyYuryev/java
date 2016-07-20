@@ -28,7 +28,7 @@ public class ExternalTest extends LoggableTest {
 
   @Test
   public void testExternal() throws Exception {
-    final Process process = Processes.forkSync(System.in, System.out, System.err, DEBUG_VM_ARGS, GeneratorTask.class, new String[] {BUILD_PATH + "build-external.xml"});
+    final Process process = Processes.forkSync(System.in, System.out, System.err, false, DEBUG_VM_ARGS, GeneratorTask.class, new String[] {BUILD_PATH + "build-external.xml"});
     if (process.exitValue() != 0)
       Assert.fail();
   }
