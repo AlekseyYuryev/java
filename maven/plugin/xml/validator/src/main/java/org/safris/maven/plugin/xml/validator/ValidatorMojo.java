@@ -81,7 +81,7 @@ public final class ValidatorMojo extends AdvancedMojo {
     };
   }
 
-  @Parameter(defaultValue = "${httpProxy}", required = true, readonly = true)
+  @Parameter(defaultValue = "${httpProxy}", required = false, readonly = true)
   private String httpProxy;
 
   public String getHttpProxy() {
