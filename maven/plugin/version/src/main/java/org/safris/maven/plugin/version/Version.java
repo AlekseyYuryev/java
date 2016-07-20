@@ -19,7 +19,7 @@ package org.safris.maven.plugin.version;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 
 public class Version implements Comparable<Version> {
   public static enum Part {
@@ -78,27 +78,27 @@ public class Version implements Comparable<Version> {
     return suffix;
   }
 
-  public Version increment(final Part part) throws MojoExecutionException {
+  public Version increment(final Part part) throws MojoFailureException {
     if (part == null)
       throw new NullPointerException("part == null");
 
     if (part == Part.MAJOR) {
       if (major() == null)
-        throw new MojoExecutionException("Version " + this + " does not have a major version component to increment.");
+        throw new MojoFailureException("Version " + this + " does not have a major version component to increment.");
 
       return new Version(prefix, major + 1, minor, patch, suffix);
     }
 
     if (part == Part.MINOR) {
       if (minor == null)
-        throw new MojoExecutionException("Version " + this + " does not have a minor version component to increment.");
+        throw new MojoFailureException("Version " + this + " does not have a minor version component to increment.");
 
       return new Version(prefix, major, minor + 1, patch, suffix);
     }
 
     if (part == Part.PATCH) {
       if (patch == null)
-        throw new MojoExecutionException("Version " + this + " does not have a patch version component to increment.");
+        throw new MojoFailureException("Version " + this + " does not have a patch version component to increment.");
 
       return new Version(prefix, major, minor, patch + 1, suffix);
     }

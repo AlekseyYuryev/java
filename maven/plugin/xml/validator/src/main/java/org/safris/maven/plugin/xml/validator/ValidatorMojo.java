@@ -164,7 +164,7 @@ public final class ValidatorMojo extends AdvancedMojo {
     saxParser.parse(new InputSource(new FileInputStream(file)));
   }
 
-  protected void setHttpProxy() throws MojoExecutionException {
+  protected void setHttpProxy() throws MojoFailureException {
     final String httpProxy = getHttpProxy();
     if (httpProxy == null)
       return;
@@ -175,14 +175,10 @@ public final class ValidatorMojo extends AdvancedMojo {
     else if (httpProxy.startsWith("http" + delimeter))
       scheme = "http";
     else
-      throw new MojoExecutionException("Invalid proxy: " + httpProxy + " no http or http scheme.");
+      throw new MojoFailureException("Invalid proxy: " + httpProxy + " no http or http scheme.");
 
-    final String port;
     final int portIndex = httpProxy.indexOf(":", scheme.length() + delimeter.length());
-    if (portIndex != -1)
-      port = httpProxy.substring(portIndex + 1);
-    else
-      port = "80";
+    final String port = portIndex != -1 ? httpProxy.substring(portIndex + 1) : "80";
 
     System.setProperty(scheme + ".proxyHost", httpProxy.substring(scheme.length() + delimeter.length(), portIndex));
     System.setProperty(scheme + ".proxyPort", port);

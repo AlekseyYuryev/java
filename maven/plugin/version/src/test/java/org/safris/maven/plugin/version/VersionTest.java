@@ -16,14 +16,14 @@
 
 package org.safris.maven.plugin.version;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
 
 public class VersionTest extends LoggableTest {
   @Test
-  public void testVersion() throws MojoExecutionException {
+  public void testVersion() throws MojoFailureException {
     Assert.assertEquals(0, new Version("1.7.1").compareTo(new Version("1.7.1")));
 
     Assert.assertEquals(new Version("0.1.1-SNAPSHOT"), new Version("0.1.0-SNAPSHOT").increment(Version.Part.PATCH));

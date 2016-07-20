@@ -74,7 +74,7 @@ public final class CertMojo extends AdvancedMojo {
         }
         catch (final FileNotFoundException e) {
           if (!e.getMessage().contains("(Permission denied)"))
-            throw new MojoExecutionException("Failure due to InstallCert", e);
+            throw new MojoFailureException("Failure due to InstallCert", e);
 
           getLog().error("Attempting to modify JDK CA certificates file " + e.getMessage());
           getLog().error("Please run the same command as root, via \"sudo\".");

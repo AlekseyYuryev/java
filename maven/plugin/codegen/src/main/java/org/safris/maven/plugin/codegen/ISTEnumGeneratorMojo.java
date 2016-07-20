@@ -63,7 +63,7 @@ public final class ISTEnumGeneratorMojo extends AdvancedMojo {
       ISTEnumGenerator.generate(className, inheritsFrom, new File(dir, className.replace('.', '/') + ".java"), file);
     }
     catch (final IOException e) {
-      throw new MojoFailureException(e.getMessage(), e);
+      throw new MojoExecutionException(e.getMessage(), e);
     }
 
     project.addTestCompileSourceRoot(dir.getAbsolutePath());

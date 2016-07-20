@@ -36,7 +36,7 @@ public final class XDEMojo extends XDBMojo {
       EntityGenerator.generate(xdlFile.toURI().toURL(), outDir);
     }
     catch (final IOException | XMLException e) {
-      throw new MojoFailureException(e.getMessage(), e);
+      throw new MojoExecutionException(e.getMessage(), e);
     }
 
     project.addTestCompileSourceRoot(outDir.getAbsolutePath());

@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.lang.Pair;
 import org.safris.commons.lang.Paths;
@@ -290,7 +289,7 @@ public class POMFile extends ModuleId {
     return newVersion;
   }
 
-  public void checkIncreaseVersion(final Version.Part incrementPart) throws MojoExecutionException {
+  public void checkIncreaseVersion(final Version.Part incrementPart) throws MojoFailureException {
     newVersion = this.version().increment(incrementPart);
     for (final ManagedPOMFile dependent : dependents) {
 //      (dependent.manager() != null ? dependent.manager() : dependent.pomFile()).addUpdate(new UpdateCommand(dependent.dependencyType().scope, this, VersionUtil.increaseVersion(version())));

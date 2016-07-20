@@ -45,7 +45,7 @@ public final class XDLMojo extends XDBMojo {
       DDLTransform.createDDL(xdlFile.toURI().toURL(), DBVendor.parse(vendor), outDir);
     }
     catch (final IOException | XMLException e) {
-      throw new MojoFailureException(e.getMessage(), e);
+      throw new MojoExecutionException(e.getMessage(), e);
     }
   }
 }

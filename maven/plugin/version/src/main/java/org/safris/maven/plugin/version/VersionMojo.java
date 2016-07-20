@@ -105,11 +105,11 @@ public final class VersionMojo extends AdvancedMojo {
       }
     }
     catch (final GitAPIException | IOException e) {
-      throw new MojoFailureException(e.getMessage(), e);
+      throw new MojoExecutionException(e.getMessage(), e);
     }
   }
 
-  private void executeUpdate(final Set<POMFile> updates) throws IOException, MojoExecutionException {
+  private void executeUpdate(final Set<POMFile> updates) throws IOException, MojoFailureException {
     // Ensure maven is being run as: "mvn validate"
     final List<String> goals = session.getRequest().getGoals();
     final LifecyclePhase[] phases = Enums.valueOf(LifecyclePhase.class, Arrays.<String>filter(new Arrays.Filter<String>() {
@@ -124,7 +124,7 @@ public final class VersionMojo extends AdvancedMojo {
         if (LifecyclePhase.VALIDATE.ordinal() < phase.ordinal()) {
           final String error = "Maven must be executed with 'validate' phase for the version plugin to update POM versions.";
           getLog().error(error);
-          throw new MojoExecutionException(error);
+          throw new MojoFailureException(error);
         }
       }
     }

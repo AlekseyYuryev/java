@@ -53,7 +53,7 @@ public abstract class XDBMojo extends AdvancedMojo {
       return;
 
     if (manifest.getDestdir() == null)
-      throw new MojoExecutionException("destdir is required");
+      throw new MojoFailureException("destdir is required");
 
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
@@ -62,16 +62,16 @@ public abstract class XDBMojo extends AdvancedMojo {
     for (final String spec : manifest.getSchemas()) {
       final File xdlFile = new File(resolver.resolve(spec));
       if (!xdlFile.exists())
-        throw new MojoExecutionException("XDL file does not exist: " + xdlFile.getAbsolutePath());
+        throw new MojoFailureException("XDL file does not exist: " + xdlFile.getAbsolutePath());
 
       final File outDirFile = new File(manifest.getDestdir());
       if (outDirFile.exists()) {
         if (outDirFile.isFile()) {
-          throw new MojoExecutionException("Outdir points to a file");
+          throw new MojoFailureException("Outdir points to a file");
         }
       }
       else if (!outDirFile.mkdirs()) {
-        throw new MojoExecutionException("Unable to create directory: " + outDirFile.getAbsolutePath());
+        throw new MojoFailureException("Unable to create directory: " + outDirFile.getAbsolutePath());
       }
 
       execute(xdlFile, outDirFile);
