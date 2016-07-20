@@ -29,6 +29,10 @@ import java.util.Map;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.DateUtil;
 import org.safris.commons.xml.sax.SAXFeature;
@@ -40,11 +44,8 @@ import org.safris.maven.common.Log;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- * @goal validate
- * @requiresDependencyResolution test
- * @phase compile
- */
+@Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)
+@Execute(goal = "validate")
 public final class ValidatorMojo extends AdvancedMojo {
   private static final String delimeter = "://";
 
@@ -80,56 +81,42 @@ public final class ValidatorMojo extends AdvancedMojo {
     };
   }
 
-  /**
-   * @parameter default-value="" expression="${httpProxy}"
-   */
+  @Parameter(defaultValue = "${httpProxy}", required = true, readonly = true)
   private String httpProxy;
 
   public String getHttpProxy() {
     return httpProxy;
   }
 
-  /**
-   * @parameter expression="${project.resources}"
-   */
+  @Parameter(defaultValue = "${project.resources}", required = true, readonly = true)
   private List<Resource> resources;
 
   public List<Resource> getResources() {
     return resources;
   }
 
-  /**
-   * @parameter expression="${project.testResources}"
-   */
+  @Parameter(defaultValue = "${project.testResources}", required = true, readonly = true)
   private List<Resource> testResources;
 
   public List<Resource> getTestResources() {
     return testResources;
   }
 
-  /**
-   * @parameter
-   */
+  @Parameter(property = "includes")
   private List<String> includes;
 
   public List<String> getIncludes() {
     return includes;
   }
 
-  /**
-   * @parameter
-   */
+  @Parameter(property = "excludes")
   private List<String> excludes;
 
   public List<String> getExcludes() {
     return excludes;
   }
 
-  /**
-   * @parameter default-value="${project.build.directory}"
-   * @readonly
-   * @required
-   */
+  @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
   private String directory = null;
 
   protected String getDirectory() {
