@@ -26,7 +26,7 @@ public class Version implements Comparable<Version> {
     MAJOR, MINOR, PATCH
   }
 
-  private static final Pattern pattern = Pattern.compile("^(?<prefix>[^\\d]*)(?<major>\\d*)(\\.(?<minor>\\d*)(\\.(?<patch>\\d*))?)?(?<suffix>[^\\d].*)$");
+  private static final Pattern pattern = Pattern.compile("^(?<prefix>[^\\d]*)(?<major>\\d*)(\\.(?<minor>\\d*)(\\.(?<patch>\\d*))?)?(?<suffix>[^\\d].*)?$");
 
   private final String prefix;
   private final Integer major;

@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.maven.MavenExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.safris.commons.lang.Pair;
 import org.safris.commons.lang.Paths;
 
@@ -45,7 +45,7 @@ public class POMFile extends ModuleId {
     return updates;
   }
 
-  public static POMFile entry(final File file) throws IOException, MavenExecutionException {
+  public static POMFile entry(final File file) throws IOException, MojoFailureException {
     final String text = new String(Files.readAllBytes(file.toPath()));
     final POMFile pomFile = parse(file, text, "project");
 
@@ -63,7 +63,7 @@ public class POMFile extends ModuleId {
     return pomFile;
   }
 
-  protected static POMFile parse(final File file, final String text) throws IOException, MavenExecutionException {
+  protected static POMFile parse(final File file, final String text) throws IOException, MojoFailureException {
     return parse(file, text, "project");
   }
 
@@ -71,7 +71,7 @@ public class POMFile extends ModuleId {
     return pomFiles.get(moduleId);
   }
 
-  private static POMFile makeFromParent(final File dir, final String text) throws IOException, MavenExecutionException {
+  private static POMFile makeFromParent(final File dir, final String text) throws IOException, MojoFailureException {
     final ModuleId parentId = parseModuleId(text, "project/parent");
     if (parentId == null)
       return null;
@@ -80,7 +80,7 @@ public class POMFile extends ModuleId {
     final File file = new File(dir, relativePathIndex != null ? text.substring(relativePathIndex[0][0], relativePathIndex[0][1]).trim() : "../pom.xml");
     final POMFile pomFile = parse(file, new String(Files.readAllBytes(file.toPath())), "project");
     if (!ModuleId.equal(parentId, pomFile))
-      throw new MavenExecutionException("Version of parent pom is expected to be " + parentId + ", but was found to be " + ModuleId.toString(pomFile), file);
+      throw new MojoFailureException("Version of parent pom is expected to be " + parentId + ", but was found to be " + ModuleId.toString(pomFile));
 
     return pomFile;
   }
@@ -100,7 +100,7 @@ public class POMFile extends ModuleId {
     return new ModuleId(groupId, artifactId, version);
   }
 
-  private static POMFile parse(final File file, final String text, final String scope) throws IOException, MavenExecutionException {
+  private static POMFile parse(final File file, final String text, final String scope) throws IOException, MojoFailureException {
     final POMFile prototype = new POMFile(file, text, scope);
     POMFile instance = pomFiles.get(prototype);
     if (instance != null)
@@ -116,7 +116,7 @@ public class POMFile extends ModuleId {
     }
   }
 
-  private static POMFile getParent(final File file, final String text) throws IOException, MavenExecutionException {
+  private static POMFile getParent(final File file, final String text) throws IOException, MojoFailureException {
     return POMFile.makeFromParent(file.getParentFile(), text);
   }
 
@@ -129,7 +129,7 @@ public class POMFile extends ModuleId {
   private final POMFile groupDeclarator;
   private final POMFile versionDeclarator;
 
-  private POMFile(final File file, final String text, final String scope) throws IOException, MavenExecutionException {
+  private POMFile(final File file, final String text, final String scope) throws IOException, MojoFailureException {
     super(parseModuleId(text, scope));
     this.file = file;
     this.text = text;
@@ -158,7 +158,7 @@ public class POMFile extends ModuleId {
     parentPOMFileInited = true;
   }
 
-  public POMFile parent() throws IOException, MavenExecutionException {
+  public POMFile parent() throws IOException, MojoFailureException {
     if (parentPOMFileInited)
       return parentPOMFile;
 
@@ -168,7 +168,7 @@ public class POMFile extends ModuleId {
 
   private POMFile[] modules = null;
 
-  public POMFile[] modules() throws IOException, MavenExecutionException {
+  public POMFile[] modules() throws IOException, MojoFailureException {
     if (modules != null)
       return modules;
 
@@ -193,19 +193,19 @@ public class POMFile extends ModuleId {
     }
   }
 
-  private static void resolveModules(final POMFile[] modules) throws IOException, MavenExecutionException {
+  private static void resolveModules(final POMFile[] modules) throws IOException, MojoFailureException {
     for (final POMFile module : modules)
       resolveModules(module.modules());
   }
 
-  private static void resolveRelations(final POMFile[] modules) throws IOException, MavenExecutionException {
+  private static void resolveRelations(final POMFile[] modules) throws IOException, MojoFailureException {
     for (final POMFile module : modules) {
       module.resolveRelations();
       resolveRelations(module.modules());
     }
   }
 
-  private ManagedModuleId getManagedVersion(final ModuleId moduleId, final boolean dependency) throws IOException, MavenExecutionException {
+  private ManagedModuleId getManagedVersion(final ModuleId moduleId, final boolean dependency) throws IOException, MojoFailureException {
     if (moduleId.version() != null)
       return new ManagedModuleId(moduleId);
 
@@ -231,7 +231,7 @@ public class POMFile extends ModuleId {
     return dependents;
   }
 
-  private List<ManagedPOMFile> parseModuleIds(final DependencyType dependencyType) throws IOException, MavenExecutionException {
+  private List<ManagedPOMFile> parseModuleIds(final DependencyType dependencyType) throws IOException, MojoFailureException {
     final int[][] indices = VersionUtil.indexOfTag(text, dependencyType.scope());
     final List<ManagedPOMFile> moduleIds = new ArrayList<ManagedPOMFile>();
     if (indices != null) {
@@ -250,7 +250,7 @@ public class POMFile extends ModuleId {
     return moduleIds;
   }
 
-  private void resolveRelations() throws IOException, MavenExecutionException {
+  private void resolveRelations() throws IOException, MojoFailureException {
     if (relationsResolved)
       return;
 

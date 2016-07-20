@@ -24,6 +24,8 @@ import org.safris.commons.test.LoggableTest;
 public class VersionTest extends LoggableTest {
   @Test
   public void testVersion() throws MojoExecutionException {
+    Assert.assertEquals(0, new Version("1.7.1").compareTo(new Version("1.7.1")));
+
     Assert.assertEquals(new Version("0.1.1-SNAPSHOT"), new Version("0.1.0-SNAPSHOT").increment(Version.Part.PATCH));
     Assert.assertEquals(new Version("0.2.0-SNAPSHOT"), new Version("0.1.0-SNAPSHOT").increment(Version.Part.MINOR));
     Assert.assertEquals(new Version("1.1.0-SNAPSHOT"), new Version("0.1.0-SNAPSHOT").increment(Version.Part.MAJOR));

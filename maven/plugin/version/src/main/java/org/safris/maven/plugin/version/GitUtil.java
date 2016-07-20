@@ -17,10 +17,12 @@
 package org.safris.maven.plugin.version;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.maven.plugin.MojoFailureException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -34,25 +36,32 @@ public class GitUtil {
     return repoDir;
   }
 
-  private static void filterSubpaths(final Set<String> paths, final String localPath) {
-    final Iterator<String> iterator = paths.iterator();
-    while (iterator.hasNext())
-      if (!iterator.next().startsWith(localPath))
-        iterator.remove();
-  }
-
-  public static Set<String> lookupChangedFiles(final File dir, final File repoDir, final Git git) throws GitAPIException {
+  public static Set<String> lookupChangedFiles(final POMFile pomFile, final Git git) throws GitAPIException, IOException, MojoFailureException {
     final Status status = git.status().call();
     final Set<String> changes = new HashSet<String>();
     changes.addAll(status.getChanged());
     changes.addAll(status.getAdded());
     changes.addAll(status.getRemoved());
 
-    String localPath = dir.getAbsolutePath().substring(repoDir.getAbsolutePath().length());
-    if (localPath.startsWith(File.separator))
-      localPath = localPath.substring(1);
+    final File repoDir = git.getRepository().getDirectory().getParentFile();
+    final String include = pomFile.file().getParentFile().getAbsolutePath().substring(repoDir.getAbsolutePath().length() + 1);
+    final Iterator<String> iterator = changes.iterator();
+    while (iterator.hasNext()) {
+      final String entry = iterator.next();
+      if (!entry.startsWith(include)) {
+        iterator.remove();
+        continue;
+      }
 
-    filterSubpaths(changes, localPath);
+      for (final POMFile modulePomFile : pomFile.modules()) {
+        final String exclude = modulePomFile.file().getParentFile().getAbsolutePath().substring(repoDir.getAbsolutePath().length() + 1);
+        if (entry.startsWith(exclude)) {
+          iterator.remove();
+          break;
+        }
+      }
+    }
+
     return changes;
   }
 
