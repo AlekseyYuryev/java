@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.test.maven.plugin.xdb.xde;
+package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.xde.DML.AND;
 import static org.safris.xdb.xde.DML.CASE_WHEN;
@@ -40,8 +40,8 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.xde.Aggregate;
 import org.safris.xdb.xde.Entity;
 import org.safris.xdb.xde.RowIterator;
-import org.safris.xdb.xde.XDEDataSource;
-import org.safris.xdb.xde.XDERegistry;
+import org.safris.xdb.xde.EntityDataSource;
+import org.safris.xdb.xde.EntityRegistry;
 import org.safris.xdb.xde.spec.select.SELECT;
 import org.safris.xdb.xde.spec.update.UPDATE;
 
@@ -50,7 +50,7 @@ import xdb.xde.survey;
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {
   static {
-    XDERegistry.register(survey.class, PreparedStatement.class, new XDEDataSource() {
+    EntityRegistry.register(survey.class, PreparedStatement.class, new EntityDataSource() {
       @Override
       public Connection getConnection() throws SQLException {
         // TODO: Replace with Derby
