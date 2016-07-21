@@ -321,6 +321,18 @@ public final class Numbers {
     return blex > 0 ? result + blex * LOG2 : result;
   }
 
+  private static final double EPSILON = 0.000000000000001d;
+
+  public static boolean equivalent(final Number a, final Number b) {
+    if (a == null)
+      return b == null;
+
+    if (b == null)
+      return false;
+
+    return Math.abs(a.doubleValue() - b.doubleValue()) < EPSILON;
+  }
+
   private Numbers() {
   }
 }
