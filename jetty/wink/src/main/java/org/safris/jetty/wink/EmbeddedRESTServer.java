@@ -34,9 +34,9 @@ import org.apache.wink.server.handlers.ResponseHandler;
 import org.apache.wink.server.internal.servlet.RestServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.safris.commons.jetty.EmbeddedServletContext;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.servlet.xe.$se_realm;
+import org.safris.jetty.servlet.EmbeddedServletContext;
 
 public class EmbeddedRESTServer extends EmbeddedServletContext {
   public EmbeddedRESTServer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm) {

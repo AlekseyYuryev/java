@@ -1,4 +1,4 @@
-package org.safris.commons.jetty;
+package org.safris.jetty.jersey;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

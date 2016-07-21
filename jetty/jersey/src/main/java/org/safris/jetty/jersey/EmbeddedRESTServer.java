@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.jetty;
+package org.safris.jetty.jersey;
 
 import java.lang.reflect.Modifier;
 import java.util.Set;
@@ -29,6 +29,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.servlet.xe.$se_realm;
+import org.safris.jetty.servlet.EmbeddedServletContext;
 
 public class EmbeddedRESTServer extends EmbeddedServletContext {
   private static final Logger logger = Logger.getLogger(EmbeddedRESTServer.class.getName());

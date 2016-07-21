@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.jetty;
+package org.safris.jetty.servlet;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

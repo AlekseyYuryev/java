@@ -21,8 +21,8 @@ import javax.ws.rs.core.Application;
 import org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.safris.commons.jetty.EmbeddedServletContext;
 import org.safris.commons.servlet.xe.$se_realm;
+import org.safris.jetty.servlet.EmbeddedServletContext;
 
 public class EmbeddedRESTServer extends EmbeddedServletContext {
   public EmbeddedRESTServer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm, final Application application) {
