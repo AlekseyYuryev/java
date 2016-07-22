@@ -28,6 +28,8 @@
   </object>
   <object name="signature" extends="pubRsaType"/>
   
+  <object name="dsigs" extends="xmldsigType"/>
+  
   <object abstract="true" name="partialData">
     <property name="a" xsi:type="string" pattern="[0-9A-F]*"/>
     <property name="b" xsi:type="string" pattern="[0-9A-F]*"/>
