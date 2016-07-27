@@ -28,6 +28,7 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 import org.safris.xrs.xjb.DecodeException;
 import org.safris.xrs.xjb.EncodeException;
+import org.safris.xrs.xjb.JSArray;
 import org.safris.xrs.xjb.JSObject;
 
 import json.api;
@@ -176,5 +177,41 @@ public class JSObjectTest extends LoggableTest {
   @Test
   public void testPayPalObject() throws Exception {
     JSObject.parse(api.PayPalEvent.class, new InputStreamReader(Resources.getResource("paypal.json").getURL().openStream()));
+  }
+
+  private static void assertJSObject(final JSObject object, final Class<?> type) throws Exception {
+    final String string = object.toString();
+    final JSObject parsed = JSObject.parse(type, new StringReader(string));
+    Assert.assertEquals(object, parsed);
+    Assert.assertEquals(string, parsed.toString());
+  }
+
+  @Test
+  public void testArray() throws Exception {
+    final JSArray<String> array1 = new JSArray<String>();
+    array1.add("a");
+    array1.add("b");
+    array1.add("c");
+    assertJSObject(array1, String.class);
+
+    final JSArray<Number> array2 = new JSArray<Number>();
+    array2.add(1);
+    array2.add(2);
+    array2.add(3);
+    log(array2.toString());
+
+    final JSArray<api.Dsig> array3 = new JSArray<api.Dsig>();
+    api.Dsig dsig = new api.Dsig();
+    dsig.xmldsig("one");
+    array3.add(dsig);
+
+    dsig = new api.Dsig();
+    dsig.xmldsig("two");
+    array3.add(dsig);
+
+    dsig = new api.Dsig();
+    dsig.xmldsig("three");
+    array3.add(dsig);
+    log(array3.toString());
   }
 }

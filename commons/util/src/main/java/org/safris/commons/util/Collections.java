@@ -19,6 +19,7 @@ package org.safris.commons.util;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +35,12 @@ public final class Collections {
       return "";
 
     final StringBuilder string = new StringBuilder();
-    for (final Object obj : collection)
-      string.append(delimiter).append(String.valueOf(obj));
+    final Iterator<?> iterator = collection.iterator();
+    string.append(String.valueOf(iterator.next()));
+    while (iterator.hasNext())
+      string.append(delimiter).append(String.valueOf(iterator.next()));
 
-    return string.substring(delimiter.length());
+    return string.toString();
   }
 
   public static <K,V>boolean putUnmodifiableMap(final Map<? super K,? super V> map, final K key, final V value) {
@@ -149,6 +152,36 @@ public final class Collections {
     }
     catch (final Exception e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public static boolean equals(final Collection<?> a, final Collection<?> b) {
+    if (a == null)
+      return b == null;
+
+    if (b == null)
+      return false;
+
+    if (a.size() != b.size())
+      return false;
+
+    final Iterator<?> aIterator = a.iterator();
+    final Iterator<?> bIterator = b.iterator();
+    while (true) {
+      if (aIterator.hasNext()) {
+        if (!bIterator.hasNext())
+          return false;
+
+        Object item;
+        if ((item = aIterator.next()) != null ? !item.equals(bIterator.next()) : bIterator.next() != null)
+          return false;
+      }
+      else if (bIterator.hasNext()) {
+        return false;
+      }
+      else {
+        return true;
+      }
     }
   }
 
