@@ -126,7 +126,7 @@ public class MeasurementTest extends LoggableTest {
     assertMeasurementUnits(Angle.class, Angle.Unit.class);
     assertMeasurementUnits(Volume.class, Volume.Unit.class);
     assertMeasurementUnits(Density.class, Mass.Unit.class, Volume.Unit.class);
-    Velocity v = new Velocity(new Angle(45, Angle.Unit.DEG), new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)));
+    final Velocity v = new Velocity(new Angle(45, Angle.Unit.DEG), new Speed(100, Unit.ratio(Distance.Unit.KM, Time.Unit.HR)));
     log(v.value(new Angle(-45, Angle.Unit.DEG)));
   }
 }

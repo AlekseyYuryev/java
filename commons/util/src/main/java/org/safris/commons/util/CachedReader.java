@@ -3,17 +3,22 @@ package org.safris.commons.util;
 import java.io.IOException;
 import java.io.Reader;
 
-public class StringBuilderReader extends Reader {
+public class CachedReader extends Reader {
   private final Reader reader;
   private final StringBuilder builder;
 
-  public StringBuilderReader(final Reader reader, final StringBuilder builder) {
+  public CachedReader(final Reader reader, final StringBuilder builder) {
     this.reader = reader;
     this.builder = builder;
   }
 
-  public StringBuilder getStringBuilder() {
-    return builder;
+  public String readFully() throws IOException {
+    while (read() != -1);
+    return builder.toString();
+  }
+
+  public String readCached() {
+    return builder.toString();
   }
 
   @Override
