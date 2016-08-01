@@ -12,8 +12,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-import org.safris.xrs.xjb.DecodeException;
-import org.safris.xrs.xjb.JSObject;
+import org.safris.xws.xjb.DecodeException;
+import org.safris.xws.xjb.JSObject;
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)

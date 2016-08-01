@@ -142,7 +142,7 @@
         <module>jetty</module>
         <module>maven</module>
         <module>xdb</module>
-        <module>xrs</module>
+        <module>xws</module>
         <module>xsb</module>
       </modules>
       <dependencies>

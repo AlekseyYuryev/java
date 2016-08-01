@@ -26,10 +26,10 @@ import org.junit.Test;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
-import org.safris.xrs.xjb.DecodeException;
-import org.safris.xrs.xjb.EncodeException;
-import org.safris.xrs.xjb.JSArray;
-import org.safris.xrs.xjb.JSObject;
+import org.safris.xws.xjb.DecodeException;
+import org.safris.xws.xjb.EncodeException;
+import org.safris.xws.xjb.JSArray;
+import org.safris.xws.xjb.JSObject;
 
 import json.api;
 

@@ -30,7 +30,7 @@ import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
 import org.safris.maven.common.MavenPropertyResolver;
 import org.safris.maven.common.Resolver;
-import org.safris.xrs.xjb.Generator;
+import org.safris.xws.xjb.Generator;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
