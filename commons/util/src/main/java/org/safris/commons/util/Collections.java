@@ -113,10 +113,10 @@ public final class Collections {
    * @param o the object to be stored in the returned list.
    * @return a mutable list containing the specified object.
    */
-  public static <T>List<T> singletonList(final Class<? extends List<?>> clazz, final T o) {
+  @SuppressWarnings("rawtypes")
+  public static <T>List<T> singletonList(final Class<? extends List> clazz, final T o) {
     try {
-      @SuppressWarnings("unchecked")
-      final List<T> list = (List<T>)clazz.newInstance();
+      final List<T> list = clazz.newInstance();
       list.add(o);
       return list;
     }
