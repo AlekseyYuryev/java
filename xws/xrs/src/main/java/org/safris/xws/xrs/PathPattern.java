@@ -1,0 +1,88 @@
+package org.safris.xws.xrs;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.ws.rs.Path;
+
+import org.safris.commons.util.Patterns;
+
+public class PathPattern {
+  private static final Pattern pathExpressionPattern = Pattern.compile("(\\w+)\\s*(:\\s*\\(([^\\)]+)\\))?");
+
+  private static String pathExpressionToRegex(final String pathExpression) {
+    final Matcher matcher = pathExpressionPattern.matcher(pathExpression);
+    if (!matcher.find())
+      throw new IllegalArgumentException("Expression \"" + pathExpression + "\" does not match expected format");
+
+    final String name = matcher.group(1);
+    final String regex = matcher.group(3);
+    if (regex != null)
+      return "(?<" + name + ">" + regex + ")";
+
+    return "(?<" + name + ">[^\\/]+)";
+  }
+
+  private static Pattern createPattern(final String path) {
+    int start = -1;
+    int end = -1;
+    final StringBuilder builder = new StringBuilder();
+    while ((start = path.indexOf("{", end + 1)) > -1) {
+      builder.append(path.substring(end + 1, start++));
+
+      end = path.indexOf("}", start);
+      final String token = path.substring(start, end);
+      builder.append(pathExpressionToRegex(token));
+    }
+
+    return Pattern.compile(builder.length() != 0 ? builder.toString() : path);
+  }
+
+  private static String prependSlash(final Path path) {
+    return path == null ? null : path.value().startsWith("/") ? path.value() : "/" + path.value();
+  }
+
+  private final Pattern pattern;
+
+  public PathPattern(final Method method) {
+    this(method.getDeclaringClass().getAnnotation(Path.class), method.getAnnotation(Path.class));
+  }
+
+  public PathPattern(final Path classPath, final Path methodPath) {
+    if (classPath == null)
+      throw new IllegalArgumentException("classPath == null");
+
+    if (methodPath != null)
+      this.pattern = createPattern(prependSlash(classPath) + prependSlash(methodPath));
+    else
+      this.pattern = createPattern(prependSlash(classPath));
+  }
+
+  public Pattern getPattern() {
+    return pattern;
+  }
+
+  public boolean matches(final String path) {
+    final Matcher matcher = pattern.matcher(path);
+    return matcher.matches();
+  }
+
+  public Map<String,String> getParameters(final String path) {
+    final Matcher matcher = pattern.matcher(path);
+    if (!matcher.find())
+      return null;
+
+    final String[] groupNames = Patterns.getGroupNames(pattern);
+    if (groupNames == null)
+      return null;
+
+    final Map<String,String> parameters = new HashMap<String,String>();
+    for (final String groupName : groupNames)
+      parameters.put(groupName, matcher.group(groupName));
+
+    return parameters;
+  }
+}
