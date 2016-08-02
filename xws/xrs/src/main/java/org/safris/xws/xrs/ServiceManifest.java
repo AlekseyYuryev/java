@@ -13,8 +13,6 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
@@ -195,7 +193,7 @@ public class ServiceManifest {
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final HttpServletRequest request, final HttpServletResponse response, final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws ServletException, IOException {
+  public Object service(final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws ServletException, IOException {
     allow(securityAnnotation, requestContext);
 
     try {

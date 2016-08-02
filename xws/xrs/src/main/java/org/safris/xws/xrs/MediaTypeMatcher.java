@@ -28,13 +28,16 @@ public class MediaTypeMatcher<T extends Annotation> {
     else
       throw new IllegalArgumentException("Expected @Consumes or @Produces, but got: " + annotationClass.getName());
 
-    this.mediaTypes = annotation == null ? new MediaType[] {MediaType.WILDCARD_TYPE} : MediaTypeUtil.parse(annotation instanceof Consumes ? ((Consumes)annotation).value() : annotation instanceof Produces ? ((Produces)annotation).value() : null);
+    this.mediaTypes = annotation == null ? null : MediaTypeUtil.parse(annotation instanceof Consumes ? ((Consumes)annotation).value() : annotation instanceof Produces ? ((Produces)annotation).value() : null);
   }
 
   public boolean matches(final MediaType[] mediaTypes) {
-    for (final MediaType required : this.mediaTypes)
-      for (final MediaType test : mediaTypes)
-        if (MediaTypeUtil.matches(required, test))
+    if (this.mediaTypes == null || mediaTypes == null)
+      return true;
+
+    for (final MediaType thisMediaType : this.mediaTypes)
+      for (final MediaType thatMediaType : mediaTypes)
+        if (MediaTypeUtil.matches(thisMediaType, thatMediaType))
           return true;
 
     return false;

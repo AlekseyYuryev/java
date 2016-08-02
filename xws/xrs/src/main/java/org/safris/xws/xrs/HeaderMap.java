@@ -3,30 +3,38 @@ package org.safris.xws.xrs;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.MediaType;
+
 import org.safris.commons.util.MirroredArrayList;
 
-public class HeaderMap extends MirroredMultivaluedHashMap<String,Object,String> implements Cloneable {
+public class HeaderMap extends MirroredMultivaluedHashMap<String,String,Object> implements Cloneable {
   private static final long serialVersionUID = -424669813370868690L;
 
   public HeaderMap() {
-    super(new MirroredArrayList.Mirror<Object,String>() {
-      @Override
-      public String reflect(final Object value) {
-        return HeaderDelegate.headerDelegateConvert(Object.class, String.class, value);
-      }
-    }, new MirroredArrayList.Mirror<String,Object>() {
+    super(new MirroredArrayList.Mirror<String,Object>() {
       @Override
       public Object reflect(final String value) {
-        return HeaderDelegate.headerDelegateConvert(String.class, Object.class, value);
+        return value == null ? null : MediaType.valueOf(value);
+      }
+    }, new MirroredArrayList.Mirror<Object,String>() {
+      @Override
+      public String reflect(final Object value) {
+        if (value == null)
+          return null;
+
+        if (value instanceof MediaType)
+          return value.toString();
+
+        throw new IllegalArgumentException("Unexpected type: " + value.getClass());
       }
     });
   }
 
   @SuppressWarnings("unchecked")
   public HeaderMap(final HeaderMap copy) {
-    super(copy.getMirror(), ((MirroredMultivaluedHashMap<String,String,Object>)copy.getMirroredMap()).getMirror());
-    for (final Map.Entry<String,List<Object>> entry : entrySet())
-      for (final Object value : entry.getValue())
+    super(copy.getMirror(), ((MirroredMultivaluedHashMap<String,Object,String>)copy.getMirroredMap()).getMirror());
+    for (final Map.Entry<String,List<String>> entry : entrySet())
+      for (final String value : entry.getValue())
         add(entry.getKey(), value);
   }
 

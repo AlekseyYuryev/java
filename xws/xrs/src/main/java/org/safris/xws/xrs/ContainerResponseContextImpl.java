@@ -20,14 +20,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.StatusType;
 
 public class ContainerResponseContextImpl extends ContainerContextImpl implements ContainerResponseContext {
   private final HttpServletResponse response;
+  private final HeaderMap headers;
+  // FIXME: Link response setHeader() to the httpHeaders
+  private final HttpHeaders httpHeaders;
+
+  private OutputStream outputStream;
+  private Object entity;
 
   public ContainerResponseContextImpl(final HttpServletResponse response) {
     super(response.getLocale());
     this.response = response;
+    this.headers = new HeaderMap();
+    this.httpHeaders = new HttpHeadersImpl(headers);
   }
 
   @Override
@@ -41,30 +48,28 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
   }
 
   @Override
-  public StatusType getStatusInfo() {
+  public Response.StatusType getStatusInfo() {
     return Response.Status.fromStatusCode(response.getStatus());
   }
 
   @Override
-  public void setStatusInfo(final StatusType statusInfo) {
-    throw new UnsupportedOperationException();
+  public void setStatusInfo(final Response.StatusType statusInfo) {
+    response.setStatus(statusInfo.getStatusCode());
   }
-
-  private HttpHeaders headers = null;
 
   @Override
   protected HttpHeaders getHttpHeaders() {
-    return headers == null ? headers = new HttpHeadersImpl(response) : headers;
+    return httpHeaders;
   }
 
   @Override
   public MultivaluedMap<String,Object> getHeaders() {
-    throw new UnsupportedOperationException();
+    return headers.getMirroredMap();
   }
 
   @Override
   public MultivaluedMap<String,String> getStringHeaders() {
-    return getHttpHeaders().getRequestHeaders();
+    return headers;
   }
 
   @Override
@@ -122,32 +127,33 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public boolean hasEntity() {
-    throw new UnsupportedOperationException();
+    return entity != null;
   }
 
   @Override
   public Object getEntity() {
-    throw new UnsupportedOperationException();
+    return entity;
   }
 
   @Override
   public Class<?> getEntityClass() {
-    throw new UnsupportedOperationException();
+    return entity == null ? null : entity.getClass();
   }
 
   @Override
   public Type getEntityType() {
-    throw new UnsupportedOperationException();
+    return getEntityClass().getGenericSuperclass();
   }
 
   @Override
   public void setEntity(final Object entity) {
-    throw new UnsupportedOperationException();
+    this.setEntity(entity, null, null);
   }
 
   @Override
   public void setEntity(final Object entity, final Annotation[] annotations, final MediaType mediaType) {
-    throw new UnsupportedOperationException();
+    this.entity = entity;
+    getHeaders().putSingle(HttpHeaders.CONTENT_TYPE, mediaType);
   }
 
   @Override
@@ -157,11 +163,11 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public OutputStream getEntityStream() {
-    throw new UnsupportedOperationException();
+    return outputStream;
   }
 
   @Override
   public void setEntityStream(final OutputStream outputStream) {
-    throw new UnsupportedOperationException();
+    this.outputStream = outputStream;
   }
 }

@@ -2,8 +2,6 @@ package org.safris.xws.xrs;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,9 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +32,6 @@ import javax.ws.rs.ext.Provider;
 
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
-import org.safris.xws.xjb.JSObject;
 
 @WebServlet("/*")
 public final class RESTServlet extends RegisteringRESTServlet {
@@ -103,56 +97,29 @@ public final class RESTServlet extends RegisteringRESTServlet {
     }
   }
 
-  private void serviceREST(final ServiceManifest manifest, final HttpServletRequest request, final ContainerRequestContext requestContext, final HttpServletResponse response, final InjectionContext injectionContext) throws IOException, ServletException {
-    final Object content = manifest.service(request, response, requestContext, injectionContext);
+  private static void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final InjectionContext injectionContext) throws IOException, ServletException {
+    final Object content = manifest.service(requestContext, injectionContext);
 
-    if (content == null)
-      return;
-
-    if (content instanceof JSObject) {
-      // NOTE: This may throw a EncodeException, and should thus be outside the
-      // NOTE: try (response) block, otherwise the response will be committed
-      // NOTE: before we can set a HTTP 500
-      final String json = content.toString();
-      try (final Writer writer = response.getWriter()) {
-        writer.write(json);
-        writer.flush();
-      }
-
-      return;
-    }
-
-    if (content instanceof String) {
-      try (final Writer writer = response.getWriter()) {
-        writer.write((String)content);
-      }
-    }
-
-    if (content instanceof byte[]) {
-      try (final OutputStream out = response.getOutputStream()) {
-        out.write((byte[])content);
-      }
-    }
-
-    throw new WebApplicationException("Unexpected content return type for " + request.getMethod() + " in " + this.getClass());
+    if (content != null)
+      responseContext.setEntity(content);
   }
 
   private void wrappedService(final WrappedRequest request, final HttpServletResponse response) throws IOException, ServletException {
     try {
-      final ClientResponse clientResponse = new ClientResponse(response);
-      final ContainerRequestContext requestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setRequestContext(requestContext = new ContainerRequestContextImpl(request, clientResponse));
+      final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
 
-      final ContainerResponseContext responseContext = new ContainerResponseContextImpl(response);
+      final ClientResponse clientResponse = new ClientResponse(response, containerResponseContext);
+      final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
+      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, clientResponse));
 
       final InjectionContext injectionContext = InjectionContext.createInjectionContext();
       injectionContext.addInjectableObject(request);
       injectionContext.addInjectableObject(response);
-      injectionContext.addInjectableObject(requestContext);
-      injectionContext.addInjectableObject(responseContext);
+      injectionContext.addInjectableObject(containerRequestContext);
+      injectionContext.addInjectableObject(containerResponseContext);
 
-      runPreMatchRequestFilters(requestContext, injectionContext);
-      runPreMatchResponseFilters(requestContext, responseContext, injectionContext);
+      runPreMatchRequestFilters(containerRequestContext, injectionContext);
+      runPreMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
 
       if (clientResponse.getResponse() != null) {
         clientResponse.commit();
@@ -160,19 +127,20 @@ public final class RESTServlet extends RegisteringRESTServlet {
       }
 
       final ServiceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setServiceManifest(manifest = filterAndMatch(requestContext));
+      request.setServiceManifest(manifest = filterAndMatch(containerRequestContext));
 
-      runPostMatchRequestFilters(requestContext, injectionContext);
+      runPostMatchRequestFilters(containerRequestContext, injectionContext);
 
       if (manifest == null)
         throw new NotFoundException();
 
-      serviceREST(manifest, request, requestContext, response, injectionContext);
+      serviceREST(manifest, containerRequestContext, containerResponseContext, clientResponse, injectionContext);
       final Produces produces = manifest.getMatcher(Produces.class).getAnnotation();
       if (produces != null)
         response.setHeader(HttpHeaders.CONTENT_TYPE, org.safris.commons.lang.Arrays.toString(produces.value(), ","));
 
-      runPostMatchResponseFilters(requestContext, responseContext, injectionContext);
+      runPostMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
+      clientResponse.commit();
     }
     catch (final IOException | ServletException e) {
       throw e;

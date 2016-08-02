@@ -148,12 +148,12 @@ public class ResponseImpl extends Response {
 
   @Override
   public MultivaluedMap<String,Object> getMetadata() {
-    return headers;
+    return headers.getMirroredMap();
   }
 
   @Override
   public MultivaluedMap<String,String> getStringHeaders() {
-    return headers.getMirroredMap();
+    return headers;
   }
 
   @Override

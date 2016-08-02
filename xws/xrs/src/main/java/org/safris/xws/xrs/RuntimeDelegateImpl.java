@@ -1,5 +1,7 @@
 package org.safris.xws.xrs;
 
+import javax.ws.rs.core.MediaType;
+
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Link.Builder;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -30,13 +32,17 @@ public class RuntimeDelegateImpl extends RuntimeDelegate {
   }
 
   @Override
-  public <T> T createEndpoint(final Application application, final Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException {
+  public <T>T createEndpoint(final Application application, final Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException {
     return null;
   }
 
   @Override
-  public <T> HeaderDelegate<T> createHeaderDelegate(Class<T> type) throws IllegalArgumentException {
-    return null;
+  @SuppressWarnings("unchecked")
+  public <T>HeaderDelegate<T> createHeaderDelegate(final Class<T> type) throws IllegalArgumentException {
+    if (type == MediaType.class)
+      return (HeaderDelegate<T>)new HeaderDelegateImpl();
+
+    throw new UnsupportedOperationException("Unexpected header object type: " + type.getName());
   }
 
   @Override

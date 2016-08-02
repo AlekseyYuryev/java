@@ -79,15 +79,16 @@ public class ResponseBuilderImpl extends ResponseBuilder {
 
   @Override
   public ResponseBuilder header(final String name, final Object value) {
-    headers.add(name, value);
+    headers.getMirroredMap().add(name, value);
     return this;
   }
 
   @Override
   public ResponseBuilder replaceAll(final MultivaluedMap<String,Object> headers) {
-    this.headers.clear();
+    final MultivaluedMap<String,Object> mirroredMap = this.headers.getMirroredMap();
+    mirroredMap.clear();
     for (final Map.Entry<String,List<Object>> entry : headers.entrySet())
-      this.headers.addAll(entry.getKey(), entry.getValue());
+      mirroredMap.addAll(entry.getKey(), entry.getValue());
 
     return this;
   }

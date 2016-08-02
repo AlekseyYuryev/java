@@ -79,9 +79,8 @@ public class MediaTypeUtil {
       semicolon = string.indexOf(";", semicolon + 1);
       final String token = string.substring(start + 1, semicolon > 0 ? semicolon : string.length());
       final int eq = token.indexOf('=');
-      if (eq >= 0) {
+      if (eq >= 0)
         parameters.put(token.substring(0, eq).trim(), token.substring(eq + 1).trim());
-      }
     }
     while (semicolon > 0);
 

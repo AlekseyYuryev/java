@@ -28,11 +28,13 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
   private final ClientResponse response;
   private final UriInfo uriInfo;
   private InputStream input;
+  private final HttpHeaders headers;
 
   public ContainerRequestContextImpl(final HttpServletRequest request, final ClientResponse response) {
     super(request.getLocale());
     this.response = response;
     this.request = request;
+    this.headers = new HttpHeadersImpl(request);
     this.uriInfo = new UriInfoImpl(request);
   }
 
@@ -86,11 +88,9 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
     throw new UnsupportedOperationException();
   }
 
-  private HttpHeaders headers = null;
-
   @Override
   protected HttpHeaders getHttpHeaders() {
-    return headers == null ? headers = new HttpHeadersImpl(request) : headers;
+    return headers;
   }
 
   @Override
