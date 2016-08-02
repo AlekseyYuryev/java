@@ -69,7 +69,7 @@ public class HttpHeadersImpl implements HttpHeaders {
 
   @Override
   public List<MediaType> getAcceptableMediaTypes() {
-    final List<String> accepts = getRequestHeader("Accept");
+    final List<String> accepts = getRequestHeader(HttpHeaders.ACCEPT);
     if (accepts == null)
       return java.util.Collections.unmodifiableList(java.util.Collections.singletonList(MediaType.WILDCARD_TYPE));
 
@@ -108,7 +108,7 @@ public class HttpHeadersImpl implements HttpHeaders {
 
   @Override
   public int getLength() {
-    final String contentLength = headers.getFirst("Content-Length");
+    final String contentLength = headers.getFirst(HttpHeaders.CONTENT_LENGTH);
     return contentLength != null && Numbers.isNumber(contentLength) ? Integer.parseInt(contentLength) : null;
   }
 }

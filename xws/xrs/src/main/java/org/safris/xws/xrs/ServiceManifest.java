@@ -1,6 +1,5 @@
 package org.safris.xws.xrs;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
@@ -14,19 +13,21 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Strings;
@@ -41,16 +42,30 @@ public class ServiceManifest {
     return false;
   }
 
+  private static Annotation findSecurityAnnotation(final Method method) {
+    final Annotation annotation = findSecurityAnnotation(method.getAnnotations());
+    return annotation != null ? annotation : findSecurityAnnotation(method.getDeclaringClass().getAnnotations());
+  }
+
+  private static Annotation findSecurityAnnotation(final Annotation ... annotations) {
+    for (final Annotation annotation : annotations)
+      if (annotation.annotationType() == PermitAll.class || annotation.annotationType() == DenyAll.class || annotation.annotationType() == RolesAllowed.class)
+        return annotation;
+
+    return null;
+  }
+
   private final HttpMethod httpMethod;
   private final Annotation securityAnnotation;
   private final Method method;
-  private final Object object;
+  private final Class<?> serviceClass;
   private final PathPattern pathPattern;
   private final MediaTypeMatcher<Consumes> consumesMatcher;
   private final MediaTypeMatcher<Produces> producesMatcher;
 
-  public ServiceManifest(final HttpMethod httpMethod, final Annotation securityAnnotation, final Method method, final Object object) {
+  public ServiceManifest(final HttpMethod httpMethod, final Method method) {
     this.httpMethod = httpMethod;
+    final Annotation securityAnnotation = findSecurityAnnotation(method);
     this.securityAnnotation = securityAnnotation != null ? securityAnnotation : new PermitAll() {
       @Override
       public Class<? extends Annotation> annotationType() {
@@ -58,7 +73,7 @@ public class ServiceManifest {
       }
     };
     this.method = method;
-    this.object = object;
+    this.serviceClass = method.getDeclaringClass();
     this.pathPattern = new PathPattern(method);
     this.consumesMatcher = new MediaTypeMatcher<Consumes>(method, Consumes.class);
     this.producesMatcher = new MediaTypeMatcher<Produces>(method, Produces.class);
@@ -72,18 +87,18 @@ public class ServiceManifest {
     if (!pathPattern.matches(path))
       return false;
 
-    final MediaType[] accept = MediaTypeUtil.parse(requestContext.getHeaders().get("Accept"));
+    final MediaType[] accept = MediaTypeUtil.parse(requestContext.getHeaders().get(HttpHeaders.ACCEPT));
     if (!producesMatcher.matches(accept))
       return false;
 
-    final MediaType[] contentType = MediaTypeUtil.parse(requestContext.getHeaders().get("Content-Type"));
+    final MediaType[] contentType = MediaTypeUtil.parse(requestContext.getHeaders().get(HttpHeaders.CONTENT_TYPE));
     if (!consumesMatcher.matches(contentType))
       return false;
 
     return true;
   }
 
-  private Object[] getParameters(final Method method, final HttpServletRequest request, final HttpServletResponse response, final ContainerRequestContext requestContext) throws IOException {
+  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws IOException {
     final Class<?>[] parameterTypes = method.getParameterTypes();
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
     if (parameterTypes.length == 0)
@@ -104,14 +119,10 @@ public class ServiceManifest {
             parameters[i] = pathParameters.get(pathParam);
           }
           else if (annotation.annotationType() == Context.class) {
-            if (parameterType == HttpServletRequest.class)
-              parameters[i] = request;
-            else if (parameterType == HttpServletResponse.class)
-              parameters[i] = response;
-            else if (parameterType == HttpHeaders.class)
-              parameters[i] = new HttpHeadersImpl(requestContext);
+            if (parameterType == SecurityContext.class)
+              parameters[i] = injectionContext.getInjectableObject(ContainerRequestContext.class).getSecurityContext();
             else
-              throw new UnsupportedOperationException("Unsupported @Context type: " + parameterType.getName() + " on: " + method.getDeclaringClass().getName() + "." + method.getName() + "()");
+              parameters[i] = injectionContext.getInjectableObject(parameterType);
           }
           else {
             throw new UnsupportedOperationException("Unexpected annotation type: " + annotation.annotationType().getName() + " on: " + method.getDeclaringClass().getName() + "." + method.getName() + "()");
@@ -142,7 +153,7 @@ public class ServiceManifest {
     return parameters;
   }
 
-  private boolean checkHeader(final String headerName, final Class<? extends Annotation> annotationClass, final ContainerRequestContext requestContext, final HttpServletResponse response) {
+  protected boolean checkHeader(final String headerName, final Class<? extends Annotation> annotationClass, final ContainerRequestContext requestContext) {
     final Annotation annotation = getMatcher(annotationClass).getAnnotation();
     if (annotation == null) {
       final String message = "@" + annotationClass.getSimpleName() + " annotation missing for " + method.getDeclaringClass().getName() + "." + Strings.toTitleCase(requestContext.getMethod().toLowerCase()) + "()";
@@ -170,6 +181,9 @@ public class ServiceManifest {
   }
 
   private static void allow(final Annotation securityAnnotation, final ContainerRequestContext requestContext) {
+    if (securityAnnotation instanceof PermitAll)
+      return;
+
     if (securityAnnotation instanceof DenyAll)
       throw new ForbiddenException("@DenyAll");
 
@@ -181,35 +195,17 @@ public class ServiceManifest {
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final HttpServletRequest request, final HttpServletResponse response, final ContainerRequestContext requestContext) throws ServletException, IOException {
+  public Object service(final HttpServletRequest request, final HttpServletResponse response, final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws ServletException, IOException {
     allow(securityAnnotation, requestContext);
 
     try {
-      final Object[] parameters = getParameters(method, new HttpServletRequestWrapper(request) {
-        // NOTE: Check for the existence of the @Consumes header, and subsequently the Content-Type header in the request,
-        // NOTE: only if data is expected (i.e. GET, HEAD, DELETE, OPTIONS methods will not have a body and should thus not
-        // NOTE: expect a Content-Type header from the request)
-        private void checkContentType() {
-          if (!checkHeader("Content-Type", Consumes.class, requestContext, response))
-            throw new BadRequestException("Client call to " + request.getRequestURI() + " has data and is missing Content-Type header");
-        }
+      final Object[] parameters = getParameters(method, requestContext, injectionContext);
 
-        @Override
-        public ServletInputStream getInputStream() throws IOException {
-          checkContentType();
-          return request.getInputStream();
-        }
-
-        @Override
-        public BufferedReader getReader() throws IOException {
-          checkContentType();
-          return request.getReader();
-        }
-      }, response, requestContext);
+      final Object object = serviceClass.newInstance();
       return parameters != null ? method.invoke(object, parameters) : method.invoke(object);
     }
-    catch (final IllegalAccessException e) {
-      throw new WebApplicationException("Service method for " + httpMethod + " is not accessible", e);
+    catch (final IllegalAccessException | InstantiationException e) {
+      throw new WebApplicationException(e);
     }
     catch (final InvocationTargetException e) {
       // FIXME: Hmm, this is an interesting idea to help reduce the noise in Exceptions from dynamically invoked methods

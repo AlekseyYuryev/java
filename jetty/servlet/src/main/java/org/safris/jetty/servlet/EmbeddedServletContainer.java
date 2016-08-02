@@ -19,6 +19,7 @@ package org.safris.jetty.servlet;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -39,75 +40,111 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.security.Constraint;
 import org.safris.commons.lang.PackageLoader;
+import org.safris.commons.lang.PackageNotFoundException;
 import org.safris.commons.servlet.xe.$se_realm;
 
 public class EmbeddedServletContainer extends EmbeddedServletContext {
   private static final Logger logger = Logger.getLogger(EmbeddedServletContainer.class.getName());
   private static UncaughtServletExceptionHandler uncaughtServletExceptionHandler;
 
-  @SuppressWarnings("unchecked")
-  private static ServletContextHandler addAllServlets(final Package[] packages, final $se_realm realm) {
-    final ServletContextHandler context = createServletContextHandler(realm);
-    context.setErrorHandler(new ErrorHandler());
+  private static Set<Class<? extends HttpServlet>> addedServletClasses = new HashSet<Class<? extends HttpServlet>>();
+  private static Set<Class<? extends Filter>> addedFilterClasses = new HashSet<Class<? extends Filter>>();
+
+  private static void addServlet(final ServletContextHandler context, final Class<? extends HttpServlet> servletClass) {
+    if (addedServletClasses.contains(servletClass))
+      return;
+
+    final WebServlet webServlet = servletClass.getAnnotation(WebServlet.class);
+    if (webServlet == null) {
+      logger.warning("HttpServlet class " + servletClass.getName() + " is missing the @WebServlet annotation");
+      return;
+    }
+
+    final HttpServlet servlet;
     try {
-      for (final Package pkg : packages) {
-        Set<Class<?>> classes;
-        try {
-          classes = PackageLoader.getSystemPackageLoader().loadPackage(pkg, false);
-        }
-        catch (final SecurityException e) {
-          continue;
-        }
-        WebServlet webServlet;
-        WebFilter webFilter;
-        for (final Class<?> cls : classes) {
-          if (Modifier.isAbstract(cls.getModifiers()))
-            continue;
+      servlet = servletClass.newInstance();
+    }
+    catch (final IllegalAccessException | InstantiationException e) {
+      logger.warning(e.getMessage());
+      return;
+    }
 
-          // Add a HttpServlet with a @WebServlet annotation
-          if (HttpServlet.class.isAssignableFrom(cls) && (webServlet = cls.getAnnotation(WebServlet.class)) != null && webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) {
-            final HttpServlet servlet = (HttpServlet)cls.newInstance();
-            final ServletSecurity servletSecurity = cls.getAnnotation(ServletSecurity.class);
-            HttpConstraint httpConstraint;
-            if (servletSecurity != null && (httpConstraint = servletSecurity.value()) != null && httpConstraint.rolesAllowed().length > 0) {
-              for (final String urlPattern : webServlet.urlPatterns()) {
-                for (final String role : httpConstraint.rolesAllowed()) {
-                  final ConstraintMapping constraintMapping = new ConstraintMapping();
-                  constraintMapping.setConstraint(getBasicAuthConstraint(Constraint.__BASIC_AUTH, role));
-                  constraintMapping.setPathSpec(urlPattern);
-                  final SecurityHandler securityHandler = context.getSecurityHandler();
-                  if (!(securityHandler instanceof ConstraintSecurityHandler))
-                    throw new Error("SecurityHandler of ServletContextHandler must be a ConstraintSecurityHandler, did you call setConstraintSecurityHandler()?");
+    final String[] urlPatterns = webServlet.value().length != 0 ? webServlet.value() : webServlet.urlPatterns();
+    if (urlPatterns.length == 0) {
+      logger.warning("HttpServlet class " + servletClass.getName() + " is missing an URL pattern on the @WebServlet annotation");
+      return;
+    }
 
-                  ((ConstraintSecurityHandler)securityHandler).addConstraintMapping(constraintMapping);
-                }
-              }
+    final ServletSecurity servletSecurity = servletClass.getAnnotation(ServletSecurity.class);
+    HttpConstraint httpConstraint;
+    if (servletSecurity != null && (httpConstraint = servletSecurity.value()) != null && httpConstraint.rolesAllowed().length > 0) {
+      for (final String urlPattern : urlPatterns) {
+        for (final String role : httpConstraint.rolesAllowed()) {
+          final ConstraintMapping constraintMapping = new ConstraintMapping();
+          constraintMapping.setConstraint(getBasicAuthConstraint(Constraint.__BASIC_AUTH, role));
+          constraintMapping.setPathSpec(urlPattern);
+          final SecurityHandler securityHandler = context.getSecurityHandler();
+          if (!(securityHandler instanceof ConstraintSecurityHandler))
+            throw new Error("SecurityHandler of ServletContextHandler must be a ConstraintSecurityHandler, did you call setConstraintSecurityHandler()?");
 
-              logger.info(servlet.getClass().getSimpleName() + " [" + context.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(webServlet.urlPatterns()));
-            }
-
-            logger.info(cls.getName() + " " + Arrays.toString(webServlet.urlPatterns()));
-            for (final String urlPattern : webServlet.urlPatterns()) {
-              final ServletHolder servletHolder = new ServletHolder(servlet);
-              servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
-              context.addServlet(servletHolder, urlPattern);
-            }
-          }
-          // Add a Filter with a @WebFilter annotation
-          else if (Filter.class.isAssignableFrom(cls) && (webFilter = cls.getAnnotation(WebFilter.class)) != null && webFilter.urlPatterns() != null && webFilter.urlPatterns().length > 0) {
-            logger.info(cls.getName() + " " + Arrays.toString(webFilter.urlPatterns()));
-            for (final String urlPattern : webFilter.urlPatterns()) {
-              context.addFilter((Class<? extends Filter>)cls, urlPattern, webFilter.dispatcherTypes().length > 0 ? EnumSet.of(webFilter.dispatcherTypes()[0], webFilter.dispatcherTypes()) : EnumSet.noneOf(DispatcherType.class));
-            }
-          }
+          ((ConstraintSecurityHandler)securityHandler).addConstraintMapping(constraintMapping);
         }
       }
 
-      return context;
+      logger.info(servlet.getClass().getSimpleName() + " [" + context.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(urlPatterns));
     }
-    catch (final Exception e) {
-      throw new Error(e);
+
+    logger.info(servletClass.getName() + " " + Arrays.toString(urlPatterns));
+    addedServletClasses.add(servletClass);
+    for (final String urlPattern : urlPatterns) {
+      final ServletHolder servletHolder = new ServletHolder(servlet);
+      servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
+      context.addServlet(servletHolder, urlPattern);
     }
+  }
+
+  private static void addFilter(final ServletContextHandler context, final Class<? extends Filter> filterClass) {
+    if (addedFilterClasses.contains(filterClass))
+      return;
+
+    final WebFilter webFilter = filterClass.getAnnotation(WebFilter.class);
+    if (webFilter == null) {
+      logger.warning("WebFilter class " + filterClass.getName() + " is missing the @WebFilter annotation");
+      return;
+    }
+
+    logger.info(filterClass.getName() + " " + Arrays.toString(webFilter.urlPatterns()));
+    addedFilterClasses.add(filterClass);
+    for (final String urlPattern : webFilter.urlPatterns()) {
+      context.addFilter(filterClass, urlPattern, webFilter.dispatcherTypes().length > 0 ? EnumSet.of(webFilter.dispatcherTypes()[0], webFilter.dispatcherTypes()) : EnumSet.noneOf(DispatcherType.class));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static ServletContextHandler addAllServlets(final $se_realm realm, final Class<? extends HttpServlet> ... servletClasses) {
+    final ServletContextHandler context = createServletContextHandler(realm);
+    context.setErrorHandler(new ErrorHandler());
+    for (final Class<? extends HttpServlet> servletClass : servletClasses) {
+      addServlet(context, servletClass);
+    }
+
+    for (final Package pkg : Package.getPackages()) {
+      try {
+        final Set<Class<?>> classes = PackageLoader.getSystemPackageLoader().loadPackage(pkg, false);
+        for (final Class<?> cls : classes) {
+          if (!Modifier.isAbstract(cls.getModifiers())) {
+            if (HttpServlet.class.isAssignableFrom(cls))
+              addServlet(context, (Class<? extends HttpServlet>)cls);
+            else if (Filter.class.isAssignableFrom(cls) && cls.isAnnotationPresent(WebFilter.class))
+              addFilter(context, (Class<? extends Filter>)cls);
+          }
+        }
+      }
+      catch (final PackageNotFoundException | SecurityException e) {
+      }
+    }
+
+    return context;
   }
 
   public static void setUncaughtServletExceptionHandler(final UncaughtServletExceptionHandler uncaughtServletExceptionHandler) {
@@ -118,7 +155,8 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
     return EmbeddedServletContainer.uncaughtServletExceptionHandler;
   }
 
-  public EmbeddedServletContainer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm) {
-    super(port, keyStorePath, keyStorePassword, externalResourcesAccess, addAllServlets(Package.getPackages(), realm));
+  @SafeVarargs
+  public EmbeddedServletContainer(final int port, final String keyStorePath, final String keyStorePassword, final boolean externalResourcesAccess, final $se_realm realm, final Class<? extends HttpServlet> ... servletClasses) {
+    super(port, keyStorePath, keyStorePassword, externalResourcesAccess, addAllServlets(realm, servletClasses));
   }
 }

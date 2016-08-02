@@ -6,7 +6,6 @@ import javax.ws.rs.Path;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xws.xrs.PathPattern;
 
 public class PathUtilTest {
   protected static class TestPath implements Path {

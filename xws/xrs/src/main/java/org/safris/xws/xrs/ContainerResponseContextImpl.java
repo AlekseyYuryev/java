@@ -69,7 +69,7 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public Set<String> getAllowedMethods() {
-    return new HashSet<String>(response.getHeaders("Allow"));
+    return new HashSet<String>(response.getHeaders(HttpHeaders.ALLOW));
   }
 
   @Override
@@ -84,7 +84,7 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public Date getLastModified() {
-    final String date = getHttpHeaders().getHeaderString("Last-Modified");
+    final String date = getHttpHeaders().getHeaderString(HttpHeaders.LAST_MODIFIED);
     try {
       return date == null ? null : dateFormat.get().parse(date);
     }
@@ -96,7 +96,7 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public URI getLocation() {
-    final String location = getHttpHeaders().getHeaderString("Location");
+    final String location = getHttpHeaders().getHeaderString(HttpHeaders.LOCATION);
     return location == null ? null : URI.create(location);
   }
 

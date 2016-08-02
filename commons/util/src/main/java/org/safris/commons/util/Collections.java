@@ -141,6 +141,14 @@ public final class Collections {
   }
 
   @SafeVarargs
+  public static <T extends Collection<V>,V>T addAll(final T collection, final V ... values) {
+    for (final V value : values)
+      collection.add(value);
+
+    return collection;
+  }
+
+  @SafeVarargs
   @SuppressWarnings("rawtypes")
   public static <T>Collection<T> addAll(final Class<? extends Collection> cls, final Collection<? extends T> ... collections) {
     try {

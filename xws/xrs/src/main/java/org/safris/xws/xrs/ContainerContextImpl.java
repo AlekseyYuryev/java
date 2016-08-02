@@ -29,7 +29,7 @@ public abstract class ContainerContextImpl {
   }
 
   public final Date getDate() {
-    final String date = getHttpHeaders().getHeaderString("Date");
+    final String date = getHttpHeaders().getHeaderString(HttpHeaders.DATE);
     try {
       return date == null ? null : dateFormat.get().parse(date);
     }

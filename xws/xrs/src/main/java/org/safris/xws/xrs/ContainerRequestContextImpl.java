@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
@@ -24,11 +25,13 @@ import org.safris.commons.util.Enumerations;
 
 public class ContainerRequestContextImpl extends ContainerContextImpl implements ContainerRequestContext {
   private final HttpServletRequest request;
+  private final ClientResponse response;
   private final UriInfo uriInfo;
   private InputStream input;
 
-  public ContainerRequestContextImpl(final HttpServletRequest request) {
+  public ContainerRequestContextImpl(final HttpServletRequest request, final ClientResponse response) {
     super(request.getLocale());
+    this.response = response;
     this.request = request;
     this.uriInfo = new UriInfoImpl(request);
   }
@@ -97,7 +100,7 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
 
   @Override
   public List<MediaType> getAcceptableMediaTypes() {
-    return Arrays.asList(MediaTypeUtil.parse(request.getHeaders("Accept")));
+    return Arrays.asList(MediaTypeUtil.parse(request.getHeaders(HttpHeaders.ACCEPT)));
   }
 
   @Override
@@ -148,6 +151,6 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
 
   @Override
   public void abortWith(final Response response) {
-    throw new UnsupportedOperationException();
+    this.response.setResponse(response);
   }
 }

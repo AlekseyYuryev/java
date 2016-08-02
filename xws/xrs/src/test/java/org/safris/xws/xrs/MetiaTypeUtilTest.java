@@ -6,7 +6,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xws.xrs.MediaTypeUtil;
 
 public class MetiaTypeUtilTest {
   @Test
