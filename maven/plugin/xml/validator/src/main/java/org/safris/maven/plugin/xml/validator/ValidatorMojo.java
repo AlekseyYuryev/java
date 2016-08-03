@@ -39,6 +39,7 @@ import org.safris.commons.xml.sax.SAXFeature;
 import org.safris.commons.xml.sax.SAXParser;
 import org.safris.commons.xml.sax.SAXParsers;
 import org.safris.commons.xml.sax.SAXProperty;
+import org.safris.commons.xml.validator.OfflineValidationException;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Log;
 import org.xml.sax.InputSource;
@@ -123,6 +124,9 @@ public final class ValidatorMojo extends AdvancedMojo {
     return directory;
   }
 
+  @Parameter(defaultValue = "${settings.offline}", required = true, readonly = true)
+  private boolean offline;
+
   /* Alternate implementation, using modern interfaces... cant figure out how to
    * have it rely on xsi:schemaLocation attributes for schema paths.
   protected static void validate(final File dir, final File file, final Log log) throws IOException, SAXException {
@@ -137,7 +141,7 @@ public final class ValidatorMojo extends AdvancedMojo {
     validator.validate(new StreamSource(file));
   }*/
 
-  protected static void validate(final File dir, final File file) throws IOException, SAXException {
+  protected static void validate(final File dir, final File file, final boolean offline) throws IOException, SAXException {
     final SAXParser saxParser = SAXParsers.createParser();
     // Set the features.
     saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
@@ -152,7 +156,7 @@ public final class ValidatorMojo extends AdvancedMojo {
 
     // Set the properties.
     saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
-    saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile()));
+    saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile(), offline));
 
     // Set the ErrorHandler.
     saxParser.setErrorHandler(ValidatorErrorHandler.instance());
@@ -165,6 +169,9 @@ public final class ValidatorMojo extends AdvancedMojo {
   }
 
   protected void setHttpProxy() throws MojoFailureException {
+    if (offline)
+      return;
+
     final String httpProxy = getHttpProxy();
     if (httpProxy == null)
       return;
@@ -226,9 +233,13 @@ public final class ValidatorMojo extends AdvancedMojo {
           }
           else {
             try {
-              validate(entry.getKey(), file);
+              validate(entry.getKey(), file, offline);
               if (!recordFile.createNewFile())
                 recordFile.setLastModified(file.lastModified());
+            }
+            catch (final OfflineValidationException e) {
+              if (!offline)
+                throw e;
             }
             catch (final SAXException e) {
               throw new MojoFailureException("Failed to validate xml.", "", "\nFile: " + Files.relativePath(new File("").getAbsoluteFile(), file.getAbsoluteFile()) + "\nReason: " + e.getMessage() + "\n");
@@ -236,6 +247,9 @@ public final class ValidatorMojo extends AdvancedMojo {
           }
         }
       }
+    }
+    catch (final OfflineValidationException e) {
+      throw new MojoFailureException(e.getMessage(), e);
     }
     catch (final IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);

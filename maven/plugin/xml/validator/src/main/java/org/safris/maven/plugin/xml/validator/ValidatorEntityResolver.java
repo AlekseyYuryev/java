@@ -27,6 +27,7 @@ import java.util.Arrays;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.net.URLs;
+import org.safris.commons.xml.validator.OfflineValidationException;
 
 import com.sun.org.apache.xerces.internal.xni.XMLResourceIdentifier;
 import com.sun.org.apache.xerces.internal.xni.XNIException;
@@ -38,9 +39,11 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
   private static final int[] REDIRECT_CODES = new int[] {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
 
   private final File basedir;
+  private final boolean offline;
 
-  public ValidatorEntityResolver(final File basedir) {
+  public ValidatorEntityResolver(final File basedir, final boolean offline) {
     this.basedir = basedir;
+    this.offline = offline;
   }
 
   @Override
@@ -89,6 +92,9 @@ public final class ValidatorEntityResolver implements XMLEntityResolver {
     else {
       url = URLs.makeUrlFromPath(systemId);
     }
+
+    if (offline && !URLs.isLocal(url))
+      throw new OfflineValidationException(url.toExternalForm());
 
     if (resourceIdentifier.getExpandedSystemId() != null && !resourceIdentifier.getExpandedSystemId().equals(resourceIdentifier.getLiteralSystemId()))
       resourceIdentifier.setLiteralSystemId(url.getPath());
