@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Link;
@@ -19,14 +20,14 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
 public class ResponseBuilderImpl extends ResponseBuilder {
-  private final HeaderMap headers;
+  private final HeaderMap3 headers;
 
   public ResponseBuilderImpl(final ResponseBuilderImpl copy) {
     headers = copy.headers.clone();
   }
 
-  public ResponseBuilderImpl() {
-    headers = new HeaderMap();
+  public ResponseBuilderImpl(final HttpServletResponse httpServletResponse) {
+    headers = new HeaderMap3(httpServletResponse);
   }
 
   @Override

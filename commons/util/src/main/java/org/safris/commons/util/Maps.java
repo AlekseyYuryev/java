@@ -16,31 +16,23 @@
 
 package org.safris.commons.util;
 
-import java.util.regex.Pattern;
+import java.util.Map;
 
-public class Patterns {
-  public static String[] getGroupNames(final Pattern pattern) {
-    if (pattern == null)
-      return null;
+public class Maps {
+  @SuppressWarnings("unchecked")
+  public static <M extends Map<K,V>,K,V>M clone(final Map<K,V> map) {
+    try {
+      final M clone = (M)map.getClass().newInstance();
+      for (final Map.Entry<K,V> entry : map.entrySet())
+        clone.put(entry.getKey(), entry.getValue());
 
-    return getGroupNames(pattern.toString(), 0, 0);
+      return clone;
+    }
+    catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private static String[] getGroupNames(final String regex, final int index, final int depth) {
-    final int start = regex.indexOf("(?<", index);
-    if (start < 0)
-      return depth == 0 ? null : new String[depth];
-
-    final int end = regex.indexOf('>', start + 3);
-    if (end < 0)
-      throw new IllegalArgumentException("Malformed pattern after index = " + (start + 3));
-
-    final String name = regex.substring(start + 3, end);
-    final String[] names = getGroupNames(regex, end + 1, depth + 1);
-    names[depth] = name;
-    return names;
-  }
-
-  private Patterns() {
+  private Maps() {
   }
 }

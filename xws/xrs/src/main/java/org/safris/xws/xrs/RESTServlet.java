@@ -104,7 +104,10 @@ public final class RESTServlet extends RegisteringRESTServlet {
       responseContext.setEntity(content);
   }
 
+  public static final ThreadLocal<HttpServletResponse> RESPONSE = new ThreadLocal<HttpServletResponse>();
+
   private void wrappedService(final WrappedRequest request, final HttpServletResponse response) throws IOException, ServletException {
+    RESPONSE.set(response);
     try {
       final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
 
@@ -168,6 +171,9 @@ public final class RESTServlet extends RegisteringRESTServlet {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage());
         throw t;
       }
+    }
+    finally {
+      RESPONSE.remove();
     }
   }
 

@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 
 public class ContainerResponseContextImpl extends ContainerContextImpl implements ContainerResponseContext {
   private final HttpServletResponse response;
-  private final HeaderMap headers;
+  private final HeaderMap3 headers;
   // FIXME: Link response setHeader() to the httpHeaders
   private final HttpHeaders httpHeaders;
 
@@ -33,7 +33,7 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
   public ContainerResponseContextImpl(final HttpServletResponse response) {
     super(response.getLocale());
     this.response = response;
-    this.headers = new HeaderMap();
+    this.headers = new HeaderMap3(response);
     this.httpHeaders = new HttpHeadersImpl(headers);
   }
 

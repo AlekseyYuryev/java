@@ -127,13 +127,40 @@ public final class Collections {
 
   @SafeVarargs
   @SuppressWarnings("rawtypes")
-  public static <T>Collection<T> asCollection(final Class<? extends Collection> cls, final T ... a) {
+  public static <T>Collection<T> asCollection(final Class<? extends Collection> type, final T ... a) {
     try {
-      final Collection<T> list = cls.newInstance();
+      final Collection<T> list = type.newInstance();
       for (int i = 0; i < a.length; i++)
         list.add(a[i]);
 
       return list;
+    }
+    catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static <C extends Collection<T>,T>C asCollection(final Class<C> type, final Collection<T> collection) {
+    try {
+      final C list = type.newInstance();
+      for (final T item : collection)
+        list.add(item);
+
+      return list;
+    }
+    catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <C extends Collection<T>,T>C clone(final Collection<T> collection) {
+    try {
+      final C clone = (C)collection.getClass().newInstance();
+      for (final T item : collection)
+        clone.add(item);
+
+      return clone;
     }
     catch (final Exception e) {
       throw new RuntimeException(e);

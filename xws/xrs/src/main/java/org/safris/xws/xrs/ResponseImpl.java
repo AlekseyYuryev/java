@@ -20,15 +20,15 @@ import javax.ws.rs.core.Response;
 public class ResponseImpl extends Response {
   private final Response.Status status;
   private final Object entity;
-  private final HeaderMap headers;
+  private final HeaderMap3 headers;
 
-  public ResponseImpl(final Response.Status status, final HeaderMap headers, final Object entity) {
+  public ResponseImpl(final Response.Status status, final HeaderMap3 headers, final Object entity) {
     this.status = status;
     this.headers = headers;
     this.entity = entity;
   }
 
-  public ResponseImpl(final Response.Status status, final HeaderMap headers) {
+  public ResponseImpl(final Response.Status status, final HeaderMap3 headers) {
     this(status, headers, null);
   }
 

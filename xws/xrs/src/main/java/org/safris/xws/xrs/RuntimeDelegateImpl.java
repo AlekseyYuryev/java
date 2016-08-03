@@ -1,9 +1,8 @@
 package org.safris.xws.xrs;
 
-import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Link.Builder;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
@@ -14,8 +13,6 @@ public class RuntimeDelegateImpl extends RuntimeDelegate {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private final ResponseBuilder responseBuilder = new ResponseBuilderImpl();
-
   @Override
   public UriBuilder createUriBuilder() {
     return null;
@@ -23,7 +20,8 @@ public class RuntimeDelegateImpl extends RuntimeDelegate {
 
   @Override
   public ResponseBuilder createResponseBuilder() {
-    return responseBuilder;
+    // FIXME: Is there absolutely no way out of this?
+    return new ResponseBuilderImpl(RESTServlet.RESPONSE.get());
   }
 
   @Override

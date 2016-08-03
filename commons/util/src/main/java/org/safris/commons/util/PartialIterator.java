@@ -16,31 +16,23 @@
 
 package org.safris.commons.util;
 
-import java.util.regex.Pattern;
+import java.util.Iterator;
 
-public class Patterns {
-  public static String[] getGroupNames(final Pattern pattern) {
-    if (pattern == null)
-      return null;
+public abstract class PartialIterator<E> implements Iterator<E> {
+  private final Iterator<E> iterator;
 
-    return getGroupNames(pattern.toString(), 0, 0);
+  public PartialIterator(final Iterator<E> iterator) {
+    this.iterator = iterator;
   }
 
-  private static String[] getGroupNames(final String regex, final int index, final int depth) {
-    final int start = regex.indexOf("(?<", index);
-    if (start < 0)
-      return depth == 0 ? null : new String[depth];
-
-    final int end = regex.indexOf('>', start + 3);
-    if (end < 0)
-      throw new IllegalArgumentException("Malformed pattern after index = " + (start + 3));
-
-    final String name = regex.substring(start + 3, end);
-    final String[] names = getGroupNames(regex, end + 1, depth + 1);
-    names[depth] = name;
-    return names;
+  @Override
+  public final boolean hasNext() {
+    return iterator.hasNext();
   }
 
-  private Patterns() {
-  }
+  @Override
+  public abstract E next();
+
+  @Override
+  public abstract void remove();
 }
