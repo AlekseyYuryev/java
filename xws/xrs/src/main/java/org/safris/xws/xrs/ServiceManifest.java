@@ -85,11 +85,11 @@ public class ServiceManifest {
     if (!pathPattern.matches(path))
       return false;
 
-    final MediaType[] accept = MediaTypeUtil.parse(requestContext.getHeaders().get(HttpHeaders.ACCEPT));
+    final MediaType[] accept = MediaTypes.parse(requestContext.getHeaders().get(HttpHeaders.ACCEPT));
     if (!producesMatcher.matches(accept))
       return false;
 
-    final MediaType[] contentType = MediaTypeUtil.parse(requestContext.getHeaders().get(HttpHeaders.CONTENT_TYPE));
+    final MediaType[] contentType = MediaTypes.parse(requestContext.getHeaders().get(HttpHeaders.CONTENT_TYPE));
     if (!consumesMatcher.matches(contentType))
       return false;
 

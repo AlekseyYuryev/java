@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-public class MediaTypeUtil {
+public class MediaTypes {
   // FIXME: Is this correct?
   public static boolean matches(final MediaType required, final MediaType test) {
     if (required == null || test == null)
@@ -87,6 +87,6 @@ public class MediaTypeUtil {
     return new MediaType(type, subtype, parameters);
   }
 
-  private MediaTypeUtil() {
+  private MediaTypes() {
   }
 }

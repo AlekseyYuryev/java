@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -19,20 +20,23 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
+import org.safris.commons.util.Locales;
+
 public class ResponseBuilderImpl extends ResponseBuilder {
-  private final HeaderMap3 headers;
+  private final HeaderMap headers;
+  private Object entity;
 
   public ResponseBuilderImpl(final ResponseBuilderImpl copy) {
     headers = copy.headers.clone();
   }
 
   public ResponseBuilderImpl(final HttpServletResponse httpServletResponse) {
-    headers = new HeaderMap3(httpServletResponse);
+    headers = new HeaderMap(httpServletResponse);
   }
 
   @Override
   public Response build() {
-    return new ResponseImpl(ResponseUtil.fromStatusCode(status), headers);
+    return new ResponseImpl(ResponseUtil.fromStatusCode(status), headers, entity);
   }
 
   @Override
@@ -50,31 +54,40 @@ public class ResponseBuilderImpl extends ResponseBuilder {
 
   @Override
   public ResponseBuilder entity(final Object entity) {
+    this.entity = entity;
     return this;
   }
 
   @Override
   public ResponseBuilder entity(final Object entity, final Annotation[] annotations) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder allow(final String ... methods) {
+    for (final String method : methods)
+      headers.add(HttpHeaders.ALLOW, method);
+
     return this;
   }
 
   @Override
   public ResponseBuilder allow(final Set<String> methods) {
+    for (final String method : methods)
+      headers.add(HttpHeaders.ALLOW, method);
+
     return this;
   }
 
   @Override
   public ResponseBuilder cacheControl(final CacheControl cacheControl) {
+    headers.getMirroredMap().putSingle(HttpHeaders.CACHE_CONTROL, cacheControl);
     return this;
   }
 
   @Override
   public ResponseBuilder encoding(final String encoding) {
+    headers.putSingle(HttpHeaders.CONTENT_ENCODING, encoding);
     return this;
   }
 
@@ -96,86 +109,95 @@ public class ResponseBuilderImpl extends ResponseBuilder {
 
   @Override
   public ResponseBuilder language(final String language) {
+    headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LANGUAGE, Locales.parse(language));
+    headers.putSingle(HttpHeaders.CONTENT_LANGUAGE, language);
     return this;
   }
 
   @Override
   public ResponseBuilder language(final Locale language) {
+    headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LANGUAGE, language);
     return this;
   }
 
   @Override
   public ResponseBuilder type(final MediaType type) {
+    headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_TYPE, type);
     return this;
   }
 
   @Override
   public ResponseBuilder type(final String type) {
+    headers.putSingle(HttpHeaders.CONTENT_TYPE, type);
     return this;
   }
 
   @Override
   public ResponseBuilder variant(final Variant variant) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder contentLocation(final URI location) {
+    headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LOCATION, location);
     return this;
   }
 
   @Override
   public ResponseBuilder cookie(final NewCookie ... cookies) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder expires(final Date expires) {
+    headers.getMirroredMap().putSingle(HttpHeaders.EXPIRES, expires);
     return this;
   }
 
   @Override
   public ResponseBuilder lastModified(final Date lastModified) {
+    headers.getMirroredMap().putSingle(HttpHeaders.LAST_MODIFIED, lastModified);
     return this;
   }
 
   @Override
   public ResponseBuilder location(final URI location) {
+    headers.getMirroredMap().putSingle(HttpHeaders.LOCATION, location);
     return this;
   }
 
   @Override
   public ResponseBuilder tag(final EntityTag tag) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder tag(final String tag) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder variants(final Variant ... variants) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder variants(final List<Variant> variants) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder links(final Link ... links) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder link(final URI uri, final String rel) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder link(final String uri, final String rel) {
-    return this;
+    throw new UnsupportedOperationException();
   }
 }

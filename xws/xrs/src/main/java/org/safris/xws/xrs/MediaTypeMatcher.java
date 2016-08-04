@@ -28,7 +28,7 @@ public class MediaTypeMatcher<T extends Annotation> {
     else
       throw new IllegalArgumentException("Expected @Consumes or @Produces, but got: " + annotationClass.getName());
 
-    this.mediaTypes = annotation == null ? null : MediaTypeUtil.parse(annotation instanceof Consumes ? ((Consumes)annotation).value() : annotation instanceof Produces ? ((Produces)annotation).value() : null);
+    this.mediaTypes = annotation == null ? null : MediaTypes.parse(annotation instanceof Consumes ? ((Consumes)annotation).value() : annotation instanceof Produces ? ((Produces)annotation).value() : null);
   }
 
   public boolean matches(final MediaType[] mediaTypes) {
@@ -37,7 +37,7 @@ public class MediaTypeMatcher<T extends Annotation> {
 
     for (final MediaType thisMediaType : this.mediaTypes)
       for (final MediaType thatMediaType : mediaTypes)
-        if (MediaTypeUtil.matches(thisMediaType, thatMediaType))
+        if (MediaTypes.matches(thisMediaType, thatMediaType))
           return true;
 
     return false;

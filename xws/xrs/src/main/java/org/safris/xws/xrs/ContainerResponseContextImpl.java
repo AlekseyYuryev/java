@@ -4,9 +4,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,44 +20,36 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 public class ContainerResponseContextImpl extends ContainerContextImpl implements ContainerResponseContext {
-  private final HttpServletResponse response;
-  private final HeaderMap3 headers;
-  // FIXME: Link response setHeader() to the httpHeaders
-  private final HttpHeaders httpHeaders;
+  private final HeaderMap headers;
+  private Response.StatusType status;
 
   private OutputStream outputStream;
   private Object entity;
 
   public ContainerResponseContextImpl(final HttpServletResponse response) {
     super(response.getLocale());
-    this.response = response;
-    this.headers = new HeaderMap3(response);
-    this.httpHeaders = new HttpHeadersImpl(headers);
+    this.headers = new HeaderMap(response);
+    this.status = Response.Status.fromStatusCode(response.getStatus());
   }
 
   @Override
   public int getStatus() {
-    return response.getStatus();
+    return status.getStatusCode();
   }
 
   @Override
   public void setStatus(final int code) {
-    response.setStatus(code);
+    this.status = Response.Status.fromStatusCode(code);
   }
 
   @Override
   public Response.StatusType getStatusInfo() {
-    return Response.Status.fromStatusCode(response.getStatus());
+    return status;
   }
 
   @Override
   public void setStatusInfo(final Response.StatusType statusInfo) {
-    response.setStatus(statusInfo.getStatusCode());
-  }
-
-  @Override
-  protected HttpHeaders getHttpHeaders() {
-    return httpHeaders;
+    this.status = statusInfo;
   }
 
   @Override
@@ -74,7 +64,7 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public Set<String> getAllowedMethods() {
-    return new HashSet<String>(response.getHeaders(HttpHeaders.ALLOW));
+    return headers.getAllowedMethods();
   }
 
   @Override
@@ -89,20 +79,12 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
 
   @Override
   public Date getLastModified() {
-    final String date = getHttpHeaders().getHeaderString(HttpHeaders.LAST_MODIFIED);
-    try {
-      return date == null ? null : dateFormat.get().parse(date);
-    }
-    catch (final ParseException e) {
-      // FIXME!
-      throw new RuntimeException(e);
-    }
+    return headers.getLastModified();
   }
 
   @Override
   public URI getLocation() {
-    final String location = getHttpHeaders().getHeaderString(HttpHeaders.LOCATION);
-    return location == null ? null : URI.create(location);
+    return headers.getLocation();
   }
 
   @Override
@@ -169,5 +151,15 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
   @Override
   public void setEntityStream(final OutputStream outputStream) {
     this.outputStream = outputStream;
+  }
+
+  @Override
+  public int getLength() {
+    return headers.getLength();
+  }
+
+  @Override
+  public MediaType getMediaType() {
+    return headers.getMediaType();
   }
 }

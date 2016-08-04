@@ -20,15 +20,16 @@ import javax.ws.rs.core.Response;
 public class ResponseImpl extends Response {
   private final Response.Status status;
   private final Object entity;
-  private final HeaderMap3 headers;
+  private final HeaderMap headers;
+  private boolean closed;
 
-  public ResponseImpl(final Response.Status status, final HeaderMap3 headers, final Object entity) {
+  public ResponseImpl(final Response.Status status, final HeaderMap headers, final Object entity) {
     this.status = status;
     this.headers = headers;
     this.entity = entity;
   }
 
-  public ResponseImpl(final Response.Status status, final HeaderMap3 headers) {
+  public ResponseImpl(final Response.Status status, final HeaderMap headers) {
     this(status, headers, null);
   }
 
@@ -48,23 +49,23 @@ public class ResponseImpl extends Response {
   }
 
   @Override
-  public <T> T readEntity(final Class<T> entityType) {
-    return null;
+  public <T>T readEntity(final Class<T> entityType) {
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public <T> T readEntity(final GenericType<T> entityType) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public <T> T readEntity(final Class<T> entityType, final Annotation[] annotations) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public <T> T readEntity(final GenericType<T> entityType, final Annotation[] annotations) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -74,11 +75,12 @@ public class ResponseImpl extends Response {
 
   @Override
   public boolean bufferEntity() {
-    return false;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void close() {
+    this.closed = true;
   }
 
   @Override
@@ -88,27 +90,27 @@ public class ResponseImpl extends Response {
 
   @Override
   public Locale getLanguage() {
-    return null;
+    return headers.getLanguage();
   }
 
   @Override
   public int getLength() {
-    return 0;
+    return headers.getLength();
   }
 
   @Override
   public Set<String> getAllowedMethods() {
-    return null;
+    return headers.getAllowedMethods();
   }
 
   @Override
   public Map<String,NewCookie> getCookies() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public EntityTag getEntityTag() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -118,32 +120,32 @@ public class ResponseImpl extends Response {
 
   @Override
   public Date getLastModified() {
-    return null;
+    return headers.getLastModified();
   }
 
   @Override
   public URI getLocation() {
-    return null;
+    return headers.getLocation();
   }
 
   @Override
   public Set<Link> getLinks() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean hasLink(final String relation) {
-    return false;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Link getLink(final String relation) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public Builder getLinkBuilder(final String relation) {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -158,6 +160,6 @@ public class ResponseImpl extends Response {
 
   @Override
   public String getHeaderString(final String name) {
-    return null;
+    return headers.getString(name);
   }
 }

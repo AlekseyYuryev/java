@@ -6,7 +6,7 @@ import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 public class HeaderDelegateImpl implements HeaderDelegate<MediaType> {
   @Override
   public MediaType fromString(final String value) {
-    return MediaTypeUtil.parse(value);
+    return MediaTypes.parse(value);
   }
 
   @Override

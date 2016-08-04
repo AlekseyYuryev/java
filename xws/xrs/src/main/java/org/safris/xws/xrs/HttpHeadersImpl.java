@@ -88,7 +88,7 @@ public class HttpHeadersImpl implements HttpHeaders {
 
   @Override
   public MediaType getMediaType() {
-    throw new UnsupportedOperationException();
+    return MediaTypes.parse(headers.getFirst(HttpHeaders.CONTENT_TYPE));
   }
 
   @Override

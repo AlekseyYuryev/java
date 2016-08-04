@@ -5,7 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.SecurityContext;
 
-public class DefaultSecurityContext implements SecurityContext {
+public final class DefaultSecurityContext implements SecurityContext {
   private final HttpServletRequest request;
 
   public DefaultSecurityContext(final HttpServletRequest request) {
@@ -13,12 +13,12 @@ public class DefaultSecurityContext implements SecurityContext {
   }
 
   @Override
-  public Principal getUserPrincipal() {
+  public final Principal getUserPrincipal() {
     return null;
   }
 
   @Override
-  public boolean isUserInRole(final String role) {
+  public final boolean isUserInRole(final String role) {
     return false;
   }
 
@@ -28,7 +28,7 @@ public class DefaultSecurityContext implements SecurityContext {
   }
 
   @Override
-  public String getAuthenticationScheme() {
+  public final String getAuthenticationScheme() {
     return null;
   }
 }

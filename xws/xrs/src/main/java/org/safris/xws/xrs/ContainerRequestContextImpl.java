@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,41 +24,57 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.safris.commons.util.Enumerations;
+import org.safris.commons.util.Locales;
 
 public class ContainerRequestContextImpl extends ContainerContextImpl implements ContainerRequestContext {
-  private final HttpServletRequest request;
-  private final ClientResponse response;
-  private final UriInfo uriInfo;
-  private InputStream input;
-  private final HttpHeaders headers;
+  private final Map<String,Object> properties = new HashMap<String,Object>();
+  private final HttpServletRequest httpServletRequest;
 
-  public ContainerRequestContextImpl(final HttpServletRequest request, final ClientResponse response) {
-    super(request.getLocale());
+  private final ClientResponse response;
+  private final HttpHeaders headers;
+  private final UriInfo uriInfo;
+  private final List<MediaType> accept;
+  private final List<Locale> acceptLanguages;
+  private InputStream entityStream;
+
+  public ContainerRequestContextImpl(final HttpServletRequest httpServletRequest, final ClientResponse response) {
+    super(httpServletRequest.getLocale());
+    final Enumeration<String> attributes = httpServletRequest.getAttributeNames();
+    String attribute;
+    while (attributes.hasMoreElements())
+      properties.put(attribute = attributes.nextElement(), httpServletRequest.getAttribute(attribute));
+
+    this.httpServletRequest = httpServletRequest;
     this.response = response;
-    this.request = request;
-    this.headers = new HttpHeadersImpl(request);
-    this.uriInfo = new UriInfoImpl(request);
+    this.accept = Collections.unmodifiableList(Arrays.asList(MediaTypes.parse(httpServletRequest.getHeaders(HttpHeaders.ACCEPT))));
+    this.acceptLanguages = Collections.unmodifiableList(Arrays.asList(Locales.parse(httpServletRequest.getHeaders(HttpHeaders.ACCEPT_LANGUAGE))));
+    this.headers = new HttpHeadersImpl(httpServletRequest);
+    this.uriInfo = new UriInfoImpl(httpServletRequest);
+  }
+
+  @Override
+  protected MultivaluedMap<String,String> getStringHeaders() {
+    return headers.getRequestHeaders();
   }
 
   @Override
   public Object getProperty(final String name) {
-    return request.getAttribute(name);
+    return properties.get(name);
   }
 
   @Override
   public Collection<String> getPropertyNames() {
-    return Enumerations.toList(String.class, request.getAttributeNames());
+    return properties.keySet();
   }
 
   @Override
   public void setProperty(final String name, final Object object) {
-    request.setAttribute(name, object);
+    properties.put(name, object);
   }
 
   @Override
   public void removeProperty(final String name) {
-    request.removeAttribute(name);
+    properties.remove(name);
   }
 
   @Override
@@ -80,7 +99,7 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
 
   @Override
   public String getMethod() {
-    return request.getMethod();
+    return httpServletRequest.getMethod();
   }
 
   @Override
@@ -89,42 +108,47 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
   }
 
   @Override
-  protected HttpHeaders getHttpHeaders() {
-    return headers;
-  }
-
-  @Override
   public MultivaluedMap<String,String> getHeaders() {
-    return getHttpHeaders().getRequestHeaders();
+    return headers.getRequestHeaders();
   }
 
   @Override
   public List<MediaType> getAcceptableMediaTypes() {
-    return Arrays.asList(MediaTypeUtil.parse(request.getHeaders(HttpHeaders.ACCEPT)));
+    return accept;
   }
 
   @Override
   public List<Locale> getAcceptableLanguages() {
-    throw new UnsupportedOperationException();
+    return acceptLanguages;
   }
 
   @Override
   public Map<String,Cookie> getCookies() {
-    return getHttpHeaders().getCookies();
+    return headers.getCookies();
+  }
+
+  @Override
+  public int getLength() {
+    return headers.getLength();
+  }
+
+  @Override
+  public MediaType getMediaType() {
+    return headers.getMediaType();
   }
 
   @Override
   public boolean hasEntity() {
-    throw new UnsupportedOperationException();
+    return headers.getLength() > 0;
   }
 
   @Override
   public InputStream getEntityStream() {
-    if (input != null)
-      return input;
+    if (entityStream != null)
+      return entityStream;
 
     try {
-      return request.getInputStream();
+      return httpServletRequest.getInputStream();
     }
     catch (final IOException e) {
       throw new WebApplicationException(e);
@@ -133,7 +157,7 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
 
   @Override
   public void setEntityStream(final InputStream input) {
-    this.input = input;
+    this.entityStream = input;
   }
 
   private SecurityContext defaultSecurityContext;
@@ -141,7 +165,7 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
 
   @Override
   public SecurityContext getSecurityContext() {
-    return securityContext != null ? securityContext : defaultSecurityContext == null ? defaultSecurityContext = new DefaultSecurityContext(request) : defaultSecurityContext;
+    return securityContext != null ? securityContext : defaultSecurityContext == null ? defaultSecurityContext = new DefaultSecurityContext(httpServletRequest) : defaultSecurityContext;
   }
 
   @Override

@@ -11,14 +11,14 @@ import javax.ws.rs.core.MediaType;
 
 import org.safris.commons.util.MirroredDelegatedList;
 
-public class HeaderMap3 extends MirroredDelegatedMultivaluedHashMap<String,String,Object> implements Cloneable {
+public class DelegatedHeaderMap extends MirroredDelegatedMultivaluedHashMap<String,String,Object> implements Cloneable {
   private static final long serialVersionUID = -424669813370868690L;
 
-  public HeaderMap3(final HttpServletResponse response) {
+  public DelegatedHeaderMap(final HttpServletResponse response) {
     super(HashMap.class, ArrayList.class, new MirroredDelegatedList.Mirror<String,Object>() {
       @Override
       public Object reflect(final String value) {
-        return value == null ? null : MediaTypeUtil.parse(value);
+        return value == null ? null : MediaTypes.parse(value);
       }
     }, new MirroredDelegatedList.Mirror<Object,String>() {
       @Override
@@ -107,12 +107,12 @@ public class HeaderMap3 extends MirroredDelegatedMultivaluedHashMap<String,Strin
     }, null);
   }
 
-  public HeaderMap3(final HeaderMap3 copy) {
+  public DelegatedHeaderMap(final DelegatedHeaderMap copy) {
     super(HashMap.class, copy.listType, copy.getMirror(), copy.getMirroredMap().getMirror(), copy.delegate, copy.getMirroredMap().delegate);
   }
 
   @Override
-  public HeaderMap3 clone() {
-    return new HeaderMap3(this);
+  public DelegatedHeaderMap clone() {
+    return new DelegatedHeaderMap(this);
   }
 }

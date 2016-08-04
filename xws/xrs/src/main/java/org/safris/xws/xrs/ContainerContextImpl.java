@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 public abstract class ContainerContextImpl {
   protected static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>() {
@@ -22,32 +22,24 @@ public abstract class ContainerContextImpl {
     this.locale = locale;
   }
 
-  protected abstract HttpHeaders getHttpHeaders();
+  protected abstract MultivaluedMap<String,String> getStringHeaders();
 
   public final String getHeaderString(final String name) {
-    return getHttpHeaders().getHeaderString(name);
+    return getStringHeaders().getFirst(name);
   }
 
   public final Date getDate() {
-    final String date = getHttpHeaders().getHeaderString(HttpHeaders.DATE);
+    final String date = getStringHeaders().getFirst(HttpHeaders.DATE);
     try {
       return date == null ? null : dateFormat.get().parse(date);
     }
     catch (final ParseException e) {
-      // FIXME!
-      throw new RuntimeException(e);
+      getStringHeaders().remove(HttpHeaders.DATE);
+      return null;
     }
   }
 
   public Locale getLanguage() {
     return locale;
-  }
-
-  public final int getLength() {
-    return getHttpHeaders().getLength();
-  }
-
-  public final MediaType getMediaType() {
-    return getHttpHeaders().getMediaType();
   }
 }
