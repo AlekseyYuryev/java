@@ -41,7 +41,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
 
 import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Strings;
@@ -112,7 +111,7 @@ public class ServiceManifest {
     return true;
   }
 
-  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws IOException {
+  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
     final Class<?>[] parameterTypes = method.getParameterTypes();
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
     if (parameterTypes.length == 0)
@@ -133,10 +132,7 @@ public class ServiceManifest {
             parameters[i] = pathParameters.get(pathParam);
           }
           else if (annotation.annotationType() == Context.class) {
-            if (parameterType == SecurityContext.class)
-              parameters[i] = injectionContext.getInjectableObject(ContainerRequestContext.class).getSecurityContext();
-            else
-              parameters[i] = injectionContext.getInjectableObject(parameterType);
+            parameters[i] = injectionContext.getInjectableObject(parameterType);
           }
           else {
             throw new UnsupportedOperationException("Unexpected annotation type: " + annotation.annotationType().getName() + " on: " + method.getDeclaringClass().getName() + "." + method.getName() + "()");
@@ -209,7 +205,7 @@ public class ServiceManifest {
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws ServletException, IOException {
+  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws ServletException, IOException {
     allow(securityAnnotation, requestContext);
 
     try {

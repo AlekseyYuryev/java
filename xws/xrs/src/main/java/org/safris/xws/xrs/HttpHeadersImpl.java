@@ -17,7 +17,6 @@
 package org.safris.xws.xrs;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -25,8 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -52,20 +49,6 @@ public class HttpHeadersImpl implements HttpHeaders {
       while (enumeration.hasMoreElements())
         headers.add(headerName, enumeration.nextElement());
     }
-  }
-
-  public HttpHeadersImpl(final HttpServletResponse response) {
-    this(new MultivaluedHashMap<String,String>());
-    final Collection<String> headerNames = response.getHeaderNames();
-    for (final String headerName : headerNames) {
-      final Collection<String> headerValues = response.getHeaders(headerName);
-      for (final String headerValue : headerValues)
-        headers.add(headerName, headerValue);
-    }
-  }
-
-  public HttpHeadersImpl(final ContainerRequestContext requestContext) {
-    this(requestContext.getHeaders());
   }
 
   @Override

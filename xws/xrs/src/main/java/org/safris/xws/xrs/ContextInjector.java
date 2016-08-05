@@ -24,21 +24,30 @@ import java.util.Set;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 import org.safris.commons.lang.reflect.Classes;
 
-public class InjectionContext implements Cloneable {
-  private static InjectionContext injectionContextPrototype = new InjectionContext(new Class<?>[] {
-    ContainerRequestContext.class,
-    ContainerResponseContext.class,
-    SecurityContext.class
+/**
+ * @see http://download.oracle.com/otn-pub/jcp/jaxrs-2_0_rev_A-mrel-spec/jsr339-jaxrs-2.0-final-spec.pdf [9.2]
+ */
+public class ContextInjector {
+  private static ContextInjector injectionContextPrototype = new ContextInjector(new Class<?>[] {
+    // ResourceContext.class,
+    // Providers.class,
+    // Application.class,
+    SecurityContext.class,
+    UriInfo.class,
+    Request.class,
+    HttpHeaders.class
   });
 
-  public static InjectionContext createInjectionContext() {
-    return injectionContextPrototype.clone();
+  public static ContextInjector createInjectionContext(final ContainerRequestContext containerRequestContext, final Request request, final HttpHeaders headers) {
+    return new ContextInjector(injectionContextPrototype.allowedClasses, containerRequestContext, request, headers);
   }
 
   public static boolean allowsInjectableClass(final Class<?> type, final Class<?> injectableClass) {
@@ -47,11 +56,21 @@ public class InjectionContext implements Cloneable {
 
   private final Set<Class<?>> allowedInjectableClasses = new HashSet<Class<?>>();
   private final Class<?>[] allowedClasses;
+  private final ContainerRequestContext containerRequestContext;
+  private final Request request;
+  private final HttpHeaders httpHeaders;
 
-  private InjectionContext(final Class<?>[] allowedClasses) {
+  private ContextInjector(final Class<?>[] allowedClasses, final ContainerRequestContext containerRequestContext, final Request request, final HttpHeaders headers) {
     this.allowedClasses = allowedClasses;
+    this.request = request;
+    this.httpHeaders = headers;
     for (final Class<?> allowedClass : allowedClasses)
       allowedInjectableClasses.add(allowedClass);
+    this.containerRequestContext = containerRequestContext;
+  }
+
+  private ContextInjector(final Class<?>[] allowedClasses) {
+    this(allowedClasses, null, null, null);
   }
 
   private final Map<Class<?>,Object> injectableClassToObject = new HashMap<Class<?>,Object>();
@@ -68,20 +87,23 @@ public class InjectionContext implements Cloneable {
     return null;
   }
 
-  public void addInjectableObject(final Object object) {
-    final Class<?> allowedInjectibleClass = getAllowedInjectableClass(object.getClass());
-    if (allowedInjectibleClass == null)
-      throw new IllegalArgumentException("InjectionContext configuration does not allow injection of object of class " + object.getClass().getName());
-
-    if (injectableClassToObject.put(allowedInjectibleClass, object) != null)
-      throw new IllegalStateException("InjectableContext already contains injectable object of class " + object.getClass().getName());
-  }
-
   @SuppressWarnings("unchecked")
   public <T>T getInjectableObject(final Class<T> injectableClass) {
     final Class<?> allowedInjectibleClass = getAllowedInjectableClass(injectableClass);
     if (allowedInjectibleClass == null)
       throw new IllegalArgumentException("InjectionContext configuration does not allow injection of object of class " + injectableClass.getName());
+
+    if (allowedInjectibleClass == Request.class)
+      return (T)request;
+
+    if (allowedInjectibleClass == HttpHeaders.class)
+      return (T)httpHeaders;
+
+    if (allowedInjectibleClass == UriInfo.class)
+      return (T)containerRequestContext.getUriInfo();
+
+    if (allowedInjectibleClass == SecurityContext.class)
+      return (T)containerRequestContext.getSecurityContext();
 
     return (T)injectableClassToObject.get(allowedInjectibleClass);
   }
@@ -116,10 +138,5 @@ public class InjectionContext implements Cloneable {
 
   public <T>T inject(final Class<T> targetClass) {
     return testOrInject(targetClass, true);
-  }
-
-  @Override
-  public InjectionContext clone() {
-    return new InjectionContext(allowedClasses);
   }
 }

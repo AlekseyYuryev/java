@@ -101,7 +101,7 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
             }
 
             for (final HttpMethod httpMethodAnnotation : httpMethodAnnotations) {
-              InjectionContext.allowsInjectableClass(Field.class, cls);
+              ContextInjector.allowsInjectableClass(Field.class, cls);
               final ServiceManifest manifest = new ServiceManifest(httpMethodAnnotation, method);
               logger.info("[JAX-RS] " + manifest.getPathPattern().getPattern().toString() + " " + cls.getSimpleName() + "." + method.getName() + "(): " + httpMethodAnnotation.value());
               register(manifest);
@@ -140,28 +140,28 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
     (filterClass.isAnnotationPresent(PreMatching.class) ? preMatchRequestFilters : postMatchRequestFilters).add(filterClass);
   }
 
-  protected void runPreMatchRequestFilters(final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws IOException {
+  protected void runPreMatchRequestFilters(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
     for (final Class<? extends ContainerRequestFilter> preMatchRequestFilter : preMatchRequestFilters) {
       final ContainerRequestFilter filter = injectionContext.inject(preMatchRequestFilter);
       filter.filter(requestContext);
     }
   }
 
-  protected void runPostMatchRequestFilters(final ContainerRequestContext requestContext, final InjectionContext injectionContext) throws IOException {
+  protected void runPostMatchRequestFilters(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
     for (final Class<? extends ContainerRequestFilter> postMatchRequestFilter : postMatchRequestFilters) {
       final ContainerRequestFilter filter = injectionContext.inject(postMatchRequestFilter);
       filter.filter(requestContext);
     }
   }
 
-  protected void runPreMatchResponseFilters(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final InjectionContext injectionContext) throws IOException {
+  protected void runPreMatchResponseFilters(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ContextInjector injectionContext) throws IOException {
     for (final Class<? extends ContainerResponseFilter> preMatchResponseFilter : preMatchResponseFilters) {
       final ContainerResponseFilter filter = injectionContext.inject(preMatchResponseFilter);
       filter.filter(requestContext, responseContext);
     }
   }
 
-  protected void runPostMatchResponseFilters(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final InjectionContext injectionContext) throws IOException {
+  protected void runPostMatchResponseFilters(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ContextInjector injectionContext) throws IOException {
     for (final Class<? extends ContainerResponseFilter> postMatchResponseFilter : postMatchResponseFilters) {
       final ContainerResponseFilter filter = injectionContext.inject(postMatchResponseFilter);
       filter.filter(requestContext, responseContext);

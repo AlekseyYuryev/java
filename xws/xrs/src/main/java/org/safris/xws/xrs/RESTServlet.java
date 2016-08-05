@@ -43,7 +43,7 @@ public final class RESTServlet extends RegisteringRESTServlet {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private static void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final InjectionContext injectionContext) throws IOException, ServletException {
+  private static void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
     final Object content = manifest.service(requestContext, injectionContext);
 
     if (content != null)
@@ -56,11 +56,10 @@ public final class RESTServlet extends RegisteringRESTServlet {
 
       final ClientResponse clientResponse = new ClientResponse(response, containerResponseContext);
       final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, clientResponse));
+      final HttpHeaders httpHeaders = new HttpHeadersImpl(request);
+      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, httpHeaders, clientResponse));
 
-      final InjectionContext injectionContext = InjectionContext.createInjectionContext();
-      injectionContext.addInjectableObject(containerRequestContext);
-      injectionContext.addInjectableObject(containerResponseContext);
+      final ContextInjector injectionContext = ContextInjector.createInjectionContext(containerRequestContext, new RequestImpl(request.getMethod()), httpHeaders);
 
       runPreMatchRequestFilters(containerRequestContext, injectionContext);
       runPreMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
