@@ -46,6 +46,8 @@ import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Strings;
 import org.safris.xws.xjb.DecodeException;
 import org.safris.xws.xjb.JSObject;
+import org.safris.xws.xrs.core.ContextInjector;
+import org.safris.xws.xrs.util.MediaTypes;
 
 public class ServiceManifest {
   private static final Logger logger = Logger.getLogger(ServiceManifest.class.getName());

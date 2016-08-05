@@ -23,6 +23,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.safris.xws.xrs.util.MediaTypes;
+
 public class MediaTypeMatcher<T extends Annotation> {
   public static <T extends Annotation>T getMethodClassAnnotation(final Class<T> annotationClass, final Method method) {
     T annotation = method.getAnnotation(annotationClass);

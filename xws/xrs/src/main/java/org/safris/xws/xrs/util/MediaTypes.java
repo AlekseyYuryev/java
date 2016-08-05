@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.util;
 
 import java.util.Collection;
 import java.util.Enumeration;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-public class MediaTypes {
+public final class MediaTypes {
   // FIXME: Is this correct?
   public static boolean matches(final MediaType required, final MediaType test) {
     if (required == null || test == null)

@@ -14,10 +14,9 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.core;
 
 import java.net.URI;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +34,9 @@ import javax.ws.rs.core.MediaType;
 import org.safris.commons.lang.Numbers;
 import org.safris.commons.util.Locales;
 import org.safris.commons.util.MirroredList;
+import org.safris.xws.xrs.ext.DateHeaderDelegate;
+import org.safris.xws.xrs.util.MediaTypes;
+import org.safris.xws.xrs.util.MirroredMultivaluedHashMap;
 
 public class HeaderMap extends MirroredMultivaluedHashMap<String,String,Object> implements Cloneable {
   private static final long serialVersionUID = -424669813370868690L;
@@ -61,7 +63,7 @@ public class HeaderMap extends MirroredMultivaluedHashMap<String,String,Object> 
           return value.toString();
 
         if (value instanceof Date)
-          return ContainerContextImpl.dateFormat.get().format(value);
+          return DateHeaderDelegate.format((Date)value);
 
         if (value instanceof URI)
           return value.toString();
@@ -111,13 +113,7 @@ public class HeaderMap extends MirroredMultivaluedHashMap<String,String,Object> 
 
   public Date getLastModified() {
     final String date = getFirst(HttpHeaders.LAST_MODIFIED);
-    try {
-      return date == null ? null : ContainerContextImpl.dateFormat.get().parse(date);
-    }
-    catch (final ParseException e) {
-      remove(HttpHeaders.LAST_MODIFIED);
-      return null;
-    }
+    return date == null ? null : DateHeaderDelegate.parse(date);
   }
 
   public int getLength() {

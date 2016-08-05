@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

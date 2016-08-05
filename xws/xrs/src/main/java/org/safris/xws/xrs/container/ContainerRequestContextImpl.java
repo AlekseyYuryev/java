@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.container;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +41,10 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.safris.commons.util.Locales;
+import org.safris.xws.xrs.ClientResponse;
+import org.safris.xws.xrs.core.DefaultSecurityContext;
+import org.safris.xws.xrs.core.UriInfoImpl;
+import org.safris.xws.xrs.util.MediaTypes;
 
 public class ContainerRequestContextImpl extends ContainerContextImpl implements ContainerRequestContext {
   private final Map<String,Object> properties = new HashMap<String,Object>();

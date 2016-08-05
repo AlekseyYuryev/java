@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -22,7 +22,7 @@ import java.util.Comparator;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-public class ResponseUtil {
+public final class Responses {
   private static final Response.Status[] statuses = Response.Status.values();
   private static final int[] statusCodes = new int[statuses.length];
 
@@ -50,6 +50,6 @@ public class ResponseUtil {
   }
 
 
-  private ResponseUtil() {
+  private Responses() {
   }
 }

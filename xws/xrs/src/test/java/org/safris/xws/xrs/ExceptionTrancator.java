@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs.rs;
+package org.safris.xws.xrs;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

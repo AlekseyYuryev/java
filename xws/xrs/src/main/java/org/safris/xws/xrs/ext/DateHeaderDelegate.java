@@ -14,48 +14,43 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.ext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.RuntimeDelegate;
 
-public abstract class ContainerContextImpl {
-  protected static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>() {
+public class DateHeaderDelegate implements RuntimeDelegate.HeaderDelegate<Date> {
+  private static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>() {
     @Override
     protected SimpleDateFormat initialValue() {
       return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
     }
   };
 
-  private final Locale locale;
-
-  protected ContainerContextImpl(final Locale locale) {
-    this.locale = locale;
-  }
-
-  protected abstract MultivaluedMap<String,String> getStringHeaders();
-
-  public final String getHeaderString(final String name) {
-    return getStringHeaders().getFirst(name);
-  }
-
-  public final Date getDate() {
-    final String date = getStringHeaders().getFirst(HttpHeaders.DATE);
+  public static Date parse(final String value) {
     try {
-      return date == null ? null : dateFormat.get().parse(date);
+      return dateFormat.get().parse(value);
     }
     catch (final ParseException e) {
-      getStringHeaders().remove(HttpHeaders.DATE);
       return null;
     }
   }
 
-  public Locale getLanguage() {
-    return locale;
+  public static String format(final Date value) {
+    return dateFormat.get().format(value);
+  }
+
+  @Override
+  public Date fromString(final String value) {
+    return parse(value);
+  }
+
+  @Override
+  public String toString(final Date value) {
+    return format(value);
   }
 }

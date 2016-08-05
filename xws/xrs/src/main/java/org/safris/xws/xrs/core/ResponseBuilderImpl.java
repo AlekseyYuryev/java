@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.core;
 
 import java.lang.annotation.Annotation;
 import java.net.URI;
@@ -32,12 +32,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Variant;
 
 import org.safris.commons.util.Locales;
+import org.safris.xws.xrs.util.Responses;
 
-public class ResponseBuilderImpl extends ResponseBuilder {
+public class ResponseBuilderImpl extends Response.ResponseBuilder {
   private final HeaderMap headers;
   private Object entity;
 
@@ -51,35 +51,35 @@ public class ResponseBuilderImpl extends ResponseBuilder {
 
   @Override
   public Response build() {
-    return new ResponseImpl(ResponseUtil.fromStatusCode(status), headers, entity);
+    return new ResponseImpl(Responses.fromStatusCode(status), headers, entity);
   }
 
   @Override
-  public ResponseBuilder clone() {
+  public Response.ResponseBuilder clone() {
     return new ResponseBuilderImpl(this);
   }
 
   private int status;
 
   @Override
-  public ResponseBuilder status(final int status) {
+  public Response.ResponseBuilder status(final int status) {
     this.status = status;
     return this;
   }
 
   @Override
-  public ResponseBuilder entity(final Object entity) {
+  public Response.ResponseBuilder entity(final Object entity) {
     this.entity = entity;
     return this;
   }
 
   @Override
-  public ResponseBuilder entity(final Object entity, final Annotation[] annotations) {
+  public Response.ResponseBuilder entity(final Object entity, final Annotation[] annotations) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder allow(final String ... methods) {
+  public Response.ResponseBuilder allow(final String ... methods) {
     for (final String method : methods)
       headers.add(HttpHeaders.ALLOW, method);
 
@@ -87,7 +87,7 @@ public class ResponseBuilderImpl extends ResponseBuilder {
   }
 
   @Override
-  public ResponseBuilder allow(final Set<String> methods) {
+  public Response.ResponseBuilder allow(final Set<String> methods) {
     for (final String method : methods)
       headers.add(HttpHeaders.ALLOW, method);
 
@@ -95,25 +95,25 @@ public class ResponseBuilderImpl extends ResponseBuilder {
   }
 
   @Override
-  public ResponseBuilder cacheControl(final CacheControl cacheControl) {
+  public Response.ResponseBuilder cacheControl(final CacheControl cacheControl) {
     headers.getMirroredMap().putSingle(HttpHeaders.CACHE_CONTROL, cacheControl);
     return this;
   }
 
   @Override
-  public ResponseBuilder encoding(final String encoding) {
+  public Response.ResponseBuilder encoding(final String encoding) {
     headers.putSingle(HttpHeaders.CONTENT_ENCODING, encoding);
     return this;
   }
 
   @Override
-  public ResponseBuilder header(final String name, final Object value) {
+  public Response.ResponseBuilder header(final String name, final Object value) {
     headers.getMirroredMap().add(name, value);
     return this;
   }
 
   @Override
-  public ResponseBuilder replaceAll(final MultivaluedMap<String,Object> headers) {
+  public Response.ResponseBuilder replaceAll(final MultivaluedMap<String,Object> headers) {
     final MultivaluedMap<String,Object> mirroredMap = this.headers.getMirroredMap();
     mirroredMap.clear();
     for (final Map.Entry<String,List<Object>> entry : headers.entrySet())
@@ -123,96 +123,96 @@ public class ResponseBuilderImpl extends ResponseBuilder {
   }
 
   @Override
-  public ResponseBuilder language(final String language) {
+  public Response.ResponseBuilder language(final String language) {
     headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LANGUAGE, Locales.parse(language));
     headers.putSingle(HttpHeaders.CONTENT_LANGUAGE, language);
     return this;
   }
 
   @Override
-  public ResponseBuilder language(final Locale language) {
+  public Response.ResponseBuilder language(final Locale language) {
     headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LANGUAGE, language);
     return this;
   }
 
   @Override
-  public ResponseBuilder type(final MediaType type) {
+  public Response.ResponseBuilder type(final MediaType type) {
     headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_TYPE, type);
     return this;
   }
 
   @Override
-  public ResponseBuilder type(final String type) {
+  public Response.ResponseBuilder type(final String type) {
     headers.putSingle(HttpHeaders.CONTENT_TYPE, type);
     return this;
   }
 
   @Override
-  public ResponseBuilder variant(final Variant variant) {
+  public Response.ResponseBuilder variant(final Variant variant) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder contentLocation(final URI location) {
+  public Response.ResponseBuilder contentLocation(final URI location) {
     headers.getMirroredMap().putSingle(HttpHeaders.CONTENT_LOCATION, location);
     return this;
   }
 
   @Override
-  public ResponseBuilder cookie(final NewCookie ... cookies) {
+  public Response.ResponseBuilder cookie(final NewCookie ... cookies) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder expires(final Date expires) {
+  public Response.ResponseBuilder expires(final Date expires) {
     headers.getMirroredMap().putSingle(HttpHeaders.EXPIRES, expires);
     return this;
   }
 
   @Override
-  public ResponseBuilder lastModified(final Date lastModified) {
+  public Response.ResponseBuilder lastModified(final Date lastModified) {
     headers.getMirroredMap().putSingle(HttpHeaders.LAST_MODIFIED, lastModified);
     return this;
   }
 
   @Override
-  public ResponseBuilder location(final URI location) {
+  public Response.ResponseBuilder location(final URI location) {
     headers.getMirroredMap().putSingle(HttpHeaders.LOCATION, location);
     return this;
   }
 
   @Override
-  public ResponseBuilder tag(final EntityTag tag) {
+  public Response.ResponseBuilder tag(final EntityTag tag) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder tag(final String tag) {
+  public Response.ResponseBuilder tag(final String tag) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder variants(final Variant ... variants) {
+  public Response.ResponseBuilder variants(final Variant ... variants) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder variants(final List<Variant> variants) {
+  public Response.ResponseBuilder variants(final List<Variant> variants) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder links(final Link ... links) {
+  public Response.ResponseBuilder links(final Link ... links) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder link(final URI uri, final String rel) {
+  public Response.ResponseBuilder link(final URI uri, final String rel) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ResponseBuilder link(final String uri, final String rel) {
+  public Response.ResponseBuilder link(final String uri, final String rel) {
     throw new UnsupportedOperationException();
   }
 }

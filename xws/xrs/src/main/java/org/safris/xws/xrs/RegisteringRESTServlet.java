@@ -43,6 +43,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
+import org.safris.xws.xrs.core.ContextInjector;
 
 public abstract class RegisteringRESTServlet extends HttpServlet {
   private static final long serialVersionUID = 6825431027711735886L;

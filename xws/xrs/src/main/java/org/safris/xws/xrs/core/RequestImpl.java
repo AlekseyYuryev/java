@@ -1,4 +1,4 @@
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.core;
 
 import java.util.Date;
 import java.util.List;

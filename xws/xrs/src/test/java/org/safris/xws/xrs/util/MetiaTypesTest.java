@@ -14,19 +14,20 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.util;
+
+import java.util.Collections;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
 
-public class HeaderDelegateImpl implements HeaderDelegate<MediaType> {
-  @Override
-  public MediaType fromString(final String value) {
-    return MediaTypes.parse(value);
-  }
+import org.junit.Assert;
+import org.junit.Test;
+import org.safris.xws.xrs.util.MediaTypes;
 
-  @Override
-  public String toString(final MediaType value) {
-    return value.toString();
+public class MetiaTypesTest {
+  @Test
+  public void testParse() {
+    Assert.assertEquals(new MediaType("application", "json"), MediaTypes.parse("application/json"));
+    Assert.assertEquals(new MediaType("application", "json", Collections.singletonMap("charset", "utf8")), MediaTypes.parse("application/json; charset=utf8"));
   }
 }

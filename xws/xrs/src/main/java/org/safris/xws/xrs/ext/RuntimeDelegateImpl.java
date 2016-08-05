@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.ext;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Link.Builder;
@@ -23,6 +23,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Variant.VariantListBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
+
+import org.safris.xws.xrs.core.ResponseBuilderImpl;
 
 public class RuntimeDelegateImpl extends RuntimeDelegate {
   @Override
@@ -50,7 +52,7 @@ public class RuntimeDelegateImpl extends RuntimeDelegate {
   @SuppressWarnings("unchecked")
   public <T>HeaderDelegate<T> createHeaderDelegate(final Class<T> type) throws IllegalArgumentException {
     if (type == MediaType.class)
-      return (HeaderDelegate<T>)new HeaderDelegateImpl();
+      return (HeaderDelegate<T>)new MediaTypeHeaderDelegate();
 
     throw new UnsupportedOperationException("Unexpected header object type: " + type.getName());
   }

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,50 +22,68 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.safris.commons.util.MirroredList;
-import org.safris.commons.util.PartialMap;
+import org.safris.commons.util.DelegatedList;
+import org.safris.commons.util.DelegatedMap;
 
-public class MirroredMultivaluedHashMap<K,V,M> extends PartialMap<K,List<V>> implements MultivaluedMap<K,V> {
+public class DelegatedMultivaluedHashMap<K,V> extends DelegatedMap<K,List<V>> implements MultivaluedMap<K,V> {
   private static final long serialVersionUID = 2648516310407246308L;
 
-  @SuppressWarnings("rawtypes")
-  private final Class<? extends List> listType;
-  private final MirroredMultivaluedHashMap<K,M,V> mirroredMap;
-  private final MirroredList.Mirror<V,M> mirror;
+  public interface MultivaluedMapDelegate<K,V> extends DelegatedMap.MapDelegate<K,List<V>> {
+    public void putSingle(final K key, final V value);
+    public void add(final K key, final V value);
+    public void addFirst(final K key, final V value);
+
+    public void add(final K key, final int index, final V element);
+    public void remove(final K key, final int index);
+  }
 
   @SuppressWarnings("rawtypes")
-  public MirroredMultivaluedHashMap(final Class<? extends Map> type, final Class<? extends List> listType, final MirroredList.Mirror<V,M> mirror1, final MirroredList.Mirror<M,V> mirror2) {
-    super(type);
+  protected final Class<? extends List> listType;
+  protected final MultivaluedMapDelegate<K,V> delegate;
+
+  @SuppressWarnings("rawtypes")
+  public DelegatedMultivaluedHashMap(final Class<? extends Map> type, final Class<? extends List> listType, final MultivaluedMapDelegate<K,V> delegate) {
+    super(type, delegate);
     this.listType = listType;
-    this.mirroredMap = new MirroredMultivaluedHashMap<K,M,V>(this, mirror2);
-    this.mirror = mirror1;
+    this.delegate = delegate;
   }
 
-  private MirroredMultivaluedHashMap(final MirroredMultivaluedHashMap<K,M,V> mirroredMap, final MirroredList.Mirror<V,M> mirror) {
-    super(mirroredMap.map.getClass());
-    this.listType = mirroredMap.listType;
-    this.mirroredMap = mirroredMap;
-    this.mirror = mirror;
+  public DelegatedMultivaluedHashMap(final DelegatedMultivaluedHashMap<K,V> copy) {
+    this(copy.map.getClass(), copy.listType, copy.delegate);
   }
 
-  public MultivaluedMap<K,M> getMirroredMap() {
-    return mirroredMap;
+  public MultivaluedMapDelegate<K,V> getDelegate() {
+    return delegate;
   }
 
-  public MirroredList.Mirror<V,M> getMirror() {
-    return mirror;
-  }
-
-  protected final List<V> getValues(final K key) {
+  protected List<V> getValues(final K key) {
     List<V> values = get(key);
-    if (values == null)
-      put(key, values = new MirroredList<V,M>(listType, mirror, mirroredMap.mirror));
+    if (values == null) {
+      put(key, values = new DelegatedList<V>(listType, new DelegatedList.ListDelegate<V>() {
+        @Override
+        public void add(final int index, final V element) {
+          delegate.add(key, index, element);
+        }
+
+        @Override
+        public void remove(final int index) {
+          delegate.remove(key, index);
+        }
+      }));
+    }
 
     return values;
   }
 
   @Override
+  public List<V> put(final K key, final List<V> value) {
+    delegate.put(key, value);
+    return super.put(key, value);
+  }
+
+  @Override
   public void putSingle(final K key, final V value) {
+    delegate.putSingle(key, value);
     final List<V> values = getValues(key);
     values.clear();
     values.add(value);
@@ -73,6 +91,7 @@ public class MirroredMultivaluedHashMap<K,V,M> extends PartialMap<K,List<V>> imp
 
   @Override
   public void add(final K key, final V value) {
+    delegate.add(key, value);
     getValues(key).add(value);
   }
 
@@ -91,11 +110,13 @@ public class MirroredMultivaluedHashMap<K,V,M> extends PartialMap<K,List<V>> imp
 
   @Override
   public void addAll(final K key, final List<V> valueList) {
-    getValues(key).addAll(valueList);
+    for (final V value : valueList)
+      add(key, value);
   }
 
   @Override
   public void addFirst(final K key, final V value) {
+    delegate.addFirst(key, value);
     getValues(key).add(0, value);
   }
 
@@ -117,23 +138,7 @@ public class MirroredMultivaluedHashMap<K,V,M> extends PartialMap<K,List<V>> imp
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public List<V> put(final K key, final List<V> value) {
-    final MirroredList<V,M> list = value instanceof MirroredList ? (MirroredList<V,M>)value : new MirroredList<V,M>(listType, mirror, mirroredMap.mirror);
-    mirroredMap.map.put(key, list.getMirror());
-    return map.put(key, list);
-  }
-
-  @Override
-  public List<V> remove(final Object key) {
-    mirroredMap.map.remove(key);
-    return map.remove(key);
-  }
-
-  @Override
-  public MirroredMultivaluedHashMap<K,V,M> clone() {
-    final MirroredMultivaluedHashMap<K,V,M> clone = new MirroredMultivaluedHashMap<K,V,M>(map.getClass(), listType, mirror, mirroredMap.mirror);
-    clone.putAll(this);
-    return clone;
+  public DelegatedMultivaluedHashMap<K,V> clone() {
+    return new DelegatedMultivaluedHashMap<K,V>(this);
   }
 }

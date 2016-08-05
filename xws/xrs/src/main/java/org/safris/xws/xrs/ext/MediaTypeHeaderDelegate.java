@@ -14,37 +14,21 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.ext;
 
-import java.security.Principal;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.ext.RuntimeDelegate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.SecurityContext;
+import org.safris.xws.xrs.util.MediaTypes;
 
-public final class DefaultSecurityContext implements SecurityContext {
-  private final HttpServletRequest request;
-
-  public DefaultSecurityContext(final HttpServletRequest request) {
-    this.request = request;
+public class MediaTypeHeaderDelegate implements RuntimeDelegate.HeaderDelegate<MediaType> {
+  @Override
+  public MediaType fromString(final String value) {
+    return MediaTypes.parse(value);
   }
 
   @Override
-  public final Principal getUserPrincipal() {
-    return null;
-  }
-
-  @Override
-  public final boolean isUserInRole(final String role) {
-    return false;
-  }
-
-  @Override
-  public final boolean isSecure() {
-    return request.isSecure();
-  }
-
-  @Override
-  public final String getAuthenticationScheme() {
-    return null;
+  public String toString(final MediaType value) {
+    return value.toString();
   }
 }

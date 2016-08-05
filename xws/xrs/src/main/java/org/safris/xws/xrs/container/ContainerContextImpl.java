@@ -14,19 +14,35 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.container;
 
-import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.safris.xws.xrs.ext.DateHeaderDelegate;
 
-public class MetiaTypeUtilTest {
-  @Test
-  public void testParse() {
-    Assert.assertEquals(new MediaType("application", "json"), MediaTypes.parse("application/json"));
-    Assert.assertEquals(new MediaType("application", "json", Collections.singletonMap("charset", "utf8")), MediaTypes.parse("application/json; charset=utf8"));
+abstract class ContainerContextImpl {
+  private final Locale locale;
+
+  protected ContainerContextImpl(final Locale locale) {
+    this.locale = locale;
+  }
+
+  protected abstract MultivaluedMap<String,String> getStringHeaders();
+
+  public final String getHeaderString(final String name) {
+    return getStringHeaders().getFirst(name);
+  }
+
+  public final Date getDate() {
+    final String date = getStringHeaders().getFirst(HttpHeaders.DATE);
+    return date == null ? null : DateHeaderDelegate.parse(date);
+  }
+
+  public Locale getLanguage() {
+    return locale;
   }
 }

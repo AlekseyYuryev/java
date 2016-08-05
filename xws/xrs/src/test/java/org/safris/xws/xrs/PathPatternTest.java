@@ -22,8 +22,9 @@ import javax.ws.rs.Path;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.xws.xrs.PathPattern;
 
-public class PathUtilTest {
+public class PathPatternTest {
   protected static class TestPath implements Path {
     private final String value;
 

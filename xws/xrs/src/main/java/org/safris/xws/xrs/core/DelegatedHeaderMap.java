@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xws.xrs;
+package org.safris.xws.xrs.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import org.safris.commons.util.MirroredDelegatedList;
+import org.safris.xws.xrs.util.DelegatedMultivaluedHashMap;
+import org.safris.xws.xrs.util.MediaTypes;
+import org.safris.xws.xrs.util.MirroredDelegatedMultivaluedHashMap;
 
 public class DelegatedHeaderMap extends MirroredDelegatedMultivaluedHashMap<String,String,Object> implements Cloneable {
   private static final long serialVersionUID = -424669813370868690L;
@@ -124,7 +127,7 @@ public class DelegatedHeaderMap extends MirroredDelegatedMultivaluedHashMap<Stri
   }
 
   public DelegatedHeaderMap(final DelegatedHeaderMap copy) {
-    super(HashMap.class, copy.listType, copy.getMirror(), copy.getMirroredMap().getMirror(), copy.delegate, copy.getMirroredMap().delegate);
+    super(HashMap.class, copy.listType, copy.getMirror(), copy.getMirroredMap().getMirror(), copy.delegate, copy.getMirroredMap().getDelegate());
   }
 
   @Override
