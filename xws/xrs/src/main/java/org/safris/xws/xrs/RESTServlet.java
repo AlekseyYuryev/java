@@ -1,14 +1,23 @@
+/* Copyright (c) 2016 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.xws.xrs;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -18,83 +27,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.ext.Provider;
-
-import org.safris.commons.lang.PackageLoader;
-import org.safris.commons.lang.PackageNotFoundException;
+import javax.ws.rs.ext.RuntimeDelegate;
 
 @WebServlet("/*")
 public final class RESTServlet extends RegisteringRESTServlet {
   private static final long serialVersionUID = 3700080355780006441L;
-  private static final Logger logger = Logger.getLogger(RESTServlet.class.getName());
 
   static {
-    try {
-      Class.forName(RuntimeDelegateImpl.class.getName());
-    }
-    catch (final ClassNotFoundException e) {
-      throw new ExceptionInInitializerError(e);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public RESTServlet() {
-    for (final Package pkg : Package.getPackages()) {
-      final Set<Class<?>> classes;
-      try {
-        classes = PackageLoader.getSystemPackageLoader().loadPackage(pkg, false);
-      }
-      catch (final PackageNotFoundException | SecurityException e) {
-        continue;
-      }
-
-      for (final Class<?> cls : classes) {
-        if (Modifier.isAbstract(cls.getModifiers()))
-          continue;
-
-        // Add a Class<?> with a @Path annotation
-        if (cls.isAnnotationPresent(Path.class)) {
-          final Method[] methods = cls.getMethods();
-          for (final Method method : methods) {
-            final Set<HttpMethod> httpMethodAnnotations = new HashSet<HttpMethod>(); // FIXME: Can this be done without a Collection?
-            final Annotation[] annotations = method.getAnnotations();
-            for (final Annotation annotation : annotations) {
-              final HttpMethod httpMethodAnnotation = annotation.annotationType().getAnnotation(HttpMethod.class);
-              if (httpMethodAnnotation != null)
-                httpMethodAnnotations.add(httpMethodAnnotation);
-            }
-
-            for (final HttpMethod httpMethodAnnotation : httpMethodAnnotations) {
-              InjectionContext.allowsInjectableClass(Field.class, cls);
-              final ServiceManifest manifest = new ServiceManifest(httpMethodAnnotation, method);
-              logger.info("[JAX-RS] " + manifest.getPathPattern().getPattern().toString() + " " + cls.getSimpleName() + "." + method.getName() + "(): " + httpMethodAnnotation.value());
-              register(manifest);
-            }
-          }
-        }
-        else if (cls.isAnnotationPresent(Provider.class)) {
-          if (ContainerRequestFilter.class.isAssignableFrom(cls)) {
-            addRequestFilter((Class<? extends ContainerRequestFilter>)cls);
-          }
-          else if (ContainerResponseFilter.class.isAssignableFrom(cls)) {
-            addResponseFilter((Class<? extends ContainerResponseFilter>)cls);
-          }
-          else {
-            throw new UnsupportedOperationException("Unexpected @Provider class: " + cls.getName());
-          }
-        }
-      }
-    }
+    System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
   private static void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final InjectionContext injectionContext) throws IOException, ServletException {
@@ -104,10 +50,7 @@ public final class RESTServlet extends RegisteringRESTServlet {
       responseContext.setEntity(content);
   }
 
-  public static final ThreadLocal<HttpServletResponse> RESPONSE = new ThreadLocal<HttpServletResponse>();
-
   private void wrappedService(final WrappedRequest request, final HttpServletResponse response) throws IOException, ServletException {
-    RESPONSE.set(response);
     try {
       final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
 
@@ -116,8 +59,6 @@ public final class RESTServlet extends RegisteringRESTServlet {
       request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, clientResponse));
 
       final InjectionContext injectionContext = InjectionContext.createInjectionContext();
-      injectionContext.addInjectableObject(request);
-      injectionContext.addInjectableObject(response);
       injectionContext.addInjectableObject(containerRequestContext);
       injectionContext.addInjectableObject(containerResponseContext);
 
@@ -171,9 +112,6 @@ public final class RESTServlet extends RegisteringRESTServlet {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage());
         throw t;
       }
-    }
-    finally {
-      RESPONSE.remove();
     }
   }
 
