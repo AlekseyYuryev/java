@@ -1,4 +1,4 @@
-package org.safris.commons.jci;/* Copyright (c) 2011 Seva Safris
+/* Copyright (c) 2011 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -13,6 +13,8 @@ package org.safris.commons.jci;/* Copyright (c) 2011 Seva Safris
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
+
+package org.safris.commons.jci;
 
 import java.io.File;
 import java.io.FileOutputStream;
