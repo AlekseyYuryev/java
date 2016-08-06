@@ -48,7 +48,6 @@ public class PathPattern {
     final StringBuilder builder = new StringBuilder();
     while ((start = path.indexOf("{", end + 1)) > -1) {
       builder.append(path.substring(end + 1, start++));
-
       end = path.indexOf("}", start);
       final String token = path.substring(start, end);
       builder.append(pathExpressionToRegex(token));
@@ -67,14 +66,11 @@ public class PathPattern {
     this(method.getDeclaringClass().getAnnotation(Path.class), method.getAnnotation(Path.class));
   }
 
-  public PathPattern(final Path classPath, final Path methodPath) {
-    if (classPath == null)
-      throw new IllegalArgumentException("classPath == null");
+  protected PathPattern(final Path path, final Path methodPath) {
+    if (path == null)
+      throw new IllegalArgumentException("path == null");
 
-    if (methodPath != null)
-      this.pattern = createPattern(prependSlash(classPath) + prependSlash(methodPath));
-    else
-      this.pattern = createPattern(prependSlash(classPath));
+    this.pattern = methodPath != null ? createPattern(prependSlash(path) + prependSlash(methodPath)) : createPattern(prependSlash(path));
   }
 
   public Pattern getPattern() {

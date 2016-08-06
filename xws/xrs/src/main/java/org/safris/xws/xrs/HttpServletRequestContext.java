@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.ws.rs.container.ContainerRequestContext;
 
-public class WrappedRequest extends HttpServletRequestWrapper {
-  public WrappedRequest(final HttpServletRequest request) {
+public class HttpServletRequestContext extends HttpServletRequestWrapper {
+  public HttpServletRequestContext(final HttpServletRequest request) {
     super(request);
   }
 

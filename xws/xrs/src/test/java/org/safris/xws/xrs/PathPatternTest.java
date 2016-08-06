@@ -54,7 +54,7 @@ public class PathPatternTest {
       Assert.fail("Expected IllegalArgumentException(\"classPath == null\")");
     }
     catch (final IllegalArgumentException e) {
-      if (!"classPath == null".equals(e.getMessage()))
+      if (!"path == null".equals(e.getMessage()))
         throw e;
     }
 

@@ -41,7 +41,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.safris.commons.util.Locales;
-import org.safris.xws.xrs.ClientResponse;
+import org.safris.xws.xrs.ResponseContext;
 import org.safris.xws.xrs.core.DefaultSecurityContext;
 import org.safris.xws.xrs.core.UriInfoImpl;
 import org.safris.xws.xrs.util.MediaTypes;
@@ -50,14 +50,14 @@ public class ContainerRequestContextImpl extends ContainerContextImpl implements
   private final Map<String,Object> properties = new HashMap<String,Object>();
   private final HttpServletRequest httpServletRequest;
 
-  private final ClientResponse response;
+  private final ResponseContext response;
   private final HttpHeaders headers;
   private final UriInfo uriInfo;
   private final List<MediaType> accept;
   private final List<Locale> acceptLanguages;
   private InputStream entityStream;
 
-  public ContainerRequestContextImpl(final HttpServletRequest httpServletRequest, final ClientResponse response) {
+  public ContainerRequestContextImpl(final HttpServletRequest httpServletRequest, final ResponseContext response) {
     super(httpServletRequest.getLocale());
     final Enumeration<String> attributes = httpServletRequest.getAttributeNames();
     String attribute;

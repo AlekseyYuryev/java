@@ -110,7 +110,7 @@ public class ServiceManifest {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext, final MessageBodyRegistry messageBodyRegistry) throws IOException {
+  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext, final EntityProviders messageBodyRegistry) throws IOException {
     final Class<?>[] parameterTypes = method.getParameterTypes();
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
     if (parameterTypes.length == 0)
@@ -139,7 +139,7 @@ public class ServiceManifest {
         }
       }
       else {
-        final MessageBodyReader messageBodyReader = messageBodyRegistry.getMessageBodyReader(parameterType, requestContext.getMediaType());
+        final MessageBodyReader messageBodyReader = messageBodyRegistry.getReader(requestContext.getMediaType(), parameterType);
         if (messageBodyReader != null)
           messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), requestContext.getMediaType(), requestContext.getHeaders(), requestContext.getEntityStream());
         else
@@ -192,7 +192,7 @@ public class ServiceManifest {
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext, final MessageBodyRegistry messageBodyRegistry) throws ServletException, IOException {
+  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext, final EntityProviders messageBodyRegistry) throws ServletException, IOException {
     allow(securityAnnotation, requestContext);
 
     try {

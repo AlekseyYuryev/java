@@ -50,13 +50,7 @@ public class MediaTypeMatcher<T extends Annotation> {
   }
 
   public boolean matches(final MediaType[] mediaTypes) {
-    if (this.mediaTypes == null || mediaTypes == null)
-      return true;
-
-    if (MediaTypes.matches(this.mediaTypes, mediaTypes))
-      return true;
-
-    return false;
+    return this.mediaTypes == null || mediaTypes == null || MediaTypes.matches(this.mediaTypes, mediaTypes);
   }
 
   public T getAnnotation() {

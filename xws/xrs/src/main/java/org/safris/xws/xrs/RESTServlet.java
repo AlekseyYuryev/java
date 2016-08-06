@@ -43,54 +43,53 @@ import org.safris.xws.xrs.core.RequestImpl;
 import org.safris.xws.xrs.ext.RuntimeDelegateImpl;
 
 @WebServlet("/*")
-public final class RESTServlet extends RegisteringRESTServlet {
+public final class RESTServlet extends StartupServlet {
   private static final long serialVersionUID = 3700080355780006441L;
 
   static {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
-    final Object content = manifest.service(requestContext, injectionContext, getMessageBodyRegistry());
-
+  private void service(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ResponseContext clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
+    final Object content = manifest.service(requestContext, injectionContext, getExecutionContext().getEntityProviders());
     if (content != null)
       responseContext.setEntity(content);
   }
 
-  private void wrappedService(final WrappedRequest request, final HttpServletResponse response) throws IOException, ServletException {
+  private void service(final HttpServletRequestContext request, final HttpServletResponse response) throws IOException, ServletException {
     try {
       final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
 
       final HttpHeaders httpHeaders = new HttpHeadersImpl(request);
-      final ClientResponse clientResponse = new ClientResponse(httpHeaders, response, containerResponseContext);
+      final ResponseContext responseContext = new ResponseContext(httpHeaders, response, containerResponseContext);
       final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, clientResponse));
+      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, responseContext));
 
       final ContextInjector injectionContext = ContextInjector.createInjectionContext(containerRequestContext, new RequestImpl(request.getMethod()), httpHeaders);
 
-      runPreMatchRequestFilters(containerRequestContext, injectionContext);
-      runPreMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
+      getExecutionContext().getContainerFilters().filterPreMatchRequest(containerRequestContext, injectionContext);
+      getExecutionContext().getContainerFilters().filterPreMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
 
-      if (clientResponse.getResponse() != null) {
-        clientResponse.commit(getMessageBodyRegistry());
+      if (responseContext.getResponse() != null) {
+        responseContext.commit(getExecutionContext().getEntityProviders());
         return;
       }
 
       final ServiceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setServiceManifest(manifest = filterAndMatch(containerRequestContext));
+      request.setServiceManifest(manifest = getExecutionContext().filterAndMatch(containerRequestContext));
 
-      runPostMatchRequestFilters(containerRequestContext, injectionContext);
+      getExecutionContext().getContainerFilters().filterPostMatchRequest(containerRequestContext, injectionContext);
 
       if (manifest == null)
         throw new NotFoundException();
 
-      serviceREST(manifest, containerRequestContext, containerResponseContext, clientResponse, injectionContext);
+      service(manifest, containerRequestContext, containerResponseContext, responseContext, injectionContext);
       final Produces produces = manifest.getMatcher(Produces.class).getAnnotation();
       if (produces != null)
         response.setHeader(HttpHeaders.CONTENT_TYPE, org.safris.commons.lang.Arrays.toString(produces.value(), ","));
 
-      runPostMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
-      clientResponse.commit(getMessageBodyRegistry());
+      getExecutionContext().getContainerFilters().filterPostMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
+      responseContext.commit(getExecutionContext().getEntityProviders());
     }
     catch (final IOException | ServletException e) {
       throw e;
@@ -123,7 +122,7 @@ public final class RESTServlet extends RegisteringRESTServlet {
 
   @Override
   protected final void service(final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
-    wrappedService(new WrappedRequest(request) {
+    service(new HttpServletRequestContext(request) {
       // NOTE: Check for the existence of the @Consumes header, and subsequently the Content-Type header in the request,
       // NOTE: only if data is expected (i.e. GET, HEAD, DELETE, OPTIONS methods will not have a body and should thus not
       // NOTE: expect a Content-Type header from the request)

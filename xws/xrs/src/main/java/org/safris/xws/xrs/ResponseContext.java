@@ -28,12 +28,12 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyWriter;
 
-public class ClientResponse {
+public class ResponseContext {
   private final HttpHeaders httpHeaders;
   private final HttpServletResponse httpServletResponse;
   private final ContainerResponseContext containerResponseContext;
 
-  public ClientResponse(final HttpHeaders httpHeaders, final HttpServletResponse httpServletResponse, final ContainerResponseContext containerResponseContext) {
+  public ResponseContext(final HttpHeaders httpHeaders, final HttpServletResponse httpServletResponse, final ContainerResponseContext containerResponseContext) {
     this.httpHeaders = httpHeaders;
     this.httpServletResponse = httpServletResponse;
     this.containerResponseContext = containerResponseContext;
@@ -68,7 +68,7 @@ public class ClientResponse {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public void commit(final MessageBodyRegistry objectBodyProcessor) throws IOException {
+  public void commit(final EntityProviders objectBodyProcessor) throws IOException {
     syncResponses();
     final MultivaluedMap<String,String> headers = containerResponseContext.getStringHeaders();
     for (final Map.Entry<String,List<String>> entry : headers.entrySet())
@@ -79,7 +79,7 @@ public class ClientResponse {
 
     final Object entity = containerResponseContext.getEntity();
     if (entity != null) {
-      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getMessageBodyWriter(entity, response.getMediaType());
+      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getWriter(response.getMediaType(), entity.getClass());
       if (messageBodyWriter != null)
         messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericInterfaces()[0], entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), httpServletResponse.getOutputStream());
       else
