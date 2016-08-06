@@ -53,10 +53,8 @@ public class MediaTypeMatcher<T extends Annotation> {
     if (this.mediaTypes == null || mediaTypes == null)
       return true;
 
-    for (final MediaType thisMediaType : this.mediaTypes)
-      for (final MediaType thatMediaType : mediaTypes)
-        if (MediaTypes.matches(thisMediaType, thatMediaType))
-          return true;
+    if (MediaTypes.matches(this.mediaTypes, mediaTypes))
+      return true;
 
     return false;
   }

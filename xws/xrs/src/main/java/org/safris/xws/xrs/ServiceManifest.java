@@ -17,7 +17,6 @@
 package org.safris.xws.xrs;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,7 +28,6 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HttpMethod;
@@ -41,11 +39,9 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.ext.MessageBodyReader;
 
-import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Strings;
-import org.safris.xws.xjb.DecodeException;
-import org.safris.xws.xjb.JSObject;
 import org.safris.xws.xrs.core.ContextInjector;
 import org.safris.xws.xrs.util.MediaTypes;
 
@@ -113,7 +109,8 @@ public class ServiceManifest {
     return true;
   }
 
-  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext, final MessageBodyRegistry messageBodyRegistry) throws IOException {
     final Class<?>[] parameterTypes = method.getParameterTypes();
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
     if (parameterTypes.length == 0)
@@ -142,23 +139,11 @@ public class ServiceManifest {
         }
       }
       else {
-        if (parameterType == String.class) {
-          parameters[i] = new String(Streams.getBytes(requestContext.getEntityStream()));
-        }
-        else if (parameterType == byte[].class) {
-          parameters[i] = Streams.getBytes(requestContext.getEntityStream());
-        }
-        else if (JSObject.class.isAssignableFrom(parameterType)) {
-          try {
-            parameters[i] = JSObject.parse(parameterType, new InputStreamReader(requestContext.getEntityStream()));
-          }
-          catch (final DecodeException e) {
-            throw new BadRequestException(e);
-          }
-        }
-        else {
-          throw new UnsupportedOperationException("Unexpected parameter type: " + parameterType.getName() + " on: " + method.getDeclaringClass().getName() + "." + method.getName() + "()");
-        }
+        final MessageBodyReader messageBodyReader = messageBodyRegistry.getMessageBodyReader(parameterType, requestContext.getMediaType());
+        if (messageBodyReader != null)
+          messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), requestContext.getMediaType(), requestContext.getHeaders(), requestContext.getEntityStream());
+        else
+          throw new WebApplicationException("Could not find MessageBodyReader for type: " + parameterType.getClass().getName());
       }
     }
 
@@ -207,11 +192,11 @@ public class ServiceManifest {
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws ServletException, IOException {
+  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext, final MessageBodyRegistry messageBodyRegistry) throws ServletException, IOException {
     allow(securityAnnotation, requestContext);
 
     try {
-      final Object[] parameters = getParameters(method, requestContext, injectionContext);
+      final Object[] parameters = getParameters(method, requestContext, injectionContext, messageBodyRegistry);
 
       final Object object = serviceClass.newInstance();
       return parameters != null ? method.invoke(object, parameters) : method.invoke(object);

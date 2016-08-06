@@ -634,6 +634,11 @@
         <version>RELEASE</version>
       </dependency>
       <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>javax.ws.rs-api</artifactId>
+        <version>RELEASE</version>
+      </dependency>
+      <dependency>
         <groupId>javax</groupId> 
         <artifactId>javaee-api</artifactId> 
         <version>RELEASE</version>

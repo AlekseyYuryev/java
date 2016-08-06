@@ -61,6 +61,9 @@ public class ResponseImpl extends Response {
 
   @Override
   public Object getEntity() {
+    if (closed)
+      throw new IllegalStateException("response has been closed");
+
     return entity;
   }
 
@@ -86,6 +89,9 @@ public class ResponseImpl extends Response {
 
   @Override
   public boolean hasEntity() {
+    if (closed)
+      throw new IllegalStateException("response has been closed");
+
     return entity != null;
   }
 

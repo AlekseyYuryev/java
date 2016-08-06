@@ -50,8 +50,8 @@ public final class RESTServlet extends RegisteringRESTServlet {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private static void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
-    final Object content = manifest.service(requestContext, injectionContext);
+  private void serviceREST(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ClientResponse clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
+    final Object content = manifest.service(requestContext, injectionContext, getMessageBodyRegistry());
 
     if (content != null)
       responseContext.setEntity(content);
@@ -61,10 +61,10 @@ public final class RESTServlet extends RegisteringRESTServlet {
     try {
       final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
 
-      final ClientResponse clientResponse = new ClientResponse(response, containerResponseContext);
-      final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
       final HttpHeaders httpHeaders = new HttpHeadersImpl(request);
-      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, httpHeaders, clientResponse));
+      final ClientResponse clientResponse = new ClientResponse(httpHeaders, response, containerResponseContext);
+      final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
+      request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, clientResponse));
 
       final ContextInjector injectionContext = ContextInjector.createInjectionContext(containerRequestContext, new RequestImpl(request.getMethod()), httpHeaders);
 
@@ -72,7 +72,7 @@ public final class RESTServlet extends RegisteringRESTServlet {
       runPreMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
 
       if (clientResponse.getResponse() != null) {
-        clientResponse.commit();
+        clientResponse.commit(getMessageBodyRegistry());
         return;
       }
 
@@ -90,7 +90,7 @@ public final class RESTServlet extends RegisteringRESTServlet {
         response.setHeader(HttpHeaders.CONTENT_TYPE, org.safris.commons.lang.Arrays.toString(produces.value(), ","));
 
       runPostMatchResponseFilters(containerRequestContext, containerResponseContext, injectionContext);
-      clientResponse.commit();
+      clientResponse.commit(getMessageBodyRegistry());
     }
     catch (final IOException | ServletException e) {
       throw e;

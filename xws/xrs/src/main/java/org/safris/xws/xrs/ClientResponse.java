@@ -17,24 +17,24 @@
 package org.safris.xws.xrs;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
-import org.safris.xws.xjb.JSObject;
+import javax.ws.rs.ext.MessageBodyWriter;
 
 public class ClientResponse {
+  private final HttpHeaders httpHeaders;
   private final HttpServletResponse httpServletResponse;
   private final ContainerResponseContext containerResponseContext;
 
-  public ClientResponse(final HttpServletResponse httpServletResponse, final ContainerResponseContext containerResponseContext) {
+  public ClientResponse(final HttpHeaders httpHeaders, final HttpServletResponse httpServletResponse, final ContainerResponseContext containerResponseContext) {
+    this.httpHeaders = httpHeaders;
     this.httpServletResponse = httpServletResponse;
     this.containerResponseContext = containerResponseContext;
   }
@@ -47,6 +47,10 @@ public class ClientResponse {
 
   public void setResponse(final Response response) {
     this.response = response;
+  }
+
+  public HttpHeaders getHttpHeaders() {
+    return httpHeaders;
   }
 
   private void syncResponses() {
@@ -63,7 +67,8 @@ public class ClientResponse {
     }
   }
 
-  public void commit() throws IOException {
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void commit(final MessageBodyRegistry objectBodyProcessor) throws IOException {
     syncResponses();
     final MultivaluedMap<String,String> headers = containerResponseContext.getStringHeaders();
     for (final Map.Entry<String,List<String>> entry : headers.entrySet())
@@ -74,31 +79,11 @@ public class ClientResponse {
 
     final Object entity = containerResponseContext.getEntity();
     if (entity != null) {
-      if (entity instanceof JSObject) {
-        // NOTE: This may throw a EncodeException, and should thus be outside the
-        // NOTE: try (response) block, otherwise the response will be committed
-        // NOTE: before we can set a HTTP 500
-        final String json = entity.toString();
-        try (final Writer writer = httpServletResponse.getWriter()) {
-          writer.write(json);
-          writer.flush();
-        }
-
-        return;
-      }
-      else if (entity instanceof String) {
-        try (final Writer writer = httpServletResponse.getWriter()) {
-          writer.write((String)entity);
-        }
-      }
-      else if (entity instanceof byte[]) {
-        try (final OutputStream out = httpServletResponse.getOutputStream()) {
-          out.write((byte[])entity);
-        }
-      }
-      else {
-        throw new WebApplicationException("Unexpected entity return type: " + entity.getClass().getName());
-      }
+      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getMessageBodyWriter(entity, response.getMediaType());
+      if (messageBodyWriter != null)
+        messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericInterfaces()[0], entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), httpServletResponse.getOutputStream());
+      else
+        throw new WebApplicationException("Could not find MessageBodyWriter for type: " + entity.getClass().getName());
     }
     else {
       // @see ServletResponse#getOutputStream :: "Calling flush() on the ServletOutputStream commits the response."

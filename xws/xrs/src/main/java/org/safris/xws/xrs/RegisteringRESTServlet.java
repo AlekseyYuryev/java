@@ -39,6 +39,8 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.safris.commons.lang.PackageLoader;
@@ -73,6 +75,8 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
   private final List<Class<? extends ContainerResponseFilter>> postMatchResponseFilters = new ArrayList<Class<? extends ContainerResponseFilter>>();
   private final List<Class<? extends ContainerRequestFilter>> preMatchRequestFilters = new ArrayList<Class<? extends ContainerRequestFilter>>();
   private final List<Class<? extends ContainerRequestFilter>> postMatchRequestFilters = new ArrayList<Class<? extends ContainerRequestFilter>>();
+
+  private final MessageBodyRegistry objectBodyProcessor = new MessageBodyRegistry();
 
   @SuppressWarnings("unchecked")
   public RegisteringRESTServlet() {
@@ -111,10 +115,16 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
         }
         else if (cls.isAnnotationPresent(Provider.class)) {
           if (ContainerRequestFilter.class.isAssignableFrom(cls)) {
-            addRequestFilter((Class<? extends ContainerRequestFilter>)cls);
+            (cls.isAnnotationPresent(PreMatching.class) ? preMatchRequestFilters : postMatchRequestFilters).add((Class<? extends ContainerRequestFilter>)cls);
           }
           else if (ContainerResponseFilter.class.isAssignableFrom(cls)) {
-            addResponseFilter((Class<? extends ContainerResponseFilter>)cls);
+            (cls.isAnnotationPresent(PreMatching.class) ? preMatchResponseFilters : postMatchResponseFilters).add((Class<? extends ContainerResponseFilter>)cls);
+          }
+          else if (MessageBodyReader.class.isAssignableFrom(cls)) {
+            objectBodyProcessor.addMessageBodyReader((Class<? extends MessageBodyReader<?>>)cls);
+          }
+          else if (MessageBodyWriter.class.isAssignableFrom(cls)) {
+            objectBodyProcessor.addMessageBodyWriter((Class<? extends MessageBodyWriter<?>>)cls);
           }
           else {
             throw new UnsupportedOperationException("Unexpected @Provider class: " + cls.getName());
@@ -131,14 +141,6 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
 
   private void register(final ServiceManifest manifest) {
     registry.add(manifest.getHttpMethod().value().toUpperCase(), manifest);
-  }
-
-  private void addResponseFilter(final Class<? extends ContainerResponseFilter> filterClass) {
-    (filterClass.isAnnotationPresent(PreMatching.class) ? preMatchResponseFilters : postMatchResponseFilters).add(filterClass);
-  }
-
-  private void addRequestFilter(final Class<? extends ContainerRequestFilter> filterClass) {
-    (filterClass.isAnnotationPresent(PreMatching.class) ? preMatchRequestFilters : postMatchRequestFilters).add(filterClass);
   }
 
   protected void runPreMatchRequestFilters(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
@@ -167,6 +169,10 @@ public abstract class RegisteringRESTServlet extends HttpServlet {
       final ContainerResponseFilter filter = injectionContext.inject(postMatchResponseFilter);
       filter.filter(requestContext, responseContext);
     }
+  }
+
+  protected MessageBodyRegistry getMessageBodyRegistry() {
+    return objectBodyProcessor;
   }
 
   public ServiceManifest filterAndMatch(final ContainerRequestContext requestContext) {

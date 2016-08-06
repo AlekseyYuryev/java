@@ -25,6 +25,22 @@ import javax.ws.rs.core.MediaType;
 
 public final class MediaTypes {
   // FIXME: Is this correct?
+  public static boolean matches(final MediaType[] required, final MediaType[] tests) {
+    for (final MediaType req : required)
+      if (matches(req, tests))
+        return true;
+
+    return false;
+  }
+
+  public static boolean matches(final MediaType required, final MediaType[] tests) {
+    for (final MediaType test : tests)
+      if (matches(required, test))
+        return true;
+
+    return false;
+  }
+
   public static boolean matches(final MediaType required, final MediaType test) {
     if (required == null || test == null)
       return true;

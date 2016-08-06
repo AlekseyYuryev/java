@@ -16,6 +16,8 @@
 
 package org.safris.xws.xrs.ext;
 
+import java.util.Date;
+
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Link.Builder;
 import javax.ws.rs.core.MediaType;
@@ -29,23 +31,22 @@ import org.safris.xws.xrs.core.ResponseBuilderImpl;
 public class RuntimeDelegateImpl extends RuntimeDelegate {
   @Override
   public UriBuilder createUriBuilder() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public ResponseBuilder createResponseBuilder() {
-    // FIXME: Is there absolutely no way out of this?
     return new ResponseBuilderImpl();
   }
 
   @Override
   public VariantListBuilder createVariantListBuilder() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public <T>T createEndpoint(final Application application, final Class<T> endpointType) throws IllegalArgumentException, UnsupportedOperationException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -54,11 +55,14 @@ public class RuntimeDelegateImpl extends RuntimeDelegate {
     if (type == MediaType.class)
       return (HeaderDelegate<T>)new MediaTypeHeaderDelegate();
 
+    if (type == Date.class)
+      return (HeaderDelegate<T>)new DateHeaderDelegate();
+
     throw new UnsupportedOperationException("Unexpected header object type: " + type.getName());
   }
 
   @Override
   public Builder createLinkBuilder() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 }
