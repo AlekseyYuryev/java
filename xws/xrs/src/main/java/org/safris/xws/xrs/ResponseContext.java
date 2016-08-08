@@ -79,9 +79,9 @@ public class ResponseContext {
 
     final Object entity = containerResponseContext.getEntity();
     if (entity != null) {
-      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getWriter(response.getMediaType(), entity.getClass());
+      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getWriter(containerResponseContext.getMediaType(), entity.getClass());
       if (messageBodyWriter != null)
-        messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericInterfaces()[0], entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), httpServletResponse.getOutputStream());
+        messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericSuperclass(), entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), httpServletResponse.getOutputStream());
       else
         throw new WebApplicationException("Could not find MessageBodyWriter for type: " + entity.getClass().getName());
     }

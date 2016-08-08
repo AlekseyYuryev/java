@@ -154,7 +154,8 @@ public class ContainerResponseContextImpl extends ContainerContextImpl implement
   @Override
   public void setEntity(final Object entity, final Annotation[] annotations, final MediaType mediaType) {
     this.entity = entity;
-    getHeaders().putSingle(HttpHeaders.CONTENT_TYPE, mediaType);
+    if (mediaType != null)
+      getHeaders().putSingle(HttpHeaders.CONTENT_TYPE, mediaType);
   }
 
   @Override

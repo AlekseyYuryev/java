@@ -95,6 +95,9 @@ public final class MediaTypes {
   }
 
   public static MediaType parse(final String string) {
+    if (string == null)
+      return null;
+
     int start = string.indexOf("/");
     if (start == -1)
       return new MediaType(string.trim(), null);

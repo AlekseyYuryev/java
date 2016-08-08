@@ -21,9 +21,11 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
@@ -35,6 +37,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.RuntimeDelegate;
 
+import org.safris.commons.lang.reflect.Classes;
 import org.safris.xws.xrs.container.ContainerRequestContextImpl;
 import org.safris.xws.xrs.container.ContainerResponseContextImpl;
 import org.safris.xws.xrs.core.ContextInjector;
@@ -42,18 +45,54 @@ import org.safris.xws.xrs.core.HttpHeadersImpl;
 import org.safris.xws.xrs.core.RequestImpl;
 import org.safris.xws.xrs.ext.RuntimeDelegateImpl;
 
-@WebServlet("/*")
-public final class RESTServlet extends StartupServlet {
+@WebServlet(name="javax.ws.rs.core.Application", urlPatterns="/*")
+public class DefaultRESTServlet extends StartupServlet {
   private static final long serialVersionUID = 3700080355780006441L;
 
   static {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private void service(final ResourceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ResponseContext clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
-    final Object content = manifest.service(requestContext, injectionContext, getExecutionContext().getEntityProviders());
+  private static String getApplicationName(final WebServlet webServlet) {
+    final WebInitParam[] webInitParams = webServlet.initParams();
+    if (webInitParams != null)
+      for (final WebInitParam webInitParam : webInitParams)
+        if ("javax.ws.rs.Application".equals(webInitParam.name()))
+          return webInitParam.value();
+
+    return null;
+  }
+
+  private static void removeDefaultUrlPatterns() {
+    final WebServlet webServlet = DefaultRESTServlet.class.getAnnotation(WebServlet.class);
+    Classes.changeAnnotationValue(webServlet, "urlPatterns", null);
+  }
+
+  public DefaultRESTServlet() {
+    final Class<?> cls = getClass();
+    final WebServlet webServlet = cls.getAnnotation(WebServlet.class);
+    final String appName = getApplicationName(webServlet);
+    if (appName != null) {
+      removeDefaultUrlPatterns();
+      Classes.changeAnnotationValue(webServlet, "name", appName);
+      if ((webServlet.urlPatterns() == null || webServlet.urlPatterns().length == 0) && (webServlet.value() == null || webServlet.value().length == 0)) {
+        try {
+          final Class<?> applicationClass = Class.forName(appName);
+          final ApplicationPath applicationPath = applicationClass.getAnnotation(ApplicationPath.class);
+          if (applicationPath != null)
+            Classes.changeAnnotationValue(webServlet, "urlPatterns", new String[] {applicationPath.value()});
+        }
+        catch (final ClassNotFoundException e) {
+          throw new ExceptionInInitializerError(e);
+        }
+      }
+    }
+  }
+
+  private void service(final ResourceManifest manifest, final ContainerRequestContext containerRequestContext, final ContainerResponseContext containerResponseContext, final ResponseContext responseContext, final ContextInjector injectionContext) throws IOException, ServletException {
+    final Object content = manifest.service(containerRequestContext, injectionContext, getExecutionContext().getEntityProviders());
     if (content != null)
-      responseContext.setEntity(content);
+      containerResponseContext.setEntity(content);
   }
 
   private void service(final HttpServletRequestContext request, final HttpServletResponse response) throws IOException, ServletException {

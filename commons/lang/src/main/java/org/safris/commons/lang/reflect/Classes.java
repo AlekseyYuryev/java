@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +78,35 @@ public final class Classes {
       field = Classes.getDeclaredField(clazz, name);
     while (field == null && (clazz = clazz.getSuperclass()) != null);
     return field;
+  }
+
+  /**
+   * Changes the annotation value for the given key of the given annotation to newValue and returns
+   * the previous value.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T>T changeAnnotationValue(final Annotation annotation, final String key, final T newValue) {
+    final Object handler = Proxy.getInvocationHandler(annotation);
+    final Field field;
+    final Map<String,Object> memberValues;
+    try {
+      field = handler.getClass().getDeclaredField("memberValues");
+      field.setAccessible(true);
+      memberValues = (Map<String,Object>)field.get(handler);
+    }
+    catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+      throw new IllegalStateException(e);
+    }
+
+    final T oldValue = (T)memberValues.get(key);
+    if (oldValue == null)
+      throw new IllegalArgumentException(key + " is not a valid key");
+
+    if (newValue != null && oldValue.getClass() != newValue.getClass())
+      throw new IllegalArgumentException(newValue.getClass().getName() + " is not of required type " + oldValue.getClass().getName());
+
+    memberValues.put(key, newValue);
+    return oldValue;
   }
 
   @SuppressWarnings("unchecked")

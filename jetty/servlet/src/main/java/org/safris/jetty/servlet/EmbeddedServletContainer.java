@@ -19,7 +19,9 @@ package org.safris.jetty.servlet;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -29,6 +31,7 @@ import javax.servlet.MultipartConfigElement;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
@@ -75,6 +78,16 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
       return;
     }
 
+    Map<String,String> initParams = null;
+    final WebInitParam[] webInitParams = webServlet.initParams();
+    if (webInitParams != null) {
+      initParams = new HashMap<String,String>();
+      for (final WebInitParam webInitParam : webInitParams)
+        initParams.put(webInitParam.name(), webInitParam.value());
+    }
+
+    final String servletName = webServlet.name() != null ? webServlet.name() : servletClass.getName();
+
     final ServletSecurity servletSecurity = servletClass.getAnnotation(ServletSecurity.class);
     HttpConstraint httpConstraint;
     if (servletSecurity != null && (httpConstraint = servletSecurity.value()) != null && httpConstraint.rolesAllowed().length > 0) {
@@ -98,6 +111,10 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
     addedServletClasses.add(servletClass);
     for (final String urlPattern : urlPatterns) {
       final ServletHolder servletHolder = new ServletHolder(servlet);
+      servletHolder.setName(servletName);
+      if (initParams != null)
+        servletHolder.getRegistration().setInitParameters(initParams);
+
       servletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(""));
       context.addServlet(servletHolder, urlPattern);
     }

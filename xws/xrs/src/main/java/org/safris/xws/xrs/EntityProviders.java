@@ -21,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -39,8 +38,8 @@ public class EntityProviders {
   };
 
   private class ReaderProvider extends EntityProvider<MessageBodyReader<?>> {
-    public ReaderProvider(final Class<? extends MessageBodyReader<?>> cls) {
-      super(cls);
+    public ReaderProvider(final MessageBodyReader<?> provider) {
+      super(provider);
     }
 
     @Override
@@ -50,8 +49,8 @@ public class EntityProviders {
   }
 
   private class WriterProvider extends EntityProvider<MessageBodyWriter<?>> {
-    public WriterProvider(final Class<? extends MessageBodyWriter<?>> cls) {
-      super(cls);
+    public WriterProvider(final MessageBodyWriter<?> provider) {
+      super(provider);
     }
 
     @Override
@@ -64,15 +63,10 @@ public class EntityProviders {
     private final MediaType[] allowedTypes;
     private final T provider;
 
-    public EntityProvider(final Class<? extends T> cls) {
-      final Consumes consumes = cls.getAnnotation(Consumes.class);
+    public EntityProvider(final T provider) {
+      this.provider = provider;
+      final Consumes consumes = provider.getClass().getAnnotation(Consumes.class);
       this.allowedTypes = consumes == null ? new MediaType[] {MediaType.WILDCARD_TYPE} : MediaTypes.parse(consumes.value());
-      try {
-        this.provider = cls.newInstance();
-      }
-      catch (final InstantiationException | IllegalAccessException e) {
-        throw new WebApplicationException(e);
-      }
     }
 
     public boolean matches(final MediaType mediaType, final Class<?> type) {
@@ -87,11 +81,11 @@ public class EntityProviders {
   private final List<ReaderProvider> readerProviders = new ArrayList<ReaderProvider>();
   private final List<WriterProvider> writerProviders = new ArrayList<WriterProvider>();
 
-  public EntityProviders(final List<Class<? extends MessageBodyReader<?>>> readerProviders, final List<Class<? extends MessageBodyWriter<?>>> writerProviders) {
-    for (final Class<? extends MessageBodyReader<?>> readerProvider : readerProviders)
+  public EntityProviders(final List<MessageBodyReader<?>> readerProviders, final List<MessageBodyWriter<?>> writerProviders) {
+    for (final MessageBodyReader<?> readerProvider : readerProviders)
       this.readerProviders.add(new ReaderProvider(readerProvider));
 
-    for (final Class<? extends MessageBodyWriter<?>> writerProvider : writerProviders)
+    for (final MessageBodyWriter<?> writerProvider : writerProviders)
       this.writerProviders.add(new WriterProvider(writerProvider));
 
     this.readerProviders.sort(comparator);

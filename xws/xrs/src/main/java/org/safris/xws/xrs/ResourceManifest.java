@@ -153,7 +153,7 @@ public class ResourceManifest {
       else {
         final MessageBodyReader messageBodyReader = entityProviders.getReader(containerRequestContext.getMediaType(), parameterType);
         if (messageBodyReader != null)
-          messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), containerRequestContext.getMediaType(), containerRequestContext.getHeaders(), containerRequestContext.getEntityStream());
+          parameters[i] = messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), containerRequestContext.getMediaType(), containerRequestContext.getHeaders(), containerRequestContext.getEntityStream());
         else
           throw new WebApplicationException("Could not find MessageBodyReader for type: " + parameterType.getClass().getName());
       }
