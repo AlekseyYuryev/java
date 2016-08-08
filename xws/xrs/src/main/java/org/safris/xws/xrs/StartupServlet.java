@@ -49,7 +49,7 @@ public abstract class StartupServlet extends HttpServlet {
 
   @SuppressWarnings("unchecked")
   public StartupServlet() {
-    final MultivaluedMap<String,ServiceManifest> registry = new MultivaluedHashMap<String,ServiceManifest>();
+    final MultivaluedMap<String,ResourceManifest> registry = new MultivaluedHashMap<String,ResourceManifest>();
 
     final List<Class<? extends MessageBodyReader<?>>> entityReaders = new ArrayList<Class<? extends MessageBodyReader<?>>>();
     final List<Class<? extends MessageBodyWriter<?>>> entityWriters = new ArrayList<Class<? extends MessageBodyWriter<?>>>();
@@ -83,7 +83,7 @@ public abstract class StartupServlet extends HttpServlet {
 
             for (final HttpMethod httpMethodAnnotation : httpMethodAnnotations) {
               ContextInjector.allowsInjectableClass(Field.class, cls);
-              final ServiceManifest manifest = new ServiceManifest(httpMethodAnnotation, method);
+              final ResourceManifest manifest = new ResourceManifest(httpMethodAnnotation, method);
               logger.info("[JAX-RS] " + manifest.getPathPattern().getPattern().toString() + " " + cls.getSimpleName() + "." + method.getName() + "(): " + httpMethodAnnotation.value());
               registry.add(manifest.getHttpMethod().value().toUpperCase(), manifest);
             }

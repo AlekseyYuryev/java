@@ -29,8 +29,11 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.MatrixParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -45,8 +48,8 @@ import org.safris.commons.lang.Strings;
 import org.safris.xws.xrs.core.ContextInjector;
 import org.safris.xws.xrs.util.MediaTypes;
 
-public class ServiceManifest {
-  private static final Logger logger = Logger.getLogger(ServiceManifest.class.getName());
+public class ResourceManifest {
+  private static final Logger logger = Logger.getLogger(ResourceManifest.class.getName());
 
   private static boolean logMissingHeaderWarning(final String headerName, final String[] annotationValue) {
     logger.warning("Missing expected value for " + headerName + " header: " + Arrays.toString(annotationValue));
@@ -74,7 +77,7 @@ public class ServiceManifest {
   private final MediaTypeMatcher<Consumes> consumesMatcher;
   private final MediaTypeMatcher<Produces> producesMatcher;
 
-  public ServiceManifest(final HttpMethod httpMethod, final Method method) {
+  public ResourceManifest(final HttpMethod httpMethod, final Method method) {
     this.httpMethod = httpMethod;
     final Annotation securityAnnotation = findSecurityAnnotation(method);
     this.securityAnnotation = securityAnnotation != null ? securityAnnotation : new PermitAll() {
@@ -110,13 +113,13 @@ public class ServiceManifest {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  private Object[] getParameters(final Method method, final ContainerRequestContext requestContext, final ContextInjector injectionContext, final EntityProviders messageBodyRegistry) throws IOException {
+  private Object[] getParameters(final Method method, final ContainerRequestContext containerRequestContext, final ContextInjector injectionContext, final EntityProviders entityProviders) throws IOException {
     final Class<?>[] parameterTypes = method.getParameterTypes();
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
     if (parameterTypes.length == 0)
       return null;
 
-    final Map<String,String> pathParameters = getPathPattern().getParameters(requestContext.getUriInfo().getPath());
+    final Map<String,String> pathParameters = getPathPattern().getParameters(containerRequestContext.getUriInfo().getPath());
     final Object[] parameters = new Object[parameterTypes.length];
     for (int i = 0; i < parameterTypes.length; i++) {
       final Class<?> parameterType = parameterTypes[i];
@@ -124,11 +127,20 @@ public class ServiceManifest {
       if (annotations.length > 0) {
         for (final Annotation annotation : annotations) {
           if (annotation.annotationType() == QueryParam.class) {
-            parameters[i] = requestContext.getUriInfo().getQueryParameters().get(((QueryParam)annotation).value());
+            parameters[i] = containerRequestContext.getUriInfo().getQueryParameters().get(((QueryParam)annotation).value());
           }
           else if (annotation.annotationType() == PathParam.class) {
             final String pathParam = ((PathParam)annotation).value();
             parameters[i] = pathParameters.get(pathParam);
+          }
+          else if (annotation.annotationType() == MatrixParam.class) {
+            throw new UnsupportedOperationException();
+          }
+          else if (annotation.annotationType() == CookieParam.class) {
+            throw new UnsupportedOperationException();
+          }
+          else if (annotation.annotationType() == HeaderParam.class) {
+            throw new UnsupportedOperationException();
           }
           else if (annotation.annotationType() == Context.class) {
             parameters[i] = injectionContext.getInjectableObject(parameterType);
@@ -139,9 +151,9 @@ public class ServiceManifest {
         }
       }
       else {
-        final MessageBodyReader messageBodyReader = messageBodyRegistry.getReader(requestContext.getMediaType(), parameterType);
+        final MessageBodyReader messageBodyReader = entityProviders.getReader(containerRequestContext.getMediaType(), parameterType);
         if (messageBodyReader != null)
-          messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), requestContext.getMediaType(), requestContext.getHeaders(), requestContext.getEntityStream());
+          messageBodyReader.readFrom(parameterType, parameterType.getGenericSuperclass(), parameterType.getAnnotations(), containerRequestContext.getMediaType(), containerRequestContext.getHeaders(), containerRequestContext.getEntityStream());
         else
           throw new WebApplicationException("Could not find MessageBodyReader for type: " + parameterType.getClass().getName());
       }
@@ -150,10 +162,10 @@ public class ServiceManifest {
     return parameters;
   }
 
-  protected boolean checkHeader(final String headerName, final Class<? extends Annotation> annotationClass, final ContainerRequestContext requestContext) {
+  protected boolean checkHeader(final String headerName, final Class<? extends Annotation> annotationClass, final ContainerRequestContext containerRequestContext) {
     final Annotation annotation = getMatcher(annotationClass).getAnnotation();
     if (annotation == null) {
-      final String message = "@" + annotationClass.getSimpleName() + " annotation missing for " + method.getDeclaringClass().getName() + "." + Strings.toTitleCase(requestContext.getMethod().toLowerCase()) + "()";
+      final String message = "@" + annotationClass.getSimpleName() + " annotation missing for " + method.getDeclaringClass().getName() + "." + Strings.toTitleCase(containerRequestContext.getMethod().toLowerCase()) + "()";
       if (annotationClass == Consumes.class)
         throw new RuntimeException(message);
 
@@ -165,7 +177,7 @@ public class ServiceManifest {
     // FIXME: Order matters, and also the q value
     Arrays.sort(annotationValue);
 
-    final String headerValue = requestContext.getHeaderString(headerName);
+    final String headerValue = containerRequestContext.getHeaderString(headerName);
     if (headerValue == null || headerValue.length() == 0)
       return logMissingHeaderWarning(headerName, annotationValue);
 
@@ -177,7 +189,7 @@ public class ServiceManifest {
     return logMissingHeaderWarning(headerName, annotationValue);
   }
 
-  private static void allow(final Annotation securityAnnotation, final ContainerRequestContext requestContext) {
+  private static void allow(final Annotation securityAnnotation, final ContainerRequestContext containerRequestContext) {
     if (securityAnnotation instanceof PermitAll)
       return;
 
@@ -186,17 +198,17 @@ public class ServiceManifest {
 
     if (securityAnnotation instanceof RolesAllowed)
       for (final String role : ((RolesAllowed)securityAnnotation).value())
-        if (requestContext.getSecurityContext().isUserInRole(role))
+        if (containerRequestContext.getSecurityContext().isUserInRole(role))
           return;
 
     throw new ForbiddenException("@RolesAllowed(" + Arrays.toString(((RolesAllowed)securityAnnotation).value()) + ")");
   }
 
-  public Object service(final ContainerRequestContext requestContext, final ContextInjector injectionContext, final EntityProviders messageBodyRegistry) throws ServletException, IOException {
-    allow(securityAnnotation, requestContext);
+  public Object service(final ContainerRequestContext containerRequestContext, final ContextInjector injectionContext, final EntityProviders entityProviders) throws ServletException, IOException {
+    allow(securityAnnotation, containerRequestContext);
 
     try {
-      final Object[] parameters = getParameters(method, requestContext, injectionContext, messageBodyRegistry);
+      final Object[] parameters = getParameters(method, containerRequestContext, injectionContext, entityProviders);
 
       final Object object = serviceClass.newInstance();
       return parameters != null ? method.invoke(object, parameters) : method.invoke(object);

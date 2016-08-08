@@ -50,7 +50,7 @@ public final class RESTServlet extends StartupServlet {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private void service(final ServiceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ResponseContext clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
+  private void service(final ResourceManifest manifest, final ContainerRequestContext requestContext, final ContainerResponseContext responseContext, final ResponseContext clientResponse, final ContextInjector injectionContext) throws IOException, ServletException {
     final Object content = manifest.service(requestContext, injectionContext, getExecutionContext().getEntityProviders());
     if (content != null)
       responseContext.setEntity(content);
@@ -75,8 +75,8 @@ public final class RESTServlet extends StartupServlet {
         return;
       }
 
-      final ServiceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setServiceManifest(manifest = getExecutionContext().filterAndMatch(containerRequestContext));
+      final ResourceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
+      request.setResourceManifest(manifest = getExecutionContext().filterAndMatch(containerRequestContext));
 
       getExecutionContext().getContainerFilters().filterPostMatchRequest(containerRequestContext, injectionContext);
 
@@ -127,7 +127,7 @@ public final class RESTServlet extends StartupServlet {
       // NOTE: only if data is expected (i.e. GET, HEAD, DELETE, OPTIONS methods will not have a body and should thus not
       // NOTE: expect a Content-Type header from the request)
       private void checkContentType() {
-        if (getServiceManifest() != null && !getServiceManifest().checkHeader(HttpHeaders.CONTENT_TYPE, Consumes.class, getRequestContext()))
+        if (getResourceManifest() != null && !getResourceManifest().checkHeader(HttpHeaders.CONTENT_TYPE, Consumes.class, getRequestContext()))
           throw new BadRequestException("Client call to " + request.getRequestURI() + " has data and is missing Content-Type header");
       }
 

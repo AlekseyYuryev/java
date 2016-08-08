@@ -6,12 +6,12 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MultivaluedMap;
 
 public class ExecutionContext {
-  private final MultivaluedMap<String,ServiceManifest> registry;
+  private final MultivaluedMap<String,ResourceManifest> resources;
   private final ContainerFilters containerFilters;
   private final EntityProviders entityProviders;
 
-  public ExecutionContext(final MultivaluedMap<String,ServiceManifest> registry, final ContainerFilters containerFilters, final EntityProviders entityProviders) {
-    this.registry = registry;
+  public ExecutionContext(final MultivaluedMap<String,ResourceManifest> registry, final ContainerFilters containerFilters, final EntityProviders entityProviders) {
+    this.resources = registry;
     this.containerFilters = containerFilters;
     this.entityProviders = entityProviders;
   }
@@ -24,13 +24,13 @@ public class ExecutionContext {
     return entityProviders;
   }
 
-  public ServiceManifest filterAndMatch(final ContainerRequestContext requestContext) {
-    final List<ServiceManifest> manifests = registry.get(requestContext.getMethod().toUpperCase());
+  public ResourceManifest filterAndMatch(final ContainerRequestContext containerRequestContext) {
+    final List<ResourceManifest> manifests = resources.get(containerRequestContext.getMethod().toUpperCase());
     if (manifests == null)
       return null;
 
-    for (final ServiceManifest manifest : manifests)
-      if (manifest.matches(requestContext))
+    for (final ResourceManifest manifest : manifests)
+      if (manifest.matches(containerRequestContext))
         return manifest;
 
     return null;

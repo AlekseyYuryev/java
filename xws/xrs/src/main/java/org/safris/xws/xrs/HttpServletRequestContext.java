@@ -35,13 +35,13 @@ public class HttpServletRequestContext extends HttpServletRequestWrapper {
     this.requestContext = requestContext;
   }
 
-  private ServiceManifest serviceManifest;
+  private ResourceManifest resourceManifest;
 
-  public ServiceManifest getServiceManifest() {
-    return serviceManifest;
+  public ResourceManifest getResourceManifest() {
+    return resourceManifest;
   }
 
-  public void setServiceManifest(final ServiceManifest serviceManifest) {
-    this.serviceManifest = serviceManifest;
+  public void setResourceManifest(final ResourceManifest resourceManifest) {
+    this.resourceManifest = resourceManifest;
   }
 }
