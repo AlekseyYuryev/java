@@ -53,7 +53,7 @@ public class DefaultRESTServlet extends StartupServlet {
     System.setProperty(RuntimeDelegate.JAXRS_RUNTIME_DELEGATE_PROPERTY, RuntimeDelegateImpl.class.getName());
   }
 
-  private static String getApplicationName(final WebServlet webServlet) {
+  private static String getApplicationClassName(final WebServlet webServlet) {
     final WebInitParam[] webInitParams = webServlet.initParams();
     if (webInitParams != null)
       for (final WebInitParam webInitParam : webInitParams)
@@ -63,36 +63,29 @@ public class DefaultRESTServlet extends StartupServlet {
     return null;
   }
 
-  private static void removeDefaultUrlPatterns() {
-    final WebServlet webServlet = DefaultRESTServlet.class.getAnnotation(WebServlet.class);
-    Classes.changeAnnotationValue(webServlet, "urlPatterns", null);
-  }
-
   public DefaultRESTServlet() {
-    final Class<?> cls = getClass();
-    final WebServlet webServlet = cls.getAnnotation(WebServlet.class);
-    final String appName = getApplicationName(webServlet);
-    if (appName != null) {
-      removeDefaultUrlPatterns();
-      Classes.changeAnnotationValue(webServlet, "name", appName);
-      if ((webServlet.urlPatterns() == null || webServlet.urlPatterns().length == 0) && (webServlet.value() == null || webServlet.value().length == 0)) {
-        try {
-          final Class<?> applicationClass = Class.forName(appName);
-          final ApplicationPath applicationPath = applicationClass.getAnnotation(ApplicationPath.class);
-          if (applicationPath != null)
-            Classes.changeAnnotationValue(webServlet, "urlPatterns", new String[] {applicationPath.value()});
-        }
-        catch (final ClassNotFoundException e) {
-          throw new ExceptionInInitializerError(e);
-        }
-      }
-    }
-  }
+    final WebServlet webServlet = getClass().getAnnotation(WebServlet.class);
+    if (webServlet == null)
+      return;
 
-  private void service(final ResourceManifest manifest, final ContainerRequestContext containerRequestContext, final ContainerResponseContext containerResponseContext, final ResponseContext responseContext, final ContextInjector injectionContext) throws IOException, ServletException {
-    final Object content = manifest.service(containerRequestContext, injectionContext, getExecutionContext().getEntityProviders());
-    if (content != null)
-      containerResponseContext.setEntity(content);
+    final String applicationClassName = getApplicationClassName(webServlet);
+    if (applicationClassName == null)
+      return;
+
+    Classes.setAnnotationValue(DefaultRESTServlet.class.getAnnotation(WebServlet.class), "urlPatterns", new String[0]);
+    Classes.setAnnotationValue(webServlet, "name", applicationClassName);
+    if ((webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) || (webServlet.value() != null && webServlet.value().length >= 0))
+      return;
+
+    try {
+      final Class<?> applicationClass = Class.forName(applicationClassName);
+      final ApplicationPath applicationPath = applicationClass.getAnnotation(ApplicationPath.class);
+      if (applicationPath != null)
+        Classes.setAnnotationValue(webServlet, "urlPatterns", new String[] {applicationPath.value()});
+    }
+    catch (final ClassNotFoundException e) {
+      throw new ExceptionInInitializerError(e);
+    }
   }
 
   private void service(final HttpServletRequestContext request, final HttpServletResponse response) throws IOException, ServletException {
@@ -122,10 +115,13 @@ public class DefaultRESTServlet extends StartupServlet {
       if (manifest == null)
         throw new NotFoundException();
 
-      service(manifest, containerRequestContext, containerResponseContext, responseContext, injectionContext);
       final Produces produces = manifest.getMatcher(Produces.class).getAnnotation();
       if (produces != null)
-        response.setHeader(HttpHeaders.CONTENT_TYPE, org.safris.commons.lang.Arrays.toString(produces.value(), ","));
+        containerResponseContext.getStringHeaders().addAll(HttpHeaders.CONTENT_TYPE, produces.value());
+
+      final Object content = manifest.service(containerRequestContext, injectionContext, getExecutionContext().getEntityProviders());
+      if (content != null)
+        containerResponseContext.setEntity(content);
 
       getExecutionContext().getContainerFilters().filterPostMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
       responseContext.commit(getExecutionContext().getEntityProviders());

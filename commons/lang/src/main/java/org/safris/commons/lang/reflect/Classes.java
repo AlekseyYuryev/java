@@ -85,7 +85,7 @@ public final class Classes {
    * the previous value.
    */
   @SuppressWarnings("unchecked")
-  public static <T>T changeAnnotationValue(final Annotation annotation, final String key, final T newValue) {
+  public static <T>T setAnnotationValue(final Annotation annotation, final String key, final T newValue) {
     final Object handler = Proxy.getInvocationHandler(annotation);
     final Field field;
     final Map<String,Object> memberValues;
