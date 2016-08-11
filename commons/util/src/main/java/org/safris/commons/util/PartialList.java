@@ -75,7 +75,7 @@ public abstract class PartialList<E> implements List<E>, RandomAccess, Cloneable
 
   @Override
   public final boolean addAll(final Collection<? extends E> c) {
-    return addAll(c.size(), c);
+    return addAll(size(), c);
   }
 
   @Override

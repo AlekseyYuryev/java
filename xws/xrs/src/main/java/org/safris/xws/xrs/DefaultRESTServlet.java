@@ -74,7 +74,7 @@ public class DefaultRESTServlet extends StartupServlet {
 
     Classes.setAnnotationValue(DefaultRESTServlet.class.getAnnotation(WebServlet.class), "urlPatterns", new String[0]);
     Classes.setAnnotationValue(webServlet, "name", applicationClassName);
-    if ((webServlet.urlPatterns() != null && webServlet.urlPatterns().length > 0) || (webServlet.value() != null && webServlet.value().length >= 0))
+    if (webServlet.urlPatterns().length > 0 || webServlet.value().length > 0)
       return;
 
     try {
