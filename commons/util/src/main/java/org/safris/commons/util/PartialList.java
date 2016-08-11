@@ -95,7 +95,7 @@ public abstract class PartialList<E> implements List<E>, RandomAccess, Cloneable
     for (final Object e : c) {
       final int index = indexOf(e);
       if (index != -1)
-        remove(e);
+        remove(index);
     }
 
     return size() < sizeBefore;
@@ -113,7 +113,9 @@ public abstract class PartialList<E> implements List<E>, RandomAccess, Cloneable
 
   @Override
   public final boolean removeIf(final Predicate<? super E> filter) {
-    Objects.requireNonNull(filter);
+    if (filter == null)
+      throw new NullPointerException("filter == null");
+
     final int sizeBefore = size();
     final Vector<Integer> remove = new Vector<Integer>(size());
     for (int i = 0; i < size(); i++)
