@@ -86,7 +86,7 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
         initParams.put(webInitParam.name(), webInitParam.value());
     }
 
-    final String servletName = webServlet.name() != null ? webServlet.name() : servletClass.getName();
+    final String servletName = webServlet.name().length() > 0 ? webServlet.name() : servletClass.getName();
 
     final ServletSecurity servletSecurity = servletClass.getAnnotation(ServletSecurity.class);
     HttpConstraint httpConstraint;
@@ -104,7 +104,7 @@ public class EmbeddedServletContainer extends EmbeddedServletContext {
         }
       }
 
-      logger.info(servlet.getClass().getSimpleName() + " [" + context.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(urlPatterns));
+      logger.info(servletClass.getSimpleName() + " [" + context.getSecurityHandler().getLoginService().getName() + "]: " + Arrays.toString(urlPatterns));
     }
 
     logger.info(servletClass.getName() + " " + Arrays.toString(urlPatterns));
