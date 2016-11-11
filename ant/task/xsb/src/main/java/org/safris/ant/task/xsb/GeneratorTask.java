@@ -30,8 +30,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
+import org.safris.commons.util.Translator;
 import org.safris.commons.xml.dom.DOMParsers;
-import org.safris.maven.common.Resolver;
 import org.safris.xsb.compiler.processor.GeneratorContext;
 import org.safris.xsb.compiler.processor.reference.SchemaReference;
 import org.safris.xsb.generator.binding.Generator;
@@ -158,7 +158,7 @@ public class GeneratorTask extends Task implements DynamicElement {
 
   @Override
   public void execute() throws BuildException {
-    final Resolver<String> resolver = new AntPropertyResolver(getProject());
+    final Translator<String> translator = new AntPropertyTranslator(getProject());
     final String buildLocation = getLocation().getFileName();
     final File buildFile = new File(buildLocation);
     if (!buildFile.exists())
@@ -195,7 +195,7 @@ TOP:
         }
       }
 
-      href = resolver.resolve(href);
+      href = translator.translate(href);
       final File hrefFile = new File(href);
       Document document = null;
       try {
@@ -206,7 +206,7 @@ TOP:
         throw new BuildException(e.getMessage(), e);
       }
 
-      generator = new Generator(buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), resolver);
+      generator = new Generator(buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), translator);
     }
     else {
       if (manifest.getDestdir() == null || (destDir = manifest.getDestdir().getText()) == null)
@@ -215,7 +215,7 @@ TOP:
       if (manifest.getSchemas() == null)
         throw new BuildException("link element not provided, schemas element must be speficied");
 
-      final File destDirFile = new File(resolver.resolve(destDir));
+      final File destDirFile = new File(translator.translate(destDir));
 
       final Collection<Manifest.Schemas.Schema> schemas;
       if ((schemas = manifest.getSchemas().getSchemas()) == null || manifest.getSchemas().getSchemas().size() == 0) {
@@ -225,7 +225,7 @@ TOP:
 
       final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>(schemas.size());
       for (Manifest.Schemas.Schema schema : schemas) {
-        final String deref = resolver.resolve(schema.getText());
+        final String deref = translator.translate(schema.getText());
         if (deref != null)
           schemaReferences.add(new SchemaReference(buildFile.getParent(), deref, false));
       }

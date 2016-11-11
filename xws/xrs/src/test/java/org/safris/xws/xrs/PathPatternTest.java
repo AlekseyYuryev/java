@@ -49,22 +49,13 @@ public class PathPatternTest {
 
   @Test
   public void test() {
-    try {
-      pathToPattern(null, "bar");
-      Assert.fail("Expected IllegalArgumentException(\"classPath == null\")");
-    }
-    catch (final IllegalArgumentException e) {
-      if (!"path == null".equals(e.getMessage()))
-        throw e;
-    }
-
     Assert.assertEquals("/foo/bar", pathToPattern("/foo", "/bar"));
     Assert.assertEquals("/foo/bar", pathToPattern("foo", "bar"));
     Assert.assertEquals("/foo/bar", pathToPattern("/foo", "bar"));
     Assert.assertEquals("/foo/bar", pathToPattern("foo", "/bar"));
 
     Assert.assertEquals("/foo", pathToPattern("/foo", null));
-    Assert.assertEquals("/foo", pathToPattern("/foo", null));
+    Assert.assertEquals("/bar", pathToPattern(null, "/bar"));
     Assert.assertEquals("/foo/(?<id>[^\\/]+)", pathToPattern("/foo", "{id}"));
     Assert.assertEquals("/foo/bar/(?<id>[^\\/]+)", pathToPattern("/foo", "bar/{id}"));
 

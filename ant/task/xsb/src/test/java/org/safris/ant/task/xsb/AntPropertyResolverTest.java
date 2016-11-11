@@ -23,16 +23,16 @@ import org.safris.commons.test.LoggableTest;
 public class AntPropertyResolverTest extends LoggableTest {
   @Test
   public void testAntPropertyResolver() {
-    final AntPropertyResolver antPropertyResolver = new AntPropertyResolver(null);
-    Assert.assertNull(antPropertyResolver.resolve(null));
+    final AntPropertyTranslator translator = new AntPropertyTranslator(null);
+    Assert.assertNull(translator.translate(null));
 
     String arg = "text with ${something} here";
-    Assert.assertEquals(arg, antPropertyResolver.resolve(arg));
+    Assert.assertEquals(arg, translator.translate(arg));
 
     arg = "text with something";
-    Assert.assertEquals(arg, antPropertyResolver.resolve(arg));
+    Assert.assertEquals(arg, translator.translate(arg));
 
     arg = "text with ${something";
-    Assert.assertEquals(arg, antPropertyResolver.resolve(arg));
+    Assert.assertEquals(arg, translator.translate(arg));
   }
 }

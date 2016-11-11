@@ -16,6 +16,7 @@
 
 package org.safris.xws.xrs;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -53,41 +54,55 @@ public class ResponseContext {
     return httpHeaders;
   }
 
-  private void syncResponses() {
+  public void writeHeader() {
+    final MultivaluedMap<String,String> containerResponseHeaders = containerResponseContext.getStringHeaders();
     if (getResponse() != null) {
       if (getResponse().hasEntity())
         containerResponseContext.setEntity(getResponse().getEntity());
 
       containerResponseContext.setStatusInfo(getResponse().getStatusInfo());
 
-      final MultivaluedMap<String,String> headers = getResponse().getStringHeaders();
-      for (final Map.Entry<String,List<String>> entry : headers.entrySet())
+      final MultivaluedMap<String,String> responseHeaders = getResponse().getStringHeaders();
+      for (final Map.Entry<String,List<String>> entry : responseHeaders.entrySet())
         for (final String header : entry.getValue())
-          containerResponseContext.getStringHeaders().add(entry.getKey(), header);
+          containerResponseHeaders.add(entry.getKey(), header);
     }
-  }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  public void commit(final EntityProviders objectBodyProcessor) throws IOException {
-    syncResponses();
-    final MultivaluedMap<String,String> headers = containerResponseContext.getStringHeaders();
-    for (final Map.Entry<String,List<String>> entry : headers.entrySet())
+    for (final Map.Entry<String,List<String>> entry : containerResponseHeaders.entrySet())
       for (final String header : entry.getValue())
         httpServletResponse.addHeader(entry.getKey(), header);
 
     httpServletResponse.setStatus(containerResponseContext.getStatus());
+  }
 
+  private ByteArrayOutputStream outputStream = null;
+
+  private ByteArrayOutputStream getOutputStream() {
+    if (outputStream == null)
+      outputStream = new ByteArrayOutputStream();
+
+    return outputStream;
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public void writeBody(final EntityProviders entityProviders) throws IOException {
     final Object entity = containerResponseContext.getEntity();
     if (entity != null) {
-      final MessageBodyWriter messageBodyWriter = objectBodyProcessor.getWriter(containerResponseContext.getMediaType(), entity.getClass());
-      if (messageBodyWriter != null)
-        messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericSuperclass(), entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), httpServletResponse.getOutputStream());
-      else
+      final MessageBodyWriter messageBodyWriter = entityProviders.getWriter(containerResponseContext.getMediaType(), entity.getClass());
+      if (messageBodyWriter != null) {
+        messageBodyWriter.writeTo(entity, entity.getClass(), entity.getClass().getGenericSuperclass(), entity.getClass().getAnnotations(), httpHeaders.getMediaType(), httpHeaders.getRequestHeaders(), getOutputStream());
+      }
+      else {
         throw new WebApplicationException("Could not find MessageBodyWriter for type: " + entity.getClass().getName());
+      }
     }
-    else {
-      // @see ServletResponse#getOutputStream :: "Calling flush() on the ServletOutputStream commits the response."
-      httpServletResponse.getOutputStream().flush();
-    }
+  }
+
+  public void commit() throws IOException {
+    if (outputStream != null)
+      httpServletResponse.getOutputStream().write(outputStream.toByteArray());
+
+    // @see ServletResponse#getOutputStream :: "Calling flush() on the ServletOutputStream commits the response."
+    httpServletResponse.getOutputStream().flush();
   }
 }

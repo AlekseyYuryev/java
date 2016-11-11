@@ -32,6 +32,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
 
+import org.safris.commons.security.Credentials;
+
 public final class Mail {
   private static final Logger logger = Logger.getLogger(Mail.class.getName());
 
@@ -117,27 +119,27 @@ public final class Mail {
     }
   }
 
-  public static final class Server {
+  public static final class Sender {
     private static final boolean debug = true;
 
     static {
       // System.setProperty("javax.net.debug", "ssl,handshake");
     }
 
-    private static final Map<Server,Server> instances = new HashMap<Server,Server>();
+    private static final Map<Sender,Sender> instances = new HashMap<Sender,Sender>();
 
-    public static Server instance(final Protocol protocol, final String host, final int port) {
-      final Server key = new Server(protocol, host, port);
-      Server server = instances.get(key);
-      if (server != null)
-        return server;
+    public static Sender instance(final Protocol protocol, final String host, final int port) {
+      final Sender key = new Sender(protocol, host, port);
+      Sender instance = instances.get(key);
+      if (instance != null)
+        return instance;
 
       synchronized (instances) {
-        if ((server = instances.get(key)) != null)
-          return server;
+        if ((instance = instances.get(key)) != null)
+          return instance;
 
-        instances.put(key, server = key);
-        return server;
+        instances.put(key, instance = key);
+        return instance;
       }
     }
 
@@ -146,7 +148,7 @@ public final class Mail {
     private final int port;
     private final Properties defaultProperties;
 
-    private Server(final Protocol protocol, final String host, final int port) {
+    private Sender(final Protocol protocol, final String host, final int port) {
       this.protocol = protocol;
       if (protocol == null)
         throw new NullPointerException("protocol == null");
@@ -258,10 +260,10 @@ public final class Mail {
       if (obj == this)
         return true;
 
-      if (!(obj instanceof Server))
+      if (!(obj instanceof Sender))
         return false;
 
-      final Server that = (Server)obj;
+      final Sender that = (Sender)obj;
       return host.equals(that.host) && protocol == that.protocol && port == that.port;
     }
 
@@ -271,41 +273,6 @@ public final class Mail {
       hashCode += 2 * host.hashCode();
       hashCode *= protocol.ordinal() + 1;
       hashCode += 3 * port;
-      return hashCode;
-    }
-  }
-
-  public static final class Credentials {
-    public final String username;
-    public final String password;
-
-    public Credentials(final String username, final String password) {
-      this.username = username;
-      if (username == null)
-        throw new NullPointerException("username == null");
-
-      this.password = password;
-      if (password == null)
-        throw new NullPointerException("password == null");
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-      if (obj == this)
-        return true;
-
-      if (!(obj instanceof Credentials))
-        return false;
-
-      final Credentials that = (Credentials)obj;
-      return username.equals(that.username) && password.equals(that.password);
-    }
-
-    @Override
-    public int hashCode() {
-      int hashCode = 0;
-      hashCode += 2 * username.hashCode();
-      hashCode += 3 * password.hashCode();
       return hashCode;
     }
   }

@@ -39,7 +39,7 @@ public class LoggerPrintWriter extends PrintWriter {
       }
 
       @Override
-      public void write(final char cbuf[], final int off, final int len) throws IOException {
+      public void write(final char[] cbuf, final int off, final int len) throws IOException {
       }
     });
 

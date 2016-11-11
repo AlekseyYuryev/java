@@ -23,13 +23,10 @@ import java.util.Locale;
 
 import javax.ws.rs.ext.RuntimeDelegate;
 
+import org.safris.commons.util.Formats;
+
 public class DateHeaderDelegate implements RuntimeDelegate.HeaderDelegate<Date> {
-  private static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>() {
-    @Override
-    protected SimpleDateFormat initialValue() {
-      return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-    }
-  };
+  private static final ThreadLocal<SimpleDateFormat> dateFormat = Formats.createSimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
 
   public static Date parse(final String value) {
     try {

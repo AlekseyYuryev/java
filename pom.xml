@@ -32,7 +32,7 @@
   <licenses>
     <license>
       <name>The MIT License (MIT)</name>
-      <url>http://opensource.org/licenses/MIT/</url>
+      <url>https://opensource.org/licenses/MIT/</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -661,12 +661,6 @@
         <version>2.11.0</version>
         <scope>test</scope>
       </dependency>
-      <dependency>
-        <groupId>xml-security</groupId>
-        <artifactId>xmlsec</artifactId>
-        <version>RELEASE</version>
-        <scope>test</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -684,4 +678,13 @@
       <url>file://localhost/var/lib/mvn/org/m2</url>
     </repository>
   </distributionManagement>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

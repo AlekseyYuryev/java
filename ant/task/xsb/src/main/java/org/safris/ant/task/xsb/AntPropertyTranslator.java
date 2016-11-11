@@ -17,17 +17,17 @@
 package org.safris.ant.task.xsb;
 
 import org.apache.tools.ant.Project;
-import org.safris.maven.common.Resolver;
+import org.safris.commons.util.Translator;
 
-public class AntPropertyResolver implements Resolver<String> {
+public class AntPropertyTranslator implements Translator<String> {
   private final Project project;
 
-  public AntPropertyResolver(final Project project) {
+  public AntPropertyTranslator(final Project project) {
     this.project = project;
   }
 
   @Override
-  public String resolve(final String string) {
+  public String translate(final String string) {
     if (string == null)
       return null;
 
@@ -42,10 +42,10 @@ public class AntPropertyResolver implements Resolver<String> {
     if (project == null)
       return string;
 
-    final String resolved = project.getProperty(string.substring(start + 2, end));
-    if (resolved == null)
-      return string.substring(0, end + 1) + resolve(string.substring(end + 1, string.length()));
+    final String translated = project.getProperty(string.substring(start + 2, end));
+    if (translated == null)
+      return string.substring(0, end + 1) + translate(string.substring(end + 1, string.length()));
 
-    return string.substring(0, start) + resolved + resolve(string.substring(end + 1, string.length()));
+    return string.substring(0, start) + translated + translate(string.substring(end + 1, string.length()));
   }
 }

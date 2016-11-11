@@ -18,9 +18,11 @@ package org.safris.commons.net;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import org.safris.commons.lang.Paths;
 
@@ -37,6 +39,15 @@ public final class URLs {
       return true;
 
     return path.matches("^([a-zA-Z0-9]+:)?//.*$");
+  }
+
+  public static String decode(final URL url) {
+    try {
+      return URLDecoder.decode(url.getPath(), "UTF-8");
+    }
+    catch (final UnsupportedEncodingException e) {
+      return url.getPath();
+    }
   }
 
   public static boolean isFile(final URL url) {

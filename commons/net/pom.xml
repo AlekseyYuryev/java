@@ -38,6 +38,11 @@
       <version>1.6.4</version>
     </dependency>
     <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>security</artifactId>
+      <version>1.0.9</version>
+    </dependency>
+    <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
     </dependency>

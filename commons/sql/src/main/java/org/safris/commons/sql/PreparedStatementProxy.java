@@ -36,9 +36,7 @@ import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -47,32 +45,17 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.safris.commons.util.Formats;
+
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
   private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
   private static final Level defaultLogLevel = Level.FINE;
 
   private static final String NULL = "NULL";
 
-  private final ThreadLocal<DateFormat> dateFormat = new ThreadLocal<DateFormat>() {
-    @Override
-    protected DateFormat initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd");
-    }
-  };
-
-  private final ThreadLocal<DateFormat> timestampFormat = new ThreadLocal<DateFormat>() {
-    @Override
-    protected DateFormat initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-    }
-  };
-
-  private final ThreadLocal<NumberFormat> numberFormat = new ThreadLocal<NumberFormat>() {
-    @Override
-    protected NumberFormat initialValue() {
-      return new DecimalFormat("###############.###########;-###############.###########");
-    }
-  };
+  private static final ThreadLocal<SimpleDateFormat> dateFormat = Formats.createSimpleDateFormat("yyyy-MM-dd");
+  private static final ThreadLocal<SimpleDateFormat> timestampFormat = Formats.createSimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  private static final ThreadLocal<DecimalFormat> numberFormat = Formats.createDecimalFormat("###############.###########;-###############.###########");
 
   private final Map<Integer,Object> parameterMap = new HashMap<Integer,Object>();
   private final String sql;

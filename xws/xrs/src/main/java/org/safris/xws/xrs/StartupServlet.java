@@ -29,7 +29,12 @@ import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.HttpMethod;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -82,6 +87,37 @@ public abstract class StartupServlet extends HttpServlet {
     return executionContext;
   }
 
+  /**
+   * http://docs.oracle.com/javaee/6/tutorial/doc/gilik.html
+   * Root resource classes are POJOs that are either annotated with @Path or have at least one
+   * method annotated with @Path or a request method designator, such as @GET, @PUT, @POST, or
+   * @DELETE. Resource methods are methods of a resource class annotated with a request method
+   * designator. This section explains how to use JAX-RS to annotate Java classes to create
+   * RESTful web services.
+   */
+  private static boolean isRootResource(final Class<?> cls) {
+    if (Modifier.isAbstract(cls.getModifiers()) || Modifier.isInterface(cls.getModifiers()))
+      return false;
+
+    if (cls.isAnnotationPresent(Path.class))
+      return true;
+
+    try {
+      final Method[] methods = cls.getMethods();
+      for (final Method method : methods) {
+        if (!Modifier.isAbstract(method.getModifiers()) && !Modifier.isStatic(method.getModifiers()) && !Modifier.isNative(method.getModifiers())) {
+          if (method.isAnnotationPresent(Path.class) || method.isAnnotationPresent(GET.class) || method.isAnnotationPresent(POST.class) || method.isAnnotationPresent(PUT.class) || method.isAnnotationPresent(DELETE.class) || method.isAnnotationPresent(HEAD.class))
+            return true;
+        }
+      }
+
+      return false;
+    }
+    catch (final NoClassDefFoundError | SecurityException e) {
+      return false;
+    }
+  }
+
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
@@ -106,8 +142,7 @@ public abstract class StartupServlet extends HttpServlet {
           if (Modifier.isAbstract(cls.getModifiers()))
             continue;
 
-          // Add a Class<?> with a @Path annotation
-          if (cls.isAnnotationPresent(Path.class)) {
+          if (isRootResource(cls)) {
             final Method[] methods = cls.getMethods();
             for (final Method method : methods) {
               final Set<HttpMethod> httpMethodAnnotations = new HashSet<HttpMethod>(); // FIXME: Can this be done without a Collection?
@@ -121,7 +156,7 @@ public abstract class StartupServlet extends HttpServlet {
               for (final HttpMethod httpMethodAnnotation : httpMethodAnnotations) {
                 ContextInjector.allowsInjectableClass(Field.class, cls);
                 final ResourceManifest manifest = new ResourceManifest(httpMethodAnnotation, method);
-                logger.info("[XRS] " + manifest.getPathPattern().getPattern().toString() + " " + cls.getSimpleName() + "." + method.getName() + "(): " + httpMethodAnnotation.value());
+                logger.info("[XRS] " + httpMethodAnnotation.value() + " " + manifest.getPathPattern().getPattern().toString() + " -> " + cls.getSimpleName() + "." + method.getName() + "()");
                 registry.add(manifest.getHttpMethod().value().toUpperCase(), manifest);
               }
             }

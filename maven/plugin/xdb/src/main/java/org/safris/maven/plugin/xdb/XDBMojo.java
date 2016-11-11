@@ -25,10 +25,10 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.util.Translator;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
-import org.safris.maven.common.MavenPropertyResolver;
-import org.safris.maven.common.Resolver;
+import org.safris.maven.project.MavenPropertyTranslator;
 
 @Mojo(name = "xdb", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public abstract class XDBMojo extends AdvancedMojo {
@@ -58,9 +58,9 @@ public abstract class XDBMojo extends AdvancedMojo {
     if (mavenTestSkip != null && mavenTestSkip && execution.getLifecyclePhase().contains("test"))
       return;
 
-    final Resolver<String> resolver = new MavenPropertyResolver(project);
+    final Translator<String> translator = new MavenPropertyTranslator(project);
     for (final String spec : manifest.getSchemas()) {
-      final File xdlFile = new File(resolver.resolve(spec));
+      final File xdlFile = new File(translator.translate(spec));
       if (!xdlFile.exists())
         throw new MojoFailureException("XDL file does not exist: " + xdlFile.getAbsolutePath());
 

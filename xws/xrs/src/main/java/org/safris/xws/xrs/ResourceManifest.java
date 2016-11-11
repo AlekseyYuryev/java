@@ -34,6 +34,7 @@ import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.MatrixParam;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -195,6 +196,9 @@ public class ResourceManifest {
 
     if (securityAnnotation instanceof DenyAll)
       throw new ForbiddenException("@DenyAll");
+
+    if (containerRequestContext.getSecurityContext().getUserPrincipal() == null)
+      throw new NotAuthorizedException("Unauthorized");
 
     if (securityAnnotation instanceof RolesAllowed)
       for (final String role : ((RolesAllowed)securityAnnotation).value())

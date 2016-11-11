@@ -67,10 +67,10 @@ public class PathPattern {
   }
 
   protected PathPattern(final Path path, final Path methodPath) {
-    if (path == null)
-      throw new IllegalArgumentException("path == null");
+    if (path == null && methodPath == null)
+      throw new IllegalArgumentException("path == null && methodPath == null");
 
-    this.pattern = methodPath != null ? createPattern(prependSlash(path) + prependSlash(methodPath)) : createPattern(prependSlash(path));
+    this.pattern = methodPath == null ? createPattern(prependSlash(path)) : path != null ? createPattern(prependSlash(path) + prependSlash(methodPath)) : createPattern(prependSlash(methodPath));
   }
 
   public Pattern getPattern() {

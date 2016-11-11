@@ -89,42 +89,52 @@ public class DefaultRESTServlet extends StartupServlet {
   }
 
   private void service(final HttpServletRequestContext request, final HttpServletResponse response) throws IOException, ServletException {
-    try {
-      final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
+    final ContainerResponseContext containerResponseContext = new ContainerResponseContextImpl(response);
+    final HttpHeaders httpHeaders = new HttpHeadersImpl(request);
+    final ResponseContext responseContext = new ResponseContext(httpHeaders, response, containerResponseContext);
 
-      final HttpHeaders httpHeaders = new HttpHeadersImpl(request);
-      final ResponseContext responseContext = new ResponseContext(httpHeaders, response, containerResponseContext);
+    try {
       final ContainerRequestContext containerRequestContext; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
       request.setRequestContext(containerRequestContext = new ContainerRequestContextImpl(request, responseContext));
 
       final ContextInjector injectionContext = ContextInjector.createInjectionContext(containerRequestContext, new RequestImpl(request.getMethod()), httpHeaders);
 
-      getExecutionContext().getContainerFilters().filterPreMatchRequest(containerRequestContext, injectionContext);
-      getExecutionContext().getContainerFilters().filterPreMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
+      try {
+        getExecutionContext().getContainerFilters().filterPreMatchRequest(containerRequestContext, injectionContext);
+        getExecutionContext().getContainerFilters().filterPreMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
 
-      if (responseContext.getResponse() != null) {
-        responseContext.commit(getExecutionContext().getEntityProviders());
-        return;
+        if (responseContext.getResponse() != null) {
+          responseContext.writeHeader();
+          responseContext.writeBody(getExecutionContext().getEntityProviders());
+          responseContext.commit();
+          return;
+        }
+
+        final ResourceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
+        request.setResourceManifest(manifest = getExecutionContext().filterAndMatch(containerRequestContext));
+
+        getExecutionContext().getContainerFilters().filterPostMatchRequest(containerRequestContext, injectionContext);
+
+        if (manifest == null)
+          throw new NotFoundException();
+
+        final Produces produces = manifest.getMatcher(Produces.class).getAnnotation();
+        if (produces != null)
+          containerResponseContext.getStringHeaders().addAll(HttpHeaders.CONTENT_TYPE, produces.value());
+
+        final Object content = manifest.service(containerRequestContext, injectionContext, getExecutionContext().getEntityProviders());
+        if (content != null)
+          containerResponseContext.setEntity(content);
+
+        responseContext.writeBody(getExecutionContext().getEntityProviders());
+        getExecutionContext().getContainerFilters().filterPostMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
       }
-
-      final ResourceManifest manifest; // NOTE: This weird construct is done this way to at least somehow make the two object cohesive
-      request.setResourceManifest(manifest = getExecutionContext().filterAndMatch(containerRequestContext));
-
-      getExecutionContext().getContainerFilters().filterPostMatchRequest(containerRequestContext, injectionContext);
-
-      if (manifest == null)
-        throw new NotFoundException();
-
-      final Produces produces = manifest.getMatcher(Produces.class).getAnnotation();
-      if (produces != null)
-        containerResponseContext.getStringHeaders().addAll(HttpHeaders.CONTENT_TYPE, produces.value());
-
-      final Object content = manifest.service(containerRequestContext, injectionContext, getExecutionContext().getEntityProviders());
-      if (content != null)
-        containerResponseContext.setEntity(content);
-
-      getExecutionContext().getContainerFilters().filterPostMatchResponse(containerRequestContext, containerResponseContext, injectionContext);
-      responseContext.commit(getExecutionContext().getEntityProviders());
+      catch (final Throwable t) {
+        throw t;
+      }
+      finally {
+        responseContext.writeHeader();
+      }
     }
     catch (final IOException | ServletException e) {
       throw e;
@@ -152,6 +162,9 @@ public class DefaultRESTServlet extends StartupServlet {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage());
         throw t;
       }
+    }
+    finally {
+      responseContext.commit();
     }
   }
 

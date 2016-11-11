@@ -33,7 +33,7 @@ import javax.ws.rs.core.UriInfo;
 import org.safris.commons.lang.reflect.Classes;
 
 /**
- * @see http://download.oracle.com/otn-pub/jcp/jaxrs-2_0_rev_A-mrel-spec/jsr339-jaxrs-2.0-final-spec.pdf [9.2]
+ * @see <a href="http://download.oracle.com/otn-pub/jcp/jaxrs-2_0_rev_A-mrel-spec/jsr339-jaxrs-2.0-final-spec.pdf">JSR339 JAX-RS 2.0 [9.2]</a>
  */
 public class ContextInjector {
   private static ContextInjector injectionContextPrototype = new ContextInjector(new Class<?>[] {

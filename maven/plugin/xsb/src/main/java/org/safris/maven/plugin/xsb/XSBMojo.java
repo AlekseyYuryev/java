@@ -36,12 +36,12 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
+import org.safris.commons.util.Translator;
 import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
-import org.safris.maven.common.MavenPropertyResolver;
-import org.safris.maven.common.Resolver;
+import org.safris.maven.project.MavenPropertyTranslator;
 import org.safris.xsb.compiler.processor.GeneratorContext;
 import org.safris.xsb.compiler.processor.reference.SchemaReference;
 import org.safris.xsb.generator.binding.Generator;
@@ -83,7 +83,7 @@ public class XSBMojo extends AdvancedMojo {
     String href = null;
     boolean explodeJars = false;
     boolean overwrite = false;
-    final Resolver<String> resolver = new MavenPropertyResolver(project);
+    final Translator<String> translator = new MavenPropertyTranslator(project);
     final Build build = project.getBuild();
     if (build != null && build.getPlugins() != null) {
       for (final Plugin plugin : build.getPlugins()) {
@@ -169,7 +169,7 @@ public class XSBMojo extends AdvancedMojo {
         throw new MojoExecutionException(e.getMessage(), e);
       }
 
-      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), resolver);
+      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), translator);
       final Collection<Bundle> bundles = generator.generate();
       addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
       return;

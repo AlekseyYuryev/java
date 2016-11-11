@@ -23,27 +23,42 @@ import java.io.UnsupportedEncodingException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import org.safris.commons.util.Collections;
 
 /**
  * This utility final class is for loading classes in a package.
  */
 public abstract class PackageLoader extends ClassLoader {
   private static final PackageLoader instance = new PackageLoader() {};
-  private static final Map<String,Set<Class<?>>> loadedPackages = new HashMap<String,Set<Class<?>>>();
+  private static final Map<String,Set<Class<?>>> loadedPackageToClasses = new HashMap<String,Set<Class<?>>>();
+  private static final Map<String,Set<String>> loadedPackageToClassNames = new HashMap<String,Set<String>>();
 
   private static final FileFilter classFileFilter = new FileFilter() {
     @Override
     public boolean accept(final File pathname) {
-      return pathname.getName().endsWith(".class");
+      return pathname.getName().endsWith(".class") || pathname.isDirectory();
     }
   };
+
+  private static void loadDirectory(final List<String> entries, final File directory, final String name) {
+    final File[] files = directory.listFiles(classFileFilter);
+    for (final File file : files) {
+      if (file.isDirectory())
+        loadDirectory(entries, file, name);
+      else
+        entries.add(name + "." + file.getName().substring(0, file.getName().length() - 6).replace('/', '.'));
+    }
+  }
 
   public static PackageLoader getSystemPackageLoader() {
     return instance;
@@ -133,21 +148,10 @@ public abstract class PackageLoader extends ClassLoader {
     if (name == null || name.length() == 0)
       throw new PackageNotFoundException(name);
 
-    Set<Class<?>> classes = loadedPackages.get(name);
-    if (classes != null)
-      return classes;
-
-    // Translate the package name into an absolute path
-    final String path;
     final char firstChar = name.charAt(0);
-    if (firstChar == '/' || firstChar == '.')
-      path = name.substring(1).replace('.', '/');
-    else
-      path = name.replace('.', '/');
-
     Enumeration<Resource> resources = null;
     try {
-      resources = Resources.getResources(path);
+      resources = Resources.getResources((firstChar == '/' || firstChar == '.' ? name.substring(1) : name).replace('.', '/'));
     }
     catch (final IOException e) {
       throw new ResourceException(e.getMessage(), e);
@@ -156,13 +160,12 @@ public abstract class PackageLoader extends ClassLoader {
     if (resources == null)
       throw new PackageNotFoundException(name);
 
-    loadedPackages.put(name, classes = new HashSet<Class<?>>());
+    final Set<Class<?>> classes = new HashSet<Class<?>>();
     while (resources.hasMoreElements()) {
       final Resource resource = resources.nextElement();
       final URL url = resource.getURL();
       final ClassLoader classLoader = resource.getClassLoader();
       synchronized (classLoader) {
-        final Map<String,ClassLoader> classesToLoad = new HashMap<String,ClassLoader>();
         String decodedUrl;
         try {
           decodedUrl = URLDecoder.decode(url.getPath(), "UTF-8");
@@ -172,14 +175,9 @@ public abstract class PackageLoader extends ClassLoader {
         }
 
         final File directory = new File(decodedUrl);
+        final List<String> entries = new ArrayList<String>();
         if (directory.exists()) {
-          // Get the list of the files contained in the package
-          final File[] files = directory.listFiles(classFileFilter);
-          String className = null;
-          for (final File file : files) {
-            className = name + "." + file.getName().substring(0, file.getName().length() - 6);
-            classesToLoad.put(className, classLoader);
-          }
+          loadDirectory(entries, directory, name);
         }
         else {
           final JarURLConnection jarURLConnection;
@@ -194,30 +192,48 @@ public abstract class PackageLoader extends ClassLoader {
 
           final String entryName = jarURLConnection.getEntryName();
           final Enumeration<JarEntry> enumeration = jarFile.entries();
-          String zipEntryName;
-          String className;
           while (enumeration.hasMoreElements()) {
-            zipEntryName = enumeration.nextElement().getName();
-            if (!zipEntryName.startsWith(entryName) || zipEntryName.lastIndexOf(entryName + "/") > entryName.length() || !zipEntryName.endsWith(".class"))
-              continue;
-
-            className = zipEntryName.substring(0, zipEntryName.length() - 6);
-            if (className.charAt(0) == '/')
-              className = className.substring(1);
-
-            className = className.replace('/', '.');
-            classesToLoad.put(className, classLoader);
+            final String entry = enumeration.nextElement().getName();
+            if (entry.startsWith(entryName) && entry.endsWith(".class"))
+              entries.add((entry.charAt(0) == '/' ? entry.substring(1, entry.length() - 6) : entry.substring(0, entry.length() - 6)).replace('/', '.'));
           }
         }
 
-        for (final Map.Entry<String,ClassLoader> entry : classesToLoad.entrySet()) {
-          try {
-            classes.add(Class.forName(entry.getKey(), initialize, entry.getValue()));
+        if (entries.size() == 0)
+          continue;
+
+        try {
+          String lastPackage = null;
+          Set<Class<?>> packageClasses = null;
+          Set<String> packageClassNames = null;
+          boolean packageLoaded = false;
+          Collections.sort(entries);
+          for (final String entry : entries) {
+            final String subPackage = entry.substring(0, entry.lastIndexOf('.'));
+            if (!subPackage.equals(lastPackage)) {
+              lastPackage = subPackage;
+              if (packageClasses != null)
+                classes.addAll(packageClasses);
+
+              packageClasses = loadedPackageToClasses.get(subPackage);
+              if (packageLoaded = (packageClasses != null)) {
+                packageClassNames = loadedPackageToClassNames.get(subPackage);
+              }
+              else {
+                loadedPackageToClasses.put(subPackage, packageClasses = new HashSet<Class<?>>());
+                loadedPackageToClassNames.put(subPackage, packageClassNames = new HashSet<String>());
+              }
+            }
+
+            if (!packageLoaded || !packageClassNames.contains(entry)) {
+              packageClasses.add(Class.forName(entry, initialize, classLoader));
+              packageClassNames.add(entry);
+            }
           }
-          catch (final ClassNotFoundException e) {
-          }
-          catch (final NoClassDefFoundError e) {
-          }
+
+          classes.addAll(packageClasses);
+        }
+        catch (final ClassNotFoundException | NoClassDefFoundError e) {
         }
       }
     }

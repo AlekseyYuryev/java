@@ -119,7 +119,15 @@ public class MirroredMultivaluedHashMap<K,V,M> extends PartialMap<K,List<V>> imp
   @Override
   @SuppressWarnings("unchecked")
   public List<V> put(final K key, final List<V> value) {
-    final MirroredList<V,M> list = value instanceof MirroredList ? (MirroredList<V,M>)value : new MirroredList<V,M>(listType, mirror, mirroredMap.mirror);
+    final MirroredList<V,M> list;
+    if (value instanceof MirroredList) {
+      list = (MirroredList<V,M>)value;
+    }
+    else {
+      list = new MirroredList<V,M>(listType, mirror, mirroredMap.mirror);
+      list.addAll(value);
+    }
+
     mirroredMap.map.put(key, list.getMirror());
     return map.put(key, list);
   }

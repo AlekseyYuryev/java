@@ -28,7 +28,7 @@ public final class ConsoleFormatter extends Formatter {
   private final MessageFormat formatter;
 
   public ConsoleFormatter() {
-    formatter = new MessageFormat(format);
+    this.formatter = new MessageFormat(format);
   }
 
   /**
@@ -41,7 +41,7 @@ public final class ConsoleFormatter extends Formatter {
     synchronized (formatter) {
       final StringBuffer buffer = new StringBuffer();
       final String message = formatMessage(record);
-//          buffer.append("[").append(record.getLevel().getLocalizedName()).append("] ");
+//      buffer.append("[").append(record.getLevel().getLocalizedName()).append("] ");
       buffer.append(message);
       buffer.append(newline);
       return buffer.toString();

@@ -23,6 +23,7 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.safris.commons.security.Credentials;
 import org.safris.commons.test.LoggableTest;
 
 public class MailTest extends LoggableTest {
@@ -47,15 +48,15 @@ public class MailTest extends LoggableTest {
   @Test
   @Ignore
   public void testClient() throws Exception {
-    final Mail.Credentials smtpCredentials = new Mail.Credentials("filehost", "FileH0st");
-    final Mail.Server server = Mail.Server.instance(Mail.Protocol.SMTP, "smtp.safris.com", 465);
+    final Credentials smtpCredentials = new Credentials("filehost", "FileH0st");
+    final Mail.Sender sender = Mail.Sender.instance(Mail.Protocol.SMTP, "smtp.safris.com", 465);
     final Mail.Message[] messages = new TestMessage[] {
       new TestMessage("test1", new MimeContent("test1", "text/html"), new InternetAddress("seva@safris.org", "org"), "seva.safris@gmail.com"),
       new TestMessage("test2", new MimeContent("test2", "text/html"), new InternetAddress("seva@safris.com", "com"), "safris@berkeley.edu"),
       new TestMessage("test3", new MimeContent("test3", "text/html"), new InternetAddress("seva@safris.biz", "biz"), "seva@djseva.com")
     };
 
-    server.send(smtpCredentials, messages);
+    sender.send(smtpCredentials, messages);
 
     Assert.assertEquals(messages.length, successCount);
   }

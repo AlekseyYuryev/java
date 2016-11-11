@@ -14,19 +14,20 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.common;
+package org.safris.maven.project;
 
 import org.apache.maven.project.MavenProject;
+import org.safris.commons.util.Translator;
 
-public class MavenPropertyResolver implements Resolver<String> {
+public class MavenPropertyTranslator implements Translator<String> {
   private final MavenProject project;
 
-  public MavenPropertyResolver(final MavenProject project) {
+  public MavenPropertyTranslator(final MavenProject project) {
     this.project = project;
   }
 
   @Override
-  public String resolve(final String string) {
+  public String translate(final String string) {
     if (string == null)
       return null;
 
@@ -38,11 +39,11 @@ public class MavenPropertyResolver implements Resolver<String> {
     if (end == -1)
       return string;
 
-    final String resolved = getProperty(string.substring(start + 2, end));
-    if (resolved == null)
-      return string.substring(0, end + 1) + resolve(string.substring(end + 1, string.length()));
+    final String translated = getProperty(string.substring(start + 2, end));
+    if (translated == null)
+      return string.substring(0, end + 1) + translate(string.substring(end + 1, string.length()));
 
-    return string.substring(0, start) + resolved + resolve(string.substring(end + 1, string.length()));
+    return string.substring(0, start) + translated + translate(string.substring(end + 1, string.length()));
   }
 
   private String getProperty(final String string) {
