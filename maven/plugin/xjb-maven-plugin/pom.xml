@@ -43,18 +43,18 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <profiles>
-                <profile>!default</profile>
-                <profile>integratin-test</profile>
-              </profiles>
-              <goals>
-                <goal>test</goal>
-              </goals>
-            </configuration>
             <executions>
               <execution>
                 <phase>install</phase>
+                <configuration>
+                  <profiles>
+                    <profile>!default</profile>
+                    <profile>integration-test</profile>
+                  </profiles>
+                  <goals>
+                    <goal>test</goal>
+                  </goals>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -62,7 +62,7 @@
       </build>
     </profile>
     <profile>
-      <id>integratin-test</id>
+      <id>integration-test</id>
       <build>
         <plugins>
           <plugin>

@@ -42,18 +42,18 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <profiles>
-                <profile>!maven-invoker-plugin</profile>
-                <profile>version</profile>
-              </profiles>
-              <goals>
-                <goal>validate</goal>
-              </goals>
-            </configuration>
             <executions>
               <execution>
                 <phase>validate</phase>
+                <configuration>
+                  <profiles>
+                    <profile>!maven-invoker-plugin</profile>
+                    <profile>version</profile>
+                  </profiles>
+                  <goals>
+                    <goal>validate</goal>
+                  </goals>
+                </configuration>
               </execution>
             </executions>
           </plugin>

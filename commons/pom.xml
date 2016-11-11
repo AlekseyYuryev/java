@@ -42,7 +42,6 @@
         <module>pipeline</module>
         <module>formatter</module>
         <module>jndi</module>
-        <module>security</module>
         <module>cli</module>
         <module>sql</module>
         <module>dbcp</module>
@@ -66,6 +65,7 @@
         <module>lang</module>
         <module>math</module>
         <module>net</module>
+        <module>security</module>
         <module>test</module>
         <module>util</module>
         <module>xml</module>
