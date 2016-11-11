@@ -38,19 +38,17 @@
         </property>
       </activation>
       <modules>
-        <module>cert</module>
-        <module>codegen</module>
-        <module>codeguide</module>
-        <module>dependency</module>
-        <module>xdb</module>
-        <module>xjb</module>
-        <module>xsb</module>
+        <module>cert-maven-plugin</module>
+        <module>codegen-maven-plugin</module>
+        <module>xdb-maven-plugin</module>
+        <module>xjb-maven-plugin</module>
+        <module>xsb-maven-plugin</module>
       </modules>
       <!--build>
         <plugins>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>version</artifactId>
+            <artifactId>version-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build-->
@@ -63,8 +61,8 @@
         </property>
       </activation>
       <modules>
-        <module>version</module>
-        <module>xml</module>
+        <module>version-maven-plugin</module>
+        <module>xml-maven-plugin</module>
       </modules>
     </profile>
   </profiles>

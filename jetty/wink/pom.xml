@@ -32,7 +32,7 @@
     <plugins>
       <plugin>
         <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>xjb</artifactId>
+        <artifactId>xjb-maven-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-test-sources</phase>

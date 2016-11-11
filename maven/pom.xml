@@ -39,6 +39,7 @@
       </activation>
       <modules>
         <module>plugin</module>
+        <module>project</module>
       </modules>
     </profile>
     <profile>
@@ -51,7 +52,6 @@
       <modules>
         <module>common</module>
         <module>plugin</module>
-        <module>project</module>
       </modules>
     </profile>
   </profiles>

@@ -157,12 +157,12 @@
         <plugins>
           <!--plugin>
             <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>version</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.safris.maven.plugin.xml</groupId>
-            <artifactId>validator</artifactId>
+            <artifactId>version-maven-plugin</artifactId>
           </plugin-->
+          <plugin>
+            <groupId>org.safris.maven.plugin</groupId>
+            <artifactId>xml-maven-plugin</artifactId>
+          </plugin>
         </plugins>
       </build>
     </profile>
@@ -248,7 +248,7 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>version</artifactId>
+          <artifactId>version-maven-plugin</artifactId>
           <version>0.1.1</version>
           <executions>
             <execution>
@@ -263,7 +263,7 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>codegen</artifactId>
+          <artifactId>codegen-maven-plugin</artifactId>
           <version>1.0.1</version>
           <executions>
             <execution>
@@ -276,7 +276,7 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>xjb</artifactId>
+          <artifactId>xjb-maven-plugin</artifactId>
           <version>1.1.3</version>
           <executions>
             <execution>
@@ -288,8 +288,8 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.safris.maven.plugin.xml</groupId>
-          <artifactId>validator</artifactId>
+          <groupId>org.safris.maven.plugin</groupId>
+          <artifactId>xml-maven-plugin</artifactId>
           <version>2.0.3</version>
           <executions>
             <execution>
@@ -299,9 +299,10 @@
               <phase>validate</phase>
               <configuration>
                 <includes>
+                  <include>**/*.xdl</include>
+                  <include>**/*.xjb</include>
                   <include>**/*.xml</include>
                   <include>**/*.xsd</include>
-                  <include>**/*.xdl</include>
                 </includes>
               </configuration>
             </execution>
@@ -309,12 +310,12 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>xdb</artifactId>
+          <artifactId>xdb-maven-plugin</artifactId>
           <version>1.3.2</version>
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>xsb</artifactId>
+          <artifactId>xsb-maven-plugin</artifactId>
           <version>2.1.2</version>
           <executions>
             <execution>
@@ -400,7 +401,7 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>codegen</artifactId>
+                    <artifactId>codegen-maven-plugin</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>istenum</goal>
@@ -413,20 +414,7 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>xjb</artifactId>
-                    <versionRange>[0.0,)</versionRange>
-                    <goals>
-                      <goal>generate</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore/>
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>version</artifactId>
+                    <artifactId>version-maven-plugin</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>update</goal>
@@ -439,7 +427,20 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>xdb</artifactId>
+                    <artifactId>xjb-maven-plugin</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>generate</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>xdb-maven-plugin</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>xdl</goal>
@@ -453,7 +454,20 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>xsb</artifactId>
+                    <artifactId>xml-maven-plugin</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>validate</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>xsb-maven-plugin</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>generate</goal>
