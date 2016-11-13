@@ -45,7 +45,7 @@ import org.safris.cf.xde.spec.select.SELECT;
 import org.safris.cf.xde.spec.update.UPDATE;
 import org.safris.commons.test.LoggableTest;
 
-import cfx.xde.survey;
+import cf.xde.survey;
 
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {

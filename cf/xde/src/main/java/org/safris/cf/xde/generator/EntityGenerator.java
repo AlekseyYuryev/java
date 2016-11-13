@@ -70,7 +70,7 @@ public class EntityGenerator {
     for (final $xdl_table table : database._table())
       tableNameToTable.put(table._name$().text(), table);
 
-    final String pkg = "cfx.xde";
+    final String pkg = "cf.xde";
 
     final File dir = new File(outDir, pkg.replace('.', '/'));
     if (!dir.exists())
