@@ -32,7 +32,7 @@
   <target name="generate-sources" depends="validate" description="generate any source code for inclusion in compilation">
     <taskdef name="binding" classname="org.safris.ant.task.xsb.GeneratorTask">
       <classpath>
-        <fileset dir="${env.HOME}/.m2/repository/org/safris/xsb/runtime/">
+        <fileset dir="${env.HOME}/.m2/repository/org/safris/cf/xsb/runtime/">
           <include name="**/*.jar"/>
         </fileset>
       </classpath>

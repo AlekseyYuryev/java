@@ -38,19 +38,19 @@
         </property>
       </activation>
       <modules>
-        <module>logging</module>
-        <module>pipeline</module>
-        <module>formatter</module>
-        <module>jndi</module>
         <module>cli</module>
-        <module>sql</module>
         <module>dbcp</module>
         <module>expect</module>
         <module>exec</module>
+        <module>formatter</module>
         <module>jci</module>
+        <module>jndi</module>
+        <module>logging</module>
         <module>measure</module>
+        <module>pipeline</module>
         <module>search</module>
         <module>servlet</module>
+        <module>sql</module>
       </modules>
     </profile>
     <profile>

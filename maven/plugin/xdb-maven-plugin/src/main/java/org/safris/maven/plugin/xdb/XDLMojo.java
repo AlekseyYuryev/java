@@ -26,9 +26,9 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.safris.cf.xdl.DBVendor;
+import org.safris.cf.xdl.DDLTransform;
 import org.safris.commons.xml.XMLException;
-import org.safris.xdb.xdl.DBVendor;
-import org.safris.xdb.xdl.DDLTransform;
 
 @Mojo(name = "xdl", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "xdl")

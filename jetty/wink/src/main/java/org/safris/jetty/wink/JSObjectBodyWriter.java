@@ -27,7 +27,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.safris.xws.xjb.JSObject;
+import org.safris.cf.xjb.JSObject;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
