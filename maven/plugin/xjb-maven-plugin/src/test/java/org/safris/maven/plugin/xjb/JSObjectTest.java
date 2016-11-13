@@ -23,13 +23,13 @@ import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.cf.xjb.DecodeException;
+import org.safris.cf.xjb.EncodeException;
+import org.safris.cf.xjb.JSArray;
+import org.safris.cf.xjb.JSObject;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
-import org.safris.xws.xjb.DecodeException;
-import org.safris.xws.xjb.EncodeException;
-import org.safris.xws.xjb.JSArray;
-import org.safris.xws.xjb.JSObject;
 
 import json.api;
 

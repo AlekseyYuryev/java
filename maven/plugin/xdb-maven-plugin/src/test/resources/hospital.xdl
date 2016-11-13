@@ -16,7 +16,10 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 
-<database name="hospital" xmlns="http://xdb.safris.org/xdl.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xdb.safris.org/xdl.xsd http://xdb.safris.org/xdl.xsd">
+<database name="hospital"
+  xmlns="http://cf.safris.org/xdl.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://cf.safris.org/xdl.xsd http://cf.safris.org/xdl.xsd">
   <table name="id" abstract="true">
     <column name="id" xsi:type="char" length="36" null="false" generateOnInsert="UUID"/>
     <constraints>

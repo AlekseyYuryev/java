@@ -15,7 +15,10 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-<database name="library" xmlns="http://xdb.safris.org/xdl.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xdb.safris.org/xdl.xsd http://xdb.safris.org/xdl.xsd">
+<database name="library"
+  xmlns="http://cf.safris.org/xdl.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://cf.safris.org/xdl.xsd http://cf.safris.org/xdl.xsd">
   <table name="timestamp" abstract="true">
     <column name="modified_on" xsi:type="dateTime" null="false" generateOnUpdate="TIMESTAMP"/>
     <column name="created_on" xsi:type="dateTime" null="false" generateOnInsert="TIMESTAMP"/>

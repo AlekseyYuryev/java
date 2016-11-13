@@ -26,11 +26,11 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.safris.cf.xjb.Generator;
 import org.safris.commons.util.Translator;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
 import org.safris.maven.project.MavenPropertyTranslator;
-import org.safris.xws.xjb.Generator;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
