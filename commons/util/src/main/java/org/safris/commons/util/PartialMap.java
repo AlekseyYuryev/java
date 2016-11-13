@@ -20,9 +20,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public abstract class PartialMap<K,V> implements Map<K,V>, Cloneable, Serializable {
   private static final long serialVersionUID = -2754766054459728078L;
@@ -42,14 +39,15 @@ public abstract class PartialMap<K,V> implements Map<K,V>, Cloneable, Serializab
   @Override
   public abstract V put(final K key, final V value);
 
-  @Override
-  public final V putIfAbsent(final K key, final V value) {
-    final V previous = get(key);
-    if (previous == null)
-      put(key, value);
-
-    return previous;
-  }
+//TODO: Java 8
+//  @Override
+//  public final V putIfAbsent(final K key, final V value) {
+//    final V previous = get(key);
+//    if (previous == null)
+//      put(key, value);
+//
+//    return previous;
+//  }
 
   @Override
   public final void putAll(final Map<? extends K,? extends V> m) {
@@ -60,25 +58,27 @@ public abstract class PartialMap<K,V> implements Map<K,V>, Cloneable, Serializab
   @Override
   public abstract V remove(final Object key);
 
-  @Override
-  public final boolean replace(final K key, final V oldValue, final V newValue) {
-    final V previous = get(key);
-    if (previous == null || oldValue == null || !oldValue.equals(previous))
-      return false;
+// TODO: Java 8
+//  @Override
+//  public final boolean replace(final K key, final V oldValue, final V newValue) {
+//    final V previous = get(key);
+//    if (previous == null || oldValue == null || !oldValue.equals(previous))
+//      return false;
+//
+//    put(key, newValue);
+//    return true;
+//  }
 
-    put(key, newValue);
-    return true;
-  }
-
-  @Override
-  public final V replace(final K key, final V value) {
-    final V previous = get(key);
-    if (previous == null)
-      return null;
-
-    put(key, value);
-    return previous;
-  }
+//TODO: Java 8
+//  @Override
+//  public final V replace(final K key, final V value) {
+//    final V previous = get(key);
+//    if (previous == null)
+//      return null;
+//
+//    put(key, value);
+//    return previous;
+//  }
 
   @Override
   public final void clear() {
@@ -86,35 +86,41 @@ public abstract class PartialMap<K,V> implements Map<K,V>, Cloneable, Serializab
       remove(key);
   }
 
-  @Override
-  public final V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final V compute(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
+//    throw new UnsupportedOperationException();
+//  }
 
-  @Override
-  public final V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final V computeIfAbsent(final K key, final Function<? super K,? extends V> mappingFunction) {
+//    throw new UnsupportedOperationException();
+//  }
 
-  @Override
-  public final V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final V computeIfPresent(final K key, final BiFunction<? super K,? super V,? extends V> remappingFunction) {
+//    throw new UnsupportedOperationException();
+//  }
 
-  @Override
-  public final void forEach(final BiConsumer<? super K,? super V> action) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final void forEach(final BiConsumer<? super K,? super V> action) {
+//    throw new UnsupportedOperationException();
+//  }
 
-  @Override
-  public final V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final V merge(final K key, final V value, final BiFunction<? super V,? super V,? extends V> remappingFunction) {
+//    throw new UnsupportedOperationException();
+//  }
 
-  @Override
-  public final void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
-    throw new UnsupportedOperationException();
-  }
+//TODO: Java 8
+//  @Override
+//  public final void replaceAll(final BiFunction<? super K,? super V,? extends V> function) {
+//    throw new UnsupportedOperationException();
+//  }
 
   @Override
   public final int size() {

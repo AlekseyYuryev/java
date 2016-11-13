@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import org.safris.commons.util.Collections;
 import org.safris.xws.xrs.util.MediaTypes;
 
 public class EntityProviders {
@@ -88,8 +89,8 @@ public class EntityProviders {
     for (final MessageBodyWriter<?> writerProvider : writerProviders)
       this.writerProviders.add(new WriterProvider(writerProvider));
 
-    this.readerProviders.sort(comparator);
-    this.writerProviders.sort(comparator);
+    Collections.sort(this.readerProviders, comparator);
+    Collections.sort(this.writerProviders, comparator);
   }
 
   public MessageBodyWriter<?> getWriter(final MediaType mediaType, final Class<?> type) {

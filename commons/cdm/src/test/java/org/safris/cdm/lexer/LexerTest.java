@@ -28,7 +28,7 @@ import org.safris.commons.test.LoggableTest;
 public class LexerTest extends LoggableTest {
   @Test
   public void testTokenize() throws IOException {
-    final File file = new File("../../xml/generator/compiler/src/main/java/org/safris/xml/generator/compiler/runtime/Binding.java");
+    final File file = new File("../../xsb/runtime/src/main/java/org/safris/xsb/runtime/Binding.java");
     final Audit audit = Lexer.tokenize(file);
 
     final String expected = new String(Files.getBytes(file));

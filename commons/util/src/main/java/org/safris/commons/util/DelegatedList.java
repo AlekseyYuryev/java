@@ -107,7 +107,7 @@ public class DelegatedList<E> extends PartialList<E> {
 
   @Override
   public DelegatedList<E> clone() {
-    final DelegatedList<E> clone = new DelegatedList<E>(Collections.clone(this), delegate);
+    final DelegatedList<E> clone = new DelegatedList<E>(this.list.getClass(), delegate);
     clone.addAll(this);
     return clone;
   }

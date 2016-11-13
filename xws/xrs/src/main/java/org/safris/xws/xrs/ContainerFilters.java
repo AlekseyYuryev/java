@@ -12,6 +12,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.container.PreMatching;
 
+import org.safris.commons.util.Collections;
 import org.safris.xws.xrs.core.ContextInjector;
 
 public class ContainerFilters {
@@ -36,10 +37,10 @@ public class ContainerFilters {
     for (final Class<? extends ContainerResponseFilter> responseFilter : responseFilters)
       (responseFilter.isAnnotationPresent(PreMatching.class) ? preMatchResponseFilters : postMatchResponseFilters).add(responseFilter);
 
-    preMatchRequestFilters.sort(priorityComparator);
-    postMatchRequestFilters.sort(priorityComparator);
-    preMatchResponseFilters.sort(priorityComparator);
-    postMatchResponseFilters.sort(priorityComparator);
+    Collections.sort(preMatchRequestFilters, priorityComparator);
+    Collections.sort(postMatchRequestFilters, priorityComparator);
+    Collections.sort(preMatchResponseFilters, priorityComparator);
+    Collections.sort(postMatchResponseFilters, priorityComparator);
   }
 
   public void filterPreMatchRequest(final ContainerRequestContext requestContext, final ContextInjector injectionContext) throws IOException {
