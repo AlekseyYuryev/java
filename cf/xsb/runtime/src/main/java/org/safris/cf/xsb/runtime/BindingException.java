@@ -1,37 +1,41 @@
-/* Copyright (c) 2014 Seva Safris
- *
+/* Copyright (c) 2006 Seva Safris
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.cf.xsb.runtime;
 
-import java.io.File;
+import org.safris.commons.xml.XMLException;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.cf.xde.generator.EntityGenerator;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
+public class BindingException extends XMLException {
+  private static final long serialVersionUID = 1328917257490102694L;
 
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
+  public static final String ILLEGAL_NULL_ARGUMENT = "value cannot be null";
+
+  public BindingException() {
+    super();
   }
 
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public BindingException(final String message) {
+    super(message);
+  }
+
+  public BindingException(final Throwable cause) {
+    super(cause);
+  }
+
+  public BindingException(final String message, final Throwable cause) {
+    super(message, cause);
   }
 }

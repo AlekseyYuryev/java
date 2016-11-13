@@ -16,19 +16,19 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.xde.DML.AND;
-import static org.safris.xdb.xde.DML.CASE_WHEN;
-import static org.safris.xdb.xde.DML.EQ;
-import static org.safris.xdb.xde.DML.GT;
-import static org.safris.xdb.xde.DML.INSERT;
-import static org.safris.xdb.xde.DML.LEFT;
-import static org.safris.xdb.xde.DML.LT;
-import static org.safris.xdb.xde.DML.LTE;
-import static org.safris.xdb.xde.DML.MAX;
-import static org.safris.xdb.xde.DML.MIN;
-import static org.safris.xdb.xde.DML.PLUS;
-import static org.safris.xdb.xde.DML.SELECT;
-import static org.safris.xdb.xde.DML.UPDATE;
+import static org.safris.cf.xde.DML.AND;
+import static org.safris.cf.xde.DML.CASE_WHEN;
+import static org.safris.cf.xde.DML.EQ;
+import static org.safris.cf.xde.DML.GT;
+import static org.safris.cf.xde.DML.INSERT;
+import static org.safris.cf.xde.DML.LEFT;
+import static org.safris.cf.xde.DML.LT;
+import static org.safris.cf.xde.DML.LTE;
+import static org.safris.cf.xde.DML.MAX;
+import static org.safris.cf.xde.DML.MIN;
+import static org.safris.cf.xde.DML.PLUS;
+import static org.safris.cf.xde.DML.SELECT;
+import static org.safris.cf.xde.DML.UPDATE;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,16 +36,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.joda.time.LocalDateTime;
+import org.safris.cf.xde.Aggregate;
+import org.safris.cf.xde.Entity;
+import org.safris.cf.xde.EntityDataSource;
+import org.safris.cf.xde.EntityRegistry;
+import org.safris.cf.xde.RowIterator;
+import org.safris.cf.xde.spec.select.SELECT;
+import org.safris.cf.xde.spec.update.UPDATE;
 import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.xde.Aggregate;
-import org.safris.xdb.xde.Entity;
-import org.safris.xdb.xde.RowIterator;
-import org.safris.xdb.xde.EntityDataSource;
-import org.safris.xdb.xde.EntityRegistry;
-import org.safris.xdb.xde.spec.select.SELECT;
-import org.safris.xdb.xde.spec.update.UPDATE;
 
-import xdb.xde.survey;
+import cfx.xde.survey;
 
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {
