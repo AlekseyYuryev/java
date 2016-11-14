@@ -12,7 +12,7 @@
 
 * [XSB (Xml Schema Binding)](https://github.com/SevaSafris/java/blob/master/cf/xsb) - Complete solution for binding of XML Schemas to the Java language.
 * [XDE (eXtended Data Entities)](https://github.com/SevaSafris/java/blob/master/cf/xde) - Lightweight ORM solution with strongly typed DML semantics.
-* [XDL (eXtended Data Language)](https://github.com/SevaSafris/java/blob/master/cf/xdl) - Validating XML-based Vendor-agnostic descriptor language for RDBMS SQL Schemas.
+* [XDL (eXtended Data Language)](https://github.com/SevaSafris/java/blob/master/cf/xdl) - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
 * [XJB (eXtended JSON Binding)](https://github.com/SevaSafris/java/blob/master/cf/xjb) - Validating XML-based descriptor schema for JSON classes.
 * [XRS (jaX REST Server)](https://github.com/SevaSafris/java/blob/master/cf/xrs) - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
 
