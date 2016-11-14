@@ -120,7 +120,7 @@ XDE is cohesive, offering the power of Java's compiler to realize errors in edit
   }
   ```
 
-6. To run the code, you must now connect XDE to your database. For this, you must create a `dbcp.xml` file in `src/main/resources` that conforms to [this XSD](http://commons.safris.org/dbcp.xsd), which defines the Database Connection Pool settings for your connection.
+6. To run the code, you must now connect XDE to your database. XDE relies on the [`org.safris.commons`:`dbcp`](https://github.com/SevaSafris/dbcp/) module to aide in configuration of Database Connection Pools. Create a `dbcp.xml` file in `src/main/resources` that conforms to [this XSD](http://commons.safris.org/dbcp.xsd), which defines the Database Connection Pool settings for your connection.
 
   ```xml
   <dbcp name="basis"
@@ -168,7 +168,7 @@ XDE is cohesive, offering the power of Java's compiler to realize errors in edit
   </dbcp>
   ```
 
-7. Add `org.safris.commons`:`dbcp` dependency to the POM.
+7. Add [`org.safris.commons`:`dbcp`](https://github.com/SevaSafris/dbcp/) dependency to the POM.
 
   ```xml
   <dependency>
