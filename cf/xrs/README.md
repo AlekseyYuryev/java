@@ -91,7 +91,7 @@ XRS is a pure implementation of the JAX-RS 2.0 specification. More often than no
   }
   ```
 
-6. Deploy the servlet to a Servlet Container. For an easy embedded servlet container solution, [see here](https://github.com/SevaSafris/java/master/commons/jetty/) for a solution based on [Jetty](http://www.eclipse.org/jetty/).
+6. Deploy the servlet to a Servlet Container. For an easy embedded servlet container solution, [see here](https://github.com/SevaSafris/java/tree/master/commons/jetty/) for a solution based on [Jetty](http://www.eclipse.org/jetty/).
 
 ## License
 
