@@ -1,6 +1,6 @@
 <img src="http://safris.org/logo.png" align="right" />
 # XDL [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> eXtended Description Langauge
+> eXtended Data Langauge
 
 ## Introduction
 
