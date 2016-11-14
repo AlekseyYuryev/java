@@ -12,7 +12,7 @@ XDL can also be used with [XDE](https://github.com/SevaSafris/xde/), an advanced
 
 ### CohesionFirst™
 
-Developed with the CohesionFirst™ approach, XDL is the cohesive alternative to creation of RDBMS data models that offers validation and fail-fast execution. Made possible by the rigorous conformance to design patterns and best practices in every line of its implementation, XDL is a complete solution for the creation and management of a SQL Schema. The XDL solution differentiates itself from alternative approaches with the strength of its cohesion to the XML Schema language and the DDL model.
+Developed with the CohesionFirst™ approach, XDL is the cohesive alternative to the creation of RDBMS data models that offers validation and fail-fast execution. Made possible by the rigorous conformance to design patterns and best practices in every line of its implementation, XDL is a complete solution for the creation and management of a SQL Schema. The XDL solution differentiates itself from alternative approaches with the strength of its cohesion to the XML Schema language and the DDL model.
 
 ### Vendor-Agnostic
 
