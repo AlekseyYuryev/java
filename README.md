@@ -22,3 +22,12 @@
 * [DBCP](https://github.com/SevaSafris/java/blob/master/commons/dbcp) - Validating XML-based descriptor and API for initialization of JDBC Database Connection Pools.
 * [Jetty](https://github.com/SevaSafris/java/blob/master/commons/jetty) - Embedded server wrapper and initializer of the [Jetty Servlet Container](http://www.eclipse.org/jetty/).
 
+### [Maven Plugins](https://github.com/SevaSafris/java/blob/master/maven/plugin)
+
+* [cert-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/cert-maven-plugin) - Maven plugin that imports HTTPS server certificates into the keystore's trust chain.
+* [codegen-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/codegen-maven-plugin) - Maven plugin to execute code-generating libraries, such as [`istenum`](https://github.com/SevaSafris/java/blob/master/commons/search/src/main/java/org/safris/commons/search/ISTEnumGenerator.java).
+* [version-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/version-maven-plugin) - Maven plugin for management of artifact versions of single and multi-module Maven projects in GIT SCM.
+* [xdb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin) - Maven plugin to execute [XDL](https://github.com/SevaSafris/java/tree/master/cf/xdl) and [XDE](https://github.com/SevaSafris/java/tree/master/cf/xde) code generators.
+* [xjb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xjb-maven-plugin) - Maven plugin to execute [XJB](https://github.com/SevaSafris/java/tree/master/cf/xjb) code generator.
+* [xml-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xml-maven-plugin) - Maven plugin to execute XML tasks, such as `validate`.
+* [xsb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xsb-maven-plugin) - Maven plugin to execute [XSB](https://github.com/SevaSafris/java/tree/master/cf/xsb) code generator.
