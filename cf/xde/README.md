@@ -1,6 +1,6 @@
 <img src="http://safris.org/logo.png" align="right" />
 # XDE [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> eXtended Database Entities
+> eXtended Data Entities
 
 ## Introduction
 
