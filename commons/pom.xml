@@ -44,6 +44,7 @@
         <module>exec</module>
         <module>formatter</module>
         <module>jci</module>
+        <module>jetty</module>
         <module>jndi</module>
         <module>logging</module>
         <module>measure</module>

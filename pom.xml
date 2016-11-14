@@ -135,7 +135,6 @@
         <module>ant</module>
         <module>cf</module>
         <module>commons</module>
-        <module>jetty</module>
         <module>maven</module>
       </modules>
       <build>
@@ -615,21 +614,6 @@
         <groupId>org.eclipse.jetty.osgi</groupId>
         <artifactId>jetty-osgi-boot</artifactId>
         <version>9.2.10.v20150310</version> <!-- FIXME: RELEASE is missing HashLoginService.putUser() -->
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-jetty-http</artifactId>
-        <version>RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-servlet-core</artifactId>
-        <version>RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-server</artifactId>
-        <version>RELEASE</version>
       </dependency>
       <dependency>
         <groupId>tyrex</groupId>
