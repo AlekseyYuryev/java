@@ -8,7 +8,7 @@ The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB fr
 
 ## Goals Overview
 
-* [`xjb:generate`](https://github.com/SevaSafris/java/new/master/maven/plugin/xjb-maven-plugin#xjbgenerate) generates XJB bindings.
+* [`xjb:generate`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xjb-maven-plugin#xjbgenerate) generates XJB bindings.
 
 ## Usage
 
