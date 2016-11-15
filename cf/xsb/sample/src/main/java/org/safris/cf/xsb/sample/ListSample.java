@@ -46,7 +46,7 @@ public class ListSample {
   }
 
   public Binding runSample() throws Exception {
-    final File file = new File("src/main/resources/xml/list.xml");
+    final File file = new File("src/main/resources/list.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 

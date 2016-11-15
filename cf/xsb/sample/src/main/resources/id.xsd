@@ -14,7 +14,6 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <xs:schema elementFormDefault="qualified"
   targetNamespace="http://cf.safris.org/xsb/sample/id.xsd"
   xmlns:id="http://cf.safris.org/xsb/sample/id.xsd"

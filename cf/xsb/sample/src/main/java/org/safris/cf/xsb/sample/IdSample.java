@@ -33,7 +33,7 @@ public class IdSample {
   }
 
   public Binding runSample() throws Exception {
-    final File file = new File("src/main/resources/xml/id.xml");
+    final File file = new File("src/main/resources/id.xml");
     if (!file.exists())
       throw new Error("File " + file.getAbsolutePath() + " does not exist.");
 

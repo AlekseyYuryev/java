@@ -14,12 +14,11 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <xs:schema elementFormDefault="qualified"
-  targetNamespace="http://cf.safris.org/xsb/tutorial/invoice.xsd"
   xmlns:pv="http://cf.safris.org/xsb/tutorial/invoice.xsd"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://cf.safris.org/xsb/tutorial/invoice.xsd">
+  
   <xs:element name="invoice">
     <xs:complexType>
       <xs:sequence>

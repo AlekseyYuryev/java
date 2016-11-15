@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (c) 2006 Seva Safris
+  Copyright (c) 2008 Seva Safris
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -15,13 +14,8 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
-<fruitBasket
-  xmlns="http://cf.safris.org/xsb/sample/simple.xsd"
+<parent xmlns="http://maven.safris.org/plugin/xml/test.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://cf.safris.org/xsb/sample/simple.xsd ../xsd/simple.xsd">
-  <fruits>
-    <fruit name="strawberry" sweet="true"/>
-    <fruit name="jackfruit" sweet="false" dry="false"/>
-  </fruits>
-</fruitBasket>
+  xsi:schemaLocation="http://maven.safris.org/plugin/xml/test.xsd test.xsd">
+  <child>a</child>
+</parent>

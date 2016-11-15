@@ -15,10 +15,10 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 <xs:schema
-   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   xmlns:nw="http://openuri.org/nameworld"
-   targetNamespace="http://openuri.org/nameworld"
-   elementFormDefault="qualified">
+  elementFormDefault="qualified"
+  xmlns:nw="http://openuri.org/nameworld"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://openuri.org/nameworld">
 
   <xs:element name="nameworld">
     <xs:complexType>

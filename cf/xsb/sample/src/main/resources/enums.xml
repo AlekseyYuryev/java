@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Copyright (c) 2006 Seva Safris
   
@@ -15,20 +14,14 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <enums:coloredFruitBasket
   xmlns:simple="http://cf.safris.org/xsb/sample/simple.xsd"
   xmlns:enums="http://cf.safris.org/xsb/sample/enums.xsd"
-  xmlns:xsitype="http://cf.safris.org/xsb/sample/xsitype.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://cf.safris.org/xsb/sample/simple.xsd ../xsd/simple.xsd http://cf.safris.org/xsb/sample/enums.xsd ../xsd/enums.xsd http://cf.safris.org/xsb/sample/xsitype.xsd ../xsd/xsitype.xsd"
-  enums:color="red">
+  xsi:schemaLocation="http://cf.safris.org/xsb/sample/simple.xsd simple.xsd http://cf.safris.org/xsb/sample/enums.xsd enums.xsd"
+  enums:color="blue">
   <simple:fruits>
-    <simple:fruit xsi:type="xsitype:fleshyFruitType" name="Berry" pericarp="soft"/>
-    <simple:fruit xsi:type="xsitype:fleshyFruitType" name="Drupe" pericarp="fleshy"/>
-    <simple:fruit xsi:type="xsitype:dehiscentDryFruitType" name="Legume"/>
-    <simple:fruit xsi:type="xsitype:dehiscentDryFruitType" name="Follicle"/>
-    <simple:fruit xsi:type="xsitype:indehiscentDryFruitType" name="Grain"/>
-    <simple:fruit xsi:type="xsitype:indehiscentDryFruitType" name="Nut"/>
+    <simple:fruit name="strawberry" sweet="true"/>
+    <simple:fruit name="jackfruit" sweet="false" dry="false"/>
   </simple:fruits>
 </enums:coloredFruitBasket>
