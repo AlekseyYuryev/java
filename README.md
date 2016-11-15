@@ -31,3 +31,7 @@
 * [xjb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xjb-maven-plugin) - Maven plugin to execute [XJB](https://github.com/SevaSafris/java/tree/master/cf/xjb) code generator.
 * [xml-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xml-maven-plugin) - Maven plugin to execute XML tasks, such as `validate`.
 * [xsb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xsb-maven-plugin) - Maven plugin to execute [XSB](https://github.com/SevaSafris/java/tree/master/cf/xsb) code generator.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
