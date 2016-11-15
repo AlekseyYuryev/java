@@ -14,7 +14,7 @@ The `xml-maven-plugin` plugin is used for general XML-related goals.
 
 ### `xml:validate`
 
-The `xml:validate` goal is bound to the `verify` phase, and is used to validate XML documents of types specified in the plugin's `configuration`.
+The `xml:validate` goal is bound to the `validate` phase, and is used to validate XML documents of types specified in the plugin's `configuration`.
 
 #### Example 1
 
