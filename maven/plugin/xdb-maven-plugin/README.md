@@ -145,3 +145,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | /`manifest`/`destdir`/`@explodeJars` | Boolean       | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
 | /`manifest`/`schemas`                | List          | Required | List of `schema` elements.                                                    |
 | /`manifest`/`schemas`/`schema`       | String        | Required | File path of XML Schema.                                                      |
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
