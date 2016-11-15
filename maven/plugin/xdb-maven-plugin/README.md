@@ -26,6 +26,9 @@ The `xdb:xdl` goal is bound to the `generate-resources` phase, and is used to ge
   <executions>
     <execution>
       <id>xdl</id>
+      <goals>
+        <goal>xdl</goal>
+      </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
@@ -49,9 +52,17 @@ Alternatively, an external `xdl.xml` can be specified:
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xdb-maven-plugin</artifactId>
   <version>2.1.2</version>
-  <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
-  </configuration>
+  <executions>
+    <execution>
+      <id>xdl</id>
+      <goals>
+        <goal>xdl</goal>
+      </goals>
+      <configuration>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ```
 
@@ -93,6 +104,9 @@ The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to gene
   <executions>
     <execution>
       <id>xde</id>
+      <goals>
+        <goal>xde</goal>
+      </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
@@ -116,9 +130,17 @@ Alternatively, an external `xdl.xml` can be specified:
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xdb-maven-plugin</artifactId>
   <version>2.1.2</version>
-  <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
-  </configuration>
+  <executioins>
+    <execution>
+      <id>xde</id>
+      <goals>
+        <goal>xde</goal>
+      </goals>
+      <configuration>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
+      </configuration>
+    </execution>
+  </executioins>
 </plugin>
 ```
 
