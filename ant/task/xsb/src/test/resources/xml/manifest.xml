@@ -17,7 +17,7 @@
 <manifest
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd ../../../../../../../maven/common/src/main/resources/manifest.xsd">
+  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir>${project.build.directory}/generated-sources/xmlbinding</destdir>
   <schemas>
     <schema>../xsd/ant.xsd</schema>

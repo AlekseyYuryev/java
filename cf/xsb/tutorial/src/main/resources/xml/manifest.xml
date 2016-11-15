@@ -17,7 +17,7 @@
 <manifest
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd ../../../../../../../maven/common/src/main/resources/manifest.xsd">
+  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-sources/xsb</destdir>
   <schemas>
     <schema>${basedir}/src/main/resources/xsd/invoice.xsd</schema>
