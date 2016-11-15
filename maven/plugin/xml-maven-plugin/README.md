@@ -61,13 +61,13 @@ Execution with `includes` and `excludes` directives.
 
 #### Configuration Parameters
 
-| Name                  | Type    | Use      | Description                         |
-|:----------------------|:--------|:---------|:------------------------------------|
-| /`skip    `           | Boolean | Optional | Skip executioin.                    |
-| /`includes`           | Set     | Optional | Set of `include` directives.        |
-| /`includes`/`include` | String  | Optional | Fileset pattern of files to include.|
-| /`excludes`           | Set     | Optional | Set of `exclude` directives.        |
-| /`excludes`/`exclude` | String  | Optional | Fileset pattern of files to exclude.|
+| Name                  | Type    | Use      | Description                                               |
+|:----------------------|:--------|:---------|:----------------------------------------------------------|
+| /`skip    `           | Boolean | Optional | Skip executioin. **Default:** `false`.                    |
+| /`includes`           | Set     | Optional | Set of `include` directives. **Default:** `null`.         |
+| /`includes`/`include` | String  | Optional | Fileset pattern of files to include. **Default:** `null`. |
+| /`excludes`           | Set     | Optional | Set of `exclude` directives. **Default:** `null`.         |
+| /`excludes`/`exclude` | String  | Optional | Fileset pattern of files to exclude. **Default:** `null`. |
 
 #### Execution Options
 
