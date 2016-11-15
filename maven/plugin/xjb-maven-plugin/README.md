@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `xjb-maven-plugin` plugin is used to generate XML bindings with the [XJB framework](https://github.com/SevaSafris/java/tree/master/cf/xjb).
+The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB framework](https://github.com/SevaSafris/java/tree/master/cf/xjb).
 
 ## Goals Overview
 
