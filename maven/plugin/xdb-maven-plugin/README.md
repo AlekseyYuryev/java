@@ -8,8 +8,8 @@ The `xdb-maven-plugin` plugin is used to execute database-related generators, wh
 
 ## Goals Overview
 
-* [`xdb:xdl`](https://github.com/SevaSafris/java/new/master/maven/plugin/xdb-maven-plugin#xdbxdl) generates DDL SQL.
-* [`xdb:xde`](https://github.com/SevaSafris/java/new/master/maven/plugin/xdb-maven-plugin#xdbxde) generates XDE Entities.
+* [`xdb:xdl`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxdl) generates DDL SQL.
+* [`xdb:xde`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxde) generates XDE Entities.
 
 ## Usage
 
