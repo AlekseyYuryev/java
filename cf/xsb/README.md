@@ -179,7 +179,7 @@ Tutorials are provided in the XSB source code:
 
 ```tcsh
 git clone git@github.com:SevaSafris/xsb.git
-cd xsb/tutorials
+cd xsb/tutorial
 mvn install
 ```
 
