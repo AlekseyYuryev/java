@@ -24,6 +24,22 @@ import java.util.List;
 import java.util.Map;
 
 public final class Collections {
+  public static String toString(final Collection<?> collection, final char delimiter) {
+    if (collection == null)
+      return null;
+
+    if (collection.size() == 0)
+      return "";
+
+    final StringBuilder string = new StringBuilder();
+    final Iterator<?> iterator = collection.iterator();
+    string.append(String.valueOf(iterator.next()));
+    while (iterator.hasNext())
+      string.append(delimiter).append(String.valueOf(iterator.next()));
+
+    return string.toString();
+  }
+
   public static String toString(final Collection<?> collection, String delimiter) {
     if (collection == null)
       return null;

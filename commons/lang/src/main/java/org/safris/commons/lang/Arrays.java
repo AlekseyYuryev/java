@@ -31,6 +31,23 @@ public final class Arrays {
     return array;
   }
 
+  public static String toString(final Object[] array, final char delimiter) {
+    if (array == null)
+      return null;
+
+    if (array.length == 0)
+      return "";
+
+    if (array.length == 1)
+      return String.valueOf(array[0]);
+
+    final StringBuilder buffer = new StringBuilder(String.valueOf(array[0]));
+    for (int i = 1; i < array.length; i++)
+      buffer.append(delimiter).append(String.valueOf(array[i]));
+
+    return buffer.toString();
+  }
+
   public static String toString(final Object[] array, String delimiter) {
     if (array == null)
       return null;
