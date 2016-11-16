@@ -1,0 +1,19 @@
+<cli
+  xmlns="http://commons.safris.org/cli.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://commons.safris.org/cli.xsd http://commons.safris.org/cli.xsd">
+  <option>
+    <name long="colors" short="C"/>
+    <argument label="COLOR" use="required" maxOccurs="unbounded" valueSeparator=","/>
+    <description>colors</description>
+  </option>
+  <option>
+    <name long="silent"/>
+    <description>silent mode</description>
+  </option>
+  <option>
+    <name short="V"/>
+    <description>verbose mode</description>
+  </option>
+  <arguments label="FILE" minOccurs="3" maxOccurs="unbounded"/>
+</cli>
