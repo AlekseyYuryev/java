@@ -91,15 +91,9 @@ public class XSBMojo extends AdvancedMojo {
           continue;
 
         plugin.flushExecutionMap();
-        Xpp3Dom configuration = (Xpp3Dom)plugin.getConfiguration();
-
-        if (configuration == null)
-          configuration = execution.getConfiguration();
-        else if (execution.getConfiguration() != null)
-          getLog().warn("Detected plugin- & execution-level configuration, which is not supported yet.");
-
+        final Xpp3Dom configuration = plugin.getConfiguration() == null ? execution.getConfiguration() : execution.getConfiguration() == null ? (Xpp3Dom)plugin.getConfiguration() : Xpp3Dom.mergeXpp3Dom((Xpp3Dom)plugin.getConfiguration(), execution.getConfiguration());
         if (configuration == null) {
-          getLog().info("No configuration specified.");
+          getLog().warn("Configuration missing.");
           continue;
         }
 
