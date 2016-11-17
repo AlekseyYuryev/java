@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
-import org.safris.cf.xde.spec.update;
 import org.safris.cf.xde.spec.expression.CASE;
+import org.safris.cf.xde.spec.update;
 import org.safris.cf.xdl.DBVendor;
 
 class Update {
@@ -165,53 +165,12 @@ class Update {
               dataType.value = dataType.generateOnUpdate.generate(dataType);
 
             serialization.addParameter(dataType);
-            whereClause.append(" AND ").append(dataType).append(" = ").append(dataType.getPreparedStatementMark(serialization.vendor));
+            whereClause.append(" AND ").append(dataType.name).append(" = ").append(dataType.getPreparedStatementMark(serialization.vendor));
           }
         }
 
         serialization.sql.append(" WHERE ").append(whereClause.substring(5));
       }
-    }
-
-    @Override
-    public int execute() throws SQLException {
-      if (false) {
-        final UPDATE update = (UPDATE)getParentRoot(this);
-        final Class<? extends Schema> schema = update.entity.schema();
-        DBVendor vendor = null;
-        try {
-          try (final Connection connection = Schema.getConnection(schema)) {
-            vendor = Schema.getDBVendor(connection);
-            final Serialization serialization = new Serialization(Update.class, vendor, EntityRegistry.getStatementType(schema));
-            serialize(this, serialization);
-            logger.info(serialization.sql.toString());
-            if (true)
-              return 0;
-
-            try (final PreparedStatement statement = connection.prepareStatement(serialization.sql.toString())) {
-              // set the updated columns first
-              int index = 0;
-              for (final DataType<?> dataType : update.entity.column())
-                if (!dataType.primary)
-                  dataType.get(statement, ++index);
-
-              // then the conditional columns
-              for (final DataType<?> dataType : update.entity.column())
-                if (dataType.primary)
-                  dataType.get(statement, ++index);
-
-              logger.info(statement.toString());
-              return statement.executeUpdate();
-            }
-          }
-        }
-        catch (final SQLException e) {
-          throw SQLErrorSpecException.lookup(e, vendor);
-        }
-      }
-
-      Subject.clearAliases();
-      return super.execute();
     }
   }
 

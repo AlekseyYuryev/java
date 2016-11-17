@@ -16,7 +16,11 @@
 
 package org.safris.commons.lang;
 
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Map;
+
+import javax.swing.text.BadLocationException;
 
 public final class Strings {
   private static final char[] alpha = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
@@ -48,6 +52,45 @@ public final class Strings {
 
   public static String getRandomAlphaString(final int length) {
     return getRandomString(length, false);
+  }
+
+  public static String interpolate(final Map<String,String> properties, final String open, final String close, String line) throws BadLocationException, ParseException {
+    String interpolated = null;
+    final int max = properties.size() * properties.size();
+    int i = 0;
+    while (true) {
+      interpolated = interpolate(properties, open, close, line, 0);
+      if (line.equals(interpolated))
+        return line;
+
+      if (++i == max)
+        break;
+
+      line = interpolated;
+    }
+
+    if (i == max && !line.equals(interpolated))
+      throw new IllegalArgumentException("Loop detected.");
+
+    return interpolated;
+  }
+
+  public static String interpolate(final Map<String,String> properties, final String open, final String close, final String line, final int index) throws BadLocationException, ParseException {
+    int start = line.indexOf(open, index);
+    if (start < 0)
+      return line;
+
+    int end = line.indexOf(close, start + 2);
+    if (end < 0)
+      throw new ParseException(line, start);
+
+    final String key = line.substring(start + 2, end);
+    final String value = properties.get(key);
+    if (value == null)
+      throw new BadLocationException(key, start);
+
+    final String l = interpolate(properties, open, close, line, end + 2);
+    return l.substring(0, start) + value + l.substring(end + 2);
   }
 
   private static String changeCase(final String string, final boolean upper, final int beginIndex, final int endIndex) {

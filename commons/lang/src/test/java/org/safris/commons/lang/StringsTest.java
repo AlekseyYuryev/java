@@ -16,6 +16,12 @@
 
 package org.safris.commons.lang;
 
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.text.BadLocationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
@@ -51,6 +57,33 @@ public class StringsTest extends LoggableTest {
     for (int length = 0; length < 100; length++) {
       final String randomAlpha = Strings.getRandomAlphaNumericString(length);
       Assert.assertEquals(randomAlpha.length(), length);
+    }
+  }
+
+  @Test
+  public void testInterpolate() throws BadLocationException, ParseException {
+    final Map<String,String> properties = new HashMap<String,String>();
+    properties.put("prop1", "prop1");
+    properties.put("prop2", "prop2");
+    properties.put("prop3", "prop3");
+    properties.put("prop4", "{{prop2}}");
+    properties.put("prop5", "{{prop4}} plus {{prop3}}");
+    properties.put("prop6", "{{prop5}} plus {{prop6}}");
+
+    final Map<String,String> tests = new HashMap<String,String>();
+    tests.put("Bla bla {{prop1}} with {{prop2}} and {{prop3}}", "Bla bla prop1 with prop2 and prop3");
+    tests.put("Bla bla {{prop2}} with {{prop3}} and {{prop4}}", "Bla bla prop2 with prop3 and prop2");
+    tests.put("Bla bla {{prop3}} with {{prop4}} and {{prop5}}", "Bla bla prop3 with prop2 and prop2 plus prop3");
+
+//    for (final Map.Entry<String,String> entry : tests.entrySet())
+//      Assert.assertEquals(entry.getValue(), Strings.interpolate(properties, entry.getKey()));
+
+    try {
+      System.out.println(Strings.interpolate(properties, "{{", "}}", "Bla bla {{prop4}} with {{prop5}} and {{prop6}}"));
+    }
+    catch (final IllegalArgumentException e) {
+      if (!"Loop detected.".equals(e.getMessage()))
+        throw e;
     }
   }
 
