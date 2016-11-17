@@ -6,12 +6,22 @@
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
         <id>xdl</id>
+        <default-phases>
+          <generate-resources>org.safris.maven.plugin:xdl-maven-plugin:generate</generate-resources>
+        </default-phases>
+      </configuration>
+    </component>
+    <component>
+      <role>org.apache.maven.lifecycle.Lifecycle</role>
+      <role-hint>xdl</role-hint>
+      <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
+      <configuration>
+        <id>xdl</id>
         <phases>
           <phase>xdl</phase>
         </phases>
         <default-phases>
           <xdl>org.safris.maven.plugin:xdl-maven-plugin:generate</xdl>
-          <generate-resources>org.safris.maven.plugin:xdl-maven-plugin:generate</generate-resources>
         </default-phases>
       </configuration>
     </component>

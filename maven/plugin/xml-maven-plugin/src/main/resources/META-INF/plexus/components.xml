@@ -6,11 +6,7 @@
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
         <id>xml</id>
-        <!--phases>
-          <phase>xml</phase>
-        </phases-->
         <default-phases>
-          <!--xml>org.safris.maven.plugin:xml-maven-plugin:generate</xml-->
           <validate>org.safris.maven.plugin:xml-maven-plugin:validate</validate>
         </default-phases>
       </configuration>

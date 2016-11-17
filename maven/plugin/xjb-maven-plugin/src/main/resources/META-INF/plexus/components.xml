@@ -6,12 +6,22 @@
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
         <id>xjb</id>
+        <default-phases>
+          <generate-sources>org.safris.maven.plugin:xjb-maven-plugin:generate</generate-sources>
+        </default-phases>
+      </configuration>
+    </component>
+    <component>
+      <role>org.apache.maven.lifecycle.Lifecycle</role>
+      <role-hint>xjb</role-hint>
+      <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
+      <configuration>
+        <id>xjb</id>
         <phases>
           <phase>xjb</phase>
         </phases>
         <default-phases>
           <xjb>org.safris.maven.plugin:xjb-maven-plugin:generate</xjb>
-          <generate-sources>org.safris.maven.plugin:xjb-maven-plugin:generate</generate-sources>
         </default-phases>
       </configuration>
     </component>
