@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 Seva Safris
+/* Copyright (c) 2011 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,30 +14,38 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xjb;
+package org.safris.maven.plugin.xdb;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.cf.xjb.Generator;
-import org.safris.cf.xjb.GeneratorExecutionException;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.safris.cf.xdl.DBVendor;
+import org.safris.cf.xdl.DDLTransform;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
-public class XJBMojo extends ManifestMojo {
+public final class XDLMojo extends ManifestMojo {
+  @Parameter(property = "vendor", required = true)
+  private String vendor;
+
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+  private MojoExecution execution;
+
   @Override
   public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      Generator.generate(file.toURI().toURL(), outDir);
+      DDLTransform.createDDL(file.toURI().toURL(), DBVendor.parse(vendor), outDir);
     }
-    catch (final GeneratorExecutionException | IOException | XMLException e) {
+    catch (final IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

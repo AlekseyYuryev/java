@@ -144,13 +144,7 @@
               <groupId>org.safris.maven.plugin</groupId>
               <artifactId>version-maven-plugin</artifactId>
               <version>0.1.1</version>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>update</goal>
-                  </goals>
-                </execution>
-              </executions>
+              <extensions>true</extensions>
               <configuration>
                 <incrementPart>PATCH</incrementPart>
               </configuration>
@@ -159,22 +153,17 @@
               <groupId>org.safris.maven.plugin</groupId>
               <artifactId>xml-maven-plugin</artifactId>
               <version>2.0.3</version>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>validate</goal>
-                  </goals>
-                  <phase>validate</phase>
-                  <configuration>
-                    <includes>
-                      <include>**/*.xdl</include>
-                      <include>**/*.xjb</include>
-                      <include>**/*.xml</include>
-                      <include>**/*.xsd</include>
-                    </includes>
-                  </configuration>
-                </execution>
-              </executions>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <configuration>
+                <includes>
+                  <include>**/*.xdl</include>
+                  <include>**/*.xjb</include>
+                  <include>**/*.xml</include>
+                  <include>**/*.xsd</include>
+                </includes>
+              </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
@@ -296,7 +285,6 @@
           <version>1.0.1</version>
           <executions>
             <execution>
-              <phase>generate-sources</phase>
               <goals>
                 <goal>istenum</goal>
               </goals>
@@ -309,7 +297,6 @@
           <version>1.1.3</version>
           <executions>
             <execution>
-              <phase>generate-sources</phase>
               <goals>
                 <goal>generate</goal>
               </goals>
@@ -318,8 +305,27 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>xdb-maven-plugin</artifactId>
-          <version>1.3.2</version>
+          <artifactId>xde-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.safris.maven.plugin</groupId>
+          <artifactId>xdl-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
@@ -448,11 +454,23 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.safris.maven.plugin</groupId>
-                    <artifactId>xdb-maven-plugin</artifactId>
+                    <artifactId>xde-maven-plugin</artifactId>
                     <versionRange>[0.0,)</versionRange>
                     <goals>
-                      <goal>xdl</goal>
-                      <goal>xde</goal>
+                      <goal>generate</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore/>
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.safris.maven.plugin</groupId>
+                    <artifactId>xdl-maven-plugin</artifactId>
+                    <versionRange>[0.0,)</versionRange>
+                    <goals>
+                      <goal>generate</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>

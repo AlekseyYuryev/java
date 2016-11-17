@@ -1,0 +1,19 @@
+<component-set xmlns="http://plexus.codehaus.org/xsd/components">
+  <components>
+    <component>
+      <role>org.apache.maven.lifecycle.Lifecycle</role>
+      <role-hint>xsb</role-hint>
+      <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
+      <configuration>
+        <id>xsb</id>
+        <phases>
+          <phase>xsb</phase>
+        </phases>
+        <default-phases>
+          <xsb>org.safris.maven.plugin:xsb-maven-plugin:generate</xsb>
+          <generate-sources>org.safris.maven.plugin:xsb-maven-plugin:generate</generate-sources>
+        </default-phases>
+      </configuration>
+    </component>
+  </components>
+</component-set>

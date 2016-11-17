@@ -39,6 +39,7 @@
       </activation>
       <modules>
         <module>archetype</module>
+        <module>mojo</module>
         <module>plugin</module>
         <module>project</module>
       </modules>

@@ -1,0 +1,19 @@
+<component-set xmlns="http://plexus.codehaus.org/xsd/components">
+  <components>
+    <component>
+      <role>org.apache.maven.lifecycle.Lifecycle</role>
+      <role-hint>xde</role-hint>
+      <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
+      <configuration>
+        <id>xde</id>
+        <phases>
+          <phase>xde</phase>
+        </phases>
+        <default-phases>
+          <xde>org.safris.maven.plugin:xde-maven-plugin:generate</xde>
+          <generate-sources>org.safris.maven.plugin:xde-maven-plugin:generate</generate-sources>
+        </default-phases>
+      </configuration>
+    </component>
+  </components>
+</component-set>

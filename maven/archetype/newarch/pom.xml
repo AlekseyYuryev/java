@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.safris.maven</groupId>
+    <artifactId>archetype</artifactId>
+    <version>1.0.1</version>
+  </parent>
+  <groupId>com.mycompany</groupId>
+  <artifactId>newarch</artifactId>
+  <version>0.1.0</version>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>mvn.repo.safris.org</id>
+      <url>http://mvn.repo.safris.org/m2</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.safris.maven.plugin</groupId>
+        <artifactId>xdb-maven-plugin</artifactId>
+        <version>1.3.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>xdl</goal>
+            </goals>
+            <id>xdl</id>
+            <configuration>
+              <vendor>PostgreSQL</vendor>
+              <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+                <destdir>${project.build.directory}/generated-resources/xdl</destdir>
+                <schemas>
+                  <schema>${basedir}/src/main/resources/basis.xdl</schema>
+                </schemas>
+              </manifest>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
