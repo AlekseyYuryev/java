@@ -75,16 +75,30 @@ public class StringsTest extends LoggableTest {
     tests.put("Bla bla {{prop2}} with {{prop3}} and {{prop4}}", "Bla bla prop2 with prop3 and prop2");
     tests.put("Bla bla {{prop3}} with {{prop4}} and {{prop5}}", "Bla bla prop3 with prop2 and prop2 plus prop3");
 
-//    for (final Map.Entry<String,String> entry : tests.entrySet())
-//      Assert.assertEquals(entry.getValue(), Strings.interpolate(properties, entry.getKey()));
+    for (final Map.Entry<String,String> entry : tests.entrySet())
+      Assert.assertEquals(entry.getValue(), Strings.interpolate(entry.getKey(), properties, "{{", "}}"));
 
     try {
-      System.out.println(Strings.interpolate(properties, "{{", "}}", "Bla bla {{prop4}} with {{prop5}} and {{prop6}}"));
+      Strings.interpolate("Bla bla {{prop4}} with {{prop5}} and {{prop6}}", properties, "{{", "}}");
+      Assert.fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
       if (!"Loop detected.".equals(e.getMessage()))
         throw e;
     }
+
+    try {
+      Strings.interpolate(properties, "{{", "}}");
+      Assert.fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+      if (!"Loop detected.".equals(e.getMessage()))
+        throw e;
+    }
+
+    properties.remove("prop6");
+    Strings.interpolate(properties, "{{", "}}");
+    Assert.assertEquals("prop2 plus prop3", properties.get("prop5"));
   }
 
   @Test

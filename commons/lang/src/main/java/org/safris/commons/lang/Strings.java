@@ -19,6 +19,7 @@ package org.safris.commons.lang;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.swing.text.BadLocationException;
 
@@ -54,28 +55,7 @@ public final class Strings {
     return getRandomString(length, false);
   }
 
-  public static String interpolate(final Map<String,String> properties, final String open, final String close, String line) throws BadLocationException, ParseException {
-    String interpolated = null;
-    final int max = properties.size() * properties.size();
-    int i = 0;
-    while (true) {
-      interpolated = interpolate(properties, open, close, line, 0);
-      if (line.equals(interpolated))
-        return line;
-
-      if (++i == max)
-        break;
-
-      line = interpolated;
-    }
-
-    if (i == max && !line.equals(interpolated))
-      throw new IllegalArgumentException("Loop detected.");
-
-    return interpolated;
-  }
-
-  public static String interpolate(final Map<String,String> properties, final String open, final String close, final String line, final int index) throws BadLocationException, ParseException {
+  private static String interpolateLine(final String line, final Map<String,String> properties, final int index, final String open, final String close) throws BadLocationException, ParseException {
     int start = line.indexOf(open, index);
     if (start < 0)
       return line;
@@ -89,8 +69,43 @@ public final class Strings {
     if (value == null)
       throw new BadLocationException(key, start);
 
-    final String l = interpolate(properties, open, close, line, end + close.length());
-    return l.substring(0, start) + value + l.substring(end + close.length());
+    final String interpolated = interpolateLine(line, properties, end + close.length(), open, close);
+    return interpolated.substring(0, start) + value + interpolated.substring(end + close.length());
+  }
+
+  private static String interpolateLine(String line, final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
+    final int max = properties.size() * properties.size();
+    int i = 0;
+    while (true) {
+      final String interpolated = interpolateLine(line, properties, 0, open, close);
+      if (line.equals(interpolated))
+        return line;
+
+      if (++i == max) {
+        if (!line.equals(interpolated))
+          throw new IllegalArgumentException("Loop detected.");
+
+        return interpolated;
+      }
+
+      line = interpolated;
+    }
+  }
+
+  public static Map<String,String> interpolate(final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
+    for (final Map.Entry<String,String> entry : properties.entrySet())
+      entry.setValue(Strings.interpolateLine(entry.getValue(), properties, open, close));
+
+    return properties;
+  }
+
+  public static String interpolate(final String text, final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
+    final StringTokenizer tokenizer = new StringTokenizer(text, "\r\n");
+    final StringBuilder builder = new StringBuilder();
+    while (tokenizer.hasMoreTokens())
+      builder.append("\n").append(Strings.interpolateLine(tokenizer.nextToken(), properties, "{{", "}}"));
+
+    return builder.length() == 0 ? "" : builder.substring(1);
   }
 
   private static String changeCase(final String string, final boolean upper, final int beginIndex, final int endIndex) {

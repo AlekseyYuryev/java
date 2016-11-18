@@ -46,7 +46,7 @@ public final class MediaTypes {
     if (required == null || test == null)
       return true;
 
-    if (!required.isWildcardType() && !test.isWildcardType() && !required.getType().equals(test.getType()))
+    if (!required.isWildcardType() && !test.isWildcardType() && !matches(required.getType(), test.getType()))
       return false;
 
     if (!required.isWildcardSubtype() && !test.isWildcardSubtype() && !matches(required.getSubtype(), test.getSubtype()))
