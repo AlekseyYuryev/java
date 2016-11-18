@@ -80,17 +80,17 @@ public final class Strings {
     if (start < 0)
       return line;
 
-    int end = line.indexOf(close, start + 2);
+    int end = line.indexOf(close, start + open.length());
     if (end < 0)
       throw new ParseException(line, start);
 
-    final String key = line.substring(start + 2, end);
+    final String key = line.substring(start + open.length(), end);
     final String value = properties.get(key);
     if (value == null)
       throw new BadLocationException(key, start);
 
-    final String l = interpolate(properties, open, close, line, end + 2);
-    return l.substring(0, start) + value + l.substring(end + 2);
+    final String l = interpolate(properties, open, close, line, end + close.length());
+    return l.substring(0, start) + value + l.substring(end + close.length());
   }
 
   private static String changeCase(final String string, final boolean upper, final int beginIndex, final int endIndex) {

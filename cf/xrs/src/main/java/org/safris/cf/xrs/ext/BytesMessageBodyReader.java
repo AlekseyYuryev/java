@@ -31,7 +31,7 @@ import javax.ws.rs.ext.Provider;
 import org.safris.commons.io.Streams;
 
 @Provider
-@Consumes({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.TEXT_XML})
+@Consumes({MediaType.APPLICATION_OCTET_STREAM})
 public class BytesMessageBodyReader implements MessageBodyReader<byte[]> {
   @Override
   public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {

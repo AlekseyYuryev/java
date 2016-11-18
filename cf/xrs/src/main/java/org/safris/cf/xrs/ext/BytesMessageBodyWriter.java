@@ -29,11 +29,11 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-@Produces({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.TEXT_XML})
+@Produces({MediaType.APPLICATION_OCTET_STREAM})
 public class BytesMessageBodyWriter implements MessageBodyWriter<byte[]> {
   @Override
   public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
-    return type == String.class;
+    return type == byte[].class;
   }
 
   @Override

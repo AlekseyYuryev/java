@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.ws.rs.core.MediaType;
 
@@ -46,10 +47,10 @@ public final class MediaTypes {
       return true;
 
     if (!required.isWildcardType() && !test.isWildcardType() && !required.getType().equals(test.getType()))
-        return false;
+      return false;
 
-    if (!required.isWildcardSubtype() && !test.isWildcardSubtype() && !required.getSubtype().equals(test.getSubtype()))
-        return false;
+    if (!required.isWildcardSubtype() && !test.isWildcardSubtype() && !matches(required.getSubtype(), test.getSubtype()))
+      return false;
 
     for (final Map.Entry<String,String> entry : required.getParameters().entrySet()) {
       final String value = test.getParameters().get(entry.getKey());
@@ -58,6 +59,19 @@ public final class MediaTypes {
     }
 
     return true;
+  }
+
+  private static boolean matches(final String required, final String test) {
+    final StringTokenizer requiredTokenizer = new StringTokenizer(required, ",");
+    while (requiredTokenizer.hasMoreTokens()) {
+      final String token = requiredTokenizer.nextToken();
+      final StringTokenizer testTokenizer = new StringTokenizer(test, ",");
+      while (testTokenizer.hasMoreTokens())
+        if (token.equals(testTokenizer.nextToken()))
+          return true;
+    }
+
+    return false;
   }
 
   public static MediaType[] parse(final Collection<String> strings) {

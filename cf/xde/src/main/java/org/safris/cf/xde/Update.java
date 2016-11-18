@@ -19,6 +19,7 @@ package org.safris.cf.xde;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
@@ -30,6 +31,12 @@ class Update {
   private static final Logger logger = Logger.getLogger(Update.class.getName());
 
   private static abstract class Execute extends Keyword<DataType<?>> implements update.UPDATE {
+    /**
+     * Executes the SQL statement in this <code>XDE</code> object.
+     *
+     * @return the row modification count
+     * @exception SQLException if a database access error occurs
+     */
     @Override
     public int execute(final Transaction transaction) throws SQLException {
       final Keyword<?> update = getParentRoot(this);

@@ -141,31 +141,30 @@ public class DefaultRESTServlet extends StartupServlet {
     }
     catch (final Throwable t) {
       if (t.getCause() instanceof IOException) {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getCause().getMessage());
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         throw (IOException)t.getCause();
       }
       else if (t.getCause() instanceof ServletException) {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getCause().getMessage());
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         throw (ServletException)t.getCause();
       }
       else if (t instanceof ClientErrorException) {
         final ClientErrorException e = (ClientErrorException)t;
         response.sendError(e.getResponse().getStatus(), t.getMessage());
+        return;
       }
       else if (t instanceof WebApplicationException) {
         final WebApplicationException e = (WebApplicationException)t;
         response.sendError(e.getResponse().getStatus(), t.getMessage());
-        if (e.getResponse().getStatusInfo() == javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR)
-          throw t;
+        throw t;
       }
       else {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage());
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         throw t;
       }
     }
-    finally {
-      responseContext.commit();
-    }
+
+    responseContext.commit();
   }
 
   @Override
