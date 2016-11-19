@@ -16,6 +16,7 @@
 
 package org.safris.cf.xde;
 
+import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +42,8 @@ public abstract class Evaluation<T> extends Variable<T> {
     final BaseSingleFieldPeriod[] normalized = new BaseSingleFieldPeriod[values.size()];
     try {
       for (final Map.Entry<Class<? extends BaseSingleFieldPeriod>,Integer> entry : values.entrySet()) {
-        normalized[i++] = entry.getKey().getConstructor(Integer.class).newInstance(entry.getValue());
+        final Method method = entry.getKey().getMethod(entry.getKey().getSimpleName().toLowerCase(), Integer.class);
+        normalized[i++] = (BaseSingleFieldPeriod)method.invoke(null, entry.getValue());
       }
     }
     catch (final ReflectiveOperationException e) {
