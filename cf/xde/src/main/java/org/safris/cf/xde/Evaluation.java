@@ -42,8 +42,8 @@ public abstract class Evaluation<T> extends Variable<T> {
     final BaseSingleFieldPeriod[] normalized = new BaseSingleFieldPeriod[values.size()];
     try {
       for (final Map.Entry<Class<? extends BaseSingleFieldPeriod>,Integer> entry : values.entrySet()) {
-        final Method method = entry.getKey().getMethod(entry.getKey().getSimpleName().toLowerCase(), Integer.class);
-        normalized[i++] = (BaseSingleFieldPeriod)method.invoke(null, entry.getValue());
+        final Method method = entry.getKey().getMethod(entry.getKey().getSimpleName().toLowerCase(), int.class);
+        normalized[i++] = (BaseSingleFieldPeriod)method.invoke(null, entry.getValue().intValue());
       }
     }
     catch (final ReflectiveOperationException e) {
@@ -73,7 +73,7 @@ public abstract class Evaluation<T> extends Variable<T> {
       if (serialization.vendor == DBVendor.POSTGRE_SQL || serialization.vendor == DBVendor.MY_SQL) {
         serialization.sql.append(operator).append(" INTERVAL");
         for (final BaseSingleFieldPeriod interval : intervals)
-          serialization.sql.append(" ").append(interval.getClass().getSimpleName().toLowerCase()).append(" ").append(interval.getValue(0));
+          serialization.sql.append(" '").append(interval.getValue(0)).append(" ").append(interval.getClass().getSimpleName().toLowerCase()).append("'");
       }
       else {
         throw new UnsupportedOperationException();

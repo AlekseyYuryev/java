@@ -56,6 +56,9 @@ public final class Strings {
   }
 
   private static String interpolateLine(final String line, final Map<String,String> properties, final int index, final String open, final String close) throws BadLocationException, ParseException {
+    if (line == null)
+      return null;
+
     int start = line.indexOf(open, index);
     if (start < 0)
       return line;
@@ -70,7 +73,7 @@ public final class Strings {
       throw new BadLocationException(key, start);
 
     final String interpolated = interpolateLine(line, properties, end + close.length(), open, close);
-    return interpolated.substring(0, start) + value + interpolated.substring(end + close.length());
+    return interpolated == null ? null : interpolated.substring(0, start) + value + interpolated.substring(end + close.length());
   }
 
   private static String interpolateLine(String line, final Map<String,String> properties, final String open, final String close) throws BadLocationException, ParseException {
@@ -78,7 +81,7 @@ public final class Strings {
     int i = 0;
     while (true) {
       final String interpolated = interpolateLine(line, properties, 0, open, close);
-      if (line.equals(interpolated))
+      if (line != null ? line.equals(interpolated) : interpolated == null)
         return line;
 
       if (++i == max) {
