@@ -19,8 +19,9 @@ package org.safris.cf.xde;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.safris.cf.xde.spec.expression.CASE;
@@ -156,7 +157,7 @@ class Update {
               if (dataType.generateOnUpdate == null)
                 continue;
 
-              dataType.value = dataType.generateOnUpdate.generate(dataType);
+              dataType.value = dataType.generateOnUpdate.generateStatic(dataType);
             }
 
             serialization.addParameter(dataType);
@@ -169,7 +170,7 @@ class Update {
         for (final DataType dataType : entity.column()) {
           if (dataType.primary) {
             if (dataType.generateOnUpdate != null)
-              dataType.value = dataType.generateOnUpdate.generate(dataType);
+              dataType.value = dataType.generateOnUpdate.generateStatic(dataType);
 
             serialization.addParameter(dataType);
             whereClause.append(" AND ").append(dataType.name).append(" = ").append(dataType.getPreparedStatementMark(serialization.vendor));
@@ -227,7 +228,19 @@ class Update {
       return parent;
     }
 
+    private Entity getSetColumns(final Set<DataType<?>> columns) {
+      columns.add(set);
+      if (parent instanceof Update.SET)
+        return ((Update.SET)parent).getSetColumns(columns);
+
+      if (parent instanceof Update.UPDATE)
+        return ((Update.UPDATE)parent).entity;
+
+      throw new Error("This should not happen, as UPDATE is always followed by SET.");
+    }
+
     @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     protected void serialize(final Serializable caller, final Serialization serialization) {
       parent.serialize(this, serialization);
       if (parent instanceof Update.UPDATE)
@@ -236,8 +249,19 @@ class Update {
       set.serialize(this, serialization);
       serialization.sql.append(" = ");
       format(this, to, serialization);
-      if (caller instanceof Update.SET)
+      if (caller instanceof Update.SET) {
         serialization.sql.append(", ");
+      }
+      else {
+        final Set<DataType<?>> setColumns = new HashSet<DataType<?>>();
+        final Entity entity = getSetColumns(setColumns);
+        final StringBuilder setClause = new StringBuilder();
+        for (final DataType column : entity.column())
+          if (!setColumns.contains(column) && column.generateOnUpdate != null)
+            setClause.append(", ").append(column.name).append(" = ").append(column.generateOnUpdate.generateDynamic(serialization, column));
+
+        serialization.sql.append(setClause);
+      }
     }
   }
 }

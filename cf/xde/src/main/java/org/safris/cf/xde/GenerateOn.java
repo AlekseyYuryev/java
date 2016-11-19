@@ -21,8 +21,7 @@ import org.safris.commons.lang.reflect.Classes;
 
 public abstract class GenerateOn<T> {
   public static GenerateOn<Number> INCREMENT = new GenerateOn<Number>() {
-    @Override
-    public Number generate(final DataType<Number> dataType) {
+    private Number generate(final DataType<Number> dataType) {
       if (dataType.get() == null)
         throw new IllegalArgumentException("value is missing");
 
@@ -43,11 +42,20 @@ public abstract class GenerateOn<T> {
 
       return (byte)(dataType.get().byteValue() + 1);
     }
+
+    @Override
+    public Number generateStatic(final DataType<Number> dataType) {
+      return generate(dataType);
+    }
+
+    @Override
+    public String generateDynamic(final Serialization serialization, final DataType<Number> dataType) {
+      return dataType.name + " + 1";
+    }
   };
 
   public static GenerateOn<BaseLocal> TIMESTAMP = new GenerateOn<BaseLocal>() {
-    @Override
-    public BaseLocal generate(final DataType<BaseLocal> dataType) {
+    private BaseLocal generate(final DataType<BaseLocal> dataType) {
       final Class<?> type = (Class<?>)Classes.getGenericSuperclasses(dataType.getClass())[0];
       try {
         return (BaseLocal)type.newInstance();
@@ -56,14 +64,36 @@ public abstract class GenerateOn<T> {
         throw new RuntimeException(e);
       }
     }
-  };
 
-  public static GenerateOn<String> UUID = new GenerateOn<String>() {
     @Override
-    public String generate(final DataType<String> dataType) {
-      return java.util.UUID.randomUUID().toString().toUpperCase();
+    public BaseLocal generateStatic(final DataType<BaseLocal> dataType) {
+      return generate(dataType);
+    }
+
+    @Override
+    public String generateDynamic(final Serialization serialization, final DataType<BaseLocal> dataType) {
+      dataType.set(generate(dataType));
+      serialization.addParameter(dataType);
+      return dataType.getPreparedStatementMark(serialization.vendor);
     }
   };
 
-  public abstract T generate(final DataType<T> dataType);
+  public static GenerateOn<String> UUID = new GenerateOn<String>() {
+    private String generate(final DataType<String> dataType) {
+      return java.util.UUID.randomUUID().toString().toUpperCase();
+    }
+
+    @Override
+    public String generateStatic(final DataType<String> dataType) {
+      return generate(dataType);
+    }
+
+    @Override
+    public String generateDynamic(final Serialization serialization, final DataType<String> dataType) {
+      return generate(dataType);
+    }
+  };
+
+  public abstract T generateStatic(final DataType<T> dataType);
+  public abstract String generateDynamic(final Serialization serialization, final DataType<T> dataType);
 }
