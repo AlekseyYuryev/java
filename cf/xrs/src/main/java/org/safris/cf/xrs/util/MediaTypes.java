@@ -19,6 +19,7 @@ package org.safris.cf.xrs.util;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -78,10 +79,17 @@ public final class MediaTypes {
     if (strings == null)
       return null;
 
-    final MediaType[] mediaTypes = new MediaType[strings.size()];
-    int i = 0;
-    for (final String string : strings)
-      mediaTypes[i++] = parse(string);
+    return parse(strings.iterator(), 0);
+  }
+
+  private static MediaType[] parse(final Iterator<String> iterator, final int depth) {
+    if (!iterator.hasNext())
+      return new MediaType[depth];
+
+    final String[] parts = iterator.next().split(",");
+    final MediaType[] mediaTypes = parse(iterator, depth + parts.length);
+    for (int i = 0; i < parts.length; i++)
+      mediaTypes[depth + i] = parse(parts[i]);
 
     return mediaTypes;
   }
@@ -94,16 +102,26 @@ public final class MediaTypes {
     if (!enumeration.hasMoreElements())
       return new MediaType[depth];
 
-    final MediaType mediaType = parse(enumeration.nextElement());
-    final MediaType[] mediaTypes = parse(enumeration, depth + 1);
-    mediaTypes[depth] = mediaType;
+    final String[] parts = enumeration.nextElement().split(",");
+    final MediaType[] mediaTypes = parse(enumeration, depth + parts.length);
+    for (int i = 0; i < parts.length; i++)
+      mediaTypes[depth + i] = parse(parts[i]);
+
     return mediaTypes;
   }
 
   public static MediaType[] parse(final String ... strings) {
-    final MediaType[] mediaTypes = new MediaType[strings.length];
-    for (int i = 0; i < strings.length; i++)
-      mediaTypes[i] = parse(strings[i]);
+    return parse(strings, 0, 0);
+  }
+
+  private static MediaType[] parse(final String[] strings, int index, final int depth) {
+    if (index == strings.length)
+      return new MediaType[depth];
+
+    final String[] parts = strings[index].split(",");
+    final MediaType[] mediaTypes = parse(strings, index + 1, depth + parts.length);
+    for (int i = 0; i < parts.length; i++)
+      mediaTypes[depth + i] = parse(parts[i]);
 
     return mediaTypes;
   }

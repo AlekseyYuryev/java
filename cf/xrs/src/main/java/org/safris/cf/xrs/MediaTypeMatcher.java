@@ -49,8 +49,9 @@ public class MediaTypeMatcher<T extends Annotation> {
     this.mediaTypes = annotation == null ? null : MediaTypes.parse(annotation instanceof Consumes ? ((Consumes)annotation).value() : annotation instanceof Produces ? ((Produces)annotation).value() : null);
   }
 
+  // FIXME: http://stackoverflow.com/questions/29857643/how-are-jersey-consumes-endpoints-matched
   public boolean matches(final MediaType[] mediaTypes) {
-    return this.mediaTypes == null || mediaTypes == null || MediaTypes.matches(this.mediaTypes, mediaTypes);
+    return this.mediaTypes == null ? mediaTypes == null || MediaTypes.matches(MediaType.WILDCARD_TYPE, mediaTypes) : mediaTypes == null || MediaTypes.matches(this.mediaTypes, mediaTypes);
   }
 
   public T getAnnotation() {

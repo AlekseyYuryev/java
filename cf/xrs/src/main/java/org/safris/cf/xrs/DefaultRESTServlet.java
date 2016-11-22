@@ -156,12 +156,15 @@ public class DefaultRESTServlet extends StartupServlet {
       else if (t instanceof WebApplicationException) {
         final WebApplicationException e = (WebApplicationException)t;
         response.sendError(e.getResponse().getStatus(), t.getMessage());
-        throw t;
+        if (e.getResponse().getStatus() == HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+          throw t;
       }
       else {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         throw t;
       }
+
+      return;
     }
 
     responseContext.commit();
@@ -175,7 +178,7 @@ public class DefaultRESTServlet extends StartupServlet {
       // NOTE: expect a Content-Type header from the request)
       private void checkContentType() {
         if (getResourceManifest() != null && !getResourceManifest().checkHeader(HttpHeaders.CONTENT_TYPE, Consumes.class, getRequestContext()))
-          throw new BadRequestException("Client call to " + request.getRequestURI() + " has data and is missing Content-Type header");
+          throw new BadRequestException("Request has data yet missing Content-Type header");
       }
 
       @Override

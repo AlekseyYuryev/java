@@ -52,8 +52,8 @@ import org.safris.commons.lang.Strings;
 public class ResourceManifest {
   private static final Logger logger = Logger.getLogger(ResourceManifest.class.getName());
 
-  private static boolean logMissingHeaderWarning(final String headerName, final String[] annotationValue) {
-    logger.warning("Missing expected value for " + headerName + " header: " + Arrays.toString(annotationValue));
+  private static boolean logMissingHeaderWarning(final String headerName, final Class<?> type) {
+    logger.warning("Unmatched @" + type.getSimpleName() + " for " + headerName);
     return false;
   }
 
@@ -174,20 +174,20 @@ public class ResourceManifest {
       return true;
     }
 
-    final String[] annotationValue = annotationClass == Produces.class ? ((Produces)annotation).value() : annotationClass == Consumes.class ? ((Consumes)annotation).value() : null;
-    // FIXME: Order matters, and also the q value
-    Arrays.sort(annotationValue);
-
     final String headerValue = containerRequestContext.getHeaderString(headerName);
     if (headerValue == null || headerValue.length() == 0)
-      return logMissingHeaderWarning(headerName, annotationValue);
+      return logMissingHeaderWarning(headerName, annotationClass);
 
     final String[] headerValueParts = headerValue.split(",");
-    for (final String headerValuePart : headerValueParts)
-      if (Arrays.binarySearch(annotationValue, headerValuePart) > -1)
-        return true;
+    final MediaType[] test = MediaTypes.parse(headerValueParts);
 
-    return logMissingHeaderWarning(headerName, annotationValue);
+    final String[] annotationValue = annotationClass == Produces.class ? ((Produces)annotation).value() : annotationClass == Consumes.class ? ((Consumes)annotation).value() : null;
+    // FIXME: Order matters, and also the q value
+    final MediaType[] required = MediaTypes.parse(annotationValue);
+    if (MediaTypes.matches(required, test))
+      return true;
+
+    return logMissingHeaderWarning(headerName, annotationClass);
   }
 
   private static void allow(final Annotation securityAnnotation, final ContainerRequestContext containerRequestContext) {
