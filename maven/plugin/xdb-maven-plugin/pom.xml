@@ -25,7 +25,7 @@
     <version>1.8.0</version>
   </parent>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>xde-maven-plugin</artifactId>
+  <artifactId>xdb-maven-plugin</artifactId>
   <version>1.4.1</version>
   <packaging>maven-plugin</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
@@ -35,7 +35,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>xde</goalPrefix>
+          <goalPrefix>xdb</goalPrefix>
         </configuration>
         <executions>
           <execution>
@@ -94,16 +94,36 @@
         <plugins>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>xde-maven-plugin</artifactId>
+            <artifactId>xdb-maven-plugin</artifactId>
             <executions>
               <execution>
+                <id>xde</id>
                 <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>xde</goal>
+                </goals>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
                     <destdir>${project.build.directory}/generated-test-sources/xde</destdir>
                     <schemas>
                       <schema>${basedir}/src/test/resources/library.xdl</schema>
                       <schema>${basedir}/src/test/resources/survey.xdl</schema>
+                    </schemas>
+                  </manifest>
+                </configuration>
+              </execution>
+              <execution>
+                <id>xdl</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>xdl</goal>
+                </goals>
+                <configuration>
+                  <vendor>MySQL</vendor>
+                  <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+                    <destdir>${project.build.directory}/generated-test-sources/xdl</destdir>
+                    <schemas>
+                      <schema>${basedir}/src/test/resources/hospital.xdl</schema>
                     </schemas>
                   </manifest>
                 </configuration>

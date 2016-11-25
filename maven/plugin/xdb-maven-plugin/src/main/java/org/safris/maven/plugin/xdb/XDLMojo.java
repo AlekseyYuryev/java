@@ -24,17 +24,22 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.safris.cf.xdb.xdl.DBVendor;
+import org.safris.cf.xdb.xdl.DDLTransform;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
 
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-@Execute(goal = "generate")
-public final class XDEMojo extends ManifestMojo {
+@Mojo(name = "xdl", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "xdl")
+public final class XDLMojo extends ManifestMojo {
+  @Parameter(property = "vendor", required = true)
+  private String vendor;
+
   @Override
   public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      EntityGenerator.generate(file.toURI().toURL(), outDir);
+      DDLTransform.createDDL(file.toURI().toURL(), DBVendor.parse(vendor), outDir);
     }
     catch (final IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);

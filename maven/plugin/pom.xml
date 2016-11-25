@@ -40,8 +40,7 @@
       <modules>
         <module>cert-maven-plugin</module>
         <module>codegen-maven-plugin</module>
-        <module>xde-maven-plugin</module>
-        <module>xdl-maven-plugin</module>
+        <module>xdb-maven-plugin</module>
         <module>xjb-maven-plugin</module>
         <module>xsb-maven-plugin</module>
       </modules>

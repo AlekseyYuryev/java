@@ -2,26 +2,29 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>xdl</role-hint>
+      <role-hint>xde</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>xdl</id>
+        <id>xdb</id>
         <default-phases>
-          <generate-resources>org.safris.maven.plugin:xdl-maven-plugin:generate</generate-resources>
+          <generate-sources>org.safris.maven.plugin:xdb-maven-plugin:xde</generate-sources>
+          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:xdl</generate-resources>
         </default-phases>
       </configuration>
     </component>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>xdl</role-hint>
+      <role-hint>xde</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>xdl</id>
+        <id>xdb</id>
         <phases>
+          <phase>xde</phase>
           <phase>xdl</phase>
         </phases>
         <default-phases>
-          <xdl>org.safris.maven.plugin:xdl-maven-plugin:generate</xdl>
+          <xde>org.safris.maven.plugin:xdb-maven-plugin:xde</xde>
+          <xdl>org.safris.maven.plugin:xdb-maven-plugin:xdl</xdl>
         </default-phases>
       </configuration>
     </component>
