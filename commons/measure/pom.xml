@@ -25,13 +25,13 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>measure</artifactId>
+  <artifactId>commons-measure</artifactId>
   <version>1.0.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>util</artifactId>
+      <artifactId>commons-util</artifactId>
       <version>1.5.7</version>
     </dependency>
   </dependencies>

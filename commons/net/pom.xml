@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>net</artifactId>
+  <artifactId>commons-net</artifactId>
   <version>1.4.8</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -34,12 +34,12 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>lang</artifactId>
+      <artifactId>commons-lang</artifactId>
       <version>1.6.4</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>security</artifactId>
+      <artifactId>commons-security</artifactId>
       <version>1.0.9</version>
     </dependency>
     <dependency>

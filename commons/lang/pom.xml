@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>lang</artifactId>
+  <artifactId>commons-lang</artifactId>
   <version>1.6.4</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -75,7 +75,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>util</artifactId>
+      <artifactId>commons-util</artifactId>
       <version>1.5.7</version>
     </dependency>
   </dependencies>

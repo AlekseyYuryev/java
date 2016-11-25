@@ -117,12 +117,12 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.cf</groupId>
-      <artifactId>xde</artifactId>
+      <artifactId>cf-xde</artifactId>
       <version>1.3.3</version>
     </dependency>
     <dependency>
       <groupId>org.safris.maven</groupId>
-      <artifactId>mojo</artifactId>
+      <artifactId>maven-mojo</artifactId>
       <version>1.0.1</version>
     </dependency>
   </dependencies>

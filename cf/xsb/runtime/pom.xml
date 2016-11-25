@@ -25,23 +25,23 @@
     <version>2.1.2</version>
   </parent>
   <groupId>org.safris.cf.xsb</groupId>
-  <artifactId>runtime</artifactId>
+  <artifactId>xsb-runtime</artifactId>
   <version>2.1.2</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>formatter</artifactId>
-      <version>0.4.4</version>
-    </dependency>
-    <dependency>
       <groupId>org.safris.cf.xsb</groupId>
-      <artifactId>compiler</artifactId>
+      <artifactId>xsb-compiler</artifactId>
       <version>2.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>util</artifactId>
+      <artifactId>commons-formatter</artifactId>
+      <version>0.4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>commons-util</artifactId>
       <version>1.5.7</version>
     </dependency>
     <dependency>

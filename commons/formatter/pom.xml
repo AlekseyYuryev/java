@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>formatter</artifactId>
+  <artifactId>commons-formatter</artifactId>
   <version>0.4.4</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>

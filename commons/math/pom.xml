@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>math</artifactId>
+  <artifactId>commons-math</artifactId>
   <version>1.4.2</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -34,7 +34,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>test</artifactId>
+      <artifactId>commons-test</artifactId>
       <version>1.1.6</version>
     </dependency>
   </dependencies>

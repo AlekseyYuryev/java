@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>test</artifactId>
+  <artifactId>commons-test</artifactId>
   <version>1.1.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -79,7 +79,7 @@
     </dependency>
     <dependency>
       <groupId>org.safris.maven</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>maven-common</artifactId>
       <version>1.0.0</version>
     </dependency>
   </dependencies>

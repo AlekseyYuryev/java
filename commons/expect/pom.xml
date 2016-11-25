@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>expect</artifactId>
+  <artifactId>commons-expect</artifactId>
   <version>0.2.10</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -52,12 +52,12 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.cf.xsb</groupId>
-      <artifactId>generator</artifactId>
+      <artifactId>xsb-generator</artifactId>
       <version>2.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>util</artifactId>
+      <artifactId>commons-util</artifactId>
       <version>1.5.7</version>
     </dependency>
   </dependencies>

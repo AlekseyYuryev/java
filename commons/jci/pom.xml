@@ -25,7 +25,7 @@
     <version>1.8.2</version>
   </parent>
   <groupId>org.safris.commons</groupId>
-  <artifactId>jci</artifactId>
+  <artifactId>commons-jci</artifactId>
   <version>1.2.1</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -34,7 +34,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>exec</artifactId>
+      <artifactId>commons-exec</artifactId>
       <version>1.2.7</version>
     </dependency>
   </dependencies>

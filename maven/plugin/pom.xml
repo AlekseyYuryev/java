@@ -70,7 +70,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.maven</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>maven-common</artifactId>
       <version>1.0.0</version>
     </dependency>
     <dependency>
