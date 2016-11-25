@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Seva Safris
+/* Copyright (c) 2015 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,23 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.cf.xdb.xde.spec;
 
-import java.io.File;
+import org.safris.cf.xdb.xde.Condition;
+import org.safris.cf.xdb.xde.DataType;
+import org.safris.cf.xdb.xde.Variable;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
-
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
+public interface update {
+  public interface SET extends UPDATE_SET {
+    public UPDATE WHERE(final Condition<?> condition);
   }
 
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public interface UPDATE_SET extends UPDATE {
+    public <T>SET SET(final DataType<T> set, final expression.CASE<T> to);
+    public <T>SET SET(final DataType<T> set, final Variable<T> to);
+    public <T>SET SET(final DataType<T> set, final T to);
+  }
+
+  public interface UPDATE extends ExecuteUpdate {
   }
 }

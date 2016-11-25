@@ -116,8 +116,8 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.safris.cf</groupId>
-      <artifactId>cf-xdl</artifactId>
+      <groupId>org.safris.cf.xdb</groupId>
+      <artifactId>xdb-xdl</artifactId>
       <version>1.2.1</version>
     </dependency>
     <dependency>

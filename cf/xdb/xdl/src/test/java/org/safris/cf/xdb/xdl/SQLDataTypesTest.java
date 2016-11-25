@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Seva Safris
+/* Copyright (c) 2015 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,20 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.cf.xdb.xdl;
 
-import java.io.File;
-
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
-import org.safris.commons.lang.Resources;
+import org.safris.cf.xdb.xdl.SQLDataTypes;
 import org.safris.commons.test.LoggableTest;
 
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
-  }
-
+public class SQLDataTypesTest extends LoggableTest {
   @Test
-  @Ignore
-  public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public void test() {
+    final int[] byteCounts = {1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8, 9};
+    for (int i = 0; i < byteCounts.length; i++) {
+      log((i + 1) + " digits needs: " + byteCounts[i] + " bytes");
+      Assert.assertEquals(byteCounts[i], SQLDataTypes.getNumericByteCount(i + 1, true, null, null));
+    }
   }
 }

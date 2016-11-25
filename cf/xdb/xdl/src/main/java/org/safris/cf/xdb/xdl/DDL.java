@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Seva Safris
+/* Copyright (c) 2015 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,25 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.cf.xdb.xdl;
 
-import java.io.File;
-
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
-
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
+public class DDL {
+  public static enum Type {
+    CREATE,
+    DROP
   }
 
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public final String name;
+  public final String[] drop;
+  public final String[] create;
+
+  public DDL(final String name, final String[] drop, final String[] create) {
+    this.name = name;
+    this.drop = drop;
+    this.create = create;
+  }
+
+  public String[] get(final Type type) {
+    return type == Type.CREATE ? create : type == Type.DROP ? drop : null;
   }
 }

@@ -24,8 +24,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.cf.xjb.Generator;
-import org.safris.cf.xjb.GeneratorExecutionException;
+import org.safris.cf.xjb.generator.Generator;
+import org.safris.cf.xjb.generator.GeneratorExecutionException;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
 

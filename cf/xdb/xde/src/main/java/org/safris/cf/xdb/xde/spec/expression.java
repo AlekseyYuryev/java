@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Seva Safris
+/* Copyright (c) 2015 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,26 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.cf.xdb.xde.spec;
 
-import java.io.File;
+import org.safris.cf.xdb.xde.Condition;
+import org.safris.cf.xdb.xde.Variable;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
-
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
+public interface expression {
+  public interface WHEN<T> {
+    public THEN<T> THEN(final Variable<T> variable);
+    public THEN<T> THEN(final T value);
   }
 
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public interface THEN<T> {
+    public THEN<T> WHEN(final Condition<T> condition);
+    public ELSE<T> ELSE(final Variable<T> variable);
+    public ELSE<T> ELSE(final T value);
+  }
+
+  public interface ELSE<T> extends CASE<T> {
+  }
+
+  public interface CASE<T> {
   }
 }
