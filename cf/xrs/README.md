@@ -4,7 +4,7 @@
 
 ## Introduction
 
-XRS is an implementation of the [JAX-RS v2.0 Specification](http://download.oracle.com/otn-pub/jcp/jaxrs-2_0_rev_A-mrel-eval-spec/jsr339-jaxrs-2.0-final-spec.pdf) that runs in a Servlet Container (such as [Jetty](http://www.eclipse.org/jetty/)). This project was inspired to create a better, simpler, easier to use, reliable, and debugable JAX-RS implementation using the CohesionFirst™ approach.
+XRS is an implementation of the [JAX-RS v2.0 Specification][jax-rs-spec] that runs in a Servlet Container (such as [Jetty][jetty]. This project was inspired to create a better, simpler, easier to use, reliable, and debugable JAX-RS implementation using the CohesionFirst™ approach.
 
 ## Why XRS?
 
@@ -14,9 +14,9 @@ Developed with the CohesionFirst™ approach, XRS is reliable, consistent, and s
 
 ### Simple and Lightweight
 
-XRS was built to implement the JAX-RS 2.0 specification while keeping the internal complexity as low as feasable. Static state is used for but one use-case, so it is never a challenge to debug the path of a request or a response.
+XRS was built to implement the [JAX-RS v2.0 Specification][jax-rs-spec] while keeping the internal complexity as low as feasable. Static state is used for but one use-case, so it is never a challenge to debug the path of a request or a response.
 
-Existing solutions such as [Jersey](https://jersey.java.net/), [JBoss RESTEasy](http://resteasy.jboss.org/), [Restlet](https://restlet.com/), [Apache CXF](http://cxf.apache.org/), [Apache Wink](https://wink.apache.org/) and others are challenging to work with, because they are bloated, buggy, and are not pure to the JAX-RS specification. Many people experience unnecessary pains using existing JAX-RS implementations, specifically related to debugging. Debugging of JAX-RS servers is difficult because of the high internal complexity of the implementation.
+Existing solutions such as [Jersey][jersey], [JBoss RESTEasy][RESTeasy], [Restlet][restlet], [Apache CXF][apache-cxf], [Apache Wink][apache-wink] and others are challenging to work with, because they are bloated, buggy, and are not pure to the JAX-RS specification. Many people experience unnecessary pains using existing JAX-RS implementations, specifically related to debugging. Debugging of JAX-RS servers is difficult because of the high internal complexity of the implementation.
 
 ### Minimum Dynamic Invocation
 
@@ -30,8 +30,8 @@ XRS is a pure implementation of the JAX-RS 2.0 specification. More often than no
 
 ### Prerequisites
 
-* [Maven](https://maven.apache.org/) - The dependency management system used to install XSR.
-* [Servlet Container](https://en.wikipedia.org/wiki/Web_container) - A Servlet Container is needed to provide the HTTP service functionality. We recommend [Jetty](http://www.eclipse.org/jetty/) as the ideal starting point for any project.
+* [Maven][maven] - The dependency management system used to install XRS.
+* [Servlet Container][web-container] - A Servlet Container is needed to provide the HTTP service functionality. We recommend [Jetty][jetty] as the ideal starting point for any project.
 
 ### Example
 
@@ -91,7 +91,7 @@ XRS is a pure implementation of the JAX-RS 2.0 specification. More often than no
   }
   ```
 
-6. Deploy the servlet to a Servlet Container. For an easy embedded servlet container solution, [see here](https://github.com/SevaSafris/java/tree/master/commons/jetty/) for a solution based on [Jetty](http://www.eclipse.org/jetty/). In the arguments to `new Server(8080, ...)` add `RESTServlet.class` as such:
+6. Deploy the servlet to a Servlet Container. For an easy embedded servlet container solution, [see here](https://github.com/SevaSafris/java/tree/master/commons/jetty/) for a solution based on [Jetty][jetty]. In the arguments to `new Server(8080, ...)` add `RESTServlet.class` as such:
 
   ```java
   new Server(8080, null, null, true, null, RESTServlet.class);
@@ -102,3 +102,13 @@ XRS is a pure implementation of the JAX-RS 2.0 specification. More often than no
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+[apache-cxf]: http://cxf.apache.org/
+[apache-wink]: https://wink.apache.org/
+[jax-rs-spec]: http://download.oracle.com/otn-pub/jcp/jaxrs-2_0_rev_A-mrel-eval-spec/jsr339-jaxrs-2.0-final-spec.pdf
+[jersey]: https://jersey.java.net/
+[jetty]: http://www.eclipse.org/jetty/
+[RESTeasy]: http://resteasy.jboss.org/
+[restlet]: https://restlet.com/
+[maven]: https://maven.apache.org/
+[web-container]: https://en.wikipedia.org/wiki/Web_container
