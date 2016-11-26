@@ -14,24 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.xdb.entities;
 
-import java.io.File;
-
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.entities.generator.Generator;
-
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
-  }
-
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    Generator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
-  }
+public abstract class Condition<T> extends Keyword<Subject<T>> {
 }

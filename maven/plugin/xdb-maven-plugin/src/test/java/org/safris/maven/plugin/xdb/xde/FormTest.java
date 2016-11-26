@@ -16,19 +16,19 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.xde.DML.AND;
-import static org.safris.xdb.xde.DML.CASE_WHEN;
-import static org.safris.xdb.xde.DML.EQ;
-import static org.safris.xdb.xde.DML.GT;
-import static org.safris.xdb.xde.DML.INSERT;
-import static org.safris.xdb.xde.DML.LEFT;
-import static org.safris.xdb.xde.DML.LT;
-import static org.safris.xdb.xde.DML.LTE;
-import static org.safris.xdb.xde.DML.MAX;
-import static org.safris.xdb.xde.DML.MIN;
-import static org.safris.xdb.xde.DML.PLUS;
-import static org.safris.xdb.xde.DML.SELECT;
-import static org.safris.xdb.xde.DML.UPDATE;
+import static org.safris.xdb.entities.DML.AND;
+import static org.safris.xdb.entities.DML.CASE_WHEN;
+import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.INSERT;
+import static org.safris.xdb.entities.DML.LEFT;
+import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.LTE;
+import static org.safris.xdb.entities.DML.MAX;
+import static org.safris.xdb.entities.DML.MIN;
+import static org.safris.xdb.entities.DML.PLUS;
+import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.UPDATE;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -37,13 +37,13 @@ import java.sql.SQLException;
 
 import org.joda.time.LocalDateTime;
 import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.xde.Aggregate;
-import org.safris.xdb.xde.Entity;
-import org.safris.xdb.xde.EntityDataSource;
-import org.safris.xdb.xde.EntityRegistry;
-import org.safris.xdb.xde.RowIterator;
-import org.safris.xdb.xde.spec.select.SELECT;
-import org.safris.xdb.xde.spec.update.UPDATE;
+import org.safris.xdb.entities.Aggregate;
+import org.safris.xdb.entities.Entity;
+import org.safris.xdb.entities.EntityDataSource;
+import org.safris.xdb.entities.EntityRegistry;
+import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.spec.select.SELECT;
+import org.safris.xdb.entities.spec.update.UPDATE;
 
 import cf.xde.survey;
 

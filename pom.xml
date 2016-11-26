@@ -306,9 +306,9 @@
               </goals>
             </execution>
             <execution>
-              <id>default-xde</id>
+              <id>default-entities</id>
               <goals>
-                <goal>xde</goal>
+                <goal>entities</goal>
               </goals>
             </execution>
           </executions>
@@ -456,7 +456,7 @@
                     <versionRange>[0.0,)</versionRange>
                     <goals>
                       <goal>schema</goal>
-                      <goal>xde</goal>
+                      <goal>entities</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
