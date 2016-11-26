@@ -34,7 +34,7 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>org.safris.cf.xsb</groupId>
+      <groupId>org.safris.xsb</groupId>
       <artifactId>xsb-generator</artifactId>
       <version>2.1.2</version>
     </dependency>

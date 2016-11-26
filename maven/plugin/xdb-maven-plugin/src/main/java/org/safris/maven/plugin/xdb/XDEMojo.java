@@ -24,9 +24,9 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.cf.xdb.xde.generator.EntityGenerator;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
+import org.safris.xdb.xde.generator.EntityGenerator;
 
 @Mojo(name = "xde", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "xde")

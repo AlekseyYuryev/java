@@ -24,10 +24,10 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.cf.xjb.generator.Generator;
-import org.safris.cf.xjb.generator.GeneratorExecutionException;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
+import org.safris.xjb.generator.Generator;
+import org.safris.xjb.generator.GeneratorExecutionException;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")

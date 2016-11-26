@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.safris.cf.xsb.runtime.Bindings;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.expect.xe.$ex_processType;
 import org.safris.commons.expect.xe.$ex_ruleType;
@@ -38,6 +37,7 @@ import org.safris.commons.io.scanner.ScannerHandler;
 import org.safris.commons.util.ELs;
 import org.safris.commons.util.ExpressionFormatException;
 import org.safris.commons.util.HashTree;
+import org.safris.xsb.runtime.Bindings;
 import org.xml.sax.InputSource;
 
 public final class Expect {

@@ -133,9 +133,12 @@
       </activation>
       <modules>
         <module>ant</module>
-        <module>cf</module>
         <module>commons</module>
         <module>maven</module>
+        <module>xdb</module>
+        <module>xjb</module>
+        <module>xsb</module>
+        <module>xrs</module>
       </modules>
       <build>
         <pluginManagement>
