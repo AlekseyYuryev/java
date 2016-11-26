@@ -27,7 +27,7 @@ Execution with `includes` directive.
   <version>2.0.3</version>
   <configuration>
     <includes>
-      <include>**/*.xdl</include>
+      <include>**/*.xds</include>
       <include>**/*.xjb</include>
       <include>**/*.xsd</include>
       <include>**/*.xml</include>
@@ -47,7 +47,7 @@ Execution with `includes` and `excludes` directives.
   <version>2.0.3</version>
   <configuration>
     <includes>
-      <include>**/*.xdl</include>
+      <include>**/*.xds</include>
       <include>**/*.xjb</include>
       <include>**/*.xsd</include>
       <include>**/*.xml</include>

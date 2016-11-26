@@ -8,7 +8,7 @@
         <id>xdb</id>
         <default-phases>
           <generate-sources>org.safris.maven.plugin:xdb-maven-plugin:xde</generate-sources>
-          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:xdl</generate-resources>
+          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:schema</generate-resources>
         </default-phases>
       </configuration>
     </component>
@@ -20,11 +20,11 @@
         <id>xdb</id>
         <phases>
           <phase>xde</phase>
-          <phase>xdl</phase>
+          <phase>schema</phase>
         </phases>
         <default-phases>
           <xde>org.safris.maven.plugin:xdb-maven-plugin:xde</xde>
-          <xdl>org.safris.maven.plugin:xdb-maven-plugin:xdl</xdl>
+          <schema>org.safris.maven.plugin:xdb-maven-plugin:schema</schema>
         </default-phases>
       </configuration>
     </component>

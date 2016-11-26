@@ -1,21 +1,21 @@
 <img src="http://safris.org/logo.png" align="right" />
 # xdb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XDL](https://github.com/SevaSafris/java/tree/master/cf/xdl) and [XDE](https://github.com/SevaSafris/java/tree/master/cf/xde) frameworks
+> Maven Plugin for [XDB](https://github.com/SevaSafris/java/tree/master/xdb) framework
 
 ## Introduction
 
-The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDL](https://github.com/SevaSafris/java/tree/master/cf/xdl) and [XDE](https://github.com/SevaSafris/java/tree/master/cf/xde) frameworks.
+The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDB](https://github.com/SevaSafris/java/tree/master/xdb) framework.
 
 ## Goals Overview
 
-* [`xdb:xdl`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxdl) generates DDL SQL.
-* [`xdb:xde`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxde) generates XDE Entities.
+* [`xdb:schema`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxds) generates DDL SQL.
+* [`xdb:entities`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxde) generates XDE Entities.
 
 ## Usage
 
-### `xdb:xdl`
+### `xdb:schema`
 
-The `xdb:xdl` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [XDL schema](http://cf.safris.org/xdl.xsd).
+The `xdb:schema` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [XDS schema](http://xdb.safris.org/xds.xsd).
 
 #### Example 1
 
@@ -25,16 +25,16 @@ The `xdb:xdl` goal is bound to the `generate-resources` phase, and is used to ge
   <artifactId>xdb-maven-plugin</artifactId>
   <executions>
     <execution>
-      <id>xdl</id>
+      <id>default-schema</id>
       <goals>
-        <goal>xdl</goal>
+        <goal>schema</goal>
       </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-resources/xdl</destdir>
+          <destdir>${project.build.directory}/generated-resources/xdb</destdir>
           <schemas>
-            <schema>${basedir}/src/main/resources/schema.xdl</schema>
+            <schema>${basedir}/src/main/resources/schema.xds</schema>
           </schemas>
         </manifest>
       </configuration>
@@ -45,7 +45,7 @@ The `xdb:xdl` goal is bound to the `generate-resources` phase, and is used to ge
 
 #### Example 2
 
-Alternatively, an external `xdl.xml` can be specified:
+Alternatively, an external `xds.xml` can be specified:
 
 ```xml
 <plugin>
@@ -54,28 +54,28 @@ Alternatively, an external `xdl.xml` can be specified:
   <version>2.1.2</version>
   <executions>
     <execution>
-      <id>xdl</id>
+      <id>default-schema</id>
       <goals>
-        <goal>xdl</goal>
+        <goal>schema</goal>
       </goals>
       <configuration>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xds"/>
       </configuration>
     </execution>
   </executions>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/schema.xdl`:
+The `manifest` element can therefore be externally defined in `src/main/resources/schema.xds`:
 
 ```xml
 <manifest
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-resources/xdl</destdir>
+  <destdir explodeJars="true">${project.build.directory}/generated-resources/xdb</destdir>
   <schemas>
-    <schema>${basedir}/src/main/resources/schema.xdl</schema>
+    <schema>${basedir}/src/main/resources/schema.xds</schema>
   </schemas>
 </manifest>
 ```
@@ -93,7 +93,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 ### `xdb:xde`
 
-The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [XDL schema](http://cf.safris.org/xdl.xsd).
+The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [XDS schema](http://xdb.safris.org/xds.xsd).
 
 #### Example 1
 
@@ -112,7 +112,7 @@ The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to gene
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
           <destdir>${project.build.directory}/generated-sources/xde</destdir>
           <schemas>
-            <schema>${basedir}/src/main/resources/schema.xdl</schema>
+            <schema>${basedir}/src/main/resources/schema.xds</schema>
           </schemas>
         </manifest>
       </configuration>
@@ -123,7 +123,7 @@ The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to gene
 
 #### Example 2
 
-Alternatively, an external `xdl.xml` can be specified:
+Alternatively, an external `xds.xml` can be specified:
 
 ```xml
 <plugin>
@@ -137,14 +137,14 @@ Alternatively, an external `xdl.xml` can be specified:
         <goal>xde</goal>
       </goals>
       <configuration>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xdl"/>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xds"/>
       </configuration>
     </execution>
   </executioins>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/schema.xdl`:
+The `manifest` element can therefore be externally defined in `src/main/resources/schema.xds`:
 
 ```xml
 <manifest
@@ -153,7 +153,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-sources/xde</destdir>
   <schemas>
-    <schema>${basedir}/src/main/resources/schema.xdl</schema>
+    <schema>${basedir}/src/main/resources/schema.xds</schema>
   </schemas>
 </manifest>
 ```

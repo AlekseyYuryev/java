@@ -22,7 +22,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.xde.generator.EntityGenerator;
+import org.safris.xdb.xde.generator.Generator;
 
 public class EntityGeneratorTest extends LoggableTest {
   public static void main(final String[] args) throws Exception {
@@ -32,6 +32,6 @@ public class EntityGeneratorTest extends LoggableTest {
   @Test
   @Ignore
   public void test() throws Exception {
-    EntityGenerator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+    Generator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
   }
 }

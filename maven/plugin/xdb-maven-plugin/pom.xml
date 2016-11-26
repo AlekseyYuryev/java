@@ -72,11 +72,11 @@
             <artifactId>maven-invoker-plugin</artifactId>
             <executions>
               <execution>
-                <phase>install</phase>
+                <phase>integration-test</phase>
                 <configuration>
                   <profiles>
                     <profile>!default</profile>
-                    <profile>integratin-test</profile>
+                    <profile>integration-test</profile>
                   </profiles>
                   <goals>
                     <goal>test</goal>
@@ -89,7 +89,7 @@
       </build>
     </profile>
     <profile>
-      <id>integratin-test</id>
+      <id>integration-test</id>
       <build>
         <plugins>
           <plugin>
@@ -97,33 +97,33 @@
             <artifactId>xdb-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>xde</id>
+                <id>default-xde</id>
                 <phase>generate-test-sources</phase>
                 <goals>
                   <goal>xde</goal>
                 </goals>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/xde</destdir>
+                    <destdir>${project.build.directory}/generated-test-sources/xdb</destdir>
                     <schemas>
-                      <schema>${basedir}/src/test/resources/library.xdl</schema>
-                      <schema>${basedir}/src/test/resources/survey.xdl</schema>
+                      <schema>${basedir}/src/test/resources/library.xds</schema>
+                      <schema>${basedir}/src/test/resources/survey.xds</schema>
                     </schemas>
                   </manifest>
                 </configuration>
               </execution>
               <execution>
-                <id>xdl</id>
+                <id>default-schema</id>
                 <phase>generate-test-sources</phase>
                 <goals>
-                  <goal>xdl</goal>
+                  <goal>schema</goal>
                 </goals>
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/xdl</destdir>
+                    <destdir>${project.build.directory}/generated-test-sources/xdb</destdir>
                     <schemas>
-                      <schema>${basedir}/src/test/resources/hospital.xdl</schema>
+                      <schema>${basedir}/src/test/resources/hospital.xds</schema>
                     </schemas>
                   </manifest>
                 </configuration>

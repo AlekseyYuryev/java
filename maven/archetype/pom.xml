@@ -32,6 +32,6 @@
   <modules>
     <module>cli-maven-archetype</module>
     <module>dbcp-maven-archetype</module>
-    <module>xdl-maven-archetype</module>
+    <module>xdb-maven-archetype</module>
   </modules>
 </project>

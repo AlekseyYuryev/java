@@ -27,11 +27,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
-import org.safris.xdb.xdl.DBVendor;
-import org.safris.xdb.xdl.DDLTransform;
+import org.safris.xdb.schema.DBVendor;
+import org.safris.xdb.schema.DDLTransform;
 
-@Mojo(name = "xdl", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-@Execute(goal = "xdl")
+@Mojo(name = "schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+@Execute(goal = "schema")
 public final class XDLMojo extends ManifestMojo {
   @Parameter(property = "vendor", required = true)
   private String vendor;
