@@ -28,7 +28,7 @@ Execution with `includes` directive.
   <configuration>
     <includes>
       <include>**/*.xds</include>
-      <include>**/*.xjb</include>
+      <include>**/*.xjs</include>
       <include>**/*.xsd</include>
       <include>**/*.xml</include>
     </includes>
@@ -48,7 +48,7 @@ Execution with `includes` and `excludes` directives.
   <configuration>
     <includes>
       <include>**/*.xds</include>
-      <include>**/*.xjb</include>
+      <include>**/*.xjs</include>
       <include>**/*.xsd</include>
       <include>**/*.xml</include>
     </includes>

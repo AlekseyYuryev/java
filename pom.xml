@@ -162,7 +162,7 @@
               <configuration>
                 <includes>
                   <include>**/*.xds</include>
-                  <include>**/*.xjb</include>
+                  <include>**/*.xjs</include>
                   <include>**/*.xml</include>
                   <include>**/*.xsd</include>
                 </includes>

@@ -1,10 +1,10 @@
 <img src="http://safris.org/logo.png" align="right" />
 # xjb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XJB framework](https://github.com/SevaSafris/java/tree/master/cf/xjb)
+> Maven Plugin for [XJB framework](https://github.com/SevaSafris/java/tree/master/xjb)
 
 ## Introduction
 
-The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB framework](https://github.com/SevaSafris/java/tree/master/cf/xjb).
+The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB framework](https://github.com/SevaSafris/java/tree/master/xjb).
 
 ## Goals Overview
 
@@ -27,7 +27,7 @@ The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
       <destdir explodeJars="true">${project.build.directory}/generated-sources/xjb</destdir>
       <schemas>
-        <schema>${basedir}/src/main/resources/json.xjb</schema>
+        <schema>${basedir}/src/main/resources/json.xjs</schema>
       </schemas>
     </manifest>
   </configuration>
@@ -36,7 +36,7 @@ The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 #### Example 2
 
-Alternatively, an external `xjb.xml` can be specified:
+Alternatively, an external `xjs.xml` can be specified:
 
 ```xml
 <plugin>
@@ -44,12 +44,12 @@ Alternatively, an external `xjb.xml` can be specified:
   <artifactId>xjb-maven-plugin</artifactId>
   <version>2.1.2</version>
   <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/xjb.xml"/>
+    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/xjs.xml"/>
   </configuration>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/xjb.xml`:
+The `manifest` element can therefore be externally defined in `src/main/resources/xjs.xml`:
 
 ```xml
 <manifest
@@ -58,7 +58,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-sources/xjb</destdir>
   <schemas>
-    <schema>${basedir}/src/main/resources/json.xjb</schema>
+    <schema>${basedir}/src/main/resources/json.xjs</schema>
   </schemas>
 </manifest>
 ```
