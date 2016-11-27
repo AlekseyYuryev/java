@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.safris.cf.xsb.runtime.Bindings;
+import org.safris.xsb.runtime.Bindings;
 import org.safris.commons.dbcp.DataSources;
 import org.safris.commons.dbcp.xe.dbcp_dbcp;
 import org.safris.commons.xml.XMLException;

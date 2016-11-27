@@ -13,8 +13,8 @@ The `plugin` module for Maven Plugins.
 * [version-maven-plugin](plugin/version-maven-plugin#version-maven-plugin-) - POM version management goals.
 * [xdb-maven-plugin](plugin/xdb-maven-plugin#xdb-maven-plugin-) - [XDB](https://github.com/SevaSafris/java/tree/master/xdb) code generatin goal.
 * [xml-maven-plugin](plugin/xml-maven-plugin#xsb-maven-plugin-) - XML-related goals.
-* [xjb-maven-plugin](plugin/xjb-maven-plugin#xjb-maven-plugin-) - [XSB](https://github.com/SevaSafris/java/tree/master/cf/xsb) generator goals.
-* [xsb-maven-plugin](plugin/xsb-maven-plugin#xsb-maven-plugin-) - [XJB](https://github.com/SevaSafris/java/tree/master/cf/xjb) generator goals.
+* [xjb-maven-plugin](plugin/xjb-maven-plugin#xjb-maven-plugin-) - [XSB](https://github.com/SevaSafris/java/tree/master/xsb) generator goals.
+* [xsb-maven-plugin](plugin/xsb-maven-plugin#xsb-maven-plugin-) - [XJB](https://github.com/SevaSafris/java/tree/master/xjb) generator goals.
 
 ## License
 

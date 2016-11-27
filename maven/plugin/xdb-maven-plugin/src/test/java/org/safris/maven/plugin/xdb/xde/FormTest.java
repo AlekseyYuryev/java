@@ -45,7 +45,7 @@ import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.spec.select.SELECT;
 import org.safris.xdb.entities.spec.update.UPDATE;
 
-import xdb.entities.survey;
+import xdb.ddl.survey;
 
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {

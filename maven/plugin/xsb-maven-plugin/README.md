@@ -1,10 +1,10 @@
 <img src="http://safris.org/logo.png" align="right" />
 # xsb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XSB framework](https://github.com/SevaSafris/java/tree/master/cf/xsb)
+> Maven Plugin for [XSB framework](https://github.com/SevaSafris/java/tree/master/xsb)
 
 ## Introduction
 
-The `xsb-maven-plugin` plugin is used to generate XML bindings with the [XSB framework](https://github.com/SevaSafris/java/tree/master/cf/xsb).
+The `xsb-maven-plugin` plugin is used to generate XML bindings with the [XSB framework](https://github.com/SevaSafris/java/tree/master/xsb).
 
 ## Goals Overview
 
