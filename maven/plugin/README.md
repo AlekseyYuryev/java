@@ -8,13 +8,13 @@ The `plugin` module for Maven Plugins.
 
 ### Modules
 
-* [cert-maven-plugin ](cert-maven-plugin#cert-maven-plugin-) - SSL Certificate-related goals.
-* [codegen-maven-plugin ](codegen-maven-plugin#codegen-maven-plugin-) - General code generation tools.
-* [version-maven-plugin](version-maven-plugin#version-maven-plugin-) - POM version management goals.
-* [xdb-maven-plugin](xdb-maven-plugin#xdb-maven-plugin-) - [XDB](https://github.com/SevaSafris/xdb) code generatin goal.
-* [xml-maven-plugin](xml-maven-plugin#xsb-maven-plugin-) - XML-related goals.
-* [xjb-maven-plugin](xjb-maven-plugin#xjb-maven-plugin-) - [XSB](https://github.com/SevaSafris/xsb) generator goals.
-* [xsb-maven-plugin](xsb-maven-plugin#xsb-maven-plugin-) - [XJB](https://github.com/SevaSafris/xjb) generator goals.
+* [cert-maven-plugin ](https://github.com/SevaSafris/cert-maven-plugin#cert-maven-plugin-) - SSL Certificate-related goals.
+* [codegen-maven-plugin ](https://github.com/SevaSafris/codegen-maven-plugin#codegen-maven-plugin-) - General code generation tools.
+* [version-maven-plugin](https://github.com/SevaSafris/version-maven-plugin#version-maven-plugin-) - POM version management goals.
+* [xdb-maven-plugin](https://github.com/SevaSafris/xdb-maven-plugin#xdb-maven-plugin-) - [XDB](https://github.com/SevaSafris/xdb) code generatin goal.
+* [xml-maven-plugin](https://github.com/SevaSafris/xml-maven-plugin#xsb-maven-plugin-) - XML-related goals.
+* [xjb-maven-plugin](https://github.com/SevaSafris/xjb-maven-plugin#xjb-maven-plugin-) - [XSB](https://github.com/SevaSafris/xsb) generator goals.
+* [xsb-maven-plugin](https://github.com/SevaSafris/xsb-maven-plugin#xsb-maven-plugin-) - [XJB](https://github.com/SevaSafris/xjb) generator goals.
 
 ### License
 
