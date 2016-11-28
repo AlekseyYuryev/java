@@ -1,22 +1,22 @@
-<img src="http://safris.org/logo.png" align="right" />
-# xjb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XJB framework](https://github.com/SevaSafris/java/tree/master/xjb)
+<img src="http://safris.org/logo.png" align="right"/>
+## xjb-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
+> Maven Plugin for [XJB](https://github.com/SevaSafris/xjb) framework
 
-## Introduction
+### Introduction
 
-The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB framework](https://github.com/SevaSafris/java/tree/master/xjb).
+The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB](https://github.com/SevaSafris/java/tree/master/xjb) framework.
 
-## Goals Overview
+### Goals Overview
 
-* [`xjb:generate`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xjb-maven-plugin#xjbgenerate) generates XJB bindings.
+* [`xjb:generate`](#xjbgenerate) generates XJB bindings.
 
-## Usage
+### Usage
 
-### `xjb:generate`
+#### `xjb:generate`
 
 The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to generate XJB bindings for XJB documents in the `manifest`. To configure the generation of XJB bindings for desired XJB schemas, add a `manifest` element to the plugin's configuration.
 
-#### Example 1
+##### Example 1
 
 ```xml
 <plugin>
@@ -34,7 +34,7 @@ The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to
 </plugin>
 ```
 
-#### Example 2
+##### Example 2
 
 Alternatively, an external `xjs.xml` can be specified:
 
@@ -42,7 +42,7 @@ Alternatively, an external `xjs.xml` can be specified:
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xjb-maven-plugin</artifactId>
-  <version>2.1.2</version>
+  <version>1.1.3</version>
   <configuration>
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/xjs.xml"/>
   </configuration>
@@ -65,14 +65,15 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 #### Configuration Parameters
 
-| Name                                 | Type          | Use      | Description                                                                   |
-|:-------------------------------------|:--------------|:---------|:------------------------------------------------------------------------------|
-| /`manifest`                          | Object        | Required | Manifest descriptor.                                                          |
-| /`manifest`/`destdir`                | String        | Required | Destination path of generated bindings.                                       |
-| /`manifest`/`destdir`/`@explodeJars` | Boolean       | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| /`manifest`/`schemas`                | List          | Required | List of `schema` elements.                                                    |
-| /`manifest`/`schemas`/`schema`       | String        | Required | File path of XML Schema.                                                      |
+| Name                             | Type    | Use      | Description                                                                   |
+|:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
+| `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
+| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
+| `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
+| `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
+| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
+| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.

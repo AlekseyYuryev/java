@@ -1,22 +1,22 @@
-<img src="http://safris.org/logo.png" align="right" />
-# xsb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XSB framework](https://github.com/SevaSafris/java/tree/master/xsb)
+<img src="http://safris.org/logo.png" align="right"/>
+## xsb-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
+> Maven Plugin for [XSB](https://github.com/SevaSafris/xsb) framework
 
-## Introduction
+### Introduction
 
-The `xsb-maven-plugin` plugin is used to generate XML bindings with the [XSB framework](https://github.com/SevaSafris/java/tree/master/xsb).
+The `xsb-maven-plugin` plugin is used to generate XML bindings with the [XSB](https://github.com/SevaSafris/xsb) framework.
 
-## Goals Overview
+### Goals Overview
 
-* [`xsb:generate`](https://github.com/SevaSafris/java/new/master/maven/plugin/xsb-maven-plugin#xsbgenerate) generates XSB bindings.
+* [`xsb:generate`](#xsbgenerate) generates XSB bindings.
 
-## Usage
+### Usage
 
-### `xsb:generate`
+#### `xsb:generate`
 
 The `xsb:generate` goal is bound to the `generate-sources` phase, and is used to generate XSB bindings for XSD documents in the `manifest`. To configure the generation of XSB bindings for desired XML Schemas, add a `manifest` element to the plugin's configuration.
 
-#### Example 1
+##### Example 1
 
 ```xml
 <plugin>
@@ -34,7 +34,7 @@ The `xsb:generate` goal is bound to the `generate-sources` phase, and is used to
 </plugin>
 ```
 
-#### Example 2
+##### Example 2
 
 Alternatively, an external `xsb.xml` can be specified:
 
@@ -65,14 +65,15 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 #### Configuration Parameters
 
-| Name                                 | Type          | Use      | Description                                                                   |
-|:-------------------------------------|:--------------|:---------|:------------------------------------------------------------------------------|
-| /`manifest`                          | Object        | Required | Manifest descriptor.                                                          |
-| /`manifest`/`destdir`                | String        | Required | Destination path of generated bindings.                                       |
-| /`manifest`/`destdir`/`@explodeJars` | Boolean       | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| /`manifest`/`schemas`                | List          | Required | List of `schema` elements.                                                    |
-| /`manifest`/`schemas`/`schema`       | String        | Required | File path of XML Schema.                                                      |
+| Name                             | Type    | Use      | Description                                                                   |
+|:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
+| `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
+| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
+| `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
+| `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
+| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
+| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.

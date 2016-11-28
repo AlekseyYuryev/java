@@ -1,28 +1,29 @@
-<img src="http://safris.org/logo.png" align="right" />
-# xdb-maven-plugin [![CohesionFirst](http://safris.org/cf2.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XDB](https://github.com/SevaSafris/java/tree/master/xdb) framework
+<img src="http://safris.org/logo.png" align="right"/>
+## xdb-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
+> Maven Plugin for [XDB](https://github.com/SevaSafris/xdb) framework
 
-## Introduction
+### Introduction
 
-The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDB](https://github.com/SevaSafris/java/tree/master/xdb) framework.
+The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDB](https://github.com/SevaSafris/xdb) framework.
 
-## Goals Overview
+### Goals Overview
 
-* [`xdb:schema`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxds) generates DDL SQL.
-* [`xdb:entities`](https://github.com/SevaSafris/java/tree/master/maven/plugin/xdb-maven-plugin#xdbxde) generates XDE Entities.
+* [`xdb:schema`](#xdbschema) generates DDL SQL.
+* [`xdb:entities`](#xdbentities) generates XDE Entities.
 
-## Usage
+### Usage
 
-### `xdb:schema`
+#### `xdb:schema`
 
-The `xdb:schema` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [XDS schema](http://xdb.safris.org/xds.xsd).
+The `xdb:schema` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [XDS schema][xds-schema].
 
-#### Example 1
+##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xdb-maven-plugin</artifactId>
+  <version>2.1.2</version>
   <executions>
     <execution>
       <id>default-schema</id>
@@ -43,7 +44,7 @@ The `xdb:schema` goal is bound to the `generate-resources` phase, and is used to
 </plugin>
 ```
 
-#### Example 2
+##### Example 2
 
 Alternatively, an external `xds.xml` can be specified:
 
@@ -82,25 +83,27 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 #### Configuration Parameters
 
-| Name                                 | Type          | Use      | Description                                                                   |
-|:-------------------------------------|:--------------|:---------|:------------------------------------------------------------------------------|
-| /`vendor  `                          | String        | Required | Target vendor of generated DDL.                                               |
-| /`manifest`                          | Object        | Required | Manifest descriptor.                                                          |
-| /`manifest`/`destdir`                | String        | Required | Destination path of generated bindings.                                       |
-| /`manifest`/`destdir`/`@explodeJars` | Boolean       | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| /`manifest`/`schemas`                | List          | Required | List of `schema` elements.                                                    |
-| /`manifest`/`schemas`/`schema`       | String        | Required | File path of XML Schema.                                                      |
+| Name                             | Type    | Use      | Description                                                                   |
+|:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
+| `/vendor`                        | String  | Required | Target vendor of generated DDL.                                               |
+| `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
+| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
+| `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
+| `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
+| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
+| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-### `xdb:xde`
+#### `xdb:entities`
 
-The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [XDS schema](http://xdb.safris.org/xds.xsd).
+The `xdb:entities` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [XDS schema][xds-schema].
 
-#### Example 1
+##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>xdb-maven-plugin</artifactId>
+  <version>2.1.2</version>
   <executions>
     <execution>
       <id>xde</id>
@@ -121,7 +124,7 @@ The `xdb:xde` goal is bound to the `generate-sources` phase, and is used to gene
 </plugin>
 ```
 
-#### Example 2
+##### Example 2
 
 Alternatively, an external `xds.xml` can be specified:
 
@@ -160,14 +163,17 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 #### Configuration Parameters
 
-| Name                                 | Type          | Use      | Description                                                                   |
-|:-------------------------------------|:--------------|:---------|:------------------------------------------------------------------------------|
-| /`manifest`                          | Object        | Required | Manifest descriptor.                                                          |
-| /`manifest`/`destdir`                | String        | Required | Destination path of generated bindings.                                       |
-| /`manifest`/`destdir`/`@explodeJars` | Boolean       | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| /`manifest`/`schemas`                | List          | Required | List of `schema` elements.                                                    |
-| /`manifest`/`schemas`/`schema`       | String        | Required | File path of XML Schema.                                                      |
+| Name                             | Type    | Use      | Description                                                                   |
+|:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
+| `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
+| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
+| `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
+| `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
+| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
+| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+[xds-schema]: https://github.com/SevaSafris/xdb/blob/master/schema/src/main/resources/xds.xsd
