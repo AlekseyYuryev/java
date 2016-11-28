@@ -1,6 +1,6 @@
 <img src="http://safris.org/logo.png" align="right" />
 # xdb-maven-archetype<br>[![JavaCommons](https://img.shields.io/badge/mvn-archetype-yellow.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
-> Quick-start Maven Archetype for commons-xdb
+> Quick-start Maven Archetype for XDB framework
 
 ## Introduction
 
