@@ -14,7 +14,7 @@ To use the archetype, execute the following:
   mvn archetype:generate \
   -DgroupId=com.mycompany.app -DartifactId=my-app \
   -DarchetypeGroupId=org.safris.maven.archetype -DarchetypeArtifactId=xdb-maven-archetype \
-  -DarchetypeCatalog=mvn.repo.safris.org -DinteractiveMode=false
+  -DarchetypeCatalog=http://mvn.repo.safris.org -DinteractiveMode=false
   ```
 
 ## License
