@@ -1,30 +1,30 @@
 <img src="http://safris.org/logo.png" align="right"/>
 ## java<br>[![JavaCommons](https://img.shields.io/badge/java-enterprise-blue.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
 
-## Introduction
+### Introduction
 
 [SevaSafris](https://github.com/SevaSafris) / [java](https://github.com/SevaSafris/java) is a unified source base for Java projects at [safris.org](https://www.safris.org/).
 
-## Projects
+### Projects
 
-### [CohesionFirst™](https://cohesionfirst.com/)
+#### [CohesionFirst™](https://cohesionfirst.com/)
 
 CohesionFirst™ is an engineering approach that guides engineers to do more quality work, with more confidence, and higher efficiency. CohesionFirst™ is a set of best practices and guidelines that allow engineers to excel their skills. Based on many well known conventions, the principles of CohesionFirst™ are not rocket science, but rather a set of clear, consistent, and logical standards curated specifically for engineering and design.
 
-* [XSB (Xml Schema Binding)](https://github.com/SevaSafris/java/blob/master/xsb) - Complete solution for binding of XML Schemas to the Java language.
-* [XDB (eXtensible Data Binding)](https://github.com/SevaSafris/java/blob/master/xdb/)
-  * [xdb-entities (eXtensible Data Binding Entities)](https://github.com/SevaSafris/java/blob/master/xdb/entities) - Lightweight ORM solution with strongly typed DML semantics.
-  * [xdb-schema (eXtensible Data Binding Schema)](https://github.com/SevaSafris/java/blob/master/xdb/schema) - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
-* [XJB (eXtensible JSON Binding)](https://github.com/SevaSafris/java/blob/master/xjb) - Validating XML-based descriptor schema for JSON classes.
-* [XRS (jaX REST Server)](https://github.com/SevaSafris/java/blob/master/xrs) - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
+* [XSB (Xml Schema Binding)](https://github.com/SevaSafris/xsb) - Complete solution for binding of XML Schemas to the Java language.
+* [XDB (eXtensible Data Binding)](https://github.com/SevaSafris/xdb/)
+  * [xdb-entities (eXtensible Data Binding Entities)](https://github.com/SevaSafris/xdb/blob/master/entities) - Lightweight ORM solution with strongly typed DML semantics.
+  * [xdb-schema (eXtensible Data Binding Schema)](https://github.com/SevaSafris/xdb/blob/master/schema) - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
+* [XJB (eXtensible JSON Binding)](https://github.com/SevaSafris/xjb) - Validating XML-based descriptor schema for JSON classes.
+* [XRS (jaX REST Server)](https://github.com/SevaSafris/xrs) - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
 
-### [Commons](https://github.com/SevaSafris/java/blob/master/commons)
+#### **Commons**
 
-* [commons-cli](https://github.com/SevaSafris/java/blob/master/commons/cli) - Validating XML-based descriptor and API for the CLI facet of applications.
-* [commons-dbcp](https://github.com/SevaSafris/java/blob/master/commons/dbcp) - Validating XML-based descriptor and API for initialization of JDBC Database Connection Pools.
-* [commons-jetty](https://github.com/SevaSafris/java/blob/master/commons/jetty) - Embedded server wrapper and initializer of the [Jetty Servlet Container](http://www.eclipse.org/jetty/).
+* [commons-cli](https://github.com/SevaSafris/commons-cli/) - Validating XML-based descriptor and API for the CLI facet of applications.
+* [commons-dbcp](https://github.com/SevaSafris/commons-dbcp/) - Validating XML-based descriptor and API for initialization of JDBC Database Connection Pools.
+* [commons-jetty](https://github.com/SevaSafris/commons-jetty/) - Embedded server wrapper and initializer of the [Jetty Servlet Container](http://www.eclipse.org/jetty/).
 
-### [Maven Plugins](https://github.com/SevaSafris/java/blob/master/maven/plugin)
+#### **Maven Plugins**
 
 * [cert-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/cert-maven-plugin) - Maven plugin that imports HTTPS server certificates into the keystore's trust chain.
 * [codegen-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/codegen-maven-plugin) - Maven plugin to execute code-generating libraries, such as [`istenum`](https://github.com/SevaSafris/java/blob/master/commons/search/src/main/java/org/safris/commons/search/ISTEnumGenerator.java).
@@ -34,12 +34,12 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 * [xml-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xml-maven-plugin) - Maven plugin to execute XML tasks, such as `validate`.
 * [xsb-maven-plugin](https://github.com/SevaSafris/java/tree/master/maven/plugin/xsb-maven-plugin) - Maven plugin to execute [XSB](https://github.com/SevaSafris/java/tree/master/xsb) code generator.
 
-### [Maven Archetypes](https://github.com/SevaSafris/java/blob/master/maven/archetype)
+#### **Maven Archetypes**
 
-* [cli-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/cli-maven-archetype) - Quick-start Maven Archetype for commons-cli.
-* [dbcp-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/dbcp-maven-archetype) - Quick-start Maven Archetype for commons-dbcp.
-* [xdb-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/xdb-maven-archetype) - Quick-start Maven Archetype for XDB framework.
+* [cli-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/cli-maven-archetype) - Quick-start Maven Archetype for [commons-cli](https://github.com/SevaSafris/commons-cli/).
+* [dbcp-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/dbcp-maven-archetype) - Quick-start Maven Archetype for [commons-dbcp](https://github.com/SevaSafris/commons-dbcp/).
+* [xdb-maven-archetype](https://github.com/SevaSafris/java/tree/master/maven/archetype/xdb-maven-archetype) - Quick-start Maven Archetype for [XDB](https://github.com/SevaSafris/xdb/) framework.
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
