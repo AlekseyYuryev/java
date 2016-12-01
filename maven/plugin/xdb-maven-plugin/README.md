@@ -1,10 +1,10 @@
 <img src="http://safris.org/logo.png" align="right"/>
-## xdb-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XDB](https://github.com/SevaSafris/xdb) framework
+## xdb-maven-plugin<br>![mvn-plugin][mvn-plugin] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+> Maven Plugin for [XDB][xdb] framework
 
 ### Introduction
 
-The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDB](https://github.com/SevaSafris/xdb) framework.
+The `xdb-maven-plugin` plugin is used to execute database-related generators, which are currently the [XDB][xdb] framework.
 
 ### Goals Overview
 
@@ -176,4 +176,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
+[cohesionfirst]: https://www.cohesionfirst.com/
+[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
+[mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
+[xdb]: https://github.com/SevaSafris/xdb
 [xds-schema]: https://github.com/SevaSafris/xdb/blob/master/schema/src/main/resources/xds.xsd

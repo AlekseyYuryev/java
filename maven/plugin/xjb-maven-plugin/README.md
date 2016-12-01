@@ -1,10 +1,10 @@
 <img src="http://safris.org/logo.png" align="right"/>
-## xjb-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
-> Maven Plugin for [XJB](https://github.com/SevaSafris/xjb) framework
+## xjb-maven-plugin<br>![mvn-plugin][mvn-plugin] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+> Maven Plugin for [XJB][xjb] framework
 
 ### Introduction
 
-The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB](https://github.com/SevaSafris/java/tree/master/xjb) framework.
+The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB][xjb] framework.
 
 ### Goals Overview
 
@@ -77,3 +77,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+[cohesionfirst]: https://www.cohesionfirst.com/
+[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
+[mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
+[xjb]: https://github.com/SevaSafris/xjb

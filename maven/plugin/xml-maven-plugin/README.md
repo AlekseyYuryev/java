@@ -1,5 +1,5 @@
 <img src="http://safris.org/logo.png" align="right"/>
-## xml-maven-plugin<br>[![JavaCommons](https://img.shields.io/badge/mvn-plugin-lightgrey.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
+## xml-maven-plugin<br>![mvn-plugin][mvn-plugin] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
 > Maven Plugin for XML-related goals
 
 ### Introduction
@@ -80,3 +80,7 @@ The `xml:validate` goal uses XML Schema v1 validation spec, which is obsoleted b
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+[cohesionfirst]: https://www.cohesionfirst.com/
+[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
+[mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
