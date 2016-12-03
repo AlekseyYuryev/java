@@ -279,14 +279,6 @@ public final class Strings {
     return buffer.toString();
   }
 
-  public static int indexOfReverse(final String string, final char ch, int fromIndex) {
-    for (int i = fromIndex; i >= 0; i--)
-      if (string.charAt(i) == ch)
-        return i;
-
-    return -1;
-  }
-
   public static String getAlpha(final int number) {
     int scale;
     return number < '{' - 'a' ? String.valueOf((char)('a' + number)) : getAlpha((scale = number / ('{' - 'a')) - 1) + String.valueOf((char)('a' + number - scale * ('{' - 'a')));

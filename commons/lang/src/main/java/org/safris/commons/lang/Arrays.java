@@ -16,8 +16,6 @@
 
 package org.safris.commons.lang;
 
-import java.lang.reflect.Array;
-
 public final class Arrays {
   public static abstract class Filter<T> {
     public abstract T filter(final T value);
@@ -66,28 +64,6 @@ public final class Arrays {
       buffer.append(delimiter).append(String.valueOf(array[i]));
 
     return buffer.toString();
-  }
-
-  // FIXME: This has bugs!
-  @SafeVarargs
-  public static <T>T[] addAll(final T[] ... array) {
-    int length = 0;
-    Class<?> type = null;
-    for (final Object[] a : array) {
-      if (a != null) {
-        length += a.length;
-        if (type == null)
-          type = a.getClass().getComponentType();
-      }
-    }
-
-    @SuppressWarnings("unchecked")
-    final T[] all = (T[])Array.newInstance(type, length);
-    int index = 0;
-    for (final Object[] a : array)
-      System.arraycopy(a, 0, all, index += a.length, a.length);
-
-    return all;
   }
 
   public static void fillIncremental(final byte[] array, byte start) {
