@@ -1,5 +1,5 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right"/>
-## plugin<br>![mvn-plugin][mvn-plugin] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+## plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
 > Maven Plugins
 
 ### Introduction
@@ -22,8 +22,6 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 [cert-maven-plugin]: https://github.com/SevaSafris/cert-maven-plugin#cert-maven-plugin-
 [codegen-maven-plugin]: https://github.com/SevaSafris/codegen-maven-plugin#codegen-maven-plugin-
-[cohesionfirst]: https://www.cohesionfirst.com/
-[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
 [version-maven-plugin]: https://github.com/SevaSafris/version-maven-plugin#version-maven-plugin-
 [xdb-maven-plugin]: https://github.com/SevaSafris/xdb-maven-plugin#xdb-maven-plugin-

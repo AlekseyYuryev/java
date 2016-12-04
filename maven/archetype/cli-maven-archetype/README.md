@@ -1,5 +1,5 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right" />
-## cli-maven-archetype<br>![mvn-archetype][mvn-archetype] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+## cli-maven-archetype<br>![mvn-archetype][mvn-archetype] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
 > Quick-start Maven Archetype for commons-cli
 
 ### Introduction
@@ -21,7 +21,5 @@ To use the archetype, execute the following:
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
-[cohesionfirst]: https://www.cohesionfirst.com/
-[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
 [commons-cli]: https://github.com/SevaSafris/commons-cli
 [mvn-archetype]: https://img.shields.io/badge/mvn-archetype-yellow.svg

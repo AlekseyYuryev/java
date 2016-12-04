@@ -1,5 +1,5 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right"/>
-## java<br>![java-enterprise][java-enterprise] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+## java<br>![java-enterprise][java-enterprise] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
 
 ### Introduction
 
@@ -7,7 +7,7 @@
 
 ### Projects
 
-#### [CohesionFirst™][cohesionfirst]
+#### [CohesionFirst™](https://www.cohesionfirst.org/)
 
 CohesionFirst™ is an engineering approach that guides engineers to do more quality work, with more confidence, and higher efficiency. CohesionFirst™ is a set of best practices and guidelines that allow engineers to excel their skills. Based on many well known conventions, the principles of CohesionFirst™ are not rocket science, but rather a set of clear, consistent, and logical standards curated specifically for engineering and design.
 
@@ -47,8 +47,6 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [cert-maven-plugin]: https://github.com/SevaSafris/cert-maven-plugin
 [cli-maven-archetype]: https://github.com/SevaSafris/cli-maven-archetype
 [codegen-maven-plugin]: https://github.com/SevaSafris/codegen-maven-plugin
-[cohesionfirst]: https://www.cohesionfirst.com/
-[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
 [commons-cli]: https://github.com/SevaSafris/commons-cli
 [commons-dbcp]: https://github.com/SevaSafris/commons-dbcp
 [commons-jetty]: https://github.com/SevaSafris/commons-jetty

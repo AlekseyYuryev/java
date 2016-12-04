@@ -1,5 +1,5 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right"/>
-## xdb-maven-plugin<br>![mvn-plugin][mvn-plugin] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
+## xdb-maven-plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
 > Maven Plugin for [XDB][xdb] framework
 
 ### Introduction
@@ -176,8 +176,6 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
-[cohesionfirst]: https://www.cohesionfirst.com/
-[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
 [xdb]: https://github.com/SevaSafris/xdb
 [xds-schema]: https://github.com/SevaSafris/xdb/blob/master/schema/src/main/resources/xds.xsd
