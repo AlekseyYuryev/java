@@ -1,4 +1,4 @@
-<img src="http://safris.org/logo.png" align="right" />
+<img src="https://www.cohesionfirst.org/logo.png" align="right" />
 ## xdb-maven-archetype<br>![mvn-archetype][mvn-archetype] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
 > Quick-start Maven Archetype for XDB framework
 
