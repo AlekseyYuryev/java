@@ -20,6 +20,7 @@ import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.CASE_WHEN;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.IN;
 import static org.safris.xdb.entities.DML.INSERT;
 import static org.safris.xdb.entities.DML.LEFT;
 import static org.safris.xdb.entities.DML.LT;
@@ -42,6 +43,7 @@ import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.datatype.Char;
 import org.safris.xdb.entities.spec.select.SELECT;
 import org.safris.xdb.entities.spec.update.UPDATE;
 
@@ -130,6 +132,20 @@ public class FormTest extends LoggableTest {
     final LocalDateTime to = new LocalDateTime();
     final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Entity> rows = select.execute();
+  }
+
+  public void testSELECT8() throws SQLException {
+    final survey.Meal m = new survey.Meal();
+
+    final SELECT<Char> select =
+      SELECT(m.email).
+      FROM(m).
+      WHERE(IN(
+        m.email,
+        SELECT(m.email).
+        FROM(m)));
+
+    final RowIterator<Char> rows = select.execute();
   }
 
   public void testUPDATE1() throws SQLException {
