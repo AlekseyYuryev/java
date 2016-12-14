@@ -16,6 +16,7 @@
 
 package org.safris.xdb.entities.datatype;
 
+import java.io.Reader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,33 +27,31 @@ import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.GenerateOn;
 import org.safris.xdb.schema.DBVendor;
 
-public final class Char extends DataType<String> {
-  protected static String get(final ResultSet resultSet, final int columnIndex) throws SQLException {
-    return resultSet.getString(columnIndex);
+public final class Clob extends DataType<Reader> {
+  protected static Reader get(final ResultSet resultSet, final int columnIndex) throws SQLException {
+    final java.sql.Clob clob = resultSet.getClob(columnIndex);
+    return clob == null ? null : clob.getCharacterStream();
   }
 
-  protected static void set(final PreparedStatement statement, final int parameterIndex, final String value) throws SQLException {
+  protected static void set(final PreparedStatement statement, final int parameterIndex, final Reader value) throws SQLException {
     if (value != null)
-      statement.setString(parameterIndex, value);
+      statement.setClob(parameterIndex, value);
     else
-      statement.setNull(parameterIndex, Types.CHAR);
+      statement.setNull(parameterIndex, Types.CLOB);
   }
 
   public final int length;
-  public final boolean varying;
   public final boolean national;
 
-  public Char(final Entity owner, final String specName, final String name, final String _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<String> generateOnInsert, final GenerateOn<String> generateOnUpdate, final int length, final boolean varying, final boolean national) {
-    super(varying ? (national ? Types.NVARCHAR : Types.VARCHAR) : (national ? Types.NCHAR : Types.CHAR), String.class, owner, specName, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate);
+  public Clob(final Entity owner, final String specName, final String name, final Reader _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super Reader> generateOnInsert, final GenerateOn<? super Reader> generateOnUpdate, final int length, final boolean national) {
+    super(national ? Types.NCLOB : Types.CLOB, Reader.class, owner, specName, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate);
     this.length = length;
-    this.varying = varying;
     this.national = national;
   }
 
-  protected Char(final Char copy) {
+  protected Clob(final Clob copy) {
     super(copy);
     this.length = copy.length;
-    this.varying = copy.varying;
     this.national = copy.national;
   }
 

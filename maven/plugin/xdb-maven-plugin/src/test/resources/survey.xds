@@ -20,10 +20,10 @@
   xsi:schemaLocation="http://xdb.safris.org/xds.xsd http://xdb.safris.org/xds.xsd">
   <table name="dish">
     <column name="id" xsi:type="integer" precision="8" unsigned="true" null="false"/>
-    <column name="name" xsi:type="char" length="255" null="false"/>
-    <column name="description" xsi:type="char" length="255" null="false"/>
+    <column name="name" xsi:type="char" length="255" varying="true" null="false"/>
+    <column name="description" xsi:type="char" length="255" varying="true" null="false"/>
     <column name="type" xsi:type="enum" values="main side" null="false"/>
-    <column name="image_url" xsi:type="char" length="255" null="false"/>
+    <column name="image_url" xsi:type="char" length="255" varying="true" null="false"/>
     <column name="created_on" xsi:type="dateTime" null="false"/>
     <constraints>
       <primaryKey>
@@ -35,7 +35,7 @@
     <column name="id" xsi:type="integer" precision="8" unsigned="true" null="false"/>
     <column name="order_id" xsi:type="integer" precision="8" unsigned="true" null="false"/>
     <column name="created_on" xsi:type="dateTime" null="false"/>
-    <column name="email" xsi:type="char" length="255" null="false"/>
+    <column name="email" xsi:type="char" length="255" varying="true" null="false"/>
     <column name="sent" xsi:type="boolean" null="false" default="false"/>
     <column name="skipped" xsi:type="boolean" null="false" default="false"/>
     <constraints>
@@ -64,7 +64,7 @@
     <column name="range_to" xsi:type="dateTime" null="false"/>
   </table>
   <table name="unsubscribed">
-    <column name="email" xsi:type="char" length="255" null="false"/>
+    <column name="email" xsi:type="char" length="255" varying="true" null="false"/>
     <constraints>
       <primaryKey>
         <column name="email"/>
@@ -76,7 +76,7 @@
       <foreignKey references="meal" column="id"/>
     </column>
     <column name="rating" xsi:type="integer" precision="1" unsigned="true" null="true"/>
-    <column name="comment" xsi:type="char" length="2045" null="false"/>
+    <column name="comment" xsi:type="char" length="2048" varying="true" null="false"/>
     <constraints>
       <primaryKey>
         <column name="meal_id"/>
@@ -91,7 +91,7 @@
       <foreignKey references="dish" column="id"/>
     </column>
     <column name="rating" xsi:type="integer" precision="1" unsigned="true" null="false"/>
-    <column name="comment" xsi:type="char" length="2045" null="false"/>
+    <column name="comment" xsi:type="char" varying="true" length="2048" null="false"/>
     <!--<constraints>
       <primaryKey>
         <column name="meal_id"/>

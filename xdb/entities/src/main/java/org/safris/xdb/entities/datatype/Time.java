@@ -20,9 +20,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalTime;
 
-import org.joda.time.LocalTime;
-import org.joda.time.base.BaseLocal;
+import org.safris.commons.util.DateUtil;
 import org.safris.xdb.entities.DataType;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.GenerateOn;
@@ -32,18 +32,20 @@ public final class Time extends DataType<LocalTime> {
   protected static final int sqlType = Types.TIME;
 
   protected static LocalTime get(final ResultSet resultSet, final int columnIndex) throws SQLException {
-    final java.sql.Time value = resultSet.getTime(columnIndex);
-    return value == null ? null : new LocalTime(value.getTime());
+    final java.sql.Time time = resultSet.getTime(columnIndex);
+    return time == null ? null : LocalTime.ofNanoOfDay(time.getTime() * DateUtil.NANOSECONDS_IN_MILLISECONDS);
   }
 
   protected static void set(final PreparedStatement statement, final int parameterIndex, final LocalTime value) throws SQLException {
-    if (value != null)
-      statement.setTime(parameterIndex, new java.sql.Time(value.toDateTimeToday().toDate().getTime()));
-    else
+    if (value != null) {
+      statement.setTime(parameterIndex, java.sql.Time.valueOf(value));
+    }
+    else {
       statement.setNull(parameterIndex, sqlType);
+    }
   }
 
-  public Time(final Entity owner, final String specName, final String name, final LocalTime _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<BaseLocal> generateOnInsert, final GenerateOn<BaseLocal> generateOnUpdate) {
+  public Time(final Entity owner, final String specName, final String name, final LocalTime _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super LocalTime> generateOnInsert, final GenerateOn<? super LocalTime> generateOnUpdate) {
     super(sqlType, LocalTime.class, owner, specName, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate);
   }
 

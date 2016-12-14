@@ -136,6 +136,22 @@
   
   <xs:complexType name="char">
     <xs:complexContent>
+      <xs:extension base="xds:clob">
+        <xs:attribute name="varying" type="xs:boolean" default="false"/>
+        <xs:attribute name="default" type="xs:string"/> <!-- FIXME: Add check so the default is not longer than the length -->
+        <xs:attribute name="generateOnInsert">
+          <xs:simpleType>
+            <xs:restriction base="xs:NCName">
+              <xs:enumeration value="UUID"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="clob">
+    <xs:complexContent>
       <xs:extension base="xds:column">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
@@ -153,26 +169,18 @@
           </xs:element>
         </xs:sequence>
         <xs:attribute name="length" type="xs:positiveInteger" use="required"/>
-        <xs:attribute name="variant" type="xs:boolean" default="false"/>
-        <xs:attribute name="default" type="xs:string"/> <!-- FIXME: Add check so the default is not longer than the length -->
-        <xs:attribute name="generateOnInsert">
-          <xs:simpleType>
-            <xs:restriction base="xs:NCName">
-              <xs:enumeration value="UUID"/>
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="national" type="xs:boolean" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
   <!-- binary data -->
   
-  <xs:complexType name="bit">
+  <xs:complexType name="binary">
     <xs:complexContent>
       <xs:extension base="xds:column">
         <xs:attribute name="length" type="xs:positiveInteger" use="required"/>
-        <xs:attribute name="variant" type="xs:boolean" default="false"/>
+        <xs:attribute name="varying" type="xs:boolean" default="false"/>
         <xs:attribute name="default"> <!-- FIXME: Add check so the default is not longer than the length -->
           <xs:simpleType>
             <xs:restriction base="xs:string">
@@ -183,7 +191,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="blob">
     <xs:complexContent>
       <xs:extension base="xds:column">
@@ -191,7 +199,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <!-- numeric data -->
   
   <xs:simpleType name="integerType">
@@ -253,6 +261,8 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <!-- REAL is synonym for FLOAT(24) -->
+  
   <xs:complexType name="float">
     <xs:complexContent>
       <xs:extension base="xds:column">
@@ -284,6 +294,8 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <!-- NUMERIC is synonym for DECIMAL -->
   
   <xs:complexType name="decimal">
     <xs:complexContent>
@@ -552,11 +564,6 @@
     <xs:complexContent>
       <xs:extension base="xds:named">
         <xs:sequence>
-          <xs:element name="source" minOccurs="0" maxOccurs="unbounded">
-            <xs:complexType>
-              <xs:attribute name="xdb" type="xs:anyURI" use="required"/>
-            </xs:complexType>
-          </xs:element>
           <xs:element name="table" type="xds:table" minOccurs="0" maxOccurs="unbounded">
             <!--<xs:unique name="primaryKey">
               <xs:selector xpath="*"/>
@@ -589,12 +596,8 @@
       <xs:selector xpath="./xds:table"/>
       <xs:field xpath="@name"/>
     </xs:key>
-    <xs:keyref name="keyrefTableName1" refer="xds:keyTableName">
-      <xs:selector xpath="./xds:table/xds:column/xds:foreignKey"/>
-      <xs:field xpath="@references"/>
-    </xs:keyref>
-    <xs:keyref name="keyrefTableName2" refer="xds:keyTableName">
-      <xs:selector xpath="./xds:table/xds:constraints/xds:foreignKey"/>
+    <xs:keyref name="keyrefTableName" refer="xds:keyTableName">
+      <xs:selector xpath="./xds:table/xds:column|xds:constraints/xds:foreignKey"/>
       <xs:field xpath="@references"/>
     </xs:keyref>
     <xs:keyref name="keyrefExtendsTableName" refer="xds:keyTableName">

@@ -35,19 +35,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
-import org.joda.time.LocalDateTime;
 import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.Aggregate;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
-import org.safris.xdb.entities.Provision;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.datatype.Char;
-import org.safris.xdb.entities.spec.select.FROM;
 import org.safris.xdb.entities.spec.select.SELECT;
-import org.safris.xdb.entities.spec.select.WHERE;
 import org.safris.xdb.entities.spec.update.UPDATE;
 
 import xdb.ddl.survey;
@@ -111,7 +108,7 @@ public class FormTest extends LoggableTest {
 
   public void testSELECT5() throws SQLException {
     final survey.MealAudit ma = new survey.MealAudit();
-    final LocalDateTime date = new LocalDateTime();
+    final LocalDateTime date = LocalDateTime.now();
     UPDATE(ma).SET(ma.rangeTo, CASE_WHEN(GT(ma.rangeTo, date)).THEN(ma.rangeTo).ELSE(date)).execute();
   }
 
@@ -131,8 +128,8 @@ public class FormTest extends LoggableTest {
     // u.email IS NULL AND ms.meal_id IS NULL AND ? <= m.created_on AND m.created_on < ? AND m.id = md.meal_id AND md.dish_id = d.id ORDER BY m.created_on,
     // m.order_id
 
-    final LocalDateTime from = new LocalDateTime();
-    final LocalDateTime to = new LocalDateTime();
+    final LocalDateTime from = LocalDateTime.now();
+    final LocalDateTime to = LocalDateTime.now();
     final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Entity> rows = select.execute();
   }

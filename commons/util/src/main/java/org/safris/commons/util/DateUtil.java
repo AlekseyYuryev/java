@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public final class DateUtil {
+  public static final int NANOSECONDS_IN_MILLISECONDS = 1000000;
+
   public static final short MINUTES_IN_DAY = 24 * 60;
   public static final int MILLISECONDS_IN_MINUTE = 60 * 1000;
   public static final int MILLISECONDS_IN_HOUR = 60 * MILLISECONDS_IN_MINUTE;

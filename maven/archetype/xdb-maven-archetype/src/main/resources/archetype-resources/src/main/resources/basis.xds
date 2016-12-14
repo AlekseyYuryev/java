@@ -19,15 +19,15 @@
   </table>
   
   <table name="account" extends="timestamp_id">
-    <column name="email" xsi:type="char" variant="true" length="255" null="false">
+    <column name="email" xsi:type="char" varying="true" length="255" null="false">
       <index unique="true" type="HASH"/>
       <check operator="ne" condition=""/>
     </column>
     <column name="password" xsi:type="char" length="64" null="false"> <!-- SHA256 hash of password goes here -->
       <check operator="ne" condition=""/>
     </column>
-    <column name="first_name" xsi:type="char" variant="true" length="64" null="false"/>
-    <column name="last_name" xsi:type="char" variant="true" length="64" null="false"/>
+    <column name="first_name" xsi:type="char" varying="true" length="64" null="false"/>
+    <column name="last_name" xsi:type="char" varying="true" length="64" null="false"/>
     <column name="forgot_token" xsi:type="char" length="6" null="true"/>
     <column name="forgot_token_on" xsi:type="dateTime" null="true"/>
     <constraints>

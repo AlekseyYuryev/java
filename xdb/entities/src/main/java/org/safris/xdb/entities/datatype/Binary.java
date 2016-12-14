@@ -26,33 +26,35 @@ import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.GenerateOn;
 import org.safris.xdb.schema.DBVendor;
 
-public final class Bit extends DataType<String> {
-  protected static final int sqlType = Types.VARCHAR;
+public final class Binary extends DataType<byte[]> {
+  protected static byte[] get(final ResultSet resultSet, final int columnIndex) throws SQLException {
+    final int columnType = resultSet.getMetaData().getColumnType(columnIndex);
+    if (columnType == Types.BIT)
+      return new byte[] {resultSet.getBoolean(columnIndex) ? (byte)0x01 : (byte)0x00};
 
-  protected static String get(final ResultSet resultSet, final int columnIndex) throws SQLException {
-    return resultSet.getString(columnIndex);
+    return resultSet.getBytes(columnIndex);
   }
 
-  protected static void set(final PreparedStatement statement, final int parameterIndex, final String value) throws SQLException {
+  protected static void set(final PreparedStatement statement, final int parameterIndex, final byte[] value) throws SQLException {
     if (value != null)
-      statement.setString(parameterIndex, value);
+      statement.setBytes(parameterIndex, value);
     else
-      statement.setNull(parameterIndex, sqlType);
+      statement.setNull(parameterIndex, statement.getParameterMetaData().getParameterType(parameterIndex)); // FIXME: Does it matter if we know if this is BIT, BINARY, VARBINARY, or LONGVARBINARY?
   }
 
   public final int length;
-  public final boolean varyant;
+  public final boolean varying;
 
-  public Bit(final Entity owner, final String specName, final String name, final String _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<String> generateOnInsert, final GenerateOn<String> generateOnUpdate, final int length, final boolean varyant) {
-    super(sqlType, String.class, owner, specName, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate);
+  public Binary(final Entity owner, final String specName, final String name, final byte[] _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<byte[]> generateOnInsert, final GenerateOn<byte[]> generateOnUpdate, final int length, final boolean varying) {
+    super(varying ? Types.VARBINARY : Types.BINARY, byte[].class, owner, specName, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate);
     this.length = length;
-    this.varyant = varyant;
+    this.varying = varying;
   }
 
-  protected Bit(final Bit copy) {
+  protected Binary(final Binary copy) {
     super(copy);
     this.length = copy.length;
-    this.varyant = copy.varyant;
+    this.varying = copy.varying;
   }
 
   @Override

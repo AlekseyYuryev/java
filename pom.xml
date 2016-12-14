@@ -26,7 +26,7 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <url>http://www.safris.org/</url>
   <organization>
-    <name>Seva Safris</name>
+    <name>SAFRIS.org</name>
     <url>http://www.safris.org/</url>
   </organization>
   <licenses>
@@ -41,18 +41,18 @@
       <id>seva</id>
       <name>Seva Safris</name>
       <email>seva@safris.org</email>
-      <organization>Seva Safris</organization>
-      <organizationUrl>safris.com</organizationUrl>
+      <organization>SAFRIS.org</organization>
+      <organizationUrl>safris.org</organizationUrl>
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:https://svn.repo.safris.org/safris/</connection>
-    <developerConnection>scm:svn:https://svn.repo.safris.org/safris/</developerConnection>
-    <url>https://svn.repo.safris.org/safris/</url>
+    <connection>git@github.com:SevaSafris/java.git</connection>
+    <developerConnection>git@github.com:SevaSafris/java.git</developerConnection>
+    <url>https://github.com/SevaSafris/java</url>
   </scm>
   <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <profiles>
@@ -498,11 +498,6 @@
   </build>
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>joda-time</groupId>
-        <artifactId>joda-time</artifactId>
-        <version>RELEASE</version>
-      </dependency>
       <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
