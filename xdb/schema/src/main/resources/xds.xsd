@@ -156,14 +156,7 @@
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
-              <xs:attribute name="operator" use="required">
-                <xs:simpleType>
-                  <xs:restriction base="xs:NCName">
-                    <xs:enumeration value="eq"/>
-                    <xs:enumeration value="ne"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
+              <xs:attribute name="operator" type="xds:equalityOperator" use="required"/>
               <xs:attribute name="condition" type="xs:string" use="required"/>
             </xs:complexType>
           </xs:element>
@@ -209,24 +202,31 @@
     </xs:restriction>
   </xs:simpleType>
   
+  <xs:simpleType name="equalityOperator">
+    <xs:restriction base="xs:NCName">
+      <xs:enumeration value="eq"/>
+      <xs:enumeration value="ne"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="rangeOperator">
+    <xs:restriction base="xs:NCName">
+      <xs:enumeration value="eq"/>
+      <xs:enumeration value="ne"/>
+      <xs:enumeration value="gt"/>
+      <xs:enumeration value="gte"/>
+      <xs:enumeration value="lt"/>
+      <xs:enumeration value="lte"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:complexType name="integer">
     <xs:complexContent>
       <xs:extension base="xds:column">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
-              <xs:attribute name="operator" use="required">
-                <xs:simpleType>
-                  <xs:restriction base="xs:NCName">
-                    <xs:enumeration value="eq"/>
-                    <xs:enumeration value="ne"/>
-                    <xs:enumeration value="gt"/>
-                    <xs:enumeration value="gte"/>
-                    <xs:enumeration value="lt"/>
-                    <xs:enumeration value="lte"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
+              <xs:attribute name="operator" type="xds:rangeOperator" use="required"/>
               <xs:attribute name="condition" type="xds:integerType" use="required"/>
             </xs:complexType>
           </xs:element>
@@ -269,18 +269,7 @@
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
-              <xs:attribute name="operator" use="required">
-                <xs:simpleType>
-                  <xs:restriction base="xs:NCName">
-                    <xs:enumeration value="eq"/>
-                    <xs:enumeration value="ne"/>
-                    <xs:enumeration value="gt"/>
-                    <xs:enumeration value="gte"/>
-                    <xs:enumeration value="lt"/>
-                    <xs:enumeration value="lte"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
+              <xs:attribute name="operator" type="xds:rangeOperator" use="required"/>
               <xs:attribute name="condition" type="xs:decimal" use="required"/>
             </xs:complexType>
           </xs:element>
@@ -303,18 +292,7 @@
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
-              <xs:attribute name="operator" use="required">
-                <xs:simpleType>
-                  <xs:restriction base="xs:NCName">
-                    <xs:enumeration value="eq"/>
-                    <xs:enumeration value="ne"/>
-                    <xs:enumeration value="gt"/>
-                    <xs:enumeration value="gte"/>
-                    <xs:enumeration value="lt"/>
-                    <xs:enumeration value="lte"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
+              <xs:attribute name="operator" type="xds:rangeOperator" use="required"/>
               <xs:attribute name="condition" type="xs:decimal" use="required"/>
             </xs:complexType>
           </xs:element>
@@ -560,7 +538,7 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="database">
+  <xs:complexType name="schema">
     <xs:complexContent>
       <xs:extension base="xds:named">
         <xs:sequence>
@@ -591,7 +569,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:element name="database" type="xds:database">
+  <xs:element name="schema" type="xds:schema">
     <xs:key name="keyTableName">
       <xs:selector xpath="./xds:table"/>
       <xs:field xpath="@name"/>

@@ -174,7 +174,7 @@ public final class Strings {
 
     string = toCamelCase(string);
     int index = 0;
-    char[] chars = string.toCharArray();
+    final char[] chars = string.toCharArray();
     for (int i = 0; i < chars.length; i++) {
       index = i;
       if (('0' <= chars[i] && chars[i] <= '9') || ('a' <= chars[i] && chars[i] <= 'z'))

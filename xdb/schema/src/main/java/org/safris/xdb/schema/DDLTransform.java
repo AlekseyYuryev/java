@@ -50,7 +50,7 @@ import org.safris.xdb.xds.xe.$xds_integer;
 import org.safris.xdb.xds.xe.$xds_named;
 import org.safris.xdb.xds.xe.$xds_table;
 import org.safris.xdb.xds.xe.$xds_time;
-import org.safris.xdb.xds.xe.xds_database;
+import org.safris.xdb.xds.xe.xds_schema;
 
 public final class DDLTransform extends XDLTransformer {
   private static final Map<String,Integer> reservedWords = new HashMap<String,Integer>();
@@ -433,7 +433,7 @@ public final class DDLTransform extends XDLTransformer {
     return DDLTransform.createDDL(parseArguments(url, outDir), vendor, outDir);
   }
 
-  public static DDL[] createDDL(final xds_database database, final DBVendor vendor, final File outDir) {
+  public static DDL[] createDDL(final xds_schema database, final DBVendor vendor, final File outDir) {
     final DDLTransform creator = new DDLTransform(database);
     final DDL[] ddls = creator.parse(vendor);
     final StringBuilder sql = new StringBuilder();
@@ -455,7 +455,7 @@ public final class DDLTransform extends XDLTransformer {
   }
 
   public static DDLTransform transformDDL(final URL url) throws IOException, XMLException {
-    final xds_database database = parseArguments(url, null);
+    final xds_schema database = parseArguments(url, null);
     return new DDLTransform(database);
   }
 
@@ -476,7 +476,7 @@ public final class DDLTransform extends XDLTransformer {
     Log.warn(message);
   }
 
-  private DDLTransform(final xds_database database) {
+  private DDLTransform(final xds_schema database) {
     super(database);
   }
 

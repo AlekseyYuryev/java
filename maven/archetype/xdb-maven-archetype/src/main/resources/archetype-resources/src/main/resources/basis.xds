@@ -1,4 +1,4 @@
-<database name="basis"
+<schema name="basis"
   xmlns="http://xdb.safris.org/xds.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xdb.safris.org/xds.xsd http://xdb.safris.org/xds.xsd">
@@ -37,4 +37,4 @@
     </constraints>
   </table>
   
-</database>
+</schema>

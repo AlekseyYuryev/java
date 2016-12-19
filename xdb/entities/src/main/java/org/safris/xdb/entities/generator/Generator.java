@@ -61,7 +61,7 @@ import org.safris.xdb.xds.xe.$xds_integer;
 import org.safris.xdb.xds.xe.$xds_named;
 import org.safris.xdb.xds.xe.$xds_table;
 import org.safris.xdb.xds.xe.$xds_time;
-import org.safris.xdb.xds.xe.xds_database;
+import org.safris.xdb.xds.xe.xds_schema;
 import org.safris.xsb.runtime.Bindings;
 import org.w3.x2001.xmlschema.xe.$xs_anySimpleType;
 import org.xml.sax.InputSource;
@@ -70,7 +70,7 @@ public class Generator {
   private static final Map<String,$xds_table> tableNameToTable = new HashMap<String,$xds_table>();
 
   public static void generate(final URL url, final File outDir) throws IOException, XMLException {
-    final xds_database database = (xds_database)Bindings.parse(new InputSource(url.openStream()));
+    final xds_schema database = (xds_schema)Bindings.parse(new InputSource(url.openStream()));
     Log.info("Generating database entities: " + database._name$().text());
     for (final $xds_table table : database._table())
       tableNameToTable.put(table._name$().text(), table);
