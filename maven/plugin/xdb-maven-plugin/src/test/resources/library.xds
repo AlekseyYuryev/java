@@ -16,15 +16,16 @@
 -->
 <schema name="library"
   xmlns="http://xdb.safris.org/xds.xsd"
+  xmlns:xde="http://xdb.safris.org/xde.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://xdb.safris.org/xds.xsd http://xdb.safris.org/xds.xsd">
-  <table name="timestamp" abstract="true">
-    <column name="modified_on" xsi:type="dateTime" null="false" generateOnUpdate="TIMESTAMP"/>
-    <column name="created_on" xsi:type="dateTime" null="false" generateOnInsert="TIMESTAMP"/>
-    <column name="version" xsi:type="integer" precision="10" unsigned="true" default="0" null="false" generateOnUpdate="INCREMENT" checkOnUpdate="EQUALS"/>
+  xsi:schemaLocation="http://xdb.safris.org/xde.xsd http://xdb.safris.org/xde.xsd">
+  <table name="timestamp" abstract="true" xde:versionColumn="version">
+    <column name="modified_on" xsi:type="dateTime" null="false" xde:generateOnUpdate="TIMESTAMP"/>
+    <column name="created_on" xsi:type="dateTime" null="false" xde:generateOnInsert="TIMESTAMP"/>
+    <column name="version" xsi:type="integer" precision="10" unsigned="true" default="0" null="false" xde:generateOnUpdate="INCREMENT" xde:checkOnUpdate="EQUALS"/>
   </table>
   <table name="timestamp_id" abstract="true" extends="timestamp">
-    <column name="id" xsi:type="char" varying="true" length="36" null="false" generateOnInsert="UUID"/>
+    <column name="id" xsi:type="char" varying="true" length="36" null="false" xde:generateOnInsert="UUID"/>
     <constraints>
       <primaryKey>
         <column name="id"/>
