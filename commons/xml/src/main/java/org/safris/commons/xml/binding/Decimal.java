@@ -19,7 +19,7 @@ package org.safris.commons.xml.binding;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#decimal
  */
-public final class Decimal extends Number {
+public final class Decimal extends Number implements Comparable<Number> {
   private static final long serialVersionUID = -1301674537295759648L;
 
   public static Decimal parseDecimal(final String string) {
@@ -74,6 +74,11 @@ public final class Decimal extends Number {
   @Override
   public double doubleValue() {
     return value.doubleValue();
+  }
+
+  @Override
+  public int compareTo(final Number o) {
+    return value.doubleValue() < o.doubleValue() ? -1 : value.doubleValue() == o.doubleValue() ? 0 : 1;
   }
 
   @Override
