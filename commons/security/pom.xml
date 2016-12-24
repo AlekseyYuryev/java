@@ -31,11 +31,4 @@
   <description>
     Wrappers for common security patterns.
   </description>
-  <dependencies>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-util</artifactId>
-      <version>1.5.7</version>
-    </dependency>
-  </dependencies>
 </project>
