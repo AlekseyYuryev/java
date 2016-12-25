@@ -27,7 +27,7 @@ public class ValidatorMojoTest extends LoggableTest {
   @Test
   public void testValidate() throws Exception {
     final File dir = new File(".");
-    ValidatorMojo.validate(dir, new File("src/test/resources/valid.xml"), true);
+    ValidatorMojo.validate(dir, new File("/Users/seva/Work/CafeX/src/server/src/main/resources/cafex.xds"), false);
     try {
       ValidatorMojo.validate(dir, new File("src/test/resources/invalid.xml"), true);
       Assert.fail("Should have failed.");

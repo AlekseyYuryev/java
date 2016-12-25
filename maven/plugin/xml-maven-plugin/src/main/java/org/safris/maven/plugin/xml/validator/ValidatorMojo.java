@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +43,7 @@ import org.safris.commons.util.DateUtil;
 import org.safris.commons.xml.validator.OfflineValidationException;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Log;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -156,23 +156,33 @@ public final class ValidatorMojo extends AdvancedMojo {
 
     final CachedResourceResolver resolver = new CachedResourceResolver(dir, offline);
     validator.setResourceResolver(resolver);
-    validator.setErrorHandler(resolver);
+
+    final ErrorHandler errorHandler = validator.getErrorHandler();
+
+    final boolean[] hasError = new boolean[1];
+    validator.setErrorHandler(new ErrorHandler() {
+      @Override
+      public void warning(final SAXParseException exception) throws SAXException {
+      }
+
+      @Override
+      public void fatalError(final SAXParseException exception) throws SAXException {
+      }
+
+      @Override
+      public void error(final SAXParseException exception) throws SAXException {
+        hasError[0] = true;
+      }
+    });
 
     for (int i = 0; i < 2; i++) {
       validator.validate(streamSource);
-      if (resolver.getErrors() == null || resolver.getErrors().size() == 0)
+      if (!hasError[0])
         return;
 
       if (i == 0)
-        resolver.getErrors().clear();
+        validator.setErrorHandler(errorHandler);
     }
-
-    final Iterator<SAXParseException> iterator = resolver.getErrors().iterator();
-    final SAXException exception = new SAXException(iterator.next());
-    while (iterator.hasNext())
-      exception.addSuppressed(iterator.next());
-
-    throw exception;
   }
 
   protected void setHttpProxy() throws MojoFailureException {
@@ -245,7 +255,27 @@ public final class ValidatorMojo extends AdvancedMojo {
             Log.info("Pre-validated: " + fileName);
           }
           else {
+            final boolean[] hasError = new boolean[1];
             try {
+              validator.setErrorHandler(new ErrorHandler() {
+                @Override
+                public void warning(final SAXParseException exception) throws SAXException {
+                  if (exception.getMessage() != null && exception.getMessage().startsWith("schema_reference.4"))
+                    throw exception;
+
+                  Log.warn(exception.getMessage() + " (" + exception.getLineNumber() + "," + exception.getColumnNumber() + ")");
+                }
+
+                @Override
+                public void fatalError(final SAXParseException exception) throws SAXException {
+                }
+
+                @Override
+                public void error(final SAXParseException exception) throws SAXException {
+                  hasError[0] = true;
+                  Log.error(exception.getMessage() + " (" + exception.getLineNumber() + "," + exception.getColumnNumber() + ")");
+                }
+              });
               validate(entry.getKey(), file, offline, validator);
               validator.reset();
               if (!recordFile.createNewFile())
@@ -255,13 +285,9 @@ public final class ValidatorMojo extends AdvancedMojo {
               if (!offline)
                 throw e;
             }
-            catch (final SAXException e) {
-              final StringBuilder builder = new StringBuilder("\nFile: " + file.getAbsoluteFile() + "\nReason: " + e.getMessage() + "\n");
-              for (final Throwable t : e.getSuppressed())
-                builder.append("       ").append(t.getMessage()).append("\n");
 
-              throw new MojoFailureException("Failed to validate xml.", "", builder.toString());
-            }
+            if (hasError[0])
+              throw new MojoFailureException("Failed to validate xml.", "", "\nFile: " + file.getAbsoluteFile());
           }
         }
       }

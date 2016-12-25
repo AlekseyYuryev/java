@@ -19,9 +19,7 @@ package org.safris.maven.plugin.xml.validator;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.safris.commons.lang.Paths;
@@ -30,14 +28,10 @@ import org.safris.commons.net.URLConnections;
 import org.safris.commons.net.URLs;
 import org.safris.commons.xml.validator.OfflineValidationException;
 import org.safris.commons.xml.validator.ValidatorError;
-import org.safris.maven.common.Log;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
-public final class CachedResourceResolver extends DefaultHandler implements LSResourceResolver {
+public final class CachedResourceResolver implements LSResourceResolver {
   private final File basedir;
   private final boolean offline;
 
@@ -46,29 +40,7 @@ public final class CachedResourceResolver extends DefaultHandler implements LSRe
     this.offline = offline;
   }
 
-  private List<SAXParseException> errors;
-
-  @Override
-  public void error(final SAXParseException e) throws SAXException {
-    if (errors == null)
-      errors = new ArrayList<SAXParseException>();
-
-    errors.add(e);
-  }
-
-  @Override
-  public void warning(final SAXParseException e) throws SAXParseException {
-    if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4"))
-      throw e;
-
-    Log.warn(e.getMessage());
-  }
-
-  public List<SAXParseException> getErrors() {
-    return errors;
-  }
-
-  private static Map<String,LSInput> resourceMap = new HashMap<String,LSInput>();
+  private final Map<String,LSInput> resourceMap = new HashMap<String,LSInput>();
 
   @Override
   public LSInput resolveResource(final String type, final String namespaceURI, final String publicId, final String systemId, final String baseURI) {
