@@ -36,6 +36,12 @@ public class CachedResourceInput implements LSInput {
   private String encoding;
   private boolean certifiedText;
 
+  public CachedResourceInput(final String systemId, final String publicId, final String baseURI) {
+    this.systemId = systemId;
+    this.publicId = publicId;
+    this.baseURI = baseURI;
+  }
+
   @Override
   public Reader getCharacterStream() {
     return this.reader;

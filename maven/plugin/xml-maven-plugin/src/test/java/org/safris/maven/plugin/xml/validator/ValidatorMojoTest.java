@@ -41,6 +41,7 @@ public class ValidatorMojoTest extends LoggableTest {
       ValidatorMojo.validate(dir, new File("src/test/resources/test.xsd"), true);
     }
     catch (final SAXException e) {
+      System.err.println(e.getMessage());
       if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/"))
         log(e.getMessage());
       else

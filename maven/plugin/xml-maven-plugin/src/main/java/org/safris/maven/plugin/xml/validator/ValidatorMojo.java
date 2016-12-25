@@ -16,6 +16,7 @@
 
 package org.safris.maven.plugin.xml.validator;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -23,8 +24,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -35,15 +41,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.io.Files;
 import org.safris.commons.util.DateUtil;
-import org.safris.commons.xml.sax.SAXFeature;
-import org.safris.commons.xml.sax.SAXParser;
-import org.safris.commons.xml.sax.SAXParsers;
-import org.safris.commons.xml.sax.SAXProperty;
 import org.safris.commons.xml.validator.OfflineValidationException;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Log;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 @Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)
 @Execute(goal = "validate")
@@ -130,45 +132,47 @@ public final class ValidatorMojo extends AdvancedMojo {
   @Parameter(property = "skip", defaultValue = "false")
   private boolean skip;
 
-  /* Alternate implementation, using modern interfaces... cant figure out how to
-   * have it rely on xsi:schemaLocation attributes for schema paths.
-  protected static void validate(final File dir, final File file, final Log log) throws IOException, SAXException {
-    final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "file, http, jar:file");
-    factory.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR.toString(), true);
-    factory.setFeature(SAXFeature.SCHEMA_FULL_CHECKING.toString(), true);
-    factory.setResourceResolver(new CachedResourceResolver());
-    factory.setErrorHandler(ValidatorErrorHandler.getInstance(log));
-    final Schema schema = factory.newSchema(new StreamSource(Resources.getResource("XMLSchema.xsd").openStream()));
-    final Validator validator = schema.newValidator();
-    validator.validate(new StreamSource(file));
-  }*/
+  private static Validator newValidator() throws SAXException {
+    final SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1");
+    return factory.newSchema().newValidator();
+  }
 
   protected static void validate(final File dir, final File file, final boolean offline) throws IOException, SAXException {
-    final SAXParser saxParser = SAXParsers.createParser();
-    // Set the features.
-    saxParser.setFeature(SAXFeature.CONTINUE_AFTER_FATAL_ERROR, true);
-    saxParser.setFeature(SAXFeature.DYNAMIC_VALIDATION, true);
-    saxParser.setFeature(SAXFeature.NAMESPACE_PREFIXES, true);
-    saxParser.setFeature(SAXFeature.NAMESPACES, true);
-    saxParser.setFeature(SAXFeature.SCHEMA_FULL_CHECKING, true);
-    saxParser.setFeature(SAXFeature.SCHEMA_VALIDATION, true);
-    saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ATTDEF, true);
-    saxParser.setFeature(SAXFeature.WARN_ON_DUPLICATE_ENTITYDEF, true);
-    saxParser.setFeature(SAXFeature.VALIDATION, true);
+    validate(dir, file, offline, newValidator());
+  }
 
-    // Set the properties.
-    saxParser.setProptery(SAXProperty.SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd");
-    saxParser.setProptery(SAXProperty.ENTITY_RESOLVER, new ValidatorEntityResolver(file.getAbsoluteFile().getParentFile(), offline));
-
-    // Set the ErrorHandler.
-    saxParser.setErrorHandler(ValidatorErrorHandler.instance());
-
+  protected static void validate(final File dir, final File file, final boolean offline, final Validator validator) throws IOException, SAXException {
     final String fileName = Files.relativePath(dir.getAbsoluteFile(), file.getAbsoluteFile());
     Log.info("   Validating: " + fileName);
 
-    // Parse.
-    saxParser.parse(new InputSource(new FileInputStream(file)));
+    final BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file)) {
+      @Override
+      public void close() throws IOException {
+        reset();
+      }
+    };
+    inputStream.mark(Integer.MAX_VALUE);
+    final StreamSource streamSource = new StreamSource(inputStream, file.toURI().toASCIIString());
+
+    final CachedResourceResolver resolver = new CachedResourceResolver(dir, offline);
+    validator.setResourceResolver(resolver);
+    validator.setErrorHandler(resolver);
+
+    for (int i = 0; i < 2; i++) {
+      validator.validate(streamSource);
+      if (resolver.getErrors() == null || resolver.getErrors().size() == 0)
+        return;
+
+      if (i == 0)
+        resolver.getErrors().clear();
+    }
+
+    final Iterator<SAXParseException> iterator = resolver.getErrors().iterator();
+    final SAXException exception = new SAXException(iterator.next());
+    while (iterator.hasNext())
+      exception.addSuppressed(iterator.next());
+
+    throw exception;
   }
 
   protected void setHttpProxy() throws MojoFailureException {
@@ -233,6 +237,7 @@ public final class ValidatorMojo extends AdvancedMojo {
     try {
       for (final Map.Entry<File,Collection<File>> entry : files.entrySet()) {
         //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
+        final Validator validator = newValidator();
         for (final File file : entry.getValue()) {
           final File recordFile = new File(recordDir, file.getName());
           if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
@@ -241,7 +246,8 @@ public final class ValidatorMojo extends AdvancedMojo {
           }
           else {
             try {
-              validate(entry.getKey(), file, offline);
+              validate(entry.getKey(), file, offline, validator);
+              validator.reset();
               if (!recordFile.createNewFile())
                 recordFile.setLastModified(file.lastModified());
             }
@@ -250,7 +256,11 @@ public final class ValidatorMojo extends AdvancedMojo {
                 throw e;
             }
             catch (final SAXException e) {
-              throw new MojoFailureException("Failed to validate xml.", "", "\nFile: " + file.getAbsoluteFile() + "\nReason: " + e.getMessage() + "\n");
+              final StringBuilder builder = new StringBuilder("\nFile: " + file.getAbsoluteFile() + "\nReason: " + e.getMessage() + "\n");
+              for (final Throwable t : e.getSuppressed())
+                builder.append("       ").append(t.getMessage()).append("\n");
+
+              throw new MojoFailureException("Failed to validate xml.", "", builder.toString());
             }
           }
         }
@@ -259,7 +269,7 @@ public final class ValidatorMojo extends AdvancedMojo {
     catch (final OfflineValidationException e) {
       throw new MojoFailureException(e.getMessage(), e);
     }
-    catch (final IOException e) {
+    catch (final IOException | SAXException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }
