@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml;
+package org.safris.commons.xml.transform;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,14 +25,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.io.Files;
 
-public class TransformMojoTest {
+public class TransformerTest {
   @Test
   public void testTransform() throws TransformerException, IOException {
     final File destFile = new File("target/generated-test-resources/test.txt");
     if (destFile.exists())
       destFile.delete();
 
-    TransformMojo.transform(new File("src/test/resources/test.xsl"), new File(""), new File("src/test/resources/test.xml"), destFile);
+    Transformer.transform(new File("src/test/resources/test.xsl").toURI().toURL(), new File("src/test/resources/test.xml").toURI().toURL(), destFile);
     final String string = new String(Files.getBytes(destFile));
     Assert.assertEquals("<HTML>\n   <HEAD>\n      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n      <TITLE></TITLE>\n   </HEAD>\n   <BODY>\n      <H1>Hello, World!</H1>\n      <DIV>from <I>An XSLT Programmer</I></DIV>\n   </BODY>\n</HTML>", string);
   }

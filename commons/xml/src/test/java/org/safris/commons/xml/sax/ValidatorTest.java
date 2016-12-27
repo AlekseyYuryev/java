@@ -14,23 +14,21 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml;
+package org.safris.commons.xml.sax;
 
 import java.io.File;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
-import org.safris.maven.plugin.xml.ValidatorMojo;
 import org.xml.sax.SAXException;
 
-public class ValidatorMojoTest extends LoggableTest {
+public class ValidatorTest extends LoggableTest {
   @Test
   public void testValidate() throws Exception {
-    final File dir = new File("");
-    ValidatorMojo.validate(dir, new File("src/test/resources/valid.xml"), false);
+    Validator.validate(new File("src/test/resources/valid.xml"), false);
     try {
-      ValidatorMojo.validate(dir, new File("src/test/resources/invalid.xml"), true);
+      Validator.validate(new File("src/test/resources/invalid.xml"), true);
       Assert.fail("Should have failed.");
     }
     catch (final SAXException e) {
@@ -39,7 +37,7 @@ public class ValidatorMojoTest extends LoggableTest {
     }
 
     try {
-      ValidatorMojo.validate(dir, new File("src/test/resources/test.xsd"), true);
+      Validator.validate(new File("src/test/resources/test.xsd"), true);
     }
     catch (final SAXException e) {
       System.err.println(e.getMessage());

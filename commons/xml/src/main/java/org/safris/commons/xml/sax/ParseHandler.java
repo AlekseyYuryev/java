@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml;
+package org.safris.commons.xml.sax;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.List;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLConnections;
 import org.safris.commons.net.URLs;
-import org.safris.commons.xml.validator.OfflineValidationException;
+import org.safris.commons.xml.validate.OfflineValidationException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

@@ -29,6 +29,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 import org.safris.commons.io.Files;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Log;
@@ -55,9 +56,6 @@ public abstract class XmlMojo extends AdvancedMojo {
   @Parameter(defaultValue = "${httpProxy}", required = false, readonly = true)
   private String httpProxy;
 
-  @Parameter(defaultValue = "${basedir}", required = true, readonly = true)
-  protected File basedir;
-
   @Parameter(defaultValue = "${project.resources}", required = true, readonly = true)
   private List<Resource> resources;
 
@@ -69,6 +67,15 @@ public abstract class XmlMojo extends AdvancedMojo {
 
   @Parameter(defaultValue = "${settings.offline}", required = true, readonly = true)
   protected boolean offline;
+
+  @Parameter(defaultValue = "${project}", required = true, readonly = true)
+  private MavenProject project;
+
+  private File localDir;
+
+  protected File getLocalDir() {
+    return localDir == null ? localDir = project.getBasedir() : localDir;
+  }
 
   protected void setHttpProxy() throws MojoFailureException {
     if (offline)
@@ -139,7 +146,7 @@ public abstract class XmlMojo extends AdvancedMojo {
     final Set<File> files = new HashSet<File>();
     for (final Resource resource : resources) {
       final File dir = new File(resource.getDirectory());
-      final Collection<File> xmlFiles = Files.listAll(dir, filter(basedir, includes, excludes));
+      final Collection<File> xmlFiles = Files.listAll(dir, filter(getLocalDir(), includes, excludes));
       if (xmlFiles != null)
         files.addAll(xmlFiles);
     }

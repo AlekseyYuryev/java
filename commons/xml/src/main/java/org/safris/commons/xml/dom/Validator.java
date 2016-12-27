@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.xml.validator;
+package org.safris.commons.xml.dom;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,6 +26,8 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.safris.commons.net.URLs;
+import org.safris.commons.xml.validate.ValidationException;
+import org.safris.commons.xml.validate.ValidatorError;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -69,7 +71,7 @@ public abstract class Validator {
     if (element != element.getOwnerDocument().getDocumentElement())
       return;
 
-    NamedNodeMap attributes = element.getAttributes();
+    final NamedNodeMap attributes = element.getAttributes();
     Node node = null;
     Collection<String> namespaceURIs = new ArrayList<String>(attributes.getLength());
     for (int i = 0; i < attributes.getLength(); i++) {
@@ -96,6 +98,7 @@ public abstract class Validator {
 
     element.setAttributeNS(XMLNS.getNamespaceURI(), XSI.getPrefix() + ":" + XSI.getLocalPart(), XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
     element.setAttributeNS(XSI.getNamespaceURI(), "xsi:schemaLocation", namespaceLocations.substring(1));
+
     try {
       parse(element);
     }

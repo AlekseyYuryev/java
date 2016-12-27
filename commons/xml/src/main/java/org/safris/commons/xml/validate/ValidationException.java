@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 Seva Safris
+/* Copyright (c) 2008 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,26 +14,27 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.xml.validator;
+package org.safris.commons.xml.validate;
 
-import org.safris.commons.xml.XMLRuntimeException;
+import org.safris.commons.xml.XMLException;
 
-public class OfflineValidationException extends XMLRuntimeException {
-  private static final long serialVersionUID = -6362835686505809259L;
+public final class ValidationException extends XMLException {
+  private static final long serialVersionUID = -5730844996681538725L;
 
-  public OfflineValidationException() {
+  public ValidationException() {
     super();
   }
 
-  public OfflineValidationException(final String message) {
+  public ValidationException(final String message) {
     super(message);
   }
 
-  public OfflineValidationException(final Throwable cause) {
-    super(cause);
+  public ValidationException(final Throwable cause) {
+    super(cause.getMessage(), cause.getCause());
+    setStackTrace(cause.getStackTrace());
   }
 
-  public OfflineValidationException(final String message, final Throwable cause) {
+  public ValidationException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

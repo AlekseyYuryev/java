@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xml;
+package org.safris.commons.xml.sax;
 
 import org.safris.maven.common.Log;
 import org.xml.sax.ErrorHandler;

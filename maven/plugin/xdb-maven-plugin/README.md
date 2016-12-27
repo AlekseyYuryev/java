@@ -9,6 +9,7 @@ The `xdb-maven-plugin` plugin is used to execute database-related generators, wh
 ### Goals Overview
 
 * [`xdb:schema`](#xdbschema) generates DDL SQL.
+* [`xdb:data`](#xdbdata) generates DDL SQL.
 * [`xdb:entities`](#xdbentities) generates XDE Entities.
 
 ### Usage
@@ -86,6 +87,85 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | Name                             | Type    | Use      | Description                                                                   |
 |:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
 | `/vendor`                        | String  | Required | Target vendor of generated DDL.                                               |
+| `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
+| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
+| `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
+| `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
+| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
+| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
+
+#### `xdb:data`
+
+The `xdb:data` goal is bound to the `generate-resources` phase, and is used to generate an XML Schema to allow one to create a validating XDD file for static data.
+
+##### Example 1
+
+```xml
+<plugin>
+  <groupId>org.safris.maven.plugin</groupId>
+  <artifactId>xdb-maven-plugin</artifactId>
+  <version>2.1.2</version>
+  <executions>
+    <execution>
+      <id>default-data</id>
+      <goals>
+        <goal>data</goal>
+      </goals>
+      <configuration>
+        <vendor>PostgreSQL</vendor>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+          <destdir>${project.build.directory}/generated-resources/xdb</destdir>
+          <schemas>
+            <schema>${basedir}/src/main/resources/schema.xds</schema>
+          </schemas>
+        </manifest>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+##### Example 2
+
+Alternatively, an external `xds.xml` can be specified:
+
+```xml
+<plugin>
+  <groupId>org.safris.maven.plugin</groupId>
+  <artifactId>xdb-maven-plugin</artifactId>
+  <version>2.1.2</version>
+  <executions>
+    <execution>
+      <id>default-data</id>
+      <goals>
+        <goal>data</goal>
+      </goals>
+      <configuration>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.xds"/>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+The `manifest` element can therefore be externally defined in `src/main/resources/schema.xds`:
+
+```xml
+<manifest
+  xmlns="http://maven.safris.org/common/manifest.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
+  <destdir explodeJars="true">${project.build.directory}/generated-resources/xdb</destdir>
+  <schemas>
+    <schema>${basedir}/src/main/resources/schema.xds</schema>
+  </schemas>
+</manifest>
+```
+
+#### Configuration Parameters
+
+| Name                             | Type    | Use      | Description                                                                   |
+|:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
 | `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
 | `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
