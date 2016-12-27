@@ -14,7 +14,7 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-<json name="api"
+<json name="api" mimeType="application/json"
   xmlns="http://xjb.safris.org/xjs.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xjb.safris.org/xjs.xsd ../../../../../../xjb/generator/src/main/resources/xjs.xsd">

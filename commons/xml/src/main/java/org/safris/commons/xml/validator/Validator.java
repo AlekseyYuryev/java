@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.safris.commons.net.URLs;
@@ -30,8 +31,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public abstract class Validator {
-  private static final QName XSI = new QName("http://www.w3.org/2001/XMLSchema-instance", "xsi", "xmlns");
-  private static final QName XMLNS = new QName("http://www.w3.org/2000/xmlns/", "xmlns");
+  private static final QName XSI = new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi", "xmlns");
+  private static final QName XMLNS = new QName(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns");
 
   private static Validator validator = null;
   private boolean validateOnMarshal = false;
@@ -93,7 +94,7 @@ public abstract class Validator {
       }
     }
 
-    element.setAttributeNS(XMLNS.getNamespaceURI(), XSI.getPrefix() + ":" + XSI.getLocalPart(), "http://www.w3.org/2001/XMLSchema-instance");
+    element.setAttributeNS(XMLNS.getNamespaceURI(), XSI.getPrefix() + ":" + XSI.getLocalPart(), XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
     element.setAttributeNS(XSI.getNamespaceURI(), "xsi:schemaLocation", namespaceLocations.substring(1));
     try {
       parse(element);
