@@ -32,7 +32,7 @@ import org.safris.xdb.schema.DDLTransform;
 
 @Mojo(name = "schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "schema")
-public final class XDLMojo extends ManifestMojo {
+public final class XDSMojo extends ManifestMojo {
   @Parameter(property = "vendor", required = true)
   private String vendor;
 

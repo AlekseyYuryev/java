@@ -24,8 +24,7 @@
         <id>xdb</id>
         <default-phases>
           <generate-sources>org.safris.maven.plugin:xdb-maven-plugin:entities</generate-sources>
-          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:schema</generate-resources>
-          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:data</generate-resources>
+          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:schema,org.safris.maven.plugin:xdb-maven-plugin:data</generate-resources>
         </default-phases>
       </configuration>
     </component>
