@@ -105,9 +105,6 @@ public class URLsTest extends LoggableTest {
 
     for (final Map.Entry<URL,String[]> entry : relative.entrySet())
       Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
-
-    Assert.assertNull(URLs.makeUrlFromPath(null));
-    Assert.assertNull(URLs.makeUrlFromPath((String)null, null));
   }
 
   @Test

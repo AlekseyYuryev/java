@@ -19,64 +19,51 @@ package org.safris.commons.xml.sax;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
+import org.safris.commons.net.CachedURL;
+import org.safris.commons.net.URLs;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public final class Validator {
-  private static SAXParserFactory factory;
-
-  static {
-    try {
-      factory = SAXParserFactory.newInstance("org.apache.xerces.jaxp.SAXParserFactoryImpl", null);
-    }
-    catch (final FactoryConfigurationError e) {
-      factory = SAXParserFactory.newInstance();
-    }
-  }
-
-  private static SAXParser newParser() throws SAXException {
-    factory.setNamespaceAware(true);
-    factory.setValidating(true);
-    try {
-      try {
-        factory.setSchema(SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1").newSchema());
-      }
-      catch (final IllegalArgumentException e) {
-      }
-
-      factory.setFeature("http://xml.org/sax/features/validation", true);
-      factory.setFeature("http://apache.org/xml/features/validation/schema", true);
-      factory.setFeature("http://apache.org/xml/features/validation/dynamic", true);
-      factory.setFeature("http://apache.org/xml/features/validation/schema-full-checking", true);
-      factory.setFeature("http://apache.org/xml/features/honour-all-schemaLocations", true);
-      factory.setFeature("http://apache.org/xml/features/continue-after-fatal-error", true);
-
-      return factory.newSAXParser();
-    }
-    catch (final ParserConfigurationException e) {
-      throw new SAXException(e);
-    }
-  }
+  private static final SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1");
+  private static final ThreadLocal<javax.xml.validation.Validator> localValidator = new ThreadLocal<javax.xml.validation.Validator>();
 
   public static void validate(final File file, final boolean offline) throws IOException, SAXException {
     validate(file, offline, new LoggingErrorHandler());
   }
 
   public static void validate(final File file, final boolean offline, final ErrorHandler errorHandler) throws IOException, SAXException {
-    final ParseHandler parseHandler = new ParseHandler(file.getParentFile(), offline, errorHandler);
-    newParser().parse(file, parseHandler);
-    if (parseHandler.getErrors() != null) {
-      final Iterator<SAXParseException> iterator = parseHandler.getErrors().iterator();
-      final SAXParseException firstException = iterator.next();
-      final SAXException exception = new SAXException(firstException.getMessage(), firstException);
+    final XMLDocument xmlDocument = XMLDocuments.analyze(file);
+    final Map<String,SchemaLocation> schemaReferences = xmlDocument.getSchemaReferences();
+    if (schemaReferences.isEmpty() && !xmlDocument.isXSD()) {
+      errorHandler.warning(new SAXParseException("There is no schema or DTD associated with the document.", URLs.toExternalForm(file.toURI().toURL()), null, 0, 0));
+      return;
+    }
+
+    final ValidationHandler handler = new ValidationHandler(schemaReferences, errorHandler);
+    javax.xml.validation.Validator validator = localValidator.get();
+    if (validator == null)
+      localValidator.set(validator = factory.newSchema().newValidator());
+
+    validator.setResourceResolver(handler);
+    validator.setErrorHandler(handler);
+
+    validator.validate(new StreamSource(file));
+    for (final Map.Entry<String,SchemaLocation> schemaLocation : schemaReferences.entrySet()) {
+      final Map<String,CachedURL> locations = schemaLocation.getValue().getLocation();
+      for (final Map.Entry<String,CachedURL> location : locations.entrySet())
+        location.getValue().destroy();
+    }
+
+    if (handler.getErrors() != null) {
+      final Iterator<SAXParseException> iterator = handler.getErrors().iterator();
+      final SAXException exception = new SAXException(iterator.next());
       while (iterator.hasNext())
         exception.addSuppressed(iterator.next());
 

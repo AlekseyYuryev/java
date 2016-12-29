@@ -35,45 +35,47 @@ import org.xml.sax.SAXException;
 @Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)
 @Execute(goal = "validate")
 public final class ValidatorMojo extends XmlMojo {
+
   @Override
   public void execute(final Set<File> files) throws MojoExecutionException, MojoFailureException {
     final File recordDir = new File(directory, "validator");
-    StringBuilder errors = null;
+    recordDir.mkdirs();
+
     try {
+      //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
       for (final File file : files) {
-        final String relativePath = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
-        final File recordFile = new File(recordDir, relativePath);
-        recordFile.getParentFile().mkdirs();
+        final File recordFile = new File(recordDir, file.getName());
+        final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
         if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
-          final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
           Log.info("Pre-validated: " + fileName);
         }
         else {
           try {
-            final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
             Log.info("   Validating: " + fileName);
 
             Validator.validate(file, offline);
-            recordFile.createNewFile();
-            recordFile.setLastModified(file.lastModified());
+            if (!recordFile.createNewFile())
+              recordFile.setLastModified(file.lastModified());
+          }
+          catch (final OfflineValidationException e) {
+            if (!offline)
+              throw e;
           }
           catch (final SAXException e) {
-            if (errors == null)
-              errors = new StringBuilder();
+            final StringBuilder builder = new StringBuilder("\nFile: " + file.getAbsoluteFile() + "\nReason: " + e.getMessage() + "\n");
+            for (final Throwable t : e.getSuppressed())
+              builder.append("       ").append(t.getMessage()).append("\n");
 
-            errors.append("\nFile: ").append(file.getAbsoluteFile());
+            throw new MojoFailureException("Failed to validate xml.", "", builder.toString());
           }
         }
       }
     }
-    catch (final IOException e) {
-      throw new MojoExecutionException(e.getMessage(), e);
-    }
     catch (final OfflineValidationException e) {
       throw new MojoFailureException(e.getMessage(), e);
     }
-
-    if (errors != null)
-      throw new MojoFailureException("Failed to validate xml.", "", errors.toString());
+    catch (final IOException e) {
+      throw new MojoExecutionException(e.getMessage(), e);
+    }
   }
 }

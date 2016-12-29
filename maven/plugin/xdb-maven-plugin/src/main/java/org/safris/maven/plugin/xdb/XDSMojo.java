@@ -28,7 +28,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
 import org.safris.maven.mojo.ManifestMojo;
 import org.safris.xdb.schema.DBVendor;
-import org.safris.xdb.schema.DDLTransform;
+import org.safris.xdb.schema.Generator;
+import org.safris.xdb.schema.GeneratorExecutionException;
 
 @Mojo(name = "schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "schema")
@@ -39,9 +40,9 @@ public final class XDSMojo extends ManifestMojo {
   @Override
   public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      DDLTransform.createDDL(file.toURI().toURL(), DBVendor.parse(vendor), outDir);
+      Generator.createDDL(file.toURI().toURL(), DBVendor.parse(vendor), outDir);
     }
-    catch (final IOException | XMLException e) {
+    catch (final GeneratorExecutionException | IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

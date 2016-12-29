@@ -105,23 +105,11 @@ public final class URLs {
   }
 
   public static URL makeUrlFromPath(final String basedir, final String path) throws MalformedURLException {
-    if (basedir == null || path == null)
-      return null;
+    return makeUrlFromPath(Paths.newPath(basedir, path));
+  }
 
-    if (basedir.length() == 0)
-      return makeUrlFromPath(path);
-
-    if (path.length() == 0)
-      return makeUrlFromPath(basedir);
-
-    if (basedir.endsWith("/") || basedir.endsWith("\\")) {
-      if (path.startsWith(File.separator))
-        return makeUrlFromPath(basedir + path.substring(1));
-
-      return makeUrlFromPath(basedir + path);
-    }
-
-    return makeUrlFromPath(basedir + File.separator + path);
+  public static String toExternalForm(final CachedURL url) throws MalformedURLException {
+    return toExternalForm(url.url);
   }
 
   public static String toExternalForm(final URL url) throws MalformedURLException {

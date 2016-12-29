@@ -26,6 +26,29 @@ public final class Paths {
     return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
   }
 
+  public static String newPath(final String basedir, final String path) {
+    if (basedir == null)
+      throw new NullPointerException("basedir == null");
+
+    if (path == null)
+      throw new NullPointerException("path == null");
+
+    if (basedir.length() == 0)
+      return path;
+
+    if (path.length() == 0)
+      return basedir;
+
+    if (basedir.endsWith("/") || basedir.endsWith("\\")) {
+      if (path.startsWith(File.separator))
+        return basedir + path.substring(1);
+
+      return basedir + path;
+    }
+
+    return basedir + File.separator + path;
+  }
+
   public static String canonicalize(String path) {
     if (path == null)
       return null;

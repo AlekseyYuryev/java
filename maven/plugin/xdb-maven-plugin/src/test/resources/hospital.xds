@@ -136,7 +136,7 @@
     <column name="nick_name" xsi:type="char" varying="true" length="32" null="true"/>
     <column name="skype_id" xsi:type="char" varying="true" length="128" null="true"/>
     <column name="pref_lang_code" xsi:type="char" varying="true" length="8" null="true">
-      <foreignKey references="language" column="code"/>
+      <foreignKey references="used_language" column="code"/>
     </column>
     <column name="pref_contact_type" xsi:type="enum" values="EMAIL PHONE SMS" null="true"/>
   </table>
@@ -229,8 +229,8 @@
     </column>
     <column name="cc" xsi:type="integer" precision="16" unsigned="true" null="false"/>
     <column name="name" xsi:type="char" varying="true" length="64" null="false"/>
-    <column name="month" xsi:type="integer" precision="2" unsigned="true" min="1" max="12" null="false"/>
-    <column name="year" xsi:type="integer" precision="4" unsigned="true" null="false"/>
+    <column name="exp_month" xsi:type="integer" precision="2" unsigned="true" min="1" max="12" null="false"/>
+    <column name="exp_year" xsi:type="integer" precision="4" unsigned="true" null="false"/>
     <column name="cvv" xsi:type="integer" precision="4" unsigned="true" null="false"/>
   </table>
   <table name="charge" extends="timestamp_by_id">
@@ -296,7 +296,7 @@
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
   </table>
   <table name="holiday_date" extends="id">
-    <column name="date" xsi:type="date" null="false"/>
+    <column name="holiday_date" xsi:type="date" null="false"/>
     <column name="holiday_id" xsi:type="char" varying="true" length="255" null="false">
       <foreignKey references="holiday" column="id"/>
     </column>
@@ -307,9 +307,9 @@
     <column name="password" xsi:type="char" varying="true" length="64" null="false"/>
     <column name="password_modified_on" xsi:type="dateTime" null="false"/>
     <column name="user_type" xsi:type="enum" values="PATIENT PROVIDER" null="false"/>
-    <column name="session" xsi:type="char" length="36" null="true"/>
-    <column name="session_state" xsi:type="enum" values="NEW LOGGED_IN" null="true"/>
-    <column name="session_start" xsi:type="dateTime" null="true"/>
+    <column name="user_session" xsi:type="char" length="36" null="true"/>
+    <column name="user_session_state" xsi:type="enum" values="NEW LOGGED_IN" null="true"/>
+    <column name="user_session_start" xsi:type="dateTime" null="true"/>
     <constraints>
       <unique>
         <column name="email"/>
@@ -317,7 +317,7 @@
     </constraints>
   </table>
   <!-- http://multitree.org/codes.html -->
-  <table name="language">
+  <table name="used_language">
     <column name="code" xsi:type="char" varying="true" length="8" null="false"/>
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
     <constraints>
@@ -331,7 +331,7 @@
       <foreignKey id="doctor" references="doctor" column="id"/>
     </column>
     <column name="language_code" xsi:type="char" varying="true" length="8" null="false">
-      <foreignKey id="language" references="language" column="code"/>
+      <foreignKey id="language" references="used_language" column="code"/>
     </column>
     <constraints>
       <primaryKey>
@@ -470,7 +470,7 @@
     <column name="calendar_event_id" xsi:type="char" length="36" null="false">
       <foreignKey references="calendar_event" column="id"/>
     </column>
-    <column name="timestamp" xsi:type="dateTime" null="false"/>
+    <column name="event_timestamp" xsi:type="dateTime" null="false"/>
     <column name="patient_state" xsi:type="enum" values="UNKNOWN CALLED_1 CALLED_2 CALLED_3 WAITING DISCONNECTED CANCELLED" null="false"/>
     <column name="doctor_state" xsi:type="enum" values="UNKNOWN CALLED_1 CALLED_2 CALLED_3 WAITING DISCONNECTED CANCELLED" null="false"/>
     <column name="copay_charged" xsi:type="boolean" null="false"/>
@@ -492,7 +492,7 @@
     </triggers>
   </table>
   <table name="photo" abstract="true">
-    <column name="data" xsi:type="blob" length="1048576" null="false"/>
+    <column name="bytes" xsi:type="blob" length="1048576" null="false"/>
   </table>
   <table name="patient_photo" extends="photo">
     <column name="patient_id" xsi:type="char" length="36" null="false">
@@ -519,7 +519,7 @@
       <foreignKey references="login" column="id"/>
     </column>
     <column name="name" xsi:type="char" varying="true" length="64" null="false"/>
-    <column name="value" xsi:type="integer" precision="10" unsigned="true" default="0" null="false"/>
+    <column name="val" xsi:type="integer" precision="10" unsigned="true" default="0" null="false"/>
     <constraints>
       <primaryKey>
         <column name="login_id"/>
