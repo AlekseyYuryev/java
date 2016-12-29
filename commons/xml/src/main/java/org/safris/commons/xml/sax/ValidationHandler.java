@@ -72,7 +72,7 @@ public final class ValidationHandler extends DefaultHandler implements LSResourc
   @Override
   public LSInput resolveResource(final String type, final String namespaceURI, final String publicId, String systemId, final String baseURI) {
     if (namespaceURI == null && systemId == null)
-      return null;
+      return new LSInputImpl(systemId, publicId, baseURI);
 
     if (systemId == null)
       systemId = namespaceURI;
@@ -101,7 +101,7 @@ public final class ValidationHandler extends DefaultHandler implements LSResourc
           locations = schemaLocation.getLocation();
         }
         else {
-          return null;
+          return new LSInputImpl(systemId, publicId, baseURI);
         }
       }
       else {
@@ -118,11 +118,11 @@ public final class ValidationHandler extends DefaultHandler implements LSResourc
             locations.put(systemId, url = new CachedURL(Resources.getResource("datatypes.dtd").getURL()));
           }
           else {
-            throw new UnsupportedOperationException(systemId);
+            return new LSInputImpl(systemId, publicId, baseURI);
           }
         }
         else {
-          throw new UnsupportedOperationException(namespaceURI);
+          return new LSInputImpl(systemId, publicId, baseURI);
         }
       }
 
