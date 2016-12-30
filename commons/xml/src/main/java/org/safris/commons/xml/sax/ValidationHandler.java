@@ -92,12 +92,12 @@ public final class ValidationHandler extends DefaultHandler implements LSResourc
         }
         else if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(namespaceURI)) {
           schemaLocations.put(XMLConstants.W3C_XML_SCHEMA_NS_URI, schemaLocation = new SchemaLocation(namespaceURI));
-          schemaLocation.getLocation().put(namespaceURI, new CachedURL(Resources.getResource("XMLSchema.xsd").getURL()));
+          schemaLocation.getLocation().put(namespaceURI, new CachedURL(Resources.getResource("xmlschema/XMLSchema.xsd").getURL()));
           locations = schemaLocation.getLocation();
         }
         else if ("http://www.w3.org/XML/1998/namespace".equals(namespaceURI) && "http://www.w3.org/2001/xml.xsd".equals(systemId)) {
           schemaLocations.put(namespaceURI, schemaLocation = new SchemaLocation(systemId));
-          schemaLocation.getLocation().put(systemId, new CachedURL(Resources.getResource("xml.xsd").getURL()));
+          schemaLocation.getLocation().put(systemId, new CachedURL(Resources.getResource("xmlschema/xml.xsd").getURL()));
           locations = schemaLocation.getLocation();
         }
         else {
@@ -112,10 +112,10 @@ public final class ValidationHandler extends DefaultHandler implements LSResourc
       if (url == null) {
         if (namespaceURI == null) {
           if ("http://www.w3.org/2001/XMLSchema.dtd".equals(systemId)) {
-            locations.put(systemId, url = new CachedURL(Resources.getResource("XMLSchema.dtd").getURL()));
+            locations.put(systemId, url = new CachedURL(Resources.getResource("xmlschema/XMLSchema.dtd").getURL()));
           }
           else if ("http://www.w3.org/2001/datatypes.dtd".equals(systemId)) {
-            locations.put(systemId, url = new CachedURL(Resources.getResource("datatypes.dtd").getURL()));
+            locations.put(systemId, url = new CachedURL(Resources.getResource("xmlschema/datatypes.dtd").getURL()));
           }
           else {
             return new LSInputImpl(systemId, publicId, baseURI);
