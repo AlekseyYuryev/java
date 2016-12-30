@@ -30,8 +30,8 @@
   <object name="dsig" extends="xmldsigType"/>
   
   <object abstract="true" name="partialData">
-    <property name="a" xsi:type="string" pattern="[0-9A-F]*"/>
-    <property name="b" xsi:type="string" pattern="[0-9A-F]*"/>
+    <property name="a" xsi:type="string" pattern="[&quot;0-9A-F]*"/>
+    <property name="b" xsi:type="string" pattern="[\\0-9A-F]*"/>
   </object>
   
   <object name="message">

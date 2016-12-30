@@ -42,8 +42,8 @@ public class JSObjectTest extends LoggableTest {
     att1.serial(2);
     final api.Message.Attachment.Data data1 = new api.Message.Attachment.Data();
     att1.data(data1);
-    data1.a("1A");
-    data1.b("1B");
+    data1.a("\"1A");
+    data1.b("\\1B");
     data1.c("1C");
 
     try {
@@ -90,8 +90,8 @@ public class JSObjectTest extends LoggableTest {
     att3.filename("data3.txt");
     final api.Message.Attachment.Data data3 = new api.Message.Attachment.Data();
     att3.data(data3);
-    data3.a("3A");
-    data3.b("3B");
+    data3.a("\"3A");
+    data3.b("\\3B");
     data3.c("3C");
     att3.serial(99999);
 
