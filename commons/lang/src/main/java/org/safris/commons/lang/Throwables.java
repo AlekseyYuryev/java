@@ -59,7 +59,6 @@ public final class Throwables {
   public static void set(final Throwable t, final String message, final Throwable cause) {
     Throwables.set(t, message);
     Throwables.set(t, cause.getCause());
-    t.setStackTrace(cause.getStackTrace());
   }
 
   public static String toString(final Throwable t) {
