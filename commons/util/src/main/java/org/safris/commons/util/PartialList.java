@@ -18,9 +18,15 @@ package org.safris.commons.util;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.Vector;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public abstract class PartialList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
   private static final long serialVersionUID = -2945838392443684891L;
@@ -104,47 +110,42 @@ public abstract class PartialList<E> implements List<E>, RandomAccess, Cloneable
     return size() < sizeBefore;
   }
 
-//TODO: Java 8
-//  @Override
-//  public final boolean removeIf(final Predicate<? super E> filter) {
-//    if (filter == null)
-//      throw new NullPointerException("filter == null");
-//
-//    final int sizeBefore = size();
-//    final Vector<Integer> remove = new Vector<Integer>(size());
-//    for (int i = 0; i < size(); i++)
-//      if (filter.test(get(i)))
-//        remove.add(i);
-//
-//    for (final Integer index : remove)
-//      remove(index);
-//
-//    return size() < sizeBefore;
-//  }
+  @Override
+  public final boolean removeIf(final Predicate<? super E> filter) {
+    if (filter == null)
+      throw new NullPointerException("filter == null");
 
-//TODO: Java 8
-//  @Override
-//  public final void forEach(final Consumer<? super E> action) {
-//    throw new UnsupportedOperationException();
-//  }
+    final int sizeBefore = size();
+    final Vector<Integer> remove = new Vector<Integer>(size());
+    for (int i = 0; i < size(); i++)
+      if (filter.test(get(i)))
+        remove.add(i);
 
-//TODO: Java 8
-//  @Override
-//  public final Spliterator<E> spliterator() {
-//    throw new UnsupportedOperationException();
-//  }
+    for (final Integer index : remove)
+      remove(index);
 
-//TODO: Java 8
-//  @Override
-//  public final void replaceAll(final UnaryOperator<E> operator) {
-//    throw new UnsupportedOperationException();
-//  }
+    return size() < sizeBefore;
+  }
 
-//TODO: Java 8
-//  @Override
-//  public final void sort(final Comparator<? super E> c) {
-//    throw new UnsupportedOperationException();
-//  }
+  @Override
+  public final void forEach(final Consumer<? super E> action) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public final Spliterator<E> spliterator() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public final void replaceAll(final UnaryOperator<E> operator) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public final void sort(final Comparator<? super E> c) {
+    throw new UnsupportedOperationException();
+  }
 
   @Override
   public final int size() {
