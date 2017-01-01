@@ -16,7 +16,9 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.ALL;
 import static org.safris.xdb.entities.DML.AND;
+import static org.safris.xdb.entities.DML.AVG;
 import static org.safris.xdb.entities.DML.CASE_WHEN;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
@@ -38,12 +40,12 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.entities.Aggregate;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.datatype.Char;
+import org.safris.xdb.entities.datatype.DateTime;
+import org.safris.xdb.entities.datatype.MediumInt;
 import org.safris.xdb.entities.spec.select.SELECT;
 import org.safris.xdb.entities.spec.update.UPDATE;
 
@@ -94,16 +96,14 @@ public class FormTest extends LoggableTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<Aggregate<LocalDateTime>> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
-    final RowIterator<Aggregate<LocalDateTime>> rows = select.execute();
+    final SELECT<DateTime> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
   }
 
   public void testSELECT4() throws SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
-    final SELECT<MAX<LocalDateTime>> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
-    final RowIterator<MAX<LocalDateTime>> rows = select.execute();
+    final SELECT<DateTime> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
   }
 
   public void testSELECT5() throws SQLException {
@@ -134,18 +134,87 @@ public class FormTest extends LoggableTest {
     final RowIterator<Entity> rows = select.execute();
   }
 
+  // uncorrelated subquery in the SELECT
   public void testSELECT8() throws SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final SELECT<Char> select =
-      SELECT(m.email).
-      FROM(m).
-      WHERE(IN(
-        m.email,
-        SELECT(m.email).
-        FROM(m)));
+    final SELECT<MediumInt> select =
+      SELECT(
+        m.orderId,
+        SELECT(AVG(m.orderId)).FROM(m).WHERE(EQ(m.orderId, 101)).AS(new MediumInt())).
+      FROM(m).WHERE(EQ(m.orderId, 101));
+  }
 
-    final RowIterator<Char> rows = select.execute();
+  // uncorrelated subquery in the WHERE
+  public void testSELECT9() throws SQLException {
+    final survey.Meal m = new survey.Meal();
+
+    final SELECT<survey.Meal> select =
+      SELECT(m).
+      FROM(m).WHERE(IN(
+        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))), 101, 102, 103));
+  }
+
+  // correlated subquery in the WHERE
+  public void testSELECT10() throws SQLException {
+    final survey.Meal m1 = new survey.Meal();
+    final survey.Meal m2 = new survey.Meal();
+
+    final SELECT<MediumInt> select =
+      SELECT(m1.orderId).
+      FROM(m1).WHERE(EQ(
+        SELECT(m2.orderId).FROM(m2).WHERE(EQ(m2.orderId, m1.orderId)), m1.orderId));
+  }
+
+  // doubly-correlated subquery in the WHERE
+  public void testSELECT11() throws SQLException {
+    final survey.Meal m1 = new survey.Meal();
+    final survey.Meal m2 = new survey.Meal();
+    final MediumInt maxId = new MediumInt();
+
+    final SELECT<MediumInt> select =
+      SELECT(
+          m1.orderId,
+          maxId).
+      FROM(m1).WHERE(EQ(
+        SELECT(m2.orderId).FROM(m2).WHERE(GT(m2.orderId, m1.orderId)).AS(maxId), m1.orderId));
+  }
+
+  // doubly-correlated subquery in the FROM
+  public SELECT<MediumInt> testSELECT12() throws SQLException {
+    final survey.Meal m1 = new survey.Meal();
+    final survey.Meal m2 = new survey.Meal();
+    final survey.Meal maxId = new survey.Meal();
+
+    return SELECT(
+          m1.orderId,
+          maxId.orderId).
+      FROM(m1, SELECT(m2).FROM(m2).WHERE(GT(m2.orderId, m1.orderId)).AS(maxId)).WHERE(EQ(maxId.orderId, m1.orderId));
+  }
+
+  public void testSELECT13() throws SQLException {
+    testSELECT12().UNION(ALL, testSELECT12());
+  }
+
+  public void testSELECT14() throws SQLException {
+    INSERT(new survey.Meal().orderId).SELECT(testSELECT12().UNION(ALL, testSELECT12()));
+  }
+
+  public void testSELECT15() throws SQLException {
+    final survey.Meal m = new survey.Meal();
+
+    final SELECT<survey.Meal> select =
+      INSERT(new survey.Meal()).
+      SELECT(m).
+      FROM(m).WHERE(IN(
+        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))), 101, 102, 103));
+  }
+
+  // Need to implement this too: UPDATE table1 dest, (SELECT * FROM table2 where id=x) src SET dest.col1 = src.col1 where dest.id=x ;
+  public void testSELECT16() throws SQLException {
+    final survey.Meal m = new survey.Meal();
+    final survey.MealDish md = new survey.MealDish();
+    final UPDATE update = UPDATE(m).SET(m.orderId, SELECT(MAX(m.orderId)).FROM(m)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
   }
 
   public void testUPDATE1() throws SQLException {
