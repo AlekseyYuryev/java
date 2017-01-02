@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Seva Safris
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * You should have received a copy of The MIT License (MIT) along with this
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
@@ -17,33 +17,43 @@
 package org.safris.maven.common;
 
 import java.util.List;
+import java.util.Set;
 
 public final class Manifest {
   private String destdir = null;
   private String link = null;
   private List<String> schemas = null;
-  
+  private Set<String> excludes = null;
+
   public String getDestdir() {
     return destdir;
   }
-  
+
   public void setDestdir(final String destdir) {
     this.destdir = destdir;
   }
-  
+
   public String getLink() {
     return link;
   }
-  
+
   public void setLink(final String link) {
     this.link = link;
   }
-  
+
   public List<String> getSchemas() {
     return schemas;
   }
-  
+
   public void setSchemas(final List<String> schemas) {
     this.schemas = schemas;
+  }
+
+  public Set<String> getExcludes() {
+    return excludes;
+  }
+
+  public void setExcludes(final Set<String> excludes) {
+    this.excludes = excludes;
   }
 }

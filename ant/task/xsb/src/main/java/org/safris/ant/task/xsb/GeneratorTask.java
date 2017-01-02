@@ -20,7 +20,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -31,6 +33,7 @@ import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.UnknownElement;
 import org.safris.commons.util.Translator;
+import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.xsb.compiler.processor.GeneratorContext;
 import org.safris.xsb.compiler.processor.reference.SchemaReference;
@@ -206,7 +209,7 @@ TOP:
         throw new BuildException(e.getMessage(), e);
       }
 
-      generator = new Generator(buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), translator);
+      generator = new Generator(buildFile.getParentFile(), document.getDocumentElement(), hrefFile.lastModified(), translator, null);
     }
     else {
       if (manifest.getDestdir() == null || (destDir = manifest.getDestdir().getText()) == null)
@@ -224,14 +227,19 @@ TOP:
       }
 
       final Collection<SchemaReference> schemaReferences = new ArrayList<SchemaReference>(schemas.size());
-      for (Manifest.Schemas.Schema schema : schemas) {
+      for (final Manifest.Schemas.Schema schema : schemas) {
         final String deref = translator.translate(schema.getText());
         if (deref != null)
           schemaReferences.add(new SchemaReference(buildFile.getParent(), deref, false));
       }
 
+      final Set<NamespaceURI> excludes = new HashSet<NamespaceURI>();
+      for (final Manifest.Excludes.Exclude exclude : manifest.getExcludes().getExcludes()) {
+        excludes.add(NamespaceURI.getInstance(exclude.getText()));
+      }
+
       final GeneratorContext generatorContext = new GeneratorContext(buildFile.lastModified(), destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());
-      generator = new Generator(generatorContext, schemaReferences);
+      generator = new Generator(generatorContext, schemaReferences, excludes, null);
     }
 
     generator.generate();
@@ -241,6 +249,7 @@ TOP:
     private Link link = null;
     private Destdir destdir = null;
     private Schemas schemas = null;
+    private Excludes excludes = null;
 
     public Link getLink() {
       return link;
@@ -252,6 +261,10 @@ TOP:
 
     public Schemas getSchemas() {
       return schemas;
+    }
+
+    public Excludes getExcludes() {
+      return excludes;
     }
 
     public Link createLink() {
@@ -269,7 +282,7 @@ TOP:
     public class Link {
       private String href = "";
 
-      public void setHref(String href) {
+      public void setHreffinal (String href) {
         this.href = href;
       }
 
@@ -283,7 +296,7 @@ TOP:
       private boolean explodeJars = false;
       private boolean overwrite = false;
 
-      public void setExplodeJars(boolean explodeJars) {
+      public void setExplodeJars(final boolean explodeJars) {
         this.explodeJars = explodeJars;
       }
 
@@ -291,7 +304,7 @@ TOP:
         return explodeJars;
       }
 
-      public void setOverwrite(boolean overwrite) {
+      public void setOverwrite(final boolean overwrite) {
         this.overwrite = overwrite;
       }
 
@@ -299,7 +312,7 @@ TOP:
         return overwrite;
       }
 
-      public void addText(String text) {
+      public void addText(final String text) {
         this.text += text;
       }
 
@@ -327,7 +340,36 @@ TOP:
       public class Schema {
         private String text = "";
 
-        public void addText(String text) {
+        public void addText(final String text) {
+          this.text += text;
+        }
+
+        public String getText() {
+          return text;
+        }
+      }
+    }
+
+    public class Excludes {
+      private Collection<Exclude> excludes = null;
+
+      public Collection<Exclude> getExcludes() {
+        return excludes;
+      }
+
+      public Exclude createSchema() {
+        if (excludes == null)
+          excludes = new ArrayList<Exclude>();
+
+        final Exclude exclude = new Exclude();
+        excludes.add(exclude);
+        return exclude;
+      }
+
+      public class Exclude {
+        private String text = "";
+
+        public void addText(final String text) {
           this.text += text;
         }
 

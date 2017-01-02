@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
@@ -38,6 +40,7 @@ import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 import org.safris.commons.util.Translator;
 import org.safris.commons.util.zip.Zips;
+import org.safris.commons.xml.NamespaceURI;
 import org.safris.commons.xml.dom.DOMParsers;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Manifest;
@@ -59,6 +62,11 @@ public class XSBMojo extends AdvancedMojo {
       return name != null && !name.endsWith(".class") && !name.endsWith(".java");
     }
   };
+
+  // Contains all source paths for all executions of the generator in the single VM, such
+  // that subsequent executions have a reference to the source paths of previous executions
+  // so as to allow for bindings of excluded namespaces to be generated in prior executions
+  private static final Set<File> sourcePath = new HashSet<File>();
 
   @Parameter(property = "maven.test.skip", defaultValue = "false")
   private boolean mavenTestSkip;
@@ -163,9 +171,11 @@ public class XSBMojo extends AdvancedMojo {
         throw new MojoExecutionException(e.getMessage(), e);
       }
 
-      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), translator);
+      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), translator, sourcePath);
       final Collection<Bundle> bundles = generator.generate();
-      addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
+      final File destDir = generator.getGeneratorContext().getDestdir();
+      sourcePath.add(destDir);
+      addCompileSourceRoot(destDir.getAbsolutePath(), bundles);
       return;
     }
 
@@ -188,8 +198,20 @@ public class XSBMojo extends AdvancedMojo {
     if (generatorBindings.size() == 0)
       return;
 
-    final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), new File(destDir), explodeJars, overwrite), generatorBindings);
+    final Set<NamespaceURI> excludes;
+    if (manifest.getExcludes() != null) {
+      excludes = new HashSet<NamespaceURI>();
+      for (final String exclude : manifest.getExcludes()) {
+        excludes.add(NamespaceURI.getInstance(exclude));
+      }
+    }
+    else {
+      excludes = null;
+    }
+
+    final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), new File(destDir), explodeJars, overwrite), generatorBindings, excludes, sourcePath);
     final Collection<Bundle> bundles = generator.generate();
+    sourcePath.add(generator.getGeneratorContext().getDestdir());
     addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
   }
 

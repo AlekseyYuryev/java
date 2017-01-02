@@ -39,6 +39,13 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="excludes" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="exclude" type="xs:anyURI"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
       <xs:attribute name="href" type="xlink:hrefType"/>
     </xs:complexType>
