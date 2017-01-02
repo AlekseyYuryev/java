@@ -36,7 +36,7 @@ public final class XDDMojo extends ManifestMojo {
   @Override
   public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      Transformer.transform(Resources.getResource("data.xsl").getURL(), file.toURI().toURL(), new File(outDir, file.getName().replaceAll("\\.\\S+$", ".xsd")));
+      Transformer.transform(Resources.getResource("xdd.xsl").getURL(), file.toURI().toURL(), new File(outDir, file.getName().replaceAll("\\.\\S+$", ".xsd")));
     }
     catch (final IOException | TransformerException e) {
       throw new MojoExecutionException(e.getMessage(), e);
