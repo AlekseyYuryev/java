@@ -26,6 +26,10 @@ public final class Paths {
     return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
   }
 
+  public static boolean isLocal(final String path) {
+    return path.startsWith("file:") || path.startsWith("/");
+  }
+
   public static String newPath(final String basedir, final String path) {
     if (basedir == null)
       throw new NullPointerException("basedir == null");

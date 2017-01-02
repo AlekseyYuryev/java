@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 import javax.xml.XMLConstants;
 
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.CachedURL;
 import org.safris.commons.net.URLs;
 import org.xml.sax.Attributes;
@@ -15,6 +16,7 @@ import org.xml.sax.SAXException;
 
 public class DocumentHandler extends XMLHandler {
   private final Set<String> namespaceURIs = new HashSet<String>();
+  private boolean referencesOnlyLocal = true;
 
   public DocumentHandler(final CachedURL url) {
     super(url);
@@ -37,6 +39,10 @@ public class DocumentHandler extends XMLHandler {
     return isXSD;
   }
 
+  public boolean referencesOnlyLocal() {
+    return referencesOnlyLocal;
+  }
+
   @Override
   public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
     if (isXSD == null)
@@ -52,7 +58,9 @@ public class DocumentHandler extends XMLHandler {
           if (tokenizer.hasMoreTokens()) {
             final String location = tokenizer.nextToken();
             try {
-              final CachedURL locationURL = new CachedURL(getPath(URLs.toExternalForm(url), location));
+              final String path = getPath(URLs.toExternalForm(url), location);
+              referencesOnlyLocal = Paths.isLocal(path) && referencesOnlyLocal;
+              final CachedURL locationURL = new CachedURL(path);
               if (!schemaLocations.containsKey(schemaNamespaceURI))
                 schemaLocations.put(schemaNamespaceURI, locationURL);
             }

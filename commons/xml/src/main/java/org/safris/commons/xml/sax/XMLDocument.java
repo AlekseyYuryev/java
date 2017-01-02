@@ -19,12 +19,14 @@ package org.safris.commons.xml.sax;
 import java.util.Map;
 
 public class XMLDocument {
-  private final boolean isXSD;
   private final Map<String,SchemaLocation> schemaReferences;
+  private final boolean isXSD;
+  private final boolean referencesOnlyLocal;
 
-  public XMLDocument(final Map<String,SchemaLocation> schemaReferences, final boolean isXSD) {
+  public XMLDocument(final Map<String,SchemaLocation> schemaReferences, final boolean isXSD, final boolean referencesOnlyLocal) {
     this.schemaReferences = schemaReferences;
     this.isXSD = isXSD;
+    this.referencesOnlyLocal = referencesOnlyLocal;
   }
 
   public Map<String,SchemaLocation> getSchemaReferences() {
@@ -33,5 +35,9 @@ public class XMLDocument {
 
   public boolean isXSD() {
     return isXSD;
+  }
+
+  public boolean referencesOnlyLocal() {
+    return referencesOnlyLocal;
   }
 }

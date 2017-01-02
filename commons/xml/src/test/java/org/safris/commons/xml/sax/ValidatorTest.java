@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 public class ValidatorTest extends LoggableTest {
   @Test
   public void testValidate() throws Exception {
-    Validator.validate(new File("src/test/resources/valid.xml"), false);
+    Validator.validate(new File("src/test/resources/valid.xml"), true);
     try {
       Validator.validate(new File("src/test/resources/invalid.xml"), true);
       Assert.fail("Should have failed.");

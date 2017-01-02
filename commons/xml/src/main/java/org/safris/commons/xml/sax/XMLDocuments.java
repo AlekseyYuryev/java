@@ -29,6 +29,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.SchemaFactory;
 
 import org.safris.commons.net.CachedURL;
+import org.safris.commons.net.Sockets;
 import org.safris.commons.net.URLs;
 import org.xml.sax.SAXException;
 
@@ -68,56 +69,69 @@ public final class XMLDocuments {
     }
   }
 
-  public static XMLDocument analyze(final File file) throws IOException, SAXException {
+  public static XMLDocument analyze(final File file, final boolean offline) throws IOException, SAXException {
     final DocumentHandler documentHandler = new DocumentHandler(new CachedURL(file.toURI().toURL()));
+    if (offline)
+      Sockets.disableNetwork();
+
     final SAXParser parser = newParser();
     parser.parse(file, documentHandler);
     parser.reset();
     final Map<String,SchemaLocation> references = new LinkedHashMap<String,SchemaLocation>();
-    imports(parser, references, documentHandler.getNamespaceURIs(), documentHandler.getSchemaLocations());
-    return new XMLDocument(references, documentHandler.isXSD());
+    final boolean referencesOnlyLocal = imports(parser, offline, references, documentHandler.getNamespaceURIs(), documentHandler.getSchemaLocations());
+    return new XMLDocument(references, documentHandler.isXSD(), documentHandler.referencesOnlyLocal() && referencesOnlyLocal);
   }
 
-  private static void imports(final SAXParser parser, final Map<String,SchemaLocation> references, final Set<String> namespaceURIs, final Map<String,CachedURL> schemaLocations) throws IOException, SAXException {
+  private static boolean imports(final SAXParser parser, final boolean offline, final Map<String,SchemaLocation> references, final Set<String> namespaceURIs, final Map<String,CachedURL> schemaLocations) throws IOException, SAXException {
+    boolean referencesOnlyLocal = true;
     for (final Map.Entry<String,CachedURL> schemaLocation : schemaLocations.entrySet()) {
       if (!references.containsKey(schemaLocation.getKey())) {
-        final SchemaHandler schemaHandler = new SchemaHandler(schemaLocation.getValue());
-        try {
-          parser.reset();
-          parser.parse(schemaLocation.getValue().openStream(), schemaHandler);
+        if (!offline || (referencesOnlyLocal = schemaLocation.getValue().isLocal() && referencesOnlyLocal)) {
+          final SchemaHandler schemaHandler = new SchemaHandler(schemaLocation.getValue());
+          try {
+            parser.reset();
+            parser.parse(schemaLocation.getValue().openStream(), schemaHandler);
+          }
+          catch (final SAXInterruptException e) {
+            schemaLocation.getValue().reset();
+          }
+
+          references.put(schemaLocation.getKey(), new SchemaLocation(schemaLocation.getKey(), schemaLocation.getValue()));
+          for (final String sl : schemaHandler.getImports().keySet())
+            if (!references.containsKey(sl))
+              namespaceURIs.add(sl);
+
+          namespaceURIs.remove(schemaLocation.getKey());
+          if (namespaceURIs.isEmpty())
+            break;
+
+          referencesOnlyLocal = imports(parser, offline, references, namespaceURIs, schemaHandler.getImports()) && referencesOnlyLocal;
+          referencesOnlyLocal = includes(parser, offline, references, schemaLocation.getKey(), schemaHandler.getIncludes()) && referencesOnlyLocal;
         }
-        catch (final SAXInterruptException e) {
-          schemaLocation.getValue().reset();
-        }
-
-        references.put(schemaLocation.getKey(), new SchemaLocation(schemaLocation.getKey(), schemaLocation.getValue()));
-        for (final String sl : schemaHandler.getImports().keySet())
-          if (!references.containsKey(sl))
-            namespaceURIs.add(sl);
-
-        namespaceURIs.remove(schemaLocation.getKey());
-        if (namespaceURIs.isEmpty())
-          break;
-
-        imports(parser, references, namespaceURIs, schemaHandler.getImports());
-        includes(parser, references, schemaLocation.getKey(), schemaHandler.getIncludes());
       }
     }
+
+    return referencesOnlyLocal;
   }
 
-  private static void includes(final SAXParser parser, final Map<String,SchemaLocation> references, final String namespaceURI, final Set<CachedURL> includes) throws IOException, SAXException {
+  private static boolean includes(final SAXParser parser, final boolean offline, final Map<String,SchemaLocation> references, final String namespaceURI, final Set<CachedURL> includes) throws IOException, SAXException {
+    boolean referencesOnlyLocal = false;
     for (final CachedURL include : includes) {
-      final SchemaHandler schemaHandler = new SchemaHandler(include);
-      try {
-        parser.reset();
-        parser.parse(include.openStream(), schemaHandler);
-      }
-      catch (final SAXInterruptException e) {
-        include.reset();
-      }
+      if (!offline || (referencesOnlyLocal = include.isLocal() && referencesOnlyLocal)) {
+        final SchemaHandler schemaHandler = new SchemaHandler(include);
+        try {
+          parser.reset();
+          parser.parse(include.openStream(), schemaHandler);
+        }
+        catch (final SAXInterruptException e) {
+          include.reset();
+        }
 
-      references.get(namespaceURI).getLocation().put(URLs.toExternalForm(include), include);
-      includes(parser, references, namespaceURI, schemaHandler.getIncludes());
+        references.get(namespaceURI).getLocation().put(URLs.toExternalForm(include), include);
+        referencesOnlyLocal = includes(parser, offline, references, namespaceURI, schemaHandler.getIncludes()) && referencesOnlyLocal;
+      }
     }
+
+    return referencesOnlyLocal;
   }
 }

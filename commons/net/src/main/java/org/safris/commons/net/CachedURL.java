@@ -36,10 +36,7 @@ public class CachedURL {
   }
 
   public final InputStream openStream() throws IOException {
-    if (in == null)
-      in = new ReviewableInputStream(url.openStream());
-
-    return in;
+    return in == null ? in = new ReviewableInputStream(url.openStream()) : in;
   }
 
   public void destroy() throws IOException {
@@ -48,6 +45,10 @@ public class CachedURL {
 
   public void reset() throws IOException {
     in.close();
+  }
+
+  public boolean isLocal() {
+    return URLs.isLocal(url);
   }
 
   @Override

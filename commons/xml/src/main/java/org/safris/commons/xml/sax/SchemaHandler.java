@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.xml.XMLConstants;
 
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.CachedURL;
 import org.safris.commons.net.URLs;
 import org.xml.sax.Attributes;
@@ -30,6 +31,7 @@ import org.xml.sax.SAXException;
 
 public class SchemaHandler extends XMLHandler {
   private Set<CachedURL> includes = new LinkedHashSet<CachedURL>();
+  private boolean referencesOnlyLocal = true;
 
   public SchemaHandler(final CachedURL schemaLocation) {
     super(schemaLocation);
@@ -41,6 +43,10 @@ public class SchemaHandler extends XMLHandler {
 
   public Set<CachedURL> getIncludes() {
     return includes;
+  }
+
+  public boolean referencesOnlyLocal() {
+    return referencesOnlyLocal;
   }
 
   @Override
@@ -64,7 +70,9 @@ public class SchemaHandler extends XMLHandler {
         }
 
         try {
-          final CachedURL locationURL = new CachedURL(getPath(URLs.toExternalForm(url), schemaLocation));
+          final String path = getPath(URLs.toExternalForm(url), schemaLocation);
+          referencesOnlyLocal = Paths.isLocal(path) && referencesOnlyLocal;
+          final CachedURL locationURL = new CachedURL(path);
           if (!schemaLocations.containsKey(namespace))
             schemaLocations.put(namespace, locationURL);
         }
@@ -77,7 +85,9 @@ public class SchemaHandler extends XMLHandler {
           if ("schemaLocation".equals(attributes.getLocalName(i))) {
             final String schemaLocation = attributes.getValue(i);
             try {
-              final CachedURL locationURL = new CachedURL(getPath(URLs.toExternalForm(url), schemaLocation));
+              final String path = getPath(URLs.toExternalForm(url), schemaLocation);
+              referencesOnlyLocal = Paths.isLocal(path) && referencesOnlyLocal;
+              final CachedURL locationURL = new CachedURL(path);
               includes.add(locationURL);
             }
             catch (final MalformedURLException e) {

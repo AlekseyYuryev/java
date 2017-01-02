@@ -39,8 +39,13 @@ public final class Validator {
   }
 
   public static void validate(final File file, final boolean offline, final ErrorHandler errorHandler) throws IOException, SAXException {
-    final XMLDocument xmlDocument = XMLDocuments.analyze(file);
+    final XMLDocument xmlDocument = XMLDocuments.analyze(file, offline);
     final Map<String,SchemaLocation> schemaReferences = xmlDocument.getSchemaReferences();
+    if (offline && !xmlDocument.referencesOnlyLocal()) {
+      errorHandler.warning(new SAXParseException("Offline execution not checking remote schemas.", URLs.toExternalForm(file.toURI().toURL()), null, 0, 0));
+      return;
+    }
+
     if (schemaReferences.isEmpty() && !xmlDocument.isXSD()) {
       errorHandler.warning(new SAXParseException("There is no schema or DTD associated with the document.", URLs.toExternalForm(file.toURI().toURL()), null, 0, 0));
       return;
