@@ -18,7 +18,7 @@ package org.safris.maven.plugin.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,7 +51,7 @@ public final class TransformMojo extends XmlMojo {
   private static final Pattern replacePattern = Pattern.compile("^\\/((([^\\/])|(\\\\/))+)\\/((([^\\/])|(\\\\/))+)\\/$");
 
   @Override
-  public void execute(final Set<File> files) throws MojoExecutionException, MojoFailureException {
+  public void execute(final LinkedHashSet<File> files) throws MojoExecutionException, MojoFailureException {
     try {
       for (final File file : files) {
         final File destFile;

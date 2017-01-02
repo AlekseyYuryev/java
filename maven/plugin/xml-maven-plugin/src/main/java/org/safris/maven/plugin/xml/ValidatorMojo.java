@@ -18,7 +18,7 @@ package org.safris.maven.plugin.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -35,9 +35,8 @@ import org.xml.sax.SAXException;
 @Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)
 @Execute(goal = "validate")
 public final class ValidatorMojo extends XmlMojo {
-
   @Override
-  public void execute(final Set<File> files) throws MojoExecutionException, MojoFailureException {
+  public void execute(final LinkedHashSet<File> files) throws MojoExecutionException, MojoFailureException {
     final File recordDir = new File(directory, "validator");
     recordDir.mkdirs();
 

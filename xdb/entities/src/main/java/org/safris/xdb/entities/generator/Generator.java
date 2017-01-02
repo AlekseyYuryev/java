@@ -376,24 +376,25 @@ public class Generator {
       out += "      this(wasSelected, new " + DataType.class.getName() + "[" + totalColumnCount + "], new " + DataType.class.getName() + "[" + totalPrimaryCount + "]);\n";
       out += "    }\n\n";
 
-      // Constructor with params
+      // Constructor with primary key columns
       String set = "";
-      if (table._column() != null) {
+      if (table._column() != null && totalPrimaryCount > 0) {
         out += "    public " + Strings.toTitleCase(table._name$().text()) + "(";
+        $xds_table t = table;
         String params = "";
-        for (int i = 0; i < table._column().size(); i++) {
-          final $xds_column column = table._column().get(i);
-          params += ", " + makeParam(table, column);
+        do {
+          for (int i = 0; i < t._column().size(); i++) {
+            final $xds_column column = t._column().get(i);
+            if (isPrimary(table, column)) {
+              params += ", " + makeParam(t, column);
+              final String columnName = Strings.toCamelCase(column._name$().text());
+              set += "\n      this." + columnName + ".set(" + columnName + ");";
+            }
+          }
         }
-
+        while (!t._extends$().isNull() && (t = tableNameToTable.get(t._extends$().text())) != null);
         out += params.substring(2) + ") {\n";
         out += "      this();\n";
-        for (int i = 0; i < table._column().size(); i++) {
-          final $xds_column column = table._column().get(i);
-          final String columnName = Strings.toCamelCase(column._name$().text());
-          set += "\n      this." + columnName + ".set(" + columnName + ");";
-        }
-
         out += set.substring(1) + "\n    }\n\n";
       }
 
@@ -488,14 +489,15 @@ public class Generator {
     return out;
   }
 
-  private static boolean isPrimary(final $xds_table table, final $xds_column column) {
-    final $xds_columns constraint = table._constraints(0)._primaryKey(0);
-    if (constraint.isNull())
-      return false;
-
-    for (final $xds_named col : constraint._column())
-      if (column._name$().text().equals(col._name$().text()))
-        return true;
+  private static boolean isPrimary($xds_table table, final $xds_column column) {
+    do {
+      final $xds_columns constraint = table._constraints(0)._primaryKey(0);
+      if (!constraint.isNull())
+        for (final $xds_named col : constraint._column())
+          if (column._name$().text().equals(col._name$().text()))
+            return true;
+    }
+    while (!table._extends$().isNull() && (table = tableNameToTable.get(table._extends$().text())) != null);
 
     return false;
   }

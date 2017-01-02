@@ -20,9 +20,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -42,6 +41,32 @@ public abstract class XmlMojo extends AdvancedMojo {
     if (list != null)
       for (int i = 0; i < list.size(); i++)
         list.set(i, list.get(i).replace(".", "\\.").replace("**/", ".*").replace("/", "\\/").replace("*", ".*"));
+  }
+
+  protected static boolean filter(final File dir, final File pathname, final List<String> filters) {
+    if (filters == null)
+      return false;
+
+    for (final String filter : filters)
+      if (pathname.getAbsolutePath().substring(dir.getAbsolutePath().length() + 1).matches(filter))
+        return true;
+
+    return false;
+  }
+
+  protected static FileFilter filter(final File dir, final List<String> includes, final List<String> excludes) {
+    return new FileFilter() {
+      @Override
+      public boolean accept(final File pathname) {
+        if (!pathname.isFile())
+          return false;
+
+        if (includes == null && excludes == null)
+          return pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd") || pathname.getName().endsWith(".xsl");
+
+        return filter(dir, pathname, includes) && !filter(dir, pathname, excludes);
+      }
+    };
   }
 
   @Parameter(property = "includes")
@@ -73,11 +98,11 @@ public abstract class XmlMojo extends AdvancedMojo {
 
   private File localDir;
 
-  protected File getLocalDir() {
+  protected final File getLocalDir() {
     return localDir == null ? localDir = project.getBasedir() : localDir;
   }
 
-  protected void setHttpProxy() throws MojoFailureException {
+  protected final void setHttpProxy() throws MojoFailureException {
     if (offline)
       return;
 
@@ -99,31 +124,6 @@ public abstract class XmlMojo extends AdvancedMojo {
     System.setProperty(scheme + ".proxyPort", port);
   }
 
-  protected static boolean filter(final File dir, final File pathname, final List<String> filters) {
-    if (filters == null)
-      return false;
-
-    for (final String filter : filters)
-      if (pathname.getAbsolutePath().substring(dir.getAbsolutePath().length() + 1).matches(filter))
-        return true;
-
-    return false;
-  }
-
-  protected static FileFilter filter(final File dir, final List<String> includes, final List<String> excludes) {
-    return new FileFilter() {
-      @Override
-      public boolean accept(final File pathname) {
-        if (!pathname.isFile())
-          return false;
-
-        if (includes == null && excludes == null)
-          return pathname.getName().endsWith(".xml") || pathname.getName().endsWith(".xsd") || pathname.getName().endsWith(".xsl");
-
-        return filter(dir, pathname, includes) && !filter(dir, pathname, excludes);
-      }
-    };
-  }
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (skip) {
@@ -143,7 +143,7 @@ public abstract class XmlMojo extends AdvancedMojo {
 
     convertToRegex(includes);
     convertToRegex(excludes);
-    final Set<File> files = new HashSet<File>();
+    final LinkedHashSet<File> files = new LinkedHashSet<File>();
     for (final Resource resource : resources) {
       final File dir = new File(resource.getDirectory());
       final Collection<File> xmlFiles = Files.listAll(dir, filter(getLocalDir(), includes, excludes));
@@ -158,5 +158,5 @@ public abstract class XmlMojo extends AdvancedMojo {
     execute(files);
   }
 
-  protected abstract void execute(final Set<File> files) throws MojoExecutionException, MojoFailureException;
+  protected abstract void execute(final LinkedHashSet<File> files) throws MojoExecutionException, MojoFailureException;
 }

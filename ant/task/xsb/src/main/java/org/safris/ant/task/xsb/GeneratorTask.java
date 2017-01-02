@@ -234,8 +234,10 @@ TOP:
       }
 
       final Set<NamespaceURI> excludes = new HashSet<NamespaceURI>();
-      for (final Manifest.Excludes.Exclude exclude : manifest.getExcludes().getExcludes()) {
-        excludes.add(NamespaceURI.getInstance(exclude.getText()));
+      if (manifest.getExcludes() != null) {
+        for (final Manifest.Excludes.Exclude exclude : manifest.getExcludes().getExcludes()) {
+          excludes.add(NamespaceURI.getInstance(exclude.getText()));
+        }
       }
 
       final GeneratorContext generatorContext = new GeneratorContext(buildFile.lastModified(), destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());

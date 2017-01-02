@@ -33,13 +33,16 @@ import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.SELECT;
 import static org.safris.xdb.entities.DML.UPDATE;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
+import org.safris.commons.xml.XMLException;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
@@ -48,6 +51,9 @@ import org.safris.xdb.entities.datatype.DateTime;
 import org.safris.xdb.entities.datatype.MediumInt;
 import org.safris.xdb.entities.spec.select.SELECT;
 import org.safris.xdb.entities.spec.update.UPDATE;
+import org.safris.xdb.xdd.xe.$xdd_xdd;
+import org.safris.xsb.runtime.Bindings;
+import org.xml.sax.InputSource;
 
 import xdb.ddl.survey;
 
@@ -197,7 +203,8 @@ public class FormTest extends LoggableTest {
   }
 
   public void testSELECT14() throws SQLException {
-    INSERT(new survey.Meal().orderId).SELECT(testSELECT12().UNION(ALL, testSELECT12()));
+    final survey.Meal meal = new survey.Meal();
+    INSERT(meal, meal.orderId).SELECT(testSELECT12().UNION(ALL, testSELECT12()));
   }
 
   public void testSELECT15() throws SQLException {
@@ -217,8 +224,14 @@ public class FormTest extends LoggableTest {
     final UPDATE update = UPDATE(m).SET(m.orderId, SELECT(MAX(m.orderId)).FROM(m)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
   }
 
+  public void testSELECT17() throws SQLException {
+    final survey.Meal m = new survey.Meal();
+    final survey.MealDish md = new survey.MealDish();
+    final UPDATE update = UPDATE(m).SET(m.orderId, SELECT(MAX(m.orderId)).FROM(m)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
+  }
+
   public void testUPDATE1() throws SQLException {
-    INSERT(new survey.MealDish(33, 57, (short)1)).execute();
+    INSERT(new survey.MealDish(33, 57)).execute();
   }
 
   public void testUPDATE2() throws SQLException {
@@ -230,5 +243,10 @@ public class FormTest extends LoggableTest {
   public void testINSERT1() throws SQLException {
     final survey.Meal m = new survey.Meal();
     UPDATE(m).SET(m.sent, true).WHERE(EQ(m.id, 5)).execute();
+  }
+
+  public void testINSERT2() throws IOException, SQLException, XMLException {
+    final $xdd_xdd x = ($xdd_xdd)Bindings.parse(new InputSource(Resources.getResource("world.xdd").getURL().openStream()));
+    INSERT(x);
   }
 }
