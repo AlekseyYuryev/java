@@ -37,6 +37,10 @@ public class CachedReader extends Reader {
     return builder.toString();
   }
 
+  public int getLength() {
+    return builder.length();
+  }
+
   @Override
   public int read() throws IOException {
     final int ch = reader.read();

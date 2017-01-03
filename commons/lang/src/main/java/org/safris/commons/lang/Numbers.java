@@ -271,11 +271,11 @@ public final class Numbers {
     return true;
   }
 
-  public static boolean isWhole(final float number) {
+  public static boolean isInteger(final float number) {
     return (int)number == number;
   }
 
-  public static boolean isWhole(final double number) {
+  public static boolean isInteger(final double number) {
     return (int)number == number;
   }
 
