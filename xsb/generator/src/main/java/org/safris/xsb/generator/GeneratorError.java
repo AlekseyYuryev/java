@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Seva Safris
+/* Copyright (c) 2016 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,26 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.xsb.generator;
 
-import java.io.File;
+import org.safris.commons.xml.XMLError;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.entities.generator.Generator;
+public class GeneratorError extends XMLError {
+  private static final long serialVersionUID = 4921369916251699414L;
 
-public class EntityGeneratorTest extends LoggableTest {
-  public static void main(final String[] args) throws Exception {
-    new EntityGeneratorTest().test();
+  public GeneratorError() {
+    super();
   }
 
-  @Test
-  @Ignore
-  public void test() throws Exception {
-    Generator.generate(Resources.getResource("survey.xdl").getURL(), new File("target/generated-test-sources/xde"));
+  public GeneratorError(final String message) {
+    super(message);
+  }
+
+  public GeneratorError(final Throwable cause) {
+    super(cause);
+  }
+
+  public GeneratorError(final String message, final Throwable cause) {
+    super(message, cause);
   }
 }

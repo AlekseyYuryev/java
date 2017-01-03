@@ -24,7 +24,7 @@ import javax.xml.transform.TransformerException;
 
 import org.safris.commons.lang.Resources;
 
-public class Transformer {
+public final class Transformer {
   public static void main(final String[] args) throws IOException, TransformerException {
     final File file = new File(args[0]);
     final File out = new File(args[1]);
@@ -34,5 +34,8 @@ public class Transformer {
   public static void xdsToXsd(final URL file, final File out) throws IOException, TransformerException {
     out.getParentFile().mkdirs();
     org.safris.commons.xml.transform.Transformer.transform(Resources.getResource("xdd.xsl").getURL(), file, out);
+  }
+
+  private Transformer() {
   }
 }

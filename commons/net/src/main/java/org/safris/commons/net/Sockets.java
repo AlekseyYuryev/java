@@ -27,89 +27,95 @@ import java.net.SocketImpl;
 import java.net.SocketImplFactory;
 
 public final class Sockets {
-  private static boolean socketDefined = false;
+  private static volatile boolean socketDefined = false;
 
-  public static void disableNetwork() throws IOException {
+  public static synchronized void disableNetwork() throws IOException {
     if (socketDefined)
       return;
 
     socketDefined = true;
-    Socket.setSocketImplFactory(new SocketImplFactory() {
-      @Override
-      public SocketImpl createSocketImpl() {
-        return new SocketImpl() {
-          @Override
-          public void setOption(int optID, Object value) throws SocketException {
-          }
+    try {
+      Socket.setSocketImplFactory(new SocketImplFactory() {
+        @Override
+        public SocketImpl createSocketImpl() {
+          return new SocketImpl() {
+            @Override
+            public void setOption(int optID, Object value) throws SocketException {
+            }
 
-          @Override
-          public Object getOption(int optID) throws SocketException {
-            return null;
-          }
+            @Override
+            public Object getOption(int optID) throws SocketException {
+              return null;
+            }
 
-          @Override
-          protected void create(boolean stream) throws IOException {
-          }
+            @Override
+            protected void create(boolean stream) throws IOException {
+            }
 
-          @Override
-          protected void connect(String host, int port) throws IOException {
-          }
+            @Override
+            protected void connect(String host, int port) throws IOException {
+            }
 
-          @Override
-          protected void connect(InetAddress address, int port) throws IOException {
-          }
+            @Override
+            protected void connect(InetAddress address, int port) throws IOException {
+            }
 
-          @Override
-          protected void connect(SocketAddress address, int timeout) throws IOException {
-          }
+            @Override
+            protected void connect(SocketAddress address, int timeout) throws IOException {
+            }
 
-          @Override
-          protected void bind(InetAddress host, int port) throws IOException {
-          }
+            @Override
+            protected void bind(InetAddress host, int port) throws IOException {
+            }
 
-          @Override
-          protected void listen(int backlog) throws IOException {
-          }
+            @Override
+            protected void listen(int backlog) throws IOException {
+            }
 
-          @Override
-          protected void accept(SocketImpl s) throws IOException {
-          }
+            @Override
+            protected void accept(SocketImpl s) throws IOException {
+            }
 
-          @Override
-          protected InputStream getInputStream() throws IOException {
-            return new InputStream() {
-              @Override
-              public int read() throws IOException {
-                throw new IOException();
-              }
-            };
-          }
+            @Override
+            protected InputStream getInputStream() throws IOException {
+              return new InputStream() {
+                @Override
+                public int read() throws IOException {
+                  throw new IOException();
+                }
+              };
+            }
 
-          @Override
-          protected OutputStream getOutputStream() throws IOException {
-            return new OutputStream() {
-              @Override
-              public void write(int b) throws IOException {
-                throw new IOException();
-              }
-            };
-          }
+            @Override
+            protected OutputStream getOutputStream() throws IOException {
+              return new OutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                  throw new IOException();
+                }
+              };
+            }
 
-          @Override
-          protected int available() throws IOException {
-            return 0;
-          }
+            @Override
+            protected int available() throws IOException {
+              return 0;
+            }
 
-          @Override
-          protected void close() throws IOException {
-          }
+            @Override
+            protected void close() throws IOException {
+            }
 
-          @Override
-          protected void sendUrgentData(int data) throws IOException {
-          }
-        };
-      }
-    });
+            @Override
+            protected void sendUrgentData(int data) throws IOException {
+            }
+          };
+        }
+      });
+    }
+    catch (final SocketException e) {
+      if (!"factory already defined".equals(e.getMessage()))
+        throw e;
+    }
   }
 
   private Sockets() {

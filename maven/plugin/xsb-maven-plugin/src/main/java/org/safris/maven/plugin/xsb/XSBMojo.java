@@ -47,7 +47,7 @@ import org.safris.maven.common.Manifest;
 import org.safris.maven.project.MavenPropertyTranslator;
 import org.safris.xsb.compiler.processor.GeneratorContext;
 import org.safris.xsb.compiler.processor.reference.SchemaReference;
-import org.safris.xsb.generator.binding.Generator;
+import org.safris.xsb.generator.Generator;
 import org.safris.xsb.generator.processor.bundle.Bundle;
 import org.w3.x2001.xmlschema.xe.$xs_boolean;
 import org.w3c.dom.Document;

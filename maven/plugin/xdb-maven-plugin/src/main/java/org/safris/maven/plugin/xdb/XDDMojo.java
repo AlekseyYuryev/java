@@ -26,9 +26,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.xml.transform.Transformer;
 import org.safris.maven.mojo.ManifestMojo;
+import org.safris.xdb.data.Transformer;
 
 @Mojo(name = "data", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "data")
@@ -36,7 +35,7 @@ public final class XDDMojo extends ManifestMojo {
   @Override
   public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
     try {
-      Transformer.transform(Resources.getResource("xdd.xsl").getURL(), file.toURI().toURL(), new File(outDir, file.getName().replaceAll("\\.\\S+$", ".xsd")));
+      Transformer.xdsToXsd(file.toURI().toURL(), new File(outDir, file.getName().replaceAll("\\.\\S+$", ".xsd")));
     }
     catch (final IOException | TransformerException e) {
       throw new MojoExecutionException(e.getMessage(), e);
