@@ -43,6 +43,7 @@ import java.time.LocalDateTime;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.xml.XMLException;
+import org.safris.xdb.entities.Entities;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
@@ -202,11 +203,6 @@ public class FormTest extends LoggableTest {
     testSELECT12().UNION(ALL, testSELECT12());
   }
 
-  public void testSELECT14() throws SQLException {
-    final survey.Meal meal = new survey.Meal();
-    INSERT(meal, meal.orderId).SELECT(testSELECT12().UNION(ALL, testSELECT12()));
-  }
-
   public void testSELECT15() throws SQLException {
     final survey.Meal m = new survey.Meal();
 
@@ -247,6 +243,6 @@ public class FormTest extends LoggableTest {
 
   public void testINSERT2() throws IOException, SQLException, XMLException {
     final $xdd_xdd x = ($xdd_xdd)Bindings.parse(new InputSource(Resources.getResource("world.xdd").getURL().openStream()));
-    INSERT(x);
+    INSERT(Entities.toEntities(x));
   }
 }
