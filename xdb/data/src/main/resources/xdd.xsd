@@ -15,8 +15,8 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 <xs:schema elementFormDefault="qualified"
-  xmlns:xdd="http://xdb.safris.org/xdd.xsd"
   xmlns:dt="http://commons.safris.org/xml/datatypes.xsd"
+  xmlns:xdd="http://xdb.safris.org/xdd.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   targetNamespace="http://xdb.safris.org/xdd.xsd">
   
@@ -31,7 +31,11 @@
   </xs:simpleType>
   
   <xs:simpleType name="binary">
-    <xs:restriction base="dt:base64string"/>
+    <xs:restriction base="xs:base64Binary"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="blob">
+    <xs:restriction base="xs:base64Binary"/>
   </xs:simpleType>
   
   <xs:simpleType name="integer">
@@ -66,8 +70,8 @@
     <xs:restriction base="xs:string"/>
   </xs:simpleType>
   
-  <xs:complexType name="data"/>
-  
   <xs:complexType name="row" abstract="true"/>
+  
+  <xs:complexType name="data"/>
   
 </xs:schema>
