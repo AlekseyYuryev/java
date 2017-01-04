@@ -16,6 +16,8 @@
 
 package org.safris.commons.lang;
 
+import java.lang.reflect.Array;
+
 public final class Arrays {
   public static abstract class Filter<T> {
     public abstract T filter(final T value);
@@ -27,6 +29,19 @@ public final class Arrays {
       array[i] = filter.filter(array[i]);
 
     return array;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T>T[] concat(final T[] ... arrays) {
+    int length = 0;
+    for (final T[] array : arrays)
+      length += array.length;
+
+    final T[] concat = (T[])Array.newInstance(arrays[0].getClass().getComponentType(), length);
+    for (int i = 0, l = 0; i < arrays.length; l += arrays[i].length, i++)
+      System.arraycopy(arrays[i], 0, concat, l, arrays[i].length);
+
+    return concat;
   }
 
   public static String toString(final Object[] array, final char delimiter) {

@@ -37,4 +37,12 @@ public class ArraysTest extends LoggableTest {
       }
     }, new String[] {}));
   }
+
+  @Test
+  public void testConcat() {
+    final String[] one = new String[] {"a", "b", "c"};
+    final String[] two = new String[] {"d", "e", "f"};
+    final String[] concat = Arrays.concat(one, two);
+    Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f"}, concat);
+  }
 }
