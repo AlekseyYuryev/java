@@ -142,10 +142,10 @@ public final class Collections {
   }
 
   @SafeVarargs
-  @SuppressWarnings("rawtypes")
-  public static <T>Collection<T> asCollection(final Class<? extends Collection> type, final T ... a) {
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final T ... a) {
     try {
-      final Collection<T> list = type.newInstance();
+      final C list = (C)type.newInstance();
       for (int i = 0; i < a.length; i++)
         list.add(a[i]);
 
@@ -156,9 +156,10 @@ public final class Collections {
     }
   }
 
-  public static <C extends Collection<T>,T>C asCollection(final Class<C> type, final Collection<T> collection) {
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final Collection<T> collection) {
     try {
-      final C list = type.newInstance();
+      final C list = (C)type.newInstance();
       for (final T item : collection)
         list.add(item);
 
@@ -184,7 +185,7 @@ public final class Collections {
   }
 
   @SafeVarargs
-  public static <T extends Collection<V>,V>T addAll(final T collection, final V ... values) {
+  public static <C extends Collection<V>,V>C addAll(final C collection, final V ... values) {
     for (final V value : values)
       collection.add(value);
 

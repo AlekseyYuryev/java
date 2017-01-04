@@ -17,7 +17,6 @@
 package org.safris.commons.lang;
 
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -233,15 +232,6 @@ public final class Strings {
   // FIXME: This means that there can be name collisions!
   public static String toJavaCase(final String string) {
     return string.replace('-', '_').replace('.', '_').replace("#", "");
-  }
-
-  public static String createRepeat(final char ch, final int length) {
-    if (length < 0)
-      throw new IllegalArgumentException("length = " + length + " < 0");
-
-    final char[] chars = new char[length];
-    Arrays.fill(chars, ch);
-    return String.valueOf(chars);
   }
 
   public static String padFixed(final String string, final int length, final boolean right) {

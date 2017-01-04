@@ -19,13 +19,16 @@ package org.safris.commons.util;
 import java.io.IOException;
 import java.io.Reader;
 
-public class CachedReader extends Reader {
+public class RewindableReader extends Reader {
   private final Reader reader;
-  private final StringBuilder builder;
+  private final StringBuilder builder = new StringBuilder();
+  private int position = 0;
+  private int length = 0;
+  private int readAheadLimit = -1;
+  private int mark = -1;
 
-  public CachedReader(final Reader reader, final StringBuilder builder) {
+  public RewindableReader(final Reader reader) {
     this.reader = reader;
-    this.builder = builder;
   }
 
   public String readFully() throws IOException {
@@ -33,31 +36,63 @@ public class CachedReader extends Reader {
     return builder.toString();
   }
 
-  public String readCached() {
-    return builder.toString();
-  }
-
   public int getLength() {
-    return builder.length();
+    return length;
   }
 
   @Override
   public int read() throws IOException {
+    if (position < length)
+      return builder.charAt(position++);
+
     final int ch = reader.read();
-    if (ch != -1)
+    if (ch > -1) {
+      ++position;
+      ++length;
       builder.append((char)ch);
+    }
 
     return ch;
   }
 
   @Override
   public int read(final char[] cbuf, final int off, final int len) throws IOException {
-    final int read = reader.read(cbuf, off, len);
-    if (read <= 0)
-      return read;
+    if (position < length - len) {
+      builder.getChars(position += len, position + len, cbuf, off);
+      return len;
+    }
 
-    builder.append(cbuf, off, read);
-    return read;
+    int i = 0;
+    if (position < length) {
+      final int gap = length - position;
+      builder.getChars(position, position + gap, cbuf, off);
+      i += gap;
+    }
+
+    int ch = 0;
+    for (; i < len && (ch = read()) > -1; i++)
+      cbuf[off + i] = (char)ch;
+
+    builder.append(cbuf, off, i);
+    position += i;
+    return i;
+  }
+
+  @Override
+  public void mark(final int readAheadLimit) throws IOException {
+    if (readAheadLimit <= 0)
+      throw new IllegalArgumentException("readAheadLimit <= 0");
+
+    this.readAheadLimit = readAheadLimit;
+    this.mark = length;
+  }
+
+  @Override
+  public void reset() throws IOException {
+    if (readAheadLimit != -1 && length - mark > readAheadLimit)
+      throw new IOException("The mark passed the readAheadLimit");
+
+    this.position = mark;
   }
 
   @Override

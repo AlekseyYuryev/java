@@ -20,14 +20,31 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-public class URIComponent {
+public final class URIComponent {
   /**
    * Decodes the passed UTF-8 String using a specification that's compatible with
    * JavaScript's <code>decodeURIComponent</code> function. Returns
    * <code>null</code> if the String is <code>null</code>.
    *
    * @param uri The UTF-8 encoded String to be decoded
-   * @param   enc   The name of a supported
+   * @return the decoded String
+   */
+  public static String decode(final String uri) {
+    try {
+      return decode(uri, "UTF-8");
+    }
+    catch (final UnsupportedEncodingException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  /**
+   * Decodes the passed String using a specification that's compatible with
+   * JavaScript's <code>decodeURIComponent</code> function. Returns
+   * <code>null</code> if the String is <code>null</code>.
+   *
+   * @param uri The encoded String to be decoded
+   * @param encoding The name of a supported
    *    <a href="../lang/package-summary.html#charenc">character
    *    encoding</a>.
    * @return the decoded String
@@ -42,7 +59,24 @@ public class URIComponent {
    * <code>null</code> if the String is <code>null</code>.
    *
    * @param uri The String to be encoded
-   * @param   enc   The name of a supported
+   * @return the encoded String
+   */
+  public static String encode(final String uri) {
+    try {
+      return encode(uri, "UTF-8");
+    }
+    catch (final UnsupportedEncodingException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  /**
+   * Encodes the passed String using a specification that's compatible
+   * with JavaScript's <code>encodeURIComponent</code> function. Returns
+   * <code>null</code> if the String is <code>null</code>.
+   *
+   * @param uri The String to be encoded
+   * @param encoding The name of a supported
    *    <a href="../lang/package-summary.html#charenc">character
    *    encoding</a>.
    * @return the encoded String

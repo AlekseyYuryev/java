@@ -101,6 +101,60 @@ public final class Arrays {
       array[i] = start++;
   }
 
+  public static boolean[] createRepeat(final boolean ch, final int length) {
+    final boolean[] array = new boolean[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static byte[] createRepeat(final byte ch, final int length) {
+    final byte[] array = new byte[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static char[] createRepeat(final char ch, final int length) {
+    final char[] array = new char[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static double[] createRepeat(final double ch, final int length) {
+    final double[] array = new double[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static float[] createRepeat(final float ch, final int length) {
+    final float[] array = new float[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static int[] createRepeat(final int ch, final int length) {
+    final int[] array = new int[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static long[] createRepeat(final long ch, final int length) {
+    final long[] array = new long[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static short[] createRepeat(final short ch, final int length) {
+    final short[] array = new short[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
+  public static Object[] createRepeat(final Object ch, final int length) {
+    final Object[] array = new Object[length];
+    java.util.Arrays.fill(array, ch);
+    return array;
+  }
+
   private Arrays() {
   }
 }
