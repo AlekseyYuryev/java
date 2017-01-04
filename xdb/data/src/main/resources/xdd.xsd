@@ -16,8 +16,55 @@
 -->
 <xs:schema elementFormDefault="qualified"
   xmlns:xdd="http://xdb.safris.org/xdd.xsd"
+  xmlns:dt="http://commons.safris.org/xml/datatypes.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   targetNamespace="http://xdb.safris.org/xdd.xsd">
+  
+  <xs:import namespace="http://commons.safris.org/xml/datatypes.xsd" schemaLocation="http://commons.safris.org/xml/datatypes.xsd"/>
+
+  <xs:simpleType name="char">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="clob">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="binary">
+    <xs:restriction base="dt:base64string"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="integer">
+    <xs:restriction base="xs:integer"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="float">
+    <xs:restriction base="xs:double"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="decimal">
+    <xs:restriction base="xs:decimal"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="date">
+    <xs:restriction base="xs:date"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="time">
+    <xs:restriction base="dt:time"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="dateTime">
+    <xs:restriction base="xs:dateTime"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="boolean">
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="enum">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
   
   <xs:complexType name="data"/>
   
