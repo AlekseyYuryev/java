@@ -19,7 +19,7 @@ package org.safris.maven.plugin.xjb;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -105,7 +105,7 @@ public class JSObjectTest extends LoggableTest {
     final String url = "http://www.thesaurus.com/browse/cool?s=t";
     message.url(url);
     message.important(true);
-    final Collection<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
+    final List<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
     message.recipients(recipients);
     message.emptyarray(new ArrayList<String>());
     final api.Message.Attachment[] attachment = {att1, att2, att3, null};
@@ -121,7 +121,7 @@ public class JSObjectTest extends LoggableTest {
         throw e;
     }
 
-    message.requiredArray((Collection<Boolean>)null);
+    message.requiredArray((List<Boolean>)null);
     try {
       encoded = message.toString();
     }
@@ -135,7 +135,7 @@ public class JSObjectTest extends LoggableTest {
     message.notRequired(true);
     message.notRequired.clear();
 
-    message.notRequiredArray((Collection<Boolean>)null);
+    message.notRequiredArray((List<Boolean>)null);
     message.notRequiredArray.clear();
 
     encoded = message.toString();
