@@ -18,8 +18,8 @@
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir>${project.build.directory}/generated-sources/xmlbinding</destdir>
+  <destdir>${project.build.directory}/generated-sources/xsb</destdir>
   <schemas>
-    <schema>../xsd/ant.xsd</schema>
+    <schema>ant.xsd</schema>
   </schemas>
 </manifest>

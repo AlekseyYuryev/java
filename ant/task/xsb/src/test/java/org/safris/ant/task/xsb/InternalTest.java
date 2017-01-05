@@ -24,7 +24,7 @@ import org.safris.commons.test.LoggableTest;
 public class InternalTest extends LoggableTest {
   private static final String[] DEBUG_VM_ARGS = null;
 //  private static final String[] DEBUG_VM_ARGS = new String[] {"-Xdebug", "-Xnoagent", "-Djava.compiler=NONE", "-Xrunjdwp:transport=dt_socket,address=8000,server=y"};
-  private static final String BUILD_PATH = "src/test/resources/xml/";
+  private static final String BUILD_PATH = "src/test/resources/";
 
   @Test
   public void testInternal() throws Exception {
