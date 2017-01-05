@@ -17,16 +17,20 @@
 package org.safris.commons.jci;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.UUID;
 
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
 import org.safris.commons.lang.Resources;
+import org.safris.commons.util.Collections;
 import org.safris.commons.util.jar.Jar;
 import org.safris.commons.util.zip.CachedFile;
 import org.safris.commons.util.zip.Zips;
@@ -35,6 +39,10 @@ public final class JavaCompiler {
   private final Collection<File> classpathFiles;
   private final File destDir;
   private final Jar destJar;
+
+  public JavaCompiler(final File destDir, final File ... classpath) {
+    this(destDir, Collections.asCollection(LinkedHashSet.class, classpath));
+  }
 
   public JavaCompiler(final File destDir, final Collection<File> classpath) {
     this.classpathFiles = classpath;
@@ -46,6 +54,10 @@ public final class JavaCompiler {
 
     this.destDir = destDir;
     this.destJar = null;
+  }
+
+  public JavaCompiler(final Jar destJar, final File ... classpath) {
+    this(destJar, Collections.asCollection(LinkedHashSet.class, classpath));
   }
 
   public JavaCompiler(final Jar destJar, final Collection<File> classpath) {
@@ -60,14 +72,18 @@ public final class JavaCompiler {
     this.destJar = destJar;
   }
 
-  public void compile(final Collection<File> javaSources) throws Exception {
-    if (destDir != null)
-      toDir(destDir, javaSources);
-    else
-      toJar(destJar, javaSources);
+  public void compile(final File ... javaSources) throws CompilationException, IOException {
+    compile(Collections.asCollection(LinkedHashSet.class, javaSources));
   }
 
-  private void toJar(final Jar destJar, final Collection<File> javaSources) throws Exception {
+  public void compile(Collection<File> javaSources) throws CompilationException, IOException {
+    if (destDir != null)
+      toDir(destDir, javaSources instanceof LinkedHashSet ? (LinkedHashSet<File>)javaSources : new LinkedHashSet<File>(javaSources));
+    else
+      toJar(destJar, javaSources instanceof LinkedHashSet ? (LinkedHashSet<File>)javaSources : new LinkedHashSet<File>(javaSources));
+  }
+
+  private void toJar(final Jar destJar, final LinkedHashSet<File> javaSources) throws CompilationException, IOException {
     if (javaSources == null || javaSources.size() == 0)
       return;
 
@@ -99,13 +115,12 @@ public final class JavaCompiler {
     }
   }
 
-  private void toDir(final File destDir, final Collection<File> javaSources) throws Exception {
-    if (javaSources == null || javaSources.size() == 0)
-      return;
+  private void toDir(final File destDir, final LinkedHashSet<File> javaSources) throws CompilationException, IOException {
+    if (!destDir.exists() && !destDir.mkdirs())
+      throw new IllegalArgumentException("Could not create directory " + destDir);
 
-    if (!destDir.exists())
-      if (!destDir.mkdirs())
-        throw new IllegalArgumentException("Could not create directory " + destDir);
+    if (javaSources.size() == 0)
+      throw new IllegalArgumentException("javaSources.size() == 0");
 
     String classpath = "";
     if (classpathFiles != null)
@@ -118,26 +133,30 @@ public final class JavaCompiler {
     if (locationBase != null)
       classpath = locationBase.getAbsolutePath() + File.pathSeparator + classpath;
 
-    final File tempFile = File.createTempFile("xml", ".tmp");
-    try (final FileOutputStream out = new FileOutputStream(tempFile)) {
-      for (final File javaSource : javaSources) {
-        out.write(javaSource.getAbsolutePath().getBytes());
-        out.write('\n');
-      }
+    final File tempFile = File.createTempFile("javac", ".tmp");
+    try (final FileWriter out = new FileWriter(tempFile)) {
+      out.write("-cp " + classpath + "\n");
+      out.write("-Xlint:none\n");
+      out.write("-d " + destDir.getAbsolutePath() + "\n");
+      out.write("-cp " + classpath + "\n");
+      final Iterator<File> iterator = javaSources.iterator();
+      out.write(iterator.next().getAbsolutePath());
+      while (iterator.hasNext())
+        out.write("\n" + iterator.next().getAbsolutePath());
     }
 
-    int i = 0;
-    final String[] args = new String[9];
-    args[i++] = "javac";
-    args[i++] = "-Xlint:none";
-    args[i++] = "-J-Xmx256m";
-    args[i++] = "-d";
-    args[i++] = destDir.getAbsolutePath();
-    args[i++] = "-cp";
-    args[i++] = classpath;
-    args[i++] = "@" + tempFile.getAbsolutePath();
+    final String[] args = new String[] {"javac", "@" + tempFile.getAbsolutePath()};
 
-    Processes.forkSync(null, System.out, System.err, false, args);
-    tempFile.deleteOnExit();
+    try {
+      final Process process = Processes.forkSync(null, System.out, System.err, false, args);
+      if (process.exitValue() != 0)
+        throw new CompilationException("\n  javac\n    " + new String(Files.getBytes(tempFile)).replace("\n", " \\\n    "));
+    }
+    catch (final InterruptedException e) {
+      throw new CompilationException("\n  javac\n    " + new String(Files.getBytes(tempFile)).replace("\n", " \\\n    "));
+    }
+    finally {
+      tempFile.delete();
+    }
   }
 }

@@ -19,16 +19,38 @@ package org.safris.commons.lang;
 import java.lang.reflect.Array;
 
 public final class Arrays {
+  public static abstract class Transformer<T> {
+    public abstract T transform(final T value);
+  }
+
+  @SafeVarargs
+  public static <T>T[] transform(final Transformer<T> transformer, final T ... array) {
+    for (int i = 0; i < array.length; i++)
+      array[i] = transformer.transform(array[i]);
+
+    return array;
+  }
+
   public static abstract class Filter<T> {
-    public abstract T filter(final T value);
+    public abstract boolean accept(final T value);
   }
 
   @SafeVarargs
   public static <T>T[] filter(final Filter<T> filter, final T ... array) {
-    for (int i = 0; i < array.length; i++)
-      array[i] = filter.filter(array[i]);
+    return filter(filter, 0, 0, array);
+  }
 
-    return array;
+  @SuppressWarnings("unchecked")
+  private static <T>T[] filter(final Filter<T> filter, final int index, final int depth, final T ... array) {
+    if (index == array.length)
+      return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
+
+    final boolean accept = filter.accept(array[index]);
+    final T[] filtered = filter(filter, index + 1, accept ? depth + 1 : depth, array);
+    if (accept)
+      filtered[depth] = array[index];
+
+    return filtered;
   }
 
   @SuppressWarnings("unchecked")

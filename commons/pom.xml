@@ -41,7 +41,6 @@
         <module>cli</module>
         <module>dbcp</module>
         <module>expect</module>
-        <module>exec</module>
         <module>formatter</module>
         <module>jci</module>
         <module>jetty</module>
@@ -62,6 +61,7 @@
         </property>
       </activation>
       <modules>
+        <module>exec</module>
         <module>io</module>
         <module>lang</module>
         <module>math</module>

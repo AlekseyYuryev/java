@@ -22,13 +22,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.management.ManagementFactory;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.safris.commons.io.Streams;
+import org.safris.commons.lang.Arrays;
 import org.safris.commons.lang.ClassLoaders;
+import org.safris.maven.common.Log;
 
 public final class Processes {
   public static int getPID() {
@@ -44,16 +44,17 @@ public final class Processes {
     }
   }
 
-  private static Process fork(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final boolean redirectErrorStream, final boolean sync, final String ... args) throws IOException {
-    final Collection<String> notNullArgs = new ArrayList<String>(args.length);
-    for (final String arg : args)
-      if (arg != null)
-        notNullArgs.add(arg);
+  private static final Arrays.Filter<String> notNullFilter = new Arrays.Filter<String>() {
+    @Override
+    public boolean accept(final String value) {
+      return value != null;
+    }
+  };
 
-    if (notNullArgs.size() == 0)
-      throw new IllegalArgumentException("empty argument list");
-
-    final Process process = Runtime.getRuntime().exec(notNullArgs.toArray(new String[notNullArgs.size()]));
+  private static Process fork(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final boolean redirectErrorStream, final boolean sync, String ... args) throws IOException {
+    args = Arrays.filter(notNullFilter, args);
+    Log.debug(Arrays.toString(args, " "));
+    final Process process = Runtime.getRuntime().exec(args);
     final OutputStream teeStdin = stdin != null ? Streams.teeAsync(process.getOutputStream(), stdin, stdout) : process.getOutputStream();
 
     InputStream teeStdout = redirectErrorStream ? Streams.merge(process.getInputStream(), process.getErrorStream()) : process.getInputStream();

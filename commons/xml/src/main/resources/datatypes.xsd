@@ -859,10 +859,4 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="base64string">
-    <xs:restriction base="xs:string">
-      <xs:pattern value="([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)"/>
-    </xs:restriction>
-  </xs:simpleType>
-
 </xs:schema>

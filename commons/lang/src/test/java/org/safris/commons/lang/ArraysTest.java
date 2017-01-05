@@ -22,20 +22,32 @@ import org.safris.commons.test.LoggableTest;
 
 public class ArraysTest extends LoggableTest {
   @Test
-  public void testFilter() {
-    Assert.assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, Arrays.<String>filter(new Arrays.Filter<String>() {
+  public void testTransform() {
+    Assert.assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, Arrays.<String>transform(new Arrays.Transformer<String>() {
       @Override
-      public String filter(final String value) {
+      public String transform(final String value) {
         return value.toUpperCase();
       }
     }, new String[] {"one", "two", "three"}));
 
-    Assert.assertArrayEquals(new String[] {}, Arrays.<String>filter(new Arrays.Filter<String>() {
+    Assert.assertArrayEquals(new String[] {}, Arrays.<String>transform(new Arrays.Transformer<String>() {
       @Override
-      public String filter(final String value) {
+      public String transform(final String value) {
         return value.toUpperCase();
       }
     }, new String[] {}));
+  }
+
+  @Test
+  public void testFilter() {
+    final String[] expected = new String[] {"ONE", "TWO", "THREE"};
+    final String[] filtered = Arrays.filter(new Arrays.Filter<String>() {
+      @Override
+      public boolean accept(final String value) {
+        return value != null;
+      }
+    }, new String[] {"ONE", null, "TWO", null, "THREE"});
+    Assert.assertArrayEquals(expected, filtered);
   }
 
   @Test
