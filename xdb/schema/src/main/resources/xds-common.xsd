@@ -247,7 +247,7 @@
   <xs:attributeGroup name="binary">
     <xs:attribute name="length" type="xs:positiveInteger" use="required"/>
     <xs:attribute name="varying" type="xs:boolean" default="false"/>
-    <xs:attribute name="default" type="dt:base64string"/>
+    <xs:attribute name="default" type="xs:base64Binary"/>
   </xs:attributeGroup>
   
   <xs:attributeGroup name="blob">
@@ -348,7 +348,7 @@
         </xs:list>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="default" type="xs:NMTOKEN"/>
+    <xs:attribute name="default" type="xs:string"/>
   </xs:attributeGroup>
   
   <xs:complexType name="column" abstract="true">
