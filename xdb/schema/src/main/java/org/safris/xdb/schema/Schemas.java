@@ -14,28 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xdb.data;
+package org.safris.xdb.schema;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import javax.xml.transform.TransformerException;
+import org.safris.xdb.xds.xe.xds_schema;
 
-import org.safris.commons.lang.Resources;
+public final class Schemas {
+  public static void create(final xds_schema schema, final Connection connection) throws GeneratorExecutionException, SQLException {
+    final DBVendor vendor = DBVendor.parse(connection.getMetaData());
+    final java.sql.Statement statement = connection.createStatement();
+    final String[] sqls = Generator.createDDL(schema, vendor, null);
+    for (final String sql : sqls)
+      statement.addBatch(sql);
 
-public final class Transformer {
-  public static void main(final String[] args) throws IOException, TransformerException {
-    final File file = new File(args[0]);
-    final File out = new File(args[1]);
-    xdsToXsd(file.toURI().toURL(), out);
+    statement.executeBatch();
   }
 
-  public static void xdsToXsd(final URL file, final File out) throws IOException, TransformerException {
-    out.getParentFile().mkdirs();
-    org.safris.commons.xml.transform.Transformer.transform(Resources.getResource("xdd.xsl").getURL(), file, out);
-  }
-
-  private Transformer() {
+  private Schemas() {
   }
 }
