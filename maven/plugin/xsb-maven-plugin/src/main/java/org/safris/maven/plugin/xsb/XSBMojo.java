@@ -18,12 +18,14 @@ package org.safris.maven.plugin.xsb;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
@@ -209,7 +211,7 @@ public class XSBMojo extends AdvancedMojo {
       excludes = null;
     }
 
-    final Generator generator = new Generator(new GeneratorContext(project.getFile().lastModified(), new File(destDir), explodeJars, overwrite), generatorBindings, excludes, sourcePath);
+    final Generator generator = new Generator(new GeneratorContext(new File(destDir), explodeJars, overwrite), generatorBindings, excludes, sourcePath);
     final Collection<Bundle> bundles = generator.generate();
     sourcePath.add(generator.getGeneratorContext().getDestdir());
     addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
@@ -238,7 +240,7 @@ public class XSBMojo extends AdvancedMojo {
         }
       }
     }
-    catch (final Exception e) {
+    catch (final DependencyResolutionRequiredException | IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
 
