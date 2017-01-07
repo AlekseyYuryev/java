@@ -16,8 +16,8 @@
 
 package org.safris.commons.xml.sax;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -69,26 +69,38 @@ public final class XMLDocuments {
     }
   }
 
-  public static XMLDocument analyze(final File file, final boolean offline) throws IOException, SAXException {
-    final DocumentHandler documentHandler = new DocumentHandler(new CachedURL(file.toURI().toURL()));
+  public static XMLDocument parse(final URL url, final boolean offline) throws IOException, SAXException {
+    return parse(url, null, offline);
+  }
+
+  public static XMLDocument parse(final URL url, final DocumentHandler documentHandler, final boolean offline) throws IOException, SAXException {
+    final CachedURL cachedURL = new CachedURL(url);
+    final ParseHandler parseHandler = new ParseHandler(cachedURL);
     if (offline)
       Sockets.disableNetwork();
 
     final SAXParser parser = newParser();
-    parser.parse(file, documentHandler);
+    parser.parse(cachedURL.openStream(), parseHandler);
     parser.reset();
     final Map<String,SchemaLocation> references = new LinkedHashMap<String,SchemaLocation>();
-    final boolean referencesOnlyLocal = imports(parser, offline, references, documentHandler.getNamespaceURIs(), documentHandler.getSchemaLocations());
-    return new XMLDocument(references, documentHandler.isXSD(), documentHandler.referencesOnlyLocal() && referencesOnlyLocal);
+    final boolean referencesOnlyLocal = imports(parser, documentHandler, offline, references, parseHandler.getNamespaceURIs(), parseHandler.getSchemaLocations());
+    final XMLDocument xmlDocument = new XMLDocument(references, parseHandler.isXSD(), parseHandler.referencesOnlyLocal() && referencesOnlyLocal);
+    if (offline)
+      Sockets.enableNetwork();
+
+    return xmlDocument;
   }
 
-  private static boolean imports(final SAXParser parser, final boolean offline, final Map<String,SchemaLocation> references, final Set<String> namespaceURIs, final Map<String,CachedURL> schemaLocations) throws IOException, SAXException {
+  private static boolean imports(final SAXParser parser, final DocumentHandler documentHandler, final boolean offline, final Map<String,SchemaLocation> references, final Set<String> namespaceURIs, final Map<String,CachedURL> schemaLocations) throws IOException, SAXException {
     boolean referencesOnlyLocal = true;
     for (final Map.Entry<String,CachedURL> schemaLocation : schemaLocations.entrySet()) {
       if (!references.containsKey(schemaLocation.getKey())) {
         if (!offline || (referencesOnlyLocal = schemaLocation.getValue().isLocal() && referencesOnlyLocal)) {
           final SchemaHandler schemaHandler = new SchemaHandler(schemaLocation.getValue());
           try {
+            if (documentHandler != null)
+              documentHandler.schemaLocation(schemaLocation.getValue().openConnection());
+
             parser.reset();
             parser.parse(schemaLocation.getValue().openStream(), schemaHandler);
           }
@@ -105,8 +117,8 @@ public final class XMLDocuments {
           if (namespaceURIs.isEmpty())
             break;
 
-          referencesOnlyLocal = imports(parser, offline, references, namespaceURIs, schemaHandler.getImports()) && referencesOnlyLocal;
-          referencesOnlyLocal = includes(parser, offline, references, schemaLocation.getKey(), schemaHandler.getIncludes()) && referencesOnlyLocal;
+          referencesOnlyLocal = imports(parser, documentHandler, offline, references, namespaceURIs, schemaHandler.getImports()) && referencesOnlyLocal;
+          referencesOnlyLocal = includes(parser, documentHandler, offline, references, schemaLocation.getKey(), schemaHandler.getIncludes()) && referencesOnlyLocal;
         }
       }
     }
@@ -114,12 +126,15 @@ public final class XMLDocuments {
     return referencesOnlyLocal;
   }
 
-  private static boolean includes(final SAXParser parser, final boolean offline, final Map<String,SchemaLocation> references, final String namespaceURI, final Set<CachedURL> includes) throws IOException, SAXException {
+  private static boolean includes(final SAXParser parser, final DocumentHandler documentHandler, final boolean offline, final Map<String,SchemaLocation> references, final String namespaceURI, final Set<CachedURL> includes) throws IOException, SAXException {
     boolean referencesOnlyLocal = false;
     for (final CachedURL include : includes) {
       if (!offline || (referencesOnlyLocal = include.isLocal() && referencesOnlyLocal)) {
         final SchemaHandler schemaHandler = new SchemaHandler(include);
         try {
+          if (documentHandler != null)
+            documentHandler.schemaLocation(include.openConnection());
+
           parser.reset();
           parser.parse(include.openStream(), schemaHandler);
         }
@@ -128,7 +143,7 @@ public final class XMLDocuments {
         }
 
         references.get(namespaceURI).getLocation().put(URLs.toExternalForm(include), include);
-        referencesOnlyLocal = includes(parser, offline, references, namespaceURI, schemaHandler.getIncludes()) && referencesOnlyLocal;
+        referencesOnlyLocal = includes(parser, documentHandler, offline, references, namespaceURI, schemaHandler.getIncludes()) && referencesOnlyLocal;
       }
     }
 

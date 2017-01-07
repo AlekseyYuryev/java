@@ -136,8 +136,9 @@ public abstract class PackageLoader extends ClassLoader {
    * will be used to load all classes in each resource. This method will search
    * for all classpath entries in all class loaders.
    *
-   * @param       name       The name of the package.
-   * @param       initialize Whether the classes must be initialized
+   * @param       name        The name of the package.
+   * @param       classLoader ClassLoader containing the resource, or null for all other ClassLoaders
+   * @param       initialize  Whether the classes must be initialized
    *
    * @return      A set of all classes for which Class.forName() was called.
    *
@@ -145,11 +146,14 @@ public abstract class PackageLoader extends ClassLoader {
    * that cannot be found in any classpath resources.
    */
   public Set<Class<?>> loadPackage(final String name, final boolean initialize) throws PackageNotFoundException {
-    if (name == null || name.length() == 0)
-      throw new PackageNotFoundException(name);
+    if (name == null)
+      throw new NullPointerException("name == null");
+
+    if (name.length() == 0)
+      throw new IllegalArgumentException("name.length() == 0");
 
     final char firstChar = name.charAt(0);
-    Enumeration<Resource> resources = null;
+    final Enumeration<Resource> resources;
     try {
       resources = Resources.getResources((firstChar == '/' || firstChar == '.' ? name.substring(1) : name).replace('.', '/'));
     }
@@ -164,8 +168,8 @@ public abstract class PackageLoader extends ClassLoader {
     while (resources.hasMoreElements()) {
       final Resource resource = resources.nextElement();
       final URL url = resource.getURL();
-      final ClassLoader classLoader = resource.getClassLoader();
-      synchronized (classLoader) {
+      final ClassLoader resourceClassLoader = resource.getClassLoader();
+      synchronized (resourceClassLoader) {
         String decodedUrl;
         try {
           decodedUrl = URLDecoder.decode(url.getPath(), "UTF-8");
@@ -226,7 +230,7 @@ public abstract class PackageLoader extends ClassLoader {
             }
 
             if (!packageLoaded || !packageClassNames.contains(entry)) {
-              packageClasses.add(Class.forName(entry, initialize, classLoader));
+              packageClasses.add(Class.forName(entry, initialize, resourceClassLoader));
               packageClassNames.add(entry);
             }
           }

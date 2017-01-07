@@ -36,8 +36,6 @@ public class PathsTest extends LoggableTest {
 
     for (final Map.Entry<String,String> entry : paths.entrySet())
       Assert.assertEquals(entry.getKey(), Paths.getName(entry.getValue()));
-
-    Assert.assertNull(Paths.getName(null));
   }
 
   @Test
@@ -45,13 +43,11 @@ public class PathsTest extends LoggableTest {
     final Map<String,String> urls = new HashMap<String,String>();
     urls.put("file:///usr", "file:///usr/share/../share");
     urls.put("/usr", "/usr/share/../share/..");
-    urls.put("pom.xml", "arp/../pom.xml");
-    urls.put("/", "/usr/share/../share/../../");
+    urls.put(null, "arp/../pom.xml");
+    urls.put("", "/usr/share/../share/../../");
     urls.put("file:///usr/local", "file:///usr/local/bin/../lib/../bin");
 
     for (final Map.Entry<String,String> entry : urls.entrySet())
-      Assert.assertEquals(entry.getKey(), Paths.getParent((entry.getValue())));
-
-    Assert.assertNull(Paths.getParent(null));
+      Assert.assertEquals(entry.getKey(), Paths.getParent(entry.getValue()));
   }
 }

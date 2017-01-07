@@ -20,9 +20,6 @@ import java.io.File;
 
 public final class Paths {
   public static boolean isAbsolute(final String path) {
-    if (path == null)
-      throw new NullPointerException();
-
     return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
   }
 
@@ -31,12 +28,6 @@ public final class Paths {
   }
 
   public static String newPath(final String basedir, final String path) {
-    if (basedir == null)
-      throw new NullPointerException("basedir == null");
-
-    if (path == null)
-      throw new NullPointerException("path == null");
-
     if (basedir.length() == 0)
       return path;
 
@@ -54,9 +45,6 @@ public final class Paths {
   }
 
   public static String canonicalize(String path) {
-    if (path == null)
-      return null;
-
     if (path.endsWith(".."))
       path = path + "/";
 
@@ -86,9 +74,6 @@ public final class Paths {
   }
 
   public static String relativePath(final String dir, final String file) {
-    if (dir == null || file == null)
-      return null;
-
     final String filePath = Paths.canonicalize(file);
     final String dirPath = Paths.canonicalize(dir);
 
@@ -96,20 +81,14 @@ public final class Paths {
   }
 
   public static String getParent(String url) {
-    if (url == null)
-      return null;
-
     url = canonicalize(url);
     final int separator = url.lastIndexOf('/');
-    return separator > 0 ? url.substring(0, separator) : url;
+    return separator < 0 ? null : url.substring(0, separator);
   }
 
   public static String getName(String url) {
-    if (url == null)
-      return null;
-
     if (url.length() == 0)
-      return "";
+      throw new IllegalArgumentException("url.length() == 0");
 
     if (url.endsWith("/"))
       url = url.substring(0, url.length() - 1);

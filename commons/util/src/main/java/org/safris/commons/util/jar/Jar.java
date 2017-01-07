@@ -51,7 +51,6 @@ public final class Jar {
       entries.add(jarEntry);
       jarEntry.setTime(System.currentTimeMillis());
 
-      // Write file to archive
       try {
         out.putNextEntry(jarEntry);
         out.write(bytes);

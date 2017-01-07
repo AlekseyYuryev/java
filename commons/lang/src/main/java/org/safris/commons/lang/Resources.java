@@ -82,8 +82,11 @@ public final class Resources {
   }
 
   public static Enumeration<Resource> getResources(final String name) throws IOException {
-    if (name == null || name.length() == 0)
-      return null;
+    if (name == null)
+      throw new NullPointerException("name == null");
+
+    if (name.length() == 0)
+      throw new IllegalArgumentException("name.length() == 0");
 
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     Enumeration<URL> urls = classLoader.getResources(name);

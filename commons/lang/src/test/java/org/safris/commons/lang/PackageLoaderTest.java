@@ -67,9 +67,9 @@ public class PackageLoaderTest extends LoggableTest {
 
     try {
       PackageLoader.getSystemPackageLoader().loadPackage((String)null);
-      Assert.fail("Expected a PackageNotFoundException");
+      Assert.fail("Expected a NullPointerException");
     }
-    catch (final PackageNotFoundException e) {
+    catch (final NullPointerException e) {
     }
   }
 }

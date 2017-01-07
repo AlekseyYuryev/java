@@ -55,8 +55,13 @@ public class ResourcesTest extends LoggableTest {
 
   @Test
   public void testGetResources() throws Exception {
-    Assert.assertNull(Resources.getResources(null));
-    Assert.assertNull(Resources.getResources(""));
+    try {
+      Assert.assertNull(Resources.getResources(null));
+      Assert.fail("Expected NPE");
+    }
+    catch (final Exception e) {
+    }
+
     final Enumeration<Resource> resources = Resources.getResources("META-INF");
     boolean found = false;
     while (resources.hasMoreElements()) {

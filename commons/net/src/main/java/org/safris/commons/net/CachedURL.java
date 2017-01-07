@@ -20,12 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.safris.commons.io.input.ReviewableInputStream;
 
 public class CachedURL {
   protected final URL url;
   private ReviewableInputStream in;
+  private URLConnection connection;
 
   public CachedURL(final URL url) {
     this.url = url;
@@ -35,8 +37,12 @@ public class CachedURL {
     this.url = new URL(spec);
   }
 
-  public final InputStream openStream() throws IOException {
-    return in == null ? in = new ReviewableInputStream(url.openStream()) : in;
+  public synchronized URLConnection openConnection() throws IOException {
+    return connection == null ? connection = url.openConnection() : connection;
+  }
+
+  public synchronized final InputStream openStream() throws IOException {
+    return in == null ? in = new ReviewableInputStream(openConnection().getInputStream()) : in;
   }
 
   public void destroy() throws IOException {
@@ -49,6 +55,10 @@ public class CachedURL {
 
   public boolean isLocal() {
     return URLs.isLocal(url);
+  }
+
+  public URL toURL() {
+    return url;
   }
 
   @Override

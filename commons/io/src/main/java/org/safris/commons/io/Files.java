@@ -64,24 +64,28 @@ public final class Files {
     }
   }
 
-  // FIXME: Implement this iteratively
-  private static void deleteAll(final Path path, final DirectoryStream.Filter<Path> filter, final boolean onExit) throws IOException {
-    if (path == null)
-      return;
+  private static void delete(final Path path, final boolean onExit) throws IOException {
+    if (onExit)
+      java.nio.file.Files.newOutputStream(path, StandardOpenOption.DELETE_ON_CLOSE);
+    else
+      java.nio.file.Files.delete(path);
+  }
 
+  private static void deleteAll(final Path path, final DirectoryStream.Filter<Path> filter, final boolean onExit) throws IOException {
     if (java.nio.file.Files.isDirectory(path)) {
       try (final DirectoryStream<Path> stream = java.nio.file.Files.newDirectoryStream(path, filter)) {
         for (final Path entry : stream) {
           if (java.nio.file.Files.isDirectory(entry))
             deleteAll(entry, filter, onExit);
+          else
+            delete(entry, onExit);
         }
+
+        delete(path, onExit);
       }
     }
-    else if (onExit) {
-      java.nio.file.Files.newOutputStream(path, StandardOpenOption.DELETE_ON_CLOSE);
-    }
     else {
-      java.nio.file.Files.delete(path);
+      delete(path, onExit);
     }
   }
 
@@ -89,16 +93,18 @@ public final class Files {
     deleteAll(path, filter, true);
   }
 
-  public static void deleteAll(final Path path, final DirectoryStream.Filter<Path> filter) throws IOException {
+  public static boolean deleteAll(final Path path, final DirectoryStream.Filter<Path> filter) throws IOException {
     deleteAll(path, filter, false);
+    return !java.nio.file.Files.exists(path);
   }
 
   public static void deleteAllOnExit(final Path path) throws IOException {
     deleteAll(path, anyFilter, true);
   }
 
-  public static void deleteAll(final Path path) throws IOException {
+  public static boolean deleteAll(final Path path) throws IOException {
     deleteAll(path, anyFilter, false);
+    return !java.nio.file.Files.exists(path);
   }
 
   public static String getBasename(final File file) {
@@ -167,12 +173,6 @@ public final class Files {
    *              If there is an error handling either the from file, or the to file.
    */
   public static void copy(final File from, final File to) throws IOException {
-    if (from == null)
-      throw new NullPointerException("from == null");
-
-    if (to == null)
-      throw new NullPointerException("to == null");
-
     if (from.isFile()) {
       copyFile(from, to);
     }
@@ -180,8 +180,8 @@ public final class Files {
       if (to.isFile())
         throw new IllegalArgumentException("trying to copy a directory to a file");
 
-      if (!to.exists())
-        to.mkdir();
+      if (!to.exists() && !to.mkdirs())
+        throw new IOException("Unable to create destination directory: " + to.getAbsolutePath());
 
       final List<File> files = Files.listAll(from.getAbsoluteFile());
       for (final File file : files) {

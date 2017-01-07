@@ -17,6 +17,7 @@
 package org.safris.ant.task.xsb;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -42,6 +43,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class GeneratorTask extends Task implements DynamicElement {
   public static void main(final String[] args) throws BuildException {
@@ -72,7 +74,7 @@ public class GeneratorTask extends Task implements DynamicElement {
       final DocumentBuilder documentBuilder = DOMParsers.newDocumentBuilder();
       document = documentBuilder.parse(buildFile);
     }
-    catch (Exception e) {
+    catch (final IOException | SAXException e) {
       throw new BuildException(e);
     }
 
@@ -141,7 +143,7 @@ public class GeneratorTask extends Task implements DynamicElement {
   private Manifest manifest = null;
 
   @Override
-  public Object createDynamicElement(String p1) throws BuildException {
+  public Object createDynamicElement(final String p1) throws BuildException {
     if (!"manifest".equals(p1))
       throw new BuildException(getClass().getSimpleName() + " doesn't support the nested \"" + p1 + "\" element.");
 
@@ -240,7 +242,7 @@ TOP:
         }
       }
 
-      final GeneratorContext generatorContext = new GeneratorContext(buildFile.lastModified(), destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());
+      final GeneratorContext generatorContext = new GeneratorContext(destDirFile, manifest.getDestdir().getExplodeJars(), manifest.getDestdir().getOverwrite());
       generator = new Generator(generatorContext, schemaReferences, excludes, null);
     }
 

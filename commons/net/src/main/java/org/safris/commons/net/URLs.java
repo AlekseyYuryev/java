@@ -149,6 +149,41 @@ public final class URLs {
     return new URL(path);
   }
 
+  public static boolean isJar(final URL url) {
+    try {
+      return url.toURI().toASCIIString().startsWith("jar:");
+    }
+    catch (final URISyntaxException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  public static URL getParentJar(final URL url) {
+    if (!isJar(url))
+      return null;
+
+    try {
+      final String uri = url.toURI().toASCIIString();
+      return new URL(uri.substring(4, uri.indexOf('!')));
+    }
+    catch (final MalformedURLException | URISyntaxException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  public static String getPathInJar(final URL url) {
+    if (!isJar(url))
+      return null;
+
+    try {
+      final String uri = url.toURI().toASCIIString();
+      return uri.substring(uri.indexOf('!') + 2);
+    }
+    catch (final URISyntaxException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
   public static String getName(final URL url) {
     return Paths.getName(url.toString());
   }

@@ -4,7 +4,6 @@
 .settings/
 build/
 target/
-derby.log
 *.javaproj
 *.sln
 .classpath
