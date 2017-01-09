@@ -71,6 +71,17 @@ public final class ClassLoaders {
     return urls.toArray(new URL[urls.size()]);
   }
 
+  public static void addURL(final URLClassLoader classLoader, final URL url) {
+    try {
+      final Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+      method.setAccessible(true);
+      method.invoke(classLoader, url);
+    }
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
   private ClassLoaders() {
   }
 }

@@ -41,12 +41,6 @@ public final class Classes {
   }
 
   private static Field getField(final Class<?> cls, final String fieldName, final boolean declared) {
-    if (cls == null)
-      throw new NullPointerException("cls == null");
-
-    if (fieldName == null)
-      throw new NullPointerException("fieldName == null");
-
     Map<String,Field> fieldMap = classToFields.get(cls);
     if (fieldMap != null)
       return checkAccessField(fieldMap.get(fieldName), declared);
@@ -360,9 +354,8 @@ public final class Classes {
   }
 
   public static String getName(final Class<?> cls) {
-    if (cls.isArray()) {
+    if (cls.isArray())
       return getName(cls.getComponentType()) + "[]";
-    }
 
     if (cls.isPrimitive()) {
       if (cls == int.class)
