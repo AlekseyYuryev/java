@@ -13,8 +13,9 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 
 * [XSB (Xml Schema Binding)][xsb] - Complete solution for binding of XML Schemas to the Java language.
 * [XDB (eXtensible Data Binding)][xdb]
-  * [xdb-entities (eXtensible Data Binding Entities)][xdb-entities] - Lightweight ORM solution with strongly typed DML semantics.
-  * [xdb-schema (eXtensible Data Binding Schema)][xdb-schema] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
+  * [Schema][xdb-schema] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
+  * [Data][xdb-data] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
+  * [Entities][xdb-entities] - Lightweight ORM solution with strongly typed DML semantics.
 * [XJB (eXtensible JSON Binding)][xjb] - Validating XML-based descriptor schema for JSON classes.
 * [XRS (jaX REST Server)][xrs] - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
 
@@ -60,6 +61,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [xdb-entities]: https://github.com/SevaSafris/xdb/blob/master/entities
 [xdb-maven-archetype]: https://github.com/SevaSafris/xdb-maven-archetype
 [xdb-maven-plugin]: https://github.com/SevaSafris/xdb-maven-plugin
+[xdb-data]: https://github.com/SevaSafris/xdb/blob/master/data
 [xdb-schema]: https://github.com/SevaSafris/xdb/blob/master/schema
 [xdb]: https://github.com/SevaSafris/xdb
 [xjb-maven-plugin]: https://github.com/SevaSafris/xjb-maven-plugin
