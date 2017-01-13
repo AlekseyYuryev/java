@@ -130,7 +130,6 @@
         </property>
       </activation>
       <modules>
-        <module>ant</module>
         <module>commons</module>
         <module>maven</module>
         <module>xdb</module>
