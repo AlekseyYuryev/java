@@ -57,4 +57,11 @@ public class ArraysTest extends LoggableTest {
     final String[] concat = Arrays.concat(one, two);
     Assert.assertArrayEquals(new String[] {"a", "b", "c", "d", "e", "f"}, concat);
   }
+
+  @Test
+  public void testSubArray() {
+    final String[] array = new String[] {"a", "b", "c", "d", "e", "f"};
+    Assert.assertArrayEquals(new String[] {"c", "d", "e"}, Arrays.subArray(array, 2, 5));
+    Assert.assertArrayEquals(new String[] {"c", "d", "e", "f"}, Arrays.subArray(array, 2));
+  }
 }

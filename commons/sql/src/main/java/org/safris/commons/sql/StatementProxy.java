@@ -270,8 +270,11 @@ public class StatementProxy implements Statement {
       if (logger.isLoggable(logLevel)) {
         final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeBatch() {");
         if (count != null)
-          for (int i = 0; i < count.length; i++)
+          for (int i = 0; i < batch.size(); i++)
             buffer.append("\n  ").append(batch.get(i).replaceAll("\n", "\n  ")).append(" -> ").append(count[i]);
+        else
+          for (int i = 0; i < batch.size(); i++)
+            buffer.append("\n  ").append(batch.get(i).replaceAll("\n", "\n  ")).append(" -> -1");
 
         buffer.append("\n} ").append(System.currentTimeMillis() - time).append("ms");
         logger.fine(buffer.toString());

@@ -206,39 +206,39 @@ public abstract class PackageLoader extends ClassLoader {
         if (entries.size() == 0)
           continue;
 
-        try {
-          String lastPackage = null;
-          Set<Class<?>> packageClasses = null;
-          Set<String> packageClassNames = null;
-          boolean packageLoaded = false;
-          Collections.sort(entries);
-          for (final String entry : entries) {
-            final String subPackage = entry.substring(0, entry.lastIndexOf('.'));
-            if (!subPackage.equals(lastPackage)) {
-              lastPackage = subPackage;
-              if (packageClasses != null)
-                classes.addAll(packageClasses);
+        String lastPackage = null;
+        Set<Class<?>> packageClasses = null;
+        Set<String> packageClassNames = null;
+        boolean packageLoaded = false;
+        Collections.sort(entries);
+        for (final String entry : entries) {
+          final String subPackage = entry.substring(0, entry.lastIndexOf('.'));
+          if (!subPackage.equals(lastPackage)) {
+            lastPackage = subPackage;
+            if (packageClasses != null)
+              classes.addAll(packageClasses);
 
-              packageClasses = loadedPackageToClasses.get(subPackage);
-              if (packageLoaded = (packageClasses != null)) {
-                packageClassNames = loadedPackageToClassNames.get(subPackage);
-              }
-              else {
-                loadedPackageToClasses.put(subPackage, packageClasses = new HashSet<Class<?>>());
-                loadedPackageToClassNames.put(subPackage, packageClassNames = new HashSet<String>());
-              }
+            packageClasses = loadedPackageToClasses.get(subPackage);
+            if (packageLoaded = (packageClasses != null)) {
+              packageClassNames = loadedPackageToClassNames.get(subPackage);
             }
-
-            if (!packageLoaded || !packageClassNames.contains(entry)) {
-              packageClasses.add(Class.forName(entry, initialize, resourceClassLoader));
-              packageClassNames.add(entry);
+            else {
+              loadedPackageToClasses.put(subPackage, packageClasses = new HashSet<Class<?>>());
+              loadedPackageToClassNames.put(subPackage, packageClassNames = new HashSet<String>());
             }
           }
 
-          classes.addAll(packageClasses);
+          if (!packageLoaded || !packageClassNames.contains(entry)) {
+            try {
+              packageClasses.add(Class.forName(entry, initialize, resourceClassLoader));
+            }
+            catch (final ClassNotFoundException | NoClassDefFoundError e) {
+            }
+            packageClassNames.add(entry);
+          }
         }
-        catch (final ClassNotFoundException | NoClassDefFoundError e) {
-        }
+
+        classes.addAll(packageClasses);
       }
     }
 

@@ -23,10 +23,10 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.safris.commons.lang.Arrays;
 import org.safris.commons.util.For;
 
 public final class Classes {
@@ -281,7 +281,7 @@ public final class Classes {
 
     final Method[] methods = clazz.getDeclaredMethods();
     for (final Method method : methods)
-      if (method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), parameters))
+      if (method.getName().equals(name) && java.util.Arrays.equals(method.getParameterTypes(), parameters))
         return method;
 
     return null;
@@ -389,6 +389,17 @@ public final class Classes {
     }
 
     return cls.getName();
+  }
+
+  private static class CallingClass extends SecurityManager {
+    @Override
+    public Class<?>[] getClassContext() {
+      return super.getClassContext();
+    }
+  }
+
+  public static Class<?>[] getCallingClasses() {
+    return Arrays.subArray(new CallingClass().getClassContext(), 3);
   }
 
   private Classes() {

@@ -120,13 +120,13 @@
     <profile>
       <id>default</id>
       <activation>
-        <file>
-          <!-- For some reason, the build section of this profile is attempted to be resolved,
+        <!--file>
+          For some reason, the build section of this profile is attempted to be resolved,
             regardless of there being no "core" property. This is important during the first build,
             when the org.safris.maven.plugin:xml-maven-plugin is not yet built. Adding this file-
-            based profile activation solves the problem. Why?! -->
+            based profile activation solves the problem. Why?! 
           <exists>${user.home}/.m2/repository/org/safris/maven/plugin/xml-maven-plugin/2.0.3/xml-maven-plugin-2.0.3.jar</exists>
-        </file>
+        </file-->
         <property>
           <name>!core</name>
         </property>
@@ -147,7 +147,6 @@
               <groupId>org.safris.maven.plugin</groupId>
               <artifactId>version-maven-plugin</artifactId>
               <version>0.1.1</version>
-              <extensions>true</extensions>
               <configuration>
                 <incrementPart>PATCH</incrementPart>
               </configuration>
@@ -378,6 +377,7 @@
               <goals>
                 <goal>generate</goal>
               </goals>
+              <phase>generate-sources</phase>
             </execution>
           </executions>
         </plugin>

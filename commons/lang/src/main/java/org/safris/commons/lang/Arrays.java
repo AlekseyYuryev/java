@@ -66,6 +66,14 @@ public final class Arrays {
     return concat;
   }
 
+  public static <T>boolean contains(final T[] array, final T obj) {
+    for (int i = 0; i < array.length; i++)
+      if (obj.equals(array[i]))
+          return true;
+
+    return false;
+  }
+
   public static String toString(final Object[] array, final char delimiter) {
     if (array == null)
       return null;
@@ -190,6 +198,24 @@ public final class Arrays {
     final Object[] array = new Object[length];
     java.util.Arrays.fill(array, ch);
     return array;
+  }
+
+  public static <T>T[] subArray(final T[] array, final int beginIndex) {
+    return subArray(array, beginIndex, array.length);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T>T[] subArray(final T[] array, final int beginIndex, final int endIndex) {
+    if (endIndex < beginIndex)
+      throw new IllegalArgumentException("endIndex < beginIndex");
+
+    final Class<?> componentType = array.getClass().getComponentType();
+    final T[] subArray = (T[])Array.newInstance(componentType, endIndex - beginIndex);
+    if (beginIndex == endIndex)
+      return subArray;
+
+    System.arraycopy(array, beginIndex, subArray, 0, endIndex - beginIndex);
+    return subArray;
   }
 
   private Arrays() {

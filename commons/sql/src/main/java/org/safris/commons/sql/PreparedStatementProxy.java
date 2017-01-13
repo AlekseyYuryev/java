@@ -55,7 +55,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
 
   private static final ThreadLocal<SimpleDateFormat> dateFormat = Formats.createSimpleDateFormat("yyyy-MM-dd");
   private static final ThreadLocal<SimpleDateFormat> timestampFormat = Formats.createSimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-  private static final ThreadLocal<DecimalFormat> numberFormat = Formats.createDecimalFormat("###############.###########;-###############.###########");
+  private static final ThreadLocal<DecimalFormat> numberFormat = Formats.createDecimalFormat("###############.###############;-###############.###############");
 
   private final Map<Integer,Object> parameterMap = new HashMap<Integer,Object>();
   private final String sql;

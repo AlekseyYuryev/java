@@ -237,6 +237,20 @@ public final class Collections {
     }
   }
 
+  public static int hashCode(final Collection<?> collection) {
+    if (collection == null)
+        return 0;
+
+    int result = 1;
+    for (final Object element : collection) {
+      final int elementHash = element.hashCode();
+      result = 31 * result + elementHash ^ (elementHash >>> 32);
+    }
+
+    return result;
+  }
+
+
   private Collections() {
   }
 }

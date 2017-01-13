@@ -23,6 +23,7 @@ import java.io.FilterInputStream;
 import java.io.InputStream;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -53,5 +54,11 @@ public class ClassesTest extends LoggableTest {
       Assert.assertEquals(Classes.getGreatestCommonSuperclass(entry.getKey()), entry.getValue());
 
     Assert.assertNull(Classes.getGreatestCommonSuperclass((Class<?>[])null));
+  }
+
+  @Test
+  public void testGetCallingClasses() {
+    final Class<?>[] classes = Classes.getCallingClasses();
+    System.out.println(Arrays.toString(classes));
   }
 }

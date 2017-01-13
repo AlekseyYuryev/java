@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,8 +45,8 @@ public final class ClassLoaders {
 
   public static URL[] getClassPath() {
     final Collection<URL> urls = new HashSet<URL>();
-    urls.addAll(Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
-    urls.addAll(Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
+    urls.addAll(java.util.Arrays.asList(((URLClassLoader)ClassLoader.getSystemClassLoader()).getURLs()));
+    urls.addAll(java.util.Arrays.asList(((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs()));
     final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     try {
       // TODO: I don't know why, but when running forked JUnit tests
@@ -65,20 +64,25 @@ public final class ClassLoaders {
     }
     catch (final Exception e) {
       if (classLoader instanceof URLClassLoader)
-        urls.addAll(Arrays.asList(((URLClassLoader)classLoader).getURLs()));
+        urls.addAll(java.util.Arrays.asList(((URLClassLoader)classLoader).getURLs()));
     }
 
     return urls.toArray(new URL[urls.size()]);
   }
 
-  public static void addURL(final URLClassLoader classLoader, final URL url) {
-    try {
-      final Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-      method.setAccessible(true);
-      method.invoke(classLoader, url);
-    }
-    catch (final ReflectiveOperationException e) {
-      throw new UnsupportedOperationException(e);
+  public static void addURL(final URLClassLoader classLoader, final URL ... urls) {
+    for (final URL url : urls) {
+      if (Arrays.contains(classLoader.getURLs(), url))
+        continue;
+
+      try {
+        final Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+        method.setAccessible(true);
+        method.invoke(classLoader, url);
+      }
+      catch (final ReflectiveOperationException e) {
+        throw new UnsupportedOperationException(e);
+      }
     }
   }
 
