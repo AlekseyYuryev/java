@@ -286,8 +286,8 @@
           <version>3.5.1</version>
           <configuration>
             <fork>true</fork>
-            <meminitial>256m</meminitial>
-            <maxmem>4096m</maxmem>
+            <meminitial>128m</meminitial>
+            <maxmem>8192m</maxmem>
           </configuration>
         </plugin>
         <plugin>
