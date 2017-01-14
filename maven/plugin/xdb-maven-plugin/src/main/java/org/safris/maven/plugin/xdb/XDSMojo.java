@@ -16,8 +16,8 @@
 
 package org.safris.maven.plugin.xdb;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -26,6 +26,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
+import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
 import org.safris.xdb.schema.DBVendor;
 import org.safris.xdb.schema.Generator;
@@ -38,9 +39,10 @@ public final class XDSMojo extends ManifestMojo {
   private String vendor;
 
   @Override
-  public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
+  public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
-      Generator.createDDL(file.toURI().toURL(), DBVendor.parse(vendor), outDir);
+      for (final URL url : manifest.getSchemas())
+        Generator.createDDL(url, DBVendor.parse(vendor), manifest.getDestdir());
     }
     catch (final GeneratorExecutionException | IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);

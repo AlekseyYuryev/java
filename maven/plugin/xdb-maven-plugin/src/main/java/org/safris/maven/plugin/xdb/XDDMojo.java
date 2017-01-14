@@ -18,6 +18,7 @@ package org.safris.maven.plugin.xdb;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.xml.transform.TransformerException;
 
@@ -26,6 +27,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.safris.commons.net.URLs;
+import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
 import org.safris.xdb.data.Datas;
 
@@ -33,9 +36,10 @@ import org.safris.xdb.data.Datas;
 @Execute(goal = "data")
 public final class XDDMojo extends ManifestMojo {
   @Override
-  public void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException {
+  public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
-      Datas.createXSD(file.toURI().toURL(), new File(outDir, file.getName().replaceAll("\\.\\S+$", ".xsd")));
+      for (final URL url : manifest.getSchemas())
+        Datas.createXSD(url, new File(manifest.getDestdir(), URLs.getName(url).replaceAll("\\.\\S+$", ".xsd")));
     }
     catch (final IOException | TransformerException e) {
       throw new MojoExecutionException(e.getMessage(), e);

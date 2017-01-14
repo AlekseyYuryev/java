@@ -17,236 +17,50 @@
 package org.safris.maven.plugin.xsb;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
-import org.apache.maven.model.Build;
-import org.apache.maven.model.Plugin;
-import org.apache.maven.model.PluginExecution;
-import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
-import org.safris.commons.lang.Paths;
-import org.safris.commons.net.URLs;
-import org.safris.commons.util.Translator;
-import org.safris.commons.util.zip.Zips;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.commons.xml.dom.DOMParsers;
-import org.safris.maven.common.AdvancedMojo;
-import org.safris.maven.common.Manifest;
-import org.safris.maven.project.MavenPropertyTranslator;
+import org.safris.maven.mojo.Manifest;
+import org.safris.maven.mojo.ManifestMojo;
 import org.safris.xsb.compiler.processor.GeneratorContext;
 import org.safris.xsb.compiler.processor.reference.SchemaReference;
 import org.safris.xsb.generator.Generator;
-import org.safris.xsb.generator.processor.bundle.Bundle;
-import org.w3.x2001.xmlschema.xe.$xs_boolean;
-import org.w3c.dom.Document;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
-public class XSBMojo extends AdvancedMojo {
-  private static final FileFilter classesFilter = new FileFilter() {
-    @Override
-    public boolean accept(final File pathname) {
-      final String name = pathname.getName();
-      return name != null && !name.endsWith(".class") && !name.endsWith(".java");
-    }
-  };
-
+public class XSBMojo extends ManifestMojo {
   // Contains all source paths for all executions of the generator in the single VM, such
   // that subsequent executions have a reference to the source paths of previous executions
   // so as to allow for bindings of excluded namespaces to be generated in prior executions
   private static final Set<File> sourcePath = new HashSet<File>();
 
-  @Parameter(property = "maven.test.skip", defaultValue = "false")
-  private boolean mavenTestSkip;
-
-  @Parameter(property = "basedir", readonly = true, required = true)
-  private File basedir;
-
-  @Parameter(property = "manifest", required = true)
-  private Manifest manifest;
-
-  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-  private MojoExecution execution;
-
-  @Parameter(defaultValue = "${project}", readonly = true)
-  private MavenProject project;
-
   @Override
-  public void execute() throws MojoExecutionException, MojoFailureException {
-    if (mavenTestSkip && execution.getLifecyclePhase().contains("test"))
-      return;
-
-    String href = null;
-    boolean explodeJars = false;
-    boolean overwrite = false;
-    final Translator<String> translator = new MavenPropertyTranslator(project);
-    final Build build = project.getBuild();
-    if (build != null && build.getPlugins() != null) {
-      for (final Plugin plugin : build.getPlugins()) {
-        if (!"xsb-maven-plugin".equals(plugin.getArtifactId()))
-          continue;
-
-        plugin.flushExecutionMap();
-        final Xpp3Dom configuration = plugin.getConfiguration() == null ? execution.getConfiguration() : execution.getConfiguration() == null ? (Xpp3Dom)plugin.getConfiguration() : Xpp3Dom.mergeXpp3Dom((Xpp3Dom)plugin.getConfiguration(), execution.getConfiguration());
-        if (configuration == null) {
-          getLog().warn("Configuration missing.");
-          continue;
-        }
-
-        for (int i = 0; i < configuration.getChildCount(); i++) {
-          final Xpp3Dom manifest = configuration.getChild(i);
-          if ("manifest".equals(manifest.getName())) {
-            for (final String attribute : manifest.getAttributeNames()) {
-              if (attribute.endsWith("href")) {
-                href = manifest.getAttribute(attribute);
-                break;
-              }
-            }
-
-            for (int j = 0; j < manifest.getChildCount(); j++) {
-              final Xpp3Dom destdir = manifest.getChild(j);
-              if ("destdir".equals(destdir.getName())) {
-                for (final String attribute : destdir.getAttributeNames()) {
-                  if (attribute.endsWith("explodeJars"))
-                    explodeJars = $xs_boolean.parseBoolean(destdir.getAttribute(attribute));
-                  else if (attribute.endsWith("overwrite"))
-                    overwrite = $xs_boolean.parseBoolean(destdir.getAttribute(attribute));
-                }
-
-                break;
-              }
-            }
-
-            break;
-          }
-        }
-
-        final Object defaultExecution = plugin.getExecutionsAsMap().get("default");
-        if (defaultExecution == null || !(defaultExecution instanceof PluginExecution))
-          break;
-
-        final String phase = ((PluginExecution)defaultExecution).getPhase();
-        if (phase != null && !phase.contains("test"))
-          break;
-
-        if (!mavenTestSkip)
-          break;
-
-        return;
-      }
-    }
-
-    if (href != null) {
-      final File hrefFile;
-      if (Paths.isAbsolute(href))
-        hrefFile = new File(href);
-      else if (basedir != null)
-        hrefFile = new File(basedir, href);
-      else
-        hrefFile = new File(href);
-
-      if (!hrefFile.exists())
-        throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" does not exist.");
-
-      if (!hrefFile.isFile())
-        throw new MojoFailureException("href=\"" + hrefFile.getAbsolutePath() + "\" is not a file.");
-
-      final Document document;
-      try {
-        document = DOMParsers.newDocumentBuilder().parse(hrefFile);
-      }
-      catch (final Exception e) {
-        throw new MojoExecutionException(e.getMessage(), e);
-      }
-
-      final Generator generator = new Generator(basedir, document.getDocumentElement(), hrefFile.lastModified(), translator, sourcePath);
-      final Collection<Bundle> bundles = generator.generate();
-      final File destDir = generator.getGeneratorContext().getDestdir();
-      sourcePath.add(destDir);
-      addCompileSourceRoot(destDir.getAbsolutePath(), bundles);
-      return;
-    }
-
-    if (manifest == null || manifest.getDestdir() == null || manifest.getSchemas() == null)
-      return;
-
-    final String destDir = manifest.getDestdir();
-    final Collection<SchemaReference> generatorBindings = new ArrayList<SchemaReference>(7);
-
-    for (final String schema : manifest.getSchemas()) {
-      if (URLs.isAbsolute(schema))
-        generatorBindings.add(new SchemaReference(schema, false));
-      else
-        generatorBindings.add(new SchemaReference(project.getFile().getParentFile().getAbsolutePath(), schema, false));
-    }
-
-    if (destDir == null || destDir.length() == 0)
-      throw new MojoFailureException("<destdir> is null or empty!");
-
-    if (generatorBindings.size() == 0)
-      return;
+  public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
+    final Collection<SchemaReference> generatorBindings = new ArrayList<SchemaReference>();
+    for (final URL schema : manifest.getSchemas())
+      generatorBindings.add(new SchemaReference(schema, false));
 
     final Set<NamespaceURI> excludes;
     if (manifest.getExcludes() != null) {
       excludes = new HashSet<NamespaceURI>();
-      for (final String exclude : manifest.getExcludes()) {
+      for (final String exclude : manifest.getExcludes())
         excludes.add(NamespaceURI.getInstance(exclude));
-      }
     }
     else {
       excludes = null;
     }
 
-    final Generator generator = new Generator(new GeneratorContext(new File(destDir), explodeJars, overwrite), generatorBindings, excludes, sourcePath);
-    final Collection<Bundle> bundles = generator.generate();
-    sourcePath.add(generator.getGeneratorContext().getDestdir());
-    addCompileSourceRoot(generator.getGeneratorContext().getDestdir().getAbsolutePath(), bundles);
-  }
-
-  private void addCompileSourceRoot(final String path, final Collection<Bundle> bundles) throws MojoExecutionException {
-    if (bundles == null || path == null || project == null)
-      return;
-
-    try {
-      for (final Bundle bundle : bundles) {
-        for (final String element : (List<String>)project.getTestClasspathElements()) {
-          final File elementFile = new File(element);
-          if (!elementFile.isFile()) {
-            elementFile.delete();
-            Zips.unzip(bundle.getFile(), elementFile, classesFilter);
-          }
-        }
-
-        for (final String element : (List<String>)project.getCompileClasspathElements()) {
-          final File elementFile = new File(element);
-          if (!elementFile.isFile()) {
-            elementFile.delete();
-            Zips.unzip(bundle.getFile(), elementFile, classesFilter);
-          }
-        }
-      }
-    }
-    catch (final DependencyResolutionRequiredException | IOException e) {
-      throw new MojoExecutionException(e.getMessage(), e);
-    }
-
-    // add to both compile and test-compile classpaths so that the generated classes
-    // can be used for the main and test source.
-    project.addTestCompileSourceRoot(path);
-    project.addCompileSourceRoot(path);
+    final Generator generator = new Generator(new GeneratorContext(manifest.getDestdir(), manifest.getOverwrite(), manifest.getCompile(), manifest.getPackage()), generatorBindings, excludes, sourcePath);
+    generator.generate();
+    sourcePath.add(manifest.getDestdir());
   }
 }
