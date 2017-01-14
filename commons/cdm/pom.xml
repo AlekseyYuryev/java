@@ -34,7 +34,7 @@
         <groupId>org.safris.maven.plugin</groupId>
         <artifactId>codegen-maven-plugin</artifactId>
         <configuration>
-          <file>${basedir}/src/main/resources/keywords.txt</file>
+          <file>src/main/resources/keywords.txt</file>
           <dir>${project.build.directory}/generated-sources/istenum</dir>
           <className>org.safris.cdm.lexer.Keyword</className>
           <inheritsFrom>org.safris.cdm.lexer.Lexer.Token</inheritsFrom>

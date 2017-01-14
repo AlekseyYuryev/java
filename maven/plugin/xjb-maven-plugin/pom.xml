@@ -107,7 +107,7 @@
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
                     <destdir>${project.build.directory}/generated-test-sources/xjb</destdir>
                     <resources>
-                      <resource>${basedir}/src/test/resources/json.xjs</resource>
+                      <resource>src/test/resources/json.xjs</resource>
                     </resources>
                   </manifest>
                 </configuration>

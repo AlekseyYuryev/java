@@ -111,8 +111,8 @@
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
                     <destdir>${project.build.directory}/generated-test-sources/xdb</destdir>
                     <resources>
-                      <resource>${basedir}/src/test/resources/library.xds</resource>
-                      <resource>${basedir}/src/test/resources/survey.xds</resource>
+                      <resource>src/test/resources/library.xds</resource>
+                      <resource>src/test/resources/survey.xds</resource>
                     </resources>
                   </manifest>
                 </configuration>
@@ -128,7 +128,7 @@
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
                     <destdir>${project.build.directory}/generated-test-resources/xdb</destdir>
                     <resources>
-                      <resource>${basedir}/src/test/resources/hospital.xds</resource>
+                      <resource>src/test/resources/hospital.xds</resource>
                     </resources>
                   </manifest>
                 </configuration>
@@ -144,7 +144,7 @@
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
                     <destdir>${project.build.directory}/generated-test-resources/xdb</destdir>
                     <resources>
-                      <resource>${basedir}/src/test/resources/hospital.xds</resource>
+                      <resource>src/test/resources/hospital.xds</resource>
                     </resources>
                   </manifest>
                 </configuration>
