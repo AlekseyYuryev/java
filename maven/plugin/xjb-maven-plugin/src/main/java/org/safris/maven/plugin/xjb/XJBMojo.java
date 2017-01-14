@@ -37,7 +37,7 @@ public class XJBMojo extends ManifestMojo {
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
       for (final URL url : manifest.getSchemas())
-        Generator.generate(url, manifest.getDestdir());
+        Generator.generate(url, manifest.getDestdir(), manifest.getCompile());
     }
     catch (final GeneratorExecutionException | IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);
