@@ -33,18 +33,22 @@ public abstract class ManifestMojo extends AdvancedMojo {
   private boolean mavenTestSkip;
 
   @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-  private MojoExecution execution;
+  private MojoExecution mojoExecution;
 
   @Parameter(defaultValue = "${project}", readonly = true)
   protected MavenProject project;
 
   @Override
   public final void execute() throws MojoExecutionException, MojoFailureException {
-    final Manifest manifest = Manifest.parse(project, execution, mavenTestSkip);
-    if (manifest == null) {
+    if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
       Log.info("Tests are skipped.");
       return;
     }
+
+    final Manifest manifest = Manifest.parse(project, mojoExecution);
+    // A null manifest means there is no configuration for this plugin, and it is being executed because of extensions
+    if (manifest == null)
+      return;
 
     final File destDir = manifest.getDestdir();
     if (destDir.exists()) {

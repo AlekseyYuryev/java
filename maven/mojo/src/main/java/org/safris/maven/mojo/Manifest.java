@@ -18,43 +18,16 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.safris.commons.net.URLs;
 
 public class Manifest {
-  private static PluginExecution getPluginExecution(final Plugin plugin, final MojoExecution mojoExecution) {
-    for (final PluginExecution pluginExecution : plugin.getExecutions())
-      if (pluginExecution.getId().equals(mojoExecution.getExecutionId()))
-        return pluginExecution;
-
-    return null;
-  }
-
-  public static Manifest parse(final MavenProject project, final MojoExecution mojoExecution, final boolean mavenTestSkip) throws MojoFailureException {
-    if (mavenTestSkip && mojoExecution.getLifecyclePhase().contains("test"))
-      return null;
+  public static Manifest parse(final MavenProject project, final MojoExecution mojoExecution) throws MojoFailureException {
+    final Plugin plugin = mojoExecution.getPlugin();
+    final PluginExecution pluginExecution = Mojos.getPluginExecution(mojoExecution);
 
     final Build build = project.getBuild();
     if (build == null || build.getPlugins() == null)
       throw new MojoFailureException("Configuration is required");
 
-    final Plugin plugin = mojoExecution.getPlugin();
-    plugin.flushExecutionMap();
-    final PluginExecution pluginExecution = getPluginExecution(plugin, mojoExecution);
-    if (pluginExecution.getPhase().contains("test") && mavenTestSkip)
-      return null;
-
     final Xpp3Dom configuration = plugin.getConfiguration() == null ? (Xpp3Dom)pluginExecution.getConfiguration() : pluginExecution.getConfiguration() == null ? (Xpp3Dom)plugin.getConfiguration() : Xpp3Dom.mergeXpp3Dom((Xpp3Dom)plugin.getConfiguration(), (Xpp3Dom)pluginExecution.getConfiguration());
-    if (configuration == null)
-      throw new MojoFailureException("Configuration is required");
-
-    return parse(configuration.getChild("manifest"), plugin, project);
-  }
-
-  private static URL buildURL(final File baseDir, final String path) throws MalformedURLException {
-    if (URLs.isAbsolute(path))
-      return URLs.makeUrlFromPath(path);
-
-    if (baseDir != null)
-      return new File(baseDir, path).toURI().toURL();
-
-    return new File(path).toURI().toURL();
+    return configuration == null ? null : parse(configuration.getChild("manifest"), plugin, project);
   }
 
   private static Manifest parse(final Xpp3Dom manifest, final Plugin plugin, final MavenProject project) throws MojoFailureException {
@@ -108,6 +81,16 @@ public class Manifest {
       throw new MojoFailureException("Manifest.destdir is required");
 
     return new Manifest(overwrite, compile, pack, destdir, schemas, excludes);
+  }
+
+  private static URL buildURL(final File baseDir, final String path) throws MalformedURLException {
+    if (URLs.isAbsolute(path))
+      return URLs.makeUrlFromPath(path);
+
+    if (baseDir != null)
+      return new File(baseDir, path).toURI().toURL();
+
+    return new File(path).toURI().toURL();
   }
 
   private final boolean overwrite;
