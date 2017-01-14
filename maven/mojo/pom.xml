@@ -71,9 +71,14 @@
   </profiles>
   <dependencies>
     <dependency>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>1.4.8</version>
+    </dependency>
+    <dependency>
       <groupId>org.safris.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>1.0.1</version>
+      <artifactId>maven-common</artifactId>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>

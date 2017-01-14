@@ -18,18 +18,16 @@
   elementFormDefault="qualified"
   targetNamespace="http://maven.safris.org/common/manifest.xsd"
   xmlns:mf="http://maven.safris.org/common/manifest.xsd"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  
-  <xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="https://www.w3.org/1999/xlink.xsd"/>
   
   <xs:element name="manifest">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="destdir">
           <xs:complexType mixed="true">
-            <xs:attribute name="explodeJars" type="xs:boolean" default="false"/>
             <xs:attribute name="overwrite" type="xs:boolean" default="false"/>
+            <xs:attribute name="compile" type="xs:boolean" default="false"/>
+            <xs:attribute name="package" type="xs:boolean" default="false"/>
           </xs:complexType>
         </xs:element>
         <xs:element name="schemas" minOccurs="0" maxOccurs="unbounded">
@@ -47,7 +45,6 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="href" type="xlink:hrefType"/>
     </xs:complexType>
   </xs:element>
 

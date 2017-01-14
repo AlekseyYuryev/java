@@ -24,10 +24,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.util.Translator;
 import org.safris.maven.common.AdvancedMojo;
-import org.safris.maven.common.Manifest;
-import org.safris.maven.project.MavenPropertyTranslator;
+import org.safris.maven.common.Log;
 
 @Mojo(name = "manifest")
 public abstract class ManifestMojo extends AdvancedMojo {
@@ -40,45 +38,31 @@ public abstract class ManifestMojo extends AdvancedMojo {
   @Parameter(defaultValue = "${project}", readonly = true)
   protected MavenProject project;
 
-  @Parameter(property = "manifest", required = true)
-  private Manifest manifest;
-
   @Override
-  public void execute() throws MojoExecutionException, MojoFailureException {
-    if (manifest == null)
+  public final void execute() throws MojoExecutionException, MojoFailureException {
+    final Manifest manifest = Manifest.parse(project, execution, mavenTestSkip);
+    if (manifest == null) {
+      Log.info("Tests are skipped.");
       return;
+    }
+
+    final File destDir = manifest.getDestdir();
+    if (destDir.exists()) {
+      if (destDir.isFile())
+        throw new MojoFailureException("Destdir points to a file");
+    }
+    else if (!destDir.mkdirs()) {
+      throw new MojoFailureException("Unable to create destination directory: " + destDir.getAbsolutePath());
+    }
 
     if (manifest.getSchemas() == null)
       return;
 
-    if (manifest.getDestdir() == null)
-      throw new MojoFailureException("destdir is required");
+    project.addTestCompileSourceRoot(destDir.getAbsolutePath());
+    project.addCompileSourceRoot(destDir.getAbsolutePath());
 
-    if (mavenTestSkip && execution.getLifecyclePhase().contains("test"))
-      return;
-
-    final File outDir = new File(manifest.getDestdir());
-    if (outDir.exists()) {
-      if (outDir.isFile()) {
-        throw new MojoFailureException("Outdir points to a file");
-      }
-    }
-    else if (!outDir.mkdirs()) {
-      throw new MojoFailureException("Unable to create output directory: " + outDir.getAbsolutePath());
-    }
-
-    project.addTestCompileSourceRoot(outDir.getAbsolutePath());
-    project.addCompileSourceRoot(outDir.getAbsolutePath());
-
-    final Translator<String> translator = new MavenPropertyTranslator(project);
-    for (final String schema : manifest.getSchemas()) {
-      final File file = new File(translator.translate(schema));
-      if (!file.exists())
-        throw new MojoFailureException("File does not exist: " + file.getAbsolutePath());
-
-      execute(file, outDir);
-    }
+    execute(manifest);
   }
 
-  public abstract void execute(final File file, final File outDir) throws MojoExecutionException, MojoFailureException;
+  public abstract void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException;
 }
