@@ -17,6 +17,7 @@
 package org.safris.commons.jci;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.UUID;
 
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
@@ -36,6 +36,13 @@ import org.safris.commons.util.zip.CachedFile;
 import org.safris.commons.util.zip.Zips;
 
 public final class JavaCompiler {
+  public static final FileFilter JAVA_FILE_FILTER = new FileFilter() {
+    @Override
+    public boolean accept(final File pathname) {
+      return pathname.getName().endsWith(".java");
+    }
+  };
+
   private final Collection<File> classpathFiles;
   private final File destDir;
   private final Jar destJar;
@@ -72,22 +79,33 @@ public final class JavaCompiler {
     this.destJar = destJar;
   }
 
-  public void compile(final File ... javaSources) throws CompilationException, IOException {
-    compile(Collections.asCollection(LinkedHashSet.class, javaSources));
+  public void compile(final File ... files) throws CompilationException, IOException {
+    compile(Collections.asCollection(ArrayList.class, files));
   }
 
-  public void compile(Collection<File> javaSources) throws CompilationException, IOException {
+  public void compile(final Collection<File> files) throws CompilationException, IOException {
+    if (files == null)
+      throw new NullPointerException("files == null");
+
+    if (files.size() == 0)
+      throw new IllegalArgumentException("files.size() == 0");
+
+    final LinkedHashSet<File> javaSources = new LinkedHashSet<File>();
+    for (final File file : files) {
+      if (file.isDirectory())
+        javaSources.addAll(Files.listAll(destDir, JAVA_FILE_FILTER));
+      else
+        javaSources.add(file);
+    }
+
     if (destDir != null)
-      toDir(destDir, javaSources instanceof LinkedHashSet ? (LinkedHashSet<File>)javaSources : new LinkedHashSet<File>(javaSources));
+      toDir(destDir, javaSources);
     else
-      toJar(destJar, javaSources instanceof LinkedHashSet ? (LinkedHashSet<File>)javaSources : new LinkedHashSet<File>(javaSources));
+      toJar(destJar, javaSources);
   }
 
   private void toJar(final Jar destJar, final LinkedHashSet<File> javaSources) throws CompilationException, IOException {
-    if (javaSources == null || javaSources.size() == 0)
-      return;
-
-    final File tempDir = new File(UUID.randomUUID().toString());
+    final File tempDir = File.createTempFile("javac", ".tmp");
     toDir(tempDir, javaSources);
     final DirectoryStream.Filter<Path> fileFilter = new DirectoryStream.Filter<Path>() {
       @Override
@@ -119,9 +137,6 @@ public final class JavaCompiler {
     if (!destDir.exists() && !destDir.mkdirs())
       throw new IllegalArgumentException("Could not create directory " + destDir);
 
-    if (javaSources.size() == 0)
-      throw new IllegalArgumentException("javaSources.size() == 0");
-
     String classpath = "";
     if (classpathFiles != null)
       for (final File classpathFile : classpathFiles)
@@ -146,7 +161,6 @@ public final class JavaCompiler {
     }
 
     final String[] args = new String[] {"javac", "@" + tempFile.getAbsolutePath()};
-
     try {
       final Process process = Processes.forkSync(null, System.out, System.err, false, args);
       if (process.exitValue() != 0)
