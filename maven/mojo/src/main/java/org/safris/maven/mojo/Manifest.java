@@ -1,12 +1,26 @@
+/* Copyright (c) 2017 Seva Safris
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * You should have received a copy of The MIT License (MIT) along with this
+ * program. If not, see <http://opensource.org/licenses/MIT/>.
+ */
+
 package org.safris.maven.mojo;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Plugin;
@@ -35,8 +49,7 @@ public class Manifest {
       throw new MojoFailureException("Manifest is required");
 
     File destdir = null;
-    final LinkedHashSet<URL> schemas = new LinkedHashSet<URL>();
-    final Set<String> excludes = new HashSet<String>();
+    final LinkedHashSet<URL> resources = new LinkedHashSet<URL>();
     boolean overwrite = false;
     boolean compile = false;
     boolean pack = false;
@@ -55,19 +68,11 @@ public class Manifest {
               pack = Boolean.parseBoolean(element.getAttribute(attribute));
           }
         }
-        else if ("schemas".equals(element.getName())) {
+        else if ("resources".equals(element.getName())) {
           for (int k = 0; k < element.getChildCount(); k++) {
             final Xpp3Dom schema = element.getChild(k);
-            if ("schema".equals(schema.getName())) {
-              schemas.add(buildURL(project.getFile().getParentFile().getAbsoluteFile(), schema.getValue()));
-            }
-          }
-        }
-        else if ("excludes".equals(element.getName())) {
-          for (int k = 0; k < manifest.getChildCount(); k++) {
-            final Xpp3Dom schema = manifest.getChild(k);
-            if ("exclude".equals(schema.getName())) {
-              excludes.add(schema.getValue());
+            if ("resource".equals(schema.getName())) {
+              resources.add(buildURL(project.getFile().getParentFile().getAbsoluteFile(), schema.getValue()));
             }
           }
         }
@@ -80,7 +85,7 @@ public class Manifest {
     if (destdir == null)
       throw new MojoFailureException("Manifest.destdir is required");
 
-    return new Manifest(overwrite, compile, pack, destdir, schemas, excludes);
+    return new Manifest(overwrite, compile, pack, destdir, resources);
   }
 
   private static URL buildURL(final File baseDir, final String path) throws MalformedURLException {
@@ -98,15 +103,13 @@ public class Manifest {
   private final boolean pack;
   private final File destdir;
   private final LinkedHashSet<URL> schemas;
-  private final Set<String> excludes;
 
-  public Manifest(final boolean overwrite, final boolean compile, final boolean pack, final File destdir, final LinkedHashSet<URL> schemas, final Set<String> excludes) {
+  public Manifest(final boolean overwrite, final boolean compile, final boolean pack, final File destdir, final LinkedHashSet<URL> schemas) {
     this.overwrite = overwrite;
     this.compile = compile;
     this.pack = pack;
     this.destdir = destdir;
     this.schemas = schemas;
-    this.excludes = excludes;
   }
 
   public boolean getOverwrite() {
@@ -127,9 +130,5 @@ public class Manifest {
 
   public LinkedHashSet<URL> getSchemas() {
     return schemas;
-  }
-
-  public Set<String> getExcludes() {
-    return excludes;
   }
 }

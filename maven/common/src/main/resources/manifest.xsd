@@ -30,17 +30,10 @@
             <xs:attribute name="package" type="xs:boolean" default="false"/>
           </xs:complexType>
         </xs:element>
-        <xs:element name="schemas" minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="resources" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="schema" type="xs:anyURI"/>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="excludes" minOccurs="0" maxOccurs="unbounded">
-          <xs:complexType>
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-              <xs:element name="exclude" type="xs:anyURI"/>
+              <xs:element name="resource" type="xs:anyURI"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

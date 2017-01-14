@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -28,6 +29,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.NamespaceURI;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
@@ -38,10 +40,27 @@ import org.safris.xsb.generator.Generator;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")
 public class XSBMojo extends ManifestMojo {
+  @Parameter(property = "includes")
+  private List<String> includes;
+
+  @Parameter(property = "excludes")
+  private List<String> excludes;
+
   // Contains all source paths for all executions of the generator in the single VM, such
   // that subsequent executions have a reference to the source paths of previous executions
   // so as to allow for bindings of excluded namespaces to be generated in prior executions
   private static final Set<File> sourcePath = new HashSet<File>();
+
+  private static Set<NamespaceURI> buildNamespaceSet(final List<String> list) {
+    if (list == null || list.size() == 0)
+      return null;
+
+    final Set<NamespaceURI> set = new HashSet<NamespaceURI>();
+    for (final String item : list)
+      set.add(NamespaceURI.getInstance(item));
+
+    return set;
+  }
 
   @Override
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
@@ -49,17 +68,10 @@ public class XSBMojo extends ManifestMojo {
     for (final URL schema : manifest.getSchemas())
       generatorBindings.add(new SchemaReference(schema, false));
 
-    final Set<NamespaceURI> excludes;
-    if (manifest.getExcludes() != null) {
-      excludes = new HashSet<NamespaceURI>();
-      for (final String exclude : manifest.getExcludes())
-        excludes.add(NamespaceURI.getInstance(exclude));
-    }
-    else {
-      excludes = null;
-    }
+    final Set<NamespaceURI> includes = buildNamespaceSet(this.includes);
+    final Set<NamespaceURI> excludes = buildNamespaceSet(this.excludes);
 
-    final Generator generator = new Generator(new GeneratorContext(manifest.getDestdir(), manifest.getOverwrite(), manifest.getCompile(), manifest.getPackage()), generatorBindings, excludes, sourcePath);
+    final Generator generator = new Generator(new GeneratorContext(manifest.getDestdir(), manifest.getOverwrite(), manifest.getCompile(), manifest.getPackage(), includes, excludes), generatorBindings, sourcePath);
     generator.generate();
     sourcePath.add(manifest.getDestdir());
   }
