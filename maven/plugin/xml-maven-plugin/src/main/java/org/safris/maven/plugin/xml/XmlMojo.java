@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.maven.model.Resource;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -32,6 +33,7 @@ import org.apache.maven.project.MavenProject;
 import org.safris.commons.io.Files;
 import org.safris.maven.common.AdvancedMojo;
 import org.safris.maven.common.Log;
+import org.safris.maven.mojo.Mojos;
 
 @Mojo(name = "xml")
 public abstract class XmlMojo extends AdvancedMojo {
@@ -75,6 +77,9 @@ public abstract class XmlMojo extends AdvancedMojo {
   @Parameter(property = "excludes")
   private List<String> excludes;
 
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  private boolean mavenTestSkip;
+
   @Parameter(property = "skip", defaultValue = "false")
   private boolean skip;
 
@@ -93,8 +98,11 @@ public abstract class XmlMojo extends AdvancedMojo {
   @Parameter(defaultValue = "${settings.offline}", required = true, readonly = true)
   protected boolean offline;
 
-  @Parameter(defaultValue = "${project}", required = true, readonly = true)
-  private MavenProject project;
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+  private MojoExecution mojoExecution;
+
+  @Parameter(defaultValue = "${project}", readonly = true)
+  protected MavenProject project;
 
   private File localDir;
 
@@ -127,7 +135,12 @@ public abstract class XmlMojo extends AdvancedMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (skip) {
-      Log.warn("Skipping.");
+      Log.info("Skipped.");
+      return;
+    }
+
+    if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
+      Log.info("Tests are skipped.");
       return;
     }
 
