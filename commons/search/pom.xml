@@ -32,7 +32,6 @@
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-cli</artifactId>
-      <version>2.1.5</version>
     </dependency>
   </dependencies>
 </project>

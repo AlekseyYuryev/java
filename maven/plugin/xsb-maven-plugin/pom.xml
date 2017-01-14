@@ -68,12 +68,10 @@
     <dependency>
       <groupId>org.safris.xsb</groupId>
       <artifactId>xsb-generator</artifactId>
-      <version>2.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.safris.maven</groupId>
       <artifactId>maven-mojo</artifactId>
-      <version>1.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>

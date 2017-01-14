@@ -46,22 +46,18 @@
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-cli</artifactId>
-      <version>2.1.5</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>1.6.4</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-search</artifactId>
-      <version>1.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-test</artifactId>
-      <version>1.1.6</version>
     </dependency>
   </dependencies>
 </project>
