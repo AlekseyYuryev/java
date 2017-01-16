@@ -17,7 +17,6 @@
 package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.ADD;
-import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.ATAN2;
 import static org.safris.xdb.entities.DML.COS;
 import static org.safris.xdb.entities.DML.DESC;
@@ -33,29 +32,19 @@ import static org.safris.xdb.entities.DML.SUB;
 
 import java.sql.SQLException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.datatype.Decimal;
+import org.safris.xdb.entities.spec.select.SELECT;
 
 import xdb.ddl.classicmodels;
 
-public class SelectTest extends IntegratedTest {
-  @Test
-  public void test() throws SQLException {
-    final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<classicmodels.Office> rows = SELECT(o).FROM(o).execute();
-    while (rows.nextRow()) {
-      System.out.println(rows.nextEntity());
-    }
-  }
-
-  private static RowIterator<? extends Subject<?>> testDistanceQuery(final double latitude, final double longitude, final double distance, final int limit) throws SQLException {
+public class Select2Test extends IntegratedTest {
+  private static SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final Decimal d = new Decimal();
-//    SELECT(MUL(5, SQRT(PI())).AS(d)).FROM(c).execute();
-//    if (true)
-//      return null;
 
     return SELECT(c, MUL(3959 * 2, ATAN2(
       SQRT(ADD(
@@ -73,20 +62,19 @@ public class SelectTest extends IntegratedTest {
         AS(d)).
       FROM(c).
       GROUP_BY(c).
-      HAVING(AND(LT(d, distance), LT(d, distance))).
+      HAVING(LT(d, distance)).
       ORDER_BY(DESC(d)).
-      LIMIT(limit).execute();
+      LIMIT(limit);
   }
 
   @Test
-  public void testQueries() throws SQLException {
-    final RowIterator<? extends Subject<?>> rows = testDistanceQuery(37.78536811469731, -122.3931884765625, 10, 10);
-//    final RowIterator<? extends Subject<?>> rows = testDistanceQuery(37.785, -122.393, 10, 10);
+  public void testVicinity() throws SQLException {
+    final RowIterator<? extends Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute();
     while (rows.nextRow()) {
       final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
-      System.out.println(c);
+      Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
       final Decimal d = (Decimal)rows.nextEntity();
-      System.out.println(d);
+      Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get());
     }
   }
 }
