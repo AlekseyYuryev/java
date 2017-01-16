@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
 
 @SuppressWarnings("unused")
-public class HashCodeEqualsToStringsTest extends LoggableTest {
+public class ObjectsTest extends LoggableTest {
   private static enum E {
     a, b, c
   }
@@ -77,28 +77,28 @@ public class HashCodeEqualsToStringsTest extends LoggableTest {
 
   @Test
   public void testHashCode() {
-    final int a = HashCodes.hashCode(new A());
-    final int b = HashCodes.hashCode(new B());
-    final int c = HashCodes.hashCode(new C(E.a));
+    final int a = Objects.hashCode(new A());
+    final int b = Objects.hashCode(new B());
+    final int c = Objects.hashCode(new C(E.a));
     Assert.assertEquals(a, b);
     Assert.assertNotEquals(a, c);
-    Assert.assertEquals(HashCodes.hashCode(new D(E.a)), HashCodes.hashCode(new D(E.b)));
+    Assert.assertEquals(Objects.hashCode(new D(E.a)), Objects.hashCode(new D(E.b)));
   }
 
   @Test
   public void testEquals() {
-    Assert.assertTrue(Equals.equals(new A(), new A()));
-    Assert.assertTrue(Equals.equals(new B("a"), new B("b")));
-    Assert.assertFalse(Equals.equals(new C(E.a), new C(E.b)));
-    Assert.assertTrue(Equals.equals(new D(E.a), new D(E.b)));
+    Assert.assertTrue(Objects.equals(new A(), new A()));
+    Assert.assertTrue(Objects.equals(new B("a"), new B("b")));
+    Assert.assertFalse(Objects.equals(new C(E.a), new C(E.b)));
+    Assert.assertTrue(Objects.equals(new D(E.a), new D(E.b)));
   }
 
   @Test
   public void testToStrings() {
-    log(ToStrings.toString(new A()));
-    log(ToStrings.toString(new B()));
-    log(ToStrings.toString(new C(E.a)));
-    log(ToStrings.toString(new D(E.b)));
-    log(ToStrings.toString(new F()));
+    log(Objects.toString(new A()));
+    log(Objects.toString(new B()));
+    log(Objects.toString(new C(E.a)));
+    log(Objects.toString(new D(E.b)));
+    log(Objects.toString(new F()));
   }
 }
