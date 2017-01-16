@@ -179,18 +179,12 @@
     <dependency>
       <groupId>org.safris.xdb</groupId>
       <artifactId>xdb-data</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.xdb</groupId>
-      <artifactId>xdb-schema</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.safris.xdb</groupId>
       <artifactId>xdb-data</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.safris.xdb</groupId>
