@@ -60,7 +60,10 @@ public class SelectTest extends IntegratedTest {
     return SELECT(c, MUL(3959 * 2, ATAN2(
       SQRT(ADD(
         POW(SIN(DIV(MUL(SUB(c.latitude, latitude), PI()), 360)), 2),
-        MUL(COS(DIV(MUL(c.latitude, PI()), 180)), COS(DIV(MUL(latitude, PI()), 180)), POW(SIN(DIV(MUL(SUB(c.longitude, longitude), PI()), 360)), 2)))),
+        MUL(
+          COS(DIV(MUL(c.latitude, PI()), 180)),
+          COS(DIV(MUL(latitude, PI()), 180)),
+          POW(SIN(DIV(MUL(SUB(c.longitude, longitude), PI()), 360)), 2)))),
       SQRT(ADD(
         SUB(1, POW(SIN(DIV(MUL(SUB(c.latitude, latitude), PI()), 360)), 2)),
         MUL(
