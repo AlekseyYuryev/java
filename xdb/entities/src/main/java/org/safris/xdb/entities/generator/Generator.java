@@ -39,16 +39,16 @@ import org.safris.xdb.entities.DataType;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.GenerateOn;
 import org.safris.xdb.entities.Schema;
-import org.safris.xdb.entities.datatype.BigInt;
-import org.safris.xdb.entities.datatype.Binary;
-import org.safris.xdb.entities.datatype.Blob;
-import org.safris.xdb.entities.datatype.Char;
-import org.safris.xdb.entities.datatype.Clob;
-import org.safris.xdb.entities.datatype.DateTime;
-import org.safris.xdb.entities.datatype.Decimal;
-import org.safris.xdb.entities.datatype.MediumInt;
-import org.safris.xdb.entities.datatype.SmallInt;
-import org.safris.xdb.entities.datatype.Time;
+import org.safris.xdb.entities.data.BigInt;
+import org.safris.xdb.entities.data.Binary;
+import org.safris.xdb.entities.data.Blob;
+import org.safris.xdb.entities.data.Char;
+import org.safris.xdb.entities.data.Clob;
+import org.safris.xdb.entities.data.DateTime;
+import org.safris.xdb.entities.data.Decimal;
+import org.safris.xdb.entities.data.MediumInt;
+import org.safris.xdb.entities.data.SmallInt;
+import org.safris.xdb.entities.data.Time;
 import org.safris.xdb.schema.SQLDataTypes;
 import org.safris.xdb.schema.spec.SQLSpec;
 import org.safris.xdb.xds.xe.$xds_binary;
@@ -142,7 +142,7 @@ public class Generator {
       final Object _default = getDefault(column);
       GenerateOn<?> generateOnInsert = null;
       GenerateOn<?> generateOnUpdate = null;
-      final Object[] params = new Object[] {THIS, Strings.toInstanceCase(column._name$().text()), column._name$().text(), _default, isUnique(table, column), isPrimary(table, column), column._null$().text()};
+      final Object[] params = new Object[] {THIS, column._name$().text(), _default, isUnique(table, column), isPrimary(table, column), column._null$().text()};
       if (column instanceof $xds_char) {
         final $xds_char type = ($xds_char)column;
         if (!type.xde_generateOnInsert$().isNull() && $xds_char.xde_generateOnInsert$.UUID.text().equals(type.xde_generateOnInsert$().text()))
@@ -181,7 +181,7 @@ public class Generator {
           return new Type(column, MediumInt.class, params, generateOnInsert, generateOnUpdate, type._precision$().text(), type._unsigned$().text(), type._min$().text(), type._max$().text());
 
         if (noBytes <= 8)
-          return new Type(column, org.safris.xdb.entities.datatype.Long.class, params, generateOnInsert, generateOnUpdate, type._precision$().text(), type._unsigned$().text(), type._min$().text(), type._max$().text());
+          return new Type(column, org.safris.xdb.entities.data.Long.class, params, generateOnInsert, generateOnUpdate, type._precision$().text(), type._unsigned$().text(), type._min$().text(), type._max$().text());
 
         return new Type(column, BigInt.class, params, generateOnInsert, generateOnUpdate, type._precision$().text(), type._unsigned$().text(), type._min$().text(), type._max$().text());
       }
@@ -192,12 +192,12 @@ public class Generator {
         final Number min;
         final Number max;
         if (type._double$().text()) {
-          javaType = org.safris.xdb.entities.datatype.Double.class;
+          javaType = org.safris.xdb.entities.data.Double.class;
           min = type._min$().text() != null ? type._min$().text().doubleValue() : null;
           max = type._max$().text() != null ? type._max$().text().doubleValue() : null;
         }
         else {
-          javaType = org.safris.xdb.entities.datatype.Float.class;
+          javaType = org.safris.xdb.entities.data.Float.class;
           min = type._min$().text() != null ? type._min$().text().floatValue() : null;
           max = type._max$().text() != null ? type._max$().text().floatValue() : null;
         }
@@ -220,7 +220,7 @@ public class Generator {
           if ($xds_date.xde_generateOnUpdate$.TIMESTAMP.text().equals(type.xde_generateOnUpdate$().text()))
             generateOnUpdate = GenerateOn.TIMESTAMP;
 
-        return new Type(column, org.safris.xdb.entities.datatype.Date.class, params, generateOnInsert, generateOnUpdate);
+        return new Type(column, org.safris.xdb.entities.data.Date.class, params, generateOnInsert, generateOnUpdate);
       }
 
       if (column instanceof $xds_time) {
@@ -250,11 +250,11 @@ public class Generator {
       }
 
       if (column instanceof $xds_boolean) {
-        return new Type(column, org.safris.xdb.entities.datatype.Boolean.class, params, generateOnInsert, generateOnUpdate);
+        return new Type(column, org.safris.xdb.entities.data.Boolean.class, params, generateOnInsert, generateOnUpdate);
       }
 
       if (column instanceof $xds_enum) {
-        return new Type(column, org.safris.xdb.entities.datatype.Enum.class, params, generateOnInsert, generateOnUpdate);
+        return new Type(column, org.safris.xdb.entities.data.Enum.class, params, generateOnInsert, generateOnUpdate);
       }
 
       throw new IllegalArgumentException("Unknown type: " + cls);
@@ -293,12 +293,12 @@ public class Generator {
     }
 
     public String getType() {
-      return type.getName() + (type == org.safris.xdb.entities.datatype.Enum.class ? "<" + Strings.toTitleCase(column._name$().text()) + ">" : "");
+      return type.getName() + (type == org.safris.xdb.entities.data.Enum.class ? "<" + Strings.toTitleCase(column._name$().text()) + ">" : "");
     }
 
     @Override
     public String toString() {
-      return "new " + getType() + "(" + serializeParams() + (type == org.safris.xdb.entities.datatype.Enum.class ? ", " + Strings.toTitleCase(column._name$().text()) + ".class" : "") + ")";
+      return "new " + getType() + "(" + serializeParams() + (type == org.safris.xdb.entities.data.Enum.class ? ", " + Strings.toTitleCase(column._name$().text()) + ".class" : "") + ")";
     }
   }
 

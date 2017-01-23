@@ -28,13 +28,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.safris.commons.lang.Strings;
+import org.safris.commons.lang.reflect.Classes;
 import org.safris.commons.xml.binding.Base64Binary;
 import org.safris.commons.xml.binding.DateTime;
 import org.safris.commons.xml.binding.Decimal;
-import org.safris.xdb.entities.datatype.BigInt;
-import org.safris.xdb.entities.datatype.Long;
-import org.safris.xdb.entities.datatype.MediumInt;
-import org.safris.xdb.entities.datatype.SmallInt;
+import org.safris.xdb.entities.data.BigInt;
+import org.safris.xdb.entities.data.Long;
+import org.safris.xdb.entities.data.MediumInt;
+import org.safris.xdb.entities.data.SmallInt;
 import org.safris.xdb.xdd.xe.$xdd_binary;
 import org.safris.xdb.xdd.xe.$xdd_blob;
 import org.safris.xdb.xdd.xe.$xdd_clob;
@@ -95,8 +96,13 @@ public final class Entities {
           dataType.set(LocalTime.parse((String)value));
         else if (attribute instanceof $xdd_dateTime)
           dataType.set(LocalDateTime.parse(((DateTime)value).toString()));
-        else if (attribute instanceof $xdd_enum)
-          dataType.set(dataType.type.getMethod("valueOf", String.class).invoke(null, ((String)value).toUpperCase().replace(' ', '_')));
+        else if (attribute instanceof $xdd_enum) {
+          final String enumValue = ((String)value).toUpperCase().replace(' ', '_');
+          final Class<?> type = (Class<?>)Classes.getGenericSuperclasses(dataType.getClass())[0];
+          for (final Object constant : type.getEnumConstants())
+            if (constant.toString().equals(enumValue))
+              dataType.set(constant);
+        }
         else if (attribute instanceof $xdd_binary)
           dataType.set(((Base64Binary)value).getBytes());
         else if (attribute instanceof $xdd_blob)
