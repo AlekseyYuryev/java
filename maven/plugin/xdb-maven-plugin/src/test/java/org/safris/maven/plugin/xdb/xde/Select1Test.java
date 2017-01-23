@@ -27,10 +27,10 @@ import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.SELECT;
 import static org.safris.xdb.entities.DML.SQRT;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.xdb.entities.DataType;
 import org.safris.xdb.entities.RowIterator;
@@ -41,8 +41,7 @@ import xdb.ddl.classicmodels;
 
 public class Select1Test extends IntegratedTest {
   @Test
-  @Ignore
-  public void test1() throws SQLException {
+  public void test1() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<classicmodels.Office> rows =
       SELECT(o).
@@ -57,8 +56,7 @@ public class Select1Test extends IntegratedTest {
   }
 
   @Test
-  @Ignore
-  public void test2() throws SQLException {
+  public void test2() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<? extends DataType<?>> rows =
       SELECT(o.address1, o.latitude).
@@ -72,8 +70,7 @@ public class Select1Test extends IntegratedTest {
   }
 
   @Test
-  @Ignore
-  public void test3() throws SQLException {
+  public void test3() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<? extends Subject<?>> rows =
       SELECT(
@@ -95,7 +92,7 @@ public class Select1Test extends IntegratedTest {
   }
 
   @Test
-  public void testConcat() throws SQLException {
+  public void testConcat() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<Char> rows =
       SELECT(

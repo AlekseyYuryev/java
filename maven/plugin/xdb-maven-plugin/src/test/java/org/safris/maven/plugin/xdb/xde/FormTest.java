@@ -47,8 +47,8 @@ import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.datatype.type;
-import org.safris.xdb.entities.datatype.type;
+import org.safris.xdb.entities.data.DateTime;
+import org.safris.xdb.entities.data.MediumInt;
 import org.safris.xdb.entities.spec.select.SELECT;
 import org.safris.xdb.entities.spec.update.UPDATE;
 import org.safris.xdb.xdd.xe.$xdd_data;
@@ -69,7 +69,7 @@ public class FormTest extends LoggableTest {
     });
   }
 
-  public static void main(final String[] args) throws SQLException {
+  public static void main(final String[] args) throws IOException, SQLException {
     final FormTest test = new FormTest();
     test.testSELECT1();
     test.testSELECT2();
@@ -83,13 +83,13 @@ public class FormTest extends LoggableTest {
 //    test.testINSERT1();
   }
 
-  public void testSELECT1() throws SQLException {
+  public void testSELECT1() throws IOException, SQLException {
     final survey.Dish d = new survey.Dish();
     final SELECT<survey.Dish> select = SELECT(d, d).FROM(d).WHERE(EQ(d.id, 7));
     final RowIterator<survey.Dish> rows = select.execute();
   }
 
-  public void testSELECT2() throws SQLException {
+  public void testSELECT2() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Dish d = new survey.Dish();
     final survey.MealDish md = new survey.MealDish();
@@ -97,7 +97,7 @@ public class FormTest extends LoggableTest {
     final RowIterator<Entity> rows = select.execute();
   }
 
-  public void testSELECT3() throws SQLException {
+  public void testSELECT3() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
@@ -105,26 +105,26 @@ public class FormTest extends LoggableTest {
     final SELECT<DateTime> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
   }
 
-  public void testSELECT4() throws SQLException {
+  public void testSELECT4() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     final SELECT<DateTime> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
   }
 
-  public void testSELECT5() throws SQLException {
+  public void testSELECT5() throws IOException, SQLException {
     final survey.MealAudit ma = new survey.MealAudit();
     final LocalDateTime date = LocalDateTime.now();
     UPDATE(ma).SET(ma.rangeTo, CASE_WHEN(GT(ma.rangeTo, date)).THEN(ma.rangeTo).ELSE(date)).execute();
   }
 
-  public void testSELECT6() throws SQLException {
+  public void testSELECT6() throws IOException, SQLException {
     final survey.MealAudit ma = new survey.MealAudit();
     final SELECT<survey.MealAudit> select = SELECT(ma).FROM(ma);
     select.execute();
   }
 
-  public void testSELECT7() throws SQLException {
+  public void testSELECT7() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Dish d = new survey.Dish();
     final survey.MealDish md = new survey.MealDish();
@@ -141,7 +141,7 @@ public class FormTest extends LoggableTest {
   }
 
   // uncorrelated subquery in the SELECT
-  public void testSELECT8() throws SQLException {
+  public void testSELECT8() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
     final SELECT<MediumInt> select =
@@ -152,17 +152,17 @@ public class FormTest extends LoggableTest {
   }
 
   // uncorrelated subquery in the WHERE
-  public void testSELECT9() throws SQLException {
+  public void testSELECT9() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
     final SELECT<survey.Meal> select =
       SELECT(m).
-      FROM(m).WHERE(IN(
-        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))), 101, 102, 103));
+      FROM(m).WHERE(IN(m.orderId,
+        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00")))));
   }
 
   // correlated subquery in the WHERE
-  public void testSELECT10() throws SQLException {
+  public void testSELECT10() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
 
@@ -173,7 +173,7 @@ public class FormTest extends LoggableTest {
   }
 
   // doubly-correlated subquery in the WHERE
-  public void testSELECT11() throws SQLException {
+  public void testSELECT11() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
     final MediumInt maxId = new MediumInt();
@@ -187,7 +187,7 @@ public class FormTest extends LoggableTest {
   }
 
   // doubly-correlated subquery in the FROM
-  public SELECT<MediumInt> testSELECT12() throws SQLException {
+  public SELECT<MediumInt> testSELECT12() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
     final survey.Meal maxId = new survey.Meal();
@@ -198,44 +198,44 @@ public class FormTest extends LoggableTest {
       FROM(m1, SELECT(m2).FROM(m2).WHERE(GT(m2.orderId, m1.orderId)).AS(maxId)).WHERE(EQ(maxId.orderId, m1.orderId));
   }
 
-  public void testSELECT13() throws SQLException {
+  public void testSELECT13() throws IOException, SQLException {
     testSELECT12().UNION(ALL, testSELECT12());
   }
 
-  public void testSELECT15() throws SQLException {
+  public void testSELECT15() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
     final SELECT<survey.Meal> select =
       INSERT(new survey.Meal()).
       SELECT(m).
-      FROM(m).WHERE(IN(
-        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))), 101, 102, 103));
+      FROM(m).WHERE(IN(m.orderId,
+        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00")))));
   }
 
   // Need to implement this too: UPDATE table1 dest, (SELECT * FROM table2 where id=x) src SET dest.col1 = src.col1 where dest.id=x ;
-  public void testSELECT16() throws SQLException {
+  public void testSELECT16() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.MealDish md = new survey.MealDish();
     final UPDATE update = UPDATE(m).SET(m.orderId, SELECT(MAX(m.orderId)).FROM(m)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
   }
 
-  public void testSELECT17() throws SQLException {
+  public void testSELECT17() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.MealDish md = new survey.MealDish();
     final UPDATE update = UPDATE(m).SET(m.orderId, SELECT(MAX(m.orderId)).FROM(m)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
   }
 
-  public void testUPDATE1() throws SQLException {
+  public void testUPDATE1() throws IOException, SQLException {
     INSERT(new survey.MealDish(33, 57)).execute();
   }
 
-  public void testUPDATE2() throws SQLException {
+  public void testUPDATE2() throws IOException, SQLException {
     final survey.MealDish md = new survey.MealDish();
     final UPDATE update = UPDATE(md).SET(md.quantity, PLUS(md.quantity, (short)1)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
     update.execute();
   }
 
-  public void testINSERT1() throws SQLException {
+  public void testINSERT1() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     UPDATE(m).SET(m.sent, true).WHERE(EQ(m.id, 5)).execute();
   }

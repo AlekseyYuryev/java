@@ -30,13 +30,14 @@ import static org.safris.xdb.entities.DML.SIN;
 import static org.safris.xdb.entities.DML.SQRT;
 import static org.safris.xdb.entities.DML.SUB;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
-import org.safris.xdb.entities.datatype.Decimal;
+import org.safris.xdb.entities.data.Decimal;
 import org.safris.xdb.entities.spec.select.SELECT;
 
 import xdb.ddl.classicmodels;
@@ -68,7 +69,7 @@ public class Select2Test extends IntegratedTest {
   }
 
   @Test
-  public void testVicinity() throws SQLException {
+  public void testVicinity() throws IOException, SQLException {
     final RowIterator<? extends Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute();
     while (rows.nextRow()) {
       final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
