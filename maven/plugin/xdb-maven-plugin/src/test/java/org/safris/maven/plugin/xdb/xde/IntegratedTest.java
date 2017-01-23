@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.EntitiesTest;
@@ -32,7 +31,7 @@ public abstract class IntegratedTest extends LoggableTest {
     EntitiesTest.createConnection("classicmodels");
   }
 
-  @AfterClass
+//  @AfterClass // FIXME: This is commented out because the DB is being closed before all test classes are run
   public static void destroy() throws SQLException {
     new File("derby.log").deleteOnExit();
     try {
