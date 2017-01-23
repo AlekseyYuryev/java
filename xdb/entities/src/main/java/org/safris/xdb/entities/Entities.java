@@ -28,11 +28,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.safris.commons.lang.Strings;
-import org.safris.commons.lang.reflect.Classes;
 import org.safris.commons.xml.binding.Base64Binary;
 import org.safris.commons.xml.binding.DateTime;
 import org.safris.commons.xml.binding.Decimal;
 import org.safris.xdb.entities.data.BigInt;
+import org.safris.xdb.entities.data.Enum;
 import org.safris.xdb.entities.data.Long;
 import org.safris.xdb.entities.data.MediumInt;
 import org.safris.xdb.entities.data.SmallInt;
@@ -98,8 +98,7 @@ public final class Entities {
           dataType.set(LocalDateTime.parse(((DateTime)value).toString()));
         else if (attribute instanceof $xdd_enum) {
           final String enumValue = ((String)value).toUpperCase().replace(' ', '_');
-          final Class<?> type = (Class<?>)Classes.getGenericSuperclasses(dataType.getClass())[0];
-          for (final Object constant : type.getEnumConstants())
+          for (final Object constant : ((Enum)dataType).type.getEnumConstants())
             if (constant.toString().equals(enumValue))
               dataType.set(constant);
         }
