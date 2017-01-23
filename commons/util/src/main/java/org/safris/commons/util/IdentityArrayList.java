@@ -22,8 +22,6 @@ import java.util.Collection;
 public class IdentityArrayList<E> extends ArrayList<E> {
   private static final long serialVersionUID = -5056045452760154513L;
 
-  private final Object mutex = new Object();
-
   public IdentityArrayList(final int initialCapacity) {
     super(initialCapacity);
   }
@@ -61,13 +59,11 @@ public class IdentityArrayList<E> extends ArrayList<E> {
 
   @Override
   public boolean remove(final Object o) {
-    synchronized (mutex) {
-      final int index = indexOf(o);
-      if (index < 0)
-        return false;
+    final int index = indexOf(o);
+    if (index < 0)
+      return false;
 
-      return super.remove(index) != null;
-    }
+    return super.remove(index) != null;
   }
 
   @Override
@@ -95,14 +91,12 @@ public class IdentityArrayList<E> extends ArrayList<E> {
     boolean modified = false;
     OUT:
     for (int i = 0; i < c.size(); i++) {
-      synchronized (mutex) {
-        final Object o = get(i);
-        for (final Object obj : c)
-          if (obj == o)
-            continue OUT;
+      final Object o = get(i);
+      for (final Object obj : c)
+        if (obj == o)
+          continue OUT;
 
-        modified = remove(i) != null || modified;
-      }
+      modified = remove(i) != null || modified;
     }
 
     return modified;
