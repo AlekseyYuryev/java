@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.lang.reflect;
+package org.safris.commons.lang;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -26,7 +26,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.safris.commons.lang.Arrays;
 import org.safris.commons.util.For;
 
 public final class Classes {
@@ -353,9 +352,9 @@ public final class Classes {
     return null;
   }
 
-  public static String getName(final Class<?> cls) {
+  public static String getStrictName(final Class<?> cls) {
     if (cls.isArray())
-      return getName(cls.getComponentType()) + "[]";
+      return getStrictName(cls.getComponentType()) + "[]";
 
     if (cls.isPrimitive()) {
       if (cls == int.class)
@@ -388,7 +387,11 @@ public final class Classes {
       throw new UnsupportedOperationException("Unknown primitive type: " + cls.getClass());
     }
 
-    return cls.getName();
+    return constructName(cls).toString();
+  }
+
+  private static StringBuilder constructName(final Class<?> cls) {
+      return cls.isMemberClass() ? constructName(cls.getEnclosingClass()).append(".").append(cls.getSimpleName()) : new StringBuilder(cls.getName());
   }
 
   private static class CallingClass extends SecurityManager {

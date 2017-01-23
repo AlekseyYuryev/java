@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.lang.reflect;
+package org.safris.commons.lang;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -33,6 +33,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.safris.commons.lang.Classes;
 import org.safris.commons.test.LoggableTest;
 
 public class ClassesTest extends LoggableTest {
@@ -60,5 +61,18 @@ public class ClassesTest extends LoggableTest {
   public void testGetCallingClasses() {
     final Class<?>[] classes = Classes.getCallingClasses();
     System.out.println(Arrays.toString(classes));
+  }
+
+  protected static class Inn$r {
+    protected static class $nner {
+      protected static class $nner$ {
+      }
+    }
+  }
+
+  @Test
+  public void testStrictGetName() throws Exception {
+    Assert.assertEquals("java.lang.String", Classes.getStrictName(String.class));
+    Assert.assertEquals("org.safris.commons.lang.ClassesTest.Inn$r.$nner.$nner$", Classes.getStrictName(Inn$r.$nner.$nner$.class));
   }
 }
