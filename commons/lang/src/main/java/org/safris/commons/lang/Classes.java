@@ -387,11 +387,11 @@ public final class Classes {
       throw new UnsupportedOperationException("Unknown primitive type: " + cls.getClass());
     }
 
-    return constructName(cls).toString();
+    return recurseStrictName(cls).toString();
   }
 
-  private static StringBuilder constructName(final Class<?> cls) {
-      return cls.isMemberClass() ? constructName(cls.getEnclosingClass()).append(".").append(cls.getSimpleName()) : new StringBuilder(cls.getName());
+  private static StringBuilder recurseStrictName(final Class<?> cls) {
+    return cls.isMemberClass() ? recurseStrictName(cls.getEnclosingClass()).append(".").append(cls.getSimpleName()) : new StringBuilder(cls.getName());
   }
 
   private static class CallingClass extends SecurityManager {
