@@ -21,6 +21,7 @@ import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.SQLException;
 
 import org.junit.Assert;
@@ -53,7 +54,7 @@ public class SelectTest extends IntegratedTest {
     final RowIterator<? extends DataType<?>> rows =
       SELECT(o.address1, o.latitude).
       FROM(o).
-      WHERE(EQ(o.phone, 81332245000l)).
+      WHERE(EQ(o.phone, BigInteger.valueOf(81332245000l))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -75,7 +76,7 @@ public class SelectTest extends IntegratedTest {
         o.latitude,
         o.longitude).
       FROM(o).
-      WHERE(GT(o.latitude, 0)).
+      WHERE(GT(o.latitude, 0d)).
       execute();
 
     Assert.assertTrue(rows.nextRow());

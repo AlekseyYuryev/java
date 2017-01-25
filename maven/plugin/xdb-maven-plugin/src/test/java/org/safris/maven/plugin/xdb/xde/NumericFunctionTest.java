@@ -99,7 +99,7 @@ public class NumericFunctionTest extends IntegratedTest {
         SQRT(o.latitude),
         CEIL(ABS(o.longitude))).
       FROM(o).
-      WHERE(GT(o.latitude, 0)).
+      WHERE(GT(o.latitude, 0d)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
