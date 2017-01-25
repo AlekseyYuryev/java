@@ -16,16 +16,23 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.ABS;
 import static org.safris.xdb.entities.DML.ADD;
 import static org.safris.xdb.entities.DML.ATAN2;
+import static org.safris.xdb.entities.DML.CEIL;
 import static org.safris.xdb.entities.DML.COS;
 import static org.safris.xdb.entities.DML.DESC;
 import static org.safris.xdb.entities.DML.DIV;
+import static org.safris.xdb.entities.DML.FLOOR;
+import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.MUL;
 import static org.safris.xdb.entities.DML.PI;
+import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.POW;
+import static org.safris.xdb.entities.DML.ROUND;
 import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.SIGN;
 import static org.safris.xdb.entities.DML.SIN;
 import static org.safris.xdb.entities.DML.SQRT;
 import static org.safris.xdb.entities.DML.SUB;
@@ -35,6 +42,7 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.xdb.entities.DataType;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.data.Decimal;
@@ -42,7 +50,7 @@ import org.safris.xdb.entities.spec.select.SELECT;
 
 import xdb.ddl.classicmodels;
 
-public class Select2Test extends IntegratedTest {
+public class NumericFunctionTest extends IntegratedTest {
   private static SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final Decimal d = new Decimal();
@@ -77,5 +85,29 @@ public class Select2Test extends IntegratedTest {
       final Decimal d = (Decimal)rows.nextEntity();
       Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get());
     }
+  }
+
+  @Test
+  public void testFunctions() throws IOException, SQLException {
+    final classicmodels.Office o = new classicmodels.Office();
+    final RowIterator<? extends DataType<?>> rows =
+      SELECT(
+        ROUND(o.longitude),
+        SIGN(o.longitude),
+        FLOOR(PLUS(o.latitude, o.longitude)),
+        DIV(o.latitude, o.longitude),
+        SQRT(o.latitude),
+        CEIL(ABS(o.longitude))).
+      FROM(o).
+      WHERE(GT(o.latitude, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+    Assert.assertEquals(-122d, rows.nextEntity().get());
+    Assert.assertEquals(-1d, rows.nextEntity().get());
+    Assert.assertEquals(-85d, rows.nextEntity().get());
+    Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get());
+    Assert.assertEquals(6.147703920977327, rows.nextEntity().get());
+    Assert.assertEquals(123d, rows.nextEntity().get());
   }
 }
