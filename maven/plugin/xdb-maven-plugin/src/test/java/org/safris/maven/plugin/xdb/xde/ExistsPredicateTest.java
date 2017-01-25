@@ -17,8 +17,8 @@
 package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.COUNT;
+import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.EXISTS;
-import static org.safris.xdb.entities.DML.*;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
