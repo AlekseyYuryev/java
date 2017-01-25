@@ -18,9 +18,9 @@ package org.safris.maven.plugin.xdb.xde;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.EntitiesTest;
@@ -31,15 +31,16 @@ public abstract class IntegratedTest extends LoggableTest {
     EntitiesTest.createConnection("classicmodels");
   }
 
-//  @AfterClass // FIXME: This is commented out because the DB is being closed before all test classes are run
+  @AfterClass
   public static void destroy() throws SQLException {
     new File("derby.log").deleteOnExit();
-    try {
-      DriverManager.getConnection("jdbc:derby:;shutdown=true");
-    }
-    catch (final SQLException e) {
-      if (!"XJ015".equals(e.getSQLState()))
-        throw e;
-    }
+    // FIXME: This is commented out because the DB is being closed before all test classes are run
+//    try {
+//      DriverManager.getConnection("jdbc:derby:;shutdown=true");
+//    }
+//    catch (final SQLException e) {
+//      if (!"XJ015".equals(e.getSQLState()))
+//        throw e;
+//    }
   }
 }
