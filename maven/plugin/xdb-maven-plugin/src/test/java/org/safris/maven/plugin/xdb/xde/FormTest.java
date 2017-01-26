@@ -24,7 +24,6 @@ import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.IN;
 import static org.safris.xdb.entities.DML.INSERT;
-import static org.safris.xdb.entities.DML.LEFT;
 import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.LTE;
 import static org.safris.xdb.entities.DML.MAX;
@@ -43,6 +42,7 @@ import java.time.LocalDateTime;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.xml.XMLException;
+import org.safris.xdb.entities.DML.OUTER;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
@@ -102,14 +102,14 @@ public class FormTest extends LoggableTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<DateTime> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
+    final SELECT<DateTime> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).JOIN(OUTER.LEFT, u).ON(EQ(u.email, m.email)).JOIN(OUTER.LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
   }
 
   public void testSELECT4() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
-    final SELECT<DateTime> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
+    final SELECT<DateTime> select = SELECT(MAX(m.createdOn)).FROM(m).JOIN(OUTER.LEFT, u).ON(EQ(u.email, m.email)).JOIN(OUTER.LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
   }
 
   public void testSELECT5() throws IOException, SQLException {
@@ -136,7 +136,7 @@ public class FormTest extends LoggableTest {
 
     final LocalDateTime from = LocalDateTime.now();
     final LocalDateTime to = LocalDateTime.now();
-    final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).JOIN(LEFT, u).ON(EQ(u.email, m.email)).JOIN(LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
+    final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).JOIN(OUTER.LEFT, u).ON(EQ(u.email, m.email)).JOIN(OUTER.LEFT, ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Entity> rows = select.execute();
   }
 

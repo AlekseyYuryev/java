@@ -18,10 +18,10 @@ package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.ALL;
 import static org.safris.xdb.entities.DML.ANY;
-import static org.safris.xdb.entities.DML.*;
-import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.NE;
 import static org.safris.xdb.entities.DML.SELECT;
 import static org.safris.xdb.entities.DML.SOME;
 
