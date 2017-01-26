@@ -28,9 +28,9 @@ import org.safris.xdb.entities.data;
 
 import xdb.ddl.classicmodels;
 
-public class LimitTest extends IntegratedTest {
+public class LimitExpressionTest extends IntegratedTest {
   @Test
-  public void testLIMIT() throws IOException, SQLException {
+  public void testLimit() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final RowIterator<data.Decimal> rows =
       SELECT(p.msrp, p.price).
@@ -50,7 +50,7 @@ public class LimitTest extends IntegratedTest {
   }
 
   @Test
-  public void testLIMIT_OFFSET() throws IOException, SQLException {
+  public void testLimitOffset() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final RowIterator<data.Decimal> rows =
       SELECT(p.msrp, p.price).

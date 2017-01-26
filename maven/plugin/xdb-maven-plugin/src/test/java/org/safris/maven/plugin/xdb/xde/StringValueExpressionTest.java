@@ -29,7 +29,7 @@ import org.safris.xdb.entities.data.Char;
 
 import xdb.ddl.classicmodels;
 
-public class ConcatTest extends IntegratedTest {
+public class StringValueExpressionTest extends IntegratedTest {
   @Test
   public void testConcat() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();

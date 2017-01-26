@@ -16,7 +16,9 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.DESC;
+import static org.safris.xdb.entities.DML.ALL;
+import static org.safris.xdb.entities.DML.COUNT;
+import static org.safris.xdb.entities.DML.DISTINCT;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -29,17 +31,23 @@ import org.safris.xdb.entities.data;
 
 import xdb.ddl.classicmodels;
 
-public class OrderByTest extends IntegratedTest {
+public class CountFunctionTest extends IntegratedTest {
   @Test
-  public void testORDER_BY() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<data.Decimal> rows =
-      SELECT(p.msrp, p.price).
-      FROM(p).
-      ORDER_BY(DESC(p.price), p.msrp).
+  public void testCount() throws IOException, SQLException {
+    final classicmodels.Office o = new classicmodels.Office();
+    final RowIterator<data.Long> rows =
+      SELECT(
+        COUNT(),
+        COUNT(o.territory),
+        COUNT(DISTINCT, o.territory),
+        COUNT(ALL, o.territory)).
+      FROM(o).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(4), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
   }
 }

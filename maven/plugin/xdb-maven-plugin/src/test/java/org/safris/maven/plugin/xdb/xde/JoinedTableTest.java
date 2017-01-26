@@ -35,7 +35,7 @@ import org.safris.xdb.entities.data;
 
 import xdb.ddl.classicmodels;
 
-public class JoinTest extends IntegratedTest {
+public class JoinedTableTest extends IntegratedTest {
   @Test
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
@@ -66,16 +66,18 @@ public class JoinTest extends IntegratedTest {
 
   @Test
   public void testInnerJoin() throws IOException, SQLException {
+    final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(p).
-      JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
+      JOIN(e).ON(EQ(c.salesEmployeeNumber, e.employeeNumber)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(0), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(326), rows.nextEntity().get());
   }
 
   @Test

@@ -37,13 +37,17 @@ import xdb.ddl.classicmodels;
 
 public class QuantifiedComparisonPredicateTest extends IntegratedTest {
   @Test
-  public void testALL() throws IOException, SQLException {
+  public void testAll() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(c).
-      WHERE(LT(c.customerNumber, ALL(SELECT(COUNT()).FROM(p).WHERE(NE(p.purchaseDate, p.shippedDate))))).
+      WHERE(
+        LT(c.customerNumber,
+          ALL(SELECT(COUNT()).
+            FROM(p).
+            WHERE(NE(p.purchaseDate, p.shippedDate))))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -51,13 +55,17 @@ public class QuantifiedComparisonPredicateTest extends IntegratedTest {
   }
 
   @Test
-  public void testANY() throws IOException, SQLException {
+  public void testAny() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(c).
-      WHERE(GT(c.customerNumber, ANY(SELECT(COUNT()).FROM(p).WHERE(GT(p.purchaseDate, p.shippedDate))))).
+      WHERE(
+        GT(c.customerNumber,
+          ANY(SELECT(COUNT()).
+            FROM(p).
+            WHERE(GT(p.purchaseDate, p.shippedDate))))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -65,13 +73,17 @@ public class QuantifiedComparisonPredicateTest extends IntegratedTest {
   }
 
   @Test
-  public void testSOME() throws IOException, SQLException {
+  public void testSome() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(c).
-      WHERE(GT(c.customerNumber, SOME(SELECT(COUNT()).FROM(p).WHERE(LT(p.purchaseDate, p.shippedDate))))).
+      WHERE(
+        GT(c.customerNumber,
+          SOME(SELECT(COUNT()).
+            FROM(p).
+            WHERE(LT(p.purchaseDate, p.shippedDate))))).
       execute();
 
     Assert.assertTrue(rows.nextRow());

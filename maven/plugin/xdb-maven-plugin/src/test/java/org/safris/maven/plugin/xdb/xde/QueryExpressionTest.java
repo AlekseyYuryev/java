@@ -32,9 +32,9 @@ import org.safris.xdb.entities.Subject;
 
 import xdb.ddl.classicmodels;
 
-public class SelectTest extends IntegratedTest {
+public class QueryExpressionTest extends IntegratedTest {
   @Test
-  public void testSELECT() throws IOException, SQLException {
+  public void testFrom() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<classicmodels.Office> rows =
       SELECT(o).
@@ -49,7 +49,21 @@ public class SelectTest extends IntegratedTest {
   }
 
   @Test
-  public void testWHERE() throws IOException, SQLException {
+  public void testFromMultiple() throws IOException, SQLException {
+    final classicmodels.Office o = new classicmodels.Office();
+    final classicmodels.Customer c = new classicmodels.Customer();
+    final RowIterator<classicmodels.Address> rows =
+      SELECT(o, c).
+      FROM(o, c).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+    Assert.assertEquals("100 Market Street", rows.nextEntity().address1.get());
+    Assert.assertEquals("54, rue Royale", rows.nextEntity().address1.get());
+  }
+
+  @Test
+  public void testWhere() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<? extends DataType<?>> rows =
       SELECT(o.address1, o.latitude).

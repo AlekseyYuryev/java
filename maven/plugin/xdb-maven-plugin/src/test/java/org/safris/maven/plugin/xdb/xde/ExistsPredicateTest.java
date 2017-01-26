@@ -33,7 +33,7 @@ import xdb.ddl.classicmodels;
 
 public class ExistsPredicateTest extends IntegratedTest {
   @Test
-  public void testEXISTS() throws IOException, SQLException {
+  public void testExistsPredicate() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
