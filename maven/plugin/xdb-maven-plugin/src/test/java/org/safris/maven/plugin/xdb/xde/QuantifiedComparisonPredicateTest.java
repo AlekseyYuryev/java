@@ -44,7 +44,7 @@ public class QuantifiedComparisonPredicateTest extends IntegratedTest {
       SELECT(COUNT()).
       FROM(c).
       WHERE(
-        LT(c.customerNumber,
+        LT(c.creditLimit,
           ALL(SELECT(COUNT()).
             FROM(p).
             WHERE(NE(p.purchaseDate, p.shippedDate))))).
