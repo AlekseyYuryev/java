@@ -22,6 +22,21 @@ import org.safris.commons.test.LoggableTest;
 
 public class FunctionsTest extends LoggableTest {
   @Test
+  public void testRound() {
+    try {
+      Assert.assertEquals(12d, Functions.round(12.45, -1), 0);
+    }
+    catch (final IllegalArgumentException e) {
+      if (!"digits < 0".equals(e.getMessage()))
+        throw e;
+    }
+
+    Assert.assertEquals(12d, Functions.round(12.45, 0), 0);
+    Assert.assertEquals(12.5d, Functions.round(12.45, 1), 0);
+    Assert.assertEquals(12.45d, Functions.round(12.45, 2), 0);
+  }
+
+  @Test
   public void testBinaryClosestSearch() {
     final int[] sorted = new int[] {1, 3, 5, 9};
     Assert.assertEquals(0, Functions.binaryClosestSearch(sorted, 0, 0, sorted.length));

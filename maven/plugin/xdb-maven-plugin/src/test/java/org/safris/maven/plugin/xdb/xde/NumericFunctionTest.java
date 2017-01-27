@@ -17,15 +17,24 @@
 package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.ABS;
+import static org.safris.xdb.entities.DML.ACOS;
 import static org.safris.xdb.entities.DML.ADD;
+import static org.safris.xdb.entities.DML.ASIN;
+import static org.safris.xdb.entities.DML.ATAN;
 import static org.safris.xdb.entities.DML.ATAN2;
 import static org.safris.xdb.entities.DML.CEIL;
 import static org.safris.xdb.entities.DML.COS;
 import static org.safris.xdb.entities.DML.DESC;
 import static org.safris.xdb.entities.DML.DIV;
+import static org.safris.xdb.entities.DML.EXP;
 import static org.safris.xdb.entities.DML.FLOOR;
 import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.LN;
+import static org.safris.xdb.entities.DML.LOG;
+import static org.safris.xdb.entities.DML.LOG10;
+import static org.safris.xdb.entities.DML.LOG2;
 import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.MOD;
 import static org.safris.xdb.entities.DML.MUL;
 import static org.safris.xdb.entities.DML.PI;
 import static org.safris.xdb.entities.DML.PLUS;
@@ -36,6 +45,7 @@ import static org.safris.xdb.entities.DML.SIGN;
 import static org.safris.xdb.entities.DML.SIN;
 import static org.safris.xdb.entities.DML.SQRT;
 import static org.safris.xdb.entities.DML.SUB;
+import static org.safris.xdb.entities.DML.TAN;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -92,12 +102,22 @@ public class NumericFunctionTest extends IntegratedTest {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<? extends DataType<?>> rows =
       SELECT(
-        ROUND(o.longitude),
+        ROUND(o.longitude, 0),
         SIGN(o.longitude),
         FLOOR(PLUS(o.latitude, o.longitude)),
         DIV(o.latitude, o.longitude),
         SQRT(o.latitude),
-        CEIL(ABS(o.longitude))).
+        CEIL(ABS(o.longitude)),
+        ASIN(SIN(o.latitude)),
+        ACOS(COS(o.latitude)),
+        ATAN(TAN(o.latitude)),
+        MOD(o.latitude, 1.2),
+        MOD(o.latitude, o.latitude),
+        EXP(o.latitude),
+        LN(o.latitude),
+        LOG(o.latitude, 2),
+        LOG2(o.latitude),
+        LOG10(o.latitude)).
       FROM(o).
       WHERE(GT(o.latitude, 0d)).
       execute();
@@ -109,5 +129,15 @@ public class NumericFunctionTest extends IntegratedTest {
     Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get());
     Assert.assertEquals(6.147703920977327, rows.nextEntity().get());
     Assert.assertEquals(123d, rows.nextEntity().get());
+    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get());
+    Assert.assertEquals(0.09515165692248098, rows.nextEntity().get());
+    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get());
+    Assert.assertEquals(0.5942635000000009, rows.nextEntity().get());
+    Assert.assertEquals(0d, rows.nextEntity().get());
+    Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get());
+    Assert.assertEquals(3.6321573318496814, rows.nextEntity().get());
+    Assert.assertEquals(5.240095370388024, rows.nextEntity().get());
+    Assert.assertEquals(5.240095370388024, rows.nextEntity().get());
+    Assert.assertEquals(1.5774258866267548, rows.nextEntity().get());
   }
 }

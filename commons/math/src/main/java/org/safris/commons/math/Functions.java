@@ -20,8 +20,16 @@ import java.math.BigInteger;
 import java.util.Comparator;
 
 public final class Functions {
+  public static double round(final double a, final int digits) {
+    if (digits < 0)
+      throw new IllegalArgumentException("digits < 0");
+
+    final double scale = Math.pow(10, digits);
+    return Math.round(a * scale) / scale;
+  }
+
   /**
-   * xxxReturns <tt>true</tt> if the two specified arrays of Objects are
+   * Returns <tt>true</tt> if the two specified arrays of Objects are
    * <i>equal</i> to one another.  The two arrays are considered equal if
    * both arrays contain the same number of elements, and all corresponding
    * pairs of elements in the two arrays are equal.  Two objects <tt>e1</tt>
