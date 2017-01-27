@@ -33,7 +33,7 @@ import xdb.ddl.classicmodels;
 
 public class BetweenPredicateTest extends IntegratedTest {
   @Test
-  public void testBETWEEN1() throws IOException, SQLException {
+  public void testBetween1() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
@@ -46,7 +46,7 @@ public class BetweenPredicateTest extends IntegratedTest {
   }
 
   @Test
-  public void testBETWEEN2() throws IOException, SQLException {
+  public void testBetween2() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
@@ -59,7 +59,7 @@ public class BetweenPredicateTest extends IntegratedTest {
   }
 
   @Test
-  public void testBETWEEN3() throws IOException, SQLException {
+  public void testBetween3() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
@@ -72,7 +72,7 @@ public class BetweenPredicateTest extends IntegratedTest {
   }
 
   @Test
-  public void testBETWEEN4() throws IOException, SQLException {
+  public void testBetween4() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).

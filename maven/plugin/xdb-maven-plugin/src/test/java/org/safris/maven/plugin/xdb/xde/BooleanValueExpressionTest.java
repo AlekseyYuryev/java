@@ -16,8 +16,12 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.COUNT;
+import static org.safris.xdb.entities.DML.AND;
+import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.LIKE;
+import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -25,22 +29,31 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.safris.xdb.entities.Condition;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
 
 import xdb.ddl.classicmodels;
 
-public class LikePredicateTest extends IntegratedTest {
+public class BooleanValueExpressionTest extends IntegratedTest {
   @Test
-  public void testLike() throws IOException, SQLException {
+  public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<data.Long> rows =
-      SELECT(COUNT()).
+    final RowIterator<Condition<Boolean>> rows =
+      SELECT(
+        EQ(p.price, p.msrp),
+        LT(p.price, p.msrp),
+        AND(EQ(p.price, p.msrp),
+          GT(p.price, p.msrp)),
+        OR(EQ(p.price, p.msrp),
+          GT(p.price, p.msrp))).
       FROM(p).
-      WHERE(LIKE(p.name, "%Ford%")).
+      WHERE(AND(LIKE(p.name, "%Ford%"), GT(p.quantityInStock, 100))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(15), rows.nextEntity().get());
+    Assert.assertEquals(false, rows.nextEntity().get());
+    Assert.assertEquals(true, rows.nextEntity().get());
+    Assert.assertEquals(false, rows.nextEntity().get());
+    Assert.assertEquals(false, rows.nextEntity().get());
   }
 }
