@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.safris.commons.lang.Paths;
+import org.safris.commons.util.Collections;
 
 public final class Files {
   private static File CWD;
@@ -119,7 +120,7 @@ public final class Files {
     if (!directory.isDirectory())
       return null;
 
-    List<File> outer = new ArrayList<File>(Arrays.asList(directory.listFiles()));
+    List<File> outer = Collections.asCollection(ArrayList.class, directory.listFiles());
     final List<File> files = new ArrayList<File>(outer);
     List<File> inner;
     while (outer.size() != 0) {
@@ -140,7 +141,7 @@ public final class Files {
       return null;
 
     final FileFilter directoryFilter = new DirectoryFileFilter(fileFilter);
-    List<File> outer = new ArrayList<File>(Arrays.asList(directory.listFiles(directoryFilter)));
+    List<File> outer = Collections.asCollection(ArrayList.class, directory.listFiles(directoryFilter));
     final List<File> files = new ArrayList<File>(outer);
     List<File> inner;
     while (outer.size() != 0) {

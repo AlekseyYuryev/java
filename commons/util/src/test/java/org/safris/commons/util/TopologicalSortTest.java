@@ -16,7 +16,6 @@
 
 package org.safris.commons.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,12 +30,12 @@ public class TopologicalSortTest extends LoggableTest {
   @Test
   public void testSort() {
     final Map<String,Set<String>> graph = new HashMap<String,Set<String>>();
-    graph.put("a", new HashSet<String>(Arrays.asList(new String[] {"b"})));
-    graph.put("b", new HashSet<String>(Arrays.asList(new String[] {"c", "d"})));
-    graph.put("c", new HashSet<String>(Arrays.asList(new String[] {"d", "e"})));
-    graph.put("d", new HashSet<String>(Arrays.asList(new String[] {"e"})));
-    graph.put("e", new HashSet<String>(Arrays.asList(new String[] {"f", "g", "h"})));
-    graph.put("f", new HashSet<String>(Arrays.asList(new String[] {"h"})));
+    graph.put("a", Collections.asCollection(HashSet.class, "b"));
+    graph.put("b", Collections.asCollection(HashSet.class, "c", "d"));
+    graph.put("c", Collections.asCollection(HashSet.class, "d", "e"));
+    graph.put("d", Collections.asCollection(HashSet.class, "e"));
+    graph.put("e", Collections.asCollection(HashSet.class, "f", "g", "h"));
+    graph.put("f", Collections.asCollection(HashSet.class, "h"));
     graph.put("g", null);
     graph.put("h", null);
     final List<String> sorted = TopologicalSort.sort(graph);
