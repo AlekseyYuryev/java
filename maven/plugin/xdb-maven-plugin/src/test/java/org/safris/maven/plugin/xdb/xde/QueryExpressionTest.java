@@ -16,8 +16,11 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -68,7 +71,10 @@ public class QueryExpressionTest extends IntegratedTest {
     final RowIterator<? extends DataType<?>> rows =
       SELECT(o.address1, o.latitude).
       FROM(o).
-      WHERE(EQ(o.phone, BigInteger.valueOf(81332245000l))).
+      WHERE(AND(
+        EQ(o.phone, BigInteger.valueOf(81332245000l)),
+        OR(GT(o.latitude, 20d),
+          LT(o.longitude, 100d)))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
