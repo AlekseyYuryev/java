@@ -16,6 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
@@ -23,6 +24,7 @@ import static org.safris.xdb.entities.DML.GTE;
 import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.LTE;
 import static org.safris.xdb.entities.DML.NE;
+import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -38,37 +40,37 @@ import xdb.ddl.classicmodels;
 public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testLt() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
+    final classicmodels.Purchase p = new classicmodels.Purchase();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(LT(p.name, "a")).
+      WHERE(OR(LT(p.comments, "a"), LT("a", p.status), LT(p.comments, p.status))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(110), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(80), rows.nextEntity().get());
   }
 
   @Test
   public void testLte() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
+    final classicmodels.Customer c = new classicmodels.Customer();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
-      FROM(p).
-      WHERE(LTE(p.msrp, p.quantityInStock)).
+      FROM(c).
+      WHERE(AND(LTE(c.creditLimit, c.customerNumber), LTE(c.longitude, c.phone), LTE(45, c.phone), LTE(c.creditLimit, 329939933l))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(108), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(24), rows.nextEntity().get());
   }
 
   @Test
   public void testEq() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
+    final classicmodels.Purchase p = new classicmodels.Purchase();
     final RowIterator<data.Long> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(EQ(p.productLine, p.name)).
+      WHERE(AND(EQ(p.status, p.comments), EQ(p.comments, p.status))).
       execute();
 
     Assert.assertTrue(rows.nextRow());

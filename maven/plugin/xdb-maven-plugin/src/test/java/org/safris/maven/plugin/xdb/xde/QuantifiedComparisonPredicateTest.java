@@ -51,7 +51,7 @@ public class QuantifiedComparisonPredicateTest extends IntegratedTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(57), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(24), rows.nextEntity().get());
   }
 
   @Test

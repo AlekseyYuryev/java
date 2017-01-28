@@ -29,8 +29,8 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xdb.entities.Condition;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.data;
 
 import xdb.ddl.classicmodels;
 
@@ -38,7 +38,7 @@ public class BooleanValueExpressionTest extends IntegratedTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<Condition<Boolean>> rows =
+    final RowIterator<data.Boolean> rows =
       SELECT(
         EQ(p.price, p.msrp),
         LT(p.price, p.msrp),
