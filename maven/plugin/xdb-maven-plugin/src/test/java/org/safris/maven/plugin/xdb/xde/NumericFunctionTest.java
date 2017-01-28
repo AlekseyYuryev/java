@@ -52,10 +52,10 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xdb.entities.DataType;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.data.Decimal;
+import org.safris.xdb.entities.data.Numeric;
 import org.safris.xdb.entities.model.select.SELECT;
 
 import xdb.ddl.classicmodels;
@@ -100,7 +100,7 @@ public class NumericFunctionTest extends IntegratedTest {
   @Test
   public void testFunctions() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<? extends DataType<?>> rows =
+    final RowIterator<? extends Numeric<?>> rows =
       SELECT(
         ROUND(o.longitude, 0),
         SIGN(o.longitude),

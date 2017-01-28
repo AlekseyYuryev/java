@@ -35,7 +35,7 @@ public class UnionExpressionTest extends IntegratedTest {
   public void testUnion() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<Entity> rows =
+    final RowIterator<? extends Entity> rows =
       SELECT(p, c).
       FROM(p).
       JOIN(OUTER.LEFT, c).ON(EQ(p.customerNumber, c.customerNumber)).

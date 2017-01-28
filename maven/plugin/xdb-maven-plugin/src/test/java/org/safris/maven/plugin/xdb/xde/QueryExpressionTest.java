@@ -24,7 +24,6 @@ import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.sql.SQLException;
 
 import org.junit.Assert;
@@ -72,7 +71,7 @@ public class QueryExpressionTest extends IntegratedTest {
       SELECT(o.address1, o.latitude).
       FROM(o).
       WHERE(AND(
-        EQ(o.phone, BigInteger.valueOf(81332245000l)),
+        EQ(o.phone, 81332245000l),
         OR(GT(o.latitude, 20d),
           LT(o.longitude, 100d)))).
       execute();
@@ -83,7 +82,7 @@ public class QueryExpressionTest extends IntegratedTest {
   }
 
   @Test
-  public void testMixedSELECT() throws IOException, SQLException {
+  public void testMixedSelect() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final RowIterator<? extends Subject<?>> rows =
       SELECT(
