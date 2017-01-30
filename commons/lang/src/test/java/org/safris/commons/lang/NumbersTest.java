@@ -151,4 +151,19 @@ public class NumbersTest extends LoggableTest {
     Assert.assertEquals(BigInteger.valueOf(0), Numbers.Unsigned.toSigned(Long.MIN_VALUE));
     Assert.assertEquals(new BigInteger("18446744073709551615"), Numbers.Unsigned.toSigned(Long.MAX_VALUE));
   }
+
+  private static final Class<?>[] numberTypes = new Class<?>[] {Byte.class, Short.class, Integer.class, Float.class, Double.class, Long.class};
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void testCast() {
+    for (int i = 0; i < numberTypes.length; i++) {
+      for (int j = 0; j < numberTypes.length; j++) {
+        final Class<? extends Number> from = (Class<? extends Number>)numberTypes[i];
+        final Class<? extends Number> to = (Class<? extends Number>)numberTypes[j];
+        final Number value = Numbers.cast(111, from);
+        Assert.assertEquals(value, Numbers.cast(Numbers.cast(value, to), from));
+      }
+    }
+  }
 }

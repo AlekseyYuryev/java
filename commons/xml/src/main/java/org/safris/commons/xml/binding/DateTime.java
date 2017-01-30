@@ -16,6 +16,8 @@
 
 package org.safris.commons.xml.binding;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.TimeZone;
 
 public final class DateTime {
@@ -42,7 +44,6 @@ public final class DateTime {
   private final Time time;
   private final long epochTime;
 
-  @SuppressWarnings("deprecation")
   protected DateTime(final Date date, final Time time) {
     if (date == null)
       throw new NullPointerException("date == null");
@@ -52,7 +53,7 @@ public final class DateTime {
 
     this.date = date;
     this.time = time;
-    epochTime = java.util.Date.UTC(date.getYear() - 1900, date.getMonth() - 1, date.getDay(), time.getHour(), time.getMinute(), (int)time.getSecond()) + ((int)(time.getSecond() * 1000) - (int)time.getSecond() * 1000) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
+    this.epochTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDay(), time.getHour(), time.getMinute(), (int)time.getSecond(), (int)((time.getSecond() - (int)time.getSecond()) * 1000000000)).toEpochSecond(ZoneOffset.ofTotalSeconds(getTimeZone().getRawOffset() / 1000));
   }
 
   public DateTime(final int year, final int month, int day, final int hour, int minute, final float second, final TimeZone timeZone) {

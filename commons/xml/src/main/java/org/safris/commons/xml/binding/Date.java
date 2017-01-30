@@ -16,6 +16,8 @@
 
 package org.safris.commons.xml.binding;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 /**
  * http://www.w3.org/TR/xmlschema11-2/#date
  */
@@ -67,7 +69,7 @@ public final class Date {
   private final YearMonth yearMonth;
   private final Day day;
   private final TimeZone timeZone;
-//  private final long epochTime;
+  private final long epochTime;
 
   protected Date(final YearMonth yearMonth, final Day day, final TimeZone timeZone) {
     if (yearMonth == null)
@@ -79,7 +81,8 @@ public final class Date {
     this.yearMonth = yearMonth;
     this.day = day;
     this.timeZone = timeZone != null ? timeZone : TimeZone.getDefault();
-//    epochTime = java.util.Date.UTC(yearMonth.getYear() - 1900, yearMonth.getMonth() - 1, day.getDay(), 0, 0, 0) - getTimeZone().getRawOffset() - getTimeZone().getDSTSavings();
+
+    this.epochTime = LocalDateTime.of(yearMonth.getYear(), yearMonth.getMonth(), day.getDay(), 0, 0, 0).toEpochSecond(ZoneOffset.ofTotalSeconds(getTimeZone().getRawOffset() / 1000));
   }
 
   public Date(final int year, final int month, int day, final TimeZone timeZone) {
@@ -116,6 +119,10 @@ public final class Date {
 
   public TimeZone getTimeZone() {
     return timeZone;
+  }
+
+  public long getTime() {
+    return epochTime;
   }
 
   @Override
