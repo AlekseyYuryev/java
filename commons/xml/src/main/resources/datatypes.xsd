@@ -853,6 +853,12 @@
     </xs:restriction>
   </xs:simpleType>
   
+  <xs:simpleType name="hexadecimal">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9a-fA-F]*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:simpleType name="localDate">
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9]{4}-((0[1-9])|(1[0-2]))-((0[1-9])|([12][0-9])|(3[01]))"/>
