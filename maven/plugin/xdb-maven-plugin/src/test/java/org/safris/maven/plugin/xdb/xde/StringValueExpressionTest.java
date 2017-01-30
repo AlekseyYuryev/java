@@ -25,7 +25,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data.Char;
+import org.safris.xdb.entities.type.Char;
 
 import xdb.ddl.classicmodels;
 

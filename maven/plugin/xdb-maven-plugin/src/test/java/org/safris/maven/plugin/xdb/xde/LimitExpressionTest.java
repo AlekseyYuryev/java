@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -32,7 +32,7 @@ public class LimitExpressionTest extends IntegratedTest {
   @Test
   public void testLimit() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<data.Decimal> rows =
+    final RowIterator<type.Decimal> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       LIMIT(3).
@@ -52,7 +52,7 @@ public class LimitExpressionTest extends IntegratedTest {
   @Test
   public void testLimitOffset() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<data.Decimal> rows =
+    final RowIterator<type.Decimal> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       LIMIT(2).

@@ -33,7 +33,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -41,7 +41,7 @@ public class NumericValueExpressionTest extends IntegratedTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(
         PLUS(COUNT(), 5),
         MINUS(COUNT(), 5),

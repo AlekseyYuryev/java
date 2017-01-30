@@ -16,8 +16,9 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.DESC;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.COUNT;
+import static org.safris.xdb.entities.DML.LIKE;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,17 +30,17 @@ import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
-public class OrderExpressionTest extends IntegratedTest {
+public class CastTest extends IntegratedTest {
   @Test
-  public void testOrderExpression() throws IOException, SQLException {
+  public void testBooleanToChar() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Decimal> rows =
-      SELECT(p.msrp, p.price).
+    final RowIterator<type.Char> rows =
+      SELECT(CAST(COUNT()).AS.Char(3)).
       FROM(p).
-      ORDER_BY(DESC(p.price), p.msrp).
+      WHERE(LIKE(p.name, "%Ford%")).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(15), rows.nextEntity().get());
   }
 }

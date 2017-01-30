@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.safris.maven.common.Log;
 import org.safris.xdb.entities.DML.OUTER;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -40,7 +40,7 @@ public class JoinedTableTest extends IntegratedTest {
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(CROSS, c).
@@ -54,7 +54,7 @@ public class JoinedTableTest extends IntegratedTest {
   public void testNaturalJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(NATURAL, c).
@@ -69,7 +69,7 @@ public class JoinedTableTest extends IntegratedTest {
     final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
@@ -84,7 +84,7 @@ public class JoinedTableTest extends IntegratedTest {
   public void testLeftOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(OUTER.LEFT, c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -98,7 +98,7 @@ public class JoinedTableTest extends IntegratedTest {
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(OUTER.RIGHT, c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -113,7 +113,7 @@ public class JoinedTableTest extends IntegratedTest {
     try {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       final classicmodels.Customer c = new classicmodels.Customer();
-      final RowIterator<data.Long> rows =
+      final RowIterator<type.Long> rows =
         SELECT(COUNT()).
         FROM(p).
         JOIN(OUTER.FULL, c).ON(EQ(p.purchaseNumber, c.customerNumber)).

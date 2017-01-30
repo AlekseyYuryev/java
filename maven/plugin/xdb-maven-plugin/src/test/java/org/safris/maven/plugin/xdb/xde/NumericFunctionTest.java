@@ -54,8 +54,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
-import org.safris.xdb.entities.data.Decimal;
-import org.safris.xdb.entities.data.Numeric;
+import org.safris.xdb.entities.type.Decimal;
+import org.safris.xdb.entities.type.Numeric;
 import org.safris.xdb.entities.model.select.SELECT;
 
 import xdb.ddl.classicmodels;

@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -35,7 +35,7 @@ public class CountFunctionTest extends IntegratedTest {
   @Test
   public void testCount() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(
         COUNT(),
         COUNT(o.territory),

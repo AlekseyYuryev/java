@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -62,7 +62,7 @@ public class CorrelatedSubQueryTest extends IntegratedTest {
   public void testSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final data.Long s = new data.Long();
+    final type.Long s = new type.Long();
     final RowIterator<? extends Subject<?>> rows =
       SELECT(p,
         SELECT(MAX(c.salesEmployeeNumber)).

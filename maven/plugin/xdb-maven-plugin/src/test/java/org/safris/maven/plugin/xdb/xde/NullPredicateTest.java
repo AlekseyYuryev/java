@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.DML.IS;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -34,7 +34,7 @@ public class NullPredicateTest extends IntegratedTest {
   @Test
   public void testIs() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NULL(c.locality)).
@@ -47,7 +47,7 @@ public class NullPredicateTest extends IntegratedTest {
   @Test
   public void testIsNot() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NOT.NULL(c.locality)).

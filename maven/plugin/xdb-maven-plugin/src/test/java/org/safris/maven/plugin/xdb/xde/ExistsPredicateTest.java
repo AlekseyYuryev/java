@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -36,7 +36,7 @@ public class ExistsPredicateTest extends IntegratedTest {
   public void testExistsPredicate() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(EXISTS(

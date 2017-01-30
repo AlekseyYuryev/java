@@ -30,7 +30,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -38,9 +38,9 @@ public class HavingClauseTest extends IntegratedTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final data.Long c = new data.Long();
-    final data.Decimal d = new data.Decimal();
-    final RowIterator<? extends data.Numeric<?>> rows =
+    final type.Long c = new type.Long();
+    final type.Decimal d = new type.Decimal();
+    final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(COUNT().AS(c), MAX(p.msrp).AS(d)).
       FROM(p).
       WHERE(GT(p.price, 10)).

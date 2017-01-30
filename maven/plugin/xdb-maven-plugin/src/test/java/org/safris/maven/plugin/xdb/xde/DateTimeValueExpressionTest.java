@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.safris.xdb.entities.Interval;
 import org.safris.xdb.entities.Interval.Unit;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.data;
+import org.safris.xdb.entities.type;
 
 import xdb.ddl.classicmodels;
 
@@ -36,7 +36,7 @@ public class DateTimeValueExpressionTest extends IntegratedTest {
   @Test
   public void testInSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<data.Date> rows =
+    final RowIterator<type.Date> rows =
       SELECT(
         MINUS(p.purchaseDate, new Interval(2, Unit.DAYS)),
         PLUS(p.purchaseDate, new Interval(3, Unit.DECADES))).
@@ -52,7 +52,7 @@ public class DateTimeValueExpressionTest extends IntegratedTest {
   @Test
   public void testInWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<data.Long> rows =
+    final RowIterator<type.Long> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.shippedDate, ADD(p.requiredDate, new Interval(2, Unit.DAYS)))).
