@@ -356,6 +356,22 @@ public final class Numbers {
     throw new UnsupportedOperationException("Unsupported Numebr type: " + type.getName());
   }
 
+  public static int precision(final int number) {
+    return (int)Math.log10(Math.abs(number)) + 1;
+  }
+
+  public static int precision(final long number) {
+    return (int)Math.log10(Math.abs(number)) + 1;
+  }
+
+  public static int precision(final BigInteger number) {
+    return number.abs().toString().length();
+  }
+
+  public static int precision(final BigDecimal number) {
+    return number.precision();
+  }
+
   private Numbers() {
   }
 }

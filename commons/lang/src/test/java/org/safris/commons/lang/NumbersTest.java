@@ -16,6 +16,7 @@
 
 package org.safris.commons.lang;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -165,5 +166,18 @@ public class NumbersTest extends LoggableTest {
         Assert.assertEquals(value, Numbers.cast(Numbers.cast(value, to), from));
       }
     }
+  }
+
+  @Test
+  public void testPrecision() {
+    Assert.assertEquals(3, Numbers.precision(349));
+    Assert.assertEquals(1, Numbers.precision(3));
+    Assert.assertEquals(5, Numbers.precision(34329));
+    Assert.assertEquals(12, Numbers.precision(349349349349l));
+    Assert.assertEquals(1, Numbers.precision(-1));
+    Assert.assertEquals(5, Numbers.precision(-13423));
+    Assert.assertEquals(19, Numbers.precision(BigInteger.valueOf(4389429384493848239l)));
+    Assert.assertEquals(19, Numbers.precision(BigInteger.valueOf(-4389429384493848239l)));
+    Assert.assertEquals(19, Numbers.precision(new BigDecimal("-4389429384.493848239")));
   }
 }
