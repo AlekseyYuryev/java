@@ -26,17 +26,19 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class ExistsPredicateTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class ExistsPredicateTest extends LoggableTest {
   @Test
   public void testExistsPredicate() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(EXISTS(

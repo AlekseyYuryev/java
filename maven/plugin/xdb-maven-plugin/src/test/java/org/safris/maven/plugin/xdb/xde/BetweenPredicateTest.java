@@ -25,17 +25,19 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.DML.NOT;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class BetweenPredicateTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween1() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
@@ -48,10 +50,10 @@ public class BetweenPredicateTest extends IntegratedTest {
   @Test
   public void testBetween2() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(BETWEEN(p.msrp, p.price, 100d)).
+      WHERE(BETWEEN(p.msrp, p.price, 100)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -61,10 +63,10 @@ public class BetweenPredicateTest extends IntegratedTest {
   @Test
   public void testBetween3() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(BETWEEN(p.scale, "a", "z")).
+      WHERE(BETWEEN(p.scale, "a", "b")).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -74,7 +76,7 @@ public class BetweenPredicateTest extends IntegratedTest {
   @Test
   public void testBetween4() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(BETWEEN(p.quantityInStock, 500, 1000)).

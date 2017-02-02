@@ -24,13 +24,14 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xdb.entities.DML.OUTER;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 
-import xdb.ddl.classicmodels;
-
-public class UnionExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class UnionExpressionTest extends LoggableTest {
   @Test
   public void testUnion() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
@@ -38,10 +39,10 @@ public class UnionExpressionTest extends IntegratedTest {
     final RowIterator<? extends Entity> rows =
       SELECT(p, c).
       FROM(p).
-      JOIN(OUTER.LEFT, c).ON(EQ(p.customerNumber, c.customerNumber)).
+      LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
       UNION(SELECT(p, c).
         FROM(p).
-        JOIN(OUTER.RIGHT, c).ON(EQ(p.customerNumber, c.customerNumber))).
+        RIGHT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
       execute();
 
     Assert.assertTrue(rows.nextRow());

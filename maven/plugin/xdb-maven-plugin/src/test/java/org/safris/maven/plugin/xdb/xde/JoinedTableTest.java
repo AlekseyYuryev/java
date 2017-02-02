@@ -17,9 +17,7 @@
 package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.COUNT;
-import static org.safris.xdb.entities.DML.CROSS;
 import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.NATURAL;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -28,22 +26,23 @@ import java.sql.SQLSyntaxErrorException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.maven.common.Log;
-import org.safris.xdb.entities.DML.OUTER;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class JoinedTableTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class JoinedTableTest extends LoggableTest {
   @Test
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      JOIN(CROSS, c).
+      CROSS.JOIN(c).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -54,10 +53,10 @@ public class JoinedTableTest extends IntegratedTest {
   public void testNaturalJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      JOIN(NATURAL, c).
+      NATURAL.JOIN(c).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -69,7 +68,7 @@ public class JoinedTableTest extends IntegratedTest {
     final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
@@ -84,10 +83,10 @@ public class JoinedTableTest extends IntegratedTest {
   public void testLeftOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      JOIN(OUTER.LEFT, c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      LEFT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -98,10 +97,10 @@ public class JoinedTableTest extends IntegratedTest {
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
-      JOIN(OUTER.RIGHT, c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      RIGHT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -113,10 +112,10 @@ public class JoinedTableTest extends IntegratedTest {
     try {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       final classicmodels.Customer c = new classicmodels.Customer();
-      final RowIterator<type.Long> rows =
+      final RowIterator<type.INTEGER> rows =
         SELECT(COUNT()).
         FROM(p).
-        JOIN(OUTER.FULL, c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+        FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
         execute();
 
       Assert.assertTrue(rows.nextRow());

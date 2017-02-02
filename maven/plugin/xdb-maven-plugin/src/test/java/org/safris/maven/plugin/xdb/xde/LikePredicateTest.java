@@ -25,16 +25,18 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class LikePredicateTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class LikePredicateTest extends LoggableTest {
   @Test
   public void testLike() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(LIKE(p.name, "%Ford%")).

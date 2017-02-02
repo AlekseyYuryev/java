@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 Seva Safris
+/* Copyright (c) 2017 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,29 +14,19 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xdb.entities;
+package org.safris.maven.plugin.xdb.xde;
 
-import org.safris.xdb.entities.type.Numeric;
+import org.junit.runners.model.InitializationError;
+import org.safris.xdb.entities.Schema;
+import org.safris.xdb.entities.classicmodels;
 
-abstract class NumericFunction extends Expression<Number> {
-  protected final type.DataType<? extends Number> a;
-  protected final type.DataType<?> b;
-
-  protected NumericFunction(final type.DataType<? extends Number> a, final Numeric<?> b) {
-    this.a = a;
-    this.b = b;
+public class ClassicModelsTestRunner extends EntityTestRunner {
+  public ClassicModelsTestRunner(final Class<?> klass) throws InitializationError {
+    super(klass);
   }
 
-  protected NumericFunction(final type.DataType<? extends Number> a, final Number b) {
-    this.a = a;
-    this.b = type.DataType.wrap(b);
-  }
-
-  protected NumericFunction(final type.DataType<? extends Number> dataType) {
-    this(dataType, (Numeric<?>)null);
-  }
-
-  protected NumericFunction() {
-    this(null, (Numeric<?>)null);
+  @Override
+  protected Class<? extends Schema> entityClass() {
+    return classicmodels.class;
   }
 }

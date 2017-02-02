@@ -32,16 +32,18 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class NumericValueExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class NumericValueExpressionTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(
         PLUS(COUNT(), 5),
         MINUS(COUNT(), 5),
@@ -56,7 +58,7 @@ public class NumericValueExpressionTest extends IntegratedTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(rows.nextEntity().get() - 5), Long.valueOf(rows.nextEntity().get() + 5));
-    Assert.assertEquals(Long.valueOf(rows.nextEntity().get() / 2), Long.valueOf(rows.nextEntity().get() * 2));
+    Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() - 5), Long.valueOf(rows.nextEntity().get().longValue() + 5));
+    Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() / 2), Long.valueOf(rows.nextEntity().get().longValue() * 2));
   }
 }

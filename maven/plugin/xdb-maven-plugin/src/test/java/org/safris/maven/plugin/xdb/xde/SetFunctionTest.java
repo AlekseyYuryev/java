@@ -16,13 +16,10 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.ALL;
 import static org.safris.xdb.entities.DML.AVG;
-import static org.safris.xdb.entities.DML.DISTINCT;
 import static org.safris.xdb.entities.DML.MAX;
 import static org.safris.xdb.entities.DML.MIN;
 import static org.safris.xdb.entities.DML.SELECT;
-import static org.safris.xdb.entities.DML.SUM;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -30,21 +27,24 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xdb.entities.DataType;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
+import org.safris.xdb.entities.DML.SUM;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class SetFunctionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class SetFunctionTest extends LoggableTest {
   @Test
   public void testSetFunctions() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<? extends DataType<?>> rows =
+    final RowIterator<? extends type.DataType<?>> rows =
       SELECT(
-        AVG(ALL, c.phone),
+        AVG(c.phone),
         MAX(c.city),
         MIN(c.country),
-        SUM(DISTINCT, c.salesEmployeeNumber)).
+        SUM.DISTINCT(c.salesEmployeeNumber)).
       FROM(c).
       execute();
 

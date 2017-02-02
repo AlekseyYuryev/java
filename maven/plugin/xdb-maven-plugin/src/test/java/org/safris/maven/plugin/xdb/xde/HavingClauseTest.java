@@ -29,17 +29,19 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class HavingClauseTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class HavingClauseTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final type.Long c = new type.Long();
-    final type.Decimal d = new type.Decimal();
+    final type.INTEGER c = new type.INTEGER(10, true);
+    final type.DECIMAL d = p.msrp.clone();
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(COUNT().AS(c), MAX(p.msrp).AS(d)).
       FROM(p).

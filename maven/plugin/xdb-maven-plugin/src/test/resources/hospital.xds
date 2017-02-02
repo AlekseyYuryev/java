@@ -72,8 +72,8 @@
     <column name="accepted_locations" xsi:type="integer" unsigned="true" precision="3" min="0" max="255" null="false"/>
     <column name="authed_locations" xsi:type="integer" unsigned="true" precision="3" min="0" max="255" default="6" null="false"/>
     <column name="visibility" xsi:type="enum" values="PATIENTS PUBLIC" default="PATIENTS" null="false"/>
-    <column name="sms_phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
-    <column name="callback_phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="sms_phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
+    <column name="callback_phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
     <column name="skype_id" xsi:type="char" varying="true" length="128" null="true"/>
     <column name="time_zone" xsi:type="char" varying="true" length="64" null="false"/>
     <column name="time_zone_update" xsi:type="enum" values="AUTO ASK MANUAL" null="false" default="ASK"/>
@@ -149,7 +149,7 @@
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
     <column name="gender" xsi:type="enum" values="M F" null="false"/>
     <column name="dob" xsi:type="date" null="false"/>
-    <column name="sms_phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="sms_phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
     <constraints>
       <primaryKey>
         <column name="id"/>
@@ -172,7 +172,7 @@
     </column>
     <column name="patient_id" xsi:type="char" length="36" null="true"/>
     <column name="emergency_contact_name" xsi:type="char" length="128" null="true"/>
-    <column name="emergency_contact_phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="emergency_contact_phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
     <column name="referring_doctor" xsi:type="char" varying="true" length="128" null="true"/>
     <column name="note" xsi:type="char" varying="true" length="4096" default="" null="false"/>
     <column name="is_active" xsi:type="boolean" default="false" null="false"/>
@@ -180,8 +180,8 @@
     <column name="registration_state" xsi:type="enum" values="CREATED INVITED RESPONDED_INCOMPLETE REGISTERED RESPONDED_ALREADY_REGISTERED RESPONDED_DONT_SOLICIT" default="CREATED" null="false"/>
     <column name="pharmacy_name" xsi:type="char" varying="true" length="255" null="true"/>
     <column name="pharmacy_address" xsi:type="char" varying="true" length="255" null="true"/>
-    <column name="pharmacy_phone"  xsi:type="integer" precision="20" unsigned="true" null="true"/>
-    <column name="pharmacy_fax"  xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="pharmacy_phone"  xsi:type="integer" precision="19" unsigned="true" null="true"/>
+    <column name="pharmacy_fax"  xsi:type="integer" precision="19" unsigned="true" null="true"/>
     <column name="auth_in_person" xsi:type="integer" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
     <column name="auth_phone" xsi:type="integer" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
     <column name="auth_video" xsi:type="integer" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
@@ -197,7 +197,7 @@
     </triggers>
   </table>
   <table name="phone" abstract="true" extends="timestamp_id">
-    <column name="number" xsi:type="integer" precision="20" unsigned="true" null="false"/>
+    <column name="number" xsi:type="integer" precision="19" unsigned="true" null="false"/>
     <column name="type" xsi:type="enum" values="HOME WORK MOBILE OTHER" default="HOME" null="false"/>
   </table>
   <table name="patient_phone" extends="phone">
@@ -357,7 +357,7 @@
     </column>
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="principal" xsi:type="boolean" default="false" null="false"/>
-    <column name="phone" xsi:type="integer" precision="20" unsigned="true" null="false"/>
+    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="false"/>
   </table>
   <table name="doctor_patient_address" extends="simple_address">
     <column name="doctor_patient_id" xsi:type="char" length="36" null="false">
@@ -378,7 +378,7 @@
     </column>
     <column name="given_name" xsi:type="char" varying="true" length="32" null="false"/>
     <column name="family_name" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
   </table>
   <table name="calendar_event" extends="timestamp_by_id">
     <column name="prev_id" xsi:type="char" length="36" null="true"/>

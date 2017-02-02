@@ -28,13 +28,15 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.xdb.entities.DataType;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
+import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class QueryExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class QueryExpressionTest extends LoggableTest {
   @Test
   public void testFrom() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
@@ -67,7 +69,7 @@ public class QueryExpressionTest extends IntegratedTest {
   @Test
   public void testWhere() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<? extends DataType<?>> rows =
+    final RowIterator<? extends type.DataType<?>> rows =
       SELECT(o.address1, o.latitude).
       FROM(o).
       WHERE(AND(
@@ -99,13 +101,13 @@ public class QueryExpressionTest extends IntegratedTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(37.7942635, ((DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
     Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
     Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
   }
 }

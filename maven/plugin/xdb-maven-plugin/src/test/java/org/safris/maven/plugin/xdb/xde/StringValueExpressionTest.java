@@ -24,16 +24,18 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.type.Char;
+import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.entities.type.CHAR;
 
-import xdb.ddl.classicmodels;
-
-public class StringValueExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class StringValueExpressionTest extends LoggableTest {
   @Test
   public void testConcat() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<Char> rows =
+    final RowIterator<CHAR> rows =
       SELECT(
         // Char/Enum
         CONCAT(o.city, o.country),

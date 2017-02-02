@@ -32,16 +32,18 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class ComparisonPredicateTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class ComparisonPredicateTest extends LoggableTest {
   @Test
   public void testLt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(OR(LT(p.comments, "a"), LT("a", p.status), LT(p.comments, p.status))).
@@ -54,7 +56,7 @@ public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testLte() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(AND(LTE(c.creditLimit, c.customerNumber), LTE(c.longitude, c.phone), LTE(45, c.phone), LTE(c.creditLimit, 329939933l))).
@@ -67,7 +69,7 @@ public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testEq() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(AND(EQ(p.status, p.comments), EQ(p.comments, p.status))).
@@ -80,7 +82,7 @@ public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testNe() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NE(p.purchaseDate, p.shippedDate)).
@@ -93,7 +95,7 @@ public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testGt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.status, classicmodels.Purchase.Status.CANCELLED)).
@@ -106,7 +108,7 @@ public class ComparisonPredicateTest extends IntegratedTest {
   @Test
   public void testGte() throws IOException, SQLException {
     final classicmodels.PurchaseDetail p = new classicmodels.PurchaseDetail();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GTE(p.priceEach, p.quantity)).

@@ -24,16 +24,18 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class OrderExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class OrderExpressionTest extends LoggableTest {
   @Test
   public void testOrderExpression() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.Decimal> rows =
+    final RowIterator<type.DECIMAL> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       ORDER_BY(DESC(p.price), p.msrp).

@@ -44,7 +44,7 @@
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="website" xsi:type="char" varying="true" length="32" null="true"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
     <column name="open_week_days" xsi:type="integer" unsigned="true" precision="3" min="0" max="255" null="true"/>
     <column name="open_time" xsi:type="time" null="false"/>
     <column name="close_time" xsi:type="time" null="false"/>
@@ -66,7 +66,7 @@
     <column name="gender" xsi:type="enum" values="M F" null="false"/>
     <column name="photo" xsi:type="blob" length="2048" null="true"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="phone" xsi:type="integer" precision="20" unsigned="true" null="true"/>
+    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
   </table>
   <table name="book_card" extends="timestamp">
     <column name="book_id" xsi:type="char" varying="true" length="36" null="false">

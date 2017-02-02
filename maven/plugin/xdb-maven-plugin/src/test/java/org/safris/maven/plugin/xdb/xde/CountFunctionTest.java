@@ -16,9 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.ALL;
 import static org.safris.xdb.entities.DML.COUNT;
-import static org.safris.xdb.entities.DML.DISTINCT;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -26,21 +24,23 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class CountFunctionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class CountFunctionTest extends LoggableTest {
   @Test
   public void testCount() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(
         COUNT(),
         COUNT(o.territory),
-        COUNT(DISTINCT, o.territory),
-        COUNT(ALL, o.territory)).
+        COUNT.DISTINCT(o.territory),
+        COUNT(o.territory)).
       FROM(o).
       execute();
 

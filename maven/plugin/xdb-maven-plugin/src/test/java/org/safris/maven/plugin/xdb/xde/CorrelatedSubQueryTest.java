@@ -28,13 +28,15 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class CorrelatedSubQueryTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class CorrelatedSubQueryTest extends LoggableTest {
   @Test
   public void testWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
@@ -62,7 +64,7 @@ public class CorrelatedSubQueryTest extends IntegratedTest {
   public void testSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final type.Long s = new type.Long();
+    final type.INTEGER s = c.salesEmployeeNumber.clone();
     final RowIterator<? extends Subject<?>> rows =
       SELECT(p,
         SELECT(MAX(c.salesEmployeeNumber)).

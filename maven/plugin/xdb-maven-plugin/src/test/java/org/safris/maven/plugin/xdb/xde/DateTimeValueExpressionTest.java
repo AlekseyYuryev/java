@@ -16,8 +16,12 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.ADD;
+import static org.safris.xdb.entities.DML.COUNT;
+import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.MINUS;
 import static org.safris.xdb.entities.DML.PLUS;
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,18 +29,20 @@ import java.time.LocalDate;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.Interval;
 import org.safris.xdb.entities.Interval.Unit;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
 
-import xdb.ddl.classicmodels;
-
-public class DateTimeValueExpressionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class DateTimeValueExpressionTest extends LoggableTest {
   @Test
   public void testInSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Date> rows =
+    final RowIterator<type.DATE> rows =
       SELECT(
         MINUS(p.purchaseDate, new Interval(2, Unit.DAYS)),
         PLUS(p.purchaseDate, new Interval(3, Unit.DECADES))).
@@ -52,7 +58,7 @@ public class DateTimeValueExpressionTest extends IntegratedTest {
   @Test
   public void testInWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.Long> rows =
+    final RowIterator<type.INTEGER> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.shippedDate, ADD(p.requiredDate, new Interval(2, Unit.DAYS)))).

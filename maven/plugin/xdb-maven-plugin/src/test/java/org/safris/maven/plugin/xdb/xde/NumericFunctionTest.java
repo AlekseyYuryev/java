@@ -52,31 +52,33 @@ import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
-import org.safris.xdb.entities.type.Decimal;
+import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.entities.type.DECIMAL;
 import org.safris.xdb.entities.type.Numeric;
 import org.safris.xdb.entities.model.select.SELECT;
 
-import xdb.ddl.classicmodels;
-
-public class NumericFunctionTest extends IntegratedTest {
+@RunWith(ClassicModelsTestRunner.class)
+public class NumericFunctionTest extends LoggableTest {
   private static SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final Decimal d = new Decimal();
+    final DECIMAL d = c.longitude.clone();
 
     return SELECT(c, MUL(3959 * 2, ATAN2(
       SQRT(ADD(
         POW(SIN(DIV(MUL(SUB(c.latitude, latitude), PI()), 360)), 2),
-        MUL(
+        MUL(MUL(
           COS(DIV(MUL(c.latitude, PI()), 180)),
-          COS(DIV(MUL(latitude, PI()), 180)),
+          COS(DIV(MUL(latitude, PI()), 180))),
           POW(SIN(DIV(MUL(SUB(c.longitude, longitude), PI()), 360)), 2)))),
       SQRT(ADD(
         SUB(1, POW(SIN(DIV(MUL(SUB(c.latitude, latitude), PI()), 360)), 2)),
-        MUL(
+        MUL(MUL(
           COS(DIV(MUL(latitude, PI()), 180)),
-          COS(DIV(MUL(c.latitude, PI()), 180)),
+          COS(DIV(MUL(c.latitude, PI()), 180))),
           POW(SIN(DIV(MUL(SUB(c.longitude, longitude), PI()), 360)), 2)))))).
         AS(d)).
       FROM(c).
@@ -92,7 +94,7 @@ public class NumericFunctionTest extends IntegratedTest {
     while (rows.nextRow()) {
       final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
       Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
-      final Decimal d = (Decimal)rows.nextEntity();
+      final DECIMAL d = (DECIMAL)rows.nextEntity();
       Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get());
     }
   }
