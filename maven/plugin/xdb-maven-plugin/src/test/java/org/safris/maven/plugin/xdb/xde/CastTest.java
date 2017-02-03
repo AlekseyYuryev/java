@@ -16,7 +16,11 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.CAST;
+import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.LIKE;
+import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
@@ -26,6 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.safris.commons.test.LoggableTest;
+import org.safris.xdb.entities.DML.NOT;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.type;
 import org.safris.xdb.entities.types;
@@ -37,8 +42,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeBoolean).AS.CHAR(5),
-        CAST(t.typeBoolean).AS.VARYING.CHAR(5)).
+        CAST(t.typeBoolean).AS.CHAR(5)).
       FROM(t).
       execute();
 
@@ -74,7 +78,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeFloat).AS.DECIMAL(9, 5, t.typeFloat.unsigned())).
+        CAST(t.typeFloat).AS.DECIMAL(18, 5, t.typeFloat.unsigned())).
       FROM(t).
       execute();
 
@@ -88,6 +92,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeFloat).AS.TINYINT(3, t.typeFloat.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeFloat, 255), GT(t.typeFloat, -256))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -130,19 +135,6 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testFloatToChar() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    final RowIterator<type.CHAR> rows =
-      SELECT(
-        CAST(t.typeFloat).AS.CHAR(255),
-        CAST(t.typeFloat).AS.VARYING.CHAR(255)).
-      FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-  }
-
-  @Test
   public void testDoubleToFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
@@ -159,7 +151,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeDouble).AS.DECIMAL(9, 5, t.typeDouble.unsigned())).
+        CAST(t.typeDouble).AS.DECIMAL(18, 5, t.typeDouble.unsigned())).
       FROM(t).
       execute();
 
@@ -173,6 +165,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeDouble).AS.TINYINT(3, t.typeDouble.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeDouble, 255), GT(t.typeDouble, -256))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -215,19 +208,6 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testDoubleToChar() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    final RowIterator<type.CHAR> rows =
-      SELECT(
-        CAST(t.typeDouble).AS.CHAR(255),
-        CAST(t.typeDouble).AS.VARYING.CHAR(255)).
-      FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-  }
-
-  @Test
   public void testDecimalToFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
@@ -256,7 +236,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeDecimal).AS.DECIMAL(9, 5, t.typeDecimal.unsigned())).
+        CAST(t.typeDecimal).AS.DECIMAL(18, 5, t.typeDecimal.unsigned())).
       FROM(t).
       execute();
 
@@ -316,8 +296,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeDecimal).AS.CHAR(255),
-        CAST(t.typeDecimal).AS.VARYING.CHAR(255)).
+        CAST(t.typeDecimal).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -353,7 +332,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeSmallint).AS.DECIMAL(9, 5, t.typeSmallint.unsigned())).
+        CAST(t.typeSmallint).AS.DECIMAL(18, 5, t.typeSmallint.unsigned())).
       FROM(t).
       execute();
 
@@ -413,8 +392,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeSmallint).AS.CHAR(255),
-        CAST(t.typeSmallint).AS.VARYING.CHAR(255)).
+        CAST(t.typeSmallint).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -450,7 +428,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeMediumint).AS.DECIMAL(9, 5, t.typeMediumint.unsigned())).
+        CAST(t.typeMediumint).AS.DECIMAL(18, 5, t.typeMediumint.unsigned())).
       FROM(t).
       execute();
 
@@ -510,8 +488,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeMediumint).AS.CHAR(255),
-        CAST(t.typeMediumint).AS.VARYING.CHAR(255)).
+        CAST(t.typeMediumint).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -547,7 +524,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeLong).AS.DECIMAL(9, 5, t.typeLong.unsigned())).
+        CAST(t.typeLong).AS.DECIMAL(18, 5, t.typeLong.unsigned())).
       FROM(t).
       execute();
 
@@ -561,6 +538,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeLong).AS.TINYINT(3, t.typeLong.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeLong, 255), GT(t.typeLong, -256))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -607,8 +585,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeLong).AS.CHAR(255),
-        CAST(t.typeLong).AS.VARYING.CHAR(255)).
+        CAST(t.typeLong).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -644,8 +621,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeBigint).AS.DECIMAL(9, 5, t.typeBigint.unsigned())).
+        CAST(t.typeBigint).AS.DECIMAL(20, 5, t.typeBigint.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeBigint, 2147483647), GT(t.typeBigint, -2147483648))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -658,6 +636,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeBigint).AS.TINYINT(3, t.typeBigint.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeBigint, 255), GT(t.typeBigint, -256))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -670,6 +649,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeBigint).AS.MEDIUMINT(5, t.typeBigint.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeBigint, 2147483647), GT(t.typeBigint, -2147483648))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -682,6 +662,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeBigint).AS.INTEGER(10, t.typeBigint.unsigned())).
       FROM(t).
+      WHERE(AND(LT(t.typeBigint, 2147483647), GT(t.typeBigint, -2147483648))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -704,32 +685,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeBigint).AS.CHAR(255),
-        CAST(t.typeBigint).AS.VARYING.CHAR(255)).
-      FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-  }
-
-  @Test
-  public void testCharToFloat() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    final RowIterator<type.FLOAT> rows =
-      SELECT(
-        CAST(t.typeChar).AS.FLOAT(false)).
-      FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-  }
-
-  @Test
-  public void testCharToDouble() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    final RowIterator<type.DOUBLE> rows =
-      SELECT(
-        CAST(t.typeChar).AS.DOUBLE(false)).
+        CAST(t.typeBigint).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -741,8 +697,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.typeChar).AS.DECIMAL(9, 5, false)).
+        CAST(t.typeChar).AS.DECIMAL(18, 5, false)).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -755,6 +712,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.TINYINT(3, false)).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%.%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -767,6 +725,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.MEDIUMINT(5, false)).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%.%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -779,6 +738,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.INTEGER(10, false)).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%.%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -791,6 +751,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.BIGINT(16, false)).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%.%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -801,8 +762,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeChar).AS.CHAR(255),
-        CAST(t.typeChar).AS.VARYING.CHAR(255)).
+        CAST(t.typeChar).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -816,6 +776,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.DATE()).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%-%-%"), NOT.LIKE(t.typeChar, "%-%-% "))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -828,6 +789,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.TIME()).
       FROM(t).
+      WHERE(AND(LIKE(t.typeChar, "%:%:%"), NOT.LIKE(t.typeChar, " %:%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -840,6 +802,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.typeChar).AS.DATETIME()).
       FROM(t).
+      WHERE(LIKE(t.typeChar, "%-%-% %:%:%")).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -850,7 +813,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CLOB> rows =
       SELECT(
-        CAST(t.typeChar).AS.CLOB(255)).
+        CAST(t.typeChar).AS.CLOB(254)).
       FROM(t).
       execute();
 
@@ -862,8 +825,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeDate).AS.CHAR(255),
-        CAST(t.typeDate).AS.VARYING.CHAR(255)).
+        CAST(t.typeDate).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -875,8 +837,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeTime).AS.CHAR(255),
-        CAST(t.typeTime).AS.VARYING.CHAR(255)).
+        CAST(t.typeTime).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -888,8 +849,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeDatetime).AS.CHAR(255),
-        CAST(t.typeDatetime).AS.VARYING.CHAR(255)).
+        CAST(t.typeDatetime).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -925,8 +885,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.typeClob).AS.CHAR(255),
-        CAST(t.typeClob).AS.VARYING.CHAR(255)).
+        CAST(t.typeClob).AS.CHAR(254)).
       FROM(t).
       execute();
 
@@ -938,7 +897,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CLOB> rows =
       SELECT(
-        CAST(t.typeClob).AS.CLOB(255)).
+        CAST(t.typeClob).AS.CLOB(254)).
       FROM(t).
       execute();
 
@@ -950,20 +909,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BLOB> rows =
       SELECT(
-        CAST(t.typeBlob).AS.BLOB(255)).
-      FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-  }
-
-  @Test
-  public void testBlobToBinary() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    final RowIterator<type.BINARY> rows =
-      SELECT(
-        CAST(t.typeBlob).AS.BINARY(true, 255),
-        CAST(t.typeBlob).AS.VARYING.BINARY(true, 255)).
+        CAST(t.typeBlob).AS.BLOB(254)).
       FROM(t).
       execute();
 
@@ -975,7 +921,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BLOB> rows =
       SELECT(
-        CAST(t.typeBinary).AS.BLOB(255)).
+        CAST(t.typeBinary).AS.BLOB(254)).
       FROM(t).
       execute();
 
@@ -987,8 +933,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BINARY> rows =
       SELECT(
-        CAST(t.typeBinary).AS.BINARY(true, 255),
-        CAST(t.typeBinary).AS.VARYING.BINARY(true, 255)).
+        CAST(t.typeBinary).AS.BINARY(254)).
       FROM(t).
       execute();
 

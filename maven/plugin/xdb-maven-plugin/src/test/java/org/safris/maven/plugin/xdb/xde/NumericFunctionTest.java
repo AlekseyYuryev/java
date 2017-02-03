@@ -59,11 +59,11 @@ import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type.DECIMAL;
 import org.safris.xdb.entities.type.Numeric;
-import org.safris.xdb.entities.model.select.SELECT;
+import org.safris.xdb.entities.model.select;
 
 @RunWith(ClassicModelsTestRunner.class)
 public class NumericFunctionTest extends LoggableTest {
-  private static SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
+  private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final DECIMAL d = c.longitude.clone();
 
@@ -95,7 +95,7 @@ public class NumericFunctionTest extends LoggableTest {
       final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
       Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
       final DECIMAL d = (DECIMAL)rows.nextEntity();
-      Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get());
+      Assert.assertEquals(Double.valueOf(2.2206910536009836), d.get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -125,21 +125,21 @@ public class NumericFunctionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(-122d, rows.nextEntity().get());
-    Assert.assertEquals(-1d, rows.nextEntity().get());
-    Assert.assertEquals(-85d, rows.nextEntity().get());
-    Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get());
-    Assert.assertEquals(6.147703920977327, rows.nextEntity().get());
-    Assert.assertEquals(123d, rows.nextEntity().get());
-    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get());
-    Assert.assertEquals(0.09515165692248098, rows.nextEntity().get());
-    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get());
-    Assert.assertEquals(0.5942635000000009, rows.nextEntity().get());
-    Assert.assertEquals(0d, rows.nextEntity().get());
-    Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get());
-    Assert.assertEquals(3.6321573318496814, rows.nextEntity().get());
-    Assert.assertEquals(5.240095370388024, rows.nextEntity().get());
-    Assert.assertEquals(5.240095370388024, rows.nextEntity().get());
-    Assert.assertEquals(1.5774258866267548, rows.nextEntity().get());
+    Assert.assertEquals(-122d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(-1d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(-85d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(6.147703920977327, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(123d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(0.09515165692248098, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(0.5942635000000009, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(0d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(3.6321573318496814, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(1.5774258866267548, rows.nextEntity().get().doubleValue(), 0.0000000001);
   }
 }

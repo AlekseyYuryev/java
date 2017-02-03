@@ -45,15 +45,14 @@ import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
 import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.survey;
 import org.safris.xdb.entities.type.DATETIME;
 import org.safris.xdb.entities.type.MEDIUMINT;
-import org.safris.xdb.entities.model.select.SELECT;
+import org.safris.xdb.entities.model.select;
 import org.safris.xdb.entities.model.update.UPDATE;
 import org.safris.xdb.xdd.xe.$xdd_data;
 import org.safris.xsb.runtime.Bindings;
 import org.xml.sax.InputSource;
-
-import org.safris.xdb.entities.survey;
 
 @SuppressWarnings("unused")
 public class FormTest extends LoggableTest {
@@ -83,7 +82,7 @@ public class FormTest extends LoggableTest {
 
   public void testSELECT1() throws IOException, SQLException {
     final survey.Dish d = new survey.Dish();
-    final SELECT<survey.Dish> select = SELECT(d, d).FROM(d).WHERE(EQ(d.id, 7));
+    final select.SELECT<survey.Dish> select = SELECT(d, d).FROM(d).WHERE(EQ(d.id, 7));
     final RowIterator<survey.Dish> rows = select.execute();
   }
 
@@ -91,7 +90,7 @@ public class FormTest extends LoggableTest {
     final survey.Meal m = new survey.Meal();
     final survey.Dish d = new survey.Dish();
     final survey.MealDish md = new survey.MealDish();
-    final SELECT<Entity> select = SELECT(m, d).FROM(m, md, d).WHERE(AND(EQ(m.id, 3), EQ(m.id, md.mealId), EQ(md.dishId, d.id)));
+    final select.SELECT<Entity> select = SELECT(m, d).FROM(m, md, d).WHERE(AND(EQ(m.id, 3), EQ(m.id, md.mealId), EQ(md.dishId, d.id)));
     final RowIterator<Entity> rows = select.execute();
   }
 
@@ -100,14 +99,14 @@ public class FormTest extends LoggableTest {
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
     // SELECT MIN(m.created_on) FROM meal m LEFT JOIN unsubscribed u ON u.email = m.email LEFT JOIN meal_survey ms ON ms.meal_id = m.id WHERE u.email IS NULL AND ms.meal_id IS NULL AND m.sent = 0 AND m.skipped = 0
-    final SELECT<DATETIME> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
+    final select.SELECT<DATETIME> select = SELECT(MIN(m.createdOn), MAX(m.createdOn)).FROM(m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), EQ(m.sent, false), EQ(m.skipped, false)));
   }
 
   public void testSELECT4() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
     final survey.Unsubscribed u = new survey.Unsubscribed();
     final survey.MealSurvey ms = new survey.MealSurvey();
-    final SELECT<DATETIME> select = SELECT(MAX(m.createdOn)).FROM(m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
+    final select.SELECT<DATETIME> select = SELECT(MAX(m.createdOn)).FROM(m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null)));
   }
 
   public void testSELECT5() throws IOException, SQLException {
@@ -118,7 +117,7 @@ public class FormTest extends LoggableTest {
 
   public void testSELECT6() throws IOException, SQLException {
     final survey.MealAudit ma = new survey.MealAudit();
-    final SELECT<survey.MealAudit> select = SELECT(ma).FROM(ma);
+    final select.SELECT<survey.MealAudit> select = SELECT(ma).FROM(ma);
     select.execute();
   }
 
@@ -134,7 +133,7 @@ public class FormTest extends LoggableTest {
 
     final LocalDateTime from = LocalDateTime.now();
     final LocalDateTime to = LocalDateTime.now();
-    final SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
+    final select.SELECT<Entity> select = SELECT(m, d).FROM(md, d, m).LEFT.JOIN(u).ON(EQ(u.email, m.email)).LEFT.JOIN(ms).ON(EQ(ms.mealId, m.id)).WHERE(AND(EQ(u.email, (String)null), EQ(ms.mealId, (Integer)null), LTE(from, m.createdOn), LT(m.createdOn, to), EQ(m.id, md.mealId), EQ(md.dishId, d.id))).ORDER_BY(m.createdOn, m.orderId);
     final RowIterator<Entity> rows = select.execute();
   }
 
@@ -142,7 +141,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT8() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT> select =
       SELECT(
         m.orderId,
         SELECT(AVG(m.orderId)).FROM(m).WHERE(EQ(m.orderId, 101)).AS(m.orderId.clone())).
@@ -153,7 +152,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT9() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final SELECT<survey.Meal> select =
+    final select.SELECT<survey.Meal> select =
       SELECT(m).
       FROM(m).WHERE(IN(m.orderId,
         SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00")))));
@@ -164,7 +163,7 @@ public class FormTest extends LoggableTest {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
 
-    final SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT> select =
       SELECT(m1.orderId).
       FROM(m1).WHERE(EQ(
         SELECT(m2.orderId).FROM(m2).WHERE(EQ(m2.orderId, m1.orderId)), m1.orderId));
@@ -176,7 +175,7 @@ public class FormTest extends LoggableTest {
     final survey.Meal m2 = new survey.Meal();
     final MEDIUMINT maxId = m2.orderId.clone();
 
-    final SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT> select =
       SELECT(
           m1.orderId,
           maxId).
@@ -185,7 +184,7 @@ public class FormTest extends LoggableTest {
   }
 
   // doubly-correlated subquery in the FROM
-  public SELECT<MEDIUMINT> testSELECT12() throws IOException, SQLException {
+  public select.SELECT<MEDIUMINT> testSELECT12() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
     final survey.Meal maxId = new survey.Meal();
@@ -203,7 +202,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT15() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final SELECT<survey.Meal> select =
+    final select.SELECT<survey.Meal> select =
       INSERT(new survey.Meal()).
       SELECT(m).
       FROM(m).WHERE(IN(m.orderId,

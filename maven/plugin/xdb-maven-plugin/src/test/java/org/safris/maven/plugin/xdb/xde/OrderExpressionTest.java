@@ -42,6 +42,6 @@ public class OrderExpressionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get().doubleValue(), 0.0000000001);
   }
 }

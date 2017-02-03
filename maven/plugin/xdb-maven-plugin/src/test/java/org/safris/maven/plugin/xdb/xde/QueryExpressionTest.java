@@ -24,6 +24,7 @@ import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import org.junit.Assert;
@@ -80,7 +81,7 @@ public class QueryExpressionTest extends LoggableTest {
 
     Assert.assertTrue(rows.nextRow());
     Assert.assertEquals("4-1 Kioicho", rows.nextEntity().get());
-    Assert.assertEquals(35.6811759, rows.nextEntity().get());
+    Assert.assertEquals(35.6811759, ((BigDecimal)rows.nextEntity().get()).doubleValue(), 0.0000000001);
   }
 
   @Test
@@ -101,13 +102,13 @@ public class QueryExpressionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
     Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
     Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((type.DataType<?>)rows.nextEntity()).get());
-    Assert.assertEquals(-122.3955861d, ((type.DataType<?>)rows.nextEntity()).get());
+    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
   }
 }

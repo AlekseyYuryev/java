@@ -16,13 +16,11 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.DESC;
 import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.MAX;
-import static org.safris.xdb.entities.DML.OR;
 import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.SIN;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,18 +38,17 @@ public class HavingClauseTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final type.INTEGER c = new type.INTEGER(10, true);
     final type.DECIMAL d = p.msrp.clone();
-    final RowIterator<? extends type.Numeric<?>> rows =
-      SELECT(COUNT().AS(c), MAX(p.msrp).AS(d)).
+    final RowIterator<type.DECIMAL> rows =
+      SELECT(SIN(p.msrp).AS(d)).
       FROM(p).
       WHERE(GT(p.price, 10)).
-      GROUP_BY(p.vendor).
-      HAVING(OR(LT(c, 10), GT(d, 10))).
-      ORDER_BY(DESC(c)).
+      GROUP_BY(p).
+      HAVING(LT(d, 10)).
+      ORDER_BY(DESC(d)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(10), rows.nextEntity().get());
+    Assert.assertEquals(0.9995201585807313, rows.nextEntity().get().doubleValue(), 0.0000000001);
   }
 }

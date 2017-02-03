@@ -22,7 +22,6 @@ import static org.safris.xdb.entities.DML.MIN;
 import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.sql.SQLException;
 
 import org.junit.Assert;
@@ -49,7 +48,7 @@ public class SetFunctionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(BigInteger.valueOf(24367857008l), rows.nextEntity().get());
+    Assert.assertEquals(Long.valueOf(24367857008l), rows.nextEntity().get());
     Assert.assertEquals("White Plains", rows.nextEntity().get());
     Assert.assertEquals(classicmodels.Address.Country.AU, rows.nextEntity().get());
     Assert.assertEquals(Long.valueOf(21003), rows.nextEntity().get());

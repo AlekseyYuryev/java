@@ -41,14 +41,14 @@ public class LimitExpressionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(95.7), rows.nextEntity().get());
-    Assert.assertEquals(Double.valueOf(48.81), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(95.7), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(Double.valueOf(48.81), rows.nextEntity().get().doubleValue(), 0.0000000001);
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get());
-    Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get().doubleValue(), 0.0000000001);
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get());
-    Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get().doubleValue(), 0.0000000001);
   }
 
   @Test
@@ -62,10 +62,10 @@ public class LimitExpressionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get());
-    Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get().doubleValue(), 0.0000000001);
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get());
-    Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get());
+    Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get().doubleValue(), 0.0000000001);
   }
 }

@@ -52,7 +52,6 @@ public class CorrelatedSubQueryTest extends LoggableTest {
       WHERE(AND(
         LT(p.purchaseDate, p.requiredDate),
         EQ(p.customerNumber, c2.customerNumber))).
-      GROUP_BY(p.status).
       execute();
 
     Assert.assertTrue(rows.nextRow());
