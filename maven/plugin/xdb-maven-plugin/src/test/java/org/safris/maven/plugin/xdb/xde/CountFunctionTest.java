@@ -35,7 +35,7 @@ public class CountFunctionTest extends LoggableTest {
   @Test
   public void testCount() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         COUNT(),
         COUNT(o.territory),

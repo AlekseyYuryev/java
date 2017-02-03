@@ -38,7 +38,7 @@ public class ExistsPredicateTest extends LoggableTest {
   public void testExistsPredicate() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(EXISTS(

@@ -113,7 +113,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testFloatToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeFloat).AS.INTEGER(10, t.typeFloat.unsigned())).
       FROM(t).
@@ -186,7 +186,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testDoubleToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeDouble).AS.INTEGER(10, t.typeDouble.unsigned())).
       FROM(t).
@@ -270,7 +270,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testDecimalToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeDecimal).AS.INTEGER(10, t.typeDecimal.unsigned())).
       FROM(t).
@@ -366,7 +366,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testTinyIntToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeSmallint).AS.INTEGER(10, t.typeSmallint.unsigned())).
       FROM(t).
@@ -462,7 +462,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testMediumIntToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeMediumint).AS.INTEGER(10, t.typeMediumint.unsigned())).
       FROM(t).
@@ -559,7 +559,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testLongToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeLong).AS.INTEGER(10, t.typeLong.unsigned())).
       FROM(t).
@@ -658,7 +658,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testBigIntToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeBigint).AS.INTEGER(10, t.typeBigint.unsigned())).
       FROM(t).
@@ -734,7 +734,7 @@ public class CastTest extends LoggableTest {
   @Test
   public void testCharToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         CAST(t.typeChar).AS.INTEGER(10, false)).
       FROM(t).

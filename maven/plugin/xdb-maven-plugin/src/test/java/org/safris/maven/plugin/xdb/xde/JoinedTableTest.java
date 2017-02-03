@@ -39,7 +39,7 @@ public class JoinedTableTest extends LoggableTest {
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       CROSS.JOIN(c).
@@ -53,7 +53,7 @@ public class JoinedTableTest extends LoggableTest {
   public void testNaturalJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       NATURAL.JOIN(c).
@@ -68,7 +68,7 @@ public class JoinedTableTest extends LoggableTest {
     final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
@@ -83,7 +83,7 @@ public class JoinedTableTest extends LoggableTest {
   public void testLeftOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       LEFT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -97,7 +97,7 @@ public class JoinedTableTest extends LoggableTest {
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       RIGHT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -112,7 +112,7 @@ public class JoinedTableTest extends LoggableTest {
     try {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       final classicmodels.Customer c = new classicmodels.Customer();
-      final RowIterator<type.INTEGER> rows =
+      final RowIterator<type.INT> rows =
         SELECT(COUNT()).
         FROM(p).
         FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).

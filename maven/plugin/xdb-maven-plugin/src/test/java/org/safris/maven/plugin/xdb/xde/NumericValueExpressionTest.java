@@ -43,7 +43,7 @@ public class NumericValueExpressionTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(
         PLUS(COUNT(), 5),
         MINUS(COUNT(), 5),

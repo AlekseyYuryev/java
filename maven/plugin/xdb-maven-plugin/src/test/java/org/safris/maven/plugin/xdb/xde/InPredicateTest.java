@@ -37,7 +37,7 @@ public class InPredicateTest extends LoggableTest {
   @Test
   public void testINList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(IN(p.productLine, "Ships", "Planes", "Trains")).
@@ -50,7 +50,7 @@ public class InPredicateTest extends LoggableTest {
   @Test
   public void testNOT_INList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
@@ -63,7 +63,7 @@ public class InPredicateTest extends LoggableTest {
   @Test
   public void testINSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(IN(p.productLine, SELECT(p.productLine).FROM(p))).
@@ -76,7 +76,7 @@ public class InPredicateTest extends LoggableTest {
   @Test
   public void testNOT_INSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.IN(p.productLine, SELECT(p.productLine).FROM(p))).

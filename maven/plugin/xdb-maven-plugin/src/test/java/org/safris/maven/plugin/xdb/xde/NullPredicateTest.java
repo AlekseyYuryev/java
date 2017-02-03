@@ -36,7 +36,7 @@ public class NullPredicateTest extends LoggableTest {
   @Test
   public void testIs() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NULL(c.locality)).
@@ -49,7 +49,7 @@ public class NullPredicateTest extends LoggableTest {
   @Test
   public void testIsNot() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NOT.NULL(c.locality)).

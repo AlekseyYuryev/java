@@ -58,7 +58,7 @@ public class DateTimeValueExpressionTest extends LoggableTest {
   @Test
   public void testInWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.shippedDate, ADD(p.requiredDate, new Interval(2, Unit.DAYS)))).

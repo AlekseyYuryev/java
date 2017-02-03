@@ -63,7 +63,7 @@ public class CorrelatedSubQueryTest extends LoggableTest {
   public void testSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final type.INTEGER s = c.salesEmployeeNumber.clone();
+    final type.INT s = c.salesEmployeeNumber.clone();
     final RowIterator<? extends Subject<?>> rows =
       SELECT(p,
         SELECT(MAX(c.salesEmployeeNumber)).

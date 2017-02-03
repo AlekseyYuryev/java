@@ -42,7 +42,7 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
   public void testAll() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(
@@ -60,7 +60,7 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
   public void testAny() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(
@@ -78,7 +78,7 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
   public void testSome() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(

@@ -37,7 +37,7 @@ public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween1() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
@@ -50,7 +50,7 @@ public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween2() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(BETWEEN(p.msrp, p.price, 100)).
@@ -63,7 +63,7 @@ public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween3() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(BETWEEN(p.scale, "a", "b")).
@@ -76,7 +76,7 @@ public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween4() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INTEGER> rows =
+    final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(BETWEEN(p.quantityInStock, 500, 1000)).
