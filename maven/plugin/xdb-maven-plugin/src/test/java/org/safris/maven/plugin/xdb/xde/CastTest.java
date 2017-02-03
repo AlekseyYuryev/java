@@ -845,6 +845,18 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
+  public void testTimeToTime() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.TIME> rows =
+      SELECT(
+        CAST(t.typeTime).AS.TIME()).
+      FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
   public void testDateTimeToChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
@@ -874,6 +886,18 @@ public class CastTest extends LoggableTest {
     final RowIterator<type.TIME> rows =
       SELECT(
         CAST(t.typeDatetime).AS.TIME()).
+      FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDateTimeToDateTime() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DATETIME> rows =
+      SELECT(
+        CAST(t.typeDatetime).AS.DATETIME()).
       FROM(t).
       execute();
 
