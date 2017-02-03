@@ -372,6 +372,26 @@ public final class Numbers {
     return number.precision();
   }
 
+  public static int trailingZeroes(int number) {
+    int zeros = 0;
+    while (number % 10 == 0 && number != 0) {
+      zeros++;
+      number /= 10;
+    }
+
+    return zeros;
+  }
+
+  public static int trailingZeroes(long number) {
+    int zeroes = 0;
+    while (number % 10 == 0 && number != 0) {
+      zeroes++;
+      number /= 10;
+    }
+
+    return zeroes;
+  }
+
   private Numbers() {
   }
 }

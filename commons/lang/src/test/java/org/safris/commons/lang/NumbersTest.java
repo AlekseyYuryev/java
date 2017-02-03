@@ -180,4 +180,14 @@ public class NumbersTest extends LoggableTest {
     Assert.assertEquals(19, Numbers.precision(BigInteger.valueOf(-4389429384493848239l)));
     Assert.assertEquals(19, Numbers.precision(new BigDecimal("-4389429384.493848239")));
   }
+
+  @Test
+  public void testTrailingZeroes() {
+    Assert.assertEquals(3, Numbers.trailingZeroes(349000));
+    Assert.assertEquals(1, Numbers.trailingZeroes(3490l));
+    Assert.assertEquals(1, Numbers.trailingZeroes(10));
+    Assert.assertEquals(0, Numbers.trailingZeroes(1));
+    Assert.assertEquals(1, Numbers.trailingZeroes(-10));
+    Assert.assertEquals(4, Numbers.trailingZeroes(-14320000l));
+  }
 }
