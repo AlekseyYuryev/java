@@ -86,11 +86,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testFloatToTinyInt() throws IOException, SQLException {
+  public void testFloatToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeFloat).AS.TINYINT(3, t.typeFloat.unsigned())).
+        CAST(t.typeFloat).AS.SMALLINT(3, t.typeFloat.unsigned())).
       FROM(t).
       WHERE(AND(LT(t.typeFloat, 255), GT(t.typeFloat, -256))).
       execute();
@@ -159,11 +159,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testDoubleToTinyInt() throws IOException, SQLException {
+  public void testDoubleToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeDouble).AS.TINYINT(3, t.typeDouble.unsigned())).
+        CAST(t.typeDouble).AS.SMALLINT(3, t.typeDouble.unsigned())).
       FROM(t).
       WHERE(AND(LT(t.typeDouble, 255), GT(t.typeDouble, -256))).
       execute();
@@ -244,11 +244,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testDecimalToTinyInt() throws IOException, SQLException {
+  public void testDecimalToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeDecimal).AS.TINYINT(3, t.typeDecimal.unsigned())).
+        CAST(t.typeDecimal).AS.SMALLINT(3, t.typeDecimal.unsigned())).
       FROM(t).
       execute();
 
@@ -304,7 +304,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToFloat() throws IOException, SQLException {
+  public void testSmallIntToFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
@@ -316,7 +316,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToDouble() throws IOException, SQLException {
+  public void testSmallIntToDouble() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
@@ -328,7 +328,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToDecimal() throws IOException, SQLException {
+  public void testSmallIntToDecimal() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
@@ -340,11 +340,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToTinyInt() throws IOException, SQLException {
+  public void testSmallIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeSmallint).AS.TINYINT(3, t.typeSmallint.unsigned())).
+        CAST(t.typeSmallint).AS.SMALLINT(3, t.typeSmallint.unsigned())).
       FROM(t).
       execute();
 
@@ -352,7 +352,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToMediumInt() throws IOException, SQLException {
+  public void testSmallIntToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
@@ -364,7 +364,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToLong() throws IOException, SQLException {
+  public void testSmallIntToLong() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.INT> rows =
       SELECT(
@@ -376,7 +376,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToBigInt() throws IOException, SQLException {
+  public void testSmallIntToBigInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
@@ -388,7 +388,7 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testTinyIntToChar() throws IOException, SQLException {
+  public void testSmallIntToChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
@@ -436,11 +436,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testMediumIntToTinyInt() throws IOException, SQLException {
+  public void testMediumIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeMediumint).AS.TINYINT(3, t.typeMediumint.unsigned())).
+        CAST(t.typeMediumint).AS.SMALLINT(3, t.typeMediumint.unsigned())).
       FROM(t).
       execute();
 
@@ -532,11 +532,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToTinyInt() throws IOException, SQLException {
+  public void testLongToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeLong).AS.TINYINT(3, t.typeLong.unsigned())).
+        CAST(t.typeLong).AS.SMALLINT(3, t.typeLong.unsigned())).
       FROM(t).
       WHERE(AND(LT(t.typeLong, 255), GT(t.typeLong, -256))).
       execute();
@@ -630,11 +630,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testBigIntToTinyInt() throws IOException, SQLException {
+  public void testBigIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeBigint).AS.TINYINT(3, t.typeBigint.unsigned())).
+        CAST(t.typeBigint).AS.SMALLINT(3, t.typeBigint.unsigned())).
       FROM(t).
       WHERE(AND(LT(t.typeBigint, 255), GT(t.typeBigint, -256))).
       execute();
@@ -706,11 +706,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testCharToTinyInt() throws IOException, SQLException {
+  public void testCharToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TINYINT> rows =
+    final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.typeChar).AS.TINYINT(3, false)).
+        CAST(t.typeChar).AS.SMALLINT(3, false)).
       FROM(t).
       WHERE(AND(LIKE(t.typeChar, "%1%"), NOT.LIKE(t.typeChar, "%.%"), NOT.LIKE(t.typeChar, "%-%"), NOT.LIKE(t.typeChar, "%:%"))).
       execute();
