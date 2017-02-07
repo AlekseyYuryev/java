@@ -18,7 +18,6 @@ package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.AVG;
-import static org.safris.xdb.entities.DML.CASE_WHEN;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.IN;
@@ -41,6 +40,7 @@ import java.time.LocalDateTime;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.test.LoggableTest;
 import org.safris.commons.xml.XMLException;
+import org.safris.xdb.entities.DML.CASE;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
@@ -112,7 +112,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT5() throws IOException, SQLException {
     final survey.MealAudit ma = new survey.MealAudit();
     final LocalDateTime date = LocalDateTime.now();
-    UPDATE(ma).SET(ma.rangeTo, CASE_WHEN(GT(ma.rangeTo, date)).THEN(ma.rangeTo).ELSE(date)).execute();
+    UPDATE(ma).SET(ma.rangeTo, CASE.WHEN(GT(ma.rangeTo, date)).THEN(ma.rangeTo).ELSE(date).END()).execute();
   }
 
   public void testSELECT6() throws IOException, SQLException {
