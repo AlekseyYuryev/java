@@ -184,4 +184,14 @@ public class StringsTest extends LoggableTest {
     Assert.assertEquals("ac", Strings.getAlpha(28));
     Assert.assertEquals("za", Strings.getAlpha(676));
   }
+
+  @Test
+  public void testToCamelCase() {
+    Assert.assertEquals(null, Strings.toCamelCase(null));
+    Assert.assertEquals("fooBar", Strings.toCamelCase("foo_bar"));
+    Assert.assertEquals("FOOBarFoO", Strings.toCamelCase("FOO_bar_foO"));
+    Assert.assertEquals("foo", Strings.toCamelCase("foo_"));
+    Assert.assertEquals("FOo", Strings.toCamelCase("FOo"));
+    Assert.assertEquals("FOoBAr", Strings.toCamelCase("FOo_bAr"));
+  }
 }

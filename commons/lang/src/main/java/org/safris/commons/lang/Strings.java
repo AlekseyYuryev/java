@@ -205,24 +205,31 @@ public final class Strings {
     return string.substring(0, 1).toUpperCase() + string.substring(1, string.length());
   }
 
-  private static final String[] discardTokens = new String[] {"_", "-", ".", "/", "#", "@", "!", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", "\\", "|", "~", "`", ":", ";", "\"", "'", "<", ">", ",", ".", "?"};
+  // NOTE: This array is sorted
+  private static final char[] discardTokens = new char[] {'!', '"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '.', '/', ':', ';', '<', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'};
 
-  public static String toCamelCase(String string) {
+  public static String toCamelCase(final String string) {
     if (string == null)
       return null;
 
-    int start = 0;
-    int end = 0;
-    for (final String token : discardTokens) {
-      while (start < (end = string.indexOf(token, start))) {
-        if (end != -1)
-          string = string.substring(0, end) + string.substring(end + 1, end + 2).toUpperCase() + string.substring(end + 2, string.length());
-
-        start = end + 1;
+    final StringBuilder builder = new StringBuilder();
+    final char[] chars = string.toCharArray();
+    boolean capNext = false;
+    for (int i = 0; i < chars.length; i++) {
+      final int index = java.util.Arrays.binarySearch(discardTokens, chars[i]);
+      if (index >= 0) {
+        capNext = true;
+      }
+      else if (capNext) {
+        builder.append(Character.toUpperCase(chars[i]));
+        capNext = false;
+      }
+      else {
+        builder.append(chars[i]);
       }
     }
 
-    return string;
+    return builder.toString();
   }
 
   public static String toClassCase(final String string) {
