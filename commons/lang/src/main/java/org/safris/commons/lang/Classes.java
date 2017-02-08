@@ -17,6 +17,7 @@
 package org.safris.commons.lang;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -71,6 +72,24 @@ public final class Classes {
       field = Classes.getDeclaredField(clazz, name);
     while (field == null && (clazz = clazz.getSuperclass()) != null);
     return field;
+  }
+
+  public static Constructor<?> getConstructor(final Class<?> clazz, final Class<?> ... parameterTypes) {
+    try {
+      return clazz.getConstructor(parameterTypes);
+    }
+    catch (final NoSuchMethodException e) {
+      return null;
+    }
+  }
+
+  public static Constructor<?> getDeclaredConstructor(final Class<?> clazz, final Class<?> ... parameterTypes) {
+    try {
+      return clazz.getDeclaredConstructor(parameterTypes);
+    }
+    catch (final NoSuchMethodException e) {
+      return null;
+    }
   }
 
   /**
