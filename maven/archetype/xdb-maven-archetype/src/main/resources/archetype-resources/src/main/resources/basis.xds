@@ -16,7 +16,7 @@
   <table name="timestamp_id" abstract="true" extends="id" xde:versionColumn="version">
     <column name="created_on" xsi:type="dateTime" null="false" xde:generateOnInsert="TIMESTAMP"/>
     <column name="modified_on" xsi:type="dateTime" null="false" xde:generateOnInsert="TIMESTAMP" xde:generateOnUpdate="TIMESTAMP"/>
-    <column name="version" xsi:type="integer" precision="9" unsigned="true" default="0" null="false" xde:checkOnUpdate="EQUALS" xde:generateOnUpdate="INCREMENT"/>
+    <column name="version" xsi:type="int" precision="9" unsigned="true" default="0" null="false" xde:checkOnUpdate="EQUALS" xde:generateOnUpdate="INCREMENT"/>
   </table>
   
   <table name="account" extends="timestamp_id">

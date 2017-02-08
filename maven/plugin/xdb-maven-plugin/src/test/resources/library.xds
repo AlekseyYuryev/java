@@ -22,7 +22,7 @@
   <table name="timestamp" abstract="true" xde:versionColumn="version">
     <column name="modified_on" xsi:type="dateTime" null="false" xde:generateOnUpdate="TIMESTAMP"/>
     <column name="created_on" xsi:type="dateTime" null="false" xde:generateOnInsert="TIMESTAMP"/>
-    <column name="version" xsi:type="integer" precision="10" unsigned="true" default="0" null="false" xde:generateOnUpdate="INCREMENT" xde:checkOnUpdate="EQUALS"/>
+    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" xde:generateOnUpdate="INCREMENT" xde:checkOnUpdate="EQUALS"/>
   </table>
   <table name="timestamp_id" abstract="true" extends="timestamp">
     <column name="id" xsi:type="char" varying="true" length="36" null="false" xde:generateOnInsert="UUID"/>
@@ -44,8 +44,8 @@
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="website" xsi:type="char" varying="true" length="32" null="true"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
-    <column name="open_week_days" xsi:type="integer" unsigned="true" precision="3" min="0" max="255" null="true"/>
+    <column name="phone" xsi:type="bigint" precision="19" unsigned="true" null="true"/>
+    <column name="open_week_days" xsi:type="smallint" unsigned="true" precision="3" min="0" max="255" null="true"/>
     <column name="open_time" xsi:type="time" null="false"/>
     <column name="close_time" xsi:type="time" null="false"/>
   </table>
@@ -56,9 +56,9 @@
     <column name="title" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="author" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="publisher" xsi:type="char" varying="true" length="255" default="" null="false"/>
-    <column name="publish_year" xsi:type="integer" precision="4" unsigned="true" null="false"/>
-    <column name="aisle" xsi:type="integer" precision="2" unsigned="true" null="false"/>
-    <column name="shelf" xsi:type="integer" precision="1" unsigned="true" null="false"/>
+    <column name="publish_year" xsi:type="mediumint" precision="4" unsigned="true" null="false"/>
+    <column name="aisle" xsi:type="smallint" precision="2" unsigned="true" null="false"/>
+    <column name="shelf" xsi:type="smallint" precision="1" unsigned="true" null="false"/>
   </table>
   <table name="card" extends="address">
     <column name="given_name" xsi:type="char" varying="true" length="32" null="false"/>
@@ -66,7 +66,7 @@
     <column name="gender" xsi:type="enum" values="M F" null="false"/>
     <column name="photo" xsi:type="blob" length="2048" null="true"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="phone" xsi:type="integer" precision="19" unsigned="true" null="true"/>
+    <column name="phone" xsi:type="bigint" precision="19" unsigned="true" null="true"/>
   </table>
   <table name="book_card" extends="timestamp">
     <column name="book_id" xsi:type="char" varying="true" length="36" null="false">
