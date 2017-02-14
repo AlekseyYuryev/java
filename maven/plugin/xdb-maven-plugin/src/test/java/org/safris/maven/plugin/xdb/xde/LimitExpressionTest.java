@@ -34,7 +34,7 @@ public class LimitExpressionTest extends LoggableTest {
   @Test
   public void testLimit() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.DECIMAL> rows =
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       LIMIT(3).
@@ -54,7 +54,7 @@ public class LimitExpressionTest extends LoggableTest {
   @Test
   public void testLimitOffset() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.DECIMAL> rows =
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       LIMIT(2).

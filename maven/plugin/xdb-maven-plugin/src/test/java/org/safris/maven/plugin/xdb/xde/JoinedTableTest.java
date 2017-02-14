@@ -46,7 +46,7 @@ public class JoinedTableTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(39772), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(39772), rows.nextEntity().get());
   }
 
   @Test
@@ -60,7 +60,7 @@ public class JoinedTableTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(326), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
   }
 
   @Test
@@ -76,7 +76,7 @@ public class JoinedTableTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(326), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
   }
 
   @Test
@@ -90,7 +90,7 @@ public class JoinedTableTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(326), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
   }
 
   @Test
@@ -104,7 +104,7 @@ public class JoinedTableTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(122), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(122), rows.nextEntity().get());
   }
 
   @Test
@@ -119,7 +119,7 @@ public class JoinedTableTest extends LoggableTest {
         execute();
 
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Long.valueOf(326), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
     }
     catch (final SQLSyntaxErrorException e) {
       // FIXME: Should we modify the SQL to use UNION here?

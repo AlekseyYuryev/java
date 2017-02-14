@@ -43,6 +43,6 @@ public class LikePredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(15), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(15), rows.nextEntity().get());
   }
 }

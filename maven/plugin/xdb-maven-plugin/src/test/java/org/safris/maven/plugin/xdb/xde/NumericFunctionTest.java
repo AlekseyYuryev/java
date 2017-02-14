@@ -37,7 +37,6 @@ import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.MOD;
 import static org.safris.xdb.entities.DML.MUL;
 import static org.safris.xdb.entities.DML.PI;
-import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.POW;
 import static org.safris.xdb.entities.DML.ROUND;
 import static org.safris.xdb.entities.DML.SELECT;
@@ -95,7 +94,7 @@ public class NumericFunctionTest extends LoggableTest {
       final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
       Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
       final DECIMAL d = (DECIMAL)rows.nextEntity();
-      Assert.assertEquals(Double.valueOf(2.2206910536009836), d.get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -106,7 +105,7 @@ public class NumericFunctionTest extends LoggableTest {
       SELECT(
         ROUND(o.longitude, 0),
         SIGN(o.longitude),
-        FLOOR(PLUS(o.latitude, o.longitude)),
+        FLOOR(ADD(o.latitude, o.longitude)),
         DIV(o.latitude, o.longitude),
         SQRT(o.latitude),
         CEIL(ABS(o.longitude)),

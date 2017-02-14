@@ -94,6 +94,15 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
+                <testExclude>**/NumericFunctionTest.java</testExclude>
+              </testExcludes>
+            </configuration> 
+          </plugin>
+          <plugin>
             <groupId>org.safris.maven.plugin</groupId>
             <artifactId>xdb-maven-plugin</artifactId>
             <executions>

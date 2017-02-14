@@ -44,7 +44,7 @@ public class BetweenPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(1), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
   }
 
   @Test
@@ -57,7 +57,7 @@ public class BetweenPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(59), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(59), rows.nextEntity().get());
   }
 
   @Test
@@ -70,7 +70,7 @@ public class BetweenPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(0), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
   }
 
   @Test
@@ -83,6 +83,6 @@ public class BetweenPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
   }
 }

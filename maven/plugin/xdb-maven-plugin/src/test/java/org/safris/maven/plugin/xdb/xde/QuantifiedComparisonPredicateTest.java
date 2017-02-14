@@ -53,7 +53,7 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(24), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
   }
 
   @Test
@@ -71,7 +71,7 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(122), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(122), rows.nextEntity().get());
   }
 
   @Test
@@ -89,6 +89,6 @@ public class QuantifiedComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(57), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(57), rows.nextEntity().get());
   }
 }

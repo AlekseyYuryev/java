@@ -50,7 +50,7 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(80), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(80), rows.nextEntity().get());
   }
 
   @Test
@@ -63,7 +63,7 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(24), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
   }
 
   @Test
@@ -76,7 +76,7 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(0), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
   }
 
   @Test
@@ -89,7 +89,7 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(312), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(312), rows.nextEntity().get());
   }
 
   @Test
@@ -102,7 +102,7 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(320), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(320), rows.nextEntity().get());
   }
 
   @Test
@@ -115,6 +115,6 @@ public class ComparisonPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(2875), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(2875), rows.nextEntity().get());
   }
 }

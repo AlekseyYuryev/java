@@ -16,12 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.CAST;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.LIKE;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -66,8 +61,34 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.floatType).AS.DOUBLE(t.floatType.unsigned())).
+        CAST(t.floatType).AS.DOUBLE()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -78,8 +99,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.floatType).AS.DECIMAL(18, 5, t.floatType.unsigned())).
+        CAST(t.floatType).AS.DECIMAL(18, 5)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -90,9 +124,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.floatType).AS.SMALLINT(3, t.floatType.unsigned())).
+        CAST(t.floatType).AS.SMALLINT(3)).
       FROM(t).
-      WHERE(AND(LT(t.floatType, 255), GT(t.floatType, -256))).
+      WHERE(AND(GTE(t.floatType, -128), LTE(t.floatType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.floatType, 0), LTE(t.floatType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -103,7 +150,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.floatType).AS.MEDIUMINT(5, t.floatType.unsigned())).
+        CAST(t.floatType).AS.MEDIUMINT(7)).
       FROM(t).
       execute();
 
@@ -111,12 +158,38 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testFloatToLong() throws IOException, SQLException {
+  public void testFloatToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.INT> rows =
       SELECT(
-        CAST(t.floatType).AS.INTEGER(10, t.floatType.unsigned())).
+        CAST(t.floatType).AS.INT(10)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.INT.UNSIGNED(10)).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -127,8 +200,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.floatType).AS.BIGINT(16, t.floatType.unsigned())).
+        CAST(t.floatType).AS.BIGINT(16)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testFloatToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.floatType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.floatType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -139,8 +225,34 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.doubleType).AS.FLOAT(t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.FLOAT()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.doubleType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.doubleType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -151,8 +263,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.doubleType).AS.DECIMAL(18, 5, t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.DECIMAL(18, 5)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.doubleType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -163,9 +288,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.SMALLINT(3, t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.SMALLINT(3)).
       FROM(t).
-      WHERE(AND(LT(t.doubleType, 255), GT(t.doubleType, -256))).
+      WHERE(AND(GTE(t.doubleType, -128), LTE(t.doubleType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -176,7 +314,33 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.MEDIUMINT(5, t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.MEDIUMINT(7)).
+      FROM(t).
+      WHERE(AND(GTE(t.doubleType, -8388608), LTE(t.doubleType, 8388607))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 16777215))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.doubleType).AS.INT(10)).
       FROM(t).
       execute();
 
@@ -184,12 +348,13 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testDoubleToLong() throws IOException, SQLException {
+  public void testDoubleToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INT> rows =
+    final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
-        CAST(t.doubleType).AS.INTEGER(10, t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.INT.UNSIGNED(10)).
       FROM(t).
+      WHERE(GTE(t.doubleType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -200,8 +365,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.BIGINT(16, t.doubleType.unsigned())).
+        CAST(t.doubleType).AS.BIGINT(16)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDoubleToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.doubleType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.doubleType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -212,8 +390,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.decimalType).AS.FLOAT(t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.FLOAT()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.decimalType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -224,8 +415,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.decimalType).AS.DOUBLE(t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.DOUBLE()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.decimalType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -236,8 +440,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.decimalType).AS.DECIMAL(18, 5, t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.DECIMAL(18, 5)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.decimalType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -248,8 +465,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.SMALLINT(3, t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.SMALLINT(3)).
       FROM(t).
+      WHERE(AND(GTE(t.decimalType, -128), LTE(t.decimalType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -260,7 +491,33 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.MEDIUMINT(5, t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.MEDIUMINT(7)).
+      FROM(t).
+      WHERE(AND(GTE(t.decimalType, -128), LTE(t.decimalType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 16777215))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.decimalType).AS.INT(10)).
       FROM(t).
       execute();
 
@@ -268,12 +525,13 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testDecimalToLong() throws IOException, SQLException {
+  public void testDecimalToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INT> rows =
+    final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
-        CAST(t.decimalType).AS.INTEGER(10, t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.INT.UNSIGNED(10)).
       FROM(t).
+      WHERE(GTE(t.decimalType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -284,8 +542,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.BIGINT(16, t.decimalType.unsigned())).
+        CAST(t.decimalType).AS.BIGINT(16)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testDecimalToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.decimalType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.decimalType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -308,8 +579,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.smallintType).AS.FLOAT(t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.FLOAT()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -320,8 +604,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.smallintType).AS.DOUBLE(t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.DOUBLE()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -332,8 +629,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.smallintType).AS.DECIMAL(18, 5, t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.DECIMAL(18, 5)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -344,8 +654,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.SMALLINT(3, t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.SMALLINT(3)).
       FROM(t).
+      WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, 0), LTE(t.smallintType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -356,7 +680,33 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.MEDIUMINT(5, t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.MEDIUMINT(7)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, 0), LTE(t.smallintType, 255))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.smallintType).AS.INT(10)).
       FROM(t).
       execute();
 
@@ -364,12 +714,13 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testSmallIntToLong() throws IOException, SQLException {
+  public void testSmallIntToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INT> rows =
+    final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.INTEGER(10, t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.INT.UNSIGNED(10)).
       FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -380,8 +731,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.BIGINT(16, t.smallintType.unsigned())).
+        CAST(t.smallintType).AS.BIGINT(16)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testSmallIntToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -404,8 +768,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.mediumintType).AS.FLOAT(t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.FLOAT()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -416,8 +793,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.mediumintType).AS.DOUBLE(t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.DOUBLE()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -428,8 +818,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.mediumintType).AS.DECIMAL(18, 5, t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.DECIMAL(18, 5)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.smallintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -440,8 +843,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.mediumintType).AS.SMALLINT(3, t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.SMALLINT(3)).
       FROM(t).
+      WHERE(AND(GTE(t.mediumintType, -128), LTE(t.mediumintType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -452,7 +869,33 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.mediumintType).AS.MEDIUMINT(5, t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.MEDIUMINT(7)).
+      FROM(t).
+      WHERE(AND(GTE(t.mediumintType, -8388608), LTE(t.mediumintType, 8388607))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 16777215))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.INT(10)).
       FROM(t).
       execute();
 
@@ -460,12 +903,13 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testMediumIntToLong() throws IOException, SQLException {
+  public void testMediumIntToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INT> rows =
+    final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
-        CAST(t.mediumintType).AS.INTEGER(10, t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.INT.UNSIGNED(10)).
       FROM(t).
+      WHERE(GTE(t.mediumintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -476,8 +920,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.mediumintType).AS.BIGINT(16, t.mediumintType.unsigned())).
+        CAST(t.mediumintType).AS.BIGINT(16)).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testMediumIntToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.mediumintType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.mediumintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -496,11 +953,11 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToFloat() throws IOException, SQLException {
+  public void testIntToFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.intType).AS.FLOAT(t.intType.unsigned())).
+        CAST(t.intType).AS.FLOAT()).
       FROM(t).
       execute();
 
@@ -508,11 +965,24 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToDouble() throws IOException, SQLException {
+  public void testIntToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.intType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToDouble() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.intType).AS.DOUBLE(t.intType.unsigned())).
+        CAST(t.intType).AS.DOUBLE()).
       FROM(t).
       execute();
 
@@ -520,11 +990,24 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToDecimal() throws IOException, SQLException {
+  public void testIntToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.intType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToDecimal() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.intType).AS.DECIMAL(18, 5, t.intType.unsigned())).
+        CAST(t.intType).AS.DECIMAL(18, 5)).
       FROM(t).
       execute();
 
@@ -532,36 +1015,76 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToSmallInt() throws IOException, SQLException {
+  public void testIntToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(GTE(t.intType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.intType).AS.SMALLINT(3, t.intType.unsigned())).
+        CAST(t.intType).AS.SMALLINT(3)).
       FROM(t).
-      WHERE(AND(LT(t.intType, 255), GT(t.intType, -256))).
+      WHERE(AND(GTE(t.intType, -128), LTE(t.intType, 127))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
   }
 
   @Test
-  public void testLongToMediumInt() throws IOException, SQLException {
+  public void testIntToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 255))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.intType).AS.MEDIUMINT(5, t.intType.unsigned())).
+        CAST(t.intType).AS.MEDIUMINT(7)).
       FROM(t).
+      WHERE(AND(GTE(t.intType, -8388608), LTE(t.intType, 8388607))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
   }
 
   @Test
-  public void testLongToLong() throws IOException, SQLException {
+  public void testIntToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 16777215))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.INT> rows =
       SELECT(
-        CAST(t.intType).AS.INTEGER(10, t.intType.unsigned())).
+        CAST(t.intType).AS.INT(10)).
       FROM(t).
       execute();
 
@@ -569,11 +1092,24 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToBigInt() throws IOException, SQLException {
+  public void testIntToIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.UNSIGNED(10)).
+      FROM(t).
+      WHERE(GTE(t.intType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToBigInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.intType).AS.BIGINT(16, t.intType.unsigned())).
+        CAST(t.intType).AS.BIGINT(16)).
       FROM(t).
       execute();
 
@@ -581,7 +1117,20 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testLongToChar() throws IOException, SQLException {
+  public void testIntToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.intType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.intType, 0)).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testIntToChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
@@ -597,8 +1146,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.bigintType).AS.FLOAT(t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.FLOAT()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.bigintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -609,8 +1171,21 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.bigintType).AS.DOUBLE(t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.DOUBLE()).
       FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.bigintType, 0)).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -621,9 +1196,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.bigintType).AS.DECIMAL(20, 5, t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.DECIMAL(20, 5)).
       FROM(t).
       WHERE(AND(LT(t.bigintType, 2147483647), GT(t.bigintType, -2147483648))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.DECIMAL.UNSIGNED(20, 5)).
+      FROM(t).
+      WHERE(AND(LT(t.bigintType, 2147483647), GTE(t.bigintType, 0))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -634,9 +1222,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.SMALLINT(3, t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.SMALLINT(3)).
       FROM(t).
-      WHERE(AND(LT(t.bigintType, 255), GT(t.bigintType, -256))).
+      WHERE(AND(GTE(t.bigintType, -128), LTE(t.bigintType, 127))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 255))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -647,7 +1248,33 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.MEDIUMINT(5, t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.MEDIUMINT(7)).
+      FROM(t).
+      WHERE(AND(GTE(t.bigintType, -8388608), LTE(t.bigintType, 8388607))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 16777215))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.bigintType).AS.INT(10)).
       FROM(t).
       WHERE(AND(LT(t.bigintType, 2147483647), GT(t.bigintType, -2147483648))).
       execute();
@@ -656,13 +1283,13 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testBigIntToLong() throws IOException, SQLException {
+  public void testBigIntToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.INT> rows =
+    final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
-        CAST(t.bigintType).AS.INTEGER(10, t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.INT.UNSIGNED(10)).
       FROM(t).
-      WHERE(AND(LT(t.bigintType, 2147483647), GT(t.bigintType, -2147483648))).
+      WHERE(AND(LT(t.bigintType, 2147483647), GTE(t.bigintType, 0))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -673,7 +1300,19 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.BIGINT(16, t.bigintType.unsigned())).
+        CAST(t.bigintType).AS.BIGINT(16)).
+      FROM(t).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testBigIntToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.bigintType).AS.UNSIGNED(16)).
       FROM(t).
       execute();
 
@@ -697,9 +1336,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.charType).AS.DECIMAL(18, 5, false)).
+        CAST(t.charType).AS.DECIMAL(18, 5)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testCharToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.charType).AS.DECIMAL.UNSIGNED(18, 5)).
+      FROM(t).
+      WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -710,9 +1362,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.charType).AS.SMALLINT(3, false)).
+        CAST(t.charType).AS.SMALLINT(3)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testCharToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.charType).AS.SMALLINT.UNSIGNED(3)).
+      FROM(t).
+      WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -723,7 +1388,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.charType).AS.MEDIUMINT(5, false)).
+        CAST(t.charType).AS.MEDIUMINT(7)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();
@@ -732,13 +1397,39 @@ public class CastTest extends LoggableTest {
   }
 
   @Test
-  public void testCharToLong() throws IOException, SQLException {
+  public void testCharToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.charType).AS.MEDIUMINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testCharToInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     final RowIterator<type.INT> rows =
       SELECT(
-        CAST(t.charType).AS.INTEGER(10, false)).
+        CAST(t.charType).AS.INT(10)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testCharToIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.INT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.charType).AS.INT.UNSIGNED(10)).
+      FROM(t).
+      WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -749,9 +1440,22 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.BIGINT> rows =
       SELECT(
-        CAST(t.charType).AS.BIGINT(16, false)).
+        CAST(t.charType).AS.BIGINT(16)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
+      execute();
+
+    Assert.assertTrue(rows.nextRow());
+  }
+
+  @Test
+  public void testCharToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.charType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();
 
     Assert.assertTrue(rows.nextRow());

@@ -16,6 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.ADD;
 import static org.safris.xdb.entities.DML.AND;
 import static org.safris.xdb.entities.DML.AVG;
 import static org.safris.xdb.entities.DML.EQ;
@@ -26,7 +27,6 @@ import static org.safris.xdb.entities.DML.LT;
 import static org.safris.xdb.entities.DML.LTE;
 import static org.safris.xdb.entities.DML.MAX;
 import static org.safris.xdb.entities.DML.MIN;
-import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.SELECT;
 import static org.safris.xdb.entities.DML.UPDATE;
 
@@ -141,7 +141,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT8() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final select.SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT.UNSIGNED> select =
       SELECT(
         m.orderId,
         SELECT(AVG(m.orderId)).FROM(m).WHERE(EQ(m.orderId, 101)).AS(m.orderId.clone())).
@@ -163,7 +163,7 @@ public class FormTest extends LoggableTest {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
 
-    final select.SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT.UNSIGNED> select =
       SELECT(m1.orderId).
       FROM(m1).WHERE(EQ(
         SELECT(m2.orderId).FROM(m2).WHERE(EQ(m2.orderId, m1.orderId)), m1.orderId));
@@ -173,9 +173,9 @@ public class FormTest extends LoggableTest {
   public void testSELECT11() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
-    final MEDIUMINT maxId = m2.orderId.clone();
+    final MEDIUMINT.UNSIGNED maxId = m2.orderId.clone();
 
-    final select.SELECT<MEDIUMINT> select =
+    final select.SELECT<MEDIUMINT.UNSIGNED> select =
       SELECT(
           m1.orderId,
           maxId).
@@ -184,7 +184,7 @@ public class FormTest extends LoggableTest {
   }
 
   // doubly-correlated subquery in the FROM
-  public select.SELECT<MEDIUMINT> testSELECT12() throws IOException, SQLException {
+  public select.SELECT<MEDIUMINT.UNSIGNED> testSELECT12() throws IOException, SQLException {
     final survey.Meal m1 = new survey.Meal();
     final survey.Meal m2 = new survey.Meal();
     final survey.Meal maxId = new survey.Meal();
@@ -228,7 +228,7 @@ public class FormTest extends LoggableTest {
 
   public void testUPDATE2() throws IOException, SQLException {
     final survey.MealDish md = new survey.MealDish();
-    final UPDATE update = UPDATE(md).SET(md.quantity, PLUS(md.quantity, (short)1)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
+    final UPDATE update = UPDATE(md).SET(md.quantity, ADD(md.quantity, 1)).WHERE(AND(EQ(md.mealId, 7), EQ(md.dishId, 66)));
     update.execute();
   }
 

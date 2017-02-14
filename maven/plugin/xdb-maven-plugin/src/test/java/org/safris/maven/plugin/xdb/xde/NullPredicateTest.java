@@ -43,7 +43,7 @@ public class NullPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(71), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(71), rows.nextEntity().get());
   }
 
   @Test
@@ -56,6 +56,6 @@ public class NullPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(51), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(51), rows.nextEntity().get());
   }
 }

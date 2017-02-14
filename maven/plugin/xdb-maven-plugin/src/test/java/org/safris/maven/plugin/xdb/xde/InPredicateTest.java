@@ -44,7 +44,7 @@ public class InPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(24), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
   }
 
   @Test
@@ -57,7 +57,7 @@ public class InPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(86), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(86), rows.nextEntity().get());
   }
 
   @Test
@@ -70,7 +70,7 @@ public class InPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(110), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(110), rows.nextEntity().get());
   }
 
   @Test
@@ -83,6 +83,6 @@ public class InPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(0), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
   }
 }

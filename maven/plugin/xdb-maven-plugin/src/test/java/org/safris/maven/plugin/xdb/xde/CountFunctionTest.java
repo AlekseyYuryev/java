@@ -45,9 +45,9 @@ public class CountFunctionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
-    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
-    Assert.assertEquals(Long.valueOf(4), rows.nextEntity().get());
-    Assert.assertEquals(Long.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(4), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
   }
 }

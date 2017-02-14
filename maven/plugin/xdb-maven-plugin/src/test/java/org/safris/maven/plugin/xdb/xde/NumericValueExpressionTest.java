@@ -16,16 +16,16 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
+import static org.safris.xdb.entities.DML.ADD;
 import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.DIV;
 import static org.safris.xdb.entities.DML.EQ;
 import static org.safris.xdb.entities.DML.GT;
 import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.MINUS;
 import static org.safris.xdb.entities.DML.MUL;
 import static org.safris.xdb.entities.DML.OR;
-import static org.safris.xdb.entities.DML.PLUS;
 import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.SUB;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,18 +43,18 @@ public class NumericValueExpressionTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
-        PLUS(COUNT(), 5),
-        MINUS(COUNT(), 5),
+        ADD(COUNT(), 5),
+        SUB(COUNT(), 5),
         MUL(COUNT(), 2),
         DIV(COUNT(), 2)).
       FROM(p).
       WHERE(OR(
-        LT(PLUS(p.msrp, p.price), 20),
-        GT(MINUS(p.msrp, p.quantityInStock), 10),
-        EQ(MUL(p.msrp, PLUS(p.msrp, p.price)), 40),
-        EQ(DIV(p.msrp, MINUS(p.msrp, p.quantityInStock)), 7))).
+        LT(ADD(p.msrp, p.price), 20),
+        GT(SUB(p.msrp, p.quantityInStock), 10),
+        EQ(MUL(p.msrp, ADD(p.msrp, p.price)), 40),
+        EQ(DIV(p.msrp, SUB(p.msrp, p.quantityInStock)), 7))).
       execute();
 
     Assert.assertTrue(rows.nextRow());

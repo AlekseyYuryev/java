@@ -48,6 +48,6 @@ public class ExistsPredicateTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(98), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(98), rows.nextEntity().get());
   }
 }

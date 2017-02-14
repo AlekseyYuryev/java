@@ -42,6 +42,6 @@ public class GroupClauseTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(1), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
   }
 }

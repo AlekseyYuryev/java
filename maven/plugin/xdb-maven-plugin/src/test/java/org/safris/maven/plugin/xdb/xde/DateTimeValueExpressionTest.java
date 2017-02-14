@@ -19,9 +19,7 @@ package org.safris.maven.plugin.xdb.xde;
 import static org.safris.xdb.entities.DML.ADD;
 import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.MINUS;
-import static org.safris.xdb.entities.DML.PLUS;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -44,8 +42,8 @@ public class DateTimeValueExpressionTest extends LoggableTest {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final RowIterator<type.DATE> rows =
       SELECT(
-        MINUS(p.purchaseDate, new Interval(2, Unit.DAYS)),
-        PLUS(p.purchaseDate, new Interval(3, Unit.DECADES))).
+        SUB(p.purchaseDate, new Interval(2, Unit.DAYS)),
+        ADD(p.purchaseDate, new Interval(3, Unit.DECADES))).
       FROM(p).
       LIMIT(1).
       execute();
@@ -65,6 +63,6 @@ public class DateTimeValueExpressionTest extends LoggableTest {
       execute();
 
     Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(1l), rows.nextEntity().get());
+    Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
   }
 }

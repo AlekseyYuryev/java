@@ -35,7 +35,7 @@ public class OrderExpressionTest extends LoggableTest {
   @Test
   public void testOrderExpression() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.DECIMAL> rows =
+    final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       ORDER_BY(DESC(p.price), p.msrp).

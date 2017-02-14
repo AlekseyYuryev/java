@@ -23,7 +23,6 @@ import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -71,16 +70,16 @@ public class CaseTest extends LoggableTest {
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(t.smallintType).END().AS(new type.FLOAT()),
         CASE(t.floatType).WHEN(1).THEN(3f).ELSE(t.smallintType).END().AS(new type.FLOAT()),
-        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE((short)3).END().AS(new type.FLOAT()),
+        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE((byte)3).END().AS(new type.FLOAT()),
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
         CASE(t.floatType).WHEN(1).THEN(3f).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(3).END().AS(new type.DOUBLE()),
+        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE((short)3).END().AS(new type.DOUBLE()),
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(t.intType).END().AS(new type.DOUBLE()),
         CASE(t.floatType).WHEN(1).THEN(3f).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE()),
+        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(3).END().AS(new type.DOUBLE()),
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
         CASE(t.floatType).WHEN(1).THEN(3f).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(new BigInteger("3")).END().AS(new type.DOUBLE())
+        CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
       execute();
@@ -104,16 +103,16 @@ public class CaseTest extends LoggableTest {
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(t.smallintType).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(3d).ELSE(t.smallintType).END().AS(new type.DOUBLE()),
-        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE((short)3).END().AS(new type.DOUBLE()),
+        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE((byte)3).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(3d).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(3).END().AS(new type.DOUBLE()),
+        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE((short)3).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(t.intType).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(3d).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE()),
+        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(3).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(3d).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(new BigInteger("3")).END().AS(new type.DOUBLE())
+        CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
       execute();
@@ -137,16 +136,16 @@ public class CaseTest extends LoggableTest {
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(t.smallintType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(new BigDecimal("3")).ELSE(t.smallintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE((short)3).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE((byte)3).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(t.mediumintType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(new BigDecimal("3")).ELSE(t.mediumintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(3).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE((short)3).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(t.intType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(new BigDecimal("3")).ELSE(t.intType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(3).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(t.bigintType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(new BigDecimal("3")).ELSE(t.bigintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(new BigInteger("3")).END().AS(new type.DECIMAL(10, 4))
+        CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4))
       ).
       FROM(t).
       execute();
@@ -160,26 +159,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3f).END().AS(new type.FLOAT()),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.smallintType).END().AS(new type.SMALLINT(3)),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.smallintType).END().AS(new type.FLOAT()),
-        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE((short)3).END().AS(new type.SMALLINT(3)),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.smallintType).END().AS(new type.SMALLINT(3)),
+        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE((byte)3).END().AS(new type.SMALLINT(3)),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3).END().AS(new type.INT(3)),
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.smallintType).WHEN(1).THEN((short)3).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -193,26 +192,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.floatType).END().AS(new type.FLOAT()),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3f).END().AS(new type.FLOAT()),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE((byte)3).END().AS(new type.MEDIUMINT(3)),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3).END().AS(new type.INT(3)),
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.mediumintType).WHEN(1).THEN(3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -226,26 +225,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3f).END().AS(new type.DOUBLE()),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.smallintType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.smallintType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE((short)3).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.smallintType).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE((byte)3).END().AS(new type.INT(3)),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.mediumintType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.mediumintType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.mediumintType).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE((short)3).END().AS(new type.INT(3)),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3).END().AS(new type.INT(3)),
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.intType).WHEN(1).THEN(3l).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE(t.intType).WHEN(1).THEN(3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -259,26 +258,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.floatType).END().AS(new type.DOUBLE()),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3f).END().AS(new type.DOUBLE()),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE((short)3).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE((byte)3).END().AS(new type.BIGINT(10)),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE((short)3).END().AS(new type.BIGINT(10)),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.intType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.intType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.intType).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3).END().AS(new type.BIGINT(10)),
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(new BigInteger("3")).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -413,16 +412,16 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(t.smallintType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(3f).ELSE(t.smallintType).END().AS(new type.FLOAT()),
-        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE((short)3).END().AS(new type.FLOAT()),
+        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE((byte)3).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(3f).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(3).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE((short)3).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(t.intType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(3f).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(3).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(3f).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(new BigInteger("3")).END().AS(new type.DOUBLE())
+        CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
       execute();
@@ -446,16 +445,16 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(t.smallintType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(3d).ELSE(t.smallintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE((short)3).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE((byte)3).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(3d).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(3).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE((short)3).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(t.intType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(3d).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(3).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(3d).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(new BigInteger("3")).END().AS(new type.DOUBLE())
+        CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
       execute();
@@ -479,16 +478,16 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(t.smallintType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(new BigDecimal("3")).ELSE(t.smallintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE((short)3).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE((byte)3).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(t.mediumintType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(new BigDecimal("3")).ELSE(t.mediumintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(3).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE((short)3).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(t.intType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(new BigDecimal("3")).ELSE(t.intType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(3).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(t.bigintType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(new BigDecimal("3")).ELSE(t.bigintType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(new BigInteger("3")).END().AS(new type.DECIMAL(10, 4))
+        CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4))
       ).
       FROM(t).
       execute();
@@ -502,26 +501,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3f).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.smallintType).END().AS(new type.SMALLINT(3)),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.smallintType).END().AS(new type.FLOAT()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE((short)3).END().AS(new type.SMALLINT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.smallintType).END().AS(new type.SMALLINT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE((byte)3).END().AS(new type.SMALLINT(3)),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.mediumintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.intType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3).END().AS(new type.INT(3)),
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN((short)3).ELSE(t.bigintType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -535,26 +534,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.floatType).END().AS(new type.FLOAT()),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3f).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.smallintType).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE((byte)3).END().AS(new type.MEDIUMINT(3)),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.mediumintType).END().AS(new type.MEDIUMINT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE((short)3).END().AS(new type.MEDIUMINT(3)),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3).END().AS(new type.INT(3)),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -568,26 +567,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3f).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.smallintType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.smallintType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE((short)3).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.smallintType).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE((byte)3).END().AS(new type.INT(3)),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.mediumintType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.mediumintType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.mediumintType).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE((short)3).END().AS(new type.INT(3)),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.intType).END().AS(new type.INT(3)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3l).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.intType).END().AS(new type.INT(3)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3).END().AS(new type.INT(3)),
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(3l).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
@@ -601,26 +600,26 @@ public class CaseTest extends LoggableTest {
     final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.floatType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3f).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.doubleType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3d).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.decimalType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(new BigDecimal("3.4")).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE((short)3).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.smallintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE((byte)3).END().AS(new type.BIGINT(10)),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.mediumintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE((short)3).END().AS(new type.BIGINT(10)),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.intType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.intType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.intType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3).END().AS(new type.BIGINT(10)),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(new BigInteger("3")).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
-        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(new BigInteger("3")).END().AS(new type.BIGINT(10))
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.bigintType).END().AS(new type.BIGINT(10)),
+        CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
       execute();
