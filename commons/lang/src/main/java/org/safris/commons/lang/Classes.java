@@ -33,7 +33,7 @@ public final class Classes {
   private static final Map<Class<?>,Map<String,Field>> classToFields = new HashMap<Class<?>,Map<String,Field>>();
 
   public static Type[] getGenericSuperclasses(final Class<?> cls) {
-    return ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments();
+    return cls.getGenericSuperclass() instanceof ParameterizedType ? ((ParameterizedType)cls.getGenericSuperclass()).getActualTypeArguments() : null;
   }
 
   private static Field checkAccessField(final Field field, final boolean declared) {
