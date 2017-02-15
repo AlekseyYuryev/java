@@ -220,7 +220,7 @@
     <xs:attribute name="default" type="xs:string"/>
     <xs:attribute name="length" use="required">
       <xs:simpleType>
-        <xs:restriction base="xs:integer">
+        <xs:restriction base="xs:positiveInteger">
           <xs:minInclusive value="1"/>
           <xs:maxInclusive value="4294967295"/>
         </xs:restriction>
@@ -251,7 +251,7 @@
   <xs:attributeGroup name="binary">
     <xs:attribute name="length" use="required">
       <xs:simpleType>
-        <xs:restriction base="xs:integer">
+        <xs:restriction base="xs:positiveInteger">
           <xs:minInclusive value="1"/>
           <xs:maxInclusive value="65535"/>
         </xs:restriction>
