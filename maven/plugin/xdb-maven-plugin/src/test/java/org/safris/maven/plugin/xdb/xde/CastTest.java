@@ -150,7 +150,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.floatType).AS.MEDIUMINT(7)).
+        CAST(t.floatType).AS.MEDIUMINT(5)).
       FROM(t).
       execute();
 
@@ -314,9 +314,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.MEDIUMINT(7)).
+        CAST(t.doubleType).AS.MEDIUMINT(5)).
       FROM(t).
-      WHERE(AND(GTE(t.doubleType, -8388608), LTE(t.doubleType, 8388607))).
+      WHERE(AND(GTE(t.doubleType, -32768), LTE(t.doubleType, 32767))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -491,7 +491,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.MEDIUMINT(7)).
+        CAST(t.decimalType).AS.MEDIUMINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.decimalType, -128), LTE(t.decimalType, 127))).
       execute();
@@ -680,7 +680,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.MEDIUMINT(7)).
+        CAST(t.smallintType).AS.MEDIUMINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
       execute();
@@ -869,9 +869,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.mediumintType).AS.MEDIUMINT(7)).
+        CAST(t.mediumintType).AS.MEDIUMINT(5)).
       FROM(t).
-      WHERE(AND(GTE(t.mediumintType, -8388608), LTE(t.mediumintType, 8388607))).
+      WHERE(AND(GTE(t.mediumintType, -32768), LTE(t.mediumintType, 32767))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -1058,9 +1058,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.intType).AS.MEDIUMINT(7)).
+        CAST(t.intType).AS.MEDIUMINT(5)).
       FROM(t).
-      WHERE(AND(GTE(t.intType, -8388608), LTE(t.intType, 8388607))).
+      WHERE(AND(GTE(t.intType, -32768), LTE(t.intType, 32767))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -1248,9 +1248,9 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.MEDIUMINT(7)).
+        CAST(t.bigintType).AS.MEDIUMINT(5)).
       FROM(t).
-      WHERE(AND(GTE(t.bigintType, -8388608), LTE(t.bigintType, 8388607))).
+      WHERE(AND(GTE(t.bigintType, -32768), LTE(t.bigintType, 32767))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
@@ -1388,7 +1388,7 @@ public class CastTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.MEDIUMINT> rows =
       SELECT(
-        CAST(t.charType).AS.MEDIUMINT(7)).
+        CAST(t.charType).AS.MEDIUMINT(5)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute();

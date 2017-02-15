@@ -350,12 +350,12 @@ public class CaseTest extends LoggableTest {
     final types.Type t = new types.Type();
     final RowIterator<type.CHAR> rows =
       SELECT(
-        CASE(t.charType).WHEN("").THEN(t.charType).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
-        CASE(t.charType).WHEN("").THEN("char").ELSE(t.charType).END().AS(new type.CHAR(255, false)),
-        CASE(t.charType).WHEN("").THEN(t.charType).ELSE("char").END().AS(new type.CHAR(255, false)),
-        CASE(t.charType).WHEN("").THEN(t.charType).ELSE(t.enumType).END().AS(new type.CHAR(255, false)),
-        CASE(t.charType).WHEN("").THEN("char").ELSE(t.enumType).END().AS(new type.CHAR(255, false)),
-        CASE(t.charType).WHEN("").THEN(t.enumType).ELSE("char").END().AS(new type.CHAR(255, false))
+        CASE(t.charType).WHEN("").THEN(t.charType).ELSE(t.charType).END().AS(new type.CHAR(255, true)),
+        CASE(t.charType).WHEN("abc").THEN("char").ELSE(t.charType).END().AS(new type.CHAR(255, false)),
+        CASE(t.charType).WHEN("").THEN(t.charType).ELSE("char").END().AS(new type.CHAR(255, true)),
+        CASE(t.charType).WHEN("abc").THEN(t.charType).ELSE(t.enumType).END().AS(new type.CHAR(255, false)),
+        CASE(t.charType).WHEN("").THEN("char").ELSE(t.enumType).END().AS(new type.CHAR(255, true)),
+        CASE(t.charType).WHEN("abc").THEN(t.enumType).ELSE("char").END().AS(new type.CHAR(255, false))
       ).
       FROM(t).
       execute();
