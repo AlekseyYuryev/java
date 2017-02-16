@@ -202,11 +202,9 @@ public class FormTest extends LoggableTest {
   public void testSELECT15() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    final select.SELECT<survey.Meal> select =
-      INSERT(new survey.Meal()).
-      SELECT(m).
+    INSERT(SELECT(m).
       FROM(m).WHERE(IN(m.orderId,
-        SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00")))));
+      SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))))));
   }
 
   // Need to implement this too: UPDATE table1 dest, (SELECT * FROM table2 where id=x) src SET dest.col1 = src.col1 where dest.id=x ;

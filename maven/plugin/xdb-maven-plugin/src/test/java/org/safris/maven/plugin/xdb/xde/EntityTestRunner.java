@@ -35,13 +35,12 @@ import org.safris.xdb.entities.Schema;
 public abstract class EntityTestRunner extends BlockJUnit4ClassRunner {
   public EntityTestRunner(final Class<?> klass) throws InitializationError {
     super(klass);
-    Connection connection;
     try {
-      connection = DataTest.createConnection();
+      DataTest.initDB();
       EntityRegistry.register(entityClass(), PreparedStatement.class, new EntityDataSource() {
         @Override
         public Connection getConnection() throws SQLException {
-          return connection;
+          return DataTest.createConnection();
         }
       });
     }
