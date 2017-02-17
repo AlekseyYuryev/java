@@ -202,7 +202,7 @@ public class FormTest extends LoggableTest {
   public void testSELECT15() throws IOException, SQLException {
     final survey.Meal m = new survey.Meal();
 
-    INSERT(SELECT(m).
+    INSERT(m).VALUES(SELECT(m).
       FROM(m).WHERE(IN(m.orderId,
       SELECT(MAX(m.orderId)).FROM(m).WHERE(GT(m.createdOn, LocalDateTime.parse("2015-01-01T00:00:00"))))));
   }

@@ -32,13 +32,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.entities.DML.IS;
 import org.safris.xdb.entities.types;
 
 @RunWith(TypesTestRunner.class)
 public class InsertTest extends LoggableTest {
   @Test
-  public void testInsertSingle() throws IOException, SQLException {
+  public void testInsertEntity() throws IOException, SQLException {
     final types.Type t = new types.Type();
     t.bigintType.set(8493l);
     t.binaryType.set("abc".getBytes());
@@ -60,7 +59,7 @@ public class InsertTest extends LoggableTest {
   }
 
   @Test
-  public void testInsertMultiple() throws IOException, SQLException {
+  public void testInsertEntities() throws IOException, SQLException {
     final types.Type t1 = new types.Type();
     t1.bigintType.set(8493l);
     t1.binaryType.set("abc".getBytes());
@@ -101,9 +100,29 @@ public class InsertTest extends LoggableTest {
   }
 
   @Test
-  public void testInsertSelect() throws IOException, SQLException {
+  public void testInsertColumns() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final int[] results = INSERT(SELECT(t).FROM(t).WHERE(IS.NOT.NULL(t.charType))).execute();
-    Assert.assertEquals(878, results[0]);
+    t.bigintType.set(8493l);
+    t.charType.set("hello");
+    t.doubleType.set(32d);
+    t.smallintType.set((byte)127);
+    t.timeType.set(LocalTime.now());
+
+    final int[] results = INSERT(t.bigintType, t.charType, t.doubleType, t.smallintType, t.timeType).execute();
+    Assert.assertEquals(1, results[0]);
+  }
+
+  @Test
+  public void testInsertSelectIntoTable() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final int[] results = INSERT(t).VALUES(SELECT(t).FROM(t)).execute();
+    Assert.assertEquals(1003, results[0]);
+  }
+
+  @Test
+  public void testInsertSelectIntoColumns() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    final int[] results = INSERT(t.binaryType, t.charType).VALUES(SELECT(t.binaryType, t.charType).FROM(t)).execute();
+    Assert.assertEquals(2006, results[0]);
   }
 }

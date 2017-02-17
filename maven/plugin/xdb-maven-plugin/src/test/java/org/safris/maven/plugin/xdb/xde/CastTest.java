@@ -152,6 +152,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.floatType).AS.MEDIUMINT(5)).
       FROM(t).
+      WHERE(AND(GTE(t.floatType, -128), LTE(t.floatType, 127))).
       execute();
 
     Assert.assertTrue(rows.nextRow());
