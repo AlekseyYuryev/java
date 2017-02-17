@@ -36,15 +36,15 @@ public class UnionExpressionTest extends LoggableTest {
   public void testUnion() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<? extends Entity> rows =
+    try (final RowIterator<? extends Entity> rows =
       SELECT(p, c).
       FROM(p).
       LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
       UNION(SELECT(p, c).
         FROM(p).
         RIGHT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 }

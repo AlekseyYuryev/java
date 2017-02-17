@@ -37,52 +37,52 @@ public class InPredicateTest extends LoggableTest {
   @Test
   public void testINList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(IN(p.productLine, "Ships", "Planes", "Trains")).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testNOT_INList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(86), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(86), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testINSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(IN(p.productLine, SELECT(p.productLine).FROM(p))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(110), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(110), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testNOT_INSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NOT.IN(p.productLine, SELECT(p.productLine).FROM(p))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+    }
   }
 }

@@ -35,13 +35,13 @@ public class GroupClauseTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(COUNT()).
       FROM(p).
       GROUP_BY(p.vendor, p.productLine).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
+    }
   }
 }

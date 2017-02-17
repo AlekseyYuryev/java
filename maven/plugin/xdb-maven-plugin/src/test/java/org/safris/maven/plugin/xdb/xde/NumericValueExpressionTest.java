@@ -43,7 +43,7 @@ public class NumericValueExpressionTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         ADD(COUNT(), 5),
         SUB(COUNT(), 5),
@@ -55,10 +55,10 @@ public class NumericValueExpressionTest extends LoggableTest {
         GT(SUB(p.msrp, p.quantityInStock), 10),
         EQ(MUL(p.msrp, ADD(p.msrp, p.price)), 40),
         EQ(DIV(p.msrp, SUB(p.msrp, p.quantityInStock)), 7))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() - 5), Long.valueOf(rows.nextEntity().get().longValue() + 5));
-    Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() / 2), Long.valueOf(rows.nextEntity().get().longValue() * 2));
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() - 5), Long.valueOf(rows.nextEntity().get().longValue() + 5));
+      Assert.assertEquals(Long.valueOf(rows.nextEntity().get().longValue() / 2), Long.valueOf(rows.nextEntity().get().longValue() * 2));
+    }
   }
 }

@@ -41,53 +41,53 @@ public class QueryExpressionTest extends LoggableTest {
   @Test
   public void testFrom() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<classicmodels.Office> rows =
+    try (final RowIterator<classicmodels.Office> rows =
       SELECT(o).
       FROM(o).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals("100 Market Street", rows.nextEntity().address1.get());
-    Assert.assertTrue(rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow());
-    Assert.assertEquals("25 Old Broad Street", rows.nextEntity().address1.get());
-    Assert.assertTrue(!rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals("100 Market Street", rows.nextEntity().address1.get());
+      Assert.assertTrue(rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow() && rows.nextRow());
+      Assert.assertEquals("25 Old Broad Street", rows.nextEntity().address1.get());
+      Assert.assertTrue(!rows.nextRow());
+    }
   }
 
   @Test
   public void testFromMultiple() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<classicmodels.Address> rows =
+    try (final RowIterator<classicmodels.Address> rows =
       SELECT(o, c).
       FROM(o, c).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals("100 Market Street", rows.nextEntity().address1.get());
-    Assert.assertEquals("54, rue Royale", rows.nextEntity().address1.get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals("100 Market Street", rows.nextEntity().address1.get());
+      Assert.assertEquals("54, rue Royale", rows.nextEntity().address1.get());
+    }
   }
 
   @Test
   public void testWhere() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<? extends type.DataType<?>> rows =
+    try (final RowIterator<? extends type.DataType<?>> rows =
       SELECT(o.address1, o.latitude).
       FROM(o).
       WHERE(AND(
         EQ(o.phone, 81332245000l),
         OR(GT(o.latitude, 20d),
           LT(o.longitude, 100d)))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals("4-1 Kioicho", rows.nextEntity().get());
-    Assert.assertEquals(35.6811759, ((BigDecimal)rows.nextEntity().get()).doubleValue(), 0.0000000001);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals("4-1 Kioicho", rows.nextEntity().get());
+      Assert.assertEquals(35.6811759, ((BigDecimal)rows.nextEntity().get()).doubleValue(), 0.0000000001);
+    }
   }
 
   @Test
   public void testMixedSelect() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<? extends Subject<?>> rows =
+    try (final RowIterator<? extends Subject<?>> rows =
       SELECT(
         o.latitude,
         o.longitude,
@@ -99,16 +99,16 @@ public class QueryExpressionTest extends LoggableTest {
         o.longitude).
       FROM(o).
       WHERE(GT(o.latitude, 0d)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-    Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-    Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-    Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-    Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
+      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
+      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
+    }
   }
 }

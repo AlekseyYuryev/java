@@ -39,19 +39,19 @@ public class SetFunctionTest extends LoggableTest {
   @Test
   public void testSetFunctions() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<? extends type.DataType<?>> rows =
+    try (final RowIterator<? extends type.DataType<?>> rows =
       SELECT(
         AVG(c.phone),
         MAX(c.city),
         MIN(c.country),
         SUM.DISTINCT(c.salesEmployeeNumber)).
       FROM(c).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(BigInteger.valueOf(24367857008l), rows.nextEntity().get());
-    Assert.assertEquals("White Plains", rows.nextEntity().get());
-    Assert.assertEquals(classicmodels.Address.Country.AU, rows.nextEntity().get());
-    Assert.assertEquals(Long.valueOf(21003), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(BigInteger.valueOf(24367857008l), rows.nextEntity().get());
+      Assert.assertEquals("White Plains", rows.nextEntity().get());
+      Assert.assertEquals(classicmodels.Address.Country.AU, rows.nextEntity().get());
+      Assert.assertEquals(Long.valueOf(21003), rows.nextEntity().get());
+    }
   }
 }

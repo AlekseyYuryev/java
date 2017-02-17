@@ -89,19 +89,20 @@ public class NumericFunctionTest extends LoggableTest {
 
   @Test
   public void testVicinity() throws IOException, SQLException {
-    final RowIterator<? extends Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute();
-    while (rows.nextRow()) {
-      final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
-      Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
-      final DECIMAL d = (DECIMAL)rows.nextEntity();
-      Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get().doubleValue(), 0.0000000001);
+    try (final RowIterator<? extends Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute()) {
+      while (rows.nextRow()) {
+        final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
+        Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
+        final DECIMAL d = (DECIMAL)rows.nextEntity();
+        Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get().doubleValue(), 0.0000000001);
+      }
     }
   }
 
   @Test
   public void testFunctions() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<? extends Numeric<?>> rows =
+    try (final RowIterator<? extends Numeric<?>> rows =
       SELECT(
         ROUND(o.longitude, 0),
         SIGN(o.longitude),
@@ -121,24 +122,24 @@ public class NumericFunctionTest extends LoggableTest {
         LOG10(o.latitude)).
       FROM(o).
       WHERE(GT(o.latitude, 0d)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(-122d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(-1d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(-85d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(6.147703920977327, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(123d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(0.09515165692248098, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(0.5942635000000009, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(0d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(3.6321573318496814, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
-    Assert.assertEquals(1.5774258866267548, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(-122d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(-1d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(-85d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(6.147703920977327, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(123d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0.09515165692248098, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0.5942635000000009, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(3.6321573318496814, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.5774258866267548, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
   }
 }

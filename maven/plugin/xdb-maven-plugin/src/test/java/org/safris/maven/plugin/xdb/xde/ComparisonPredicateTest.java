@@ -43,78 +43,78 @@ public class ComparisonPredicateTest extends LoggableTest {
   @Test
   public void testLt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(OR(LT(p.comments, "a"), LT("a", p.status), LT(p.comments, p.status))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(80), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(80), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testLte() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(AND(LTE(c.creditLimit, c.customerNumber), LTE(c.longitude, c.phone), LTE(45, c.phone), LTE(c.creditLimit, 329939933l))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testEq() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(AND(EQ(p.status, p.comments), EQ(p.comments, p.status))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testNe() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(NE(p.purchaseDate, p.shippedDate)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(312), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(312), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testGt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.status, classicmodels.Purchase.Status.CANCELLED)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(320), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(320), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testGte() throws IOException, SQLException {
     final classicmodels.PurchaseDetail p = new classicmodels.PurchaseDetail();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GTE(p.priceEach, p.quantity)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(2875), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(2875), rows.nextEntity().get());
+    }
   }
 }

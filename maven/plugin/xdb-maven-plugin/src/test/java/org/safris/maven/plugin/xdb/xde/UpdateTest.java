@@ -16,12 +16,11 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.DELETE;
 import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.UPDATE;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,45 +29,46 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.classicmodels;
 
 @RunWith(ClassicModelsTestRunner.class)
-public class DeleteTest extends LoggableTest {
+public class UpdateTest extends LoggableTest {
   @Test
-  public void testDeleteEntity() throws IOException, SQLException {
+  public void testUpdateEntity() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    p.purchaseNumber.set(10102l);
-    p.customerNumber.set(181);
-    final int[] results = DELETE(p).execute();
+    p.purchaseNumber.set(10334l);
+    p.status.set(classicmodels.Purchase.Status.SHIPPED);
+    final int[] results = UPDATE(p).execute();
 
     Assert.assertEquals(1, results[0]);
   }
 
   @Test
-  public void testDeleteEntities() throws IOException, SQLException {
-    final classicmodels.Purchase p = new classicmodels.Purchase();
-    p.purchaseNumber.set(10100l);
-    p.customerNumber.set(363);
+  public void testUpdateEntities() throws IOException, SQLException {
+    final classicmodels.Customer c = new classicmodels.Customer();
+    c.customerNumber.set(103);
+    c.firstName.set("Jill");
 
-    final classicmodels.Payment pa = new classicmodels.Payment();
-    pa.customerNumber.set(103);
+    final classicmodels.Office o = new classicmodels.Office();
+    o.officeCode.set(1l);
+    o.territory.set("APAC");
 
-    final int[] results = DELETE(p, pa).execute();
+    final int[] results = UPDATE(c, o).execute();
 
     Assert.assertEquals(1, results[0]);
-    Assert.assertEquals(3, results[1]);
+    Assert.assertEquals(1, results[1]);
   }
 
   @Test
-  public void testDeleteWhere() throws IOException, SQLException {
+  public void testUpdateSetWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final int[] results = DELETE(p).WHERE(EQ(p.purchaseDate, LocalDate.parse("2003-01-09"))).execute();
+    final int[] results = UPDATE(p).SET(p.status, classicmodels.Purchase.Status.DISPUTED).WHERE(EQ(p.purchaseNumber, 10334l)).execute();
 
     Assert.assertEquals(1, results[0]);
   }
 
   @Test
-  public void testDeleteAll() throws IOException, SQLException {
-    final classicmodels.PurchaseDetail p = new classicmodels.PurchaseDetail();
-    final int[] results = DELETE(p).execute();
+  public void testUpdateSet() throws IOException, SQLException {
+    final classicmodels.Purchase p = new classicmodels.Purchase();
+    final int[] results = UPDATE(p).SET(p.status, classicmodels.Purchase.Status.ON_HOLD).execute();
 
-    Assert.assertEquals(2986, results[0]);
+    Assert.assertTrue(results[0] > 300);
   }
 }

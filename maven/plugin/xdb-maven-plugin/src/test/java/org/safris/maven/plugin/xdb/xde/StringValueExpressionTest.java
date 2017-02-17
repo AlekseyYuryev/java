@@ -35,7 +35,7 @@ public class StringValueExpressionTest extends LoggableTest {
   @Test
   public void testConcat() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<CHAR> rows =
+    try (final RowIterator<CHAR> rows =
       SELECT(
         // Char/Enum
         CONCAT(o.city, o.country),
@@ -88,58 +88,58 @@ public class StringValueExpressionTest extends LoggableTest {
         CONCAT("-", o.country, "-")).
       FROM(o).
       LIMIT(1).
-      execute();
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
 
-    Assert.assertTrue(rows.nextRow());
+      // Char/Enum
+      Assert.assertEquals("San FranciscoUS", rows.nextEntity().get());
+      Assert.assertEquals("-San FranciscoUS", rows.nextEntity().get());
+      Assert.assertEquals("San Francisco-US", rows.nextEntity().get());
+      Assert.assertEquals("San FranciscoUS-", rows.nextEntity().get());
+      Assert.assertEquals("-San FranciscoUS-", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco-US-", rows.nextEntity().get());
+      Assert.assertEquals("San Francisco-US-", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco-US", rows.nextEntity().get());
 
-    // Char/Enum
-    Assert.assertEquals("San FranciscoUS", rows.nextEntity().get());
-    Assert.assertEquals("-San FranciscoUS", rows.nextEntity().get());
-    Assert.assertEquals("San Francisco-US", rows.nextEntity().get());
-    Assert.assertEquals("San FranciscoUS-", rows.nextEntity().get());
-    Assert.assertEquals("-San FranciscoUS-", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco-US-", rows.nextEntity().get());
-    Assert.assertEquals("San Francisco-US-", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco-US", rows.nextEntity().get());
+      // Enum/Char
+      Assert.assertEquals("USSan Francisco", rows.nextEntity().get());
+      Assert.assertEquals("-USSan Francisco", rows.nextEntity().get());
+      Assert.assertEquals("US-San Francisco", rows.nextEntity().get());
+      Assert.assertEquals("USSan Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-USSan Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-US-San Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("US-San Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-US-San Francisco", rows.nextEntity().get());
 
-    // Enum/Char
-    Assert.assertEquals("USSan Francisco", rows.nextEntity().get());
-    Assert.assertEquals("-USSan Francisco", rows.nextEntity().get());
-    Assert.assertEquals("US-San Francisco", rows.nextEntity().get());
-    Assert.assertEquals("USSan Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-USSan Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-US-San Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("US-San Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-US-San Francisco", rows.nextEntity().get());
+      // Char/Char
+      Assert.assertEquals("San FranciscoSan Francisco", rows.nextEntity().get());
+      Assert.assertEquals("-San FranciscoSan Francisco", rows.nextEntity().get());
+      Assert.assertEquals("San Francisco-San Francisco", rows.nextEntity().get());
+      Assert.assertEquals("San FranciscoSan Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-San FranciscoSan Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco-San Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("San Francisco-San Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco-San Francisco", rows.nextEntity().get());
 
-    // Char/Char
-    Assert.assertEquals("San FranciscoSan Francisco", rows.nextEntity().get());
-    Assert.assertEquals("-San FranciscoSan Francisco", rows.nextEntity().get());
-    Assert.assertEquals("San Francisco-San Francisco", rows.nextEntity().get());
-    Assert.assertEquals("San FranciscoSan Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-San FranciscoSan Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco-San Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("San Francisco-San Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco-San Francisco", rows.nextEntity().get());
+      // Enum/Enum
+      Assert.assertEquals("USUS", rows.nextEntity().get());
+      Assert.assertEquals("-USUS", rows.nextEntity().get());
+      Assert.assertEquals("US-US", rows.nextEntity().get());
+      Assert.assertEquals("USUS-", rows.nextEntity().get());
+      Assert.assertEquals("-USUS-", rows.nextEntity().get());
+      Assert.assertEquals("-US-US-", rows.nextEntity().get());
+      Assert.assertEquals("US-US-", rows.nextEntity().get());
+      Assert.assertEquals("-US-US", rows.nextEntity().get());
 
-    // Enum/Enum
-    Assert.assertEquals("USUS", rows.nextEntity().get());
-    Assert.assertEquals("-USUS", rows.nextEntity().get());
-    Assert.assertEquals("US-US", rows.nextEntity().get());
-    Assert.assertEquals("USUS-", rows.nextEntity().get());
-    Assert.assertEquals("-USUS-", rows.nextEntity().get());
-    Assert.assertEquals("-US-US-", rows.nextEntity().get());
-    Assert.assertEquals("US-US-", rows.nextEntity().get());
-    Assert.assertEquals("-US-US", rows.nextEntity().get());
+      // Char
+      Assert.assertEquals("San Francisco-", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco", rows.nextEntity().get());
+      Assert.assertEquals("-San Francisco-", rows.nextEntity().get());
 
-    // Char
-    Assert.assertEquals("San Francisco-", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco", rows.nextEntity().get());
-    Assert.assertEquals("-San Francisco-", rows.nextEntity().get());
-
-    // Enum
-    Assert.assertEquals("US-", rows.nextEntity().get());
-    Assert.assertEquals("-US", rows.nextEntity().get());
-    Assert.assertEquals("-US-", rows.nextEntity().get());
+      // Enum
+      Assert.assertEquals("US-", rows.nextEntity().get());
+      Assert.assertEquals("-US", rows.nextEntity().get());
+      Assert.assertEquals("-US-", rows.nextEntity().get());
+    }
   }
 }

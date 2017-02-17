@@ -36,26 +36,26 @@ public class NullPredicateTest extends LoggableTest {
   @Test
   public void testIs() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NULL(c.locality)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(71), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(71), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testIsNot() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(IS.NOT.NULL(c.locality)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(51), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(51), rows.nextEntity().get());
+    }
   }
 }

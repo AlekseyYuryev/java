@@ -35,19 +35,19 @@ public class CountFunctionTest extends LoggableTest {
   @Test
   public void testCount() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(
         COUNT(),
         COUNT(o.territory),
         COUNT.DISTINCT(o.territory),
         COUNT(o.territory)).
       FROM(o).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
-    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
-    Assert.assertEquals(Integer.valueOf(4), rows.nextEntity().get());
-    Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(4), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+    }
   }
 }

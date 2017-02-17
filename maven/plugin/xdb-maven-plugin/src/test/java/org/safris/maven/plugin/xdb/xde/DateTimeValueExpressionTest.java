@@ -40,29 +40,29 @@ public class DateTimeValueExpressionTest extends LoggableTest {
   @Test
   public void testInSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.DATE> rows =
+    try (final RowIterator<type.DATE> rows =
       SELECT(
         SUB(p.purchaseDate, new Interval(2, Unit.DAYS)),
         ADD(p.purchaseDate, new Interval(3, Unit.DECADES))).
       FROM(p).
       LIMIT(1).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(LocalDate.parse("2003-01-04"), rows.nextEntity().get());
-    Assert.assertEquals(LocalDate.parse("2033-01-06"), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(LocalDate.parse("2003-01-04"), rows.nextEntity().get());
+      Assert.assertEquals(LocalDate.parse("2033-01-06"), rows.nextEntity().get());
+    }
   }
 
   @Test
   public void testInWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.shippedDate, ADD(p.requiredDate, new Interval(2, Unit.DAYS)))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
+    }
   }
 }

@@ -39,16 +39,16 @@ public class HavingClauseTest extends LoggableTest {
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     final type.DECIMAL d = p.msrp.clone();
-    final RowIterator<type.DECIMAL> rows =
+    try (final RowIterator<type.DECIMAL> rows =
       SELECT(SIN(p.msrp).AS(d)).
       FROM(p).
       WHERE(GT(p.price, 10)).
       GROUP_BY(p).
       HAVING(LT(d, 10)).
       ORDER_BY(DESC(d)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(0.9995201585807313, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(0.9995201585807313, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
   }
 }

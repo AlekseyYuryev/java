@@ -35,13 +35,13 @@ public class OrderExpressionTest extends LoggableTest {
   @Test
   public void testOrderExpression() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.DECIMAL.UNSIGNED> rows =
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       ORDER_BY(DESC(p.price), p.msrp).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
   }
 }

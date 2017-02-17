@@ -40,7 +40,7 @@ public class BooleanValueExpressionTest extends LoggableTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         EQ(p.price, p.msrp),
         LT(p.price, p.msrp),
@@ -50,12 +50,12 @@ public class BooleanValueExpressionTest extends LoggableTest {
           GT(p.price, p.msrp))).
       FROM(p).
       WHERE(AND(LIKE(p.name, "%Ford%"), GT(p.quantityInStock, 100))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(false, rows.nextEntity().get());
-    Assert.assertEquals(true, rows.nextEntity().get());
-    Assert.assertEquals(false, rows.nextEntity().get());
-    Assert.assertEquals(false, rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(false, rows.nextEntity().get());
+      Assert.assertEquals(true, rows.nextEntity().get());
+      Assert.assertEquals(false, rows.nextEntity().get());
+      Assert.assertEquals(false, rows.nextEntity().get());
+    }
   }
 }

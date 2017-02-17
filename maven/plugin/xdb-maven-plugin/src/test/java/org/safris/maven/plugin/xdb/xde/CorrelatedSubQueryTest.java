@@ -42,7 +42,7 @@ public class CorrelatedSubQueryTest extends LoggableTest {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c1 = new classicmodels.Customer();
     final classicmodels.Customer c2 = new classicmodels.Customer();
-    final RowIterator<? extends Subject<?>> rows =
+    try (final RowIterator<? extends Subject<?>> rows =
       SELECT(p, c2).
       FROM(p,
         SELECT(c1).
@@ -52,19 +52,19 @@ public class CorrelatedSubQueryTest extends LoggableTest {
       WHERE(AND(
         LT(p.purchaseDate, p.requiredDate),
         EQ(p.customerNumber, c2.customerNumber))).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Purchase);
-    Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Customer);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Purchase);
+      Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Customer);
+    }
   }
 
   @Test
   public void testSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final type.BIGINT s = c.salesEmployeeNumber.clone();
-    final RowIterator<? extends Subject<?>> rows =
+    final type.INT.UNSIGNED s = c.salesEmployeeNumber.clone();
+    try (final RowIterator<? extends Subject<?>> rows =
       SELECT(p,
         SELECT(MAX(c.salesEmployeeNumber)).
         FROM(c).
@@ -73,9 +73,9 @@ public class CorrelatedSubQueryTest extends LoggableTest {
       FROM(p).
       WHERE(
         LT(p.purchaseDate, p.requiredDate)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Purchase);
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity() instanceof classicmodels.Purchase);
+    }
   }
 }

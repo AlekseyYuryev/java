@@ -36,13 +36,13 @@ public class LikePredicateTest extends LoggableTest {
   @Test
   public void testLike() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(LIKE(p.name, "%Ford%")).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(15), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Integer.valueOf(15), rows.nextEntity().get());
+    }
   }
 }

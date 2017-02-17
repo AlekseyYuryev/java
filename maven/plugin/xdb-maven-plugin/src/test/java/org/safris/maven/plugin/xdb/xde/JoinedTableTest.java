@@ -39,28 +39,28 @@ public class JoinedTableTest extends LoggableTest {
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       CROSS.JOIN(c).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(39772), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 3900);
+    }
   }
 
   @Test
   public void testNaturalJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       NATURAL.JOIN(c).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 300);
+    }
   }
 
   @Test
@@ -68,43 +68,43 @@ public class JoinedTableTest extends LoggableTest {
     final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
       JOIN(e).ON(EQ(c.salesEmployeeNumber, e.employeeNumber)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 300);
+    }
   }
 
   @Test
   public void testLeftOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       LEFT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 300);
+    }
   }
 
   @Test
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final RowIterator<type.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       RIGHT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
-    Assert.assertEquals(Integer.valueOf(122), rows.nextEntity().get());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 100);
+    }
   }
 
   @Test
@@ -112,14 +112,14 @@ public class JoinedTableTest extends LoggableTest {
     try {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       final classicmodels.Customer c = new classicmodels.Customer();
-      final RowIterator<type.INT> rows =
+      try (final RowIterator<type.INT> rows =
         SELECT(COUNT()).
         FROM(p).
         FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
-        execute();
-
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
+        execute()) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get() > 300);
+      }
     }
     catch (final SQLSyntaxErrorException e) {
       // FIXME: Should we modify the SQL to use UNION here?

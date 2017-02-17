@@ -42,22 +42,22 @@ public class CaseTest extends LoggableTest {
   @Test
   public void testSimpleBoolean() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         CASE(t.booleanType).WHEN(true).THEN(t.booleanType).ELSE(t.booleanType).END().AS(new type.BOOLEAN()),
         CASE(t.booleanType).WHEN(true).THEN(true).ELSE(t.booleanType).END().AS(new type.BOOLEAN()),
         CASE(t.booleanType).WHEN(true).THEN(t.booleanType).ELSE(true).END().AS(new type.BOOLEAN())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE(t.floatType).WHEN(1).THEN(3f).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -82,15 +82,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.floatType).WHEN(1).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleDouble() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE(t.doubleType).WHEN(1).THEN(3d).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -115,15 +115,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.doubleType).WHEN(1).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleDecimal() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(t.floatType).END().AS(new type.DECIMAL(10, 4)),
         CASE(t.decimalType).WHEN(1).THEN(new BigDecimal("3")).ELSE(t.floatType).END().AS(new type.DECIMAL(10, 4)),
@@ -148,15 +148,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.decimalType).WHEN(1).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE(t.smallintType).WHEN(1).THEN((byte)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -181,15 +181,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.smallintType).WHEN(1).THEN(t.smallintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE(t.mediumintType).WHEN(1).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -214,15 +214,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.mediumintType).WHEN(1).THEN(t.mediumintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE(t.intType).WHEN(1).THEN(3).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -247,15 +247,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.intType).WHEN(1).THEN(t.intType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleBigInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE(t.bigintType).WHEN(1).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -280,75 +280,75 @@ public class CaseTest extends LoggableTest {
         CASE(t.bigintType).WHEN(1).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleBinary() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.BINARY> rows =
+    try (final RowIterator<type.BINARY> rows =
       SELECT(
         CASE(t.binaryType).WHEN("value".getBytes()).THEN(t.binaryType).ELSE(t.binaryType).END().AS(new type.BINARY(255)),
         CASE(t.binaryType).WHEN("value".getBytes()).THEN(new byte[] {0x00, 0x01}).ELSE(t.binaryType).END().AS(new type.BINARY(255)),
         CASE(t.binaryType).WHEN("value".getBytes()).THEN(t.binaryType).ELSE(new byte[] {0x00, 0x01}).END().AS(new type.BINARY(255))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleDate() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.DATE> rows =
+    try (final RowIterator<type.DATE> rows =
       SELECT(
         CASE(t.dateType).WHEN(LocalDate.now()).THEN(t.dateType).ELSE(t.dateType).END().AS(new type.DATE()),
         CASE(t.dateType).WHEN(LocalDate.now()).THEN(LocalDate.now()).ELSE(t.dateType).END().AS(new type.DATE()),
         CASE(t.dateType).WHEN(LocalDate.now()).THEN(t.dateType).ELSE(LocalDate.now()).END().AS(new type.DATE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleTime() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TIME> rows =
+    try (final RowIterator<type.TIME> rows =
       SELECT(
           CASE(t.timeType).WHEN(LocalTime.now()).THEN(t.timeType).ELSE(t.timeType).END().AS(new type.TIME()),
           CASE(t.timeType).WHEN(LocalTime.now()).THEN(LocalTime.now()).ELSE(t.timeType).END().AS(new type.TIME()),
           CASE(t.timeType).WHEN(LocalTime.now()).THEN(t.timeType).ELSE(LocalTime.now()).END().AS(new type.TIME())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleDateTime() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.DATETIME> rows =
+    try (final RowIterator<type.DATETIME> rows =
       SELECT(
           CASE(t.datetimeType).WHEN(LocalDateTime.now()).THEN(t.datetimeType).ELSE(t.datetimeType).END().AS(new type.DATETIME()),
           CASE(t.datetimeType).WHEN(LocalDateTime.now()).THEN(LocalDateTime.now()).ELSE(t.datetimeType).END().AS(new type.DATETIME()),
           CASE(t.datetimeType).WHEN(LocalDateTime.now()).THEN(t.datetimeType).ELSE(LocalDateTime.now()).END().AS(new type.DATETIME())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.CHAR> rows =
+    try (final RowIterator<type.CHAR> rows =
       SELECT(
         CASE(t.charType).WHEN("").THEN(t.charType).ELSE(t.charType).END().AS(new type.CHAR(255, true)),
         CASE(t.charType).WHEN("abc").THEN("char").ELSE(t.charType).END().AS(new type.CHAR(255, false)),
@@ -358,15 +358,15 @@ public class CaseTest extends LoggableTest {
         CASE(t.charType).WHEN("abc").THEN(t.enumType).ELSE("char").END().AS(new type.CHAR(255, false))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSimpleEnum() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Textual<?>> rows =
+    try (final RowIterator<? extends type.Textual<?>> rows =
       SELECT(
         CASE(t.enumType).WHEN(types.Type.EnumType.EIGHT).THEN(t.enumType).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
         CASE(t.enumType).WHEN(types.Type.EnumType.EIGHT).THEN(types.Type.EnumType.EIGHT).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
@@ -376,30 +376,30 @@ public class CaseTest extends LoggableTest {
         CASE(t.enumType).WHEN(types.Type.EnumType.EIGHT).THEN(t.enumType).ELSE(types.Type.EnumType.EIGHT).END().AS(new type.ENUM<types.Type.EnumType>(types.Type.EnumType.class))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchBoolean() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         CASE.WHEN(EQ(t.booleanType, true)).THEN(t.booleanType).ELSE(t.booleanType).END().AS(new type.BOOLEAN()),
         CASE.WHEN(EQ(t.booleanType, true)).THEN(true).ELSE(t.booleanType).END().AS(new type.BOOLEAN()),
         CASE.WHEN(EQ(t.booleanType, true)).THEN(t.booleanType).ELSE(true).END().AS(new type.BOOLEAN())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchFloat() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.floatType, 1)).THEN(3f).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -424,15 +424,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.floatType, 1)).THEN(t.floatType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchDouble() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.doubleType, 1)).THEN(3d).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -457,15 +457,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.doubleType, 1)).THEN(t.doubleType).ELSE(3l).END().AS(new type.DOUBLE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchDecimal() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(t.floatType).END().AS(new type.DECIMAL(10, 4)),
         CASE.WHEN(LT(t.decimalType, 1)).THEN(new BigDecimal("3")).ELSE(t.floatType).END().AS(new type.DECIMAL(10, 4)),
@@ -490,15 +490,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.decimalType, 1)).THEN(t.decimalType).ELSE(3l).END().AS(new type.DECIMAL(10, 4))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.smallintType, 1)).THEN((byte)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -523,15 +523,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.smallintType, 1)).THEN(t.smallintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(t.floatType).END().AS(new type.FLOAT()),
         CASE.WHEN(LT(t.mediumintType, 1)).THEN((short)3).ELSE(t.floatType).END().AS(new type.FLOAT()),
@@ -556,15 +556,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.mediumintType, 1)).THEN(t.mediumintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.intType, 1)).THEN(3).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -589,15 +589,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.intType, 1)).THEN(t.intType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchBigInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(t.floatType).END().AS(new type.DOUBLE()),
         CASE.WHEN(LT(t.bigintType, 1)).THEN(3l).ELSE(t.floatType).END().AS(new type.DOUBLE()),
@@ -622,75 +622,75 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(LT(t.bigintType, 1)).THEN(t.bigintType).ELSE(3l).END().AS(new type.BIGINT(10))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchBinary() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.BINARY> rows =
+    try (final RowIterator<type.BINARY> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.binaryType)).THEN(t.binaryType).ELSE(t.binaryType).END().AS(new type.BINARY(255)),
         CASE.WHEN(IS.NOT.NULL(t.binaryType)).THEN(new byte[] {0x00, 0x01}).ELSE(t.binaryType).END().AS(new type.BINARY(255)),
         CASE.WHEN(IS.NOT.NULL(t.binaryType)).THEN(t.binaryType).ELSE(new byte[] {0x00, 0x01}).END().AS(new type.BINARY(255))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchDate() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.DATE> rows =
+    try (final RowIterator<type.DATE> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.dateType)).THEN(t.dateType).ELSE(t.dateType).END().AS(new type.DATE()),
         CASE.WHEN(IS.NOT.NULL(t.dateType)).THEN(LocalDate.now()).ELSE(t.dateType).END().AS(new type.DATE()),
         CASE.WHEN(IS.NOT.NULL(t.dateType)).THEN(t.dateType).ELSE(LocalDate.now()).END().AS(new type.DATE())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchTime() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.TIME> rows =
+    try (final RowIterator<type.TIME> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.timeType)).THEN(t.timeType).ELSE(t.timeType).END().AS(new type.TIME()),
         CASE.WHEN(IS.NOT.NULL(t.timeType)).THEN(LocalTime.now()).ELSE(t.timeType).END().AS(new type.TIME()),
         CASE.WHEN(IS.NOT.NULL(t.timeType)).THEN(t.timeType).ELSE(LocalTime.now()).END().AS(new type.TIME())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchDateTime() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.DATETIME> rows =
+    try (final RowIterator<type.DATETIME> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.datetimeType)).THEN(t.datetimeType).ELSE(t.datetimeType).END().AS(new type.DATETIME()),
         CASE.WHEN(IS.NOT.NULL(t.datetimeType)).THEN(LocalDateTime.now()).ELSE(t.datetimeType).END().AS(new type.DATETIME()),
         CASE.WHEN(IS.NOT.NULL(t.datetimeType)).THEN(t.datetimeType).ELSE(LocalDateTime.now()).END().AS(new type.DATETIME())
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<type.CHAR> rows =
+    try (final RowIterator<type.CHAR> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.charType)).THEN(t.charType).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
         CASE.WHEN(IS.NOT.NULL(t.charType)).THEN("char").ELSE(t.charType).END().AS(new type.CHAR(255, false)),
@@ -700,15 +700,15 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(IS.NOT.NULL(t.charType)).THEN(t.enumType).ELSE("char").END().AS(new type.CHAR(255, false))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 
   @Test
   public void testSearchEnum() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    final RowIterator<? extends type.Textual<?>> rows =
+    try (final RowIterator<? extends type.Textual<?>> rows =
       SELECT(
         CASE.WHEN(IS.NOT.NULL(t.enumType)).THEN(t.enumType).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
         CASE.WHEN(IS.NOT.NULL(t.enumType)).THEN(types.Type.EnumType.EIGHT).ELSE(t.charType).END().AS(new type.CHAR(255, false)),
@@ -718,8 +718,8 @@ public class CaseTest extends LoggableTest {
         CASE.WHEN(IS.NOT.NULL(t.enumType)).THEN(t.enumType).ELSE(types.Type.EnumType.EIGHT).END().AS(new type.ENUM<types.Type.EnumType>(types.Type.EnumType.class))
       ).
       FROM(t).
-      execute();
-
-    Assert.assertTrue(rows.nextRow());
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
   }
 }
