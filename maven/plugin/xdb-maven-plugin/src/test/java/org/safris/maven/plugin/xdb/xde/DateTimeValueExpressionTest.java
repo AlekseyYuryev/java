@@ -19,7 +19,8 @@ package org.safris.maven.plugin.xdb.xde;
 import static org.safris.xdb.entities.DML.ADD;
 import static org.safris.xdb.entities.DML.COUNT;
 import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.SUB;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,8 +35,16 @@ import org.safris.xdb.entities.Interval.Unit;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(ClassicModelsTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(classicmodels.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class DateTimeValueExpressionTest extends LoggableTest {
   @Test
   public void testInSelect() throws IOException, SQLException {

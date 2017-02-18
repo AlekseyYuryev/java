@@ -36,8 +36,16 @@ import org.safris.xdb.entities.DML.IS;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.type;
 import org.safris.xdb.entities.types;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(TypesTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(types.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class CaseTest extends LoggableTest {
   @Test
   public void testSimpleBoolean() throws IOException, SQLException {

@@ -14,19 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.xdb.schema.vendor;
 
-import org.junit.runners.model.InitializationError;
-import org.safris.xdb.entities.Schema;
-import org.safris.xdb.entities.classicmodels;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public class ClassicModelsTestRunner extends EntityTestRunner {
-  public ClassicModelsTestRunner(final Class<?> klass) throws InitializationError {
-    super(klass);
-  }
-
-  @Override
-  protected Class<? extends Schema> entityClass() {
-    return classicmodels.class;
-  }
+public interface Vendor {
+  public void init() throws IOException, SQLException;
+  public Connection getConnection() throws SQLException;
+  public void destroy() throws IOException, SQLException;
 }

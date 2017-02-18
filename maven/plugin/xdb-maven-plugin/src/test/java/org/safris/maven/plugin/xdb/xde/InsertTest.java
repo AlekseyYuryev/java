@@ -33,8 +33,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.types;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(TypesTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(types.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class InsertTest extends LoggableTest {
   @Test
   public void testInsertEntity() throws IOException, SQLException {

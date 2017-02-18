@@ -16,7 +16,14 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.xdb.entities.DML.AND;
+import static org.safris.xdb.entities.DML.CAST;
+import static org.safris.xdb.entities.DML.GT;
+import static org.safris.xdb.entities.DML.GTE;
+import static org.safris.xdb.entities.DML.LIKE;
+import static org.safris.xdb.entities.DML.LT;
+import static org.safris.xdb.entities.DML.LTE;
+import static org.safris.xdb.entities.DML.SELECT;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,8 +36,16 @@ import org.safris.xdb.entities.DML.NOT;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.type;
 import org.safris.xdb.entities.types;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(TypesTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(types.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class CastTest extends LoggableTest {
   @Test
   public void testBooleanToChar() throws IOException, SQLException {

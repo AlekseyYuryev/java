@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 Seva Safris
+/* Copyright (c) 2017 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,18 +14,17 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xdb.schema;
+package org.safris.maven.plugin.xdb.xde;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
-import org.safris.xdb.schema.SQLDataTypes;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class SQLDataTypesTest extends LoggableTest {
-  @Test
-  public void testGetNumericByteCount() {
-    final int[] byteCounts = {1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8, 9};
-    for (int i = 0; i < byteCounts.length; i++)
-      Assert.assertEquals(byteCounts[i], SQLDataTypes.getNumericByteCount(i + 1, true, null, null));
-  }
+import org.safris.xdb.entities.Schema;
+
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface EntityClass {
+  Class<? extends Schema> value();
 }

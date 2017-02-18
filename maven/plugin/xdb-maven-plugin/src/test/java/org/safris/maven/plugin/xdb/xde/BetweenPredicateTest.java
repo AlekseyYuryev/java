@@ -31,8 +31,16 @@ import org.safris.xdb.entities.DML.NOT;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(ClassicModelsTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(classicmodels.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class BetweenPredicateTest extends LoggableTest {
   @Test
   public void testBetween1() throws IOException, SQLException {

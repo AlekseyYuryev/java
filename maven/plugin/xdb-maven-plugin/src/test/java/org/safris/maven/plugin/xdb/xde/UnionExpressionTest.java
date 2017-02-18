@@ -29,8 +29,16 @@ import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.Entity;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(ClassicModelsTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(classicmodels.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class UnionExpressionTest extends LoggableTest {
   @Test
   public void testUnion() throws IOException, SQLException {

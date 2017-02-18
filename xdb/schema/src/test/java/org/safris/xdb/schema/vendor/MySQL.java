@@ -14,19 +14,33 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.xdb.schema.vendor;
 
-import org.junit.runners.model.InitializationError;
-import org.safris.xdb.entities.Schema;
-import org.safris.xdb.entities.types;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public final class TypesTestRunner extends EntityTestRunner {
-  public TypesTestRunner(final Class<?> klass) throws InitializationError {
-    super(klass);
+import org.safris.commons.sql.ConnectionProxy;
+
+import com.mysql.cj.jdbc.Driver;
+
+@SuppressWarnings("unused")
+public class MySQL implements Vendor {
+  @Override
+  public synchronized void init() throws IOException, SQLException {
+//  CREATE USER mycompany;
+//  CREATE DATABASE mycompany;
+//  GRANT ALL ON mycompany.* TO 'mycompany'@'localhost' IDENTIFIED BY 'mycompany';
+    new Driver();
   }
 
   @Override
-  protected Class<? extends Schema> entityClass() {
-    return types.class;
+  public Connection getConnection() throws SQLException {
+    return new ConnectionProxy(DriverManager.getConnection("jdbc:mysql://localhost/xdb?user=xdb&password=xdb&useSSL=false"));
+  }
+
+  @Override
+  public void destroy() throws SQLException {
   }
 }

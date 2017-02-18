@@ -59,8 +59,16 @@ import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type.DECIMAL;
 import org.safris.xdb.entities.type.Numeric;
 import org.safris.xdb.entities.model.select;
+import org.safris.xdb.schema.VendorIntegration;
+import org.safris.xdb.schema.VendorTest;
+import org.safris.xdb.schema.vendor.Derby;
+import org.safris.xdb.schema.vendor.MySQL;
+import org.safris.xdb.schema.vendor.PostgreSQL;
 
-@RunWith(ClassicModelsTestRunner.class)
+@RunWith(EntityVendorClassRunner.class)
+@EntityClass(classicmodels.class)
+@VendorTest(Derby.class)
+@VendorIntegration({MySQL.class, PostgreSQL.class})
 public class NumericFunctionTest extends LoggableTest {
   private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
