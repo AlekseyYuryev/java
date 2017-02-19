@@ -509,6 +509,26 @@ public final class Bytes {
     return bytes.length > 0 ? out.substring(1) : "";
   }
 
+  public static short toOctal(byte b) {
+    int i = 0;
+    short value = 0;
+    while (b != 0) {
+      final int remainder = b % 8;
+      b /= 8;
+      value += remainder * Math.pow(10, i++);
+    }
+
+    return value;
+  }
+
+  public static short[] toOctal(final byte ... bytes) {
+    final short[] octal = new short[bytes.length];
+    for (int i = 0; i < bytes.length; i++)
+      octal[i] = toOctal(bytes[i]);
+
+    return octal;
+  }
+
   private Bytes() {
   }
 }

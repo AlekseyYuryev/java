@@ -135,4 +135,10 @@ public class BytesTest extends LoggableTest {
   public void testArbitrary() {
     // TODO: Implement this!
   }
+
+  @Test
+  public void testToOctal() {
+    for (byte i = Byte.MIN_VALUE; i < Byte.MAX_VALUE; i++)
+      Assert.assertEquals(Integer.toString(i, 8), String.valueOf(Bytes.toOctal(i)));
+  }
 }
