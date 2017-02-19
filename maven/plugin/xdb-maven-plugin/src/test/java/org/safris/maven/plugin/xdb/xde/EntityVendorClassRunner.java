@@ -55,7 +55,7 @@ public class EntityVendorClassRunner extends VendorClassRunner {
     });
 
     if (method.getMethod().getParameterTypes().length > 0)
-      throw new Exception(EntityVendorClassRunner.class.getSimpleName() + " test methods may not have parameters");
+      throw new Exception("Method " + method.getName() + " should have no parameters");
 
     method.invokeExplosively(test);
   }
