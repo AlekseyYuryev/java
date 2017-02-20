@@ -16,13 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.LIKE;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.OR;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
@@ -44,7 +37,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class BooleanValueExpressionTest extends LoggableTest {
+public class BooleanValueExpressionTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();

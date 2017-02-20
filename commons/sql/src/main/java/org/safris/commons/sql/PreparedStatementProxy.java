@@ -46,6 +46,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.safris.commons.util.Formats;
+import org.safris.commons.util.Hexadecimal;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
   private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
@@ -53,7 +54,14 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
 
   private static final String NULL = "NULL";
 
+  private static String trimNanos(final String dateTime) {
+    int i = dateTime.length() - 1;
+    for (; i >= 0 && dateTime.charAt(i) == '0'; i--);
+    return dateTime.substring(0, dateTime.charAt(i) == '.' ? i : i + 1);
+  }
+
   private static final ThreadLocal<SimpleDateFormat> dateFormat = Formats.createSimpleDateFormat("yyyy-MM-dd");
+  private static final ThreadLocal<SimpleDateFormat> timeFormat = Formats.createSimpleDateFormat("HH:mm:ss.SSS");
   private static final ThreadLocal<SimpleDateFormat> timestampFormat = Formats.createSimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   private static final ThreadLocal<DecimalFormat> numberFormat = Formats.createDecimalFormat("###############.###############;-###############.###############");
 
@@ -463,10 +471,14 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
         final Object value = parameterMap.get(++index);
         if (value == NULL)
           buffer.append("NULL");
+        else if (value instanceof byte[])
+          buffer.append("X'").append(new Hexadecimal((byte[])value)).append("'");
         else if (value instanceof Date)
           buffer.append("'").append(dateFormat.get().format((Date)value)).append("'");
+        else if (value instanceof Time)
+          buffer.append("'").append(trimNanos(timeFormat.get().format((Time)value))).append("'");
         else if (value instanceof Timestamp)
-          buffer.append("'").append(timestampFormat.get().format((Timestamp)value)).append("'");
+          buffer.append("'").append(trimNanos(timestampFormat.get().format((Timestamp)value))).append("'");
         else if (value instanceof String || value instanceof Byte)
           buffer.append("'").append(value).append("'");
         else if (value instanceof Short || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof BigInteger)

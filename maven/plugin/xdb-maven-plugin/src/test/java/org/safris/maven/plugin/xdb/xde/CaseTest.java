@@ -16,10 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.CASE;
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,7 +28,6 @@ import java.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.DML.IS;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.type;
@@ -46,7 +42,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(types.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class CaseTest extends LoggableTest {
+public class CaseTest {
   @Test
   public void testSimpleBoolean() throws IOException, SQLException {
     final types.Type t = new types.Type();

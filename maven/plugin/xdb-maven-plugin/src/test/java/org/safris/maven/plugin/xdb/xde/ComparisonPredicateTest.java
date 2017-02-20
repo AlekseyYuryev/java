@@ -16,16 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.COUNT;
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.GTE;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.LTE;
-import static org.safris.xdb.entities.DML.NE;
-import static org.safris.xdb.entities.DML.OR;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
@@ -47,17 +37,17 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class ComparisonPredicateTest extends LoggableTest {
+public class ComparisonPredicateTest {
   @Test
   public void testLt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(OR(LT(p.comments, "a"), LT("a", p.status), LT(p.comments, p.status))).
+      WHERE(OR(LT(p.customerNumber, 100), LT(50, p.customerNumber), LT(p.comments, p.status))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(80), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
     }
   }
 
@@ -106,10 +96,10 @@ public class ComparisonPredicateTest extends LoggableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      WHERE(GT(p.status, classicmodels.Purchase.Status.CANCELLED)).
+      WHERE(GT(p.purchaseNumber, UNSIGNED(100))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(320), rows.nextEntity().get());
+      Assert.assertEquals(Integer.valueOf(326), rows.nextEntity().get());
     }
   }
 

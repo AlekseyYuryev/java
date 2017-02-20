@@ -38,7 +38,7 @@ import java.util.concurrent.Executor;
 
 import org.safris.commons.lang.Throwables;
 
-public final class ConnectionProxy implements Connection {
+public class ConnectionProxy implements Connection {
   public static void close(final Connection connection) {
     try {
       if (connection != null && !connection.isClosed())

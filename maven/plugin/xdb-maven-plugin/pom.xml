@@ -80,7 +80,7 @@
                     <profile>plugin-test</profile>
                   </profiles>
                   <goals>
-                    <goal>test</goal>
+                    <goal>verify</goal>
                   </goals>
                 </configuration>
               </execution>
@@ -93,6 +93,10 @@
       <id>plugin-test</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -166,6 +170,10 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
+      <artifactId>commons-xml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
       <artifactId>commons-logging</artifactId>
       <scope>test</scope>
     </dependency>
@@ -199,12 +207,28 @@
       <artifactId>xdb-schema</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.safris.xdb</groupId>
+      <artifactId>xdb-schema</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.safris.maven</groupId>
       <artifactId>maven-mojo</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

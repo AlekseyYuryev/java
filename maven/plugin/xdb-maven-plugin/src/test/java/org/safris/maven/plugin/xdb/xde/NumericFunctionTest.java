@@ -16,35 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.ABS;
-import static org.safris.xdb.entities.DML.ACOS;
-import static org.safris.xdb.entities.DML.ADD;
-import static org.safris.xdb.entities.DML.ASIN;
-import static org.safris.xdb.entities.DML.ATAN;
-import static org.safris.xdb.entities.DML.ATAN2;
-import static org.safris.xdb.entities.DML.CEIL;
-import static org.safris.xdb.entities.DML.COS;
-import static org.safris.xdb.entities.DML.DESC;
-import static org.safris.xdb.entities.DML.DIV;
-import static org.safris.xdb.entities.DML.EXP;
-import static org.safris.xdb.entities.DML.FLOOR;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.LN;
-import static org.safris.xdb.entities.DML.LOG;
-import static org.safris.xdb.entities.DML.LOG10;
-import static org.safris.xdb.entities.DML.LOG2;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.MOD;
-import static org.safris.xdb.entities.DML.MUL;
-import static org.safris.xdb.entities.DML.PI;
-import static org.safris.xdb.entities.DML.POW;
-import static org.safris.xdb.entities.DML.ROUND;
-import static org.safris.xdb.entities.DML.SELECT;
-import static org.safris.xdb.entities.DML.SIGN;
-import static org.safris.xdb.entities.DML.SIN;
-import static org.safris.xdb.entities.DML.SQRT;
-import static org.safris.xdb.entities.DML.SUB;
-import static org.safris.xdb.entities.DML.TAN;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.classicmodels;
@@ -69,7 +40,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class NumericFunctionTest extends LoggableTest {
+public class NumericFunctionTest {
   private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final DECIMAL d = c.longitude.clone();
@@ -102,7 +73,7 @@ public class NumericFunctionTest extends LoggableTest {
         final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
         Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
         final DECIMAL d = (DECIMAL)rows.nextEntity();
-        Assert.assertEquals(Double.valueOf(2.2206911655259236), d.get().doubleValue(), 0.0000000001);
+        Assert.assertEquals(Double.valueOf(2.22069), d.get().doubleValue(), 0.00001);
       }
     }
   }
@@ -122,32 +93,35 @@ public class NumericFunctionTest extends LoggableTest {
         ACOS(COS(o.latitude)),
         ATAN(TAN(o.latitude)),
         MOD(o.latitude, 1.2),
+        MOD(o.latitude, -1.2),
         MOD(o.latitude, o.latitude),
         EXP(o.latitude),
         LN(o.latitude),
-        LOG(o.latitude, 2),
+        LOG(2, o.latitude),
         LOG2(o.latitude),
         LOG10(o.latitude)).
       FROM(o).
       WHERE(GT(o.latitude, 0d)).
+      ORDER_BY(DESC(o.latitude)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(-122d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(0, rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertEquals(-1d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(-85d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(-0.3087877978632434, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(6.147703920977327, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(123d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(0.09515165692248098, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(0.0951516569224807, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(0.5942635000000009, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(51d, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(-614.3756630920124, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(7.177405770889647, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.1151535999999997, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.1151535999999997, rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertEquals(0d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(2.5932243185642152E16, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(3.6321573318496814, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(5.240095370388024, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.5774258866267548, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(2.35910321724922E22, rows.nextEntity().get().doubleValue(), 5.5E7);
+      Assert.assertEquals(3.9418760090484146, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(5.686924970053327, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(5.686924970053327, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(1.7119349990765391, rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 }

@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.Interval;
 import org.safris.xdb.entities.Interval.Unit;
 import org.safris.xdb.entities.RowIterator;
@@ -45,7 +44,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class DateTimeValueExpressionTest extends LoggableTest {
+public class DateTimeValueExpressionTest {
   @Test
   public void testInSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();

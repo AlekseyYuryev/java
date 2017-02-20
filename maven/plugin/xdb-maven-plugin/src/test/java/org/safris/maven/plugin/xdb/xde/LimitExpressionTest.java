@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
@@ -38,24 +37,25 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class LimitExpressionTest extends LoggableTest {
+public class LimitExpressionTest {
   @Test
   public void testLimit() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
+      ORDER_BY(p.msrp, p.price).
       LIMIT(3).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(95.7), rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(Double.valueOf(48.81), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(33.19), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(22.57), rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(35.36), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(15.91), rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(37.76), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(16.24), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -65,15 +65,16 @@ public class LimitExpressionTest extends LoggableTest {
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
+      ORDER_BY(p.msrp, p.price).
       LIMIT(2).
       OFFSET(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(214.3), rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(Double.valueOf(98.58), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(35.36), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(15.91), rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(118.94), rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(Double.valueOf(68.99), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(37.76), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Double.valueOf(16.24), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 }

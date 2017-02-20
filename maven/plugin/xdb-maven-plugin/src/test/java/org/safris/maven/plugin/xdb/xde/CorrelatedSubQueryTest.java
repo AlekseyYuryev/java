@@ -16,12 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.MAX;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.Subject;
 import org.safris.xdb.entities.classicmodels;
@@ -44,7 +38,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class CorrelatedSubQueryTest extends LoggableTest {
+public class CorrelatedSubQueryTest {
   @Test
   public void testWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();

@@ -31,7 +31,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
@@ -45,7 +44,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class QuantifiedComparisonPredicateTest extends LoggableTest {
+public class QuantifiedComparisonPredicateTest {
   @Test
   public void testAll() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();

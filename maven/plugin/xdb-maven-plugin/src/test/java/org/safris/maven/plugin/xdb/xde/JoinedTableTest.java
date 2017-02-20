@@ -27,7 +27,6 @@ import java.sql.SQLSyntaxErrorException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.maven.common.Log;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
@@ -42,7 +41,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(classicmodels.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class JoinedTableTest extends LoggableTest {
+public class JoinedTableTest {
   @Test
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
@@ -133,6 +132,8 @@ public class JoinedTableTest extends LoggableTest {
       // FIXME: Should we modify the SQL to use UNION here?
       if ("42X01".equals(e.getSQLState()) && e.getErrorCode() == 30000)
         Log.warn("Derby does not support FULL OUTER JOIN");
+      else if ("42000".equals(e.getSQLState()) && e.getErrorCode() == 1064)
+        Log.warn("MySQL does not support FULL OUTER JOIN");
       else
         throw e;
     }

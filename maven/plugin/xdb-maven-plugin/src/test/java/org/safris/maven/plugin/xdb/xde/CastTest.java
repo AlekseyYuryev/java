@@ -16,14 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.CAST;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.GTE;
-import static org.safris.xdb.entities.DML.LIKE;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.LTE;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +24,6 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
 import org.safris.xdb.entities.DML.NOT;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.type;
@@ -46,7 +38,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 @EntityClass(types.class)
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class CastTest extends LoggableTest {
+public class CastTest {
   @Test
   public void testBooleanToChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
@@ -900,7 +892,7 @@ public class CastTest extends LoggableTest {
       SELECT(
         CAST(t.mediumintType).AS.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 16777215))).
+      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 32767))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }

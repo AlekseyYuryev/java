@@ -26,5 +26,5 @@ import org.safris.xdb.entities.Schema;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EntityClass {
-  Class<? extends Schema> value();
+  Class<? extends Schema>[] value();
 }

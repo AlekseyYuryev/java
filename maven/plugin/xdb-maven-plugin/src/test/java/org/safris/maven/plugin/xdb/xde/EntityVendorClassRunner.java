@@ -25,6 +25,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
+import org.safris.xdb.entities.Schema;
 import org.safris.xdb.schema.VendorClassRunner;
 import org.safris.xdb.schema.vendor.Vendor;
 
@@ -42,17 +43,19 @@ public class EntityVendorClassRunner extends VendorClassRunner {
     if (entityClass == null)
       throw new Exception("@" + EntityClass.class.getSimpleName() + " is required on either method or class");
 
-    EntityRegistry.register(entityClass.value(), PreparedStatement.class, new EntityDataSource() {
-      @Override
-      public Connection getConnection() throws SQLException {
-        try {
-          return EntityVendorClassRunner.this.getConnection(vendorClass);
+    for (final Class<? extends Schema> cls : entityClass.value()) {
+      EntityRegistry.register(cls, PreparedStatement.class, new EntityDataSource() {
+        @Override
+        public Connection getConnection() throws SQLException {
+          try {
+            return EntityVendorClassRunner.this.getConnection(vendorClass);
+          }
+          catch (final IOException | ReflectiveOperationException e) {
+            throw new SQLException(e);
+          }
         }
-        catch (final IOException | ReflectiveOperationException e) {
-          throw new SQLException(e);
-        }
-      }
-    });
+      });
+    }
 
     if (method.getMethod().getParameterTypes().length > 0)
       throw new Exception("Method " + method.getName() + " should have no parameters");

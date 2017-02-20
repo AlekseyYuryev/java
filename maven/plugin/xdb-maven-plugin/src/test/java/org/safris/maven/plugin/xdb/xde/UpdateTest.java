@@ -17,16 +17,22 @@
 package org.safris.maven.plugin.xdb.xde;
 
 import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.SELECT;
 import static org.safris.xdb.entities.DML.UPDATE;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.test.LoggableTest;
+import org.safris.xdb.entities.RowIterator;
+import org.safris.xdb.entities.Transaction;
 import org.safris.xdb.entities.classicmodels;
+import org.safris.xdb.entities.types;
 import org.safris.xdb.schema.VendorIntegration;
 import org.safris.xdb.schema.VendorTest;
 import org.safris.xdb.schema.vendor.Derby;
@@ -34,49 +40,112 @@ import org.safris.xdb.schema.vendor.MySQL;
 import org.safris.xdb.schema.vendor.PostgreSQL;
 
 @RunWith(EntityVendorClassRunner.class)
-@EntityClass(classicmodels.class)
+@EntityClass({types.class, classicmodels.class})
 @VendorTest(Derby.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
-public class UpdateTest extends LoggableTest {
+public class UpdateTest {
   @Test
   public void testUpdateEntity() throws IOException, SQLException {
-    final classicmodels.Purchase p = new classicmodels.Purchase();
-    p.purchaseNumber.set(10334l);
-    p.status.set(classicmodels.Purchase.Status.SHIPPED);
-    final int[] results = UPDATE(p).execute();
+    try (final Transaction transaction = new Transaction(types.class)) {
+      classicmodels.Product p = new classicmodels.Product();
+      final RowIterator<classicmodels.Product> rows =
+        SELECT(p).
+        FROM(p).
+        LIMIT(1).
+        execute(transaction);
 
-    Assert.assertEquals(1, results[0]);
+      Assert.assertTrue(rows.nextRow());
+      p = rows.nextEntity();
+
+      p.price.set(BigDecimal.valueOf(20l));
+
+      final int[] results = UPDATE(p).execute(transaction);
+      Assert.assertEquals(1, results[0]);
+
+      transaction.rollback();
+    }
   }
 
   @Test
   public void testUpdateEntities() throws IOException, SQLException {
-    final classicmodels.Customer c = new classicmodels.Customer();
-    c.customerNumber.set(103);
-    c.firstName.set("Jill");
+    try (final Transaction transaction = new Transaction(types.class)) {
+      classicmodels.Product p = new classicmodels.Product();
+      final RowIterator<classicmodels.Product> rows1 =
+        SELECT(p).
+        FROM(p).
+        LIMIT(1).
+        execute(transaction);
 
-    final classicmodels.Office o = new classicmodels.Office();
-    o.officeCode.set(1l);
-    o.territory.set("APAC");
+      Assert.assertTrue(rows1.nextRow());
+      p = rows1.nextEntity();
 
-    final int[] results = UPDATE(c, o).execute();
+      classicmodels.ProductLine pl = new classicmodels.ProductLine();
+      final RowIterator<classicmodels.ProductLine> rows2 =
+        SELECT(pl).
+        FROM(pl).
+        LIMIT(1).
+        execute(transaction);
 
-    Assert.assertEquals(1, results[0]);
-    Assert.assertEquals(1, results[1]);
+      Assert.assertTrue(rows2.nextRow());
+      pl = rows2.nextEntity();
+
+      p.quantityInStock.set(300);
+      pl.description.set(new StringReader("New description"));
+
+      final int[] results = UPDATE(p, pl).execute();
+      Assert.assertEquals(1, results[0]);
+      Assert.assertEquals(1, results[1]);
+
+      transaction.rollback();
+    }
   }
 
   @Test
   public void testUpdateSetWhere() throws IOException, SQLException {
-    final classicmodels.Purchase p = new classicmodels.Purchase();
-    final int[] results = UPDATE(p).SET(p.status, classicmodels.Purchase.Status.DISPUTED).WHERE(EQ(p.purchaseNumber, 10334l)).execute();
+    try (final Transaction transaction = new Transaction(types.class)) {
+      types.Type t = new types.Type();
+      final RowIterator<types.Type> rows =
+        SELECT(t).
+        FROM(t).
+        LIMIT(1).
+        execute(transaction);
 
-    Assert.assertEquals(1, results[0]);
+      Assert.assertTrue(rows.nextRow());
+      t = rows.nextEntity();
+
+      final int[] results =
+        UPDATE(t).
+        SET(t.enumType, types.Type.EnumType.FOUR).
+        WHERE(EQ(t.enumType, types.Type.EnumType.ONE)).
+        execute();
+
+      Assert.assertTrue(results[0] > 0);
+
+      transaction.rollback();
+    }
   }
 
   @Test
   public void testUpdateSet() throws IOException, SQLException {
-    final classicmodels.Purchase p = new classicmodels.Purchase();
-    final int[] results = UPDATE(p).SET(p.status, classicmodels.Purchase.Status.ON_HOLD).execute();
+    try (final Transaction transaction = new Transaction(types.class)) {
+      types.Type t = new types.Type();
+      final RowIterator<types.Type> rows =
+        SELECT(t).
+        FROM(t).
+        LIMIT(1).
+        execute(transaction);
 
-    Assert.assertTrue(results[0] > 300);
+      Assert.assertTrue(rows.nextRow());
+      t = rows.nextEntity();
+
+      final int[] results =
+        UPDATE(t).
+        SET(t.datetimeType, LocalDateTime.now()).
+        execute();
+
+      Assert.assertTrue(results[0] > 300);
+
+      transaction.rollback();
+    }
   }
 }
