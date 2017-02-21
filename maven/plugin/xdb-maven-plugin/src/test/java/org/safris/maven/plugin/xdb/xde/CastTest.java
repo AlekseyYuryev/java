@@ -106,7 +106,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.floatType).AS.DECIMAL(18, 5)).
+        CAST(t.floatType).AS.DECIMAL(31, 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -118,7 +118,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.floatType).AS.DECIMAL.UNSIGNED(18, 5)).
+        CAST(t.floatType).AS.DECIMAL.UNSIGNED(31, 10)).
       FROM(t).
       WHERE(GTE(t.floatType, 0)).
       execute()) {
@@ -129,9 +129,9 @@ public class CastTest {
   @Test
   public void testFloatToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.floatType).AS.SMALLINT(3)).
+        CAST(t.floatType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(GTE(t.floatType, -128), LTE(t.floatType, 127))).
       execute()) {
@@ -142,9 +142,9 @@ public class CastTest {
   @Test
   public void testFloatToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.floatType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.floatType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.floatType, 0), LTE(t.floatType, 255))).
       execute()) {
@@ -155,9 +155,9 @@ public class CastTest {
   @Test
   public void testFloatToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.floatType).AS.MEDIUMINT(5)).
+        CAST(t.floatType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.floatType, -128), LTE(t.floatType, 127))).
       execute()) {
@@ -168,9 +168,9 @@ public class CastTest {
   @Test
   public void testFloatToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.floatType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.floatType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(GTE(t.floatType, 0)).
       execute()) {
@@ -271,7 +271,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.doubleType).AS.DECIMAL(18, 5)).
+        CAST(t.doubleType).AS.DECIMAL(31, 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -283,7 +283,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.doubleType).AS.DECIMAL.UNSIGNED(18, 5)).
+        CAST(t.doubleType).AS.DECIMAL.UNSIGNED(31, 10)).
       FROM(t).
       WHERE(GTE(t.doubleType, 0)).
       execute()) {
@@ -294,9 +294,9 @@ public class CastTest {
   @Test
   public void testDoubleToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.SMALLINT(3)).
+        CAST(t.doubleType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(GTE(t.doubleType, -128), LTE(t.doubleType, 127))).
       execute()) {
@@ -307,9 +307,9 @@ public class CastTest {
   @Test
   public void testDoubleToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.doubleType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.doubleType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 255))).
       execute()) {
@@ -320,9 +320,9 @@ public class CastTest {
   @Test
   public void testDoubleToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.doubleType).AS.MEDIUMINT(5)).
+        CAST(t.doubleType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.doubleType, -32768), LTE(t.doubleType, 32767))).
       execute()) {
@@ -333,9 +333,9 @@ public class CastTest {
   @Test
   public void testDoubleToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.doubleType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.doubleType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 16777215))).
       execute()) {
@@ -448,7 +448,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.decimalType).AS.DECIMAL(18, 5)).
+        CAST(t.decimalType).AS.DECIMAL(31, 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -460,7 +460,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.decimalType).AS.UNSIGNED(18, 5)).
+        CAST(t.decimalType).AS.UNSIGNED(31, 10)).
       FROM(t).
       WHERE(GTE(t.decimalType, 0)).
       execute()) {
@@ -471,9 +471,9 @@ public class CastTest {
   @Test
   public void testDecimalToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.SMALLINT(3)).
+        CAST(t.decimalType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(GTE(t.decimalType, -128), LTE(t.decimalType, 127))).
       execute()) {
@@ -484,9 +484,9 @@ public class CastTest {
   @Test
   public void testDecimalToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.decimalType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.decimalType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 255))).
       execute()) {
@@ -497,9 +497,9 @@ public class CastTest {
   @Test
   public void testDecimalToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.decimalType).AS.MEDIUMINT(5)).
+        CAST(t.decimalType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.decimalType, -128), LTE(t.decimalType, 127))).
       execute()) {
@@ -510,9 +510,9 @@ public class CastTest {
   @Test
   public void testDecimalToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.decimalType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.decimalType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 16777215))).
       execute()) {
@@ -527,6 +527,7 @@ public class CastTest {
       SELECT(
         CAST(t.decimalType).AS.INT(10)).
       FROM(t).
+      WHERE(AND(GTE(t.decimalType, -2147483648), LTE(t.decimalType, 2147483647))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -539,7 +540,7 @@ public class CastTest {
       SELECT(
         CAST(t.decimalType).AS.INT.UNSIGNED(10)).
       FROM(t).
-      WHERE(GTE(t.decimalType, 0)).
+      WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 16777215))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -587,7 +588,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.FLOAT> rows =
       SELECT(
-        CAST(t.smallintType).AS.FLOAT()).
+        CAST(t.tinyintType).AS.FLOAT()).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -599,9 +600,9 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.FLOAT.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.FLOAT.UNSIGNED()).
+        CAST(t.tinyintType).AS.FLOAT.UNSIGNED()).
       FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
+      WHERE(GTE(t.tinyintType, 0)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -612,7 +613,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DOUBLE> rows =
       SELECT(
-        CAST(t.smallintType).AS.DOUBLE()).
+        CAST(t.tinyintType).AS.DOUBLE()).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -624,9 +625,9 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DOUBLE.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.DOUBLE.UNSIGNED()).
+        CAST(t.tinyintType).AS.DOUBLE.UNSIGNED()).
       FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
+      WHERE(GTE(t.tinyintType, 0)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -637,7 +638,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.smallintType).AS.DECIMAL(18, 5)).
+        CAST(t.tinyintType).AS.DECIMAL(31, 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -649,9 +650,9 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.DECIMAL.UNSIGNED(18, 5)).
+        CAST(t.tinyintType).AS.DECIMAL.UNSIGNED(31, 10)).
       FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
+      WHERE(GTE(t.tinyintType, 0)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -660,11 +661,11 @@ public class CastTest {
   @Test
   public void testSmallIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.SMALLINT(3)).
+        CAST(t.tinyintType).AS.TINYINT(3)).
       FROM(t).
-      WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
+      WHERE(AND(GTE(t.tinyintType, -128), LTE(t.tinyintType, 127))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -673,11 +674,11 @@ public class CastTest {
   @Test
   public void testSmallIntToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.UNSIGNED(3)).
+        CAST(t.tinyintType).AS.UNSIGNED(3)).
       FROM(t).
-      WHERE(AND(GTE(t.smallintType, 0), LTE(t.smallintType, 255))).
+      WHERE(AND(GTE(t.tinyintType, 0), LTE(t.tinyintType, 255))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -686,11 +687,11 @@ public class CastTest {
   @Test
   public void testSmallIntToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.smallintType).AS.MEDIUMINT(5)).
+        CAST(t.tinyintType).AS.SMALLINT(5)).
       FROM(t).
-      WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
+      WHERE(AND(GTE(t.tinyintType, -128), LTE(t.tinyintType, 127))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -699,9 +700,172 @@ public class CastTest {
   @Test
   public void testSmallIntToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.tinyintType).AS.SMALLINT.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.tinyintType, 0), LTE(t.tinyintType, 255))).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testSmallIntToInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.INT> rows =
+      SELECT(
+        CAST(t.tinyintType).AS.INT(10)).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testSmallIntToIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.INT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.tinyintType).AS.INT.UNSIGNED(10)).
+      FROM(t).
+      WHERE(GTE(t.tinyintType, 0)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testSmallIntToBigInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.BIGINT> rows =
+      SELECT(
+        CAST(t.tinyintType).AS.BIGINT(16)).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testSmallIntToBigIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.BIGINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.tinyintType).AS.BIGINT.UNSIGNED(16)).
+      FROM(t).
+      WHERE(GTE(t.tinyintType, 0)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testSmallIntToChar() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.CHAR> rows =
+      SELECT(
+        CAST(t.tinyintType).AS.CHAR(254)).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToFloat() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.FLOAT> rows =
+      SELECT(
+        CAST(t.smallintType).AS.FLOAT()).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToFloatUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.FLOAT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.FLOAT.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.tinyintType, 0)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToDouble() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DOUBLE> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DOUBLE()).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToDoubleUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DOUBLE.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DOUBLE.UNSIGNED()).
+      FROM(t).
+      WHERE(GTE(t.tinyintType, 0)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToDecimal() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DECIMAL> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DECIMAL(31, 10)).
+      FROM(t).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToDecimalUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.DECIMAL.UNSIGNED(31, 10)).
+      FROM(t).
+      WHERE(GTE(t.tinyintType, 0)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToSmallInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.TINYINT> rows =
+      SELECT(
+        CAST(t.smallintType).AS.TINYINT(3)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, -128), LTE(t.smallintType, 127))).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToSmallIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.smallintType, 0), LTE(t.smallintType, 255))).
       execute()) {
@@ -710,7 +874,33 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToInt() throws IOException, SQLException {
+  public void testMediumIntToMediumInt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.SMALLINT> rows =
+      SELECT(
+        CAST(t.smallintType).AS.SMALLINT(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, -32768), LTE(t.smallintType, 32767))).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToMediumIntUnsigned() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+      SELECT(
+        CAST(t.smallintType).AS.UNSIGNED(5)).
+      FROM(t).
+      WHERE(AND(GTE(t.smallintType, 0), LTE(t.smallintType, 32767))).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+    }
+  }
+
+  @Test
+  public void testMediumIntToInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.INT> rows =
       SELECT(
@@ -722,7 +912,7 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToIntUnsigned() throws IOException, SQLException {
+  public void testMediumIntToIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.INT.UNSIGNED> rows =
       SELECT(
@@ -735,7 +925,7 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToBigInt() throws IOException, SQLException {
+  public void testMediumIntToBigInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.BIGINT> rows =
       SELECT(
@@ -747,7 +937,7 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToBigIntUnsigned() throws IOException, SQLException {
+  public void testMediumIntToBigIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.BIGINT.UNSIGNED> rows =
       SELECT(
@@ -760,200 +950,11 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToChar() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.CHAR> rows =
-      SELECT(
-        CAST(t.smallintType).AS.CHAR(254)).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToFloat() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.FLOAT> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.FLOAT()).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToFloatUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.FLOAT.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.FLOAT.UNSIGNED()).
-      FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToDouble() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.DOUBLE> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.DOUBLE()).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToDoubleUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.DOUBLE.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.DOUBLE.UNSIGNED()).
-      FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToDecimal() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.DECIMAL> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.DECIMAL(18, 5)).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToDecimalUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.DECIMAL.UNSIGNED(18, 5)).
-      FROM(t).
-      WHERE(GTE(t.smallintType, 0)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToSmallInt() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.SMALLINT(3)).
-      FROM(t).
-      WHERE(AND(GTE(t.mediumintType, -128), LTE(t.mediumintType, 127))).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToSmallIntUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.SMALLINT.UNSIGNED(3)).
-      FROM(t).
-      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 255))).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToMediumInt() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.MEDIUMINT(5)).
-      FROM(t).
-      WHERE(AND(GTE(t.mediumintType, -32768), LTE(t.mediumintType, 32767))).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToMediumIntUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.UNSIGNED(5)).
-      FROM(t).
-      WHERE(AND(GTE(t.mediumintType, 0), LTE(t.mediumintType, 32767))).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToInt() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.INT> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.INT(10)).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToIntUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.INT.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.INT.UNSIGNED(10)).
-      FROM(t).
-      WHERE(GTE(t.mediumintType, 0)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToBigInt() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.BIGINT> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.BIGINT(16)).
-      FROM(t).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
-  public void testMediumIntToBigIntUnsigned() throws IOException, SQLException {
-    final types.Type t = new types.Type();
-    try (final RowIterator<type.BIGINT.UNSIGNED> rows =
-      SELECT(
-        CAST(t.mediumintType).AS.BIGINT.UNSIGNED(16)).
-      FROM(t).
-      WHERE(GTE(t.mediumintType, 0)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-    }
-  }
-
-  @Test
   public void testMediumIntToChar() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.CHAR> rows =
       SELECT(
-        CAST(t.mediumintType).AS.CHAR(254)).
+        CAST(t.smallintType).AS.CHAR(254)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -1015,7 +1016,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.intType).AS.DECIMAL(18, 5)).
+        CAST(t.intType).AS.DECIMAL(31, 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -1027,7 +1028,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.intType).AS.DECIMAL.UNSIGNED(18, 5)).
+        CAST(t.intType).AS.DECIMAL.UNSIGNED(31, 10)).
       FROM(t).
       WHERE(GTE(t.intType, 0)).
       execute()) {
@@ -1038,9 +1039,9 @@ public class CastTest {
   @Test
   public void testIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.intType).AS.SMALLINT(3)).
+        CAST(t.intType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(GTE(t.intType, -128), LTE(t.intType, 127))).
       execute()) {
@@ -1051,9 +1052,9 @@ public class CastTest {
   @Test
   public void testIntToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.intType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.intType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 255))).
       execute()) {
@@ -1064,9 +1065,9 @@ public class CastTest {
   @Test
   public void testIntToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.intType).AS.MEDIUMINT(5)).
+        CAST(t.intType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.intType, -32768), LTE(t.intType, 32767))).
       execute()) {
@@ -1077,9 +1078,9 @@ public class CastTest {
   @Test
   public void testIntToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.intType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.intType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 16777215))).
       execute()) {
@@ -1228,9 +1229,9 @@ public class CastTest {
   @Test
   public void testBigIntToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.SMALLINT(3)).
+        CAST(t.bigintType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(GTE(t.bigintType, -128), LTE(t.bigintType, 127))).
       execute()) {
@@ -1241,9 +1242,9 @@ public class CastTest {
   @Test
   public void testBigIntToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.bigintType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.bigintType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 255))).
       execute()) {
@@ -1254,9 +1255,9 @@ public class CastTest {
   @Test
   public void testBigIntToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.bigintType).AS.MEDIUMINT(5)).
+        CAST(t.bigintType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(GTE(t.bigintType, -32768), LTE(t.bigintType, 32767))).
       execute()) {
@@ -1267,9 +1268,9 @@ public class CastTest {
   @Test
   public void testBigIntToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.bigintType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.bigintType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 16777215))).
       execute()) {
@@ -1344,7 +1345,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.charType).AS.DECIMAL(18, 5)).
+        CAST(t.charType).AS.DECIMAL(31, 10)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1357,7 +1358,7 @@ public class CastTest {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.charType).AS.DECIMAL.UNSIGNED(18, 5)).
+        CAST(t.charType).AS.DECIMAL.UNSIGNED(31, 10)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1368,9 +1369,9 @@ public class CastTest {
   @Test
   public void testCharToSmallInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT> rows =
+    try (final RowIterator<type.TINYINT> rows =
       SELECT(
-        CAST(t.charType).AS.SMALLINT(3)).
+        CAST(t.charType).AS.TINYINT(3)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1381,9 +1382,9 @@ public class CastTest {
   @Test
   public void testCharToSmallIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
+    try (final RowIterator<type.TINYINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.charType).AS.SMALLINT.UNSIGNED(3)).
+        CAST(t.charType).AS.TINYINT.UNSIGNED(3)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1394,9 +1395,9 @@ public class CastTest {
   @Test
   public void testCharToMediumInt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT> rows =
+    try (final RowIterator<type.SMALLINT> rows =
       SELECT(
-        CAST(t.charType).AS.MEDIUMINT(5)).
+        CAST(t.charType).AS.SMALLINT(5)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1407,9 +1408,9 @@ public class CastTest {
   @Test
   public void testCharToMediumIntUnsigned() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<type.MEDIUMINT.UNSIGNED> rows =
+    try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
-        CAST(t.charType).AS.MEDIUMINT.UNSIGNED(5)).
+        CAST(t.charType).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%.%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {

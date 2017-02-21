@@ -16,8 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.INSERT;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -61,8 +60,8 @@ public class InsertTest {
       t.enumType.set(types.Type.EnumType.FOUR);
       t.floatType.set(42f);
       t.intType.set(2345);
-      t.mediumintType.set((short)32432);
-      t.smallintType.set((byte)127);
+      t.smallintType.set((short)32432);
+      t.tinyintType.set((byte)127);
       t.timeType.set(LocalTime.now());
       Assert.assertEquals(1, INSERT(t).execute(transaction).length);
 
@@ -87,8 +86,8 @@ public class InsertTest {
       t1.enumType.set(types.Type.EnumType.FOUR);
       t1.floatType.set(42f);
       t1.intType.set(2345);
-      t1.mediumintType.set((short)32432);
-      t1.smallintType.set((byte)127);
+      t1.smallintType.set((short)32432);
+      t1.tinyintType.set((byte)127);
       t1.timeType.set(LocalTime.now());
 
       final types.Type t2 = new types.Type();
@@ -105,8 +104,8 @@ public class InsertTest {
       t2.enumType.set(types.Type.EnumType.FOUR);
       t2.floatType.set(32f);
       t2.intType.set(1345);
-      t2.mediumintType.set((short)22432);
-      t2.smallintType.set((byte)-127);
+      t2.smallintType.set((short)22432);
+      t2.tinyintType.set((byte)-127);
       t2.timeType.set(LocalTime.now());
 
       Assert.assertEquals(2, INSERT(t1, t2).execute(transaction).length);
@@ -122,10 +121,10 @@ public class InsertTest {
       t.bigintType.set(8493l);
       t.charType.set("hello");
       t.doubleType.set(32d);
-      t.smallintType.set((byte)127);
+      t.tinyintType.set((byte)127);
       t.timeType.set(LocalTime.now());
 
-      final int[] results = INSERT(t.bigintType, t.charType, t.doubleType, t.smallintType, t.timeType).execute(transaction);
+      final int[] results = INSERT(t.bigintType, t.charType, t.doubleType, t.tinyintType, t.timeType).execute(transaction);
       Assert.assertEquals(1, results[0]);
 
       transaction.rollback();

@@ -45,7 +45,7 @@
     <column name="website" xsi:type="char" varying="true" length="32" null="true"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="false"/>
     <column name="phone" xsi:type="bigint" precision="19" unsigned="true" null="true"/>
-    <column name="open_week_days" xsi:type="smallint" unsigned="true" precision="3" min="0" max="255" null="true"/>
+    <column name="open_week_days" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="255" null="true"/>
     <column name="open_time" xsi:type="time" null="false"/>
     <column name="close_time" xsi:type="time" null="false"/>
   </table>
@@ -56,9 +56,9 @@
     <column name="title" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="author" xsi:type="char" varying="true" length="255" null="false"/>
     <column name="publisher" xsi:type="char" varying="true" length="255" default="" null="false"/>
-    <column name="publish_year" xsi:type="mediumint" precision="4" unsigned="true" null="false"/>
-    <column name="aisle" xsi:type="smallint" precision="2" unsigned="true" null="false"/>
-    <column name="shelf" xsi:type="smallint" precision="1" unsigned="true" null="false"/>
+    <column name="publish_year" xsi:type="smallint" precision="4" unsigned="true" null="false"/>
+    <column name="aisle" xsi:type="tinyint" precision="2" unsigned="true" null="false"/>
+    <column name="shelf" xsi:type="tinyint" precision="1" unsigned="true" null="false"/>
   </table>
   <table name="card" extends="address">
     <column name="given_name" xsi:type="char" varying="true" length="32" null="false"/>

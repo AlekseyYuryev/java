@@ -16,10 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AVG;
-import static org.safris.xdb.entities.DML.MAX;
-import static org.safris.xdb.entities.DML.MIN;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.math.BigInteger;

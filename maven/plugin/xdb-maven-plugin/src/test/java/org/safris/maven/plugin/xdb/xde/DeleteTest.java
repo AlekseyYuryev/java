@@ -16,8 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.DELETE;
-import static org.safris.xdb.entities.DML.EQ;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,7 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.safris.xdb.entities.Transaction;
 import org.safris.xdb.entities.classicmodels;
-import org.safris.xdb.entities.types;
 import org.safris.xdb.schema.VendorIntegration;
 import org.safris.xdb.schema.VendorTest;
 import org.safris.xdb.schema.vendor.Derby;
@@ -42,11 +40,11 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 public class DeleteTest {
   @Test
   public void testDeleteEntity() throws IOException, SQLException {
-    try (final Transaction transaction = new Transaction(types.class)) {
+    try (final Transaction transaction = new Transaction(classicmodels.class)) {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       p.purchaseNumber.set(10102l);
       p.customerNumber.set(181);
-      final int[] results = DELETE(p).execute();
+      final int[] results = DELETE(p).execute(transaction);
 
       Assert.assertEquals(1, results[0]);
 
@@ -56,7 +54,7 @@ public class DeleteTest {
 
   @Test
   public void testDeleteEntities() throws IOException, SQLException {
-    try (final Transaction transaction = new Transaction(types.class)) {
+    try (final Transaction transaction = new Transaction(classicmodels.class)) {
       final classicmodels.Purchase p = new classicmodels.Purchase();
       p.purchaseNumber.set(10100l);
       p.customerNumber.set(363);
@@ -64,7 +62,7 @@ public class DeleteTest {
       final classicmodels.Payment pa = new classicmodels.Payment();
       pa.customerNumber.set(103);
 
-      final int[] results = DELETE(p, pa).execute();
+      final int[] results = DELETE(p, pa).execute(transaction);
 
       Assert.assertEquals(1, results[0]);
       Assert.assertEquals(3, results[1]);
@@ -75,9 +73,9 @@ public class DeleteTest {
 
   @Test
   public void testDeleteWhere() throws IOException, SQLException {
-    try (final Transaction transaction = new Transaction(types.class)) {
+    try (final Transaction transaction = new Transaction(classicmodels.class)) {
       final classicmodels.Purchase p = new classicmodels.Purchase();
-      final int[] results = DELETE(p).WHERE(EQ(p.purchaseDate, LocalDate.parse("2003-01-09"))).execute();
+      final int[] results = DELETE(p).WHERE(EQ(p.purchaseDate, LocalDate.parse("2003-01-09"))).execute(transaction);
 
       Assert.assertEquals(1, results[0]);
 
@@ -87,11 +85,11 @@ public class DeleteTest {
 
   @Test
   public void testDeleteAll() throws IOException, SQLException {
-    try (final Transaction transaction = new Transaction(types.class)) {
+    try (final Transaction transaction = new Transaction(classicmodels.class)) {
       final classicmodels.PurchaseDetail p = new classicmodels.PurchaseDetail();
-      final int[] results = DELETE(p).execute();
+      final int[] results = DELETE(p).execute(transaction);
 
-      Assert.assertEquals(2986, results[0]);
+      Assert.assertTrue(results[0] > 2985);
 
       transaction.rollback();
     }

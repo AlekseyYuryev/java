@@ -60,7 +60,7 @@
     <column name="gender" xsi:type="enum" values="M F" null="false"/>
     <column name="website" xsi:type="char" length="32" null="true"/>
     <column name="allow_patient_cancel" xsi:type="boolean" default="false" null="false"/>
-    <column name="cancel_cutoff" xsi:type="smallint" unsigned="true" precision="1" min="1" max="7" null="false"/>
+    <column name="cancel_cutoff" xsi:type="tinyint" unsigned="true" precision="1" min="1" max="7" null="false"/>
     <column name="payment_method" xsi:type="enum" values="CREDIT_CARD MANUAL CHECK CASH" default="CHECK" null="false"/>
     <column name="education" xsi:type="char" varying="true" length="4096" default="" null="false"/>
     <column name="awards" xsi:type="char" varying="true" length="4096" default="" null="false"/>
@@ -69,15 +69,15 @@
     <column name="board_certs" xsi:type="char" varying="true" length="4096" default="" null="false"/>
     <column name="publications" xsi:type="char" varying="true" length="4096" default="" null="false"/>
     <column name="affiliations" xsi:type="char" varying="true" length="4096" default="" null="false"/>
-    <column name="accepted_locations" xsi:type="smallint" unsigned="true" precision="3" min="0" max="255" null="false"/>
-    <column name="authed_locations" xsi:type="smallint" unsigned="true" precision="3" min="0" max="255" default="6" null="false"/>
+    <column name="accepted_locations" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="255" null="false"/>
+    <column name="authed_locations" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="255" default="6" null="false"/>
     <column name="visibility" xsi:type="enum" values="PATIENTS PUBLIC" default="PATIENTS" null="false"/>
     <column name="sms_phone" xsi:type="bigint" precision="19" unsigned="true" null="true"/>
     <column name="callback_phone" xsi:type="bigint" precision="19" unsigned="true" null="true"/>
     <column name="skype_id" xsi:type="char" varying="true" length="128" null="true"/>
     <column name="time_zone" xsi:type="char" varying="true" length="64" null="false"/>
     <column name="time_zone_update" xsi:type="enum" values="AUTO ASK MANUAL" null="false" default="ASK"/>
-    <column name="auto_logout" xsi:type="smallint" unsigned="true" precision="3" null="false" default="30"/>
+    <column name="auto_logout" xsi:type="tinyint" unsigned="true" precision="3" null="false" default="30"/>
     <constraints>
       <primaryKey>
         <column name="id"/>
@@ -182,9 +182,9 @@
     <column name="pharmacy_address" xsi:type="char" varying="true" length="255" null="true"/>
     <column name="pharmacy_phone"  xsi:type="bigint" precision="19" unsigned="true" null="true"/>
     <column name="pharmacy_fax"  xsi:type="bigint" precision="19" unsigned="true" null="true"/>
-    <column name="auth_in_person" xsi:type="smallint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
-    <column name="auth_phone" xsi:type="smallint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
-    <column name="auth_video" xsi:type="smallint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
+    <column name="auth_in_person" xsi:type="tinyint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
+    <column name="auth_phone" xsi:type="tinyint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
+    <column name="auth_video" xsi:type="tinyint" precision="1" min="0" max="3" unsigned="true" default="2" null="false"/>
     <constraints>
       <primaryKey>
         <column name="id"/>
@@ -229,9 +229,9 @@
     </column>
     <column name="cc" xsi:type="bigint" precision="16" unsigned="true" null="false"/>
     <column name="name" xsi:type="char" varying="true" length="64" null="false"/>
-    <column name="exp_month" xsi:type="smallint" precision="2" unsigned="true" min="1" max="12" null="false"/>
-    <column name="exp_year" xsi:type="mediumint" precision="4" unsigned="true" null="false"/>
-    <column name="cvv" xsi:type="mediumint" precision="4" unsigned="true" null="false"/>
+    <column name="exp_month" xsi:type="tinyint" precision="2" unsigned="true" min="1" max="12" null="false"/>
+    <column name="exp_year" xsi:type="smallint" precision="4" unsigned="true" null="false"/>
+    <column name="cvv" xsi:type="smallint" precision="4" unsigned="true" null="false"/>
   </table>
   <table name="charge" extends="timestamp_by_id">
     <column name="doctor_patient_id" xsi:type="char" length="36" null="false">
@@ -254,7 +254,7 @@
     <column name="currency_code" xsi:type="char" length="3" null="false">
       <foreignKey references="currency" column="code"/>
     </column>
-    <column name="cancel_cutoff" xsi:type="smallint" precision="1" min="1" max="7" null="false"/>
+    <column name="cancel_cutoff" xsi:type="tinyint" precision="1" min="1" max="7" null="false"/>
     <column name="patient_credit_card_id" xsi:type="char" length="36" null="true">
       <foreignKey references="patient_credit_card" column="id"/>
     </column>
@@ -279,7 +279,7 @@
   <table name="currency">
     <column name="code" xsi:type="char" length="3" null="false"/>
     <column name="name" xsi:type="char" varying="true" length="32" null="false"/>
-    <column name="precis" xsi:type="smallint" precision="1" min="0" max="6" unsigned="true" null="false"/>
+    <column name="precis" xsi:type="tinyint" precision="1" min="0" max="6" unsigned="true" null="false"/>
     <constraints>
       <primaryKey>
         <column name="code"/>
@@ -290,7 +290,7 @@
     <column name="doctor_patient_id" xsi:type="char" length="36" null="false">
       <foreignKey references="doctor_patient" column="id"/>
     </column>
-    <column name="priority" xsi:type="smallint" precision="3" unsigned="true" null="false"/>
+    <column name="priority" xsi:type="tinyint" precision="3" unsigned="true" null="false"/>
   </table>
   <table name="holiday" extends="id">
     <column name="name" xsi:type="char" varying="true" length="255" null="false"/>
@@ -397,22 +397,22 @@
       <foreignKey references="doctor" column="id"/>
     </column>
     <column name="repeats_daily" xsi:type="boolean" default="false" null="false"/>
-    <column name="repeat_weekly_days" xsi:type="smallint" unsigned="true" precision="3" min="0" max="255" null="true"/>
-    <column name="repeat_monthly_day" xsi:type="smallint" unsigned="true" precision="1" min="1" max="7" null="true"/>
-    <column name="repeat_monthly_week" xsi:type="smallint" unsigned="true" precision="1" min="1" max="4" null="true"/>
+    <column name="repeat_weekly_days" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="255" null="true"/>
+    <column name="repeat_monthly_day" xsi:type="tinyint" unsigned="true" precision="1" min="1" max="7" null="true"/>
+    <column name="repeat_monthly_week" xsi:type="tinyint" unsigned="true" precision="1" min="1" max="4" null="true"/>
     <column name="repeats_yearly" xsi:type="boolean" default="false" null="false"/>
     <column name="repeat_yearly_holiday_id" xsi:type="char" length="36" null="true">
       <foreignKey references="holiday" column="id"/>
     </column>
-    <column name="repeat_period" xsi:type="smallint" unsigned="true" precision="2" min="0" max="24" default="0" null="false"/>
-    <column name="repeat_end_times" xsi:type="mediumint" unsigned="true" precision="4" null="true"/>
+    <column name="repeat_period" xsi:type="tinyint" unsigned="true" precision="2" min="0" max="24" default="0" null="false"/>
+    <column name="repeat_end_times" xsi:type="smallint" unsigned="true" precision="4" null="true"/>
     <column name="repeat_end_date" xsi:type="dateTime" null="true"/>
-    <column name="location" xsi:type="smallint" unsigned="true" precision="3" min="1" max="255" null="true"/>
+    <column name="location" xsi:type="tinyint" unsigned="true" precision="3" min="1" max="255" null="true"/>
     <column name="address_id" xsi:type="char" length="36" null="true">
       <foreignKey references="doctor_address" column="id"/>
     </column>
-    <column name="block_before" xsi:type="smallint" unsigned="true" precision="3" min="5" max="30" null="true"/>
-    <column name="block_after" xsi:type="smallint" unsigned="true" precision="3" min="5" max="30" null="true"/>
+    <column name="block_before" xsi:type="tinyint" unsigned="true" precision="3" min="5" max="30" null="true"/>
+    <column name="block_after" xsi:type="tinyint" unsigned="true" precision="3" min="5" max="30" null="true"/>
     <column name="fee" xsi:type="int" unsigned="true" precision="10" null="true"/>
     <column name="currency_code" xsi:type="char" varying="true" length="3" null="true">
       <foreignKey references="currency" column="code"/>
@@ -437,9 +437,9 @@
       <foreignKey references="doctor" column="id"/>
     </column>
     <column name="reason" xsi:type="char" varying="true" length="128" default="" null="false"/>
-    <column name="duration" xsi:type="mediumint" unsigned="true" precision="4" null="false"/>
-    <column name="block_before" xsi:type="smallint" unsigned="true" precision="3" min="0" max="30" default="0" null="false"/>
-    <column name="block_after" xsi:type="smallint" unsigned="true" precision="3" min="0" max="30" default="0" null="false"/>
+    <column name="duration" xsi:type="smallint" unsigned="true" precision="4" null="false"/>
+    <column name="block_before" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="30" default="0" null="false"/>
+    <column name="block_after" xsi:type="tinyint" unsigned="true" precision="3" min="0" max="30" default="0" null="false"/>
     <column name="fee" xsi:type="int" unsigned="true" precision="10" null="false"/>
     <column name="currency_code" xsi:type="char" varying="true" length="3" null="false">
       <foreignKey references="currency" column="code"/>

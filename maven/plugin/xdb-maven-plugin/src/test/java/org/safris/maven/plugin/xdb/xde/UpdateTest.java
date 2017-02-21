@@ -16,9 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.SELECT;
-import static org.safris.xdb.entities.DML.UPDATE;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -92,7 +90,7 @@ public class UpdateTest {
       p.quantityInStock.set(300);
       pl.description.set(new StringReader("New description"));
 
-      final int[] results = UPDATE(p, pl).execute();
+      final int[] results = UPDATE(p, pl).execute(transaction);
       Assert.assertEquals(1, results[0]);
       Assert.assertEquals(1, results[1]);
 
@@ -117,7 +115,7 @@ public class UpdateTest {
         UPDATE(t).
         SET(t.enumType, types.Type.EnumType.FOUR).
         WHERE(EQ(t.enumType, types.Type.EnumType.ONE)).
-        execute();
+        execute(transaction);
 
       Assert.assertTrue(results[0] > 0);
 
@@ -141,7 +139,7 @@ public class UpdateTest {
       final int[] results =
         UPDATE(t).
         SET(t.datetimeType, LocalDateTime.now()).
-        execute();
+        execute(transaction);
 
       Assert.assertTrue(results[0] > 300);
 

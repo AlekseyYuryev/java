@@ -35,7 +35,7 @@ import org.safris.xdb.schema.vendor.PostgreSQL;
 
 @RunWith(EntityVendorClassRunner.class)
 @EntityClass(classicmodels.class)
-@VendorTest(Derby.class)
+@VendorTest(MySQL.class)
 @VendorIntegration({MySQL.class, PostgreSQL.class})
 public class ComparisonPredicateTest {
   @Test

@@ -16,11 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.ADD;
-import static org.safris.xdb.entities.DML.COUNT;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.SELECT;
-import static org.safris.xdb.entities.DML.SUB;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;

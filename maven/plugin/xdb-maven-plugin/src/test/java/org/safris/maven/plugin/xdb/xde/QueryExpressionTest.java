@@ -16,12 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.AND;
-import static org.safris.xdb.entities.DML.EQ;
-import static org.safris.xdb.entities.DML.GT;
-import static org.safris.xdb.entities.DML.LT;
-import static org.safris.xdb.entities.DML.OR;
-import static org.safris.xdb.entities.DML.SELECT;
+import static org.safris.xdb.entities.DML.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
