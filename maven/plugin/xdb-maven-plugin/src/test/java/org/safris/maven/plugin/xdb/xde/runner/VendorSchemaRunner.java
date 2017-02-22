@@ -14,9 +14,13 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
+package org.safris.maven.plugin.xdb.xde.runner;
 
 import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,30 +29,35 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
-import org.safris.xdb.entities.Schema;
-import org.safris.xdb.schema.VendorClassRunner;
-import org.safris.xdb.schema.vendor.Vendor;
+import org.safris.xdb.schema.runner.Vendor;
+import org.safris.xdb.schema.runner.VendorRunner;
 
-public class EntityVendorClassRunner extends VendorClassRunner {
-  public EntityVendorClassRunner(final Class<?> klass) throws InitializationError {
+public class VendorSchemaRunner extends VendorRunner {
+  @Target({ElementType.TYPE, ElementType.METHOD})
+  @Retention(RetentionPolicy.RUNTIME)
+  public static @interface Schema {
+    Class<? extends org.safris.xdb.entities.Schema>[] value();
+  }
+
+  public VendorSchemaRunner(final Class<?> klass) throws InitializationError {
     super(klass);
   }
 
   @Override
   protected void run(final Class<? extends Vendor> vendorClass, final FrameworkMethod method, final Object test) throws Throwable {
-    EntityClass entityClass = method.getMethod().getAnnotation(EntityClass.class);
+    Schema entityClass = method.getMethod().getAnnotation(Schema.class);
     if (entityClass == null)
-      entityClass = method.getMethod().getDeclaringClass().getAnnotation(EntityClass.class);
+      entityClass = method.getMethod().getDeclaringClass().getAnnotation(Schema.class);
 
     if (entityClass == null)
-      throw new Exception("@" + EntityClass.class.getSimpleName() + " is required on either method or class");
+      throw new Exception("@" + Schema.class.getSimpleName() + " is required on either method or class");
 
-    for (final Class<? extends Schema> cls : entityClass.value()) {
+    for (final Class<? extends org.safris.xdb.entities.Schema> cls : entityClass.value()) {
       EntityRegistry.register(cls, PreparedStatement.class, new EntityDataSource() {
         @Override
         public Connection getConnection() throws SQLException {
           try {
-            return EntityVendorClassRunner.this.getConnection(vendorClass);
+            return VendorSchemaRunner.this.getConnection(vendorClass);
           }
           catch (final IOException | ReflectiveOperationException e) {
             throw new SQLException(e);

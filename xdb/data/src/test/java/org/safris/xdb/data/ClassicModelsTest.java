@@ -14,39 +14,35 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.maven.plugin.xdb.xde;
-
-import static org.safris.xdb.entities.DML.*;
+package org.safris.xdb.data;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.junit.Assert;
+import javax.xml.transform.TransformerException;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
-import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.classicmodels;
-import org.safris.xdb.entities.type;
+import org.safris.commons.xml.XMLException;
 import org.safris.xdb.schema.runner.Derby;
 import org.safris.xdb.schema.runner.MySQL;
 import org.safris.xdb.schema.runner.PostgreSQL;
+import org.safris.xdb.schema.runner.VendorRunner;
 
-@RunWith(VendorSchemaRunner.class)
-@VendorSchemaRunner.Schema(classicmodels.class)
-@VendorSchemaRunner.Test(Derby.class)
-@VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
-public class OrderExpressionTest {
+@RunWith(VendorRunner.class)
+@VendorRunner.Test(Derby.class)
+@VendorRunner.Integration({MySQL.class, PostgreSQL.class})
+public class ClassicModelsTest extends DataTest {
+  @BeforeClass
+  @VendorRunner.RunIn(VendorRunner.Test.class)
+  public static void createSchema() throws IOException, TransformerException {
+    createSchemas("classicmodels");
+  }
+
   @Test
-  public void testOrderExpression() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
-      SELECT(p.msrp, p.price).
-      FROM(p).
-      ORDER_BY(DESC(p.price), p.msrp).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Double.valueOf(147.74), rows.nextEntity().get().doubleValue(), 0.0000000001);
-    }
+  public void testClassicModels(final Connection connection) throws IOException, SQLException, XMLException {
+    testData(connection, "classicmodels");
   }
 }
