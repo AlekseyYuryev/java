@@ -118,7 +118,7 @@
                 </goals>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/xdb</destdir>
+                    <destdir>${project.build.directory}/generated-test-sources/dbx</destdir>
                     <resources>
                       <resource>src/test/resources/survey.ddlx</resource>
                     </resources>
@@ -134,7 +134,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/xdb</destdir>
+                    <destdir>${project.build.directory}/generated-test-resources/dbx</destdir>
                     <resources>
                       <resource>src/test/resources/library.ddlx</resource>
                     </resources>
@@ -150,7 +150,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/xdb</destdir>
+                    <destdir>${project.build.directory}/generated-test-resources/dbx</destdir>
                     <resources>
                       <resource>src/test/resources/hospital.ddlx</resource>
                     </resources>

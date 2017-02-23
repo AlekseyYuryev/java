@@ -161,8 +161,8 @@
                   <phase>compile</phase>
                   <configuration>
                     <includes>
-                      <include>src/main/**/*.xdd</include>
-                      <include>src/main/**/*.xds</include>
+                      <include>src/main/**/*.ddlx</include>
+                      <include>src/main/**/*.dmlx</include>
                       <include>src/main/**/*.xjs</include>
                       <include>src/main/**/*.xml</include>
                       <include>src/main/**/*.xsd</include>
@@ -177,8 +177,8 @@
                   <phase>test-compile</phase>
                   <configuration>
                     <includes>
-                      <include>src/test/**/*.xdd</include>
-                      <include>src/test/**/*.xds</include>
+                      <include>src/test/**/*.ddlx</include>
+                      <include>src/test/**/*.dmlx</include>
                       <include>src/test/**/*.xjs</include>
                       <include>src/test/**/*.xml</include>
                       <include>src/test/**/*.xsd</include>

@@ -21,6 +21,6 @@
   <id>xdb-maven-archetype</id>
   <allowPartial>true</allowPartial>
   <resources>
-    <resource>src/main/resources/basis.xds</resource>
+    <resource>src/main/resources/basis.ddlx</resource>
   </resources>
 </archetype>
