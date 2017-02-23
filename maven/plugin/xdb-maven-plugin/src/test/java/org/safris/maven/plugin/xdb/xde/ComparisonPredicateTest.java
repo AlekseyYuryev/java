@@ -28,7 +28,6 @@ import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
 import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
 import org.safris.xdb.entities.type;
-import org.safris.xdb.schema.runner.Derby;
 import org.safris.xdb.schema.runner.MySQL;
 import org.safris.xdb.schema.runner.PostgreSQL;
 
