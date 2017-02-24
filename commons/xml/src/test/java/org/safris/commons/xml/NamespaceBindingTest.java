@@ -50,7 +50,7 @@ public class NamespaceBindingTest extends LoggableTest {
     map.put("http://xml.safris.org/schema/binding/test/unit/namespace.xsd", "org.safris.xml.schema.binding.test.unit.namespace");
     map.put("http://xml.safris.org/schema/binding/test/unit/simpleTypes.xsd", "org.safris.xml.schema.binding.test.unit.simpletypes");
     map.put("http://xml.safris.org/schema/binding/test/unit/types.xsd", "org.safris.xml.schema.binding.test.unit.types");
-    map.put("http://xml.safris.org/schema/binding/xdb.xsd", "org.safris.xml.schema.binding.xdb");
+    map.put("http://xml.safris.org/schema/binding/dbx.xsd", "org.safris.xml.schema.binding.dbx");
     map.put("http://xml.safris.org/toolkit/binding/manifest.xsd", "org.safris.xml.toolkit.binding.manifest");
     map.put("http://xml.safris.org/toolkit/binding/test/maven.xsd", "org.safris.xml.toolkit.binding.test.maven");
     map.put("http://xml.safris.org/toolkit/binding/tutorial/invoice.xsd", "org.safris.xml.toolkit.binding.tutorial.invoice");

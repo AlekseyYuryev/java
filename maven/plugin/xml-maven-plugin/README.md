@@ -34,8 +34,8 @@ Execution with `includes` directive.
       </goals>
       <configuration>
         <includes>
-          <include>**/*.xdd</include>
-          <include>**/*.xds</include>
+          <include>**/*.ddlx</include>
+          <include>**/*.dmlx</include>
           <include>**/*.xjs</include>
           <include>**/*.xsd</include>
           <include>**/*.xml</include>
@@ -63,8 +63,8 @@ Execution with `includes` and `excludes` directives.
       </goals>
       <configuration>
         <includes>
-          <include>**/*.xdd</include>
-          <include>**/*.xds</include>
+          <include>**/*.ddlx</include>
+          <include>**/*.dmlx</include>
           <include>**/*.xjs</include>
           <include>**/*.xsd</include>
           <include>**/*.xml</include>

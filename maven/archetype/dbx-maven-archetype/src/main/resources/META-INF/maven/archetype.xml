@@ -18,7 +18,7 @@
   xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0 http://maven.apache.org/xsd/archetype-1.0.0.xsd">
-  <id>xdb-maven-archetype</id>
+  <id>dbx-maven-archetype</id>
   <allowPartial>true</allowPartial>
   <resources>
     <resource>src/main/resources/basis.ddlx</resource>
