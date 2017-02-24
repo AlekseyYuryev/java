@@ -38,8 +38,8 @@
         </property>
       </activation>
       <modules>
-        <module>archetype</module>
         <module>plugin</module>
+        <module>archetype</module>
       </modules>
     </profile>
     <profile>
