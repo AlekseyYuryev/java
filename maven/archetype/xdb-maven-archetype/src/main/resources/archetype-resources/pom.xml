@@ -15,9 +15,9 @@
         <version>1.3.2</version>
         <executions>
           <execution>
-            <id>default-schema</id>
+            <id>default-ddl</id>
             <goals>
-              <goal>schema</goal>
+              <goal>ddl</goal>
             </goals>
             <configuration>
               <vendor>PostgreSQL</vendor>

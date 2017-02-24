@@ -18,31 +18,31 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>xdb</role-hint>
+      <role-hint>dbx</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>xdb</id>
+        <id>dbx</id>
         <default-phases>
-          <generate-sources>org.safris.maven.plugin:xdb-maven-plugin:entities</generate-sources>
-          <generate-resources>org.safris.maven.plugin:xdb-maven-plugin:schema,org.safris.maven.plugin:xdb-maven-plugin:data</generate-resources>
+          <generate-sources>org.safris.maven.plugin:dbx-maven-plugin:jsql</generate-sources>
+          <generate-resources>org.safris.maven.plugin:dbx-maven-plugin:ddl,org.safris.maven.plugin:dbx-maven-plugin:dml</generate-resources>
         </default-phases>
       </configuration>
     </component>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>xdb</role-hint>
+      <role-hint>dbx</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>xdb</id>
+        <id>dbx</id>
         <phases>
           <phase>entities</phase>
           <phase>schema</phase>
           <phase>data</phase>
         </phases>
         <default-phases>
-          <entities>org.safris.maven.plugin:xdb-maven-plugin:entities</entities>
-          <schema>org.safris.maven.plugin:xdb-maven-plugin:schema</schema>
-          <data>org.safris.maven.plugin:xdb-maven-plugin:data</data>
+          <entities>org.safris.maven.plugin:dbx-maven-plugin:jsql</entities>
+          <schema>org.safris.maven.plugin:dbx-maven-plugin:ddl</schema>
+          <data>org.safris.maven.plugin:dbx-maven-plugin:dml</data>
         </default-phases>
       </configuration>
     </component>

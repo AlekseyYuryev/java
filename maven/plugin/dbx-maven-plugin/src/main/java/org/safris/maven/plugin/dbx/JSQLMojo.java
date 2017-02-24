@@ -24,27 +24,21 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
-import org.safris.dbx.ddlx.DBVendor;
-import org.safris.dbx.ddlx.Generator;
-import org.safris.dbx.ddlx.GeneratorExecutionException;
+import org.safris.dbx.jsql.generator.Generator;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
 
-@Mojo(name = "schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
-@Execute(goal = "schema")
-public final class XDSMojo extends ManifestMojo {
-  @Parameter(property = "vendor", required = true)
-  private String vendor;
-
+@Mojo(name = "jsql", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "jsql")
+public final class JSQLMojo extends ManifestMojo {
   @Override
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
       for (final URL url : manifest.getSchemas())
-        Generator.createDDL(url, DBVendor.parse(vendor), manifest.getDestdir());
+        Generator.generate(url, manifest.getDestdir(), manifest.getCompile());
     }
-    catch (final GeneratorExecutionException | IOException | XMLException e) {
+    catch (final IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
   }

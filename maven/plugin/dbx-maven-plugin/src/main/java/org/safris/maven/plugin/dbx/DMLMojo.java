@@ -32,9 +32,9 @@ import org.safris.dbx.dmlx.Datas;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
 
-@Mojo(name = "data", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
-@Execute(goal = "data")
-public final class XDDMojo extends ManifestMojo {
+@Mojo(name = "dml", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+@Execute(goal = "dml")
+public final class DMLMojo extends ManifestMojo {
   @Override
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {

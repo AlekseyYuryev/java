@@ -367,15 +367,15 @@
           <version>1.4.1</version>
           <executions>
             <execution>
-              <id>default-schema</id>
+              <id>default-ddl</id>
               <goals>
-                <goal>schema</goal>
+                <goal>ddl</goal>
               </goals>
             </execution>
             <execution>
-              <id>default-entities</id>
+              <id>default-jsql</id>
               <goals>
-                <goal>entities</goal>
+                <goal>jsql</goal>
               </goals>
             </execution>
           </executions>
