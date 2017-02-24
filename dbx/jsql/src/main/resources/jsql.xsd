@@ -17,12 +17,12 @@
 <xs:schema
   elementFormDefault="qualified"
   attributeFormDefault="qualified"
-  targetNamespace="http://dbx.safris.org/jsqlx.xsd"
-  xmlns:jsqlx="http://dbx.safris.org/jsqlx.xsd"
+  targetNamespace="http://dbx.safris.org/jsql.xsd"
+  xmlns:jsql="http://dbx.safris.org/jsql.xsd"
   xmlns:ddlx="http://dbx.safris.org/ddlx.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
-  <xs:import namespace="http://dbx.safris.org/ddlx.xsd" schemaLocation="jsqlx-ddlx.xsd"/>
+  <xs:import namespace="http://dbx.safris.org/ddlx.xsd" schemaLocation="jsql-ddlx.xsd"/>
   
   <xs:simpleType name="timestamp">
     <xs:restriction base="xs:string">
@@ -42,7 +42,7 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -50,7 +50,7 @@
   <xs:complexType name="clob">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -60,7 +60,7 @@
   <xs:complexType name="binary">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -68,7 +68,7 @@
   <xs:complexType name="blob">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -85,7 +85,7 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -95,7 +95,7 @@
   <xs:complexType name="float">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -105,7 +105,7 @@
   <xs:complexType name="decimal">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -115,9 +115,9 @@
   <xs:complexType name="date">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
-        <xs:attribute name="generateOnInsert" type="jsqlx:timestamp"/>
-        <xs:attribute name="generateOnUpdate" type="jsqlx:timestamp"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
+        <xs:attribute name="generateOnInsert" type="jsql:timestamp"/>
+        <xs:attribute name="generateOnUpdate" type="jsql:timestamp"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -125,9 +125,9 @@
   <xs:complexType name="time">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
-        <xs:attribute name="generateOnInsert" type="jsqlx:timestamp"/>
-        <xs:attribute name="generateOnUpdate" type="jsqlx:timestamp"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
+        <xs:attribute name="generateOnInsert" type="jsql:timestamp"/>
+        <xs:attribute name="generateOnUpdate" type="jsql:timestamp"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -135,9 +135,9 @@
   <xs:complexType name="dateTime">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
-        <xs:attribute name="generateOnInsert" type="jsqlx:timestamp"/>
-        <xs:attribute name="generateOnUpdate" type="jsqlx:timestamp"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
+        <xs:attribute name="generateOnInsert" type="jsql:timestamp"/>
+        <xs:attribute name="generateOnUpdate" type="jsql:timestamp"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -147,7 +147,7 @@
   <xs:complexType name="boolean">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -157,7 +157,7 @@
   <xs:complexType name="enum">
     <xs:complexContent>
       <xs:extension base="ddlx:column">
-        <xs:attribute ref="jsqlx:checkOnUpdate"/>
+        <xs:attribute ref="jsql:checkOnUpdate"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

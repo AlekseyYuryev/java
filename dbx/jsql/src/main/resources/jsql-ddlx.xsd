@@ -18,10 +18,10 @@
   elementFormDefault="qualified"
   targetNamespace="http://dbx.safris.org/ddlx.xsd"
   xmlns:ddlx="http://dbx.safris.org/ddlx.xsd"
-  xmlns:jsqlx="http://dbx.safris.org/jsqlx.xsd"
+  xmlns:jsql="http://dbx.safris.org/jsql.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
-  <xs:import namespace="http://dbx.safris.org/jsqlx.xsd" schemaLocation="jsqlx.xsd"/>
+  <xs:import namespace="http://dbx.safris.org/jsql.xsd" schemaLocation="jsql.xsd"/>
   
   <xs:include schemaLocation="http://dbx.safris.org/ddlx-common.xsd"/>
   
@@ -29,7 +29,7 @@
   
   <xs:complexType name="char">
     <xs:complexContent>
-      <xs:extension base="jsqlx:char">
+      <xs:extension base="jsql:char">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
@@ -45,7 +45,7 @@
   
   <xs:complexType name="clob">
     <xs:complexContent>
-      <xs:extension base="jsqlx:clob">
+      <xs:extension base="jsql:clob">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
@@ -63,7 +63,7 @@
   
   <xs:complexType name="binary">
     <xs:complexContent>
-      <xs:extension base="jsqlx:binary">
+      <xs:extension base="jsql:binary">
         <xs:attributeGroup ref="ddlx:binary"/>
       </xs:extension>
     </xs:complexContent>
@@ -71,7 +71,7 @@
 
   <xs:complexType name="blob">
     <xs:complexContent>
-      <xs:extension base="jsqlx:blob">
+      <xs:extension base="jsql:blob">
         <xs:attributeGroup ref="ddlx:blob"/>
       </xs:extension>
     </xs:complexContent>
@@ -81,7 +81,7 @@
 
   <xs:complexType name="tinyint">
     <xs:complexContent>
-      <xs:extension base="jsqlx:integer">
+      <xs:extension base="jsql:integer">
         <xs:attribute name="precision" use="required">
           <xs:simpleType>
             <xs:restriction base="xs:integer">
@@ -120,7 +120,7 @@
   
   <xs:complexType name="smallint">
     <xs:complexContent>
-      <xs:extension base="jsqlx:integer">
+      <xs:extension base="jsql:integer">
         <xs:attribute name="precision" use="required">
           <xs:simpleType>
             <xs:restriction base="xs:integer">
@@ -159,7 +159,7 @@
   
   <xs:complexType name="int">
     <xs:complexContent>
-      <xs:extension base="jsqlx:integer">
+      <xs:extension base="jsql:integer">
         <xs:attribute name="precision" use="required">
           <xs:simpleType>
             <xs:restriction base="xs:integer">
@@ -198,7 +198,7 @@
   
   <xs:complexType name="bigint">
     <xs:complexContent>
-      <xs:extension base="jsqlx:integer">
+      <xs:extension base="jsql:integer">
         <xs:attribute name="precision" use="required">
           <xs:simpleType>
             <xs:restriction base="xs:integer">
@@ -239,7 +239,7 @@
   
   <xs:complexType name="float">
     <xs:complexContent>
-      <xs:extension base="jsqlx:float">
+      <xs:extension base="jsql:float">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
@@ -257,7 +257,7 @@
   
   <xs:complexType name="decimal">
     <xs:complexContent>
-      <xs:extension base="jsqlx:decimal">
+      <xs:extension base="jsql:decimal">
         <xs:sequence minOccurs="0">
           <xs:element name="check">
             <xs:complexType>
@@ -275,7 +275,7 @@
 
   <xs:complexType name="date">
     <xs:complexContent>
-      <xs:extension base="jsqlx:date">
+      <xs:extension base="jsql:date">
         <xs:attributeGroup ref="ddlx:date"/>
       </xs:extension>
     </xs:complexContent>
@@ -283,7 +283,7 @@
   
   <xs:complexType name="time">
     <xs:complexContent>
-      <xs:extension base="jsqlx:time">
+      <xs:extension base="jsql:time">
         <xs:attributeGroup ref="ddlx:time"/>
       </xs:extension>
     </xs:complexContent>
@@ -291,7 +291,7 @@
   
   <xs:complexType name="dateTime">
     <xs:complexContent>
-      <xs:extension base="jsqlx:dateTime">
+      <xs:extension base="jsql:dateTime">
         <xs:attributeGroup ref="ddlx:dateTime"/>
       </xs:extension>
     </xs:complexContent>
@@ -301,7 +301,7 @@
   
   <xs:complexType name="boolean">
     <xs:complexContent>
-      <xs:extension base="jsqlx:boolean">
+      <xs:extension base="jsql:boolean">
         <xs:attributeGroup ref="ddlx:boolean"/>
       </xs:extension>
     </xs:complexContent>
@@ -311,7 +311,7 @@
   
   <xs:complexType name="enum">
     <xs:complexContent>
-      <xs:extension base="jsqlx:enum">
+      <xs:extension base="jsql:enum">
         <xs:attributeGroup ref="ddlx:enum"/>
       </xs:extension>
     </xs:complexContent>
@@ -323,7 +323,7 @@
     <xs:complexContent>
       <xs:extension base="ddlx:compliant">
         <xs:sequence>
-          <xs:element name="table" type="jsqlx:table" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="table" type="jsql:table" minOccurs="0" maxOccurs="unbounded">
             <!--<xs:unique name="primaryKey">
               <xs:selector xpath="*"/>
               <xs:field xpath="@primary"/>
@@ -346,7 +346,7 @@
             </xs:keyref>
             <xs:keyref name="kyrefVersionColumn" refer="ddlx:keyColumnName">
               <xs:selector xpath="."/>
-              <xs:field xpath="@jsqlx:versionColumn"/>
+              <xs:field xpath="@jsql:versionColumn"/>
             </xs:keyref>
           </xs:element>
         </xs:sequence>
