@@ -16,11 +16,11 @@
 -->
 <schema name="hospital"
   xmlns="http://dbx.safris.org/ddlx.xsd"
-  xmlns:jsqlx="http://dbx.safris.org/jsqlx.xsd"
+  xmlns:jsql="http://dbx.safris.org/jsql.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://dbx.safris.org/jsqlx.xsd http://dbx.safris.org/jsqlx.xsd">
+  xsi:schemaLocation="http://dbx.safris.org/jsql.xsd http://dbx.safris.org/jsql.xsd">
   <table name="id" abstract="true">
-    <column name="id" xsi:type="char" length="36" null="false" jsqlx:generateOnInsert="UUID"/>
+    <column name="id" xsi:type="char" length="36" null="false" jsql:generateOnInsert="UUID"/>
     <constraints>
       <primaryKey>
         <column name="id"/>
@@ -28,22 +28,22 @@
     </constraints>
   </table>
   <table name="timestamp_modified" abstract="true">
-    <column name="modified_on" xsi:type="dateTime" null="false" jsqlx:generateOnUpdate="TIMESTAMP"/>
+    <column name="modified_on" xsi:type="dateTime" null="false" jsql:generateOnUpdate="TIMESTAMP"/>
   </table>
   <table name="timestamp" abstract="true" extends="timestamp_modified">
-    <column name="created_on" xsi:type="dateTime" null="false" jsqlx:generateOnInsert="TIMESTAMP"/>
+    <column name="created_on" xsi:type="dateTime" null="false" jsql:generateOnInsert="TIMESTAMP"/>
   </table>  
-  <table name="timestamp_version" abstract="true" extends="timestamp" jsqlx:versionColumn="version">
-    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsqlx:generateOnUpdate="INCREMENT" jsqlx:checkOnUpdate="EQUALS"/>
+  <table name="timestamp_version" abstract="true" extends="timestamp" jsql:versionColumn="version">
+    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:checkOnUpdate="EQUALS"/>
   </table>
   <table name="timestamp_by" abstract="true" extends="timestamp_version">
     <column name="created_by_id" xsi:type="char" length="36" null="false"/>
     <column name="modified_by_id" xsi:type="char" length="36" null="false"/>
   </table>
-  <table name="timestamp_id" abstract="true" extends="id" jsqlx:versionColumn="version">
-    <column name="created_on" xsi:type="dateTime" null="false" jsqlx:generateOnInsert="TIMESTAMP"/>
-    <column name="modified_on" xsi:type="dateTime" null="false" jsqlx:generateOnUpdate="TIMESTAMP"/>
-    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsqlx:generateOnUpdate="INCREMENT" jsqlx:checkOnUpdate="EQUALS"/>
+  <table name="timestamp_id" abstract="true" extends="id" jsql:versionColumn="version">
+    <column name="created_on" xsi:type="dateTime" null="false" jsql:generateOnInsert="TIMESTAMP"/>
+    <column name="modified_on" xsi:type="dateTime" null="false" jsql:generateOnUpdate="TIMESTAMP"/>
+    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:checkOnUpdate="EQUALS"/>
   </table>
   <table name="timestamp_by_id" abstract="true" extends="timestamp_id">
     <column name="created_by_id" xsi:type="char" length="36" null="false"/>
@@ -162,7 +162,7 @@
     </triggers>
   </table>
   <table name="doctor_patient" extends="patient_id">
-    <column name="id" xsi:type="char" length="36" null="false" jsqlx:generateOnInsert="UUID"/>
+    <column name="id" xsi:type="char" length="36" null="false" jsql:generateOnInsert="UUID"/>
     <column name="email" xsi:type="char" varying="true" length="32" null="true"/>
     <column name="gender" xsi:type="enum" values="M F" null="true"/>
     <column name="dob" xsi:type="date" null="true"/>
