@@ -26,11 +26,11 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
+import org.safris.dbx.ddlx.DBVendor;
+import org.safris.dbx.ddlx.Generator;
+import org.safris.dbx.ddlx.GeneratorExecutionException;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
-import org.safris.xdb.schema.DBVendor;
-import org.safris.xdb.schema.Generator;
-import org.safris.xdb.schema.GeneratorExecutionException;
 
 @Mojo(name = "schema", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "schema")
