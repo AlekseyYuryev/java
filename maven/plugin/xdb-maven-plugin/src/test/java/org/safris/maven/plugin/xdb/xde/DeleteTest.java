@@ -25,12 +25,12 @@ import java.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.safris.dbx.ddlx.runner.Derby;
+import org.safris.dbx.ddlx.runner.MySQL;
+import org.safris.dbx.ddlx.runner.PostgreSQL;
 import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
 import org.safris.xdb.entities.Transaction;
 import org.safris.xdb.entities.classicmodels;
-import org.safris.xdb.schema.runner.Derby;
-import org.safris.xdb.schema.runner.MySQL;
-import org.safris.xdb.schema.runner.PostgreSQL;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)

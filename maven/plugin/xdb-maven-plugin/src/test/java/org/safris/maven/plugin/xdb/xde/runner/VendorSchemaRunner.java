@@ -27,10 +27,10 @@ import java.sql.SQLException;
 
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.safris.dbx.ddlx.runner.Vendor;
+import org.safris.dbx.ddlx.runner.VendorRunner;
 import org.safris.xdb.entities.EntityDataSource;
 import org.safris.xdb.entities.EntityRegistry;
-import org.safris.xdb.schema.runner.Vendor;
-import org.safris.xdb.schema.runner.VendorRunner;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
