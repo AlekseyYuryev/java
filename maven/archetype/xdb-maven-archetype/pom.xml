@@ -25,7 +25,7 @@
     <version>1.0.1</version>
   </parent>
   <groupId>org.safris.maven.archetype</groupId>
-  <artifactId>xdb-maven-archetype</artifactId>
+  <artifactId>dbx-maven-archetype</artifactId>
   <version>1.0</version>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

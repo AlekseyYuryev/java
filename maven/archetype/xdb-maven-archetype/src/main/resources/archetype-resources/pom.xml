@@ -11,8 +11,8 @@
     <plugins>
       <plugin>
         <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>xdb-maven-plugin</artifactId>
-        <version>1.3.2</version>
+        <artifactId>dbx-maven-plugin</artifactId>
+        <version>0.9.1</version>
         <executions>
           <execution>
             <id>default-ddl</id>
