@@ -16,7 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.dbx.jsql.DML.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,13 +28,13 @@ import java.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.xdb.entities.DML.IS;
 import org.safris.dbx.ddlx.runner.Derby;
 import org.safris.dbx.ddlx.runner.MySQL;
 import org.safris.dbx.ddlx.runner.PostgreSQL;
+import org.safris.dbx.jsql.RowIterator;
+import org.safris.dbx.jsql.type;
+import org.safris.dbx.jsql.DML.IS;
 import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
-import org.safris.xdb.entities.RowIterator;
-import org.safris.xdb.entities.type;
 import org.safris.xdb.entities.types;
 
 @RunWith(VendorSchemaRunner.class)

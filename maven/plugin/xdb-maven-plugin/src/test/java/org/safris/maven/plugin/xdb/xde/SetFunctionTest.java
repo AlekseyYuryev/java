@@ -16,7 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.dbx.jsql.DML.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -25,14 +25,14 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.xdb.entities.DML.SUM;
 import org.safris.dbx.ddlx.runner.Derby;
 import org.safris.dbx.ddlx.runner.MySQL;
 import org.safris.dbx.ddlx.runner.PostgreSQL;
+import org.safris.dbx.jsql.RowIterator;
+import org.safris.dbx.jsql.type;
+import org.safris.dbx.jsql.DML.SUM;
 import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
-import org.safris.xdb.entities.RowIterator;
 import org.safris.xdb.entities.classicmodels;
-import org.safris.xdb.entities.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)

@@ -25,9 +25,9 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.safris.commons.xml.XMLException;
+import org.safris.dbx.jsql.generator.Generator;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
-import org.safris.xdb.entities.generator.Generator;
 
 @Mojo(name = "entities", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "entities")

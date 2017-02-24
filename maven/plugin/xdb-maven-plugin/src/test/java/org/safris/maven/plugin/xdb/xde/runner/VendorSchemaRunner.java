@@ -29,14 +29,14 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.safris.dbx.ddlx.runner.Vendor;
 import org.safris.dbx.ddlx.runner.VendorRunner;
-import org.safris.xdb.entities.EntityDataSource;
-import org.safris.xdb.entities.EntityRegistry;
+import org.safris.dbx.jsql.EntityDataSource;
+import org.safris.dbx.jsql.EntityRegistry;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
   @Retention(RetentionPolicy.RUNTIME)
   public static @interface Schema {
-    Class<? extends org.safris.xdb.entities.Schema>[] value();
+    Class<? extends org.safris.dbx.jsql.Schema>[] value();
   }
 
   public VendorSchemaRunner(final Class<?> klass) throws InitializationError {
@@ -52,7 +52,7 @@ public class VendorSchemaRunner extends VendorRunner {
     if (entityClass == null)
       throw new Exception("@" + Schema.class.getSimpleName() + " is required on either method or class");
 
-    for (final Class<? extends org.safris.xdb.entities.Schema> cls : entityClass.value()) {
+    for (final Class<? extends org.safris.dbx.jsql.Schema> cls : entityClass.value()) {
       EntityRegistry.register(cls, PreparedStatement.class, new EntityDataSource() {
         @Override
         public Connection getConnection() throws SQLException {

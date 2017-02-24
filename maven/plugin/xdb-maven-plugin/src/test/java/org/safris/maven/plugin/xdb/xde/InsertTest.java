@@ -16,7 +16,7 @@
 
 package org.safris.maven.plugin.xdb.xde;
 
-import static org.safris.xdb.entities.DML.*;
+import static org.safris.dbx.jsql.DML.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -33,8 +33,8 @@ import org.junit.runner.RunWith;
 import org.safris.dbx.ddlx.runner.Derby;
 import org.safris.dbx.ddlx.runner.MySQL;
 import org.safris.dbx.ddlx.runner.PostgreSQL;
+import org.safris.dbx.jsql.Transaction;
 import org.safris.maven.plugin.xdb.xde.runner.VendorSchemaRunner;
-import org.safris.xdb.entities.Transaction;
 import org.safris.xdb.entities.types;
 
 @RunWith(VendorSchemaRunner.class)
