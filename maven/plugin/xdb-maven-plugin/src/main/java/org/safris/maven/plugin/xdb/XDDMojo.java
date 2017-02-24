@@ -28,9 +28,9 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.safris.commons.net.URLs;
+import org.safris.dbx.dmlx.Datas;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
-import org.safris.xdb.data.Datas;
 
 @Mojo(name = "data", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "data")
