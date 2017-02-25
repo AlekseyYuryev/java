@@ -18,31 +18,26 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>dbx</role-hint>
+      <role-hint>jjb</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>dbx</id>
+        <id>jjb</id>
         <default-phases>
-          <generate-sources>org.safris.maven.plugin:dbx-maven-plugin:jsql</generate-sources>
-          <generate-resources>org.safris.maven.plugin:dbx-maven-plugin:ddl,org.safris.maven.plugin:dbx-maven-plugin:dml</generate-resources>
+          <generate-sources>org.safris.maven.plugin:jjb-maven-plugin:generate</generate-sources>
         </default-phases>
       </configuration>
     </component>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>dbx</role-hint>
+      <role-hint>jjb</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>dbx</id>
+        <id>jjb</id>
         <phases>
-          <phase>entities</phase>
-          <phase>schema</phase>
-          <phase>data</phase>
+          <phase>jjb</phase>
         </phases>
         <default-phases>
-          <jsql>org.safris.maven.plugin:dbx-maven-plugin:jsql</jsql>
-          <ddl>org.safris.maven.plugin:dbx-maven-plugin:ddl</ddl>
-          <dml>org.safris.maven.plugin:dbx-maven-plugin:dml</dml>
+          <jjb>org.safris.maven.plugin:jjb-maven-plugin:generate</jjb>
         </default-phases>
       </configuration>
     </component>

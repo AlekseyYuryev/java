@@ -133,7 +133,7 @@
         <module>commons</module>
         <module>dbx</module>
         <module>maven</module>
-        <module>xjb</module>
+        <module>jjb</module>
         <module>xsb</module>
         <module>xrs</module>
       </modules>
@@ -163,7 +163,7 @@
                     <includes>
                       <include>src/main/**/*.ddlx</include>
                       <include>src/main/**/*.dmlx</include>
-                      <include>src/main/**/*.xjs</include>
+                      <include>src/main/**/*.jsonx</include>
                       <include>src/main/**/*.xml</include>
                       <include>src/main/**/*.xsd</include>
                     </includes>
@@ -179,7 +179,7 @@
                     <includes>
                       <include>src/test/**/*.ddlx</include>
                       <include>src/test/**/*.dmlx</include>
-                      <include>src/test/**/*.xjs</include>
+                      <include>src/test/**/*.jsonx</include>
                       <include>src/test/**/*.xml</include>
                       <include>src/test/**/*.xsd</include>
                     </includes>
@@ -382,8 +382,8 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>xjb-maven-plugin</artifactId>
-          <version>1.1.3</version>
+          <artifactId>jjb-maven-plugin</artifactId>
+          <version>0.9.6</version>
           <executions>
             <execution>
               <goals>
@@ -573,8 +573,8 @@
       </dependency>
       <dependency>
         <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>xjb-maven-plugin</artifactId>
-        <version>1.1.3</version>
+        <artifactId>jjb-maven-plugin</artifactId>
+        <version>0.9.6</version>
       </dependency>
       <dependency>
         <groupId>org.safris.maven.plugin</groupId>
@@ -620,19 +620,19 @@
         <type>test-jar</type>
       </dependency>
       <dependency>
-        <groupId>org.safris.xjb</groupId>
-        <artifactId>xjb-generator</artifactId>
-        <version>2.1.3</version>
+        <groupId>org.safris.jjb</groupId>
+        <artifactId>jjb-generator</artifactId>
+        <version>0.9.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.xjb</groupId>
-        <artifactId>xjb-rs</artifactId>
-        <version>1.0.1</version>
+        <groupId>org.safris.jjb</groupId>
+        <artifactId>jjb-rs</artifactId>
+        <version>0.9.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.xjb</groupId>
-        <artifactId>xjb-runtime</artifactId>
-        <version>2.1.3</version>
+        <groupId>org.safris.jjb</groupId>
+        <artifactId>jjb-runtime</artifactId>
+        <version>0.9.6</version>
       </dependency>
       <dependency>
         <groupId>org.safris.xrs</groupId>

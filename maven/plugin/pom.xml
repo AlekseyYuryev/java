@@ -41,7 +41,7 @@
         <module>dbx-maven-plugin</module>
         <module>cert-maven-plugin</module>
         <module>codegen-maven-plugin</module>
-        <module>xjb-maven-plugin</module>
+        <module>jjb-maven-plugin</module>
         <module>xsb-maven-plugin</module>
       </modules>
       <!--build>
