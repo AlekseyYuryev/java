@@ -12,7 +12,7 @@
       <plugin>
         <groupId>org.safris.maven.plugin</groupId>
         <artifactId>dbb-maven-plugin</artifactId>
-        <version>0.9.1</version>
+        <version>0.9.7</version>
         <executions>
           <execution>
             <id>default-ddl</id>

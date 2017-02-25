@@ -24,7 +24,7 @@ The `dbb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executions>
     <execution>
       <id>default-ddl</id>
@@ -53,7 +53,7 @@ Alternatively, an external `ddlx.xml` can be specified:
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executions>
     <execution>
       <id>default-ddl</id>
@@ -104,7 +104,7 @@ The `dbb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executions>
     <execution>
       <id>default-dml</id>
@@ -133,7 +133,7 @@ Alternatively, an external `ddlx.xml` can be specified:
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executions>
     <execution>
       <id>default-dml</id>
@@ -183,7 +183,7 @@ The `dbb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executions>
     <execution>
       <id>xde</id>
@@ -212,7 +212,7 @@ Alternatively, an external `ddlx.xml` can be specified:
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
   <artifactId>dbb-maven-plugin</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.7</version>
   <executioins>
     <execution>
       <id>xde</id>
