@@ -17,7 +17,7 @@
 <json name="api" mimeType="application/json"
   xmlns="http://jjb.safris.org/jsonx.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://jjb.safris.org/jsonx.xsd ../../../../../../xjb/generator/src/main/resources/jsonx.xsd">
+  xsi:schemaLocation="http://jjb.safris.org/jsonx.xsd ../../../../../../jjb/generator/src/main/resources/jsonx.xsd">
   
   <object abstract="true" name="xmldsigType">
     <property name="xmldsig" xsi:type="string"/>

@@ -31,7 +31,7 @@ import org.safris.jjb.runtime.EncodeException;
 import org.safris.jjb.runtime.JSArray;
 import org.safris.jjb.runtime.JSObject;
 
-import xjb.api;
+import jjb.api;
 
 public class JSObjectTest extends LoggableTest {
   @Test
