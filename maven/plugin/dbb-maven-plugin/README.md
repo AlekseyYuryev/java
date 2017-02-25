@@ -1,29 +1,29 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right"/>
-## dbx-maven-plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
-> Maven Plugin for [DBx][dbx] framework
+## dbb-maven-plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
+> Maven Plugin for [DBB][dbb] framework
 
 ### Introduction
 
-The `dbx-maven-plugin` plugin is used to execute database-related generators, which are currently the [DBx][dbx] framework.
+The `dbb-maven-plugin` plugin is used to execute database-related generators, which are currently the [DBB][dbb] framework.
 
 ### Goals Overview
 
-* [`dbx:ddl`](#dbxddl) generates DDL SQL.
-* [`dbx:dml`](#dbxdml) generates DML SQL.
-* [`dbx:jsql`](#dbxjsql) generates jSQL Entities.
+* [`dbb:ddl`](#dbbddl) generates DDL SQL.
+* [`dbb:dml`](#dbbdml) generates DML SQL.
+* [`dbb:jsql`](#dbbjsql) generates jSQL Entities.
 
 ### Usage
 
-#### `dbx:ddl`
+#### `dbb:ddl`
 
-The `dbx:ddl` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [DDLx Schema][ddlx-schema].
+The `dbb:ddl` goal is bound to the `generate-resources` phase, and is used to generate DDL schema files from XML files conforming to the [DDLx Schema][ddlx-schema].
 
 ##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executions>
     <execution>
@@ -34,7 +34,7 @@ The `dbx:ddl` goal is bound to the `generate-resources` phase, and is used to ge
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-resources/dbx</destdir>
+          <destdir>${project.build.directory}/generated-resources/dbb</destdir>
           <schemas>
             <schema>${basedir}/src/main/resources/schema.ddlx</schema>
           </schemas>
@@ -52,7 +52,7 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executions>
     <execution>
@@ -75,7 +75,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-resources/dbx</destdir>
+  <destdir explodeJars="true">${project.build.directory}/generated-resources/dbb</destdir>
   <schemas>
     <schema>${basedir}/src/main/resources/schema.ddlx</schema>
   </schemas>
@@ -94,16 +94,16 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
 | `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-#### `dbx:dml`
+#### `dbb:dml`
 
-The `dbx:dml` goal is bound to the `generate-resources` phase, and is used to generate an XML Schema to allow one to create a validating DMLx file for static data.
+The `dbb:dml` goal is bound to the `generate-resources` phase, and is used to generate an XML Schema to allow one to create a validating DMLx file for static data.
 
 ##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executions>
     <execution>
@@ -114,7 +114,7 @@ The `dbx:dml` goal is bound to the `generate-resources` phase, and is used to ge
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-resources/dbx</destdir>
+          <destdir>${project.build.directory}/generated-resources/dbb</destdir>
           <schemas>
             <schema>${basedir}/src/main/resources/schema.ddlx</schema>
           </schemas>
@@ -132,7 +132,7 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executions>
     <execution>
@@ -155,7 +155,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-resources/dbx</destdir>
+  <destdir explodeJars="true">${project.build.directory}/generated-resources/dbb</destdir>
   <schemas>
     <schema>${basedir}/src/main/resources/schema.ddlx</schema>
   </schemas>
@@ -173,16 +173,16 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
 | `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
 
-#### `dbx:jsql`
+#### `dbb:jsql`
 
-The `dbx:jsql` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [DDLx Schema][ddlx-schema].
+The `dbb:jsql` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [DDLx Schema][ddlx-schema].
 
 ##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executions>
     <execution>
@@ -193,7 +193,7 @@ The `dbx:jsql` goal is bound to the `generate-sources` phase, and is used to gen
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-sources/dbx</destdir>
+          <destdir>${project.build.directory}/generated-sources/dbb</destdir>
           <schemas>
             <schema>${basedir}/src/main/resources/schema.ddlx</schema>
           </schemas>
@@ -211,7 +211,7 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <executioins>
     <execution>
@@ -234,7 +234,7 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-sources/dbx</destdir>
+  <destdir explodeJars="true">${project.build.directory}/generated-sources/dbb</destdir>
   <schemas>
     <schema>${basedir}/src/main/resources/schema.ddlx</schema>
   </schemas>
@@ -257,5 +257,5 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[dbx]: https://github.com/SevaSafris/dbx
-[ddlx-schema]: https://github.com/SevaSafris/dbx/blob/master/ddlx/src/main/resources/ddlx.xsd
+[dbb]: https://github.com/SevaSafris/dbb
+[ddlx-schema]: https://github.com/SevaSafris/dbb/blob/master/ddlx/src/main/resources/ddlx.xsd
