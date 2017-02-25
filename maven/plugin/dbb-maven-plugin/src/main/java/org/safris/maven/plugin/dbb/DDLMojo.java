@@ -26,9 +26,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.safris.commons.xml.XMLException;
-import org.safris.dbb.ddlx.DBVendor;
 import org.safris.dbb.ddlx.Generator;
 import org.safris.dbb.ddlx.GeneratorExecutionException;
+import org.safris.dbb.vendor.DBVendor;
 import org.safris.maven.mojo.Manifest;
 import org.safris.maven.mojo.ManifestMojo;
 
@@ -42,7 +42,7 @@ public final class DDLMojo extends ManifestMojo {
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
       for (final URL url : manifest.getSchemas())
-        Generator.createDDL(url, DBVendor.parse(vendor), manifest.getDestdir());
+        Generator.createDDL(url, DBVendor.valueOf(vendor), manifest.getDestdir());
     }
     catch (final GeneratorExecutionException | IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);
