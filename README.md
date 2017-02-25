@@ -15,7 +15,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
   * [DDLx][dbb-ddlx] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
   * [DMLx][dbb-dmlx] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
   * [jSQL][dbb-jsql] - Lightweight ORM solution with strongly typed DML semantics.
-* [XJB (eXtensible JSON Binding)][xjb] - Validating XML-based descriptor schema for JSON classes.
+* [JJB (Java <-> JSON Binding)][jjb] - Validating XML-based descriptor schema for JSON classes.
 * [XSB (Xml Schema Binding)][xsb] - Complete solution for binding of XML Schemas to the Java language.
 * [XRS (jaX REST Server)][xrs] - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
 
@@ -31,7 +31,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 * [codegen-maven-plugin][codegen-maven-plugin] - Maven plugin to execute code-generating libraries, such as [`istenum`][ISTEnumGenerator.java].
 * [version-maven-plugin][version-maven-plugin] - Maven plugin for management of artifact versions of single and multi-module Maven projects in GIT SCM.
 * [dbb-maven-plugin][dbb-maven-plugin] - Maven plugin to execute [DBB][dbb] code generator.
-* [xjb-maven-plugin][xjb-maven-plugin] - Maven plugin to execute [XJB][xjb] code generator.
+* [jjb-maven-plugin][jjb-maven-plugin] - Maven plugin to execute [JJB][jjb] code generator.
 * [xml-maven-plugin][xml-maven-plugin] - Maven plugin to execute XML tasks, such as `validate`.
 * [xsb-maven-plugin][xsb-maven-plugin] - Maven plugin to execute [XSB][xsb] code generator.
 
@@ -64,8 +64,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [dbb-dmlx]: https://github.com/SevaSafris/dbb/blob/master/dmlx
 [dbb-ddlx]: https://github.com/SevaSafris/dbb/blob/master/ddlx
 [dbb]: https://github.com/SevaSafris/dbb
-[xjb-maven-plugin]: https://github.com/SevaSafris/xjb-maven-plugin
-[xjb]: https://github.com/SevaSafris/xjb
+[jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin
+[jjb]: https://github.com/SevaSafris/jjb
 [xml-maven-plugin]: https://github.com/SevaSafris/xml-maven-plugin
 [xrs]: https://github.com/SevaSafris/xrs
 [xsb-maven-plugin]: https://github.com/SevaSafris/xsb-maven-plugin

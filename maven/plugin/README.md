@@ -13,8 +13,8 @@ The `plugin` module for Maven Plugins.
 * [dbb-maven-plugin][dbb-maven-plugin] - [DBB][dbb] code generatin goal.
 * [version-maven-plugin][version-maven-plugin] - POM version management goals.
 * [xml-maven-plugin][xml-maven-plugin] - XML-related goals.
-* [xjb-maven-plugin][xjb-maven-plugin] - [XSB][xsb] generator goals.
-* [xsb-maven-plugin][xsb-maven-plugin] - [XJB][xjb] generator goals.
+* [jjb-maven-plugin][jjb-maven-plugin] - [JJB][jjb] generator goals.
+* [xsb-maven-plugin][xsb-maven-plugin] - [XSB][xsb] generator goals.
 
 ### License
 
@@ -26,8 +26,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [dbb]: https://github.com/SevaSafris/dbb
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
 [version-maven-plugin]: https://github.com/SevaSafris/version-maven-plugin#version-maven-plugin
-[xjb-maven-plugin]: https://github.com/SevaSafris/xjb-maven-plugin#xjb-maven-plugin
-[xjb]: https://github.com/SevaSafris/xjb
+[jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin#jjb-maven-plugin
+[jjb]: https://github.com/SevaSafris/jjb
 [xml-maven-plugin]: https://github.com/SevaSafris/xml-maven-plugin#xsb-maven-plugin
 [xsb-maven-plugin]: https://github.com/SevaSafris/xsb-maven-plugin#xsb-maven-plugin
 [xsb]: https://github.com/SevaSafris/xsb

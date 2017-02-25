@@ -36,7 +36,7 @@ Execution with `includes` directive.
         <includes>
           <include>**/*.ddlx</include>
           <include>**/*.dmlx</include>
-          <include>**/*.xjs</include>
+          <include>**/*.jsonx</include>
           <include>**/*.xsd</include>
           <include>**/*.xml</include>
         </includes>
@@ -65,7 +65,7 @@ Execution with `includes` and `excludes` directives.
         <includes>
           <include>**/*.ddlx</include>
           <include>**/*.dmlx</include>
-          <include>**/*.xjs</include>
+          <include>**/*.jsonx</include>
           <include>**/*.xsd</include>
           <include>**/*.xml</include>
         </includes>

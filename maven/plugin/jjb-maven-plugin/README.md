@@ -1,33 +1,33 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right"/>
-## xjb-maven-plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
-> Maven Plugin for [XJB][xjb] framework
+## jjb-maven-plugin<br>![mvn-plugin][mvn-plugin] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
+> Maven Plugin for [JJB][jjb] framework
 
 ### Introduction
 
-The `xjb-maven-plugin` plugin is used to generate JSON bindings with the [XJB][xjb] framework.
+The `jjb-maven-plugin` plugin is used to generate JSON bindings with the [JJB][jjb] framework.
 
 ### Goals Overview
 
-* [`xjb:generate`](#xjbgenerate) generates XJB bindings.
+* [`jjb:generate`](#jjbgenerate) generates JJB bindings.
 
 ### Usage
 
-#### `xjb:generate`
+#### `jjb:generate`
 
-The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to generate XJB bindings for XJB documents in the `manifest`. To configure the generation of XJB bindings for desired XJB schemas, add a `manifest` element to the plugin's configuration.
+The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to generate JJB bindings for JJB documents in the `manifest`. To configure the generation of JJB bindings for desired JJB schemas, add a `manifest` element to the plugin's configuration.
 
 ##### Example 1
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>xjb-maven-plugin</artifactId>
-  <version>1.1.3</version>
+  <artifactId>jjb-maven-plugin</artifactId>
+  <version>0.9.6</version>
   <configuration>
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-      <destdir explodeJars="true">${project.build.directory}/generated-sources/xjb</destdir>
+      <destdir explodeJars="true">${project.build.directory}/generated-sources/jjb</destdir>
       <schemas>
-        <schema>${basedir}/src/main/resources/json.xjs</schema>
+        <schema>${basedir}/src/main/resources/json.jsonx</schema>
       </schemas>
     </manifest>
   </configuration>
@@ -36,29 +36,29 @@ The `xjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 ##### Example 2
 
-Alternatively, an external `xjs.xml` can be specified:
+Alternatively, an external `jsonx.xml` can be specified:
 
 ```xml
 <plugin>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>xjb-maven-plugin</artifactId>
-  <version>1.1.3</version>
+  <artifactId>jjb-maven-plugin</artifactId>
+  <version>0.9.6</version>
   <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/xjs.xml"/>
+    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/jsonx.xml"/>
   </configuration>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/xjs.xml`:
+The `manifest` element can therefore be externally defined in `src/main/resources/jsonx.xml`:
 
 ```xml
 <manifest
   xmlns="http://maven.safris.org/common/manifest.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-sources/xjb</destdir>
+  <destdir explodeJars="true">${project.build.directory}/generated-sources/jjb</destdir>
   <schemas>
-    <schema>${basedir}/src/main/resources/json.xjs</schema>
+    <schema>${basedir}/src/main/resources/json.jsonx</schema>
   </schemas>
 </manifest>
 ```
@@ -79,4 +79,4 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[xjb]: https://github.com/SevaSafris/xjb
+[jjb]: https://github.com/SevaSafris/jjb

@@ -47,7 +47,7 @@ The `dbb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
 
 ##### Example 2
 
-Alternatively, an external `schema.ddlx` (an XML file) can be specified:
+Alternatively, an external `ddlx.xml` can be specified:
 
 ```xml
 <plugin>
@@ -61,14 +61,14 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
         <goal>ddl</goal>
       </goals>
       <configuration>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.ddlx"/>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/ddlx.xml"/>
       </configuration>
     </execution>
   </executions>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/schema.ddlx`:
+The `manifest` element can therefore be externally defined in `src/main/resources/ddlx.xml`:
 
 ```xml
 <manifest
@@ -127,7 +127,7 @@ The `dbb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 
 ##### Example 2
 
-Alternatively, an external `schema.ddlx` (an XML file) can be specified:
+Alternatively, an external `ddlx.xml` can be specified:
 
 ```xml
 <plugin>
@@ -141,14 +141,14 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
         <goal>dml</goal>
       </goals>
       <configuration>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.ddlx"/>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/ddlx.xml"/>
       </configuration>
     </execution>
   </executions>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/schema.ddlx`:
+The `manifest` element can therefore be externally defined in `src/main/resources/ddlx.xml`:
 
 ```xml
 <manifest
@@ -206,7 +206,7 @@ The `dbb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 
 ##### Example 2
 
-Alternatively, an external `schema.ddlx` (an XML file) can be specified:
+Alternatively, an external `ddlx.xml` can be specified:
 
 ```xml
 <plugin>
@@ -220,14 +220,14 @@ Alternatively, an external `schema.ddlx` (an XML file) can be specified:
         <goal>xde</goal>
       </goals>
       <configuration>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/schema.ddlx"/>
+        <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/ddlx.xml"/>
       </configuration>
     </execution>
   </executioins>
 </plugin>
 ```
 
-The `manifest` element can therefore be externally defined in `src/main/resources/schema.ddlx`:
+The `manifest` element can therefore be externally defined in `src/main/resources/ddlx.xml`:
 
 ```xml
 <manifest
