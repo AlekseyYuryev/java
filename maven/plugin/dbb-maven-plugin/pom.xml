@@ -25,7 +25,7 @@
     <version>1.8.0</version>
   </parent>
   <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>dbx-maven-plugin</artifactId>
+  <artifactId>dbb-maven-plugin</artifactId>
   <version>0.9.1</version>
   <packaging>maven-plugin</packaging>
   <properties>
@@ -49,7 +49,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
             <configuration>
-              <goalPrefix>dbx</goalPrefix>
+              <goalPrefix>dbb</goalPrefix>
             </configuration>
             <executions>
               <execution>
@@ -108,7 +108,7 @@
           </plugin>
           <plugin>
             <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>dbx-maven-plugin</artifactId>
+            <artifactId>dbb-maven-plugin</artifactId>
             <executions>
               <execution>
                 <id>default-jsql</id>
@@ -118,7 +118,7 @@
                 </goals>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/dbx</destdir>
+                    <destdir>${project.build.directory}/generated-test-sources/dbb</destdir>
                     <resources>
                       <resource>src/test/resources/survey.ddlx</resource>
                     </resources>
@@ -134,7 +134,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/dbx</destdir>
+                    <destdir>${project.build.directory}/generated-test-resources/dbb</destdir>
                     <resources>
                       <resource>src/test/resources/library.ddlx</resource>
                     </resources>
@@ -150,7 +150,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/dbx</destdir>
+                    <destdir>${project.build.directory}/generated-test-resources/dbb</destdir>
                     <resources>
                       <resource>src/test/resources/hospital.ddlx</resource>
                     </resources>
@@ -179,32 +179,32 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-jsql</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-jsql</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-jsql</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-jsql</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-dmlx</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-dmlx</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-dmlx</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-dmlx</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-ddlx</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-ddlx</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.dbx</groupId>
-      <artifactId>dbx-ddlx</artifactId>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-ddlx</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

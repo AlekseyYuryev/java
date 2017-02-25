@@ -131,7 +131,7 @@
       </activation>
       <modules>
         <module>commons</module>
-        <module>dbx</module>
+        <module>dbb</module>
         <module>maven</module>
         <module>jjb</module>
         <module>xsb</module>
@@ -363,7 +363,7 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>dbx-maven-plugin</artifactId>
+          <artifactId>dbb-maven-plugin</artifactId>
           <version>0.9.1</version>
           <executions>
             <execution>
@@ -538,7 +538,7 @@
       </dependency>
       <dependency>
         <groupId>org.safris.maven.archetype</groupId>
-        <artifactId>dbx-maven-archetype</artifactId>
+        <artifactId>dbb-maven-archetype</artifactId>
         <version>1.0</version>
       </dependency>
       <dependency>
@@ -568,7 +568,7 @@
       </dependency>
       <dependency>
         <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>dbx-maven-plugin</artifactId>
+        <artifactId>dbb-maven-plugin</artifactId>
         <version>0.9.1</version>
       </dependency>
       <dependency>
@@ -587,35 +587,35 @@
         <version>2.1.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-dmlx</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-dmlx</artifactId>
         <version>0.9.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-dmlx</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-dmlx</artifactId>
         <version>0.9.2</version>
         <type>test-jar</type>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-jsql</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-jsql</artifactId>
         <version>0.9.5</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-jsql</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-jsql</artifactId>
         <version>0.9.5</version>
         <type>test-jar</type>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-ddlx</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-ddlx</artifactId>
         <version>0.9.7</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbx</groupId>
-        <artifactId>dbx-ddlx</artifactId>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-ddlx</artifactId>
         <version>0.9.7</version>
         <type>test-jar</type>
       </dependency>
