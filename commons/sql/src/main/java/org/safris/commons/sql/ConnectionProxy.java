@@ -24,7 +24,6 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
@@ -56,13 +55,13 @@ public class ConnectionProxy implements Connection {
 
   @Override
   public Statement createStatement() throws SQLException {
-    return new StatementProxy(connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY));
+    return new StatementProxy(connection.createStatement());
   }
 
   @Override
   public PreparedStatement prepareStatement(final String sql) throws SQLException {
     try {
-      return new PreparedStatementProxy(connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY), sql);
+      return new PreparedStatementProxy(connection.prepareStatement(sql), sql);
     }
     catch (final SQLException e) {
       Throwables.set(e, e.getMessage() + " "  + sql);
@@ -157,13 +156,13 @@ public class ConnectionProxy implements Connection {
 
   @Override
   public Statement createStatement(final int resultSetType, final int resultSetConcurrency) throws SQLException {
-    return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency));
+    return new StatementProxy(connection.createStatement(resultSetType, resultSetConcurrency));
   }
 
   @Override
   public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
     try {
-      return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
+      return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType, resultSetConcurrency), sql);
     }
     catch (final SQLException e) {
       Throwables.set(e, e.getMessage() + " "  + sql);
@@ -173,7 +172,7 @@ public class ConnectionProxy implements Connection {
 
   @Override
   public CallableStatement prepareCall(final String sql, final int resultSetType, final int resultSetConcurrency) throws SQLException {
-    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency), sql);
+    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType, resultSetConcurrency), sql);
   }
 
   @Override
@@ -218,13 +217,13 @@ public class ConnectionProxy implements Connection {
 
   @Override
   public Statement createStatement(final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
-    return new StatementProxy(connection.createStatement(resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability));
+    return new StatementProxy(connection.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability));
   }
 
   @Override
   public PreparedStatement prepareStatement(final String sql, final int resultSetType, int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
     try {
-      return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
+      return new PreparedStatementProxy(connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability), sql);
     }
     catch (final SQLException e) {
       Throwables.set(e, e.getMessage() + " "  + sql);
@@ -234,7 +233,7 @@ public class ConnectionProxy implements Connection {
 
   @Override
   public CallableStatement prepareCall(final String sql, final int resultSetType, int resultSetConcurrency, final int resultSetHoldability) throws SQLException {
-    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType > ResultSet.TYPE_FORWARD_ONLY ? resultSetType : ResultSet.TYPE_SCROLL_INSENSITIVE, resultSetConcurrency, resultSetHoldability), sql);
+    return new CallableStatementProxy(connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability), sql);
   }
 
   @Override

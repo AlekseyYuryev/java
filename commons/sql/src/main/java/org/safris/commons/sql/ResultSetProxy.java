@@ -69,8 +69,11 @@ public final class ResultSetProxy implements ResultSet {
   }
 
   protected Integer getSize() throws SQLException {
-    if (resultSet == null || resultSet.getType() <= ResultSet.TYPE_FORWARD_ONLY)
+    if (resultSet == null)
       return null;
+
+    if (resultSet.getType() <= ResultSet.TYPE_FORWARD_ONLY)
+      return -1;
 
     mutex = true;
     resultSet.last();
@@ -80,7 +83,6 @@ public final class ResultSetProxy implements ResultSet {
     synchronized (resultSet) {
       resultSet.notifyAll();
     }
-
     return size;
   }
 

@@ -38,14 +38,15 @@ public class JarFiles {
 
   public static void extract(final JarFile jarFile, final String path, final File outDir) throws IOException {
     final boolean isDirectory;
-    final ZipEntry pathEntry;
+    final ZipEntry entry;
     if (path.endsWith("/")) {
       isDirectory = true;
-      pathEntry = null;
+      entry = null;
     }
     else {
-      pathEntry = jarFile.getEntry(path + "/");
-      isDirectory = pathEntry != null && pathEntry.isDirectory();
+      final ZipEntry dirEntry = jarFile.getEntry(path + "/");
+      entry = dirEntry != null ? dirEntry : jarFile.getEntry(path);
+      isDirectory = entry != null && entry.isDirectory();
     }
 
     if (isDirectory) {
@@ -72,7 +73,7 @@ public class JarFiles {
     }
     else {
       final FileOutputStream out = getOutputStream(outDir, path);
-      Streams.pipe(jarFile.getInputStream(pathEntry), out);
+      Streams.pipe(jarFile.getInputStream(entry), out);
     }
   }
 }
