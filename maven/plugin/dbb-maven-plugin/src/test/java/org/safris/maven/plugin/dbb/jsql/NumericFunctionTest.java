@@ -20,10 +20,13 @@ import static org.safris.dbb.jsql.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.safris.commons.logging.Logging;
 import org.safris.commons.math.Functions;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
@@ -258,7 +261,7 @@ public class NumericFunctionTest {
       SELECT(
         t.doubleType,
         t.intType,
-        MOD(t.intType, t.intType)).
+        MOD(t.doubleType, t.intType)).
       FROM(t).
       LIMIT(1).
       execute()) {
@@ -333,6 +336,53 @@ public class NumericFunctionTest {
   }
 
   @Test
+  public void testPowX3() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        POW(t.doubleType, 3)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), 3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testPow3X() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        POW(3, t.doubleType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.pow(3, rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testPowXX() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        t.doubleType,
+        POW(t.doubleType, t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 10))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
   public void testLog3X() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<? extends type.Numeric<?>> rows =
@@ -373,7 +423,7 @@ public class NumericFunctionTest {
         t.intType,
         LOG(t.intType, t.doubleType)).
       FROM(t).
-      WHERE(AND(GT(t.intType, 0), GT(t.doubleType, 0))).
+      WHERE(AND(GT(t.intType, 0), GT(t.doubleType, 0), LT(t.doubleType, 1))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
