@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
+import org.safris.dbb.ddlx.runner.SQLite;
 import org.safris.dbb.jsql.RowIterator;
 import org.safris.dbb.jsql.classicmodels;
 import org.safris.dbb.jsql.type;
@@ -34,10 +35,11 @@ import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
-@VendorSchemaRunner.Test(Derby.class)
+@VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
 public class QuantifiedComparisonPredicateTest {
   @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testAll() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
@@ -56,6 +58,7 @@ public class QuantifiedComparisonPredicateTest {
   }
 
   @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testAny() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
@@ -74,6 +77,7 @@ public class QuantifiedComparisonPredicateTest {
   }
 
   @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testSome() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();

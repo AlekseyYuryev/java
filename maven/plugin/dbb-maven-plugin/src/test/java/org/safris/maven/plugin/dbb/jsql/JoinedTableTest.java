@@ -20,7 +20,6 @@ import static org.safris.dbb.jsql.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,15 +27,15 @@ import org.junit.runner.RunWith;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
+import org.safris.dbb.ddlx.runner.SQLite;
 import org.safris.dbb.jsql.RowIterator;
 import org.safris.dbb.jsql.classicmodels;
 import org.safris.dbb.jsql.type;
-import org.safris.maven.common.Log;
 import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
-@VendorSchemaRunner.Test(Derby.class)
+@VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
 public class JoinedTableTest {
   @Test
@@ -98,6 +97,7 @@ public class JoinedTableTest {
   }
 
   @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
@@ -112,27 +112,17 @@ public class JoinedTableTest {
   }
 
   @Test
+  @VendorSchemaRunner.Unsupported({Derby.class, SQLite.class, MySQL.class})
   public void testFullOuterJoin() throws IOException, SQLException {
-    try {
-      final classicmodels.Purchase p = new classicmodels.Purchase();
-      final classicmodels.Customer c = new classicmodels.Customer();
-      try (final RowIterator<type.INT> rows =
-        SELECT(COUNT()).
-        FROM(p).
-        FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
-        execute()) {
-        Assert.assertTrue(rows.nextRow());
-        Assert.assertTrue(rows.nextEntity().get() > 300);
-      }
-    }
-    catch (final SQLSyntaxErrorException e) {
-      // FIXME: Should we modify the SQL to use UNION here?
-      if ("42X01".equals(e.getSQLState()) && e.getErrorCode() == 30000)
-        Log.warn("Derby does not support FULL OUTER JOIN");
-      else if ("42000".equals(e.getSQLState()) && e.getErrorCode() == 1064)
-        Log.warn("MySQL does not support FULL OUTER JOIN");
-      else
-        throw e;
+    final classicmodels.Purchase p = new classicmodels.Purchase();
+    final classicmodels.Customer c = new classicmodels.Customer();
+    try (final RowIterator<type.INT> rows =
+      SELECT(COUNT()).
+      FROM(p).
+      FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertTrue(rows.nextEntity().get() > 300);
     }
   }
 }

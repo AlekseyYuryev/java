@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
+import org.safris.dbb.ddlx.runner.SQLite;
 import org.safris.dbb.jsql.Entity;
 import org.safris.dbb.jsql.RowIterator;
 import org.safris.dbb.jsql.classicmodels;
@@ -34,7 +35,7 @@ import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
-@VendorSchemaRunner.Test(Derby.class)
+@VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
 public class UnionExpressionTest {
   @Test
@@ -47,7 +48,7 @@ public class UnionExpressionTest {
       LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
       UNION(SELECT(p, c).
         FROM(p).
-        RIGHT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
+        LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }

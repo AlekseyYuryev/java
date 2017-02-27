@@ -24,20 +24,23 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.safris.commons.math.Functions;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
+import org.safris.dbb.ddlx.runner.SQLite;
 import org.safris.dbb.jsql.RowIterator;
 import org.safris.dbb.jsql.Subject;
 import org.safris.dbb.jsql.classicmodels;
-import org.safris.dbb.jsql.model.select;
+import org.safris.dbb.jsql.type;
 import org.safris.dbb.jsql.type.DECIMAL;
-import org.safris.dbb.jsql.type.Numeric;
+import org.safris.dbb.jsql.types;
+import org.safris.dbb.jsql.model.select;
 import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 
 @RunWith(VendorSchemaRunner.class)
-@VendorSchemaRunner.Schema(classicmodels.class)
-@VendorSchemaRunner.Test(Derby.class)
+@VendorSchemaRunner.Schema({classicmodels.class, types.class})
+@VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
 public class NumericFunctionTest {
   private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
@@ -78,49 +81,351 @@ public class NumericFunctionTest {
   }
 
   @Test
-  public void testFunctions() throws IOException, SQLException {
-    final classicmodels.Office o = new classicmodels.Office();
-    try (final RowIterator<? extends Numeric<?>> rows =
+  public void testRound0() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DOUBLE> rows =
       SELECT(
-        ROUND(o.longitude, 0),
-        SIGN(o.longitude),
-        FLOOR(ADD(o.latitude, o.longitude)),
-        DIV(o.latitude, o.longitude),
-        SQRT(o.latitude),
-        CEIL(ABS(o.longitude)),
-        ASIN(SIN(o.latitude)),
-        ACOS(COS(o.latitude)),
-        ATAN(TAN(o.latitude)),
-        MOD(o.latitude, 1.2),
-        MOD(o.latitude, -1.2),
-        MOD(o.latitude, o.latitude),
-        EXP(o.latitude),
-        LN(o.latitude),
-        LOG(2, o.latitude),
-        LOG2(o.latitude),
-        LOG10(o.latitude)).
-      FROM(o).
-      WHERE(GT(o.latitude, 0d)).
-      ORDER_BY(DESC(o.latitude)).
+        t.doubleType,
+        ROUND(t.doubleType, 0)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 10)).
+      LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(0, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(-1d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(51d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(-614.3756630920124, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(7.177405770889647, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.249671142563306, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.1151535999999997, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.1151535999999997, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(0d, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(2.35910321724922E22, rows.nextEntity().get().doubleValue(), 5.5E7);
-      Assert.assertEquals(3.9418760090484146, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(5.686924970053327, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(5.686924970053327, rows.nextEntity().get().doubleValue(), 0.0000000001);
-      Assert.assertEquals(1.7119349990765391, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Math.round(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testRound1() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<type.DOUBLE> rows =
+      SELECT(
+        t.doubleType,
+        ROUND(t.doubleType, 1)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 10)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Functions.round(rows.nextEntity().get().doubleValue(), 1), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testSign() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        SIGN(t.doubleType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() < 0 ? -1 : 1, rows.nextEntity().get().intValue());
+    }
+  }
+
+  @Test
+  public void testFloor() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        FLOOR(t.doubleType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.floor(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testCeil() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        CEIL(t.doubleType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.ceil(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testSqrt() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        SQRT(t.doubleType)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 10)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.sqrt(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testAsin() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        ASIN(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.asin(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testAcos() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        ACOS(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.acos(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testAtan() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        ATAN(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.atan(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testModInt1() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.intType,
+        MOD(t.intType, 3)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().intValue() % 3, rows.nextEntity().get().intValue());
+    }
+  }
+
+  @Test
+  public void testModInt2() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.intType,
+        MOD(t.intType, -3)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().intValue() % -3, rows.nextEntity().get().intValue());
+    }
+  }
+
+  @Test
+  public void testModInt3() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        t.intType,
+        MOD(t.intType, t.intType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().intValue() % rows.nextEntity().get().intValue(), rows.nextEntity().get().intValue());
+    }
+  }
+
+
+  @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
+  public void testModDouble1() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        MOD(t.doubleType, 1.2)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % 1.2, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
+  public void testModDouble2() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        MOD(t.doubleType, -1.2)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % -1.2, rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  @VendorSchemaRunner.Unsupported(SQLite.class)
+  public void testModDouble3() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        t.floatType,
+        MOD(t.doubleType, t.floatType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % rows.nextEntity().get().floatValue(), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testExp() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        EXP(t.doubleType)).
+      FROM(t).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.exp(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLog3X() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        LOG(3, t.doubleType)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 0)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLogX3() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        LOG(t.doubleType, 3)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 0)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log(3) / Math.log(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLogXX() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        t.intType,
+        LOG(t.intType, t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.intType, 0), GT(t.doubleType, 0))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(rows.nextEntity().get().intValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLn() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        LN(t.doubleType)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 0)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLog2() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        LOG2(t.doubleType)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 0)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(2), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testLog10() throws IOException,   SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        LOG10(t.doubleType)).
+      FROM(t).
+      WHERE(GT(t.doubleType, 0)).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.log10(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 }
