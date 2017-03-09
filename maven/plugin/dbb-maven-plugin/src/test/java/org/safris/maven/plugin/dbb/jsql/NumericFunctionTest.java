@@ -20,13 +20,10 @@ import static org.safris.dbb.jsql.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.safris.commons.logging.Logging;
 import org.safris.commons.math.Functions;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;

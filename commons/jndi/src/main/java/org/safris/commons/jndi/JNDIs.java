@@ -19,6 +19,7 @@ package org.safris.commons.jndi;
 import java.util.StringTokenizer;
 
 import javax.naming.Context;
+import javax.naming.Name;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
 
