@@ -33,13 +33,13 @@
   </description>
   <dependencies>
     <dependency>
+      <groupId>tyrex</groupId>
+      <artifactId>tyrex</artifactId>
+    </dependency>
+    <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>tyrex</groupId>
-      <artifactId>tyrex</artifactId>
     </dependency>
   </dependencies>
 </project>

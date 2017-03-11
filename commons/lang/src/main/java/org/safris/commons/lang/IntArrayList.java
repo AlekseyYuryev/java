@@ -17,9 +17,9 @@
 package org.safris.commons.lang;
 
 public class IntArrayList {
-  private int[] theValue;
+  private int[] array;
 
-  private int theSize;
+  private int size;
 
   /**
    * Creates a list with a capacity of 5
@@ -35,7 +35,7 @@ public class IntArrayList {
    *          The initial capacity of the list
    */
   public IntArrayList(final int size) {
-    theValue = new int[size];
+    array = new int[size];
   }
 
   /**
@@ -44,30 +44,30 @@ public class IntArrayList {
    * @param values
    *          The values for the list
    */
-  public IntArrayList(final int[] values) {
-    theValue = values;
-    theSize = values.length;
+  public IntArrayList(final int ... values) {
+    array = values;
+    size = values.length;
   }
 
   /**
    * @return The number of elements in the list
    */
   public int size() {
-    return theSize;
+    return size;
   }
 
   /**
    * @return Whether this list is empty of elements
    */
   public boolean isEmpty() {
-    return theSize == 0;
+    return size == 0;
   }
 
   /**
    * Clears this list, setting its size to 0
    */
   public void clear() {
-    theSize = 0;
+    size = 0;
   }
 
   /**
@@ -78,10 +78,10 @@ public class IntArrayList {
    * @return The value at the given index
    */
   public int get(final int index) {
-    if (index < 0 || index >= theSize)
+    if (index < 0 || index >= size)
       throw new ArrayIndexOutOfBoundsException(index);
 
-    return theValue[index];
+    return array[index];
   }
 
   /**
@@ -91,8 +91,8 @@ public class IntArrayList {
    *          The value to add to the list
    */
   public void add(final int value) {
-    ensureCapacity(theSize + 1);
-    theValue[theSize++] = value;
+    ensureCapacity(size + 1);
+    array[size++] = value;
   }
 
   /**
@@ -104,15 +104,15 @@ public class IntArrayList {
    *          The value to add to the list
    */
   public void add(final int index, final int value) {
-    if (index < 0 || index > theSize)
+    if (index < 0 || index > size)
       throw new ArrayIndexOutOfBoundsException(index);
 
-    ensureCapacity(theSize + 1);
-    for (int i = theSize; i > index; i--)
-      theValue[i] = theValue[i - 1];
+    ensureCapacity(size + 1);
+    for (int i = size; i > index; i--)
+      array[i] = array[i - 1];
 
-    theValue[index] = value;
-    theSize++;
+    array[index] = value;
+    size++;
   }
 
   /**
@@ -121,12 +121,12 @@ public class IntArrayList {
    * @param value
    *          The values to add
    */
-  public void addAll(final int[] value) {
-    ensureCapacity(theSize + value.length);
+  public void addAll(final int ... value) {
+    ensureCapacity(size + value.length);
     for (int i = 0; i < value.length; i++)
-      theValue[theSize + i] = value[i];
+      array[size + i] = value[i];
 
-    theSize += value.length;
+    size += value.length;
   }
 
   /**
@@ -136,11 +136,11 @@ public class IntArrayList {
    *          The list of values to add
    */
   public void addAll(final IntArrayList list) {
-    ensureCapacity(theSize + list.theSize);
-    for (int i = 0; i < list.theSize; i++)
-      theValue[theSize + i] = list.theValue[i];
+    ensureCapacity(size + list.size);
+    for (int i = 0; i < list.size; i++)
+      array[size + i] = list.array[i];
 
-    theSize += list.theSize;
+    size += list.size;
   }
 
   /**
@@ -153,12 +153,12 @@ public class IntArrayList {
    * @return The old value at the given index
    */
   public int set(final int index, final int value) {
-    if (index < 0 || index >= theSize)
+    if (index < 0 || index >= size)
       throw new ArrayIndexOutOfBoundsException(index);
 
-    int ret = theValue[index];
-    theValue[index] = value;
-    return ret;
+    final int oldValue = array[index];
+    array[index] = value;
+    return oldValue;
   }
 
   /**
@@ -169,14 +169,14 @@ public class IntArrayList {
    * @return The value that was removed
    */
   public int remove(final int index) {
-    if (index < 0 || index >= theSize)
+    if (index < 0 || index >= size)
       throw new ArrayIndexOutOfBoundsException(index);
 
-    int ret = theValue[index];
-    for (int i = index; i < theSize - 1; i++)
-      theValue[i] = theValue[i + 1];
+    int ret = array[index];
+    for (int i = index; i < size - 1; i++)
+      array[i] = array[i + 1];
 
-    theSize--;
+    size--;
     return ret;
   }
 
@@ -188,8 +188,8 @@ public class IntArrayList {
    * @return Whether the value was found and removed
    */
   public boolean removeValue(final int value) {
-    for (int i = 0; i < theSize; i++) {
-      if (theValue[i] == value) {
+    for (int i = 0; i < size; i++) {
+      if (array[i] == value) {
         remove(i);
         return true;
       }
@@ -207,8 +207,8 @@ public class IntArrayList {
    */
   public int removeAll(final int value) {
     int ret = 0;
-    for (int i = 0; i < theSize; i++) {
-      if (theValue[i] == value) {
+    for (int i = 0; i < size; i++) {
+      if (array[i] == value) {
         remove(i);
         i--;
         ret++;
@@ -238,38 +238,36 @@ public class IntArrayList {
    */
   public int instanceCount(final int value) {
     int ret = 0;
-    for (int i = 0; i < theSize; i++)
-      if (theValue[i] == value)
+    for (int i = 0; i < size; i++)
+      if (array[i] == value)
         ret++;
 
     return ret;
   }
 
   /**
-   * Finds a value in this list
-   *
-   * @param value
-   *          The value to find
-   * @return The first index whose value is the given value
+   * Returns the index of the first occurrence of the specified value
+   * in this list, or -1 if this list does not contain the value.
+   * More formally, returns the lowest index <tt>i</tt> such that
+   * <tt>o == get(i)</tt>, or -1 if there is no such index.
    */
   public int indexOf(final int value) {
-    for (int i = 0; i < theSize; i++)
-      if (theValue[i] == value)
+    for (int i = 0; i < size; i++)
+      if (array[i] == value)
         return i;
 
     return -1;
   }
 
   /**
-   * Finds a value in this list
-   *
-   * @param value
-   *          The value to find
-   * @return The last index whose value is the given value
+   * Returns the index of the last occurrence of the specified value
+   * in this list, or -1 if this list does not contain the value.
+   * More formally, returns the highest index <tt>i</tt> such that
+   * <tt>o == get(i)</tt>, or -1 if there is no such index.
    */
   public int lastIndexOf(final int value) {
-    for (int i = theSize - 1; i >= 0; i--)
-      if (theValue[i] == value)
+    for (int i = size - 1; i >= 0; i--)
+      if (array[i] == value)
         return i;
 
     return -1;
@@ -279,34 +277,34 @@ public class IntArrayList {
    * @return The list of values currently in this list
    */
   public int[] toArray() {
-    final int[] ret = new int[theSize];
-    System.arraycopy(theValue, 0, ret, 0, theSize);
+    final int[] ret = new int[size];
+    System.arraycopy(array, 0, ret, 0, size);
     return ret;
   }
 
   /**
-   * Similary to {@link #toArray()} but creates an array of {@link Integer} wrappers
+   * Similar to {@link #toArray()}, but creates an array of {@link Integer} wrappers
    *
    * @return The list of values currently in this list
    */
   public Integer[] toObjectArray() {
-    Integer[] ret = new Integer[theSize];
-    for (int i = 0; i < ret.length; i++)
-      ret[i] = new Integer(theValue[i]);
+    final Integer[] objectArray = new Integer[size];
+    for (int i = 0; i < objectArray.length; i++)
+      objectArray[i] = new Integer(array[i]);
 
-    return ret;
+    return objectArray;
   }
 
   /**
    * Trims this list so that it wastes no space and its capacity is equal to its size
    */
   public void trimToSize() {
-    if (theValue.length == theSize)
+    if (array.length == size)
       return;
 
-    int[] oldData = theValue;
-    theValue = new int[theSize];
-    System.arraycopy(oldData, 0, theValue, 0, theSize);
+    final int[] oldArray = array;
+    array = new int[size];
+    System.arraycopy(oldArray, 0, array, 0, size);
   }
 
   /**
@@ -316,15 +314,11 @@ public class IntArrayList {
    *          The minimum capacity for the list
    */
   public void ensureCapacity(final int minCapacity) {
-    int oldCapacity = theValue.length;
-    if (minCapacity > oldCapacity) {
-      int[] oldData = theValue;
-      int newCapacity = (oldCapacity * 3) / 2 + 1;
-      if (newCapacity < minCapacity)
-        newCapacity = minCapacity;
-
-      theValue = new int[newCapacity];
-      System.arraycopy(oldData, 0, theValue, 0, theSize);
+    if (minCapacity > array.length) {
+      final int[] oldData = array;
+      final int newCapacity = Math.max((array.length * 3) / 2 + 1, minCapacity);
+      array = new int[newCapacity];
+      System.arraycopy(oldData, 0, array, 0, size);
     }
   }
 }
