@@ -26,9 +26,9 @@ The `xsb:generate` goal is bound to the `generate-sources` phase, and is used to
   <configuration>
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
       <destdir explodeJars="true">${project.build.directory}/generated-sources/xsb</destdir>
-      <schemas>
-        <schema>${basedir}/src/main/resources/config.xsd</schema>
-      </schemas>
+      <resources>
+        <resource>${basedir}/src/main/resources/config.xsd</resource>
+      </resources>
     </manifest>
   </configuration>
 </plugin>
@@ -57,9 +57,9 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-sources/xsb</destdir>
-  <schemas>
-    <schema>${basedir}/src/main/resources/config.xsd</schema>
-  </schemas>
+  <resources>
+    <resource>${basedir}/src/main/resources/config.xsd</resource>
+  </resources>
 </manifest>
 ```
 
@@ -71,8 +71,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
 | `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
-| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
+| `/manifest/resources`            | List    | Required | List of `resource` elements.                                                  |
+| `/manifest/resources/resource`   | String  | Required | File path of XML Schema.                                                      |
 
 ### License
 

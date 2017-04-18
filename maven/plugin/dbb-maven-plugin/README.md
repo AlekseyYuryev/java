@@ -35,9 +35,9 @@ The `dbb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
           <destdir>${project.build.directory}/generated-resources/dbb</destdir>
-          <schemas>
-            <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-          </schemas>
+          <resources>
+            <resource>${basedir}/src/main/resources/resource.ddlx</resource>
+          </resources>
         </manifest>
       </configuration>
     </execution>
@@ -76,9 +76,9 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-resources/dbb</destdir>
-  <schemas>
-    <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-  </schemas>
+  <resources>
+    <resource>${basedir}/src/main/resources/resource.ddlx</resource>
+  </resources>
 </manifest>
 ```
 
@@ -91,8 +91,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
 | `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
-| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
+| `/manifest/resources`            | List    | Required | List of `resource` elements.                                                  |
+| `/manifest/resources/resource`   | String  | Required | File path of XML Schema.                                                      |
 
 #### `dbb:dml`
 
@@ -115,9 +115,9 @@ The `dbb:dml` goal is bound to the `generate-resources` phase, and is used to ge
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
           <destdir>${project.build.directory}/generated-resources/dbb</destdir>
-          <schemas>
-            <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-          </schemas>
+          <resources>
+            <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+          </resources>
         </manifest>
       </configuration>
     </execution>
@@ -156,9 +156,9 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-resources/dbb</destdir>
-  <schemas>
-    <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-  </schemas>
+  <resources>
+    <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+  </resources>
 </manifest>
 ```
 
@@ -170,8 +170,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
 | `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
-| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
+| `/manifest/resources`            | List    | Required | List of `resource` elements.                                                  |
+| `/manifest/resources/resource`   | String  | Required | File path of XML Schema.                                                      |
 
 #### `dbb:jsql`
 
@@ -194,9 +194,9 @@ The `dbb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
           <destdir>${project.build.directory}/generated-sources/dbb</destdir>
-          <schemas>
-            <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-          </schemas>
+          <resources>
+            <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+          </resources>
         </manifest>
       </configuration>
     </execution>
@@ -235,9 +235,9 @@ The `manifest` element can therefore be externally defined in `src/main/resource
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <destdir explodeJars="true">${project.build.directory}/generated-sources/dbb</destdir>
-  <schemas>
-    <schema>${basedir}/src/main/resources/schema.ddlx</schema>
-  </schemas>
+  <resources>
+    <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+  </resources>
 </manifest>
 ```
 
@@ -249,8 +249,8 @@ The `manifest` element can therefore be externally defined in `src/main/resource
 | `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
 | `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
-| `/manifest/schemas`              | List    | Required | List of `schema` elements.                                                    |
-| `/manifest/schemas/schema`       | String  | Required | File path of XML Schema.                                                      |
+| `/manifest/resources`            | List    | Required | List of `resource` elements.                                                  |
+| `/manifest/resources/resource`   | String  | Required | File path of XML Schema.                                                      |
 
 ### License
 
