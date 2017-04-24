@@ -165,8 +165,24 @@
   </profiles>
   <dependencies>
     <dependency>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-jsql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-dmlx</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.dbb</groupId>
+      <artifactId>dbb-ddlx</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-xml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.maven</groupId>
+      <artifactId>maven-mojo</artifactId>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
@@ -181,16 +197,8 @@
     <dependency>
       <groupId>org.safris.dbb</groupId>
       <artifactId>dbb-jsql</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.dbb</groupId>
-      <artifactId>dbb-jsql</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.dbb</groupId>
-      <artifactId>dbb-dmlx</artifactId>
     </dependency>
     <dependency>
       <groupId>org.safris.dbb</groupId>
@@ -201,16 +209,8 @@
     <dependency>
       <groupId>org.safris.dbb</groupId>
       <artifactId>dbb-ddlx</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.dbb</groupId>
-      <artifactId>dbb-ddlx</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.maven</groupId>
-      <artifactId>maven-mojo</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
@@ -218,13 +218,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.xerial</groupId>
-      <artifactId>sqlite-jdbc</artifactId>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
+      <groupId>com.oracle.jdbc</groupId>
+      <artifactId>ojdbc7</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

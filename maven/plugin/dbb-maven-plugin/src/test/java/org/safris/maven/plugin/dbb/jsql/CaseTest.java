@@ -30,19 +30,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
+import org.safris.dbb.ddlx.runner.Oracle;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
 import org.safris.dbb.ddlx.runner.SQLite;
+import org.safris.dbb.jsql.DML.CASE;
+import org.safris.dbb.jsql.DML.IS;
 import org.safris.dbb.jsql.RowIterator;
 import org.safris.dbb.jsql.type;
 import org.safris.dbb.jsql.types;
-import org.safris.dbb.jsql.DML.CASE;
-import org.safris.dbb.jsql.DML.IS;
 import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
-@VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
+@VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 public class CaseTest {
   @Test
   public void testSimpleBoolean() throws IOException, SQLException {

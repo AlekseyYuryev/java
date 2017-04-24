@@ -22,15 +22,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.safris.dbb.ddlx.runner.Vendor;
 import org.safris.dbb.ddlx.runner.VendorRunner;
-import org.safris.dbb.jsql.EntityDataSource;
-import org.safris.dbb.jsql.EntityRegistry;
+import org.safris.dbb.jsql.DBConnector;
+import org.safris.dbb.jsql.DBRegistry;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
@@ -52,8 +51,8 @@ public class VendorSchemaRunner extends VendorRunner {
     if (entityClass == null)
       throw new Exception("@" + Schema.class.getSimpleName() + " is required on either method or class");
 
-    for (final Class<? extends org.safris.dbb.jsql.Schema> cls : entityClass.value()) {
-      EntityRegistry.register(cls, PreparedStatement.class, new EntityDataSource() {
+    for (final Class<? extends org.safris.dbb.jsql.Schema> schemaClass : entityClass.value()) {
+      DBRegistry.registerPrepared(schemaClass, new DBConnector() {
         @Override
         public Connection getConnection() throws SQLException {
           try {

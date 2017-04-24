@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.safris.commons.math.Functions;
 import org.safris.dbb.ddlx.runner.Derby;
 import org.safris.dbb.ddlx.runner.MySQL;
+import org.safris.dbb.ddlx.runner.Oracle;
 import org.safris.dbb.ddlx.runner.PostgreSQL;
 import org.safris.dbb.ddlx.runner.SQLite;
 import org.safris.dbb.jsql.RowIterator;
@@ -41,7 +42,7 @@ import org.safris.maven.plugin.dbb.jsql.runner.VendorSchemaRunner;
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
-@VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class})
+@VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 public class NumericFunctionTest {
   private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
@@ -280,7 +281,7 @@ public class NumericFunctionTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % 1.2, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % 1.2, rows.nextEntity().get().doubleValue(), 0.00000001);
     }
   }
 
@@ -296,12 +297,12 @@ public class NumericFunctionTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % -1.2, rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % -1.2, rows.nextEntity().get().doubleValue(), 0.00000001);
     }
   }
 
   @Test
-  @VendorSchemaRunner.Unsupported(SQLite.class)
+  @VendorSchemaRunner.Unsupported({SQLite.class, Oracle.class})
   public void testModDouble3() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<? extends type.Numeric<?>> rows =
@@ -313,7 +314,7 @@ public class NumericFunctionTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % rows.nextEntity().get().floatValue(), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % rows.nextEntity().get().floatValue(), rows.nextEntity().get().doubleValue(), 0.00000001);
     }
   }
 
@@ -323,12 +324,12 @@ public class NumericFunctionTest {
     try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
-        EXP(t.doubleType)).
+        EXP(MUL(t.doubleType, -1))).
       FROM(t).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.exp(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Math.exp(-rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -338,12 +339,12 @@ public class NumericFunctionTest {
     try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
-        POW(t.doubleType, 3)).
+        POW(t.doubleType, .3)).
       FROM(t).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), 3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), .3), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -353,12 +354,12 @@ public class NumericFunctionTest {
     try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
-        POW(3, t.doubleType)).
+        POW(3, MUL(t.doubleType, -1))).
       FROM(t).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(3, rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Math.pow(3, -rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
