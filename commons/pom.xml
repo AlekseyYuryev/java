@@ -39,6 +39,7 @@
       </activation>
       <modules>
         <module>cli</module>
+        <!--module>cdm</module-->
         <module>dbcp</module>
         <module>expect</module>
         <module>formatter</module>

@@ -16,7 +16,11 @@
 
 package org.safris.commons.security;
 
-public final class Credentials {
+import java.io.Serializable;
+
+public final class Credentials implements Serializable {
+  private static final long serialVersionUID = -8959414770636711960L;
+
   public final String username;
   public final String password;
 

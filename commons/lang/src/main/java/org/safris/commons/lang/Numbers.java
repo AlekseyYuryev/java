@@ -19,6 +19,10 @@ package org.safris.commons.lang;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * @author seva
+ *
+ */
 public final class Numbers {
   public static class Unsigned {
     private static final BigInteger UNSIGNED_LONG_MAX_VALUE = new BigInteger("18446744073709551999");
@@ -69,7 +73,7 @@ public final class Numbers {
 
     public static long toUnsigned(final BigInteger signed) {
       if (signed.signum() == -1 || UNSIGNED_LONG_MAX_VALUE.compareTo(signed) == -1)
-        throw new IllegalArgumentException("signed < 0 || 18446744073709551999 < signed");
+        throw new IllegalArgumentException("signed < 0 || " + UNSIGNED_LONG_MAX_VALUE + " < signed");
 
       return signed.subtract(BigInteger.valueOf(Long.MIN_VALUE)).longValue();
     }
@@ -161,18 +165,150 @@ public final class Numbers {
     }
   }
 
-  public static int[] parseInteger(final String ... value) {
-    final int[] values = new int[value.length];
-    for (int i = 0; i < value.length; i++)
-      values[i] = Integer.parseInt(value[i]);
+  /**
+   * Parses the string argument as a boolean. The {@code Boolean}
+   * returned is {@code null} if the string argument is {@code null}, and
+   * the value {@code true} if the string argument is equal, ignoring case,
+   * to the string {@code "true"}. <p>
+   * Example: {@code Boolean.parseBoolean("True")} returns {@code true}.<br>
+   * Example: {@code Boolean.parseBoolean("yes")} returns {@code false}.
+   *
+   * @param      s   the {@code String} containing the boolean
+   *                 representation to be parsed
+   * @return     the {@code Boolean} represented by the string argument
+   * @see        java.lang.Boolean#parseBoolean(String)
+   */
+  public static Boolean parseBoolean(final String s) {
+    return s == null ? null : Boolean.parseBoolean(s);
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@code Short#parseShort(String)}, but returns {@code null} if the
+   * string does not contain a parsable {@code short}.
+   *
+   * @param s    a {@code String} containing the {@code Short}
+   *             representation to be parsed
+   * @return     the integer value represented by the argument, or
+   *             {@code null} if the string does not contain a parsable
+   *             {@code short}.
+   * @see        java.lang.Short#parseShort(String)
+   */
+  public static Short parseShort(final String s) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Short.parseShort(s);
+    }
+    catch (final NumberFormatException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@code Integer#parseInt(String)}, but returns {@code null} if the
+   * string does not contain a parsable {@code int}.
+   *
+   * @param s    a {@code String} containing the {@code Integer}
+   *             representation to be parsed
+   * @return     the {@code int} value represented by the argument, or
+   *             {@code null} if the string does not contain a parsable
+   *             {@code int}.
+   * @see        java.lang.Integer#parseInt(String)
+   */
+  public static Integer parseInteger(final String s) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Integer.parseInt(s);
+    }
+    catch (final NumberFormatException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@code Long#parseLong(String)}, but returns {@code null} if the
+   * string does not contain a parsable {@code long}.
+   *
+   * @param s    a {@code String} containing the {@code Long}
+   *             representation to be parsed.
+   * @return     the {@code long} value represented by the argument, or
+   *             {@code null} if the string does not contain a parsable
+   *             {@code long}.
+   * @see        java.lang.Long#parseLong(String)
+   */
+  public static Long parseLong(final String s) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Long.parseLong(s);
+    }
+    catch (final NumberFormatException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@code Float#parseFloat(String)}, but returns {@code null} if the
+   * string does not contain a parsable {@code float}.
+   *
+   * @param s    a {@code String} containing the {@code Float}
+   *             representation to be parsed.
+   * @return     the {@code float} value represented by the argument, or
+   *             {@code null} if the string does not contain a parsable
+   *             {@code float}.
+   * @see        java.lang.Float#parseFloat(String)
+   */
+  public static Float parseFloat(final String s) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Float.parseFloat(s);
+    }
+    catch (final NumberFormatException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Parses the string argument as per the specification of
+   * {@code Double#parseDouble(String)}, but returns {@code null} if the
+   * string does not contain a parsable {@code double}.
+   *
+   * @param s    a {@code String} containing the {@code Double}
+   *             representation to be parsed.
+   * @return     the {@code double} value represented by the argument, or
+   *             {@code null} if the string does not contain a parsable
+   *             {@code double}.
+   * @see        java.lang.Long#parseLong(String)
+   */
+  public static Double parseDouble(final String s) {
+    // FIXME: Can a NumberFormatException be avoided altogether? Yes, if
+    // FIXME: the implementation is copied.
+    try {
+      return s == null ? null : Double.parseDouble(s);
+    }
+    catch (final NumberFormatException e) {
+      return null;
+    }
+  }
+
+  public static int[] parseInt(final String ... s) {
+    final int[] values = new int[s.length];
+    for (int i = 0; i < s.length; i++)
+      values[i] = Integer.parseInt(s[i]);
 
     return values;
   }
 
-  public static double[] parseDouble(final String ... value) {
-    final double[] values = new double[value.length];
-    for (int i = 0; i < value.length; i++)
-      values[i] = Double.parseDouble(value[i]);
+  public static double[] parseDouble(final String ... s) {
+    final double[] values = new double[s.length];
+    for (int i = 0; i < s.length; i++)
+      values[i] = Double.parseDouble(s[i]);
 
     return values;
   }
