@@ -623,6 +623,36 @@
         <type>test-jar</type>
       </dependency>
       <dependency>
+        <groupId>org.safris.dbb</groupId>
+        <artifactId>dbb-vendor</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.dbb.vendor</groupId>
+        <artifactId>vendor-derby</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.dbb.vendor</groupId>
+        <artifactId>vendor-mysql</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.dbb.vendor</groupId>
+        <artifactId>vendor-oracle</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.dbb.vendor</groupId>
+        <artifactId>vendor-postgresql</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.dbb.vendor</groupId>
+        <artifactId>vendor-sqlite</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
         <groupId>org.safris.jjb</groupId>
         <artifactId>jjb-generator</artifactId>
         <version>0.9.6</version>
@@ -694,6 +724,11 @@
         <groupId>org.xerial</groupId>
         <artifactId>sqlite-jdbc</artifactId>
         <version>3.16.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.oracle.jdbc</groupId>
+        <artifactId>ojdbc7</artifactId>
+        <version>12.1.0.2</version>
       </dependency>
       <dependency>
         <groupId>postgresql</groupId>
@@ -877,7 +912,24 @@
       <name>Atlassian 3rdparty</name>
       <url>https://maven.atlassian.com/3rdparty</url>
     </repository>
+    <repository>
+      <id>maven.oracle.com</id>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <url>https://maven.oracle.com</url>
+      <layout>default</layout>
+    </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>maven.oracle.com</id>
+      <url>https://maven.oracle.com</url>
+    </pluginRepository>
+  </pluginRepositories>
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
