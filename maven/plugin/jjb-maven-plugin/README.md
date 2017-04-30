@@ -17,7 +17,7 @@ The `jjb-maven-plugin` plugin is used to generate JSON bindings with the [JJB][j
 
 The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to generate JJB bindings for JJB documents in the `manifest`. To configure the generation of JJB bindings for desired JJB schemas, add a `manifest` element to the plugin's configuration.
 
-##### Example 1
+##### Example
 
 ```xml
 <plugin>
@@ -35,41 +35,11 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 </plugin>
 ```
 
-##### Example 2
-
-Alternatively, an external `jsonx.xml` can be specified:
-
-```xml
-<plugin>
-  <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>jjb-maven-plugin</artifactId>
-  <version>0.9.6</version>
-  <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd" href="${basedir}/src/main/resources/jsonx.xml"/>
-  </configuration>
-</plugin>
-```
-
-The `manifest` element can therefore be externally defined in `src/main/resources/jsonx.xml`:
-
-```xml
-<manifest
-  xmlns="http://maven.safris.org/common/manifest.xsd"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
-  <destdir explodeJars="true">${project.build.directory}/generated-sources/jjb</destdir>
-  <resources>
-    <resource>${basedir}/src/main/resources/json.jsonx</resource>
-  </resources>
-</manifest>
-```
-
 #### Configuration Parameters
 
 | Name                             | Type    | Use      | Description                                                                   |
 |:---------------------------------|:--------|:---------|:------------------------------------------------------------------------------|
 | `/manifest`                      | Object  | Required | Manifest descriptor.                                                          |
-| `/manifest/@href`                | String  | Optional | External manifest reference pointer.                                          |
 | `/manifest/destdir`              | String  | Required | Destination path of generated bindings.                                       |
 | `/manifest/destdir/@explodeJars` | Boolean | Optional | Explode generated jars in the source-path of `destdir`. **Default:** `false`. |
 | `/manifest/resources`            | List    | Required | List of `resource` elements.                                                  |

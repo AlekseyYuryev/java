@@ -11,7 +11,7 @@ The `plugin` module for Maven Plugins.
 
 * [cert-maven-plugin][cert-maven-plugin] - SSL Certificate-related goals.
 * [codegen-maven-plugin][codegen-maven-plugin] - General code generation tools.
-* [dbb-maven-plugin][dbb-maven-plugin] - [DBB][dbb] code generatin goal.
+* [rdb-maven-plugin][rdb-maven-plugin] - [RDB][rdb] code generatin goal.
 * [version-maven-plugin][version-maven-plugin] - POM version management goals.
 * [xml-maven-plugin][xml-maven-plugin] - XML-related goals.
 * [jjb-maven-plugin][jjb-maven-plugin] - [JJB][jjb] generator goals.
@@ -23,8 +23,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 [cert-maven-plugin]: https://github.com/SevaSafris/cert-maven-plugin#cert-maven-plugin
 [codegen-maven-plugin]: https://github.com/SevaSafris/codegen-maven-plugin#codegen-maven-plugin
-[dbb-maven-plugin]: https://github.com/SevaSafris/dbb-maven-plugin#dbb-maven-plugin
-[dbb]: https://github.com/SevaSafris/dbb
+[rdb-maven-plugin]: https://github.com/SevaSafris/rdb-maven-plugin#rdb-maven-plugin
+[rdb]: https://github.com/SevaSafris/rdb
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
 [version-maven-plugin]: https://github.com/SevaSafris/version-maven-plugin#version-maven-plugin
 [jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin#jjb-maven-plugin

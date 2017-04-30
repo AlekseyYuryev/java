@@ -12,10 +12,10 @@
 
 CohesionFirst™ is an engineering approach that guides engineers to do more quality work, with more confidence, and higher efficiency. CohesionFirst™ is a set of best practices and guidelines that allow engineers to excel their skills. Based on many well known conventions, the principles of CohesionFirst™ are not rocket science, but rather a set of clear, consistent, and logical standards curated specifically for engineering and design.
 
-* [DBB (Database Binding)][dbb]
-  * [DDLx][dbb-ddlx] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
-  * [DMLx][dbb-dmlx] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
-  * [jSQL][dbb-jsql] - Lightweight ORM solution with strongly typed DML semantics.
+* [RDB (Relational Database Binding)][rdb]
+  * [DDLx][rdb-ddlx] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
+  * [DMLx][rdb-dmlx] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
+  * [jSQL][rdb-jsql] - Lightweight ORM solution with strongly typed DML semantics.
 * [JJB (Java <-> JSON Binding)][jjb] - Validating XML-based descriptor schema for JSON classes.
 * [XSB (Xml Schema Binding)][xsb] - Complete solution for binding of XML Schemas to the Java language.
 * [XRS (jaX REST Server)][xrs] - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
@@ -31,7 +31,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 * [cert-maven-plugin][cert-maven-plugin] - Maven plugin that imports HTTPS server certificates into the keystore's trust chain.
 * [codegen-maven-plugin][codegen-maven-plugin] - Maven plugin to execute code-generating libraries, such as [`istenum`][ISTEnumGenerator.java].
 * [version-maven-plugin][version-maven-plugin] - Maven plugin for management of artifact versions of single and multi-module Maven projects in GIT SCM.
-* [dbb-maven-plugin][dbb-maven-plugin] - Maven plugin to execute [DBB][dbb] code generator.
+* [rdb-maven-plugin][rdb-maven-plugin] - Maven plugin to execute [RDB][rdb] code generator.
 * [jjb-maven-plugin][jjb-maven-plugin] - Maven plugin to execute [JJB][jjb] code generator.
 * [xml-maven-plugin][xml-maven-plugin] - Maven plugin to execute XML tasks, such as `validate`.
 * [xsb-maven-plugin][xsb-maven-plugin] - Maven plugin to execute [XSB][xsb] code generator.
@@ -40,7 +40,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 
 * [cli-maven-archetype][cli-maven-archetype] - Quick-start Maven Archetype for [commons-cli][commons-cli].
 * [dbcp-maven-archetype][dbcp-maven-archetype] - Quick-start Maven Archetype for [commons-dbcp][commons-dbcp].
-* [dbb-maven-archetype][dbb-maven-archetype] - Quick-start Maven Archetype for [DBB][dbb] framework.
+* [rdb-maven-archetype][rdb-maven-archetype] - Quick-start Maven Archetype for [RDB][rdb] framework.
 
 ### License
 
@@ -54,21 +54,21 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [commons-jetty]: https://github.com/SevaSafris/commons-jetty
 [dbcp-maven-archetype]: https://github.com/SevaSafris/dbcp-maven-archetype
 [ISTEnumGenerator.java]: https://github.com/SevaSafris/java/blob/master/commons/search/src/main/java/org/safris/commons/search/ISTEnumGenerator.java
+[java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [java]: https://github.com/SevaSafris/java
 [jetty]: http://www.eclipse.org/jetty/
+[jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin
+[jjb]: https://github.com/SevaSafris/jjb
+[rdb-ddlx]: https://github.com/SevaSafris/rdb/blob/master/ddlx
+[rdb-dmlx]: https://github.com/SevaSafris/rdb/blob/master/dmlx
+[rdb-jsql]: https://github.com/SevaSafris/rdb/blob/master/jsql
+[rdb-maven-archetype]: https://github.com/SevaSafris/rdb-maven-archetype
+[rdb-maven-plugin]: https://github.com/SevaSafris/rdb-maven-plugin
+[rdb]: https://github.com/SevaSafris/rdb
 [safris.org]: https://www.safris.org/
 [SevaSafris]: https://github.com/SevaSafris
 [version-maven-plugin]: https://github.com/SevaSafris/version-maven-plugin
-[dbb-jsql]: https://github.com/SevaSafris/dbb/blob/master/jsql
-[dbb-maven-archetype]: https://github.com/SevaSafris/dbb-maven-archetype
-[dbb-maven-plugin]: https://github.com/SevaSafris/dbb-maven-plugin
-[dbb-dmlx]: https://github.com/SevaSafris/dbb/blob/master/dmlx
-[dbb-ddlx]: https://github.com/SevaSafris/dbb/blob/master/ddlx
-[dbb]: https://github.com/SevaSafris/dbb
-[jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin
-[jjb]: https://github.com/SevaSafris/jjb
 [xml-maven-plugin]: https://github.com/SevaSafris/xml-maven-plugin
 [xrs]: https://github.com/SevaSafris/xrs
 [xsb-maven-plugin]: https://github.com/SevaSafris/xsb-maven-plugin
 [xsb]: https://github.com/SevaSafris/xsb
-[java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
