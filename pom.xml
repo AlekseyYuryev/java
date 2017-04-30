@@ -131,7 +131,7 @@
       </activation>
       <modules>
         <module>commons</module>
-        <module>dbb</module>
+        <module>rdb</module>
         <module>maven</module>
         <module>jjb</module>
         <module>xsb</module>
@@ -248,6 +248,7 @@
                   <includes>
                     <include>**/*Test.java</include>
                   </includes>
+                  <groups>org.safris.commons.test.MixedTest,org.safris.commons.test.IntegrationTest</groups>
                 </configuration>
               </execution>
             </executions>
@@ -362,6 +363,7 @@
           <version>2.20</version>
           <configuration>
             <trimStackTrace>false</trimStackTrace>
+            <excludedGroups>org.safris.commons.test.IntegrationTest</excludedGroups>
           </configuration>
         </plugin>
         <plugin>
@@ -378,7 +380,7 @@
         </plugin>
         <plugin>
           <groupId>org.safris.maven.plugin</groupId>
-          <artifactId>dbb-maven-plugin</artifactId>
+          <artifactId>rdb-maven-plugin</artifactId>
           <version>0.9.7</version>
           <executions>
             <execution>
@@ -553,7 +555,7 @@
       </dependency>
       <dependency>
         <groupId>org.safris.maven.archetype</groupId>
-        <artifactId>dbb-maven-archetype</artifactId>
+        <artifactId>rdb-maven-archetype</artifactId>
         <version>1.0</version>
       </dependency>
       <dependency>
@@ -583,7 +585,7 @@
       </dependency>
       <dependency>
         <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>dbb-maven-plugin</artifactId>
+        <artifactId>rdb-maven-plugin</artifactId>
         <version>0.9.7</version>
       </dependency>
       <dependency>
@@ -602,35 +604,35 @@
         <version>2.1.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-dmlx</artifactId>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-dmlx</artifactId>
         <version>0.9.7</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-dmlx</artifactId>
-        <version>0.9.7</version>
-        <type>test-jar</type>
-      </dependency>
-      <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-jsql</artifactId>
-        <version>0.9.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-jsql</artifactId>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-dmlx</artifactId>
         <version>0.9.7</version>
         <type>test-jar</type>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-ddlx</artifactId>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-jsql</artifactId>
         <version>0.9.7</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.dbb</groupId>
-        <artifactId>dbb-ddlx</artifactId>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-jsql</artifactId>
+        <version>0.9.7</version>
+        <type>test-jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-ddlx</artifactId>
+        <version>0.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.safris.rdb</groupId>
+        <artifactId>rdb-ddlx</artifactId>
         <version>0.9.7</version>
         <type>test-jar</type>
       </dependency>

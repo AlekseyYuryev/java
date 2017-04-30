@@ -38,7 +38,7 @@
         </property>
       </activation>
       <modules>
-        <module>dbb-maven-plugin</module>
+        <module>rdb-maven-plugin</module>
         <module>cert-maven-plugin</module>
         <module>codegen-maven-plugin</module>
         <module>jjb-maven-plugin</module>
