@@ -12,7 +12,7 @@
 
 CohesionFirst™ is an engineering approach that guides engineers to do more quality work, with more confidence, and higher efficiency. CohesionFirst™ is a set of best practices and guidelines that allow engineers to excel their skills. Based on many well known conventions, the principles of CohesionFirst™ are not rocket science, but rather a set of clear, consistent, and logical standards curated specifically for engineering and design.
 
-* [RDB (Relational Database Binding)][rdb]
+* [RDB (Relational Data Binding)][rdb]
   * [DDLx][rdb-ddlx] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
   * [DMLx][rdb-dmlx] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
   * [jSQL][rdb-jsql] - Lightweight ORM solution with strongly typed DML semantics.
