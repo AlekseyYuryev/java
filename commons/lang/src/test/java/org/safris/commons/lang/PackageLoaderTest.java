@@ -47,12 +47,11 @@ public class PackageLoaderTest extends LoggableTest {
       "org.junit.PackageLoaderClass1",
       "org.junit.PackageLoaderClass2",
       "org.junit.PackageLoaderClass3",
-      "org.junit.runners.Suite",
       "org.junit.runners.Parameterized"
     };
 
     for (final String testClass : testClasses)
-      Assert.assertFalse(isClassLoaded(testClass));
+      Assert.assertFalse(testClass, isClassLoaded(testClass));
 
     final Set<Class<?>> loadedClasses = PackageLoader.getSystemPackageLoader().loadPackage("org.junit");
     final Set<String> classNames = new HashSet<String>();
