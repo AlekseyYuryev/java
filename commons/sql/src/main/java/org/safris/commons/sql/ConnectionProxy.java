@@ -47,7 +47,7 @@ public class ConnectionProxy implements Connection {
     }
   }
 
-  private final Connection connection;
+  protected final Connection connection;
 
   public ConnectionProxy(final Connection connection) {
     this.connection = connection;
