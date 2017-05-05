@@ -16,12 +16,11 @@
 
 package org.safris.commons.util;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public final class Collections {
   public static String toString(final Collection<?> collection, final char delimiter) {
@@ -40,12 +39,9 @@ public final class Collections {
     return string.toString();
   }
 
-  public static String toString(final Collection<?> collection, String delimiter) {
+  public static String toString(final Collection<?> collection, final String delimiter) {
     if (collection == null)
       return null;
-
-    if (delimiter == null)
-      delimiter = "";
 
     if (collection.size() == 0)
       return "";
@@ -57,20 +53,6 @@ public final class Collections {
       string.append(delimiter).append(String.valueOf(iterator.next()));
 
     return string.toString();
-  }
-
-  public static <K,V>boolean putUnmodifiableMap(final Map<? super K,? super V> map, final K key, final V value) {
-    try {
-      final Field mField = map.getClass().getDeclaredField("m");
-      mField.setAccessible(true);
-      @SuppressWarnings("unchecked")
-      final Map<? super K,? super V> m = (Map<? super K,? super V>)mField.get(map);
-      m.put(key, value);
-      return true;
-    }
-    catch (final Exception e) {
-      return false;
-    }
   }
 
   /**
@@ -129,15 +111,15 @@ public final class Collections {
    * @param o the object to be stored in the returned list.
    * @return a mutable list containing the specified object.
    */
-  @SuppressWarnings("rawtypes")
-  public static <T>List<T> singletonList(final Class<? extends List> clazz, final T o) {
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <C extends Collection<T>,T>C singletonCollection(final Class<? extends Collection> type, final T o) {
     try {
-      final List<T> list = clazz.newInstance();
-      list.add(o);
-      return list;
+      final C collection = (C)type.newInstance();
+      collection.add(o);
+      return collection;
     }
-    catch (final Exception e) {
-      throw new IllegalArgumentException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
   }
 
@@ -145,33 +127,31 @@ public final class Collections {
   @SuppressWarnings({"rawtypes", "unchecked"})
   public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final T ... a) {
     try {
-      final C list = (C)type.newInstance();
+      final C collection = (C)type.newInstance();
       for (int i = 0; i < a.length; i++)
-        list.add(a[i]);
+        collection.add(a[i]);
 
-      return list;
+      return collection;
     }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final Collection<T> collection) {
+  public static <C extends Collection<T>,T>C asCollection(final Class<? extends Collection> type, final Collection<T> c) {
     try {
-      final C list = (C)type.newInstance();
-      for (final T item : collection)
-        list.add(item);
-
-      return list;
+      final C collection = (C)type.newInstance();
+      collection.addAll(collection);
+      return collection;
     }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
   }
 
   @SuppressWarnings("unchecked")
-  public static <C extends Collection<T>,T>C clone(final Collection<T> collection) {
+  public static <C extends Collection<T>,T>C clone(final C collection) {
     try {
       final C clone = (C)collection.getClass().newInstance();
       for (final T item : collection)
@@ -179,17 +159,9 @@ public final class Collections {
 
       return clone;
     }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
-  }
-
-  @SafeVarargs
-  public static <C extends Collection<V>,V>C addAll(final C collection, final V ... values) {
-    for (final V value : values)
-      collection.add(value);
-
-    return collection;
   }
 
   @SafeVarargs
@@ -202,9 +174,40 @@ public final class Collections {
 
       return list;
     }
-    catch (final Exception e) {
-      throw new RuntimeException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <C extends Collection<T>,T>C[] partition(final C collection, final int size) {
+    return (C[])partition(collection.getClass(), collection, size);
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <C extends Collection<T>,T>C[] partition(final Class<? extends Collection> type, final Collection<T> collection, final int size) {
+    final int parts = collection.size() / size;
+    final int remainder = collection.size() % size;
+    final C[] partitions = (C[])Array.newInstance(type, parts + (remainder != 0 ? 1 : 0));
+    final Iterator<T> iterator = collection.iterator();
+    try {
+      for (int i = 0; i < parts; i++) {
+        final C part = partitions[i] = (C)type.newInstance();
+        for (int j = 0; j < size; j++)
+          part.add(iterator.next());
+      }
+
+      if (remainder != 0) {
+        final C part = partitions[partitions.length - 1] = (C)type.newInstance();
+        for (int j = 0; j < remainder; j++)
+          part.add(iterator.next());
+      }
+    }
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
+    }
+
+    return partitions;
   }
 
   public static boolean equals(final Collection<?> a, final Collection<?> b) {
@@ -249,7 +252,6 @@ public final class Collections {
 
     return result;
   }
-
 
   private Collections() {
   }
