@@ -29,6 +29,7 @@ import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.safris.commons.lang.Paths;
 import org.safris.commons.net.URLs;
 
 public class Manifest {
@@ -58,7 +59,7 @@ public class Manifest {
       for (int j = 0; j < manifest.getChildCount(); j++) {
         final Xpp3Dom element = manifest.getChild(j);
         if ("destdir".equals(element.getName())) {
-          destdir = new File(element.getValue());
+          destdir = Paths.isAbsolute(element.getValue()) ? new File(element.getValue()) : new File(project.getBuild().getDirectory(), element.getValue());
           for (final String attribute : element.getAttributeNames()) {
             if (attribute.endsWith("overwrite"))
               overwrite = Boolean.parseBoolean(element.getAttribute(attribute));

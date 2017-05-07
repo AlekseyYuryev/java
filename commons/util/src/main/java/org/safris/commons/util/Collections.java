@@ -231,11 +231,8 @@ public final class Collections {
         if ((item = aIterator.next()) != null ? !item.equals(bIterator.next()) : bIterator.next() != null)
           return false;
       }
-      else if (bIterator.hasNext()) {
-        return false;
-      }
       else {
-        return true;
+        return !bIterator.hasNext();
       }
     }
   }
@@ -245,9 +242,9 @@ public final class Collections {
         return 0;
 
     int result = 1;
-    for (final Object element : collection) {
-      final int elementHash = element.hashCode();
-      result = 31 * result + elementHash ^ (elementHash >>> 32);
+    for (final Object item : collection) {
+      final int itemHash = item.hashCode();
+      result = 31 * result + itemHash ^ (itemHash >>> 32);
     }
 
     return result;

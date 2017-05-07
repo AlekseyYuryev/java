@@ -105,7 +105,7 @@
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/jjb</destdir>
+                    <destdir>generated-test-sources/jjb</destdir>
                     <resources>
                       <resource>src/test/resources/json.jsonx</resource>
                     </resources>

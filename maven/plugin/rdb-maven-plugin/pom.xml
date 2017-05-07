@@ -68,6 +68,21 @@
               </execution>
             </executions>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>itest</id>
+      <activation>
+        <property>
+          <name>maven.itest</name>
+        </property>
+      </activation>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+      <build>
+        <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
@@ -118,7 +133,7 @@
                 </goals>
                 <configuration>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-sources/rdb</destdir>
+                    <destdir>generated-test-sources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/survey.ddlx</resource>
                     </resources>
@@ -134,7 +149,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/rdb</destdir>
+                    <destdir>generated-test-resources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/library.ddlx</resource>
                     </resources>
@@ -150,7 +165,7 @@
                 <configuration>
                   <vendor>MySQL</vendor>
                   <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-                    <destdir>${project.build.directory}/generated-test-resources/rdb</destdir>
+                    <destdir>generated-test-resources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/hospital.ddlx</resource>
                     </resources>
