@@ -26,9 +26,9 @@ The `xsb:generate` goal is bound to the `generate-sources` phase, and is used to
   <version>2.1.2</version>
   <configuration>
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-      <destdir explodeJars="true">${project.build.directory}/generated-sources/xsb</destdir>
+      <destdir explodeJars="true">generated-sources/xsb</destdir>
       <resources>
-        <resource>${basedir}/src/main/resources/config.xsd</resource>
+        <resource>src/main/resources/config.xsd</resource>
       </resources>
     </manifest>
   </configuration>

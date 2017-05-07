@@ -35,9 +35,9 @@ The `rdb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-resources/rdb</destdir>
+          <destdir>generated-resources/rdb</destdir>
           <resources>
-            <resource>${basedir}/src/main/resources/resource.ddlx</resource>
+            <resource>src/main/resources/resource.ddlx</resource>
           </resources>
         </manifest>
       </configuration>
@@ -77,9 +77,9 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-resources/rdb</destdir>
+          <destdir>generated-resources/rdb</destdir>
           <resources>
-            <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+            <resource>src/main/resources/schema.ddlx</resource>
           </resources>
         </manifest>
       </configuration>
@@ -118,9 +118,9 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
       <configuration>
         <vendor>PostgreSQL</vendor>
         <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-          <destdir>${project.build.directory}/generated-sources/rdb</destdir>
+          <destdir>generated-sources/rdb</destdir>
           <resources>
-            <resource>${basedir}/src/main/resources/schema.ddlx</resource>
+            <resource>src/main/resources/schema.ddlx</resource>
           </resources>
         </manifest>
       </configuration>

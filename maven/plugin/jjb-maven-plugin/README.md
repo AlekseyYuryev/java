@@ -26,9 +26,9 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
   <version>0.9.6</version>
   <configuration>
     <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-      <destdir explodeJars="true">${project.build.directory}/generated-sources/jjb</destdir>
+      <destdir explodeJars="true">generated-sources/jjb</destdir>
       <resources>
-        <resource>${basedir}/src/main/resources/json.jsonx</resource>
+        <resource>src/main/resources/json.jsonx</resource>
       </resources>
     </manifest>
   </configuration>
