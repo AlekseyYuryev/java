@@ -39,7 +39,7 @@ public final class Validator {
   }
 
   public static void validate(final File file, final boolean offline, final ErrorHandler errorHandler) throws IOException, SAXException {
-    final XMLDocument xmlDocument = XMLDocuments.parse(file.toURI().toURL(), offline);
+    final XMLDocument xmlDocument = XMLDocuments.parse(file.toURI().toURL(), offline, true);
     final Map<String,SchemaLocation> schemaReferences = xmlDocument.getSchemaReferences();
     if (offline && !xmlDocument.referencesOnlyLocal()) {
       errorHandler.warning(new SAXParseException("Offline execution not checking remote schemas.", URLs.toExternalForm(file.toURI().toURL()), null, 0, 0));

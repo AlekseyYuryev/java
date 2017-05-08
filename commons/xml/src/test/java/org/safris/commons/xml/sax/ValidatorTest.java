@@ -44,7 +44,7 @@ public class ValidatorTest extends LoggableTest {
       if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/"))
         log(e.getMessage());
       else
-        Assert.fail(e.getMessage());
+        throw e;
     }
   }
 }

@@ -46,11 +46,13 @@ public class CachedURL {
   }
 
   public void destroy() throws IOException {
-    in.destroy();
+    if (in != null)
+      in.destroy();
   }
 
   public void reset() throws IOException {
-    in.close();
+    if (in != null)
+      in.close();
   }
 
   public boolean isLocal() {
