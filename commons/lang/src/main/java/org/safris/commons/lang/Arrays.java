@@ -17,36 +17,30 @@
 package org.safris.commons.lang;
 
 import java.lang.reflect.Array;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public final class Arrays {
-  public static abstract class Transformer<T> {
-    public abstract T transform(final T value);
-  }
-
   @SafeVarargs
-  public static <T>T[] transform(final Transformer<T> transformer, final T ... array) {
+  public static <T>T[] replaceAll(final UnaryOperator<T> operator, final T ... array) {
     for (int i = 0; i < array.length; i++)
-      array[i] = transformer.transform(array[i]);
+      array[i] = operator.apply(array[i]);
 
     return array;
   }
 
-  public static abstract class Filter<T> {
-    public abstract boolean accept(final T value);
-  }
-
   @SafeVarargs
-  public static <T>T[] filter(final Filter<T> filter, final T ... array) {
-    return filter(filter, 0, 0, array);
+  public static <T>T[] filter(final Predicate<T> precicate, final T ... array) {
+    return filter(precicate, 0, 0, array);
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T[] filter(final Filter<T> filter, final int index, final int depth, final T ... array) {
+  private static <T>T[] filter(final Predicate<T> precicate, final int index, final int depth, final T ... array) {
     if (index == array.length)
       return (T[])Array.newInstance(array.getClass().getComponentType(), depth);
 
-    final boolean accept = filter.accept(array[index]);
-    final T[] filtered = filter(filter, index + 1, accept ? depth + 1 : depth, array);
+    final boolean accept = precicate.test(array[index]);
+    final T[] filtered = filter(precicate, index + 1, accept ? depth + 1 : depth, array);
     if (accept)
       filtered[depth] = array[index];
 
@@ -106,12 +100,16 @@ public final class Arrays {
     return spliced;
   }
 
-  public static <T>boolean contains(final T[] array, final T obj) {
+  public static <T>int indexOf(final T[] array, final T obj) {
     for (int i = 0; i < array.length; i++)
       if (obj.equals(array[i]))
-          return true;
+        return i;
 
-    return false;
+    return -1;
+  }
+
+  public static <T>boolean contains(final T[] array, final T obj) {
+    return indexOf(array, obj) >= 0;
   }
 
   public static String toString(final Object[] array, final char delimiter) {

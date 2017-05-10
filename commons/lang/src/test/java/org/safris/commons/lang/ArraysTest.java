@@ -16,6 +16,9 @@
 
 package org.safris.commons.lang;
 
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.test.LoggableTest;
@@ -23,16 +26,16 @@ import org.safris.commons.test.LoggableTest;
 public class ArraysTest extends LoggableTest {
   @Test
   public void testTransform() {
-    Assert.assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, Arrays.<String>transform(new Arrays.Transformer<String>() {
+    Assert.assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, Arrays.<String>replaceAll(new UnaryOperator<String>() {
       @Override
-      public String transform(final String value) {
+      public String apply(final String value) {
         return value.toUpperCase();
       }
     }, new String[] {"one", "two", "three"}));
 
-    Assert.assertArrayEquals(new String[] {}, Arrays.<String>transform(new Arrays.Transformer<String>() {
+    Assert.assertArrayEquals(new String[] {}, Arrays.<String>replaceAll(new UnaryOperator<String>() {
       @Override
-      public String transform(final String value) {
+      public String apply(final String value) {
         return value.toUpperCase();
       }
     }, new String[] {}));
@@ -41,9 +44,9 @@ public class ArraysTest extends LoggableTest {
   @Test
   public void testFilter() {
     final String[] expected = new String[] {"ONE", "TWO", "THREE"};
-    final String[] filtered = Arrays.filter(new Arrays.Filter<String>() {
+    final String[] filtered = Arrays.filter(new Predicate<String>() {
       @Override
-      public boolean accept(final String value) {
+      public boolean test(final String value) {
         return value != null;
       }
     }, new String[] {"ONE", null, "TWO", null, "THREE"});

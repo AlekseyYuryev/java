@@ -24,6 +24,7 @@ import java.lang.management.ManagementFactory;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Arrays;
@@ -44,15 +45,15 @@ public final class Processes {
     }
   }
 
-  private static final Arrays.Filter<String> notNullFilter = new Arrays.Filter<String>() {
+  private static final Predicate<String> notNullPredicate = new Predicate<String>() {
     @Override
-    public boolean accept(final String value) {
+    public boolean test(final String value) {
       return value != null;
     }
   };
 
   private static Process fork(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final boolean redirectErrorStream, final boolean sync, String ... args) throws IOException {
-    args = Arrays.filter(notNullFilter, args);
+    args = Arrays.filter(notNullPredicate, args);
     Log.debug(Arrays.toString(args, " "));
     final Process process = Runtime.getRuntime().exec(args);
     final OutputStream teeStdin = stdin != null ? Streams.teeAsync(process.getOutputStream(), stdin, stdout) : process.getOutputStream();
