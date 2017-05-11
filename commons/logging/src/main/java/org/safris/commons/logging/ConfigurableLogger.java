@@ -125,7 +125,7 @@ public final class ConfigurableLogger implements FileEventListener {
       }
 
       try (final InputStream in = url.openStream()) {
-        final String loggingProperties = new String(Streams.getBytes(in));
+        final String loggingProperties = new String(Streams.readBytes(in));
         initConfig(loggingProperties);
       }
     }
@@ -138,7 +138,7 @@ public final class ConfigurableLogger implements FileEventListener {
   public void onModify(final File file) {
     try {
       try (final InputStream in = file.toURI().toURL().openStream()) {
-        final String loggingProperties = new String(Streams.getBytes(in));
+        final String loggingProperties = new String(Streams.readBytes(in));
         initConfig(loggingProperties);
       }
     }

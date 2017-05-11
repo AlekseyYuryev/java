@@ -28,6 +28,54 @@ import org.safris.commons.io.output.TeeOutputStream;
 public final class Streams {
   private static final int DEFAULT_SOCKET_BUFFER_SIZE = 65536;
 
+  public static void writeByte(final OutputStream out, final byte b) throws IOException {
+    out.write(b);
+  }
+
+  public static void writeShort(final OutputStream out, final short s) throws IOException {
+    out.write(s & 0xFF);
+    out.write((s >> 8) & 0xFF);
+  }
+
+  public static void writeChar(final OutputStream out, final char c) throws IOException {
+    out.write(c & 0xFF);
+    out.write((c >> 8) & 0xFF);
+  }
+
+  public static void writeInt(final OutputStream out, final int i) throws IOException {
+    out.write(i & 0xFF);
+    out.write((i >> 8) & 0xFF);
+    out.write((i >> 16) & 0xFF);
+    out.write((i >> 24) & 0xFF);
+  }
+
+  public static void writeLong(final OutputStream out, final long l) throws IOException {
+    out.write((int)(l & 0xFF));
+    out.write((int)((l >> 8) & 0xFF));
+    out.write((int)((l >> 16) & 0xFF));
+    out.write((int)((l >> 24) & 0xFF));
+    out.write((int)((l >> 32) & 0xFF));
+    out.write((int)((l >> 40) & 0xFF));
+    out.write((int)((l >> 48) & 0xFF));
+    out.write((int)((l >> 56) & 0xFF));
+  }
+
+  public static void writeFloat(final OutputStream out, final float f) throws IOException {
+    writeInt(out, Float.floatToIntBits(f));
+  }
+
+  public static void writeDouble(final OutputStream out, final double d) throws IOException {
+    writeLong(out, Double.doubleToLongBits(d));
+  }
+
+  public static int readInt(final InputStream in) throws IOException {
+    return in.read() & 0xFF | (in.read() & 0xFF) << 8 | (in.read() & 0xFF) << 16 | (in.read() & 0xFF) << 24;
+  }
+
+  public static long readLong(final InputStream in) throws IOException {
+    return in.read() & 0xFF | (in.read() & 0xFF) << 8 | (in.read() & 0xFF) << 16 | (in.read() & 0xFF) << 24 | (in.read() & 0xFF) << 32 | (in.read() & 0xFF) << 40 | (in.read() & 0xFF) << 48 | (in.read() & 0xFF) << 56;
+  }
+
   /**
    * Reads all bytes from the input stream and returns the resulting buffer
    * array. This method blocks until all contents have been read, end of
@@ -44,7 +92,7 @@ public final class Streams {
    * if some other I/O error occurs.
    * @see        java.io.InputStream#read(byte[])
    */
-  public static byte[] getBytes(final InputStream in) throws IOException {
+  public static byte[] readBytes(final InputStream in) throws IOException {
     if (in == null)
       return null;
 
