@@ -133,6 +133,10 @@ public final class JavaCompiler {
     }
   }
 
+  private static String convertSlashes(final String s) {
+    return s.replace("\\", "/");
+  }
+
   private void toDir(final File destDir, final LinkedHashSet<File> javaSources) throws CompilationException, IOException {
     if (!destDir.exists() && !destDir.mkdirs())
       throw new IllegalArgumentException("Could not create directory " + destDir);
@@ -146,16 +150,16 @@ public final class JavaCompiler {
     classpath += System.getProperty("java.class.path");
     final File locationBase = Resources.getLocationBase(JavaCompiler.class);
     if (locationBase != null)
-      classpath = locationBase.getAbsolutePath() + File.pathSeparator + classpath;
+      classpath = convertSlashes(locationBase.getAbsolutePath()) + File.pathSeparator + classpath;
 
     final File tempFile = File.createTempFile("javac", ".tmp");
     try (final FileWriter out = new FileWriter(tempFile)) {
       out.write("-Xlint:none\n");
       out.write("-cp \"" + classpath + "\"\n");
-      out.write("-d \"" + destDir.getAbsolutePath() + "\"");
+      out.write("-d \"" + convertSlashes(destDir.getAbsolutePath()) + "\"");
       final Iterator<File> iterator = javaSources.iterator();
       while (iterator.hasNext())
-        out.write("\n\"" + iterator.next().getAbsolutePath() + "\"");
+        out.write("\n\"" + convertSlashes(iterator.next().getAbsolutePath()) + "\"");
     }
 
     final String[] args = new String[] {"javac", "@" + tempFile.getAbsolutePath()};
