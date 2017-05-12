@@ -150,14 +150,12 @@ public final class JavaCompiler {
 
     final File tempFile = File.createTempFile("javac", ".tmp");
     try (final FileWriter out = new FileWriter(tempFile)) {
-      out.write("-cp " + classpath + "\n");
       out.write("-Xlint:none\n");
-      out.write("-d " + destDir.getAbsolutePath() + "\n");
-      out.write("-cp " + classpath + "\n");
+      out.write("-cp \"" + classpath + "\"\n");
+      out.write("-d \"" + destDir.getAbsolutePath() + "\"");
       final Iterator<File> iterator = javaSources.iterator();
-      out.write(iterator.next().getAbsolutePath());
       while (iterator.hasNext())
-        out.write("\n" + iterator.next().getAbsolutePath());
+        out.write("\n\"" + iterator.next().getAbsolutePath() + "\"");
     }
 
     final String[] args = new String[] {"javac", "@" + tempFile.getAbsolutePath()};
