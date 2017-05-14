@@ -18,17 +18,20 @@ package org.safris.maven.mojo;
 
 import java.io.File;
 
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.maven.common.AdvancedMojo;
-import org.safris.maven.common.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Mojo(name = "manifest")
-public abstract class ManifestMojo extends AdvancedMojo {
+public abstract class ManifestMojo extends AbstractMojo {
+  private static final Logger logger = LoggerFactory.getLogger(ManifestMojo.class);
+
   @Parameter(property = "maven.test.skip", defaultValue = "false")
   private boolean mavenTestSkip;
 
@@ -41,7 +44,7 @@ public abstract class ManifestMojo extends AdvancedMojo {
   @Override
   public final void execute() throws MojoExecutionException, MojoFailureException {
     if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
-      Log.info("Tests are skipped.");
+      logger.info("Tests are skipped.");
       return;
     }
 

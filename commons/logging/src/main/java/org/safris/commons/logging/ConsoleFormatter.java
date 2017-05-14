@@ -20,11 +20,10 @@ import java.text.MessageFormat;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-public final class ConsoleFormatter extends Formatter {
-  // Line separator string.  This is the value of the line.separator
-  // property at the moment that the SimpleFormatter was created.
+public class ConsoleFormatter extends Formatter {
   private static final String format = "{0,date} {0,time}";
   private static final String newline = System.getProperty("line.separator");
+
   private final MessageFormat formatter;
 
   public ConsoleFormatter() {
@@ -39,12 +38,12 @@ public final class ConsoleFormatter extends Formatter {
   @Override
   public String format(final LogRecord record) {
     synchronized (formatter) {
-      final StringBuffer buffer = new StringBuffer();
+      final StringBuilder builder = new StringBuilder();
       final String message = formatMessage(record);
-//      buffer.append("[").append(record.getLevel().getLocalizedName()).append("] ");
-      buffer.append(message);
-      buffer.append(newline);
-      return buffer.toString();
+      builder.append("[").append(record.getLevel().getLocalizedName()).append("] ");
+      builder.append(message);
+      builder.append(newline);
+      return builder.toString();
     }
   }
 }

@@ -16,8 +16,6 @@
 
 package org.safris.commons.measure;
 
-import org.safris.commons.measure.Distance;
-
 public class Location {
   public final Angle longitude;
   public final Angle latitude;

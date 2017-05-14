@@ -36,7 +36,7 @@ public final class JSQLMojo extends ManifestMojo {
   public void execute(final Manifest manifest) throws MojoExecutionException, MojoFailureException {
     try {
       for (final URL url : manifest.getSchemas())
-        Generator.generate(url, manifest.getDestdir(), manifest.getCompile());
+        new Generator(url).generate(manifest.getDestdir(), manifest.getCompile());
     }
     catch (final IOException | XMLException e) {
       throw new MojoExecutionException(e.getMessage(), e);

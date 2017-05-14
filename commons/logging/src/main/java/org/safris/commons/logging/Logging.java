@@ -16,27 +16,25 @@
 
 package org.safris.commons.logging;
 
-import java.util.List;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.safris.commons.logging.xe.$lg_setting;
-
 public final class Logging {
-  public static void setLevel(final Level globalLevel) {
-    setLevel(globalLevel, null);
+  public static void setLevel(final Level rootLevel) {
+    setLevel(rootLevel, null);
   }
 
-  public static void setLevel(final Level globalLevel, final List<$lg_setting> settings) {
+  public static void setLevel(final Level rootLevel, final Map<String,Level> levels) {
     final Logger rootLogger = Logger.getLogger("");
-    rootLogger.setLevel(globalLevel);
+    rootLogger.setLevel(rootLevel);
     for (final Handler handler : rootLogger.getHandlers())
-      handler.setLevel(globalLevel);
+      handler.setLevel(rootLevel);
 
-    if (settings != null)
-      for (final $lg_setting setting : settings)
-        Logger.getLogger(setting._name$().text()).setLevel(Level.parse(setting._level$().text()));
+    if (levels != null)
+      for (final Map.Entry<String,Level> entry : levels.entrySet())
+        Logger.getLogger(entry.getKey()).setLevel(entry.getValue());
   }
 
   private Logging() {

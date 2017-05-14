@@ -20,12 +20,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.event.Level;
 
 public class LoggerPrintWriter extends PrintWriter {
   private final StringBuffer buffer = new StringBuffer();
-  private final java.util.logging.Logger logger;
+  private final Logger logger;
   private final Level level;
 
   public LoggerPrintWriter(final Logger logger, final Level level) {
@@ -57,7 +58,7 @@ public class LoggerPrintWriter extends PrintWriter {
     if (buffer.length() == 0)
       return;
 
-    logger.log(level, buffer.toString());
+    LoggerUtil.log(logger, level, buffer.toString());
     buffer.setLength(0);
   }
 

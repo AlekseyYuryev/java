@@ -36,11 +36,11 @@ import org.safris.rdb.ddlx.runner.MySQL;
 import org.safris.rdb.ddlx.runner.Oracle;
 import org.safris.rdb.ddlx.runner.PostgreSQL;
 import org.safris.rdb.ddlx.runner.SQLite;
+import org.safris.rdb.jsql.DML.CASE;
+import org.safris.rdb.jsql.DML.IS;
 import org.safris.rdb.jsql.RowIterator;
 import org.safris.rdb.jsql.type;
 import org.safris.rdb.jsql.types;
-import org.safris.rdb.jsql.DML.CASE;
-import org.safris.rdb.jsql.DML.IS;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)

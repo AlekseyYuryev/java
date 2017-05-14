@@ -29,9 +29,12 @@ import java.util.function.Predicate;
 import org.safris.commons.io.Streams;
 import org.safris.commons.lang.Arrays;
 import org.safris.commons.lang.ClassLoaders;
-import org.safris.maven.common.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Processes {
+  private static final Logger logger = LoggerFactory.getLogger(Processes.class);
+
   public static int getPID() {
     final String pidAtHost = ManagementFactory.getRuntimeMXBean().getName();
     if (pidAtHost == null)
@@ -54,7 +57,7 @@ public final class Processes {
 
   private static Process fork(final InputStream stdin, final OutputStream stdout, final OutputStream stderr, final boolean redirectErrorStream, final boolean sync, String ... args) throws IOException {
     args = Arrays.filter(notNullPredicate, args);
-    Log.debug(Arrays.toString(args, " "));
+    logger.debug(Arrays.toString(args, " "));
     final Process process = Runtime.getRuntime().exec(args);
     final OutputStream teeStdin = stdin != null ? Streams.teeAsync(process.getOutputStream(), stdin, stdout) : process.getOutputStream();
 

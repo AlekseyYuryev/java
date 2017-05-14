@@ -42,15 +42,17 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.safris.commons.logging.LoggerUtil;
 import org.safris.commons.util.Formats;
 import org.safris.commons.util.Hexadecimal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 public class PreparedStatementProxy extends StatementProxy implements PreparedStatement {
-  private static final Logger logger = Logger.getLogger(PreparedStatementProxy.class.getName());
-  private static final Level defaultLogLevel = Level.FINE;
+  private static final Logger logger = LoggerFactory.getLogger(PreparedStatementProxy.class);
+  private static final Level defaultLogLevel = Level.DEBUG;
 
   private static final String NULL = "NULL";
 
@@ -86,18 +88,18 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
     final long time = System.currentTimeMillis();
     try {
       resultSet = new ResultSetProxy(statement.executeQuery());
-      if (logger.isLoggable(logLevel))
+      if (LoggerUtil.isLoggable(logger, logLevel))
         size = resultSet.getSize();
     }
     catch (final Throwable t) {
-      logLevel = Level.SEVERE;
+      logLevel = Level.ERROR;
       throw t;
     }
     finally {
-      if (logger.isLoggable(logLevel)) {
+      if (LoggerUtil.isLoggable(logger, logLevel)) {
         final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeQuery() {\n  ").append(toString());
         buffer.append("\n} -> ").append(size).append("\t\t").append(System.currentTimeMillis() - time).append("ms");
-        logger.log(logLevel, buffer.toString());
+        LoggerUtil.log(logger, logLevel, buffer.toString());
       }
     }
 
@@ -113,14 +115,14 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
       count = getStatement().executeUpdate();
     }
     catch (final Throwable t) {
-      logLevel = Level.SEVERE;
+      logLevel = Level.ERROR;
       throw t;
     }
     finally {
-      if (logger.isLoggable(logLevel)) {
+      if (LoggerUtil.isLoggable(logger, logLevel)) {
         final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].executeUpdate() {\n  ").append(toString());
         buffer.append("\n} -> ").append(count).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
-        logger.log(logLevel, buffer.toString());
+        LoggerUtil.log(logger, logLevel, buffer.toString());
       }
     }
 
@@ -262,14 +264,14 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
       result = getStatement().execute();
     }
     catch (final Throwable t) {
-      logLevel = Level.SEVERE;
+      logLevel = Level.ERROR;
       throw t;
     }
     finally {
-      if (logger.isLoggable(logLevel)) {
+      if (LoggerUtil.isLoggable(logger, logLevel)) {
         final StringBuilder buffer = new StringBuilder("[").append(getClass().getName()).append("@").append(Integer.toHexString(hashCode())).append("].execute() {\n  ").append(toString());
         buffer.append("} -> ").append(result).append("\t\t").append((System.currentTimeMillis() - time)).append("ms");
-        logger.log(logLevel, buffer.toString());
+        LoggerUtil.log(logger, logLevel, buffer.toString());
       }
     }
 
@@ -278,7 +280,7 @@ public class PreparedStatementProxy extends StatementProxy implements PreparedSt
 
   @Override
   public void addBatch() throws SQLException {
-    logger.log(defaultLogLevel, toString());
+    LoggerUtil.log(logger, defaultLogLevel, toString());
     getStatement().addBatch();
   }
 

@@ -287,7 +287,7 @@ public final class Functions {
    * @param base The base.
    * @param value The value.
    *
-   * @return The log.
+   * @return The logger.
    */
   public static double log(final int base, final int value) {
     return Math.log(value) / Math.log(base);

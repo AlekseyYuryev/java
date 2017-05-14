@@ -29,44 +29,16 @@
   <version>1.0.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
-    Wrapper around several logging APIs.
+    Wrapper around common logging APIs.
   </description>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.safris.maven.plugin</groupId>
-        <artifactId>xsb-maven-plugin</artifactId>
-        <configuration>
-          <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-            <destdir>generated-sources/xsb</destdir>
-            <resources>
-              <resource>src/main/resources/logging.xsd</resource>
-            </resources>
-          </manifest>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
   <dependencies>
     <dependency>
-      <groupId>org.safris.xsb</groupId>
-      <artifactId>xsb-generator</artifactId>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-io</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-exec</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-util</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
   </dependencies>
 </project>

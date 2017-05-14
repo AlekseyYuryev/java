@@ -29,7 +29,6 @@ import org.safris.commons.io.Files;
 import org.safris.commons.util.DateUtil;
 import org.safris.commons.xml.sax.Validator;
 import org.safris.commons.xml.validate.OfflineValidationException;
-import org.safris.maven.common.Log;
 import org.xml.sax.SAXException;
 
 @Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)
@@ -46,11 +45,11 @@ public final class ValidatorMojo extends XmlMojo {
         final File recordFile = new File(recordDir, file.getName());
         final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
         if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
-          Log.info("Pre-validated: " + fileName);
+          getLog().info("Pre-validated: " + fileName);
         }
         else {
           try {
-            Log.info("   Validating: " + fileName);
+            getLog().info("   Validating: " + fileName);
 
             Validator.validate(file, offline);
             if (!recordFile.createNewFile())

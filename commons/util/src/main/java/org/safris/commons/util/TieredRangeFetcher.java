@@ -17,10 +17,12 @@
 package org.safris.commons.util;
 
 import java.util.SortedMap;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
-  private static final Logger logger = Logger.getLogger(TieredRangeFetcher.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(TieredRangeFetcher.class);
 
   private final TieredRangeFetcher<A,B> next;
 
@@ -52,21 +54,21 @@ public abstract class TieredRangeFetcher<A extends Comparable<A>,B> {
 
     if (this != last) {
       if (to.compareTo(range[0]) <= 0) {
-        logger.finer(toString() + "{1} (" + from + ", " + range[0] + "]");
+        logger.trace(toString() + "{1} (" + from + ", " + range[0] + "]");
         insert(from, range[0], next.fetch(from, range[0], last));
       }
       else if (range[1].compareTo(from) <= 0) {
-        logger.finer(toString() + " {2} (" + range[1] + ", " + to + "]");
+        logger.trace(toString() + " {2} (" + range[1] + ", " + to + "]");
         insert(range[1], to, next.fetch(range[1], to, last));
       }
       else {
         if (from.compareTo(range[0]) < 0) {
-          logger.finer(toString() + " {3} (" + from + ", " + range[0] + "]");
+          logger.trace(toString() + " {3} (" + from + ", " + range[0] + "]");
           insert(from, range[0], next.fetch(from, range[0], last));
         }
 
         if (range[1].compareTo(to) < 0) {
-          logger.finer(toString() + " {3} (" + range[1] + ", " + to + "]");
+          logger.trace(toString() + " {3} (" + range[1] + ", " + to + "]");
           insert(range[1], to, next.fetch(range[1], to, last));
         }
       }

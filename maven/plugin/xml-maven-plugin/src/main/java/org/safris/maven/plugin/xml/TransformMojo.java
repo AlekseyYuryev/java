@@ -34,11 +34,12 @@ import org.safris.commons.io.Files;
 import org.safris.commons.util.DateUtil;
 import org.safris.commons.xml.transform.Transformer;
 import org.safris.commons.xml.validate.OfflineValidationException;
-import org.safris.maven.common.Log;
 
 @Mojo(name = "transform", defaultPhase = LifecyclePhase.COMPILE)
 @Execute(goal = "transform")
 public final class TransformMojo extends XmlMojo {
+  private static final Pattern replacePattern = Pattern.compile("^\\/((([^\\/])|(\\\\/))+)\\/((([^\\/])|(\\\\/))+)\\/$");
+
   @Parameter(property = "destdir", required = true)
   private String destdir;
 
@@ -47,8 +48,6 @@ public final class TransformMojo extends XmlMojo {
 
   @Parameter(property = "stylesheet")
   private File stylesheet;
-
-  private static final Pattern replacePattern = Pattern.compile("^\\/((([^\\/])|(\\\\/))+)\\/((([^\\/])|(\\\\/))+)\\/$");
 
   @Override
   public void execute(final LinkedHashSet<File> files) throws MojoExecutionException, MojoFailureException {
@@ -70,12 +69,12 @@ public final class TransformMojo extends XmlMojo {
 
         if (destFile.exists() && destFile.lastModified() >= file.lastModified() && destFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
           final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
-          Log.info("Pre-transformed: " + fileName);
+          getLog().info("Pre-transformed: " + fileName);
         }
         else {
           final String inFileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
           final String outFileName = Files.relativePath(getLocalDir().getAbsoluteFile(), destFile.getAbsoluteFile());
-          Log.info("   Transforming: " + inFileName + " -> " + outFileName);
+          getLog().info("   Transforming: " + inFileName + " -> " + outFileName);
 
           Transformer.transform(stylesheet.toURI().toURL(), file.toURI().toURL(), destFile);
         }

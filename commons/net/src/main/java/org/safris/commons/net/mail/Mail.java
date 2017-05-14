@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
@@ -33,9 +32,11 @@ import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
 
 import org.safris.commons.security.Credentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Mail {
-  private static final Logger logger = Logger.getLogger(Mail.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(Mail.class);
 
   public static enum Protocol {
     SMTP, SMTPS
@@ -245,7 +246,7 @@ public final class Mail {
             message.success();
           }
           catch (final MessagingException e) {
-            logger.throwing(Mail.class.getName(), "send", e);
+            logger.error(Mail.class.getName() + ":send()", e);
             message.failure(e);
           }
         }

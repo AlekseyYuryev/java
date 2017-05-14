@@ -32,10 +32,10 @@ import org.safris.rdb.ddlx.runner.MySQL;
 import org.safris.rdb.ddlx.runner.Oracle;
 import org.safris.rdb.ddlx.runner.PostgreSQL;
 import org.safris.rdb.ddlx.runner.SQLite;
+import org.safris.rdb.jsql.DML.NOT;
 import org.safris.rdb.jsql.RowIterator;
 import org.safris.rdb.jsql.classicmodels;
 import org.safris.rdb.jsql.type;
-import org.safris.rdb.jsql.DML.NOT;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)

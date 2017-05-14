@@ -46,7 +46,6 @@
         <module>jci</module>
         <module>jetty</module>
         <module>jndi</module>
-        <module>logging</module>
         <module>measure</module>
         <module>pipeline</module>
         <module>search</module>
@@ -65,6 +64,7 @@
         <module>exec</module>
         <module>io</module>
         <module>lang</module>
+        <module>logging</module>
         <module>math</module>
         <module>net</module>
         <module>security</module>

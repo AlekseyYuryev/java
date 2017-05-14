@@ -28,8 +28,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.measure.Dimension.Unit;
-import org.safris.commons.util.Combinations;
 import org.safris.commons.test.LoggableTest;
+import org.safris.commons.util.Combinations;
 
 public class MeasurementTest extends LoggableTest {
   private static Dimension.Unit[] getUnits(final Class<?> unitClass) throws Exception {

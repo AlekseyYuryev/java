@@ -21,12 +21,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.safris.commons.xml.XMLError;
-import org.safris.maven.common.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public final class DOMParsers {
+  private static final Logger logger = LoggerFactory.getLogger(DOMParsers.class);
+
   private static final ErrorHandler errorHandler = new ErrorHandler() {
     // ignore fatal errors (final an exception is guaranteed)
     @Override
@@ -37,7 +40,7 @@ public final class DOMParsers {
     @Override
     public void error(final SAXParseException e) throws SAXParseException {
       final String systemId = e.getSystemId() != null ? " systemId=\"" + e.getSystemId() + "\"" : "";
-      Log.error("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
+      logger.error("[" + e.getLineNumber() + "," + e.getColumnNumber() + "]" + systemId);
       throw e;
     }
 
@@ -45,7 +48,7 @@ public final class DOMParsers {
     @Override
     public void warning(final SAXParseException e) throws SAXParseException {
       final String message = e.getMessage() != null ? " " + e.getMessage() : "";
-      Log.warn("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
+      logger.warn("[" + e.getLineNumber() + "," + e.getColumnNumber() + "] systemId=\"" + e.getSystemId() + "\"" + message);
     }
   };
 

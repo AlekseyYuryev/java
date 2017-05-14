@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.maven.model.Resource;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -31,12 +32,10 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.safris.commons.io.Files;
-import org.safris.maven.common.AdvancedMojo;
-import org.safris.maven.common.Log;
 import org.safris.maven.mojo.Mojos;
 
 @Mojo(name = "xml")
-public abstract class XmlMojo extends AdvancedMojo {
+public abstract class XmlMojo extends AbstractMojo {
   private static final String delimeter = "://";
 
   private static void convertToRegex(final List<String> list) {
@@ -135,12 +134,12 @@ public abstract class XmlMojo extends AdvancedMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (skip) {
-      Log.info("Skipped.");
+      getLog().info("Skipped.");
       return;
     }
 
     if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
-      Log.info("Tests are skipped.");
+      getLog().info("Tests are skipped.");
       return;
     }
 

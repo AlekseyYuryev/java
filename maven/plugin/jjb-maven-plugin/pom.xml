@@ -125,7 +125,7 @@
     </dependency>
     <dependency>
       <groupId>org.safris.maven</groupId>
-      <artifactId>maven-mojo</artifactId>
+      <artifactId>maven-common</artifactId>
     </dependency>
   </dependencies>
   <repositories>

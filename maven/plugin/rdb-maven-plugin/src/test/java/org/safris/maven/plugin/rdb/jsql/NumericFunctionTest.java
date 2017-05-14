@@ -37,9 +37,9 @@ import org.safris.rdb.jsql.RowIterator;
 import org.safris.rdb.jsql.Subject;
 import org.safris.rdb.jsql.classicmodels;
 import org.safris.rdb.jsql.type;
+import org.safris.rdb.jsql.type.DECIMAL;
 import org.safris.rdb.jsql.types;
 import org.safris.rdb.jsql.model.select;
-import org.safris.rdb.jsql.type.DECIMAL;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})

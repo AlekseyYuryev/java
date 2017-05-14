@@ -45,10 +45,6 @@
       <artifactId>commons-net</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.maven</groupId>
-      <artifactId>maven-common</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.opengis.cite.xerces</groupId>
       <artifactId>xercesImpl-xsd11</artifactId>
     </dependency>

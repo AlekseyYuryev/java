@@ -23,7 +23,6 @@ import java.io.FilterInputStream;
 import java.io.InputStream;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -33,7 +32,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.safris.commons.lang.Classes;
 import org.safris.commons.test.LoggableTest;
 
 public class ClassesTest extends LoggableTest {
@@ -60,7 +58,7 @@ public class ClassesTest extends LoggableTest {
   @Test
   public void testGetCallingClasses() {
     final Class<?>[] classes = Classes.getCallingClasses();
-    System.out.println(Arrays.toString(classes));
+    log(Arrays.toString(classes, ", "));
   }
 
   protected static class Inn$r {

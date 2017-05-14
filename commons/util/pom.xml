@@ -29,7 +29,7 @@
   <version>1.5.7</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
-    Random utilities that are used by numerous modules.
+    General utilities used by numerous modules.
   </description>
   <profiles>
     <profile>
@@ -75,7 +75,12 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.safris.commons</groupId>
       <artifactId>commons-test</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
