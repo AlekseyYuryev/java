@@ -147,7 +147,7 @@ public abstract class LoggableTest {
   };
 
   @Before
-  public final void checkIgnored() {
+  public final void _checkIgnored() {
     Boolean mutex = classToMutex.get(getClass());
     if (mutex == null)
       classToMutex.put(getClass(), mutex = false);
