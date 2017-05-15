@@ -108,7 +108,7 @@ public final class Objects {
       return true;
     }
     catch (final IllegalAccessException e) {
-      throw new Error(e);
+      throw new UnsupportedOperationException(e);
     }
   }
 
@@ -143,7 +143,7 @@ public final class Objects {
       return true;
     }
     catch (final IllegalAccessException e) {
-      throw new Error(e);
+      throw new UnsupportedOperationException(e);
     }
   }
 
@@ -212,7 +212,7 @@ public final class Objects {
       }
     }
     catch (final IllegalAccessException e) {
-      throw new Error(e);
+      throw new UnsupportedOperationException(e);
     }
 
     return hashCode;

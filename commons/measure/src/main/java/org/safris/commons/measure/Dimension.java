@@ -189,8 +189,8 @@ public abstract class Dimension {
       try {
         return getClass().getConstructor(double.class, unit.getClass()).newInstance(value, unit);
       }
-      catch (final Exception e) {
-        throw new Error(e);
+      catch (final ReflectiveOperationException e) {
+        throw new UnsupportedOperationException(e);
       }
     }
 

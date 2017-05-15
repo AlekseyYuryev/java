@@ -20,9 +20,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.LayoutBase;
 
 public class SurefireTestLayout extends LayoutBase<ILoggingEvent> {
+  private static final String TEST = "[1;35m[TEST][0;39m ";
   @Override
   public String doLayout(final ILoggingEvent event) {
     final String message = event.getFormattedMessage();
-    return (System.getProperty("sun.java.command").contains("surefire") ? "[1;35m[TEST][0;39m " + (message.contains("\n") ? "\n" + message : message) : event.getFormattedMessage()) + "\n";
+    return (System.getProperty("sun.java.command").contains("surefire") ? TEST + (message.contains("\n") ? message.replace("\n", "\n" + TEST) : message) : event.getFormattedMessage()) + "\n";
   }
 }

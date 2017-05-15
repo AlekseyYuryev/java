@@ -60,7 +60,7 @@ public class ISTEnumGenerator {
     final File parentFile = outFile.getParentFile();
     if (!parentFile.exists())
       if (!parentFile.mkdirs())
-        throw new Error("Unable to create output path: " + parentFile.getAbsolutePath());
+        throw new IllegalStateException("Unable to create output path: " + parentFile.getAbsolutePath());
 
     String in = new String(Files.getBytes(tokensFile));
     in = in.replaceAll("([ \t\n\r\f]){2,}", " ");

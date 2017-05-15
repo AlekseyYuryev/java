@@ -42,10 +42,8 @@ public final class Magic {
       for (int i = 0; i < magic.length; i++) {
         magic[i] = in.read();
         if (validMagic[i] != magic[i]) {
-          in.close();
-          out.close();
           tempFile.deleteOnExit();
-          throw new Error(file.getName() + " is not a valid class!");
+          throw new IllegalArgumentException(file.getName() + " is not a valid class!");
         }
 
         out.write(magic[i]);
