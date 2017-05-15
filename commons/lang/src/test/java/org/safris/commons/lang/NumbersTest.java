@@ -22,10 +22,13 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class NumbersTest extends LoggableTest {
-  private double testLogBigInteger(final int[] factors, final int[] exponents) {
+public class NumbersTest {
+  private static final Logger logger = LoggerFactory.getLogger(NumbersTest.class);
+
+  private static double testLogBigInteger(final int[] factors, final int[] exponents) {
     double l1 = 0;
     BigInteger bi = BigInteger.ONE;
     for (int i = 0; i < factors.length; i++) {
@@ -43,7 +46,7 @@ public class NumbersTest extends LoggableTest {
     final double l2 = Numbers.log2(bi);
     final double err = Math.abs((l2 - l1) / l1);
     final int decdigits = (int) (l1 / Math.log(10) + 0.5);
-    logf("e=%e digitss=%d", err, decdigits);
+    logger.info("e={} digitss={}", err, decdigits);
     return err;
   }
 
@@ -66,7 +69,7 @@ public class NumbersTest extends LoggableTest {
         maxerr = err;
     }
 
-    logf("Max err: %e", maxerr);
+    logger.info("Max err: {}", maxerr);
   }
 
   @Test

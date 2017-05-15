@@ -24,9 +24,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.commons.security.Credentials;
-import org.safris.commons.test.LoggableTest;
 
-public class MailTest extends LoggableTest {
+public class MailTest {
   private int successCount = 0;
 
   private class TestMessage extends Mail.Message  {

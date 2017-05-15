@@ -24,9 +24,8 @@ import javax.swing.text.BadLocationException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class StringsTest extends LoggableTest {
+public class StringsTest {
   private static final String UPPER_CASE = "HELLO WORLD";
   private static final String LOWER_CASE = "hello world";
 

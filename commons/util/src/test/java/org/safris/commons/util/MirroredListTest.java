@@ -20,9 +20,8 @@ import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class MirroredListTest extends LoggableTest {
+public class MirroredListTest {
   @Test
   public void test() {
     final MirroredList<String,Integer> list = new MirroredList<String,Integer>(ArrayList.class, new MirroredList.Mirror<String,Integer>() {

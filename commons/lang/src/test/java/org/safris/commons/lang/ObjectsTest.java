@@ -18,10 +18,13 @@ package org.safris.commons.lang;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unused")
-public class ObjectsTest extends LoggableTest {
+public class ObjectsTest {
+  private static final Logger logger = LoggerFactory.getLogger(ObjectsTest.class);
+
   private static enum E {
     a, b, c
   }
@@ -95,10 +98,10 @@ public class ObjectsTest extends LoggableTest {
 
   @Test
   public void testToStrings() {
-    log(Objects.toString(new A()));
-    log(Objects.toString(new B()));
-    log(Objects.toString(new C(E.a)));
-    log(Objects.toString(new D(E.b)));
-    log(Objects.toString(new F()));
+    logger.info(Objects.toString(new A()));
+    logger.info(Objects.toString(new B()));
+    logger.info(Objects.toString(new C(E.a)));
+    logger.info(Objects.toString(new D(E.b)));
+    logger.info(Objects.toString(new F()));
   }
 }

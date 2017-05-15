@@ -21,9 +21,8 @@ import java.io.PipedOutputStream;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class NonBlockingInputStreamTest extends LoggableTest {
+public class NonBlockingInputStreamTest {
   @Test
   @SuppressWarnings("resource")
   public void testInputStream() throws Exception {

@@ -22,9 +22,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class NamespaceBindingTest extends LoggableTest {
+public class NamespaceBindingTest {
   private final Map<String,String> map = new HashMap<String,String>();
 
   @Before

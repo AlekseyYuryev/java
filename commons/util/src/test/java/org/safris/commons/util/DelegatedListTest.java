@@ -22,9 +22,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class DelegatedListTest extends LoggableTest {
+public class DelegatedListTest {
   @Test
   public void testListDelegate() {
     final List<String> values = Arrays.asList("a", "b", "c", "d", "e");

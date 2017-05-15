@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.safris.commons.test.JUnitUtil;
-import org.safris.commons.test.LoggableTest;
 import org.safris.commons.test.MixedTest;
 import org.safris.maven.plugin.rdb.jsql.runner.VendorSchemaRunner;
 import org.safris.rdb.ddlx.runner.Derby;
@@ -41,15 +40,18 @@ import org.safris.rdb.jsql.RowIterator;
 import org.safris.rdb.jsql.classicmodels;
 import org.safris.rdb.jsql.type;
 import org.safris.rdb.jsql.types;
-import org.slf4j.event.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
-public class DateTimeValueExpressionTest extends LoggableTest {
-  private void checkDSTError(final AssertionError e) {
+public class DateTimeValueExpressionTest {
+  private static final Logger logger = LoggerFactory.getLogger(DateTimeValueExpressionTest.class);
+
+  private static void checkDSTError(final AssertionError e) {
     final String[] expectedActual = JUnitUtil.getExpectedActual(e);
     final String expected = expectedActual[0];
     final String actual = expectedActual[1];
@@ -57,7 +59,7 @@ public class DateTimeValueExpressionTest extends LoggableTest {
       throw e;
 
     // FIXME: MySQL has a DST error in DATE_ADD() and DATE_SUB() (http://stackoverflow.com/questions/5748547/mysql-date-sub-date-add-that-accounts-for-dst)
-    log(Level.WARN, "DST Error");
+    logger.warn("DST Error");
   }
 
   @Test

@@ -19,14 +19,17 @@ package org.safris.commons.util;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CombinationsTest extends LoggableTest {
+public class CombinationsTest {
+  private static final Logger logger = LoggerFactory.getLogger(CombinationsTest.class);
+
   @Test
   public void test() {
     final String[][] in = new String[][] {{"km", "m", "ft"}, {"sec", "min", "hr"}, {"kg", "lb"}};
     final String[][] out = Combinations.<String>combine(in);
     for (final String[] combination : out)
-      log(Arrays.toString(combination));
+      logger.info(Arrays.toString(combination));
   }
 }

@@ -18,9 +18,8 @@ package org.safris.commons.xml.binding;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class MonthTest extends LoggableTest {
+public class MonthTest {
   @Test
   public void testMonth() {
     try {

@@ -32,9 +32,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ClassesTest extends LoggableTest {
+public class ClassesTest {
+  private static final Logger logger = LoggerFactory.getLogger(ClassesTest.class);
+
   private final Map<Class<?>[],Class<?>> classes = new HashMap<Class<?>[],Class<?>>();
 
   @Before
@@ -58,7 +61,7 @@ public class ClassesTest extends LoggableTest {
   @Test
   public void testGetCallingClasses() {
     final Class<?>[] classes = Classes.getCallingClasses();
-    log(Arrays.toString(classes, ", "));
+    logger.info(Arrays.toString(classes, ", "));
   }
 
   protected static class Inn$r {

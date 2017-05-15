@@ -24,9 +24,12 @@ import java.util.TreeMap;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TieredRangeFetcherTest extends LoggableTest {
+public class TieredRangeFetcherTest {
+  private static final Logger logger = LoggerFactory.getLogger(TieredRangeFetcherTest.class);
+
   @Test
   public void testTieredFetcher() {
     final int dbFrom = 20;
@@ -45,7 +48,7 @@ public class TieredRangeFetcherTest extends LoggableTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, Integer to) {
-        log("WEB -> (" + from + ", " + to + "]");
+        logger.info("WEB -> (" + from + ", " + to + "]");
         final SortedMap<Integer,Object> results = new TreeMap<Integer,Object>();
         for (int i = from; i < to; i++)
           results.put(i, i);
@@ -68,13 +71,13 @@ public class TieredRangeFetcherTest extends LoggableTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        log("DB -> (" + from + ", " + to + "]");
+        logger.info("DB -> (" + from + ", " + to + "]");
         return db.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        log("DB <- (" + from + ", " + to + "]");
+        logger.info("DB <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }
@@ -102,13 +105,13 @@ public class TieredRangeFetcherTest extends LoggableTest {
 
       @Override
       protected SortedMap<Integer,Object> select(final Integer from, final Integer to) {
-        log("CACHE -> (" + from + ", " + to + "]");
+        logger.info("CACHE -> (" + from + ", " + to + "]");
         return cache.subMap(from, to);
       }
 
       @Override
       protected void insert(final Integer from, final Integer to, final SortedMap<Integer,Object> data) {
-        log("CACHE <- (" + from + ", " + to + "]");
+        logger.info("CACHE <- (" + from + ", " + to + "]");
         if (range == null) {
           range = new Integer[] {from, to};
         }

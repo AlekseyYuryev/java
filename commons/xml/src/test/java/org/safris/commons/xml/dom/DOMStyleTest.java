@@ -18,9 +18,8 @@ package org.safris.commons.xml.dom;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class DOMStyleTest extends LoggableTest {
+public class DOMStyleTest {
   @Test
   public void testConsolidate() {
     Assert.assertNull(DOMStyle.consolidate((DOMStyle[])null));

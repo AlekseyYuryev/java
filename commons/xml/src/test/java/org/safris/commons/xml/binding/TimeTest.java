@@ -20,9 +20,8 @@ import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class TimeTest extends LoggableTest {
+public class TimeTest {
   @Test
   public void testTime() {
     try {

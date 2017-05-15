@@ -18,9 +18,8 @@ package org.safris.commons.math;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class MovingNormalTest extends LoggableTest {
+public class MovingNormalTest {
   @Test
   public void testMovingNormal() {
     final double[] vals = new double[] {1, 2, 4, 1, 2, 3, 4, 2};

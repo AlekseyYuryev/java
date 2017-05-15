@@ -20,17 +20,20 @@ import java.io.File;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public final class FileMonitorTest extends LoggableTest implements FileEventListener {
+public final class FileMonitorTest implements FileEventListener {
+  private static final Logger logger = LoggerFactory.getLogger(FileMonitorTest.class);
+
   @Override
   public void onModify(final File file) {
-    log(file.getName() + " modified.");
+    logger.info(file.getName() + " modified.");
   }
 
   @Override
   public void onDelete(final File file) {
-    log(file.getName() + " deleted.");
+    logger.info(file.getName() + " deleted.");
   }
 
   @Test
@@ -43,6 +46,6 @@ public final class FileMonitorTest extends LoggableTest implements FileEventList
     monitor.addListener(this);
     monitor.start();
     Thread.sleep(1000);
-    log("main done!");
+    logger.info("main done!");
   }
 }

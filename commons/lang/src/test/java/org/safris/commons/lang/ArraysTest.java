@@ -21,9 +21,8 @@ import java.util.function.UnaryOperator;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class ArraysTest extends LoggableTest {
+public class ArraysTest {
   @Test
   public void testTransform() {
     Assert.assertArrayEquals(new String[] {"ONE", "TWO", "THREE"}, Arrays.<String>replaceAll(new UnaryOperator<String>() {

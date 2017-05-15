@@ -22,9 +22,8 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class DelegatedMapTest extends LoggableTest {
+public class DelegatedMapTest {
   @Test
   public void testMapDelegate() {
     final Map<String,String> values = new HashMap<String,String>();

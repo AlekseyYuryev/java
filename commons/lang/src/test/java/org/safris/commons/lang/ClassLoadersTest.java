@@ -20,9 +20,8 @@ import java.net.URL;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class ClassLoadersTest extends LoggableTest {
+public class ClassLoadersTest {
   @Test
   public void test() {
     final URL[] urls = ClassLoaders.getClassPath();

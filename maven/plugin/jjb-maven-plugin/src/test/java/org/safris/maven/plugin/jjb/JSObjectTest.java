@@ -24,16 +24,19 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.lang.Resources;
-import org.safris.commons.test.LoggableTest;
 import org.safris.commons.util.Collections;
 import org.safris.jjb.runtime.DecodeException;
 import org.safris.jjb.runtime.EncodeException;
 import org.safris.jjb.runtime.JSArray;
 import org.safris.jjb.runtime.JSObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jjb.api;
 
-public class JSObjectTest extends LoggableTest {
+public class JSObjectTest {
+  private static final Logger logger = LoggerFactory.getLogger(JSObjectTest.class);
+
   @Test
   public void testJSObject() throws Exception {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
@@ -142,7 +145,7 @@ public class JSObjectTest extends LoggableTest {
     if (encoded.indexOf("notRequired") != -1)
       Assert.fail("message.notRequired or message.notRequiredArray should not be present in the encoded string");
 
-    log(encoded);
+    logger.info(encoded);
 
     try {
       JSObject.parse(api.Message.class, new StringReader(encoded.replace("438DA4", "XXX")));
@@ -162,7 +165,7 @@ public class JSObjectTest extends LoggableTest {
 
     final api.Message decoded = JSObject.parse(api.Message.class, new StringReader(encoded));
     final String reEncoded = decoded.toString();
-    log(reEncoded);
+    logger.info(reEncoded);
 
     Assert.assertEquals(encoded, reEncoded);
     Assert.assertEquals(subject, decoded.subject());
@@ -205,7 +208,7 @@ public class JSObjectTest extends LoggableTest {
     array2.add(1);
     array2.add(2);
     array2.add(3);
-    log(array2.toString());
+    logger.info(array2.toString());
 
     final JSArray<api.Dsig> array3 = new JSArray<api.Dsig>();
     api.Dsig dsig = new api.Dsig();
@@ -219,6 +222,6 @@ public class JSObjectTest extends LoggableTest {
     dsig = new api.Dsig();
     dsig.xmldsig("three");
     array3.add(dsig);
-    log(array3.toString());
+    logger.info(array3.toString());
   }
 }

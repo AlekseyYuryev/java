@@ -23,9 +23,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.safris.commons.exec.Processes;
 import org.safris.commons.io.Files;
-import org.safris.commons.test.LoggableTest;
 
-public class ExternalTest extends LoggableTest {
+public class ExternalTest {
   private static final String[] DEBUG_VM_ARGS = null;
   // private static final String[] DEBUG_VM_ARGS = new String[] {"-Xdebug", "-Xnoagent", "-Djava.compiler=NONE",
   // "-Xrunjdwp:transport=dt_socket,address=8000,server=y"};

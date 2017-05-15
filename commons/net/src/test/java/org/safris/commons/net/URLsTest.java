@@ -24,9 +24,8 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class URLsTest extends LoggableTest {
+public class URLsTest {
   @Test
   public void testIsLocal() throws Exception {
     Assert.assertTrue(URLs.isLocal(new URL("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));

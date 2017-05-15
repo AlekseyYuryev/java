@@ -20,10 +20,13 @@ import java.io.File;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class ValidatorTest extends LoggableTest {
+public class ValidatorTest {
+  private static final Logger logger = LoggerFactory.getLogger(ValidatorTest.class);
+
   @Test
   public void testValidate() throws Exception {
     Validator.validate(new File("src/test/resources/valid.xml"), true);
@@ -42,7 +45,7 @@ public class ValidatorTest extends LoggableTest {
     catch (final SAXException e) {
       System.err.println(e.getMessage());
       if (e.getMessage() != null && e.getMessage().startsWith("schema_reference.4: Failed to read schema document 'http://www.w3.org/2001/"))
-        log(e.getMessage());
+        logger.info(e.getMessage());
       else
         throw e;
     }

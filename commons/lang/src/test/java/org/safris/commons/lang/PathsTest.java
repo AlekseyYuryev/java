@@ -21,9 +21,8 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class PathsTest extends LoggableTest {
+public class PathsTest {
   @Test
   public void testGetName() throws Exception {
     final Map<String,String> paths = new HashMap<String,String>();

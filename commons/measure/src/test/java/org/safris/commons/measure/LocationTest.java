@@ -18,9 +18,8 @@ package org.safris.commons.measure;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class LocationTest extends LoggableTest {
+public class LocationTest {
   @Test
   public void testLocation() throws Exception {
     final Angle lat = new Angle(38.898556, Angle.Unit.DEG);

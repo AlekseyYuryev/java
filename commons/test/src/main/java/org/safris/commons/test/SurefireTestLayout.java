@@ -14,20 +14,15 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.lang;
+package org.safris.commons.test;
 
-import org.junit.Assert;
-import org.junit.Test;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.LayoutBase;
 
-public class EnumsTest {
-  private static enum Fruit {
-    APPLE, ORANGE, WATERMELLON
-  }
-
-  @Test
-  public void testEnums() {
-    Assert.assertArrayEquals(new Fruit[] {Fruit.ORANGE, Fruit.WATERMELLON, Fruit.APPLE}, Enums.valueOf(Fruit.class, "ORANGE", "WATERMELLON", "TOMATO", "APPLE"));
-    Assert.assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class, "POTATO", "TOMATO", "CHICKEN"));
-    Assert.assertArrayEquals(new Fruit[] {}, Enums.valueOf(Fruit.class));
+public class SurefireTestLayout extends LayoutBase<ILoggingEvent> {
+  @Override
+  public String doLayout(final ILoggingEvent event) {
+    final String message = event.getFormattedMessage();
+    return (System.getProperty("sun.java.command").contains("surefire") ? "[1;35m[TEST][0;39m " + (message.contains("\n") ? "\n" + message : message) : event.getFormattedMessage()) + "\n";
   }
 }

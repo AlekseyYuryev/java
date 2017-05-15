@@ -18,9 +18,8 @@ package org.safris.commons.math;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class FunctionsTest extends LoggableTest {
+public class FunctionsTest {
   @Test
   public void testRound() {
     try {

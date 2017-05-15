@@ -21,9 +21,8 @@ import javax.naming.NamingException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class JNDIsTest extends LoggableTest {
+public class JNDIsTest {
   @Test
   public void testJNDIs() throws NamingException {
     final String name = "java:comp/env/jdbc/DAO";

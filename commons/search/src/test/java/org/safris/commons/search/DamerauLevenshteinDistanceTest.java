@@ -23,9 +23,12 @@ package org.safris.commons.search;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class DamerauLevenshteinDistanceTest extends LoggableTest {
+public class DamerauLevenshteinDistanceTest {
+  private static final Logger logger = LoggerFactory.getLogger(DamerauLevenshteinDistanceTest.class);
+
   @Test
   public void testDistance() {
     Assert.assertEquals(7, new DamerauLevenshteinDistance(1, 1, 1, 1).compute("NawKtYu", ""));
@@ -56,7 +59,7 @@ public class DamerauLevenshteinDistanceTest extends LoggableTest {
   @Test
   @SuppressWarnings("unused")
   public void testInvalidCosts() {
-    log(new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Where's Your Head At", "Wheres Y"));
+    logger.info(String.valueOf(new DamerauLevenshteinDistance(1, 1, 1, 1).compute("Where's Your Head At", "Wheres Y")));
     try {
       new DamerauLevenshteinDistance(1, 1, 1, 0);
       Assert.fail();

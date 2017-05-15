@@ -20,9 +20,8 @@ import java.util.Enumeration;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class EnumerationTest extends LoggableTest  {
+public class EnumerationTest {
   private final Enumeration<Integer> enumeration = new Enumeration<Integer>() {
     private int position = 0;
 

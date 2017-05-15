@@ -21,9 +21,8 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 import org.safris.commons.io.Files;
-import org.safris.commons.test.LoggableTest;
 
-public class ISTEnumGeneratorTest extends LoggableTest {
+public class ISTEnumGeneratorTest {
   @Test
   public void testGenerate() throws Exception {
     final String className = "org.safris.commons.search.Keywords";

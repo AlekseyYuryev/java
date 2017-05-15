@@ -21,9 +21,12 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class PackageLoaderTest extends LoggableTest {
+public class PackageLoaderTest {
+  private static final Logger logger = LoggerFactory.getLogger(PackageLoaderTest.class);
+
   private static boolean isClassLoaded(final String name) {
     ClassLoader classLoader = ClassLoader.getSystemClassLoader();
     if (ClassLoaders.isClassLoaded(classLoader, name))
@@ -59,7 +62,7 @@ public class PackageLoaderTest extends LoggableTest {
       classNames.add(loadedClass.getName());
 
     for (final String testClass : testClasses) {
-      log(testClass);
+      logger.info(testClass);
       Assert.assertTrue(classNames.contains(testClass));
       Assert.assertTrue(isClassLoaded(testClass));
     }

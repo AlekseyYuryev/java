@@ -24,9 +24,8 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
 
-public class TopologicalSortTest extends LoggableTest {
+public class TopologicalSortTest {
   @Test
   public void testSort() {
     final Map<String,Set<String>> graph = new HashMap<String,Set<String>>();

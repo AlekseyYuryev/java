@@ -20,9 +20,12 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.test.LoggableTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class RandomTest extends LoggableTest {
+public class RandomTest {
+  private static final Logger logger = LoggerFactory.getLogger(RandomTest.class);
+
   private static final char[] ALPHA = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final char[] NUMERIC = "0123456789".toCharArray();
   private static final char[] ALPHA_NUMERIC = (new String(NUMERIC) + new String(ALPHA)).toCharArray();
@@ -44,17 +47,17 @@ public class RandomTest extends LoggableTest {
     }
 
     final String alpha = Random.alpha(16);
-    log(alpha);
+    logger.info(alpha);
     Assert.assertEquals(16, alpha.length());
     assertInSpace(alpha.toCharArray(), ALPHA);
 
     final String numeric = Random.numeric(16);
-    log(numeric);
+    logger.info(numeric);
     Assert.assertEquals(16, numeric.length());
     assertInSpace(numeric.toCharArray(), NUMERIC);
 
     final String alphaNumeric = Random.alphaNumeric(16);
-    log(alphaNumeric);
+    logger.info(alphaNumeric);
     Assert.assertEquals(16, alphaNumeric.length());
     assertInSpace(alphaNumeric.toCharArray(), ALPHA_NUMERIC);
   }
