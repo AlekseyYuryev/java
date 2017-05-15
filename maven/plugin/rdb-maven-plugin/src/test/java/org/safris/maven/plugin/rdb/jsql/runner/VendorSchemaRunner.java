@@ -48,21 +48,20 @@ public class VendorSchemaRunner extends VendorRunner {
     if (entityClass == null)
       entityClass = method.getMethod().getDeclaringClass().getAnnotation(Schema.class);
 
-    if (entityClass == null)
-      throw new Exception("@" + Schema.class.getSimpleName() + " is required on either method or class");
-
-    for (final Class<? extends org.safris.rdb.jsql.Schema> schemaClass : entityClass.value()) {
-      DBRegistry.registerPrepared(schemaClass, new DBConnector() {
-        @Override
-        public Connection getConnection() throws SQLException {
-          try {
-            return VendorSchemaRunner.this.getConnection(vendorClass);
+    if (entityClass != null) {
+      for (final Class<? extends org.safris.rdb.jsql.Schema> schemaClass : entityClass.value()) {
+        DBRegistry.registerPrepared(schemaClass, new DBConnector() {
+          @Override
+          public Connection getConnection() throws SQLException {
+            try {
+              return VendorSchemaRunner.this.getConnection(vendorClass);
+            }
+            catch (final IOException | ReflectiveOperationException e) {
+              throw new SQLException(e);
+            }
           }
-          catch (final IOException | ReflectiveOperationException e) {
-            throw new SQLException(e);
-          }
-        }
-      });
+        });
+      }
     }
 
     if (method.getMethod().getParameterTypes().length > 0)
