@@ -13,12 +13,10 @@
         <groupId>org.safris.maven.plugin</groupId>
         <artifactId>rdb-maven-plugin</artifactId>
         <version>0.9.7</version>
+        <extensions>true</extensions>
         <executions>
           <execution>
             <id>default-ddl</id>
-            <goals>
-              <goal>ddl</goal>
-            </goals>
             <configuration>
               <vendor>PostgreSQL</vendor>
               <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
