@@ -107,7 +107,7 @@
                       <include>src/main/**/*.jsonx</include>
                       <include>src/main/**/*.xml</include>
                       <include>src/main/**/*.xsd</include>
-                      <include>src/main/**/*.xsl</include>
+                      <!--include>src/main/**/*.xsl</include-->
                     </includes>
                   </configuration>
                 </execution>
@@ -124,7 +124,7 @@
                       <include>src/test/**/*.jsonx</include>
                       <include>src/test/**/*.xml</include>
                       <include>src/test/**/*.xsd</include>
-                      <include>src/main/**/*.xsl</include>
+                      <!--include>src/main/**/*.xsl</include-->
                     </includes>
                   </configuration>
                 </execution>
