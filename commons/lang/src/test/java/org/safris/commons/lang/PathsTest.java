@@ -24,6 +24,46 @@ import org.junit.Test;
 
 public class PathsTest {
   @Test
+  public void testIsLocal() {
+    // Local UNIX
+    Assert.assertTrue(Paths.isLocal("/etc/profile"));
+    Assert.assertTrue(Paths.isLocal("//etc/profile"));
+    Assert.assertTrue(Paths.isLocal("file:/etc/profile"));
+    Assert.assertTrue(Paths.isLocal("file:///etc/profile"));
+
+    // Local Windows
+    Assert.assertTrue(Paths.isLocal("/C:/Windows"));
+    Assert.assertTrue(Paths.isLocal("file:///C:/Windows"));
+    Assert.assertTrue(Paths.isLocal("file:/C:/Windows"));
+
+    // Remote
+    Assert.assertFalse(Paths.isLocal("http://www.google.com"));
+    Assert.assertFalse(Paths.isLocal("ftp://ftp.google.com"));
+  }
+
+  @Test
+  public void testNewPath() {
+    // UNIX
+    Assert.assertEquals("/etc/profile", Paths.newPath("/etc/", "profile"));
+    Assert.assertEquals("/etc/profile", Paths.newPath("/etc", "profile"));
+    Assert.assertEquals("/etc/profile", Paths.newPath("/etc", "/profile"));
+    Assert.assertEquals("/etc/profile", Paths.newPath("/etc/", "/profile"));
+
+    // Windows
+    Assert.assertEquals("C:\\Windows\\System32", Paths.newPath("C:\\Windows", "System32"));
+    Assert.assertEquals("C:\\Windows\\System32", Paths.newPath("C:\\Windows", "\\System32"));
+    Assert.assertEquals("C:\\Windows\\System32", Paths.newPath("C:\\Windows\\", "System32"));
+    Assert.assertEquals("C:\\Windows\\System32", Paths.newPath("C:\\Windows\\", "\\System32"));
+
+    // Web
+    Assert.assertEquals("http://www.google.com/images", Paths.newPath("http://www.google.com", "images"));
+    Assert.assertEquals("http://www.google.com/images", Paths.newPath("http://www.google.com/", "images"));
+    Assert.assertEquals("http://www.google.com/images", Paths.newPath("http://www.google.com", "/images"));
+    Assert.assertEquals("http://www.google.com/images", Paths.newPath("http://www.google.com/", "/images"));
+    Assert.assertEquals("ftp://www.google.com/files", Paths.newPath("ftp://www.google.com", "files"));
+  }
+
+  @Test
   public void testGetName() throws Exception {
     final Map<String,String> paths = new HashMap<String,String>();
     paths.put("share", "file:///usr/share/../share");

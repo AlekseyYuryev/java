@@ -19,12 +19,26 @@ package org.safris.commons.lang;
 import java.io.File;
 
 public final class Paths {
-  public static boolean isAbsolute(final String path) {
-    return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
+  private static final String windowsPath = "([a-zA-Z]:)?(\\\\[a-zA-Z0-9_.-]+)+\\\\?";
+
+  private static boolean isLocalURL(final String path) {
+    return path.startsWith("file:");
+  }
+
+  private static boolean isLocalUnix(final String path) {
+    return path.charAt(0) == '/';
+  }
+
+  private static boolean isLocalWindows(final String path) {
+    return path.matches(windowsPath);
   }
 
   public static boolean isLocal(final String path) {
-    return path.startsWith("file:") || path.startsWith("/");
+    return isLocalURL(path) || isLocalUnix(path) || isLocalWindows(path);
+  }
+
+  public static boolean isAbsolute(final String path) {
+    return path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3)));
   }
 
   public static String newPath(final String basedir, final String path) {
@@ -34,14 +48,13 @@ public final class Paths {
     if (path.length() == 0)
       return basedir;
 
-    if (basedir.endsWith("/") || basedir.endsWith("\\")) {
-      if (path.startsWith(File.separator))
-        return basedir + path.substring(1);
+    final char sep = isLocalWindows(basedir) ? '\\' : '/';
+    final char lastBasedir = basedir.charAt(basedir.length() - 1);
+    final char firstPath = path.charAt(0);
+    if (lastBasedir == sep && firstPath == sep)
+      return basedir + path.substring(1);
 
-      return basedir + path;
-    }
-
-    return basedir + File.separator + path;
+    return basedir + (lastBasedir != sep && firstPath != sep ? sep + path : path);
   }
 
   public static String canonicalize(String path) {

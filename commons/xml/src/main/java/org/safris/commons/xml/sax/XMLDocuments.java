@@ -115,9 +115,9 @@ public final class XMLDocuments {
           }
 
           references.put(schemaLocation.getKey(), new SchemaLocation(schemaLocation.getKey(), schemaLocation.getValue()));
-          for (final String sl : handler.getImports().keySet())
-            if (!references.containsKey(sl))
-              namespaceURIs.add(sl);
+          for (final String location : handler.getImports().keySet())
+            if (!references.containsKey(location))
+              namespaceURIs.add(location);
 
           namespaceURIs.remove(schemaLocation.getKey());
           if (namespaceURIs.isEmpty())
