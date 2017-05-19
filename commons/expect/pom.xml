@@ -51,12 +51,12 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.safris.xsb</groupId>
-      <artifactId>xsb-generator</artifactId>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>commons-exec</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-util</artifactId>
+      <groupId>org.safris.xsb</groupId>
+      <artifactId>xsb-runtime</artifactId>
     </dependency>
   </dependencies>
 </project>

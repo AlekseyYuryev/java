@@ -47,7 +47,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.xsb</groupId>
-      <artifactId>xsb-generator</artifactId>
+      <artifactId>xsb-runtime</artifactId>
     </dependency>
   </dependencies>
 </project>

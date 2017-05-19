@@ -31,10 +31,4 @@
   <description>
     Lightweight, self-contained mathematics and statistics components.
   </description>
-  <dependencies>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-test</artifactId>
-    </dependency>
-  </dependencies>
 </project>

@@ -167,6 +167,13 @@
         <module>commons</module>
         <module>maven</module>
       </modules>
+      <dependencies>
+        <dependency>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
     </profile>
     <profile>
       <id>itest</id>
@@ -798,13 +805,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <dependencies>
-    <dependency>
-      <artifactId>junit</artifactId>
-      <groupId>junit</groupId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <repositories>
     <repository>
       <id>maven.atlassian.com</id>
@@ -814,7 +814,6 @@
     <repository>
       <id>maven.oracle.com</id>
       <url>https://maven.oracle.com</url>
-      <layout>default</layout>
     </repository>
   </repositories>
   <pluginRepositories>

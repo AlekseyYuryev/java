@@ -37,7 +37,7 @@
           <phase>jjb</phase>
         </phases>
         <default-phases>
-          <jjb>org.safris.maven.plugin:jjb-maven-plugin:generate</jjb>
+          <generate>org.safris.maven.plugin:jjb-maven-plugin:generate</generate>
         </default-phases>
       </configuration>
     </component>

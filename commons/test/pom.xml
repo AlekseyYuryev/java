@@ -29,49 +29,8 @@
   <version>1.1.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
-    Wrappers for common test patterns.
+    Common test patterns.
   </description>
-  <profiles>
-    <profile>
-      <id>maven-invoker-plugin</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>validate</phase>
-                <configuration>
-                  <profiles>
-                    <profile>!maven-invoker-plugin</profile>
-                    <profile>version</profile>
-                  </profiles>
-                  <goals>
-                    <goal>validate</goal>
-                  </goals>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>version</id>
-      <!--build>
-        <plugins>
-          <plugin>
-            <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>version-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build-->
-    </profile>
-  </profiles>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

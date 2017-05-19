@@ -16,5 +16,5 @@
 
 package org.safris.commons.test;
 
-public class IntegrationTest {
+public interface IntegrationTest {
 }

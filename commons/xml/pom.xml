@@ -33,24 +33,16 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-lang</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-io</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-net</artifactId>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
     </dependency>
     <dependency>
       <groupId>org.opengis.cite.xerces</groupId>
       <artifactId>xercesImpl-xsd11</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sf.saxon</groupId>
-      <artifactId>Saxon-HE</artifactId>
+      <groupId>org.safris.commons</groupId>
+      <artifactId>commons-net</artifactId>
     </dependency>
   </dependencies>
 </project>

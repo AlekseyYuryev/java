@@ -41,11 +41,13 @@
         <module>cli</module>
         <!--module>cdm</module-->
         <module>dbcp</module>
+        <module>exec</module>
         <module>expect</module>
         <module>formatter</module>
         <module>jci</module>
         <module>jetty</module>
         <module>jndi</module>
+        <module>math</module>
         <module>measure</module>
         <module>pipeline</module>
         <module>search</module>
@@ -61,11 +63,9 @@
         </property>
       </activation>
       <modules>
-        <module>exec</module>
         <module>io</module>
         <module>lang</module>
         <module>logging</module>
-        <module>math</module>
         <module>net</module>
         <module>security</module>
         <module>test</module>

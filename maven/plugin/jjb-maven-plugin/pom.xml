@@ -40,7 +40,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
-          <goalPrefix>jsonx</goalPrefix>
+          <goalPrefix>jjb</goalPrefix>
         </configuration>
         <executions>
           <execution>
@@ -122,10 +122,6 @@
     <dependency>
       <groupId>org.safris.jjb</groupId>
       <artifactId>jjb-generator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.maven</groupId>
-      <artifactId>maven-common</artifactId>
     </dependency>
   </dependencies>
   <repositories>

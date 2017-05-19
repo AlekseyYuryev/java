@@ -45,19 +45,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>commons-cli</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-lang</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
       <artifactId>commons-search</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-test</artifactId>
     </dependency>
   </dependencies>
 </project>

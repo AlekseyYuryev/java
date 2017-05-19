@@ -19,8 +19,6 @@ package org.safris.commons.io.input;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.safris.commons.math.Functions;
-
 public final class NonBlockingInputStream extends InputStream {
   private final InputStream in;
   private final byte[] buffer;
@@ -38,7 +36,7 @@ public final class NonBlockingInputStream extends InputStream {
 
     this.in = in;
     this.buffer = new byte[bufferSize];
-    this.tempBufferSize = (int)Math.round(Functions.log(2, bufferSize));
+    this.tempBufferSize = (int)Math.round(Math.log(bufferSize) / Math.log(2));
     this.writeAhead = bufferSize;
     new ReaderThread().start();
   }
