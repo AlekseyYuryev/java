@@ -23,8 +23,7 @@
       <configuration>
         <id>rdb</id>
         <default-phases>
-          <generate-sources>org.safris.maven.plugin:rdb-maven-plugin:jsql</generate-sources>
-          <generate-resources>org.safris.maven.plugin:rdb-maven-plugin:ddl,org.safris.maven.plugin:rdb-maven-plugin:dml</generate-resources>
+          <generate-sources>org.safris.maven.plugin:rdb-maven-plugin:jsql,org.safris.maven.plugin:rdb-maven-plugin:ddl,org.safris.maven.plugin:rdb-maven-plugin:dml</generate-sources>
         </default-phases>
       </configuration>
     </component>
