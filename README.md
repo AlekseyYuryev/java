@@ -16,7 +16,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
   * [DDLx][rdb-ddlx] - Validating XML-based vendor-agnostic descriptor language for RDBMS SQL Schemas.
   * [DMLx][rdb-dmlx] - Validating XML-based vendor-agnostic entry language for RDBMS SQL Data.
   * [jSQL][rdb-jsql] - Lightweight ORM solution with strongly typed DML semantics.
-* [JJB (Java <-> JSON Binding)][jjb] - Validating XML-based descriptor schema for JSON classes.
+* [jJB (Java <-> JSON Binding)][jjb] - Validating XML-based descriptor schema for JSON classes.
 * [XSB (Xml Schema Binding)][xsb] - Complete solution for binding of XML Schemas to the Java language.
 * [XRS (jaX REST Server)][xrs] - Simple, easyily debuggable and lightweight JAX-RS 2.0 Server implementation pure to the specification.
 
@@ -32,7 +32,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 * [codegen-maven-plugin][codegen-maven-plugin] - Maven plugin to execute code-generating libraries, such as [`istenum`][ISTEnumGenerator.java].
 * [version-maven-plugin][version-maven-plugin] - Maven plugin for management of artifact versions of single and multi-module Maven projects in GIT SCM.
 * [rdb-maven-plugin][rdb-maven-plugin] - Maven plugin to execute [RDB][rdb] code generator.
-* [jjb-maven-plugin][jjb-maven-plugin] - Maven plugin to execute [JJB][jjb] code generator.
+* [jjb-maven-plugin][jjb-maven-plugin] - Maven plugin to execute [jJB][jjb] code generator.
 * [xml-maven-plugin][xml-maven-plugin] - Maven plugin to execute XML tasks, such as `validate`.
 * [xsb-maven-plugin][xsb-maven-plugin] - Maven plugin to execute [XSB][xsb] code generator.
 

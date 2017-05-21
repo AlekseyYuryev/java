@@ -14,7 +14,7 @@ The `plugin` module for Maven Plugins.
 * [rdb-maven-plugin][rdb-maven-plugin] - [RDB][rdb] code generatin goal.
 * [version-maven-plugin][version-maven-plugin] - POM version management goals.
 * [xml-maven-plugin][xml-maven-plugin] - XML-related goals.
-* [jjb-maven-plugin][jjb-maven-plugin] - [JJB][jjb] generator goals.
+* [jjb-maven-plugin][jjb-maven-plugin] - [jJB][jjb] generator goals.
 * [xsb-maven-plugin][xsb-maven-plugin] - [XSB][xsb] generator goals.
 
 ### License
