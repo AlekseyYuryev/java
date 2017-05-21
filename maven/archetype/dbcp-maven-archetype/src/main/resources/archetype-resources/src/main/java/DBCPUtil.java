@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 
 public class DBCPUtil {
   public static DataSource createDataSource(final URL url) throws IOException, SQLException, XMLException {
-    final dbcp_dbcp dbcp = (dbcp_dbcp)Bindings.parse(new InputSource(url.openStream()));
+    final dbcp_dbcp dbcp = (dbcp_dbcp)Bindings.parse(url);
     return DataSources.createDataSource(dbcp);
   }
 }
