@@ -71,12 +71,26 @@
         </property>
       </activation>
       <modules>
-        <module>commons</module>
-        <module>rdb</module>
-        <module>maven</module>
+        <module>algo</module>
+        <module>cli</module>
+        <module>cdm</module>
+        <module>dbcp</module>
+        <module>exec</module>
+        <module>expect</module>
+        <module>formatter</module>
+        <module>jci</module>
+        <module>jetty</module>
         <module>jjb</module>
-        <module>xsb</module>
+        <module>jndi</module>
+        <module>math</module>
+        <module>maven</module>
+        <module>measure</module>
+        <module>pipeline</module>
+        <module>rdb</module>
+        <module>servlet</module>
+        <module>sql</module>
         <module>xrs</module>
+        <module>xsb</module>
       </modules>
       <build>
         <pluginManagement>
@@ -145,12 +159,12 @@
       </build>
       <dependencies>
         <dependency>
-          <groupId>org.safris.commons</groupId>
-          <artifactId>commons-logging</artifactId>
+          <groupId>org.safris</groupId>
+          <artifactId>safris-logging</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.safris.commons</groupId>
-          <artifactId>commons-test</artifactId>
+          <groupId>org.safris</groupId>
+          <artifactId>safris-test</artifactId>
           <version>1.1.6</version>
           <scope>test</scope>
         </dependency>
@@ -164,8 +178,15 @@
         </property>
       </activation>
       <modules>
-        <module>commons</module>
+        <module>io</module>
+        <module>lang</module>
+        <module>logging</module>
         <module>maven</module>
+        <module>net</module>
+        <module>security</module>
+        <module>test</module>
+        <module>util</module>
+        <module>xml</module>
       </modules>
       <dependencies>
         <dependency>
@@ -387,118 +408,118 @@
     <dependencies>
       <!-- Internal modules -->
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-cdm</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-cdm</artifactId>
         <version>0.0.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-cli</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-cli</artifactId>
         <version>2.1.5</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-dbcp</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-dbcp</artifactId>
         <version>2.0.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-exec</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-exec</artifactId>
         <version>1.2.7</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-expect</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-expect</artifactId>
         <version>0.2.10</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-formatter</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-formatter</artifactId>
         <version>0.4.4</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-io</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-io</artifactId>
         <version>1.3.3</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-jci</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-jci</artifactId>
         <version>1.2.1</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-jetty</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-jetty</artifactId>
         <version>1.1.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-jndi</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-jndi</artifactId>
         <version>1.0.1</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-lang</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-lang</artifactId>
         <version>1.6.4</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-logging</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-logging</artifactId>
         <version>1.0.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-math</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-math</artifactId>
         <version>1.4.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-measure</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-measure</artifactId>
         <version>1.0.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-net</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-net</artifactId>
         <version>1.4.8</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-pipeline</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-pipeline</artifactId>
         <version>1.1.10</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-search</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-algo</artifactId>
         <version>1.0.1</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-security</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-security</artifactId>
         <version>1.0.9</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-servlet</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-servlet</artifactId>
         <version>1.0.2</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-sql</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-sql</artifactId>
         <version>1.1.3</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-test</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-test</artifactId>
         <version>1.1.6</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-util</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-util</artifactId>
         <version>1.5.7</version>
       </dependency>
       <dependency>
-        <groupId>org.safris.commons</groupId>
-        <artifactId>commons-xml</artifactId>
+        <groupId>org.safris</groupId>
+        <artifactId>safris-xml</artifactId>
         <version>1.0.2</version>
       </dependency>
       <dependency>

@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2012 Seva Safris
+  Copyright (c) 2008 Seva Safris
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -20,59 +20,31 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safris.maven</groupId>
-    <artifactId>plugin</artifactId>
-    <version>1.8.0</version>
+    <groupId>org</groupId>
+    <artifactId>safris</artifactId>
+    <version>1.7.1</version>
   </parent>
-  <groupId>org.safris.maven.plugin</groupId>
-  <artifactId>version-maven-plugin</artifactId>
-  <version>0.1.1</version>
-  <name>${project.groupId}:${project.artifactId}</name>
+  <groupId>org.safris</groupId>
+  <artifactId>safris-jetty</artifactId>
+  <version>1.1.2</version>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  <packaging>maven-plugin</packaging>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <configuration>
-          <goalPrefix>version</goalPrefix>
-        </configuration>
-        <executions>
-          <execution>
-            <id>default-descriptor</id>
-            <goals>
-              <goal>descriptor</goal>
-            </goals>
-            <phase>process-classes</phase>
-          </execution>
-          <execution>
-            <id>help-descriptor</id>
-            <goals>
-              <goal>helpmojo</goal>
-            </goals>
-            <phase>process-classes</phase>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.safris</groupId>
-      <artifactId>safris-io</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit</artifactId>
+      <artifactId>safris-servlet</artifactId>
     </dependency>
   </dependencies>
   <repositories>
