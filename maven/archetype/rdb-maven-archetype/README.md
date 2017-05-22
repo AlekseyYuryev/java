@@ -14,8 +14,8 @@ To use the archetype, execute the following:
   ```tcsh
   mvn archetype:generate \
   -DgroupId=com.mycompany.app -DartifactId=my-app \
-  -DarchetypeGroupId=org.safris.maven.archetype -DarchetypeArtifactId=rdb-maven-archetype \
-  -DarchetypeCatalog=http://mvn.repo.safris.org -DinteractiveMode=false
+  -DarchetypeGroupId=org.lib4jx.maven.archetype -DarchetypeArtifactId=rdb-maven-archetype \
+  -DarchetypeCatalog=http://mvn.repo.lib4j.org -DinteractiveMode=false
   ```
 
 ### License
@@ -23,4 +23,4 @@ To use the archetype, execute the following:
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-archetype]: https://img.shields.io/badge/mvn-archetype-yellow.svg
-[rdb]: https://github.com/SevaSafris/rdb
+[rdb]: https://github.com/lib4jx/rdb

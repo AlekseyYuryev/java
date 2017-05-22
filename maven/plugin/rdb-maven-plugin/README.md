@@ -23,7 +23,7 @@ The `rdb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
 
 ```xml
 <plugin>
-  <groupId>org.safris.maven.plugin</groupId>
+  <groupId>org.lib4jx.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -34,7 +34,7 @@ The `rdb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
       </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+        <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
           <destdir>generated-resources/rdb</destdir>
           <resources>
             <resource>src/main/resources/resource.ddlx</resource>
@@ -65,7 +65,7 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 
 ```xml
 <plugin>
-  <groupId>org.safris.maven.plugin</groupId>
+  <groupId>org.lib4jx.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -76,7 +76,7 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
       </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+        <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
           <destdir>generated-resources/rdb</destdir>
           <resources>
             <resource>src/main/resources/schema.ddlx</resource>
@@ -106,7 +106,7 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 
 ```xml
 <plugin>
-  <groupId>org.safris.maven.plugin</groupId>
+  <groupId>org.lib4jx.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -117,7 +117,7 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
       </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
-        <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+        <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
           <destdir>generated-sources/rdb</destdir>
           <resources>
             <resource>src/main/resources/schema.ddlx</resource>
@@ -144,5 +144,5 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[rdb]: https://github.com/SevaSafris/rdb
-[ddlx-schema]: https://github.com/SevaSafris/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd
+[rdb]: https://github.com/lib4jx/rdb
+[ddlx-schema]: https://github.com/lib4jx/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd

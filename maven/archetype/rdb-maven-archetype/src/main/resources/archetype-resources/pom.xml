@@ -10,7 +10,7 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.safris.maven.plugin</groupId>
+        <groupId>org.lib4jx.maven.plugin</groupId>
         <artifactId>rdb-maven-plugin</artifactId>
         <version>0.9.7</version>
         <extensions>true</extensions>

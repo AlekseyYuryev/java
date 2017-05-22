@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2006 Seva Safris
+  Copyright (c) 2006 lib4j
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org</groupId>
-    <artifactId>safris</artifactId>
+    <artifactId>lib4j</artifactId>
     <version>1.7.1</version>
   </parent>
-  <groupId>org.safris</groupId>
-  <artifactId>safris-util</artifactId>
+  <groupId>org.lib4j</groupId>
+  <artifactId>lib4j-util</artifactId>
   <version>1.5.7</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
@@ -33,12 +33,12 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>org.safris</groupId>
-      <artifactId>safris-logging</artifactId>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-logging</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris</groupId>
-      <artifactId>safris-test</artifactId>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -9,8 +9,8 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
-      <groupId>org.safris</groupId>
-      <artifactId>safris-dbcp</artifactId>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-dbcp</artifactId>
       <version>2.0.2</version>
     </dependency>
     <dependency>

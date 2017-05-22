@@ -21,11 +21,11 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 ```xml
 <plugin>
-  <groupId>org.safris.maven.plugin</groupId>
+  <groupId>org.lib4jx.maven.plugin</groupId>
   <artifactId>jjb-maven-plugin</artifactId>
   <version>0.9.6</version>
   <configuration>
-    <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
+    <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
       <destdir explodeJars="true">generated-sources/jjb</destdir>
       <resources>
         <resource>src/main/resources/json.jsonx</resource>
@@ -50,4 +50,4 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[jjb]: https://github.com/SevaSafris/jjb
+[jjb]: https://github.com/lib4jx/jjb

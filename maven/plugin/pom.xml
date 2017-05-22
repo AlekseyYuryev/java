@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2008 Seva Safris
+  Copyright (c) 2008 lib4j
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safris</groupId>
+    <groupId>org.lib4jx</groupId>
     <artifactId>maven</artifactId>
     <version>1.8.1</version>
   </parent>
-  <groupId>org.safris.maven</groupId>
+  <groupId>org.lib4jx.maven</groupId>
   <artifactId>plugin</artifactId>
   <version>1.8.0</version>
   <packaging>pom</packaging>
@@ -38,20 +38,12 @@
         </property>
       </activation>
       <modules>
-        <module>rdb-maven-plugin</module>
         <module>cert-maven-plugin</module>
         <module>codegen-maven-plugin</module>
         <module>jjb-maven-plugin</module>
+        <module>rdb-maven-plugin</module>
         <module>xsb-maven-plugin</module>
       </modules>
-      <!--build>
-        <plugins>
-          <plugin>
-            <groupId>org.safris.maven.plugin</groupId>
-            <artifactId>version-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build-->
     </profile>
     <profile>
       <id>core</id>
@@ -68,7 +60,7 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.safris.maven</groupId>
+      <groupId>org.lib4jx.maven</groupId>
       <artifactId>maven-common</artifactId>
     </dependency>
     <dependency>
