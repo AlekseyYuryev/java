@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2017 Seva Safris
+  Copyright (c) 2006 lib4j
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -19,13 +19,39 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.safris</groupId>
-  <artifactId>java</artifactId>
-  <version>0.0.0</version>
+  <parent>
+    <groupId>org</groupId>
+    <artifactId>lib4jx</artifactId>
+    <version>2.5.1</version>
+  </parent>
+  <groupId>org.lib4jx</groupId>
+  <artifactId>jjb</artifactId>
+  <version>0.9.6</version>
   <packaging>pom</packaging>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <name>${project.groupId}:${project.artifactId}</name>
+  <description>
+    Java &lt;-&gt; JSON Binding
+  </description>
   <modules>
-    <module>lib4j</module>
-    <module>lib4jx</module>
+    <module>generator</module>
+    <module>rs</module>
+    <module>runtime</module>
   </modules>
+  <repositories>
+    <repository>
+      <id>mvn.repo.safris.org</id>
+      <url>http://mvn.repo.safris.org/m2</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>mvn.repo.safris.org</id>
+      <url>http://mvn.repo.safris.org/m2</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>
