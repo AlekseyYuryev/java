@@ -31,4 +31,15 @@
   <description>
     Lightweight, self-contained mathematics and statistics components.
   </description>
+  <dependencies>
+    <dependency>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

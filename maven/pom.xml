@@ -29,30 +29,9 @@
   <version>1.8.1</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <property>
-          <name>!core</name>
-        </property>
-      </activation>
-      <modules>
-        <module>plugin</module>
-        <module>archetype</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>core</id>
-      <activation>
-        <property>
-          <name>core</name>
-        </property>
-      </activation>
-      <modules>
-        <module>common</module>
-        <module>plugin</module>
-      </modules>
-    </profile>
-  </profiles>
+  <modules>
+    <module>archetype</module>
+    <module>common</module>
+    <module>plugin</module>
+  </modules>
 </project>

@@ -38,6 +38,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>tyrex</groupId>
       <artifactId>tyrex</artifactId>
     </dependency>
