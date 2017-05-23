@@ -26,16 +26,16 @@ import java.sql.SQLException;
 
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
-import org.safris.rdb.ddlx.runner.Vendor;
-import org.safris.rdb.ddlx.runner.VendorRunner;
-import org.safris.rdb.jsql.DBConnector;
-import org.safris.rdb.jsql.DBRegistry;
+import org.libx4j.rdb.ddlx.runner.Vendor;
+import org.libx4j.rdb.ddlx.runner.VendorRunner;
+import org.libx4j.rdb.jsql.DBConnector;
+import org.libx4j.rdb.jsql.DBRegistry;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
   @Retention(RetentionPolicy.RUNTIME)
   public static @interface Schema {
-    Class<? extends org.safris.rdb.jsql.Schema>[] value();
+    Class<? extends org.libx4j.rdb.jsql.Schema>[] value();
   }
 
   public VendorSchemaRunner(final Class<?> klass) throws InitializationError {
@@ -49,7 +49,7 @@ public class VendorSchemaRunner extends VendorRunner {
       entityClass = method.getMethod().getDeclaringClass().getAnnotation(Schema.class);
 
     if (entityClass != null) {
-      for (final Class<? extends org.safris.rdb.jsql.Schema> schemaClass : entityClass.value()) {
+      for (final Class<? extends org.libx4j.rdb.jsql.Schema> schemaClass : entityClass.value()) {
         DBRegistry.registerPrepared(schemaClass, new DBConnector() {
           @Override
           public Connection getConnection() throws SQLException {

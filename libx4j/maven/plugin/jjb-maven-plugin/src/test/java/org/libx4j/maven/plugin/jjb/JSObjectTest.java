@@ -25,10 +25,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.lib4j.lang.Resources;
 import org.lib4j.util.Collections;
-import org.safris.jjb.runtime.DecodeException;
-import org.safris.jjb.runtime.EncodeException;
-import org.safris.jjb.runtime.JSArray;
-import org.safris.jjb.runtime.JSObject;
+import org.libx4j.jjb.runtime.DecodeException;
+import org.libx4j.jjb.runtime.EncodeException;
+import org.libx4j.jjb.runtime.JSArray;
+import org.libx4j.jjb.runtime.JSObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

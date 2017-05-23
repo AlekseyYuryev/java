@@ -30,7 +30,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.lib4j.net.URLs;
 import org.libx4j.maven.mojo.Manifest;
 import org.libx4j.maven.mojo.ManifestMojo;
-import org.safris.rdb.dmlx.Datas;
+import org.libx4j.rdb.dmlx.Datas;
 
 @Mojo(name = "dml", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "dml")

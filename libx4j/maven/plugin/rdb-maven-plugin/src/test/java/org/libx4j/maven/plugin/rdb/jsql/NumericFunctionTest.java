@@ -16,7 +16,7 @@
 
 package org.libx4j.maven.plugin.rdb.jsql;
 
-import static org.safris.rdb.jsql.DML.*;
+import static org.libx4j.rdb.jsql.DML.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,18 +28,18 @@ import org.junit.runner.RunWith;
 import org.lib4j.math.Functions;
 import org.lib4j.test.MixedTest;
 import org.libx4j.maven.plugin.rdb.jsql.runner.VendorSchemaRunner;
-import org.safris.rdb.ddlx.runner.Derby;
-import org.safris.rdb.ddlx.runner.MySQL;
-import org.safris.rdb.ddlx.runner.Oracle;
-import org.safris.rdb.ddlx.runner.PostgreSQL;
-import org.safris.rdb.ddlx.runner.SQLite;
-import org.safris.rdb.jsql.RowIterator;
-import org.safris.rdb.jsql.Subject;
-import org.safris.rdb.jsql.classicmodels;
-import org.safris.rdb.jsql.type;
-import org.safris.rdb.jsql.type.DECIMAL;
-import org.safris.rdb.jsql.types;
-import org.safris.rdb.jsql.model.select;
+import org.libx4j.rdb.ddlx.runner.Derby;
+import org.libx4j.rdb.ddlx.runner.MySQL;
+import org.libx4j.rdb.ddlx.runner.Oracle;
+import org.libx4j.rdb.ddlx.runner.PostgreSQL;
+import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.RowIterator;
+import org.libx4j.rdb.jsql.Subject;
+import org.libx4j.rdb.jsql.classicmodels;
+import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.types;
+import org.libx4j.rdb.jsql.model.select;
+import org.libx4j.rdb.jsql.type.DECIMAL;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})

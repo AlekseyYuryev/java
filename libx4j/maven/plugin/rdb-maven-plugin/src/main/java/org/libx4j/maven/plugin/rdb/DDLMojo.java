@@ -28,9 +28,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.lib4j.xml.XMLException;
 import org.libx4j.maven.mojo.Manifest;
 import org.libx4j.maven.mojo.ManifestMojo;
-import org.safris.rdb.ddlx.Generator;
-import org.safris.rdb.ddlx.GeneratorExecutionException;
-import org.safris.rdb.vendor.DBVendor;
+import org.libx4j.rdb.ddlx.Generator;
+import org.libx4j.rdb.ddlx.GeneratorExecutionException;
+import org.libx4j.rdb.vendor.DBVendor;
 
 @Mojo(name = "ddl", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
 @Execute(goal = "ddl")
