@@ -54,7 +54,6 @@
     <module>measure</module>
     <module>net</module>
     <module>pipeline</module>
-    <module>servlet</module>
     <module>security</module>
     <module>sql</module>
     <module>test</module>
@@ -63,7 +62,7 @@
   </modules>
   <profiles>
     <profile>
-      <id>itest</id>
+      <id>maven.itest</id>
       <activation>
         <property>
           <name>maven.itest</name>
@@ -124,25 +123,6 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.8</version>
-          <dependencies>
-            <dependency>
-              <groupId>ant</groupId>
-              <artifactId>ant-optional</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>ant</groupId>
-              <artifactId>ant-jsch</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>ant-contrib</groupId>
-              <artifactId>ant-contrib</artifactId>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
@@ -168,11 +148,6 @@
               </configuration>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -296,11 +271,6 @@
       </dependency>
       <dependency>
         <groupId>org.lib4j</groupId>
-        <artifactId>lib4j-servlet</artifactId>
-        <version>1.0.2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.lib4j</groupId>
         <artifactId>lib4j-sql</artifactId>
         <version>1.1.3</version>
       </dependency>
@@ -327,21 +297,6 @@
         <version>1.2.3</version>
       </dependency>
       <dependency>
-        <groupId>com.ibm.db2</groupId>
-        <artifactId>db2jcc</artifactId>
-        <version>8.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.ibm.db2</groupId>
-        <artifactId>db2jcc_license_cu</artifactId>
-        <version>8.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.oracle.jdbc</groupId>
-        <artifactId>ojdbc7</artifactId>
-        <version>12.1.0.2</version>
-      </dependency>
-      <dependency>
         <groupId>com.sun</groupId>
         <artifactId>tools</artifactId>
         <version>1.6.0</version>
@@ -349,24 +304,9 @@
         <systemPath>${java.home}/../lib/tools.jar</systemPath>
       </dependency>
       <dependency>
-        <groupId>commons-cli</groupId>
-        <artifactId>commons-cli</artifactId>
-        <version>1.2</version> <!-- New versions available: https://mvnrepository.com/artifact/commons-cli/commons-cli -->
-      </dependency>
-      <dependency>
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>1.4.7</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0.2</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -379,94 +319,14 @@
         <version>1.1</version>
       </dependency>
       <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>javax.ws.rs-api</artifactId>
-        <version>2.1-m07</version>
-      </dependency>
-      <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
         <version>4.12</version>
       </dependency>
       <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>6.0.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.xerial</groupId>
-        <artifactId>sqlite-jdbc</artifactId>
-        <version>3.16.1</version>
-      </dependency>
-      <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.4.1208-jdbc42-atlassian-hosted</version>
-      </dependency>
-      <dependency>
         <groupId>net.sf.saxon</groupId>
         <artifactId>Saxon-HE</artifactId>
         <version>9.7.0-14</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-dbcp2</artifactId>
-        <version>2.1.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.derby</groupId>
-        <artifactId>derby</artifactId>
-        <version>10.13.1.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-core</artifactId>
-        <version>3.5.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-model</artifactId>
-        <version>3.5.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-plugin-api</artifactId>
-        <version>3.5.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-project</artifactId>
-        <version>3.0-alpha-2</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.plugin-tools</groupId>
-        <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.5</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-utils</artifactId>
-        <version>3.0.24</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit</artifactId>
-        <version>RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-security</artifactId>
-        <version>9.2.10.v20150310</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-servlet</artifactId>
-        <version>9.2.10.v20150310</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty.osgi</groupId>
-        <artifactId>jetty-osgi-boot</artifactId>
-        <version>9.2.10.v20150310</version>
       </dependency>
       <dependency>
         <groupId>org.opengis.cite.xerces</groupId>
@@ -496,32 +356,13 @@
       <name>Atlassian 3rdparty</name>
       <url>https://maven.atlassian.com/3rdparty</url>
     </repository>
-    <repository>
-      <id>maven.oracle.com</id>
-      <url>https://maven.oracle.com</url>
-    </repository>
   </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>maven.oracle.com</id>
-      <url>https://maven.oracle.com</url>
-    </pluginRepository>
-  </pluginRepositories>
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
-      <id>mvn.repo.safris.org</id>
-      <name>safris.org repository</name>
+      <id>mvn.repo.lib4j.org</id>
+      <name>liv4j.org repository</name>
       <url>file://localhost/var/lib/mvn/org/m2</url>
     </repository>
   </distributionManagement>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>

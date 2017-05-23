@@ -26,6 +26,6 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <modules>
     <module>lib4j</module>
-    <module>lib4jx</module>
+    <module>libx4j</module>
   </modules>
 </project>
