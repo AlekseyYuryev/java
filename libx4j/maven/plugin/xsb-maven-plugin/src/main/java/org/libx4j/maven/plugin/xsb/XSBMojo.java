@@ -30,12 +30,12 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.libx4j.maven.mojo.Manifest;
+import org.libx4j.maven.mojo.ManifestMojo;
+import org.libx4j.xsb.compiler.processor.GeneratorContext;
+import org.libx4j.xsb.compiler.processor.reference.SchemaReference;
 import org.libx4j.xsb.generator.Generator;
 import org.safris.commons.xml.NamespaceURI;
-import org.safris.maven.mojo.Manifest;
-import org.safris.maven.mojo.ManifestMojo;
-import org.safris.xsb.compiler.processor.GeneratorContext;
-import org.safris.xsb.compiler.processor.reference.SchemaReference;
 
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate")

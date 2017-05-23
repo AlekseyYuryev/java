@@ -25,7 +25,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.safris.commons.io.Files;
+import org.lib4j.io.Files;
 import org.safris.commons.util.DateUtil;
 import org.safris.commons.xml.sax.Validator;
 import org.safris.commons.xml.validate.OfflineValidationException;

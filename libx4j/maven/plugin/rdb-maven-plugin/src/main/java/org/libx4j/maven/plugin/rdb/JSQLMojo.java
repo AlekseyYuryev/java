@@ -24,9 +24,9 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.libx4j.maven.mojo.Manifest;
+import org.libx4j.maven.mojo.ManifestMojo;
 import org.safris.commons.xml.XMLException;
-import org.safris.maven.mojo.Manifest;
-import org.safris.maven.mojo.ManifestMojo;
 import org.safris.rdb.jsql.generator.Generator;
 
 @Mojo(name = "jsql", defaultPhase = LifecyclePhase.GENERATE_SOURCES)

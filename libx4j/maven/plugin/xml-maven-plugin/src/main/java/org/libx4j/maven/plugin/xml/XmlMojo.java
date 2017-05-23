@@ -31,8 +31,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.safris.commons.io.Files;
-import org.safris.maven.mojo.Mojos;
+import org.lib4j.io.Files;
+import org.libx4j.maven.mojo.Mojos;
 
 @Mojo(name = "xml")
 public abstract class XmlMojo extends AbstractMojo {

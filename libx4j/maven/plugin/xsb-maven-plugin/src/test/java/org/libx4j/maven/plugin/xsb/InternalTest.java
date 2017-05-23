@@ -21,8 +21,8 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.safris.commons.exec.Processes;
-import org.safris.commons.io.Files;
+import org.lib4j.exec.Processes;
+import org.lib4j.io.Files;
 
 public class InternalTest {
   private static final String[] DEBUG_VM_ARGS = null;

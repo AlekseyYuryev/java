@@ -30,7 +30,7 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.safris.commons.io.Files;
+import org.lib4j.io.Files;
 import org.safris.commons.util.DateUtil;
 import org.safris.commons.xml.transform.Transformer;
 import org.safris.commons.xml.validate.OfflineValidationException;
