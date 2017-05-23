@@ -26,9 +26,9 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.lib4j.io.Files;
-import org.safris.commons.util.DateUtil;
-import org.safris.commons.xml.sax.Validator;
-import org.safris.commons.xml.validate.OfflineValidationException;
+import org.lib4j.util.DateUtil;
+import org.lib4j.xml.sax.Validator;
+import org.lib4j.xml.validate.OfflineValidationException;
 import org.xml.sax.SAXException;
 
 @Mojo(name = "validate", defaultPhase = LifecyclePhase.COMPILE)

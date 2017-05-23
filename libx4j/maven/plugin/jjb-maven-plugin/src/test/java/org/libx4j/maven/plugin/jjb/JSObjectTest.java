@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.safris.commons.lang.Resources;
-import org.safris.commons.util.Collections;
+import org.lib4j.lang.Resources;
+import org.lib4j.util.Collections;
 import org.safris.jjb.runtime.DecodeException;
 import org.safris.jjb.runtime.EncodeException;
 import org.safris.jjb.runtime.JSArray;
