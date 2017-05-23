@@ -29,8 +29,8 @@ import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.lib4j.net.URLs;
 import org.safris.commons.lang.Paths;
-import org.safris.commons.net.URLs;
 
 public class Manifest {
   public static Manifest parse(final MavenProject project, final MojoExecution mojoExecution) throws MojoFailureException {

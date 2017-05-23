@@ -160,7 +160,7 @@
           <version>2.20</version>
           <configuration>
             <trimStackTrace>false</trimStackTrace>
-            <excludedGroups>org.safris.commons.test.IntegrationTest</excludedGroups>
+            <excludedGroups>org.lib4j.test.IntegrationTest</excludedGroups>
           </configuration>
         </plugin>
         <plugin>
@@ -181,7 +181,7 @@
                 <includes>
                   <include>**/*Test.java</include>
                 </includes>
-                <groups>org.safris.commons.test.IntegrationTest,org.safris.commons.test.MixedTest</groups>
+                <groups>org.lib4j.test.IntegrationTest,org.lib4j.test.MixedTest</groups>
               </configuration>
             </execution>
           </executions>
