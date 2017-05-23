@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.lib4j.io.Files;
+import org.lib4j.jci.CompilationException;
+import org.lib4j.jci.JavaCompiler;
 import org.lib4j.net.URLs;
 import org.lib4j.pipeline.PipelineDirectory;
 import org.lib4j.pipeline.PipelineEntity;
@@ -37,8 +39,6 @@ import org.libx4j.xsb.compiler.processor.composite.SchemaModelComposite;
 import org.libx4j.xsb.runtime.Binding;
 import org.libx4j.xsb.runtime.BindingError;
 import org.libx4j.xsb.runtime.CompilerFailureException;
-import org.safris.commons.jci.CompilationException;
-import org.safris.commons.jci.JavaCompiler;
 import org.safris.commons.lang.ClassLoaders;
 import org.safris.commons.lang.Paths;
 import org.safris.commons.lang.Resources;
