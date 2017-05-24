@@ -15,9 +15,9 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 <schema name="survey"
-  xmlns="http://rdb.safris.org/ddlx.xsd"
+  xmlns="http://rdb.libx4j.org/ddlx.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://rdb.safris.org/ddlx.xsd http://rdb.safris.org/ddlx.xsd">
+  xsi:schemaLocation="http://rdb.libx4j.org/ddlx.xsd http://rdb.libx4j.org/ddlx.xsd">
   <table name="dish">
     <column name="id" xsi:type="smallint" precision="5" unsigned="true" null="false"/>
     <column name="name" xsi:type="char" length="255" varying="true" null="false"/>

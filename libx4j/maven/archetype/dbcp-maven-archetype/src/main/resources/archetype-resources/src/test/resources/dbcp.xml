@@ -1,8 +1,7 @@
 <dbcp name="basis"
-  xmlns="http://commons.safris.org/dbcp.xsd"
-  xmlns:se="http://commons.safris.org/servlet.xsd"
+  xmlns="http://libx4j.org/dbcp.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://commons.safris.org/dbcp.xsd http://commons.safris.org/dbcp.xsd">
+  xsi:schemaLocation="http://libx4j.org/dbcp.xsd http://libx4j.org/dbcp.xsd">
   <jdbc>
     <url>jdbc:postgresql://localhost/mintreceipt</url>
     <driverClassName>org.postgresql.Driver</driverClassName>
@@ -37,7 +36,7 @@
     <logAbandoned>false</logAbandoned>
   </removal>
   <logging>
-    <level>ALL</level>
+    <level>INFO</level>
     <logExpiredConnections>true</logExpiredConnections>
     <logAbandoned>true</logAbandoned>
   </logging>

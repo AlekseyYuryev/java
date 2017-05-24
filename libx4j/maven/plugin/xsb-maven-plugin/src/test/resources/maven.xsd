@@ -14,10 +14,9 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-
 <xs:schema
   elementFormDefault="qualified"
-  targetNamespace="http://maven.safris.org/plugin/xml/binding/maven.xsd"
+  targetNamespace="http://maven.libx4j.org/plugin/xsb-maven-plugin/maven.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:attribute name="attribute"/>

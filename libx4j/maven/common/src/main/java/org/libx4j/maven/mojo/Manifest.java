@@ -35,7 +35,7 @@ import org.lib4j.net.URLs;
 public class Manifest {
   public static Manifest parse(final MavenProject project, final MojoExecution mojoExecution) throws MojoFailureException {
     final Plugin plugin = mojoExecution.getPlugin();
-    final PluginExecution pluginExecution = Mojos.getPluginExecution(mojoExecution);
+    final PluginExecution pluginExecution = MojoUtil.getPluginExecution(mojoExecution);
 
     final Build build = project.getBuild();
     if (build == null || build.getPlugins() == null)

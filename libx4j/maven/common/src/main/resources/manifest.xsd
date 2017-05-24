@@ -16,8 +16,8 @@
 -->
 <xs:schema
   elementFormDefault="qualified"
-  targetNamespace="http://maven.safris.org/common/manifest.xsd"
-  xmlns:mf="http://maven.safris.org/common/manifest.xsd"
+  targetNamespace="http://maven.libx4j.org/common/manifest.xsd"
+  xmlns:mf="http://maven.libx4j.org/common/manifest.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
   <xs:element name="manifest">

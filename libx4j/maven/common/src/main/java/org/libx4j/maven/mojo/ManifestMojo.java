@@ -43,7 +43,7 @@ public abstract class ManifestMojo extends AbstractMojo {
 
   @Override
   public final void execute() throws MojoExecutionException, MojoFailureException {
-    if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
+    if (MojoUtil.shouldSkip(mojoExecution, mavenTestSkip)) {
       logger.info("Tests are skipped.");
       return;
     }

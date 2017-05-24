@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.lib4j.io.Files;
-import org.libx4j.maven.mojo.Mojos;
+import org.libx4j.maven.mojo.MojoUtil;
 
 @Mojo(name = "xml")
 public abstract class XmlMojo extends AbstractMojo {
@@ -138,7 +138,7 @@ public abstract class XmlMojo extends AbstractMojo {
       return;
     }
 
-    if (Mojos.shouldSkip(mojoExecution, mavenTestSkip)) {
+    if (MojoUtil.shouldSkip(mojoExecution, mavenTestSkip)) {
       getLog().info("Tests are skipped.");
       return;
     }

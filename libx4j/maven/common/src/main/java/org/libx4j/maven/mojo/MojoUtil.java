@@ -20,7 +20,7 @@ import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.MojoExecution;
 
-public final class Mojos {
+public final class MojoUtil {
   public static PluginExecution getPluginExecution(final MojoExecution mojoExecution) {
     final Plugin plugin = mojoExecution.getPlugin();
     for (final PluginExecution pluginExecution : plugin.getExecutions())
@@ -39,6 +39,6 @@ public final class Mojos {
     return mavenTestSkip && getPluginExecution(mojoExecution).getPhase().contains("test");
   }
 
-  private Mojos() {
+  private MojoUtil() {
   }
 }

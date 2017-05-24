@@ -15,10 +15,10 @@
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
 <schema name="hospital"
-  xmlns="http://rdb.safris.org/ddlx.xsd"
-  xmlns:jsql="http://rdb.safris.org/jsql.xsd"
+  xmlns="http://rdb.libx4j.org/ddlx.xsd"
+  xmlns:jsql="http://rdb.libx4j.org/jsql.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://rdb.safris.org/jsql.xsd http://rdb.safris.org/jsql.xsd">
+  xsi:schemaLocation="http://rdb.libx4j.org/jsql.xsd http://rdb.libx4j.org/jsql.xsd">
   <table name="id" abstract="true">
     <column name="id" xsi:type="char" length="36" null="false" jsql:generateOnInsert="UUID"/>
     <constraints>
