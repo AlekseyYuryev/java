@@ -36,7 +36,8 @@ public final class MojoUtil {
 
     final Plugin plugin = mojoExecution.getPlugin();
     plugin.flushExecutionMap();
-    return mavenTestSkip && getPluginExecution(mojoExecution).getPhase().contains("test");
+    final PluginExecution pluginExecution = getPluginExecution(mojoExecution);
+    return mavenTestSkip && pluginExecution != null && pluginExecution.getPhase() != null && pluginExecution.getPhase().contains("test");
   }
 
   private MojoUtil() {
