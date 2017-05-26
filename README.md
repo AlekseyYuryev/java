@@ -22,8 +22,8 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 
 #### **Commons**
 
-* [lib4j-cli][commons-cli] - Validating XML-based descriptor and API for the CLI facet of applications.
-* [lib4j-dbcp][commons-dbcp] - Validating XML-based descriptor and API for initialization of JDBC Database Connection Pools.
+* [libx4j-cli][libx4j-cli] - Validating XML-based descriptor and API for the CLI facet of applications.
+* [libx4j-dbcp][libx4j-dbcp] - Validating XML-based descriptor and API for initialization of JDBC Database Connection Pools.
 * [lib4j-jetty][commons-jetty] - Embedded server wrapper and initializer of the [Jetty Servlet Container][jetty].
 
 #### **Maven Plugins**
@@ -38,36 +38,36 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 
 #### **Maven Archetypes**
 
-* [cli-maven-archetype][cli-maven-archetype] - Quick-start Maven Archetype for [lib4j-cli][commons-cli].
-* [dbcp-maven-archetype][dbcp-maven-archetype] - Quick-start Maven Archetype for [lib4j-dbcp][commons-dbcp].
+* [cli-maven-archetype][cli-maven-archetype] - Quick-start Maven Archetype for [libx4j-cli][libx4j-cli].
+* [dbcp-maven-archetype][dbcp-maven-archetype] - Quick-start Maven Archetype for [libx4j-dbcp][libx4j-dbcp].
 * [rdb-maven-archetype][rdb-maven-archetype] - Quick-start Maven Archetype for [RDB][rdb] framework.
 
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
-[cert-maven-plugin]: https://github.com/lib4jx/cert-maven-plugin
-[cli-maven-archetype]: https://github.com/lib4jx/cli-maven--archetype
-[codegen-maven-plugin]: https://github.com/lib4jx/codegen-maven-plugin
-[lib4j-cli]: https://github.com/lib4jx/lib4jx-cli
-[lib4j-dbcp]: https://github.com/lib4jx/lib4jx-dbcp
-[lib4j-jetty]: https://github.com/lib4jx/lib4jx-jetty
-[dbcp-maven-archetype]: https://github.com/lib4jx/dbcp-maven-archetype
+[cert-maven-plugin]: https://github.com/libx4j/cert-maven-plugin
+[cli-maven-archetype]: https://github.com/libx4j/cli-maven--archetype
+[codegen-maven-plugin]: https://github.com/libx4j/codegen-maven-plugin
+[dbcp-maven-archetype]: https://github.com/libx4j/dbcp-maven-archetype
 [ISTEnumGenerator.java]: https://github.com/SevaSafris/java/blob/master/algo/src/main/java/org/lib4j/search/ISTEnumGenerator.java
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [java]: https://github.com/SevaSafris/java
 [jetty]: http://www.eclipse.org/jetty/
-[jjb-maven-plugin]: https://github.com/lib4jx/jjb-maven-plugin
-[jjb]: https://github.com/lib4jx/jjb
-[rdb-ddlx]: https://github.com/lib4jx/rdb/blob/master/ddlx
-[rdb-dmlx]: https://github.com/lib4jx/rdb/blob/master/dmlx
-[rdb-jsql]: https://github.com/lib4jx/rdb/blob/master/jsql
-[rdb-maven-archetype]: https://github.com/lib4jx/rdb-maven-archetype
-[rdb-maven-plugin]: https://github.com/lib4jx/rdb-maven-plugin
-[rdb]: https://github.com/lib4jx/rdb
+[jjb-maven-plugin]: https://github.com/libx4j/jjb-maven-plugin
+[jjb]: https://github.com/libx4j/jjb
+[lib4j-jetty]: https://github.com/libx4j/jetty
+[libx4j-cli]: https://github.com/libx4j/cli
+[libx4j-dbcp]: https://github.com/libx4j/dbcp
+[rdb-ddlx]: https://github.com/libx4j/rdb/blob/master/ddlx
+[rdb-dmlx]: https://github.com/libx4j/rdb/blob/master/dmlx
+[rdb-jsql]: https://github.com/libx4j/rdb/blob/master/jsql
+[rdb-maven-archetype]: https://github.com/libx4j/rdb-maven-archetype
+[rdb-maven-plugin]: https://github.com/libx4j/rdb-maven-plugin
+[rdb]: https://github.com/libx4j/rdb
 [SevaSafris]: https://github.com/SevaSafris
-[version-maven-plugin]: https://github.com/lib4jx/version-maven-plugin
-[xml-maven-plugin]: https://github.com/lib4jx/xml-maven-plugin
-[xrs]: https://github.com/lib4jx/xrs
-[xsb-maven-plugin]: https://github.com/lib4jx/xsb-maven-plugin
-[xsb]: https://github.com/lib4jx/xsb
+[version-maven-plugin]: https://github.com/libx4j/version-maven-plugin
+[xml-maven-plugin]: https://github.com/libx4j/xml-maven-plugin
+[xrs]: https://github.com/libx4j/xrs
+[xsb-maven-plugin]: https://github.com/libx4j/xsb-maven-plugin
+[xsb]: https://github.com/libx4j/xsb

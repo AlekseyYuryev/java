@@ -23,7 +23,7 @@ The `rdb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
 
 ```xml
 <plugin>
-  <groupId>org.lib4jx.maven.plugin</groupId>
+  <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -65,7 +65,7 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 
 ```xml
 <plugin>
-  <groupId>org.lib4jx.maven.plugin</groupId>
+  <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -106,7 +106,7 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 
 ```xml
 <plugin>
-  <groupId>org.lib4jx.maven.plugin</groupId>
+  <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
   <version>0.9.7</version>
   <executions>
@@ -144,5 +144,5 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[rdb]: https://github.com/lib4jx/rdb
-[ddlx-schema]: https://github.com/lib4jx/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd
+[rdb]: https://github.com/libx4j/rdb
+[ddlx-schema]: https://github.com/libx4j/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd

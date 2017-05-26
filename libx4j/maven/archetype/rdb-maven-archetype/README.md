@@ -14,7 +14,7 @@ To use the archetype, execute the following:
   ```tcsh
   mvn archetype:generate \
   -DgroupId=com.mycompany.app -DartifactId=my-app \
-  -DarchetypeGroupId=org.lib4jx.maven.archetype -DarchetypeArtifactId=rdb-maven-archetype \
+  -DarchetypeGroupId=org.libx4j.maven.archetype -DarchetypeArtifactId=rdb-maven-archetype \
   -DarchetypeCatalog=http://mvn.repo.lib4j.org -DinteractiveMode=false
   ```
 
@@ -23,4 +23,4 @@ To use the archetype, execute the following:
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-archetype]: https://img.shields.io/badge/mvn-archetype-yellow.svg
-[rdb]: https://github.com/lib4jx/rdb
+[rdb]: https://github.com/libx4j/rdb

@@ -21,7 +21,7 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 ```xml
 <plugin>
-  <groupId>org.lib4jx.maven.plugin</groupId>
+  <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>jjb-maven-plugin</artifactId>
   <version>0.9.6</version>
   <configuration>
@@ -50,4 +50,4 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
-[jjb]: https://github.com/lib4jx/jjb
+[jjb]: https://github.com/libx4j/jjb
