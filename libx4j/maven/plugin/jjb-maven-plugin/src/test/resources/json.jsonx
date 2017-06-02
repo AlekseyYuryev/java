@@ -103,8 +103,8 @@
     <property xsi:type="ref" object="links" array="true" null="false"/>
   </object>
   
-  <object name="giphy" unknown="skip">
-    <property xsi:type="object" name="data" array="true" unknown="skip">
+  <object name="giphy" onUnknown="skip">
+    <property xsi:type="object" name="data" array="true" onUnknown="skip">
       <property xsi:type="string" name="id" required="true" null="false"/>
       <property xsi:type="string" name="url" required="true" null="false"/>
     </property>

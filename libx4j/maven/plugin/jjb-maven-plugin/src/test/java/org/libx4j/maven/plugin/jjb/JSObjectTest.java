@@ -18,6 +18,7 @@ package org.libx4j.maven.plugin.jjb;
 
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class JSObjectTest {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final api.Message.Attachment att1 = new api.Message.Attachment();
-    att1.serial(2);
+    att1.serial(BigDecimal.valueOf(2));
     final api.Message.Attachment.Data data1 = new api.Message.Attachment.Data();
     att1.data(data1);
     data1.a("\"1A");
@@ -77,7 +78,7 @@ public class JSObjectTest {
     data2.c("2C");
 
     att2.filename("data2.txt");
-    att2.serial(-2.424242424);
+    att2.serial(BigDecimal.valueOf(-2.424242424));
 
     try {
       att2.toString();
@@ -96,7 +97,7 @@ public class JSObjectTest {
     data3.a("\"3A");
     data3.b("\\3B");
     data3.c("3C");
-    att3.serial(99999);
+    att3.serial(BigDecimal.valueOf(99999));
 
     final api.Signature signature = new api.Signature();
     signature.pubRsa("pub_rsa");
