@@ -11,7 +11,7 @@
     <dependency>
       <groupId>org.lib4j</groupId>
       <artifactId>libx4j-cli</artifactId>
-      <version>2.1.5</version>
+      <version>2.1.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

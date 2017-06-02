@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.libx4j.maven</groupId>
     <artifactId>archetype</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
   </parent>
   <groupId>org.libx4j.maven.archetype</groupId>
   <artifactId>rdb-maven-archetype</artifactId>

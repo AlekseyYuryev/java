@@ -22,11 +22,11 @@
   <parent>
     <groupId>org.libx4j.maven</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1-SNAPSHOT</version>
   </parent>
   <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>xml-maven-plugin</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>
