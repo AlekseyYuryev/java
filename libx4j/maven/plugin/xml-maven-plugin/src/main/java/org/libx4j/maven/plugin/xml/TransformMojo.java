@@ -31,7 +31,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.lib4j.io.Files;
-import org.lib4j.util.DateUtil;
+import org.lib4j.util.Dates;
 import org.lib4j.xml.transform.Transformer;
 import org.lib4j.xml.validate.OfflineValidationException;
 
@@ -67,7 +67,7 @@ public final class TransformMojo extends XmlMojo {
           destFile = file;
         }
 
-        if (destFile.exists() && destFile.lastModified() >= file.lastModified() && destFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
+        if (destFile.exists() && destFile.lastModified() >= file.lastModified() && destFile.lastModified() < file.lastModified() + Dates.MILLISECONDS_IN_DAY) {
           final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
           getLog().info("Pre-transformed: " + fileName);
         }

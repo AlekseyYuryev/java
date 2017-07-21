@@ -26,7 +26,7 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.lib4j.io.Files;
-import org.lib4j.util.DateUtil;
+import org.lib4j.util.Dates;
 import org.lib4j.xml.sax.Validator;
 import org.lib4j.xml.validate.OfflineValidationException;
 import org.xml.sax.SAXException;
@@ -44,7 +44,7 @@ public final class ValidatorMojo extends XmlMojo {
       for (final File file : files) {
         final File recordFile = new File(recordDir, file.getName());
         final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
-        if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + DateUtil.MILLISECONDS_IN_DAY) {
+        if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + Dates.MILLISECONDS_IN_DAY) {
           getLog().info("Pre-validated: " + fileName);
         }
         else {
