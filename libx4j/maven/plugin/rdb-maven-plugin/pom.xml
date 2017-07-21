@@ -117,7 +117,7 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <testExcludes>
-                <testExclude>**/NumericFunctionTest.java</testExclude>
+                <testExclude>**/NumericFunctionStaticTest.java</testExclude> <!-- FIXME: Waiting for Java 9 to save the day -->
               </testExcludes>
             </configuration> 
           </plugin>

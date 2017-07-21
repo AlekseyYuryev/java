@@ -138,8 +138,9 @@ public class InsertTest {
   @Test
   public void testInsertSelectIntoTable() throws IOException, SQLException {
     try (final Transaction transaction = new Transaction(types.class)) {
+      final types.TypeBackup b = new types.TypeBackup();
       final types.Type t = new types.Type();
-      final int[] results = INSERT(t).VALUES(SELECT(t).FROM(t)).execute(transaction);
+      final int[] results = INSERT(b).VALUES(SELECT(t).FROM(t)).execute(transaction);
       Assert.assertTrue(results[0] > 999);
 
       transaction.rollback();
@@ -149,8 +150,10 @@ public class InsertTest {
   @Test
   public void testInsertSelectIntoColumns() throws IOException, SQLException {
     try (final Transaction transaction = new Transaction(types.class)) {
+      final types.TypeBackup b = new types.TypeBackup();
       final types.Type t = new types.Type();
-      final int[] results = INSERT(t.binaryType, t.charType).VALUES(SELECT(t.binaryType, t.charType).FROM(t)).execute(transaction);
+      DELETE(b).execute(transaction);
+      final int[] results = INSERT(b.binaryType, b.charType, b.enumType).VALUES(SELECT(t.binaryType, t.charType, t.enumType).FROM(t)).execute(transaction);
       Assert.assertTrue(results[0] > 999);
 
       transaction.rollback();

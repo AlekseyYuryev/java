@@ -33,7 +33,10 @@ import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
+import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
+import org.libx4j.rdb.jsql.types;
+import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.type.CHAR;
 
 @RunWith(VendorSchemaRunner.class)
@@ -43,7 +46,7 @@ import org.libx4j.rdb.jsql.type.CHAR;
 @Category(MixedTest.class)
 public class StringValueExpressionTest {
   @Test
-  public void testConcat() throws IOException, SQLException {
+  public void testConcatStatic() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
     try (final RowIterator<CHAR> rows =
       SELECT(
@@ -149,6 +152,36 @@ public class StringValueExpressionTest {
       Assert.assertEquals("US-", rows.nextEntity().get());
       Assert.assertEquals("-US", rows.nextEntity().get());
       Assert.assertEquals("-US-", rows.nextEntity().get());
+    }
+  }
+
+  @Test
+  public void testConcatDynamic() throws IOException, SQLException {
+    try (final Transaction transaction = new Transaction(types.class)) {
+      types.Type t = new types.Type();
+      t = NumericFunctionDynamicTest.getNthRow(NumericFunctionDynamicTest.selectEntity(t, AND(
+        IS.NOT.NULL(t.charType),
+        IS.NOT.NULL(t.enumType)), transaction), 0);
+      final types.Type clone = t.clone();
+
+      t.charType.set(CONCAT(t.enumType, t.enumType));
+
+      Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
+      Assert.assertEquals(clone.enumType.get().toString() + clone.enumType.get().toString(), t.charType.get());
+      clone.charType.set(clone.enumType.get().toString() + clone.enumType.get().toString());
+
+      t.charType.set(CONCAT(t.charType, t.charType));
+
+      Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
+      Assert.assertEquals(clone.charType.get() + clone.charType.get(), t.charType.get());
+      clone.charType.set(clone.charType.get() + clone.charType.get());
+
+      t.charType.set(CONCAT(t.charType, t.enumType));
+
+      Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
+      Assert.assertEquals(clone.charType.get() + clone.enumType.get(), t.charType.get());
+
+      transaction.rollback();
     }
   }
 }

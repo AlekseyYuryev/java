@@ -33,17 +33,17 @@
   <table name="timestamp" abstract="true" extends="timestamp_modified">
     <column name="created_on" xsi:type="dateTime" null="false" jsql:generateOnInsert="TIMESTAMP"/>
   </table>  
-  <table name="timestamp_version" abstract="true" extends="timestamp" jsql:versionColumn="version">
-    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:checkOnUpdate="EQUALS"/>
+  <table name="timestamp_version" abstract="true" extends="timestamp">
+    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:keyForUpdate="true"/>
   </table>
   <table name="timestamp_by" abstract="true" extends="timestamp_version">
     <column name="created_by_id" xsi:type="char" length="36" null="false"/>
     <column name="modified_by_id" xsi:type="char" length="36" null="false"/>
   </table>
-  <table name="timestamp_id" abstract="true" extends="id" jsql:versionColumn="version">
+  <table name="timestamp_id" abstract="true" extends="id">
     <column name="created_on" xsi:type="dateTime" null="false" jsql:generateOnInsert="TIMESTAMP"/>
     <column name="modified_on" xsi:type="dateTime" null="false" jsql:generateOnUpdate="TIMESTAMP"/>
-    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:checkOnUpdate="EQUALS"/>
+    <column name="version" xsi:type="int" precision="10" unsigned="true" default="0" null="false" jsql:generateOnUpdate="INCREMENT" jsql:keyForUpdate="true"/>
   </table>
   <table name="timestamp_by_id" abstract="true" extends="timestamp_id">
     <column name="created_by_id" xsi:type="char" length="36" null="false"/>

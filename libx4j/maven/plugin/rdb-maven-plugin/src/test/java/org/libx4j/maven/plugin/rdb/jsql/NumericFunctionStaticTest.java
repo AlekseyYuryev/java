@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.lib4j.math.Functions;
+import org.lib4j.math.SafeMath;
 import org.lib4j.test.MixedTest;
 import org.libx4j.maven.plugin.rdb.jsql.runner.VendorSchemaRunner;
 import org.libx4j.rdb.ddlx.runner.Derby;
@@ -33,20 +33,21 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.type.DECIMAL;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.model.select;
-import org.libx4j.rdb.jsql.type.DECIMAL;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
-public class NumericFunctionTest {
+public class NumericFunctionStaticTest {
   private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final DECIMAL d = c.longitude.clone();
@@ -112,7 +113,7 @@ public class NumericFunctionTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Functions.round(rows.nextEntity().get().doubleValue(), 1), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(SafeMath.round(rows.nextEntity().get().doubleValue(), 1), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -124,10 +125,11 @@ public class NumericFunctionTest {
         t.doubleType,
         SIGN(t.doubleType)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() < 0 ? -1 : 1, rows.nextEntity().get().intValue());
+      Assert.assertEquals(Math.signum(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().intValue(), 0);
     }
   }
 
@@ -139,6 +141,7 @@ public class NumericFunctionTest {
         t.doubleType,
         FLOOR(t.doubleType)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -154,6 +157,7 @@ public class NumericFunctionTest {
         t.doubleType,
         CEIL(t.doubleType)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -178,6 +182,22 @@ public class NumericFunctionTest {
   }
 
   @Test
+  public void testSin() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        SIN(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.sin(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
   public void testAsin() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<? extends type.Numeric<?>> rows =
@@ -194,6 +214,22 @@ public class NumericFunctionTest {
   }
 
   @Test
+  public void testCos() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        COS(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.cos(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
   public void testAcos() throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<? extends type.Numeric<?>> rows =
@@ -206,6 +242,22 @@ public class NumericFunctionTest {
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertEquals(Math.acos(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+    }
+  }
+
+  @Test
+  public void testTan() throws IOException, SQLException {
+    final types.Type t = new types.Type();
+    try (final RowIterator<? extends type.Numeric<?>> rows =
+      SELECT(
+        t.doubleType,
+        TAN(t.doubleType)).
+      FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      LIMIT(1).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Math.tan(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -248,6 +300,7 @@ public class NumericFunctionTest {
         t.intType,
         MOD(t.intType, -3)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.intType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -264,6 +317,7 @@ public class NumericFunctionTest {
         t.intType,
         MOD(t.doubleType, t.intType)).
       FROM(t).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), NE(t.intType, 0))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -281,6 +335,7 @@ public class NumericFunctionTest {
         t.doubleType,
         MOD(t.doubleType, 1.2)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -297,6 +352,7 @@ public class NumericFunctionTest {
         t.doubleType,
         MOD(t.doubleType, -1.2)).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -314,10 +370,11 @@ public class NumericFunctionTest {
         t.floatType,
         MOD(t.doubleType, t.floatType)).
       FROM(t).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), NE(t.floatType, 0))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % rows.nextEntity().get().floatValue(), rows.nextEntity().get().doubleValue(), 0.00000001);
+      Assert.assertEquals(rows.nextEntity().get().doubleValue() % rows.nextEntity().get().floatValue(), rows.nextEntity().get().doubleValue(), 0.000001);
     }
   }
 
@@ -329,6 +386,7 @@ public class NumericFunctionTest {
         t.doubleType,
         EXP(MUL(t.doubleType, -1))).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -342,12 +400,13 @@ public class NumericFunctionTest {
     try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
-        POW(t.doubleType, .3)).
+        POW(t.doubleType, 3)).
       FROM(t).
+      WHERE(AND(GT(t.doubleType, 0), LT(t.doubleType, 10))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), .3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), 3), rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }
 
@@ -359,6 +418,7 @@ public class NumericFunctionTest {
         t.doubleType,
         POW(3, MUL(t.doubleType, -1))).
       FROM(t).
+      WHERE(IS.NOT.NULL(t.doubleType)).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -424,7 +484,7 @@ public class NumericFunctionTest {
         t.intType,
         LOG(t.intType, t.doubleType)).
       FROM(t).
-      WHERE(AND(GT(t.intType, 0), GT(t.doubleType, 0), LT(t.doubleType, 1))).
+      WHERE(AND(GT(t.intType, 1), GT(t.doubleType, 0), GT(t.doubleType, 1), LT(t.doubleType, 10))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
