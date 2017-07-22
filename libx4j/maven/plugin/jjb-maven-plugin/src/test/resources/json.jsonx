@@ -55,7 +55,7 @@
         <description>The serial.</description>
       </property>
     </property>
-    <property xsi:type="ref" object="signature"/>
+    <property xsi:type="object" name="signature" extends="signature"/>
   </object>
   
   <object name="links">
@@ -85,7 +85,7 @@
           <property xsi:type="string" name="subtotal" pattern="(\S)|(\S.*\S)" null="false"/>
         </property>
       </property>
-      <property xsi:type="ref" object="links" array="true" null="false"/>
+      <property xsi:type="object" name="links" extends="links" array="true" null="false"/>
       <property xsi:type="string" name="sale_id" pattern="(\S)|(\S.*\S)" required="false" null="false"/>
       <property xsi:type="string" name="payment_mode" pattern="(\S)|(\S.*\S)" required="false" null="false"/>
       <property xsi:type="string" name="protection_eligibility" pattern="(\S)|(\S.*\S)" required="false" null="false"/>
@@ -100,7 +100,7 @@
         <property xsi:type="string" name="currency" pattern="(AUD)|(CAD)|(EUR)|(GBP)|(JPY)|(USD)" null="false"/>
       </property>
     </property>
-    <property xsi:type="ref" object="links" array="true" null="false"/>
+    <property xsi:type="object" name="links" extends="links" array="true" null="false"/>
   </object>
   
   <object name="giphy" onUnknown="skip">
