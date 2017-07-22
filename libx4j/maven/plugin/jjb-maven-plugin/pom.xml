@@ -108,6 +108,7 @@
                     <destdir>generated-test-sources/jjb</destdir>
                     <resources>
                       <resource>src/test/resources/json.jsonx</resource>
+                      <resource>src/test/resources/type.jsonx</resource>
                     </resources>
                   </manifest>
                 </configuration>
