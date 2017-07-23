@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.maven.mojo;
+package org.libx4j.maven.common;
 
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;

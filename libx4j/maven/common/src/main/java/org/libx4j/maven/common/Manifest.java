@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.maven.mojo;
+package org.libx4j.maven.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class Manifest {
     if (build == null || build.getPlugins() == null)
       throw new MojoFailureException("Configuration is required");
 
-    final Xpp3Dom configuration = plugin.getConfiguration() == null ? (Xpp3Dom)pluginExecution.getConfiguration() : pluginExecution.getConfiguration() == null ? (Xpp3Dom)plugin.getConfiguration() : Xpp3Dom.mergeXpp3Dom((Xpp3Dom)plugin.getConfiguration(), (Xpp3Dom)pluginExecution.getConfiguration());
+    final Xpp3Dom configuration = plugin.getConfiguration() == null ? pluginExecution == null ? null : (Xpp3Dom)pluginExecution.getConfiguration() : pluginExecution.getConfiguration() == null ? (Xpp3Dom)plugin.getConfiguration() : Xpp3Dom.mergeXpp3Dom((Xpp3Dom)plugin.getConfiguration(), (Xpp3Dom)pluginExecution.getConfiguration());
     return configuration == null ? null : parse(configuration.getChild("manifest"), plugin, project);
   }
 
