@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.lib4j.io.Files;
-import org.libx4j.maven.mojo.MojoUtil;
+import org.libx4j.maven.common.MojoUtil;
 
 @Mojo(name = "xml")
 public abstract class XmlMojo extends AbstractMojo {

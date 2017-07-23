@@ -25,8 +25,8 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.lib4j.xml.XMLException;
-import org.libx4j.maven.mojo.Manifest;
-import org.libx4j.maven.mojo.ManifestMojo;
+import org.libx4j.maven.common.Manifest;
+import org.libx4j.maven.common.ManifestMojo;
 import org.libx4j.rdb.jsql.generator.Generator;
 
 @Mojo(name = "jsql", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
