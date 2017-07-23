@@ -54,16 +54,16 @@
     <property xsi:type="string" name="stringNotNull" null="false">
       <description>String not null.</description>
     </property>
-    <property xsi:type="string" name="stringLength" length="4">
+    <property xsi:type="string" name="stringLength" length="5">
       <description>String length.</description>
     </property>
-    <property xsi:type="string" name="stringPattern" pattern="[abc]">
+    <property xsi:type="string" name="stringPattern" pattern="[valid]+">
       <description>String pattern.</description>
     </property>
     <property xsi:type="string" name="stringUrlDecode" urlDecode="true">
       <description>String url-decode.</description>
     </property>
-    <property xsi:type="string" name="stringUrlEncode" urlDecode="true">
+    <property xsi:type="string" name="stringUrlEncode" urlEncode="true">
       <description>String url-encode.</description>
     </property>
   </object>
@@ -75,10 +75,10 @@
     <property xsi:type="string" name="stringArrayNotNull" null="false" array="true">
       <description>String array not null.</description>
     </property>
-    <property xsi:type="string" name="stringArrayLength" length="4" array="true">
+    <property xsi:type="string" name="stringArrayLength" length="5" array="true">
       <description>String array length.</description>
     </property>
-    <property xsi:type="string" name="stringArrayPattern" pattern="[abc]" array="true">
+    <property xsi:type="string" name="stringArrayPattern" pattern="[valid]+" array="true">
       <description>String array pattern.</description>
     </property>
     <property xsi:type="string" name="stringArrayNotRequired" required="false" array="true">
@@ -87,7 +87,7 @@
     <property xsi:type="string" name="stringArrayUrlDecode" urlDecode="true" array="true">
       <description>String array url-decode.</description>
     </property>
-    <property xsi:type="string" name="stringArrayUrlEncode" urlDecode="true" array="true">
+    <property xsi:type="string" name="stringArrayUrlEncode" urlEncode="true" array="true">
       <description>String array url-encode.</description>
     </property>
   </object>

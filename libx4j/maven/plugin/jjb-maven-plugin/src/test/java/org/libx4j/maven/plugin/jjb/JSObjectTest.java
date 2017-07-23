@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -43,12 +44,12 @@ public class JSObjectTest {
     //Generator.generate(Resources.getResource("json.xml").getURL(), new File("target/generated-test-sources/json"));
 
     final api.Message.Attachment att1 = new api.Message.Attachment();
-    att1.serial(BigDecimal.valueOf(2));
+    att1.serial.set(BigDecimal.valueOf(2));
     final api.Message.Attachment.Data data1 = new api.Message.Attachment.Data();
-    att1.data(data1);
-    data1.a("\"1A");
-    data1.b("\\1B");
-    data1.c("1C");
+    att1.data.set(data1);
+    data1.a.set("\"1A");
+    data1.b.set("\\1B");
+    data1.c.set("1C");
 
     try {
       att1.toString();
@@ -58,7 +59,7 @@ public class JSObjectTest {
         throw e;
     }
 
-    att1.filename(null);
+    att1.filename.set(null);
 
     try {
       att1.toString();
@@ -68,17 +69,17 @@ public class JSObjectTest {
         throw e;
     }
 
-    att1.filename("data1.txt");
+    att1.filename.set("data1.txt");
 
     final api.Message.Attachment att2 = new api.Message.Attachment();
     final api.Message.Attachment.Data data2 = new api.Message.Attachment.Data();
-    att2.data(data2);
-    data2.a("2X");
-    data2.b("2B");
-    data2.c("2C");
+    att2.data.set(data2);
+    data2.a.set("2X");
+    data2.b.set("2B");
+    data2.c.set("2C");
 
-    att2.filename("data2.txt");
-    att2.serial(BigDecimal.valueOf(-2.424242424));
+    att2.filename.set("data2.txt");
+    att2.serial.set(BigDecimal.valueOf(-2.424242424));
 
     try {
       att2.toString();
@@ -88,33 +89,33 @@ public class JSObjectTest {
         throw e;
     }
 
-    data2.a("2A");
+    data2.a.set("2A");
 
     final api.Message.Attachment att3 = new api.Message.Attachment();
-    att3.filename("data3.txt");
+    att3.filename.set("data3.txt");
     final api.Message.Attachment.Data data3 = new api.Message.Attachment.Data();
-    att3.data(data3);
-    data3.a("\"3A");
-    data3.b("\\3B");
-    data3.c("3C");
-    att3.serial(BigDecimal.valueOf(99999));
+    att3.data.set(data3);
+    data3.a.set("\"3A");
+    data3.b.set("\\3B");
+    data3.c.set("3C");
+    att3.serial.set(BigDecimal.valueOf(99999));
 
     final api.Signature signature = new api.Signature();
-    signature.pubRsa("pub_rsa");
-    signature.xmldsig("xmldsig");
+    signature.pubRsa.set("pub_rsa");
+    signature.xmldsig.set("xmldsig");
 
     final api.Message message = new api.Message();
     final String subject = "Test subject";
-    message.subject(subject);
+    message.subject.set(subject);
     final String url = "http://www.thesaurus.com/browse/cool?s=t";
-    message.url(url);
-    message.important(true);
+    message.url.set(url);
+    message.important.set(true);
     final List<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
-    message.recipients(recipients);
-    message.emptyarray(new ArrayList<String>());
+    message.recipients.set(recipients);
+    message.emptyarray.set(new ArrayList<String>());
     final api.Message.Attachment[] attachment = {att1, att2, att3, null};
-    message.attachment(attachment);
-    message.signature(signature);
+    message.attachment.set(Arrays.asList(attachment));
+    message.signature.set(signature);
 
     String encoded;
     try {
@@ -125,7 +126,7 @@ public class JSObjectTest {
         throw e;
     }
 
-    message.requiredArray((List<Boolean>)null);
+    message.requiredArray.set(null);
     try {
       encoded = message.toString();
     }
@@ -134,12 +135,12 @@ public class JSObjectTest {
         throw e;
     }
 
-    message.requiredArray(new ArrayList<Boolean>());
+    message.requiredArray.set(new ArrayList<Boolean>());
 
-    message.notRequired(true);
+    message.notRequired.set(true);
     message.notRequired.clear();
 
-    message.notRequiredArray((List<Boolean>)null);
+    message.notRequiredArray.set((List<Boolean>)null);
     message.notRequiredArray.clear();
 
     encoded = message.toString();
@@ -169,13 +170,13 @@ public class JSObjectTest {
     logger.info(reEncoded);
 
     Assert.assertEquals(encoded, reEncoded);
-    Assert.assertEquals(subject, decoded.subject());
-    Assert.assertEquals(url, decoded.url());
-    Assert.assertEquals(true, decoded.important());
-    Assert.assertEquals(recipients, decoded.recipients());
-    Assert.assertEquals(0, decoded.emptyarray().size());
-    Assert.assertArrayEquals(attachment, decoded.attachment().toArray());
-    Assert.assertEquals(signature, decoded.signature());
+    Assert.assertEquals(subject, decoded.subject.get());
+    Assert.assertEquals(url, decoded.url.get());
+    Assert.assertEquals(true, decoded.important.get());
+    Assert.assertEquals(recipients, decoded.recipients.get());
+    Assert.assertEquals(0, decoded.emptyarray.get().size());
+    Assert.assertArrayEquals(attachment, decoded.attachment.get().toArray());
+    Assert.assertEquals(signature, decoded.signature.get());
   }
 
   @Test
@@ -213,15 +214,15 @@ public class JSObjectTest {
 
     final JSArray<api.Dsig> array3 = new JSArray<api.Dsig>();
     api.Dsig dsig = new api.Dsig();
-    dsig.xmldsig("one");
+    dsig.xmldsig.set("one");
     array3.add(dsig);
 
     dsig = new api.Dsig();
-    dsig.xmldsig("two");
+    dsig.xmldsig.set("two");
     array3.add(dsig);
 
     dsig = new api.Dsig();
-    dsig.xmldsig("three");
+    dsig.xmldsig.set("three");
     array3.add(dsig);
     logger.info(array3.toString());
   }
