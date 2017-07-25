@@ -94,6 +94,7 @@ public class DateTimeValueExpressionTest {
           SUB(p.timeType, interval)).
         FROM(p).
         WHERE(condition != null ? AND(condition, notNull) : notNull).
+        LIMIT(1).
         execute(transaction);
 
       Assert.assertTrue(rows.nextRow());

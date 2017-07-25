@@ -991,7 +991,7 @@ public class NumericFunctionDynamicTest {
       types.Type t = new types.Type();
       t = getNthRow(selectEntity(t, AND(
         GT(t.tinyintType, 0),
-        LTE(t.tinyintType, 1)), transaction), rowNum++);
+        LTE(t.tinyintType, 10)), transaction), rowNum++);
       types.Type clone = t.clone();
 
       t.tinyintType.set(CAST(LOG(3, t.tinyintType)).AS.TINYINT(t.tinyintType.precision()));
@@ -1001,7 +1001,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.smallintType, 0),
-        LTE(t.smallintType, 1)), transaction), rowNum++);
+        LTE(t.smallintType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.smallintType.set(CAST(LOG(3, t.smallintType)).AS.SMALLINT(t.smallintType.precision()));
@@ -1011,7 +1011,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.intType, 0),
-        LTE(t.intType, 1)), transaction), rowNum++);
+        LTE(t.intType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.intType.set(CAST(LOG(3, t.intType)).AS.INT(t.intType.precision()));
@@ -1021,7 +1021,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.bigintType, 0),
-        LTE(t.bigintType, 1)), transaction), rowNum++);
+        LTE(t.bigintType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.bigintType.set(CAST(LOG(3, t.bigintType)).AS.BIGINT(t.bigintType.precision()));
@@ -1031,7 +1031,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.floatType, 0),
-        LTE(t.floatType, 1)), transaction), rowNum++);
+        LTE(t.floatType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.floatType.set(LOG(3, t.floatType));
@@ -1041,7 +1041,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.doubleType, 0),
-        LTE(t.doubleType, 1)), transaction), rowNum++);
+        LTE(t.doubleType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.doubleType.set(LOG(3, t.doubleType));
@@ -1051,7 +1051,7 @@ public class NumericFunctionDynamicTest {
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.decimalType, 0),
-        LTE(t.decimalType, 1)), transaction), rowNum++);
+        LTE(t.decimalType, 10)), transaction), rowNum++);
       clone = t.clone();
 
       t.decimalType.set(LOG(3, t.decimalType));
