@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.util;
+package org.lib4j.lang;
 
 import java.lang.reflect.Array;
 import java.util.Comparator;

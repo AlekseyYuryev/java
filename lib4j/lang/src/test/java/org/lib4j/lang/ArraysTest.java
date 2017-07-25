@@ -14,13 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.util;
+package org.lib4j.lang;
 
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.lib4j.lang.Arrays;
 
 public class ArraysTest {
   @Test
