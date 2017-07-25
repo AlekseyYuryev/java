@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.maven.plugin.jjb;
+package org.libx4j.jjb.runtime;
 
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -85,7 +85,7 @@ public class JSObjectTest {
       att2.toString();
     }
     catch (final EncodeException e) {
-      if (!e.getMessage().startsWith("\"a\" does not match pattern"))
+      if (!e.getMessage().startsWith("\"a\": does not match pattern"))
         throw e;
     }
 

@@ -111,32 +111,26 @@
     <property xsi:type="number" name="numberInteger" form="integer">
       <description>Number integer.</description>
     </property>
-    <property xsi:type="number" name="numberReal" form="real">
-      <description>Number real.</description>
-    </property>
   </object>
   <object name="numberArrays">
     <description>Number array type.</description>
-    <property xsi:type="number" name="numberArraysDefault" array="true">
+    <property xsi:type="number" name="numberArrayDefault" array="true">
       <description>Number array default.</description>
     </property>
-    <property xsi:type="number" name="numberArraysNotRequired" required="false" array="true">
+    <property xsi:type="number" name="numberArrayNotRequired" required="false" array="true">
       <description>Number array not required.</description>
     </property>
-    <property xsi:type="number" name="numberArraysNotNull" null="false" array="true">
+    <property xsi:type="number" name="numberArrayNotNull" null="false" array="true">
       <description>Number array not null.</description>
     </property>
-    <property xsi:type="number" name="numberArraysMin" min="0" array="true">
+    <property xsi:type="number" name="numberArrayMin" min="0" array="true">
       <description>Number array min.</description>
     </property>
-    <property xsi:type="number" name="numberArraysMax" max="0" array="true">
+    <property xsi:type="number" name="numberArrayMax" max="0" array="true">
       <description>Number array max.</description>
     </property>
-    <property xsi:type="number" name="numberArraysInteger" form="integer" array="true">
+    <property xsi:type="number" name="numberArrayInteger" form="integer" array="true">
       <description>Number array integer.</description>
-    </property>
-    <property xsi:type="number" name="numberArraysReal" form="real" array="true">
-      <description>Number array real.</description>
     </property>
   </object>
   <object name="abstractObject" abstract="true">

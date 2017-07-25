@@ -1,4 +1,4 @@
-package org.libx4j.maven.plugin.jjb;
+package org.libx4j.jjb.runtime;
 
 import java.lang.reflect.Field;
 
