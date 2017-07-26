@@ -139,7 +139,7 @@
       <description>Boolean in abstract object.</description>
     </property>
   </object>
-  <object name="objects" onUnknown="skip">
+  <object name="objects">
     <description>Object type.</description>
     <property xsi:type="object" name="objectDefault">
       <description>Object default.</description>
@@ -150,7 +150,7 @@
     <property xsi:type="object" name="objectNotNull" null="false">
       <description>Object not null.</description>
     </property>
-    <property xsi:type="object" name="objectProperties" extends="abstractObject">
+    <property xsi:type="object" name="objectExtendsAbstract" extends="abstractObject">
       <description>Object with properties, extending abstractObject.</description>
       <property xsi:type="string" name="objectString">
         <description>String property.</description>
@@ -180,7 +180,7 @@
     <property xsi:type="object" name="objectArrayNotNull" null="false" array="true">
       <description>Object array not null.</description>
     </property>
-    <property xsi:type="object" name="objectArrayPropertiesSkipUnknowns" array="true" onUnknown="skip">
+    <property xsi:type="object" name="objectArrayPropertiesSkipUnknown" array="true" onUnknown="skip">
       <description>Object array with properties, skipping unknowns.</description>
       <property xsi:type="boolean" name="objectArrayBoolean" array="true">
         <description>Boolean array property.</description>

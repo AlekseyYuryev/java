@@ -16,410 +16,24 @@
 
 package org.libx4j.jjb.runtime;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import jjb.type;
 
-public class TypeTest {
-  private static void setProperty(final JSObject jsObject, final String propertyName, final Object ... value) {
-    if (value.length == 0)
-      throw new IllegalArgumentException("value.length == 0");
-
-    final Object val = value.length == 1 ? value[0] : Arrays.asList(value);
-    // Set the value
-    Adapter.property(jsObject, propertyName).set(val);
-
-    // Assert that the get method returns the value that's been set
-    Assert.assertEquals(val, Adapter.property(jsObject, propertyName).get());
-
-    // Clear the property
-    Adapter.property(jsObject, propertyName).clear();
-
-    // Assert that after property.clear(), the get method returns null
-    Assert.assertEquals(null, Adapter.property(jsObject, propertyName).get());
-
-    // Set the value again
-    Adapter.property(jsObject, propertyName).set(val);
-  }
-
-  @SafeVarargs
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  private static void testUnits(final JSObject jsObject, final String propertyName, final Unit ... units) {
-    final JSObject clone = jsObject.clone();
-    if (units.length == 0)
-      throw new IllegalArgumentException("Must provide at least one unit");
-
-    for (final Unit unit : units) {
-      final Object validValue = Adapter.property(clone, propertyName).get();
-      final Object condition = unit.instigate(clone, propertyName);
-      if (!unit.validate(clone, propertyName, condition))
-        Assert.fail("Failed \"" + unit.getName() + "\" unit:\n" + condition);
-
-      Adapter.property(clone, propertyName).set(validValue);
-    }
-  }
-
-  private static abstract class Unit<T> {
-    private final String name;
-
-    public Unit(final String name) {
-      this.name = name;
-    }
-
-    public String getName() {
-      return this.name;
-    }
-
-    public abstract T instigate(final JSObject jsObject, final String propertyName);
-    public abstract boolean validate(final JSObject jsObject, final String propertyName, final T result);
-  }
-
-  private static abstract class EncodeUnit extends Unit<Exception> {
-    public EncodeUnit(final String name) {
-      super(name);
-    }
-
-    public abstract void condition(final JSObject jsObject, final String propertyName);
-
-    @Override
-    public final Exception instigate(final JSObject jsObject, final String propertyName) {
-      try {
-        condition(jsObject, propertyName);
-        final String json = jsObject.toString();
-        throw new AssertionError("Expected " + getClass().getSimpleName() + " to instigate condition \"" + getName() + "\"\n" + json);
-      }
-      catch (final EncodeException e) {
-        return e;
-      }
-    }
-  }
-
-  private static abstract class DecodeUnit extends Unit<Exception> {
-    public DecodeUnit(final String name) {
-      super(name);
-    }
-
-    public abstract String condition(final JSObject jsObject, final String propertyName);
-
-    @Override
-    public final Exception instigate(final JSObject jsObject, final String propertyName) {
-      try {
-        JSObject.parse(jsObject.getClass(), new StringReader(condition(jsObject, propertyName)));
-        throw new AssertionError("Expected " + getClass().getSimpleName() + " to instigate condition");
-      }
-      catch (final DecodeException e) {
-        return e;
-      }
-      catch (final IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-
-  private static final EncodeUnit nullEncode = new EncodeUnit("null encode") {
-    @Override
-    public void condition(final JSObject jsObject, final String propertyName) {
-      Adapter.property(jsObject, propertyName).set(null);
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("cannot be null");
-    }
-  };
-
-  private static final DecodeUnit nullDecode = new DecodeUnit("null decode") {
-    @Override
-    public String condition(final JSObject jsObject, final String propertyName) {
-      return jsObject.toString().replaceAll("\"" + propertyName + "\":[^,]+", "\"" + propertyName + "\": null");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("cannot be null");
-    }
-  };
-
-  private static final DecodeUnit requiredDecode = new DecodeUnit("required decode") {
-    @Override
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final String json = jsObject.toString().replaceAll("\"" + propertyName + "\":.*", "");
-      return json;
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is required");
-    }
-  };
-
-  private static final EncodeUnit lengthEncode = new EncodeUnit("length encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList("invalid") : "invalid");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is longer than");
-    }
-  };
-
-  private static final DecodeUnit lengthDecode = new DecodeUnit("length decode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList("xxxxx") : "xxxxx");
-      return jsObject.toString().replaceAll("xxxxx", property.binding.array ? "[this is too long]" : "this is too long");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is longer than");
-    }
-  };
-
-  private static final EncodeUnit patternEncode = new EncodeUnit("pattern encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList("invalid") : "invalid");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("does not match pattern");
-    }
-  };
-
-  private static final DecodeUnit patternDecode = new DecodeUnit("pattern decode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList("dilav") : "dilav");
-      return jsObject.toString().replaceAll("dilav", property.binding.array ? "[invalid]" : "invalid");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("does not match pattern");
-    }
-  };
-
-  private static final Unit<JSObject> urlDecode = new Unit<JSObject>("urlDecode") {
-    @Override
-    public JSObject instigate(final JSObject jsObject, final String propertyName) {
-      try {
-        final String string = jsObject.toString();
-        return JSObject.parse(jsObject.getClass(), new StringReader(string));
-      }
-      catch (final DecodeException | IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final JSObject result) {
-      return Adapter.property(result, propertyName).get().toString().contains("url encoded");
-    }
-  };
-
-  private static final Unit<String> urlEncode = new Unit<String>("urlEncode") {
-    @Override
-    public String instigate(final JSObject jsObject, final String propertyName) {
-      return jsObject.toString();
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final String result) {
-      return result.contains("url%20decoded");
-    }
-  };
-
-  private static final EncodeUnit minEncode = new EncodeUnit("min encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigDecimal("-1.1")) : new BigDecimal("-1.1"));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is less than");
-    }
-  };
-
-  private static final DecodeUnit minDecode = new DecodeUnit("min decode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigDecimal("0.0")) : new BigDecimal("0.0"));
-      return jsObject.toString().replaceAll("0.0", "-1");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is less than");
-    }
-  };
-
-  private static final EncodeUnit maxEncode = new EncodeUnit("max encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigDecimal("1.1")) : new BigDecimal("1.1"));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is greater than");
-    }
-  };
-
-  private static final DecodeUnit maxDecode = new DecodeUnit("max decode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigDecimal("0.0")) : new BigDecimal("0.0"));
-      return jsObject.toString().replaceAll("0.0", "1.1");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is greater than");
-    }
-  };
-
-  private static final EncodeUnit integerEncode = new EncodeUnit("integer encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigDecimal("3.1415")) : new BigDecimal("3.1415"));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is not an \"integer\"");
-    }
-  };
-
-  private static final DecodeUnit integerDecode = new DecodeUnit("integer decode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(new BigInteger("989898")) : new BigInteger("989898"));
-      return jsObject.toString().replaceAll("989898", "3.1415");
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("is not an \"integer\"");
-    }
-  };
-
-  private static final Unit<Exception> encodeDecodeSuccess = new Unit<Exception>("success") {
-    @Override
-    public Exception instigate(final JSObject jsObject, final String propertyName) {
-      try {
-        JSObject.parse(jsObject.getClass(), new StringReader(jsObject.toString()));
-        return null;
-      }
-      catch (final DecodeException | IOException e) {
-        return e;
-      }
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result == null;
-    }
-  };
-
-  private static final EncodeUnit incorrectTypeEncode = new EncodeUnit("incorrect type encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      final Object value = Number.class.isAssignableFrom(property.binding.type) ? "oops" : property.binding.type == Boolean.class ? BigInteger.ZERO : property.binding.type == String.class ? Boolean.FALSE : "{}";
-      property.set(property.binding.array ? Collections.singletonList(value) : value);
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("cannot be encoded");
-    }
-  };
-
-  private static final DecodeUnit incorrectTypeDecode = new DecodeUnit("incorrect type decode") {
-    @Override
-    @SuppressWarnings("rawtypes")
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      final Object value = Number.class.isAssignableFrom(property.binding.type) ? "\"oops\"" : property.binding.type == Boolean.class ? BigInteger.ZERO : property.binding.type == String.class ? "false" : "{}";
-      return jsObject.toString().replaceAll("\"" + property.binding.name + "\":[^,]+", "\"" + property.binding.name + "\":" + (property.binding.array ? "[" + value + "]" : value));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("Illegal char");
-    }
-  };
-
-  private static final EncodeUnit incorrectArrayEncode = new EncodeUnit("incorrect array encode") {
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      final Object value = Number.class.isAssignableFrom(property.binding.type) ? BigInteger.ZERO : property.binding.type == String.class ? "valid" : property.binding.type == Boolean.class ? "true" : "{}";
-      property.set(property.binding.array ? value : Collections.singletonList(value));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("cannot be encoded");
-    }
-  };
-
-  private static final DecodeUnit incorrectArrayDecode = new DecodeUnit("incorrect array decode") {
-    @Override
-    @SuppressWarnings("rawtypes")
-    public String condition(final JSObject jsObject, final String propertyName) {
-      final Property property = Adapter.property(jsObject, propertyName);
-      final Object value = Number.class.isAssignableFrom(property.binding.type) ? BigInteger.ZERO : property.binding.type == String.class ? "\"valid\"" : property.binding.type == Boolean.class ? "true" : "{}";
-      return jsObject.toString().replaceAll("\"" + property.binding.name + "\":[^,]+", "\"" + property.binding.name + "\":" + (property.binding.array ? value : "[" + value + "]"));
-    }
-
-    @Override
-    public boolean validate(final JSObject jsObject, final String propertyName, final Exception result) {
-      return result.getMessage().contains("incompatible with");
-    }
-  };
-
-  @Test
-  public void testBooleans() {
-    final type.Booleans jsObject = new type.Booleans();
+public class TypeTest extends TestHarness {
+  private static <T extends type.Booleans>T setBooleans(final T jsObject) {
     setProperty(jsObject, "booleanDefault", Boolean.TRUE);
     setProperty(jsObject, "booleanNotRequired", Boolean.TRUE);
     setProperty(jsObject, "booleanNotNull", Boolean.TRUE);
+    return jsObject;
+  }
+
+  @Test
+  public void testBooleans() {
+    final type.Booleans jsObject = setBooleans(new type.Booleans());
 
     testUnits(jsObject, "booleanDefault", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
     testUnits(jsObject, "booleanNotRequired", encodeDecodeSuccess, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
@@ -438,9 +52,21 @@ public class TypeTest {
     testUnits(jsObject, "booleanArrayNotNull", nullEncode, nullDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
   }
 
+  private static type.Strings setStrings(final type.Strings jsObject) {
+    setProperty(jsObject, "stringDefault", "valid");
+    setProperty(jsObject, "stringNotRequired", "valid");
+    setProperty(jsObject, "stringNotNull", "valid");
+    setProperty(jsObject, "stringLength", "valid");
+    setProperty(jsObject, "stringPattern", "valid");
+    setProperty(jsObject, "stringUrlDecode", "url%20encoded");
+    setProperty(jsObject, "stringUrlEncode", "url decoded");
+
+    return jsObject;
+  }
+
   @Test
   public void testStrings() {
-    final type.Strings jsObject = new type.Strings();
+    final type.Strings jsObject = setStrings(new type.Strings());
     setProperty(jsObject, "stringDefault", "valid");
     setProperty(jsObject, "stringNotRequired", "valid");
     setProperty(jsObject, "stringNotNull", "valid");
@@ -458,9 +84,7 @@ public class TypeTest {
     testUnits(jsObject, "stringUrlEncode", urlEncode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
   }
 
-  @Test
-  public void testStringArrays() {
-    final type.StringArrays jsObject = new type.StringArrays();
+  private static <T extends type.StringArrays>T setStringArrays(final T jsObject) {
     setProperty(jsObject, "stringArrayDefault", "valid", null, "valid");
     setProperty(jsObject, "stringArrayNotRequired", "valid", null, "valid");
     setProperty(jsObject, "stringArrayNotNull", "valid", null, "valid");
@@ -468,6 +92,12 @@ public class TypeTest {
     setProperty(jsObject, "stringArrayPattern", "valid", null, "valid");
     setProperty(jsObject, "stringArrayUrlDecode", "url%20encoded", "valid", null, "valid");
     setProperty(jsObject, "stringArrayUrlEncode", "url decoded", "valid", null, "valid");
+    return jsObject;
+  }
+
+  @Test
+  public void testStringArrays() {
+    final type.StringArrays jsObject = setStringArrays(new type.StringArrays());
 
     testUnits(jsObject, "stringArrayDefault", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
     testUnits(jsObject, "stringArrayNotRequired", encodeDecodeSuccess, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
@@ -512,5 +142,68 @@ public class TypeTest {
     testUnits(jsObject, "numberArrayMin", minEncode, minDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
     testUnits(jsObject, "numberArrayMax", maxEncode, maxDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
     testUnits(jsObject, "numberArrayInteger", integerEncode, integerDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+  }
+
+  private static type.Objects.ObjectExtendsAbstract setObjectExtendsAbstract(final type.Objects.ObjectExtendsAbstract jsObject) {
+    setProperty(jsObject, "objectBoolean", Boolean.TRUE);
+    setProperty(jsObject, "objectString", "string");
+    setProperty(jsObject, "objectNumber", BigDecimal.TEN);
+    setProperty(jsObject, "objectExtendsBooleans", setBooleans(new type.Objects.ObjectExtendsAbstract.ObjectExtendsBooleans()));
+    return jsObject;
+  }
+
+  @Test
+  public void testObjects() {
+    final type.Objects jsObject = new type.Objects();
+    setProperty(jsObject, "objectDefault", new type.Objects.ObjectDefault());
+    setProperty(jsObject, "objectNotRequired", new type.Objects.ObjectNotRequired());
+    setProperty(jsObject, "objectNotNull", new type.Objects.ObjectNotNull());
+    setProperty(jsObject, "objectExtendsAbstract", setObjectExtendsAbstract(new type.Objects.ObjectExtendsAbstract()));
+    final type.Objects.ObjectExtendsStrings objectExtendsStrings = new type.Objects.ObjectExtendsStrings();
+    setProperty(jsObject, "objectExtendsStrings", setStrings(objectExtendsStrings));
+    setProperty(objectExtendsStrings, "additionalString", "additional string");
+
+    testUnits(jsObject, null, unknownFailDecode);
+
+    testUnits(jsObject, "objectDefault", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectNotRequired", encodeDecodeSuccess, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectNotNull", nullEncode, nullDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectExtendsAbstract", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectExtendsStrings", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+  }
+
+  private static type.ObjectArrays.ObjectArrayPropertiesSkipUnknown setObjectArrayPropertiesSkipUnknown(final type.ObjectArrays.ObjectArrayPropertiesSkipUnknown jsObject) {
+    setProperty(jsObject, "objectArrayBoolean", Boolean.TRUE, null, Boolean.FALSE);
+    setProperty(jsObject, "objectArrayString", "valid", null, "valid");
+    setProperty(jsObject, "objectArrayNumber", new BigDecimal("3.1415"), null, new BigDecimal("2.7182"));
+    setProperty(jsObject, "objectArrayExtendsBooleans", setBooleans(new type.ObjectArrays.ObjectArrayPropertiesSkipUnknown.ObjectArrayExtendsBooleans()), null, setBooleans(new type.ObjectArrays.ObjectArrayPropertiesSkipUnknown.ObjectArrayExtendsBooleans()));
+    return jsObject;
+  }
+
+  @Test
+  public void testObjectArrays() {
+    final type.ObjectArrays jsObject = new type.ObjectArrays();
+    setProperty(jsObject, "objectBoolean", Boolean.TRUE);
+    setProperty(jsObject, "objectArrayDefault", new type.ObjectArrays.ObjectArrayDefault(), null, new type.ObjectArrays.ObjectArrayDefault());
+    setProperty(jsObject, "objectArrayNotRequired", new type.ObjectArrays.ObjectArrayNotRequired(), null, new type.ObjectArrays.ObjectArrayNotRequired());
+    setProperty(jsObject, "objectArrayNotNull", new type.ObjectArrays.ObjectArrayNotNull(), null, new type.ObjectArrays.ObjectArrayNotNull());
+    final type.ObjectArrays.ObjectArrayPropertiesSkipUnknown objectArrayPropertiesSkipUnknown = setObjectArrayPropertiesSkipUnknown(new type.ObjectArrays.ObjectArrayPropertiesSkipUnknown());
+
+    setProperty(jsObject, "objectArrayPropertiesSkipUnknown", objectArrayPropertiesSkipUnknown, null, setObjectArrayPropertiesSkipUnknown(new type.ObjectArrays.ObjectArrayPropertiesSkipUnknown()));
+
+    final type.ObjectArrays.ObjectArrayExtendsStringArrays objectArrayExtendsStringArrays1 = setStringArrays(new type.ObjectArrays.ObjectArrayExtendsStringArrays());
+    setProperty(objectArrayExtendsStringArrays1, "additionalStringArray", "one", "two", null, "three");
+    final type.ObjectArrays.ObjectArrayExtendsStringArrays objectArrayExtendsStringArrays2 = setStringArrays(new type.ObjectArrays.ObjectArrayExtendsStringArrays());
+    setProperty(objectArrayExtendsStringArrays2, "additionalStringArray", "four", "five", null, "six");
+
+    setProperty(jsObject, "objectArrayExtendsStringArrays", objectArrayExtendsStringArrays1, null, objectArrayExtendsStringArrays2);
+
+    testUnits(jsObject, "objectArrayDefault", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectArrayNotRequired", encodeDecodeSuccess, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectArrayNotNull", nullEncode, nullDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(jsObject, "objectArrayPropertiesSkipUnknown", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
+    testUnits(objectArrayPropertiesSkipUnknown, null, unknownPassDecode);
+
+    testUnits(jsObject, "objectArrayExtendsStringArrays", requiredDecode, incorrectTypeEncode, incorrectTypeDecode, incorrectArrayEncode, incorrectArrayDecode);
   }
 }
