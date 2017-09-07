@@ -110,7 +110,7 @@ public class JSObjectTest {
     final String url = "http://www.thesaurus.com/browse/cool?s=t";
     message.url.set(url);
     message.important.set(true);
-    final List<String> recipients = Collections.asCollection(ArrayList.class, "alex", "seva");
+    final List<String> recipients = Collections.asCollection(new ArrayList<String>(), "alex", "seva");
     message.recipients.set(recipients);
     message.emptyarray.set(new ArrayList<String>());
     final api.Message.Attachment[] attachment = {att1, att2, att3, null};
