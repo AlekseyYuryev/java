@@ -18,28 +18,26 @@ package org.libx4j.jjb.runtime;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.List;
 
-import org.lib4j.util.Collections;
 import org.libx4j.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
-  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, false, false);
+  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, false, null);
 
   public final String name;
   public final Field property;
   public final Class<?> type;
   public final boolean isAbstract;
-  public final boolean array;
   public final boolean required;
   public final boolean notNull;
   public final boolean urlDecode;
   public final boolean urlEncode;
+  public final Cardinality cardinality;
   public final Validator<?>[] validators;
 
   // string
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final boolean urlDecode, final boolean urlEncode, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean required, final boolean notNull, final Cardinality cardinality, final boolean urlDecode, final boolean urlEncode, final Validator<?> ... validators) {
     this.name = name;
     this.property = property;
     if (this.property != null)
@@ -47,7 +45,7 @@ public class Binding<T> {
 
     this.type = type;
     this.isAbstract = isAbstract;
-    this.array = array;
+    this.cardinality = cardinality;
     this.required = required;
     this.notNull = notNull;
     this.urlDecode = urlDecode;
@@ -57,14 +55,36 @@ public class Binding<T> {
 
   // [other]
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
-    this(name, property, type, isAbstract, array, required, notNull, false, false, validators);
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean required, final boolean notNull, final Cardinality cardinality, final Validator<?> ... validators) {
+    this(name, property, type, isAbstract, required, notNull, cardinality, false, false, validators);
   }
 
-  protected boolean isAssignable(final T value) {
-    final Class<?> type;
-    return value == null || (array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
-  }
+//  protected boolean isAssignable(final T value) {
+//    if (value == null)
+//      return true;
+//
+//    if (cardinality != null) {
+//      final int depth = cardinality.getDepth();
+//      Object object = value;
+//      while (object instanceof List) {
+//        final List<?> list = (List<?>)object;
+//        for (final Object member : list) {
+//        }
+//      }
+//
+//        return false;
+//
+//        (List<?>)list
+//        for (
+//        if (!Collections.isComponentType((List<?>)list, this.type))
+//        type = Collections.getComponentType((List<?>)list);
+//      }
+//
+//      if (!Collections.isComponentType((List<?>)list, this.type))
+//    }
+//
+//    return value == null || (array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
+//  }
 
   private String errorsToString(final String[] errors) {
     if (errors == null || errors.length == 0)

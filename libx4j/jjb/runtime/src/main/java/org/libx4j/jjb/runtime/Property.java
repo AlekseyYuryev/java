@@ -63,10 +63,10 @@ public class Property<T> {
     this.value = clone.value;
   }
 
-  protected boolean isTypeAssignable(final T value) {
-    final Class<?> type;
-    return value == null || (binding.array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || binding.type.isAssignableFrom(type)) : binding.type.isAssignableFrom(type = value.getClass()));
-  }
+//  protected boolean isTypeAssignable(final T value) {
+//    final Class<?> type;
+//    return value == null || (binding.array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || binding.type.isAssignableFrom(type)) : binding.type.isAssignableFrom(type = value.getClass()));
+//  }
 
   public void set(final T value) {
     // FIXME: This check is not necessary in the real world, as the only way it
@@ -102,8 +102,8 @@ public class Property<T> {
     if (error != null)
       throw new EncodeException(error, jsObject);
 
-    if (!binding.isAssignable(value))
-      throw new EncodeException("\"" + binding.name + "\": " + value.getClass().getName() + " cannot be encoded as " + (binding.array ? List.class.getName() + "<" + value.getClass().getName() + ">" : value.getClass().getName()), jsObject);
+//    if (!binding.isAssignable(value))
+//      throw new EncodeException("\"" + binding.name + "\": " + value.getClass().getName() + " cannot be encoded as " + (binding.array ? List.class.getName() + "<" + value.getClass().getName() + ">" : value.getClass().getName()), jsObject);
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;

@@ -14,192 +14,144 @@
   You should have received a copy of The MIT License (MIT) along with this
   program. If not, see <http://opensource.org/licenses/MIT/>.
 -->
-<json name="type" mimeType="application/json"
+<jsonx
+  package="org.libx4j.jjb.generator"
   xmlns="http://jjb.libx4j.org/jsonx.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://jjb.libx4j.org/jsonx.xsd ../../../../../../jjb/generator/src/main/resources/jsonx.xsd">
-  <description>All states of type expressions</description>
-  <object name="booleans">
-    <description>Boolean type.</description>
-    <property xsi:type="boolean" name="booleanDefault">
-      <description>Boolean default.</description>
-    </property>
-    <property xsi:type="boolean" name="booleanNotRequired" required="false">
-      <description>Boolean not required.</description>
-    </property>
-    <property xsi:type="boolean" name="booleanNotNull" null="false">
-      <description>Boolean not null.</description>
-    </property>
+  <object class="type$Booleans" doc="Boolean type.">
+    <property name="booleanDefault" ref="topBoolean"/>
+    <boolean name="booleanNotRequired" required="false" doc="Boolean not required."/>
+    <boolean name="booleanNotNull" nullable="false" doc="Boolean not null."/>
   </object>
-  <object name="booleanArrays">
-    <description>Boolean array type.</description>
-    <property xsi:type="boolean" name="booleanArrayDefault" array="true">
-      <description>Boolean array default.</description>
-    </property>
-    <property xsi:type="boolean" name="booleanArrayNotRequired" required="false" array="true">
-      <description>Boolean array not required.</description>
-    </property>
-    <property xsi:type="boolean" name="booleanArrayNotNull" null="false" array="true">
-      <description>Boolean array not null.</description>
-    </property>
+  <object class="type$BooleanArrays" doc="Boolean array type.">
+    <property name="booleanArray" ref="booleanArray"/>
+    <array name="booleanArrayDefault" doc="Boolean array default.">
+      <property ref="topBoolean" minOccurs="1" maxOccurs="3" doc="Property ref to topBoolean."/>
+    </array>
+    <array name="booleanArrayNotRequired" required="false" doc="Boolean array not required.">
+      <boolean/>
+    </array>
+    <array name="booleanArrayNotNull" nullable="false" doc="Boolean array not null.">
+      <boolean nullable="false"/>
+    </array>
   </object>
-  <object name="strings">
-    <description>String type.</description>
-    <property xsi:type="string" name="stringDefault">
-      <description>String default.</description>
-    </property>
-    <property xsi:type="string" name="stringNotRequired" required="false">
-      <description>String not required.</description>
-    </property>
-    <property xsi:type="string" name="stringNotNull" null="false">
-      <description>String not null.</description>
-    </property>
-    <property xsi:type="string" name="stringLength" length="5">
-      <description>String length.</description>
-    </property>
-    <property xsi:type="string" name="stringPattern" pattern="[valid]+">
-      <description>String pattern.</description>
-    </property>
-    <property xsi:type="string" name="stringUrlDecode" urlDecode="true">
-      <description>String url-decode.</description>
-    </property>
-    <property xsi:type="string" name="stringUrlEncode" urlEncode="true">
-      <description>String url-encode.</description>
-    </property>
+  <object class="type$Strings" doc="String type.">
+    <property name="stringDefault" ref="topString" doc="Property ref to topString."/>
+    <string name="stringNotRequired" required="false" doc="String not required."/>
+    <string name="stringNotNull" nullable="false" doc="String not null."/>
+    <string name="stringPattern" pattern="[valid]+" doc="String pattern."/>
+    <string name="stringUrlDecode" urlDecode="true" doc="String url-decode."/>
+    <string name="stringUrlEncode" urlEncode="true" doc="String url-encode."/>
   </object>
-  <object name="stringArrays">
-    <description>String array type.</description>
-    <property xsi:type="string" name="stringArrayDefault" array="true">
-      <description>String array default.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayNotNull" null="false" array="true">
-      <description>String array not null.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayLength" length="5" array="true">
-      <description>String array length.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayPattern" pattern="[valid]+" array="true">
-      <description>String array pattern.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayNotRequired" required="false" array="true">
-      <description>String array not required.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayUrlDecode" urlDecode="true" array="true">
-      <description>String array url-decode.</description>
-    </property>
-    <property xsi:type="string" name="stringArrayUrlEncode" urlEncode="true" array="true">
-      <description>String array url-encode.</description>
-    </property>
+  <object class="type$StringArrays" doc="String array type.">
+    <array name="stringArrayDefault" doc="String array default.">
+      <property ref="topString" doc="Property ref to topString."/>
+    </array>
+    <array name="stringArrayNotNull" nullable="false" doc="String array not null.">
+      <string nullable="false" minOccurs="1" maxOccurs="1"/>
+      <string minOccurs="1" maxOccurs="1"/>
+    </array>
+    <array name="stringArrayPattern" doc="String array pattern.">
+      <string pattern="[valid]+"/>
+    </array>
+    <array name="stringArrayNotRequired" required="false" doc="String array not required.">
+      <string minOccurs="3" maxOccurs="5"/>
+    </array>
+    <array name="stringArrayUrl" doc="String array url-decode &amp; -encode.">
+      <string urlEncode="true" maxOccurs="1" doc="String array member url-encode."/>
+      <string urlDecode="true" maxOccurs="1" doc="String array member url-decode."/>
+    </array>
   </object>
-  <object name="numbers">
-    <description>Number type.</description>
-    <property xsi:type="number" name="numberDefault">
-      <description>Number default.</description>
-    </property>
-    <property xsi:type="number" name="numberNotRequired" required="false">
-      <description>Number not required.</description>
-    </property>
-    <property xsi:type="number" name="numberNotNull" null="false">
-      <description>Number not null.</description>
-    </property>
-    <property xsi:type="number" name="numberMin" min="0">
-      <description>Number min.</description>
-    </property>
-    <property xsi:type="number" name="numberMax" max="0">
-      <description>Number max.</description>
-    </property>
-    <property xsi:type="number" name="numberInteger" form="integer">
-      <description>Number integer.</description>
-    </property>
+  <object class="type$Numbers" doc="Number type.">
+    <property name="numberDefault" ref="topNumber" doc="Property ref to topNumber."/>
+    <number name="numberNotRequired" required="false" doc="Number not required."/>
+    <number name="numberNotNull" nullable="false" doc="Number not null."/>
+    <number name="numberMin" min="0" doc="Number min."/>
+    <number name="numberMax" max="0" doc="Number max."/>
+    <number name="numberInteger" form="integer" doc="Number integer."/>
   </object>
-  <object name="numberArrays">
-    <description>Number array type.</description>
-    <property xsi:type="number" name="numberArrayDefault" array="true">
-      <description>Number array default.</description>
-    </property>
-    <property xsi:type="number" name="numberArrayNotRequired" required="false" array="true">
-      <description>Number array not required.</description>
-    </property>
-    <property xsi:type="number" name="numberArrayNotNull" null="false" array="true">
-      <description>Number array not null.</description>
-    </property>
-    <property xsi:type="number" name="numberArrayMin" min="0" array="true">
-      <description>Number array min.</description>
-    </property>
-    <property xsi:type="number" name="numberArrayMax" max="0" array="true">
-      <description>Number array max.</description>
-    </property>
-    <property xsi:type="number" name="numberArrayInteger" form="integer" array="true">
-      <description>Number array integer.</description>
-    </property>
+  <object class="type$NumberArrays" doc="Number array type.">
+    <array name="numberArrayDefault" doc="Number array default.">
+      <property ref="topNumber" nullable="false" maxOccurs="3" doc="Property ref to topNumber, not null."/>
+    </array>
+    <array name="numberArrayNotRequired" required="false" doc="Number array not required.">
+      <number minOccurs="2" maxOccurs="2"/>
+    </array>
+    <array name="numberArrayNotNull" nullable="false" doc="Number array not null.">
+      <number nullable="false" minOccurs="3" maxOccurs="5"/>
+    </array>
+    <array name="numberArrayMin" doc="Number array max &amp; min.">
+      <number min="0" minOccurs="2" doc="Number array member min."/>
+      <number max="0" minOccurs="2" doc="Number array member max."/>
+    </array>
+    <array name="numberArrayInteger" doc="Number array integer &amp; real.">
+      <number form="integer" doc="Number array member integer."/>
+      <number form="real" doc="Number array member real."/>
+    </array>
   </object>
-  <object name="abstractObject" abstract="true">
-    <description>Abstract object type.</description>
-    <property xsi:type="boolean" name="objectBoolean">
-      <description>Boolean in abstract object.</description>
-    </property>
+  <object class="type$AbstractObject" abstract="true" doc="Abstract object type.">
+    <property name="booleanProperty" ref="topBoolean" doc="Property ref to topBoolean."/>
   </object>
-  <object name="objects">
-    <description>Object type.</description>
-    <property xsi:type="object" name="objectDefault">
-      <description>Object default.</description>
-    </property>
-    <property xsi:type="object" name="objectNotRequired" required="false">
-      <description>Object not required.</description>
-    </property>
-    <property xsi:type="object" name="objectNotNull" null="false">
-      <description>Object not null.</description>
-    </property>
-    <property xsi:type="object" name="objectExtendsAbstract" extends="abstractObject">
-      <description>Object with properties, extending abstractObject.</description>
-      <property xsi:type="string" name="objectString">
-        <description>String property.</description>
-      </property>
-      <property xsi:type="number" name="objectNumber">
-        <description>Number property.</description>
-      </property>
-      <property xsi:type="object" name="objectExtendsBooleans" extends="booleans">
-        <description>Object property, extending booleans.</description>
-      </property>
-    </property>
-    <property xsi:type="object" name="objectExtendsStrings" extends="strings">
-      <description>Object extending strings.</description>
-      <property xsi:type="string" name="additionalString">
-        <description>Additional string property.</description>
-      </property>
-    </property>
+  <object class="type$Objects" doc="Object type.">
+    <object name="objectDefault" class="type$Objects.ObjectDefault" doc="Object default."/>
+    <object name="objectNotRequired" class="type$Objects.ObjectNotRequired" required="false" doc="Object not required."/>
+    <object name="objectNotNull" class="type$Objects.ObjectNotNull" nullable="false" doc="Object not null."/>
+    <object name="objectExtendsAbstract" class="type$Objects.ObjectExtendsAbstract" extends="type$AbstractObject" doc="Object with properties, extending abstractObject.">
+      <property name="objectString" ref="topString" required="false" doc="Property ref to topString, not required."/>
+      <number name="objectNumber" doc="Number property."/>
+      <object name="objectExtendsBooleans" class="type$Objects.ObjectExtendsBooleans" extends="type$Booleans" doc="Object property, extending booleans."/>
+    </object>
+    <object name="objectExtendsStrings" class="type$Objects.ObjectExtendsStrings" extends="type$Strings" doc="Object extending strings.">
+      <string name="additionalString" doc="Additional string property."/>
+    </object>
   </object>
-  <object name="objectArrays" extends="abstractObject">
-    <description>Object array type.</description>
-    <property xsi:type="object" name="objectArrayDefault" array="true">
-      <description>Object array default.</description>
-    </property>
-    <property xsi:type="object" name="objectArrayNotRequired" required="false" array="true">
-      <description>Object array not required.</description>
-    </property>
-    <property xsi:type="object" name="objectArrayNotNull" null="false" array="true">
-      <description>Object array not null.</description>
-    </property>
-    <property xsi:type="object" name="objectArrayPropertiesSkipUnknown" array="true" onUnknown="skip">
-      <description>Object array with properties, skipping unknowns.</description>
-      <property xsi:type="boolean" name="objectArrayBoolean" array="true">
-        <description>Boolean array property.</description>
-      </property>
-      <property xsi:type="string" name="objectArrayString" array="true">
-        <description>String array property.</description>
-      </property>
-      <property xsi:type="number" name="objectArrayNumber" array="true">
-        <description>Number array property.</description>
-      </property>
-      <property xsi:type="object" name="objectArrayExtendsBooleans" extends="booleans" array="true">
-        <description>Object array property, extending booleans.</description>
-      </property>
-    </property>
-    <property xsi:type="object" name="objectArrayExtendsStringArrays" extends="stringArrays" array="true">
-      <description>Object array extending stringArrays.</description>
-      <property xsi:type="string" name="additionalStringArray" array="true">
-        <description>Additional string array property.</description>
-      </property>
-    </property>
+  <object class="type$ObjectArrays" extends="type$AbstractObject" doc="Object array type.">
+    <array name="objectArrayDefault" doc="Object array default.">
+      <object class="Obj1" minOccurs="1" maxOccurs="1"/>
+    </array>
+    <array name="objectArrayNotRequired" required="false" doc="Object array not required.">
+      <object class="Obj2" minOccurs="1" maxOccurs="1"/>
+    </array>
+    <array name="objectArrayNotNull" nullable="false" doc="Object array not null.">
+      <object class="Obj3" nullable="false" maxOccurs="1"/>
+    </array>
+    <array name="objectArrayPropertiesSkipUnknown">
+      <object class="Obj4" unknown="ignore" doc="Object array with properties, skipping unknowns.">
+        <array name="objectArrayBoolean" doc="Boolean array property.">
+          <boolean/>
+          <array/>
+        </array>
+        <array name="objectArrayString" doc="String array property.">
+          <string/>
+        </array>
+        <array name="objectArrayNumber" doc="Number array property.">
+          <number/>
+        </array>
+        <array name="objectArrayExtendsBooleans">
+          <object class="Obj5" extends="type$Booleans" doc="Object array property, extending booleans."/>
+        </array>
+      </object>
+    </array>
+    <array name="objectArrayExtendsStringArrays">
+      <object class="Obj6" extends="type$Objects" doc="Object array extending stringArrays.">
+        <string name="additionalStringArray" doc="Additional string array property."/>
+      </object>
+    </array>
   </object>
-</json>
+  
+  <boolean name="topBoolean"/>
+  <number name="topNumber" form="integer" min="2" max="9"/>
+  <string name="topString" pattern="[a-z]+" urlEncode="true" urlDecode="true"/>
+  <array name="emptyArray" doc="Empty array."/>
+  <array name="booleanArray" doc="Boolean array.">
+    <property ref="topBoolean" maxOccurs="3" doc="Property ref to topBoolean."/>
+  </array>
+  <array name="arrayArray" doc="Array array.">
+    <array minOccurs="1" maxOccurs="1">
+      <array minOccurs="2" maxOccurs="2">
+        <property ref="topBoolean"/>
+      </array>
+    </array>
+  </array>
+</jsonx>

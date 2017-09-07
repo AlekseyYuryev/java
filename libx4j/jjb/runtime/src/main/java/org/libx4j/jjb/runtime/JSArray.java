@@ -29,22 +29,6 @@ import org.lib4j.util.Collections;
 public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Cloneable, Serializable {
   private static final long serialVersionUID = -3764980134016799398L;
 
-  protected static <T> String toString(final Collection<T> value, final int depth) {
-    if (value == null)
-      return "null";
-
-    if (value.size() == 0)
-      return "[]";
-
-    final StringBuilder string = new StringBuilder("[");
-    final Iterator<T> iterator = value.iterator();
-    string.append(toString(iterator.next(), depth));
-    while (iterator.hasNext())
-      string.append(", ").append(toString(iterator.next(), depth));
-
-    return string.append("]").toString();
-  }
-
   private final ArrayList<E> list;
 
   public JSArray() {

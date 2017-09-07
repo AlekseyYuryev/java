@@ -1,0 +1,90 @@
+<jsonx
+  package="org.libx4j.jjb.runtime"
+  xmlns="http://jjb.libx4j.org/jsonx.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jjb.libx4j.org/jsonx.xsd /Users/seva/Work/SevaSafris/java/libx4j/jjb/generator/src/main/resources/jsonx.xsd">
+  <object class="Publishing" doc="Publishing">
+    <number form="integer" name="year" doc="Year"/>
+    <string pattern="\S+ \S+" name="publisher" doc="Publisher"/>
+  </object>
+  <object class="Publication" abstract="true" doc="Publication">
+    <string name="title" doc="Title"/>
+    <array name="authors" doc="Authors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Author"/>
+    </array>
+    <array name="editors" doc="Editors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Editor"/>
+    </array>
+    <array name="publishings" doc="Publishings">
+      <property ref="Publishing" doc="Publishing"/>
+    </array>
+  </object>
+  <object class="Library$Journal" extends="Publication" doc="Journal">
+    <string name="subject" doc="Subject"/>
+    <boolean name="openAccess" doc="Is open access"/>
+    <string name="title" doc="Title"/>
+    <array name="authors" doc="Authors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Author"/>
+    </array>
+    <array name="editors" doc="Editors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Editor"/>
+    </array>
+    <array name="publishings" doc="Publishings">
+      <property ref="Publishing" doc="Publishing"/>
+    </array>
+  </object>
+  <object class="Library" doc="Library">
+    <object class="Address" name="address" doc="Address">
+      <number form="integer" min="0" name="number" doc="Street number"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="street" doc="Street name"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="premise" doc="Premise"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="city" doc="City"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="postalCode" doc="Postal code"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="locality" doc="Locality"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="country" doc="Country"/>
+    </object>
+    <boolean name="handicap" doc="Handicap-equipped"/>
+    <array name="schedule" doc="Availability schedule">
+      <array nullable="false" minOccurs="7" maxOccurs="7" doc="Weekday">
+        <string pattern="\d{2}:\d{2}" nullable="false" minOccurs="2" maxOccurs="2" doc="Time"/>
+      </array>
+    </array>
+    <array name="publications" doc="Publications">
+      <property ref="Publication" doc="Publication"/>
+    </array>
+    <array name="streetSheets" doc="Street Sheets">
+      <object class="Library$StreetSheet" extends="Publication" doc="Street Sheet">
+        <string name="title" doc="Title"/>
+        <array name="authors" doc="Authors">
+          <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Author"/>
+        </array>
+        <array name="editors" doc="Editors">
+          <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Editor"/>
+        </array>
+        <array name="publishings" doc="Publishings">
+          <property ref="Publishing" doc="Publishing"/>
+        </array>
+      </object>
+    </array>
+  </object>
+  <object class="Book" extends="Publication" unknown="ignore" doc="Book">
+    <string pattern="\d{3}-\d-\d{2}-\d{6}-\d" name="isbn" doc="International Standard Book Number"/>
+    <array name="index" doc="Book index">
+      <number form="integer" min="1" nullable="false" minOccurs="1" doc="Party number"/>
+      <array nullable="false" minOccurs="1" doc="Section contents">
+        <number min="1" nullable="false" minOccurs="1" maxOccurs="1" doc="Chapter number"/>
+        <string pattern="(\S)|(\S.*\S)" nullable="false" minOccurs="1" maxOccurs="1" doc="Description"/>
+      </array>
+    </array>
+    <string name="title" doc="Title"/>
+    <array name="authors" doc="Authors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Author"/>
+    </array>
+    <array name="editors" doc="Editors">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1" doc="Editor"/>
+    </array>
+    <array name="publishings" doc="Publishings">
+      <property ref="Publishing" doc="Publishing"/>
+    </array>
+  </object>
+</jsonx>

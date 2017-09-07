@@ -18,8 +18,9 @@ package org.libx4j.jjb.runtime;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.lib4j.lang.Arrays;
@@ -121,6 +122,22 @@ public abstract class JSObjectBase {
     return Arrays.createRepeat(' ', depth * 2);
   }
 
+  protected static <T>String toString(final Collection<T> value, final Cardinality cardinality, final int depth) {
+    if (value == null)
+      return "null";
+
+    if (value.size() == 0)
+      return "[]";
+
+    final StringBuilder string = new StringBuilder("[");
+    final Iterator<T> iterator = value.iterator();
+    string.append(toString(iterator.next(), depth));
+    while (iterator.hasNext())
+      string.append(", ").append(toString(iterator.next(), depth));
+
+    return string.append("]").toString();
+  }
+
   protected static String encode(final JSObject object, final int depth) {
     if (object instanceof JSArray)
       return object._encode(depth);
@@ -137,19 +154,19 @@ public abstract class JSObjectBase {
   protected static Object decodeValue(final char ch, final RewindableReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     if (type == null)
-      return isArray ? Collections.asCollection(JSArray.class, objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Object>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
 
     if (JSObject.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(JSArray.class, jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<JSObject>(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
 
     if (type == String.class)
-      return isArray ? Collections.asCollection(JSArray.class, stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<String>(), stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
 
     if (type == Boolean.class)
-      return isArray ? Collections.asCollection(JSArray.class, booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Boolean>(), booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
 
     if (Number.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(JSArray.class, numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Number>(), numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
 
     throw new UnsupportedOperationException("Unsupported type: " + type);
   }
@@ -200,8 +217,8 @@ public abstract class JSObjectBase {
 
               if (member != Binding.ANY) {
                 final Property property = (Property)member.property.get(jsObject);
-                if (!property.binding.isAssignable(value))
-                  throw new DecodeException("\"" + property.binding.name + "\": " + property.binding.type.getName() + " incompatible with " + (property.binding.array ? List.class.getName() + "<" + value.getClass().getName() + ">" : value.getClass().getName()), reader);
+//                if (!property.binding.isAssignable(value))
+//                  throw new DecodeException("\"" + property.binding.name + "\": " + property.binding.type.getName() + " incompatible with " + (property.binding.array ? List.class.getName() + "<" + value.getClass().getName() + ">" : value.getClass().getName()), reader);
 
                 property.set(value);
                 property.decode(reader);

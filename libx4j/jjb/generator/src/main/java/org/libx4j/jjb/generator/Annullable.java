@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 lib4j
+/* Copyright (c) 2017 lib4j
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,22 +16,6 @@
 
 package org.libx4j.jjb.generator;
 
-public class GeneratorExecutionException extends Exception {
-  private static final long serialVersionUID = 64500745605873916L;
-
-  public GeneratorExecutionException() {
-    super();
-  }
-
-  public GeneratorExecutionException(final java.lang.String message) {
-    super(message);
-  }
-
-  public GeneratorExecutionException(final Throwable cause) {
-    super(cause);
-  }
-
-  public GeneratorExecutionException(final java.lang.String message, final Throwable cause) {
-    super(message, cause);
-  }
+interface Annullable {
+  public Boolean nullable();
 }

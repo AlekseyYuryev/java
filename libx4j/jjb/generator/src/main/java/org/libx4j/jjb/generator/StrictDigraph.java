@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 lib4j
+/* Copyright (c) 2017 lib4j
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,22 +16,23 @@
 
 package org.libx4j.jjb.generator;
 
-public class GeneratorExecutionException extends Exception {
-  private static final long serialVersionUID = 64500745605873916L;
+import java.util.function.Function;
 
-  public GeneratorExecutionException() {
-    super();
+import org.lib4j.util.IndirectDigraph;
+
+class StrictDigraph<T,R> extends IndirectDigraph<T,R> {
+  private final String selfLinkErrorPrefix;
+
+  public StrictDigraph(final String selfLinkErrorPrefix, final Function<T,R> reference) {
+    super(reference);
+    this.selfLinkErrorPrefix = selfLinkErrorPrefix;
   }
 
-  public GeneratorExecutionException(final java.lang.String message) {
-    super(message);
-  }
+  @Override
+  public boolean addEdgeRef(final T from, final R to) {
+    if (reference.apply(from).equals(to))
+      throw new ValidationException(selfLinkErrorPrefix + ": " + reference.apply(from) + " -> " + to);
 
-  public GeneratorExecutionException(final Throwable cause) {
-    super(cause);
-  }
-
-  public GeneratorExecutionException(final java.lang.String message, final Throwable cause) {
-    super(message, cause);
+    return super.addEdgeRef(from, to);
   }
 }

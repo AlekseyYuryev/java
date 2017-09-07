@@ -1,0 +1,58 @@
+<jsonx
+  package="org.libx4j.jjb.runtime"
+  xmlns="http://jjb.libx4j.org/jsonx.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jjb.libx4j.org/jsonx.xsd /Users/seva/Work/SevaSafris/java/libx4j/jjb/generator/src/main/resources/jsonx.xsd">
+  <object class="Library">
+    <object class="Address" name="address" nullable="false">
+      <number form="integer" min="0" name="number" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="street" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="premise" required="false" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="city" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="postalCode" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="locality" nullable="false"/>
+      <string pattern="(\S)|(\S.*\S)" urlEncode="true" urlDecode="true" name="country" nullable="false"/>
+    </object>
+    <boolean name="handicap" nullable="false"/>
+    <array name="schedule" nullable="false">
+      <array nullable="false" minOccurs="7" maxOccurs="7">
+        <string pattern="\d{2}:\d{2}" nullable="false" minOccurs="2" maxOccurs="2"/>
+      </array>
+    </array>
+    <array name="publications" nullable="false">
+      <property ref="Publication" nullable="false" minOccurs="1"/>
+    </array>
+    <array name="streetSheets" nullable="false">
+      <object class="Library$StreetSheet" extends="Publication" nullable="false" minOccurs="1"/>
+    </array>
+  </object>
+  <object class="Publication" abstract="true">
+    <string name="title" nullable="false"/>
+    <array name="authors" nullable="false">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1"/>
+    </array>
+    <array name="editors" nullable="false">
+      <string pattern="\S+ \S+" nullable="false" minOccurs="1"/>
+    </array>
+    <array name="publishings" nullable="false">
+      <object class="Publishing" nullable="false">
+        <number form="integer" name="year" nullable="false"/>
+        <string pattern="\S+ \S+" name="publisher" nullable="false"/>
+      </object>
+    </array>
+  </object>
+  <object class="Library$Journal" extends="Publication">
+    <string name="subject" nullable="false"/>
+    <boolean name="openAccess" nullable="false"/>
+  </object>
+  <object class="Book" extends="Publication" unknown="ignore">
+    <string pattern="\d{3}-\d-\d{2}-\d{6}-\d" name="isbn" nullable="false"/>
+    <array name="index" nullable="false">
+      <number form="integer" min="1" nullable="false"/>
+      <array nullable="false" minOccurs="1">
+        <number min="1" nullable="false" minOccurs="1" maxOccurs="1"/>
+        <string pattern="(\S)|(\S.*\S)" nullable="false" minOccurs="1" maxOccurs="1"/>
+      </array>
+    </array>
+  </object>
+</jsonx>

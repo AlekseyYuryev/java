@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 lib4j
+/* Copyright (c) 2017 lib4j
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,24 +14,25 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.jjb.generator;
+package org.libx4j.jjb.runtime;
 
-public class GeneratorExecutionException extends Exception {
-  private static final long serialVersionUID = 64500745605873916L;
+import java.util.ArrayList;
+import java.util.List;
 
-  public GeneratorExecutionException() {
-    super();
-  }
+@JsonxObject
+public abstract class Publication {
+  @StringProperty(nullable=false)
+  public String title;
 
-  public GeneratorExecutionException(final java.lang.String message) {
-    super(message);
-  }
+  @StringElement(id=1, pattern="\\S+ \\S+", nullable=false, minOccurs=1)
+  @ArrayProperty(nullable=false, elementIds=1)
+  public String[] authors;
 
-  public GeneratorExecutionException(final Throwable cause) {
-    super(cause);
-  }
+  @StringElement(id=1, pattern="\\S+ \\S+", nullable=false, minOccurs=1)
+  @ArrayProperty(nullable=false, elementIds=1)
+  public String[] editors;
 
-  public GeneratorExecutionException(final java.lang.String message, final Throwable cause) {
-    super(message, cause);
-  }
+  @ObjectElement(id=1, type=Publishing.class, nullable=false, minOccurs=1)
+  @ArrayProperty(nullable=false, elementIds=1)
+  public final List<Publishing> publishings = new ArrayList<Publishing>();
 }
