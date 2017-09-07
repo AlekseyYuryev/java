@@ -46,26 +46,42 @@ public class NullPredicateTest {
   @Test
   public void testIs() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        IS.NULL(c.locality),
+        SELECT(IS.NULL(c.locality)).
+        FROM(c).
+        WHERE(IS.NULL(c.locality)).
+        LIMIT(1)).
       FROM(c).
       WHERE(IS.NULL(c.locality)).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(71), rows.nextEntity().get());
+      for (int i = 0; i < 71; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 
   @Test
   public void testIsNot() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        IS.NOT.NULL(c.locality),
+        SELECT(IS.NOT.NULL(c.locality)).
+        FROM(c).
+        WHERE(IS.NOT.NULL(c.locality)).
+        LIMIT(1)).
       FROM(c).
       WHERE(IS.NOT.NULL(c.locality)).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(51), rows.nextEntity().get());
+      for (int i = 0; i < 51; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 }

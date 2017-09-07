@@ -40,7 +40,7 @@ import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.type.CHAR;
 
 @RunWith(VendorSchemaRunner.class)
-@VendorSchemaRunner.Schema(classicmodels.class)
+@VendorSchemaRunner.Schema({types.class, classicmodels.class})
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)

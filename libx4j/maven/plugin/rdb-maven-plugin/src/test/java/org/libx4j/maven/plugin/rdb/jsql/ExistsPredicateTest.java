@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.type.BOOLEAN;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,16 +46,31 @@ public class ExistsPredicateTest {
   public void testExistsPredicate() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<BOOLEAN> rows =
+      SELECT(EXISTS(
+        SELECT(p).
+        FROM(p).
+        WHERE(EQ(c.customerNumber, p.customerNumber))),
+        SELECT(EXISTS(
+            SELECT(p).
+            FROM(p).
+            WHERE(EQ(c.customerNumber, p.customerNumber)))).
+          FROM(c).
+          WHERE(EXISTS(
+            SELECT(p).
+            FROM(p).
+            WHERE(EQ(c.customerNumber, p.customerNumber)))).
+            LIMIT(1)).
       FROM(c).
       WHERE(EXISTS(
         SELECT(p).
         FROM(p).
         WHERE(EQ(c.customerNumber, p.customerNumber)))).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(98), rows.nextEntity().get());
+      for (int i = 0; i < 98; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 }

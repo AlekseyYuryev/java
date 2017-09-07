@@ -45,9 +45,16 @@ public class HavingClauseTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final type.DECIMAL d = p.msrp.clone();
-    try (final RowIterator<type.DECIMAL> rows =
-      SELECT(SIN(p.msrp).AS(d)).
+    final type.DECIMAL.UNSIGNED d = p.msrp.clone();
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
+      SELECT(
+        SIN(p.msrp).AS(d),
+        SELECT(SIN(p.msrp).AS(d)).
+        FROM(p).
+        WHERE(GT(p.price, 10)).
+        GROUP_BY(p).
+        HAVING(LT(d, 10)).
+        ORDER_BY(DESC(d)).LIMIT(1)).
       FROM(p).
       WHERE(GT(p.price, 10)).
       GROUP_BY(p).
@@ -55,6 +62,7 @@ public class HavingClauseTest {
       ORDER_BY(DESC(d)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(0.9995201585807313, rows.nextEntity().get().doubleValue(), 0.0000000001);
       Assert.assertEquals(0.9995201585807313, rows.nextEntity().get().doubleValue(), 0.0000000001);
     }
   }

@@ -45,13 +45,21 @@ public class LikePredicateTest {
   @Test
   public void testLike() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        OR(LIKE(p.name, "%Ford%"), LIKE(SELECT(p.name).FROM(p).LIMIT(1), "%Ford%")),
+        SELECT(OR(LIKE(p.name, "%Ford%"), LIKE(SELECT(p.name).FROM(p).LIMIT(1), "%Ford%"))).
+        FROM(p).
+        WHERE(OR(LIKE(p.name, "%Ford%"), LIKE(SELECT(p.name).FROM(p).LIMIT(1), "%Ford%"))).
+        LIMIT(1)).
       FROM(p).
-      WHERE(LIKE(p.name, "%Ford%")).
+      WHERE(OR(LIKE(p.name, "%Ford%"), LIKE(SELECT(p.name).FROM(p).LIMIT(1), "%Ford%"))).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(15), rows.nextEntity().get());
+      for (int i = 0; i < 15; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 }

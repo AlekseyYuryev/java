@@ -34,7 +34,6 @@ import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
-import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
 
@@ -87,34 +86,6 @@ public class QueryExpressionTest {
       Assert.assertTrue(rows.nextRow());
       Assert.assertEquals("4-1 Kioicho", rows.nextEntity().get());
       Assert.assertEquals(35.6811759, ((BigDecimal)rows.nextEntity().get()).doubleValue(), 0.0000000001);
-    }
-  }
-
-  @Test
-  public void testMixedSelect() throws IOException, SQLException {
-    final classicmodels.Office o = new classicmodels.Office();
-    try (final RowIterator<? extends Subject<?>> rows =
-      SELECT(
-        o.latitude,
-        o.longitude,
-        o,
-        o.latitude,
-        o.longitude,
-        o,
-        o.latitude,
-        o.longitude).
-      FROM(o).
-      WHERE(GT(o.latitude, 0d)).
-      execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-      Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-      Assert.assertEquals("San Francisco", ((classicmodels.Office)rows.nextEntity()).city.get());
-      Assert.assertEquals(37.7942635, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
-      Assert.assertEquals(-122.3955861, ((BigDecimal)((type.DataType<?>)rows.nextEntity()).get()).doubleValue(), 0.0000000001);
     }
   }
 }

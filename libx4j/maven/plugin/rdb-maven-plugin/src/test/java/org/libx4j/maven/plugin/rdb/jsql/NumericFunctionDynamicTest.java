@@ -42,7 +42,7 @@ import org.libx4j.rdb.jsql.Entity;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.model.select.FROM;
+import org.libx4j.rdb.jsql.model.select.untyped.FROM;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)

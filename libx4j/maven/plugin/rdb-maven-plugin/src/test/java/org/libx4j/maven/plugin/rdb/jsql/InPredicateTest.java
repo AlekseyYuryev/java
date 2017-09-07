@@ -32,10 +32,10 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.NOT;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
-import org.libx4j.rdb.jsql.DML.NOT;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,52 +46,84 @@ public class InPredicateTest {
   @Test
   public void testInList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        IN(p.productLine, "Ships", "Planes", "Trains"),
+        SELECT(IN(p.productLine, "Ships", "Planes", "Trains")).
+        FROM(p).
+        WHERE(IN(p.productLine, "Ships", "Planes", "Trains")).
+        LIMIT(1)).
       FROM(p).
       WHERE(IN(p.productLine, "Ships", "Planes", "Trains")).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(24), rows.nextEntity().get());
+      for (int i = 0; i < 24; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 
   @Test
   public void testNotInList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        NOT.IN(p.productLine, "Ships", "Planes", "Trains"),
+        SELECT(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
+        FROM(p).
+        WHERE(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
+        LIMIT(1)).
       FROM(p).
       WHERE(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(86), rows.nextEntity().get());
+      for (int i = 0; i < 86; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 
   @Test
   public void testInSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        IN(p.productLine, SELECT(p.productLine).FROM(p)),
+        SELECT(IN(p.productLine, SELECT(p.productLine).FROM(p))).
+        FROM(p).
+        WHERE(IN(p.productLine, SELECT(p.productLine).FROM(p))).
+        LIMIT(1)).
       FROM(p).
       WHERE(IN(p.productLine, SELECT(p.productLine).FROM(p))).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(110), rows.nextEntity().get());
+      for (int i = 0; i < 110; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 
   @Test
   public void testNotInSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(
+        NOT.IN(p.code, SELECT(p.productLine).FROM(p)),
+        SELECT(NOT.IN(p.code, SELECT(p.productLine).FROM(p))).
+        FROM(p).
+        WHERE(NOT.IN(p.code, SELECT(p.productLine).FROM(p))).
+        LIMIT(1)).
       FROM(p).
-      WHERE(NOT.IN(p.productLine, SELECT(p.productLine).FROM(p))).
+      WHERE(NOT.IN(p.code, SELECT(p.productLine).FROM(p))).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+      for (int i = 0; i < 110; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertTrue(rows.nextEntity().get());
+        Assert.assertTrue(rows.nextEntity().get());
+      }
     }
   }
 }

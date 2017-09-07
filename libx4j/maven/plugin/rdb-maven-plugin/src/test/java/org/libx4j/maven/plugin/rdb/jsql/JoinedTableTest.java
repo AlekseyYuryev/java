@@ -49,7 +49,7 @@ public class JoinedTableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      CROSS.JOIN(c).
+      CROSS_JOIN(c).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertTrue(rows.nextEntity().get() > 3900);
@@ -63,7 +63,7 @@ public class JoinedTableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      NATURAL.JOIN(c).
+      NATURAL_JOIN(c).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertTrue(rows.nextEntity().get() > 300);
@@ -93,7 +93,7 @@ public class JoinedTableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      LEFT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      LEFT_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertTrue(rows.nextEntity().get() > 300);
@@ -108,7 +108,7 @@ public class JoinedTableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      RIGHT.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      RIGHT_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertTrue(rows.nextEntity().get() > 100);
@@ -123,7 +123,7 @@ public class JoinedTableTest {
     try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
-      FULL.JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
+      FULL_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       Assert.assertTrue(rows.nextEntity().get() > 300);

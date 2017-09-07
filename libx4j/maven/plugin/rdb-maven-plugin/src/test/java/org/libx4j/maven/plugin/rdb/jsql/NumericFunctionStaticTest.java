@@ -38,7 +38,6 @@ import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
-import org.libx4j.rdb.jsql.type.DECIMAL;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.model.select;
 
@@ -48,9 +47,9 @@ import org.libx4j.rdb.jsql.model.select;
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
 public class NumericFunctionStaticTest {
-  private static select.SELECT<? extends Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
+  private static select.untyped.SELECT<Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final DECIMAL d = c.longitude.clone();
+    final type.DECIMAL d = c.longitude.clone();
 
     return SELECT(c, MUL(3959 * 2, ATAN2(
       SQRT(ADD(
@@ -79,7 +78,7 @@ public class NumericFunctionStaticTest {
       while (rows.nextRow()) {
         final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
         Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
-        final DECIMAL d = (DECIMAL)rows.nextEntity();
+        final type.DECIMAL d = (type.DECIMAL)rows.nextEntity();
         Assert.assertEquals(Double.valueOf(2.22069), d.get().doubleValue(), 0.00001);
       }
     }

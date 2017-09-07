@@ -49,10 +49,10 @@ public class UnionExpressionTest {
     try (final RowIterator<? extends Entity> rows =
       SELECT(p, c).
       FROM(p).
-      LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
+      LEFT_JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
       UNION(SELECT(p, c).
         FROM(p).
-        LEFT.JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
+        LEFT_JOIN(c).ON(EQ(p.customerNumber, c.customerNumber))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }

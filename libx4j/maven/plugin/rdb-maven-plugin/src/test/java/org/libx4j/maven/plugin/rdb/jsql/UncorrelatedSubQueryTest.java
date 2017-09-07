@@ -33,37 +33,38 @@ import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
+import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.types;
+import org.libx4j.rdb.jsql.world;
 
 @RunWith(VendorSchemaRunner.class)
-@VendorSchemaRunner.Schema(classicmodels.class)
+@VendorSchemaRunner.Schema({classicmodels.class, types.class, world.class})
 @VendorSchemaRunner.Test({Derby.class, SQLite.class})
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
-public class BooleanValueExpressionTest {
+public class UncorrelatedSubQueryTest {
   @Test
-  public void test() throws IOException, SQLException {
-    final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.BOOLEAN> rows =
-      SELECT(
-        EQ(p.price, p.msrp),
-        LT(p.price, p.msrp),
-        AND(EQ(p.price, p.msrp),
-          GT(p.price, p.msrp)),
-        OR(EQ(p.price, p.msrp),
-          GT(p.price, p.msrp)),
-        SELECT(EQ(p.price, p.msrp)).
-          FROM(p).
-          WHERE(AND(LIKE(p.name, "%Ford%"), GT(p.quantityInStock, 100))).LIMIT(1)).
-      FROM(p).
-      WHERE(AND(LIKE(p.name, "%Ford%"), GT(p.quantityInStock, 100))).
-      execute()) {
+  public void testAdd() throws IOException, SQLException {
+    try (final Transaction transaction = new Transaction(types.class)) {
+      types.Type t = new types.Type();
+      final RowIterator<? extends type.Numeric<?>> rows =
+        SELECT(
+          ADD(t.tinyintType, SELECT(MIN(t.bigintType)).FROM(t)),
+          SUB(t.smallintType, SELECT(AVG(t.intType)).FROM(t)),
+          ADD(t.intType, SELECT(COUNT(t.smallintType)).FROM(t)),
+          SUB(t.floatType, SELECT(MAX(t.tinyintType)).FROM(t)),
+          ADD(t.doubleType, SELECT(MIN(t.decimalType)).FROM(t)),
+          SUB(t.decimalType, SELECT(AVG(t.intType)).FROM(t)),
+          ADD(t.bigintType, SELECT(MAX(t.floatType)).FROM(t))
+        ).
+        FROM(t).
+        execute(transaction);
+
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(false, rows.nextEntity().get());
-      Assert.assertEquals(true, rows.nextEntity().get());
-      Assert.assertEquals(false, rows.nextEntity().get());
-      Assert.assertEquals(false, rows.nextEntity().get());
     }
   }
+
+  // FIXME: Add more tests...
 }

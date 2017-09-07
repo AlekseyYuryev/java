@@ -83,7 +83,7 @@ public class DateTimeValueExpressionTest {
   private static void testInterval(final Interval interval, types.Type p, final Condition<?> condition, final Boolean testDate) throws IOException, SQLException {
     final Condition<?> notNull = AND(IS.NOT.NULL(p.datetimeType), IS.NOT.NULL(p.dateType), IS.NOT.NULL(p.timeType));
     try (final Transaction transaction = new Transaction(types.class)) {
-      final RowIterator<? extends Subject<?>> rows =
+      final RowIterator<Subject<?>> rows =
         SELECT(
           p,
           ADD(p.datetimeType, interval),

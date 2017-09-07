@@ -32,10 +32,10 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.NOT;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
-import org.libx4j.rdb.jsql.DML.NOT;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,52 +46,68 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween1() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
       FROM(p).
       WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(1), rows.nextEntity().get());
+      Assert.assertEquals(Boolean.TRUE, rows.nextEntity().get());
+    }
+  }
+
+  @Test
+  public void testBetween1Wrapped() throws IOException, SQLException {
+    final classicmodels.Purchase p = new classicmodels.Purchase();
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(SELECT(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
+        FROM(p).
+        WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate))).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+      Assert.assertEquals(Boolean.TRUE, rows.nextEntity().get());
     }
   }
 
   @Test
   public void testBetween2() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(BETWEEN(p.msrp, p.price, 100)).
       FROM(p).
       WHERE(BETWEEN(p.msrp, p.price, 100)).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(59), rows.nextEntity().get());
+      for (int i = 0; i < 59; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertEquals(Boolean.TRUE, rows.nextEntity().get());
+      }
     }
   }
 
   @Test
   public void testBetween3() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(BETWEEN(p.scale, "a", "b")).
       FROM(p).
       WHERE(BETWEEN(p.scale, "a", "b")).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(0), rows.nextEntity().get());
+      Assert.assertFalse(rows.nextRow());
     }
   }
 
   @Test
   public void testBetween4() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
-      SELECT(COUNT()).
+    try (final RowIterator<type.BOOLEAN> rows =
+      SELECT(BETWEEN(p.quantityInStock, 500, 1000)).
       FROM(p).
       WHERE(BETWEEN(p.quantityInStock, 500, 1000)).
       execute()) {
-      Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Integer.valueOf(7), rows.nextEntity().get());
+      for (int i = 0; i < 7; i++) {
+        Assert.assertTrue(rows.nextRow());
+        Assert.assertEquals(Boolean.TRUE, rows.nextEntity().get());
+      }
     }
   }
 }
