@@ -132,7 +132,7 @@
               <goals>
                 <goal>validate</goal>
               </goals>
-              <phase>compile</phase>
+              <phase>generate-sources</phase>
               <configuration>
                 <includes>
                   <include>src/main/**/*.ddlx</include>
@@ -149,7 +149,7 @@
               <goals>
                 <goal>validate</goal>
               </goals>
-              <phase>test-compile</phase>
+              <phase>generate-test-sources</phase>
               <configuration>
                 <includes>
                   <include>src/test/**/*.ddlx</include>

@@ -34,4 +34,12 @@
     <module>dbcp-maven-archetype</module>
     <module>rdb-maven-archetype</module>
   </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.libx4j.maven.plugin</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
