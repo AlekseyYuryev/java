@@ -62,7 +62,7 @@ public final class ValidatorMojo extends XmlMojo {
           catch (final SAXException e) {
             final StringBuilder builder = new StringBuilder("\nFile: " + file.getAbsoluteFile() + "\nReason: " + e.getMessage() + "\n");
             for (final Throwable t : e.getSuppressed())
-              builder.append("       ").append(t.getMessage()).append("\n");
+              builder.append("        ").append(t.getMessage()).append("\n");
 
             throw new MojoFailureException("Failed to validate xml.", "", builder.toString());
           }
