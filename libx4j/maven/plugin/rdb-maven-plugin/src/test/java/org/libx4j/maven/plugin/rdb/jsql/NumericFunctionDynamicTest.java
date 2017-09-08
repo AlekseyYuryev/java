@@ -38,11 +38,11 @@ import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.Condition;
-import org.libx4j.rdb.jsql.Entity;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.model.select.untyped.FROM;
+import org.libx4j.rdb.jsql.Select.untyped.FROM;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)
@@ -53,16 +53,16 @@ public class NumericFunctionDynamicTest {
   private static final MathContext mc = new MathContext(65, RoundingMode.HALF_UP);
   private static int rowNum = 0;
 
-  protected static <E extends Entity>RowIterator<E> selectEntity(final E entity, final Condition<?> condition, final Transaction transaction) throws IOException, SQLException {
+  protected static <E extends type.Entity>RowIterator<E> selectEntity(final E entity, final Condition<?> condition, final Transaction transaction) throws IOException, SQLException {
     final FROM<E> from = SELECT(entity).FROM(entity);
     return condition != null ? from.WHERE(condition).execute(transaction) : from.execute(transaction);
   }
 
-  protected static <E extends Entity>RowIterator<E> selectEntity(final E entity, final Transaction transaction) throws IOException, SQLException {
+  protected static <E extends type.Entity>RowIterator<E> selectEntity(final E entity, final Transaction transaction) throws IOException, SQLException {
     return selectEntity(entity, null, transaction);
   }
 
-  protected static <E extends Entity>E getNthRow(final RowIterator<E> rows, final int rowNum) throws SQLException {
+  protected static <E extends type.Entity>E getNthRow(final RowIterator<E> rows, final int rowNum) throws SQLException {
     E row = null;
     for (int i = 0; i <= rowNum && rows.nextRow(); i++)
       row = rows.nextEntity();

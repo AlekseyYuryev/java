@@ -39,7 +39,7 @@ import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.model.select;
+import org.libx4j.rdb.jsql.Select;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
@@ -47,7 +47,7 @@ import org.libx4j.rdb.jsql.model.select;
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
 public class NumericFunctionStaticTest {
-  private static select.untyped.SELECT<Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
+  private static Select.untyped.SELECT<Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final type.DECIMAL d = c.longitude.clone();
 
