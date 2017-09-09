@@ -25,7 +25,7 @@ The `rdb:ddl` goal is bound to the `generate-resources` phase, and is used to ge
 <plugin>
   <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
-  <version>0.9.7</version>
+  <version>0.9.8-SNAPSHOT</version>
   <executions>
     <execution>
       <id>default-ddl</id>
@@ -67,7 +67,7 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 <plugin>
   <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
-  <version>0.9.7</version>
+  <version>0.9.8-SNAPSHOT</version>
   <executions>
     <execution>
       <id>default-dml</id>
@@ -100,7 +100,7 @@ The `rdb:dml` goal is bound to the `generate-resources` phase, and is used to ge
 
 #### `rdb:jsql`
 
-The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to generate XDE Entities from XML files conforming to the [DDLx Schema][ddlx-schema].
+The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to generate jSQL Entities from XML files conforming to the [DDLx Schema][ddlx-schema].
 
 ##### Example
 
@@ -108,12 +108,12 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 <plugin>
   <groupId>org.libx4j.maven.plugin</groupId>
   <artifactId>rdb-maven-plugin</artifactId>
-  <version>0.9.7</version>
+  <version>0.9.8-SNAPSHOT</version>
   <executions>
     <execution>
-      <id>xde</id>
+      <id>jsql</id>
       <goals>
-        <goal>xde</goal>
+        <goal>jsql</goal>
       </goals>
       <configuration>
         <vendor>PostgreSQL</vendor>
