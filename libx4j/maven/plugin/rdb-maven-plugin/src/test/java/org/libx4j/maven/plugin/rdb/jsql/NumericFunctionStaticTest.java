@@ -35,7 +35,6 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.RowIterator;
-import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
@@ -47,7 +46,7 @@ import org.libx4j.rdb.jsql.Select;
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
 public class NumericFunctionStaticTest {
-  private static Select.untyped.SELECT<Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
+  private static Select.untyped.SELECT<type.Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
     final type.DECIMAL d = c.longitude.clone();
 
@@ -74,7 +73,7 @@ public class NumericFunctionStaticTest {
 
   @Test
   public void testVicinity() throws IOException, SQLException {
-    try (final RowIterator<? extends Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute()) {
+    try (final RowIterator<? extends type.Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute()) {
       while (rows.nextRow()) {
         final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
         Assert.assertEquals("Mini Wheels Co.", c.companyName.get());

@@ -41,7 +41,6 @@ import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.Interval;
 import org.libx4j.rdb.jsql.Interval.Unit;
 import org.libx4j.rdb.jsql.RowIterator;
-import org.libx4j.rdb.jsql.Subject;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
@@ -83,7 +82,7 @@ public class DateTimeValueExpressionTest {
   private static void testInterval(final Interval interval, types.Type p, final Condition<?> condition, final Boolean testDate) throws IOException, SQLException {
     final Condition<?> notNull = AND(IS.NOT.NULL(p.datetimeType), IS.NOT.NULL(p.dateType), IS.NOT.NULL(p.timeType));
     try (final Transaction transaction = new Transaction(types.class)) {
-      final RowIterator<Subject<?>> rows =
+      final RowIterator<type.Subject<?>> rows =
         SELECT(
           p,
           ADD(p.datetimeType, interval),
