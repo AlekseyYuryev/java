@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.rdb.jsql.exception;
+package org.lib4j.sql.exception;
 
 import java.sql.SQLException;
 
-public class SQLInvalidCharacterSetNameException extends SQLException {
-  private static final long serialVersionUID = -3737248582268890058L;
+public class SQLDependentPrivilegeDescriptorsException extends SQLException {
+  private static final long serialVersionUID = 8518998344642080879L;
 
-  public SQLInvalidCharacterSetNameException(final String reason, final String sqlState, final int vendorCode) {
+  public SQLDependentPrivilegeDescriptorsException(final String reason, final String sqlState, final int vendorCode) {
     super(reason, sqlState, vendorCode);
   }
 }

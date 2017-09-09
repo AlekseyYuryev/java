@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.rdb.jsql.exception;
+package org.lib4j.sql.exception;
 
 import java.sql.SQLException;
 

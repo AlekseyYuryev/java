@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.rdb.jsql.exception;
+package org.lib4j.sql.exception;
 
 import java.sql.SQLException;
 
-public class SQLInvalidCursorStateException extends SQLException {
-  private static final long serialVersionUID = -8132215601095093770L;
+public class SQLInvalidStatementNameException extends SQLException {
+  private static final long serialVersionUID = -682853228748724806L;
 
-  public SQLInvalidCursorStateException(final String reason, final String sqlState, final int vendorCode) {
+  public SQLInvalidStatementNameException(final String reason, final String sqlState, final int vendorCode) {
     super(reason, sqlState, vendorCode);
   }
 }

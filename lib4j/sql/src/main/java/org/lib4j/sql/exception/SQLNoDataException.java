@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.rdb.jsql.exception;
+package org.lib4j.sql.exception;
 
 import java.sql.SQLException;
 
-public class SQLInvalidStatementNameException extends SQLException {
-  private static final long serialVersionUID = -682853228748724806L;
+public class SQLNoDataException extends SQLException {
+  private static final long serialVersionUID = 4504996862010850036L;
 
-  public SQLInvalidStatementNameException(final String reason, final String sqlState, final int vendorCode) {
+  public SQLNoDataException(final String reason, final String sqlState, final int vendorCode) {
     super(reason, sqlState, vendorCode);
   }
 }

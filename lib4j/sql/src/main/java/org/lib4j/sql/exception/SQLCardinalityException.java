@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.libx4j.rdb.jsql.exception;
+package org.lib4j.sql.exception;
 
 import java.sql.SQLException;
 
-public class SQLDynamicErrorException extends SQLException {
-  private static final long serialVersionUID = -2114591600565551667L;
+public class SQLCardinalityException extends SQLException {
+  private static final long serialVersionUID = -3041324676621715651L;
 
-  public SQLDynamicErrorException(final String reason, final String sqlState, final int vendorCode) {
+  public SQLCardinalityException(final String reason, final String sqlState, final int vendorCode) {
     super(reason, sqlState, vendorCode);
   }
 }
