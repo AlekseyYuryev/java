@@ -111,7 +111,7 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
   <version>0.9.8-SNAPSHOT</version>
   <executions>
     <execution>
-      <id>jsql</id>
+      <id>default-jsql</id>
       <goals>
         <goal>jsql</goal>
       </goals>
@@ -143,6 +143,6 @@ The `rdb:jsql` goal is bound to the `generate-sources` phase, and is used to gen
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
+[ddlx-schema]: https://github.com/libx4j/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
 [rdb]: https://github.com/libx4j/rdb
-[ddlx-schema]: https://github.com/libx4j/rdb/blob/master/ddlx/src/main/resources/ddlx.xsd
