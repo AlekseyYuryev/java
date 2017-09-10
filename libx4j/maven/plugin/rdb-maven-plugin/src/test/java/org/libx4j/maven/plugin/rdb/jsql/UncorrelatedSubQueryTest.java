@@ -35,7 +35,7 @@ import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.world;
 
@@ -49,7 +49,7 @@ public class UncorrelatedSubQueryTest {
   public void testAdd() throws IOException, SQLException {
     try (final Transaction transaction = new Transaction(types.class)) {
       types.Type t = new types.Type();
-      final RowIterator<? extends type.Numeric<?>> rows =
+      final RowIterator<? extends data.Numeric<?>> rows =
         SELECT(
           ADD(t.tinyintType, SELECT(MIN(t.bigintType)).FROM(t)),
           SUB(t.smallintType, SELECT(AVG(t.intType)).FROM(t)),

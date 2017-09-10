@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -47,7 +47,7 @@ public class QuantifiedComparisonPredicateTest {
   public void testAll() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(
@@ -66,7 +66,7 @@ public class QuantifiedComparisonPredicateTest {
   public void testAny() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(
@@ -85,7 +85,7 @@ public class QuantifiedComparisonPredicateTest {
   public void testSome() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(COUNT()).
       FROM(c).
       WHERE(

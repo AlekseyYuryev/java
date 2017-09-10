@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -45,7 +45,7 @@ public class GroupClauseTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       GROUP_BY(p.vendor, p.productLine).

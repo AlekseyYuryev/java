@@ -35,7 +35,7 @@ import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.DML.NOT;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,7 +46,7 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween1() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<data.BOOLEAN> rows =
       SELECT(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
       FROM(p).
       WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
@@ -59,7 +59,7 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween1Wrapped() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<data.BOOLEAN> rows =
       SELECT(SELECT(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate)).
         FROM(p).
         WHERE(NOT.BETWEEN(p.shippedDate, p.purchaseDate, p.requiredDate))).
@@ -72,7 +72,7 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween2() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<data.BOOLEAN> rows =
       SELECT(BETWEEN(p.msrp, p.price, 100)).
       FROM(p).
       WHERE(BETWEEN(p.msrp, p.price, 100)).
@@ -87,7 +87,7 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween3() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<data.BOOLEAN> rows =
       SELECT(BETWEEN(p.scale, "a", "b")).
       FROM(p).
       WHERE(BETWEEN(p.scale, "a", "b")).
@@ -99,7 +99,7 @@ public class BetweenPredicateTest {
   @Test
   public void testBetween4() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<type.BOOLEAN> rows =
+    try (final RowIterator<data.BOOLEAN> rows =
       SELECT(BETWEEN(p.quantityInStock, 500, 1000)).
       FROM(p).
       WHERE(BETWEEN(p.quantityInStock, 500, 1000)).

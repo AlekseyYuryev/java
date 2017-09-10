@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -47,7 +47,7 @@ public class CorrelatedSubQueryTest {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c1 = new classicmodels.Customer();
     final classicmodels.Customer c2 = new classicmodels.Customer();
-    try (final RowIterator<? extends type.Subject<?>> rows =
+    try (final RowIterator<? extends data.Subject<?>> rows =
       SELECT(p, c2).
       FROM(p,
         SELECT(c1).
@@ -68,8 +68,8 @@ public class CorrelatedSubQueryTest {
   public void testSelect() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    final type.INT.UNSIGNED s = c.salesEmployeeNumber.clone();
-    try (final RowIterator<? extends type.Subject<?>> rows =
+    final data.INT.UNSIGNED s = c.salesEmployeeNumber.clone();
+    try (final RowIterator<? extends data.Subject<?>> rows =
       SELECT(p,
         SELECT(MAX(c.salesEmployeeNumber)).
         FROM(c).

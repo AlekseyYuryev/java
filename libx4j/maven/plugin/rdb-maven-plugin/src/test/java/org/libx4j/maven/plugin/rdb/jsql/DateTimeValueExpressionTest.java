@@ -43,7 +43,7 @@ import org.libx4j.rdb.jsql.Interval.Unit;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 import org.libx4j.rdb.jsql.types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +82,7 @@ public class DateTimeValueExpressionTest {
   private static void testInterval(final Interval interval, types.Type p, final Condition<?> condition, final Boolean testDate) throws IOException, SQLException {
     final Condition<?> notNull = AND(IS.NOT.NULL(p.datetimeType), IS.NOT.NULL(p.dateType), IS.NOT.NULL(p.timeType));
     try (final Transaction transaction = new Transaction(types.class)) {
-      final RowIterator<type.Subject<?>> rows =
+      final RowIterator<data.Subject<?>> rows =
         SELECT(
           p,
           ADD(p.datetimeType, interval),
@@ -101,10 +101,10 @@ public class DateTimeValueExpressionTest {
 
       final types.Type clone = p.clone();
 
-      final LocalDateTime localDateTime1 = ((type.DATETIME)rows.nextEntity()).get();
-      final LocalDateTime localDateTime2 = ((type.DATETIME)rows.nextEntity()).get();
-      final LocalDate localDate1 = ((type.DATE)rows.nextEntity()).get();
-      final LocalDate localDate2 = ((type.DATE)rows.nextEntity()).get();
+      final LocalDateTime localDateTime1 = ((data.DATETIME)rows.nextEntity()).get();
+      final LocalDateTime localDateTime2 = ((data.DATETIME)rows.nextEntity()).get();
+      final LocalDate localDate1 = ((data.DATE)rows.nextEntity()).get();
+      final LocalDate localDate2 = ((data.DATE)rows.nextEntity()).get();
       if (testDate == null || testDate) {
         Assert.assertEquals(p.datetimeType.get().plus(interval), localDateTime1);
         Assert.assertEquals(p.datetimeType.get().minus(interval), localDateTime2);
@@ -112,8 +112,8 @@ public class DateTimeValueExpressionTest {
         Assert.assertEquals(p.dateType.get().minus(interval), localDate2);
       }
 
-      final LocalTime localTime1 = ((type.TIME)rows.nextEntity()).get();
-      final LocalTime localTime2 = ((type.TIME)rows.nextEntity()).get();
+      final LocalTime localTime1 = ((data.TIME)rows.nextEntity()).get();
+      final LocalTime localTime2 = ((data.TIME)rows.nextEntity()).get();
       if (testDate == null || !testDate) {
         Assert.assertEquals(p.timeType.get().plus(interval), localTime1);
         Assert.assertEquals(p.timeType.get().minus(interval), localTime2);
@@ -247,7 +247,7 @@ public class DateTimeValueExpressionTest {
   @Test
   public void testInWhere() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       WHERE(GT(p.shippedDate, ADD(p.requiredDate, new Interval(2, Unit.DAYS)))).

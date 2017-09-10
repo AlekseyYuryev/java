@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.type;
+import org.libx4j.rdb.jsql.data;
 import org.libx4j.rdb.jsql.DML.COUNT;
 
 @RunWith(VendorSchemaRunner.class)
@@ -46,7 +46,7 @@ public class CountFunctionTest {
   @Test
   public void testCount() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    try (final RowIterator<type.INT> rows =
+    try (final RowIterator<data.INT> rows =
       SELECT(
         COUNT(),
         COUNT(o.territory),
