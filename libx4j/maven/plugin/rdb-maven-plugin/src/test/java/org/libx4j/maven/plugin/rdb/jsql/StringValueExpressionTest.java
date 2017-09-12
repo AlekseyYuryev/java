@@ -37,7 +37,7 @@ import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.DML.IS;
-import org.libx4j.rdb.jsql.data.CHAR;
+import org.libx4j.rdb.jsql.type.CHAR;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({types.class, classicmodels.class})

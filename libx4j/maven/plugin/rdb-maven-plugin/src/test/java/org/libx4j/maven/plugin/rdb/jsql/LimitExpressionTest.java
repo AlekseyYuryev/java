@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -45,7 +45,7 @@ public class LimitExpressionTest {
   @Test
   public void testLimit() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.DECIMAL.UNSIGNED> rows =
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       ORDER_BY(p.msrp, p.price).
@@ -66,7 +66,7 @@ public class LimitExpressionTest {
   @Test
   public void testLimitOffset() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.DECIMAL.UNSIGNED> rows =
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(p.msrp, p.price).
       FROM(p).
       ORDER_BY(p.msrp, p.price).

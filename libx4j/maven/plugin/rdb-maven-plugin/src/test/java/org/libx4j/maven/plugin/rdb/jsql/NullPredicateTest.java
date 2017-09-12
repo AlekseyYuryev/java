@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.DML.IS;
 
 @RunWith(VendorSchemaRunner.class)
@@ -46,7 +46,7 @@ public class NullPredicateTest {
   @Test
   public void testIs() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         IS.NULL(c.locality),
         SELECT(IS.NULL(c.locality)).
@@ -67,7 +67,7 @@ public class NullPredicateTest {
   @Test
   public void testIsNot() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         IS.NOT.NULL(c.locality),
         SELECT(IS.NOT.NULL(c.locality)).

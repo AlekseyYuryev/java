@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -45,7 +45,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testLt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         OR(LT(p.customerNumber, 100), LT(50, p.customerNumber), LT(p.comments, p.status)),
         SELECT(OR(LT(p.customerNumber, 100), LT(50, p.customerNumber), LT(p.comments, p.status))).
@@ -65,7 +65,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testLte() throws IOException, SQLException {
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         AND(LTE(c.creditLimit, c.customerNumber), LTE(c.longitude, c.phone), LTE(45, c.phone), LTE(c.creditLimit, 329939933l)),
         SELECT(AND(LTE(c.creditLimit, c.customerNumber), LTE(c.longitude, c.phone), LTE(45, c.phone), LTE(c.creditLimit, 329939933l))).
@@ -86,7 +86,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testEq() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         AND(EQ(p.status, p.status), EQ(p.comments, p.comments)),
         SELECT(AND(EQ(p.status, p.status), EQ(p.comments, p.comments))).
@@ -106,7 +106,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testNe() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         NE(p.purchaseDate, p.shippedDate),
         SELECT(NE(p.purchaseDate, p.shippedDate)).
@@ -126,7 +126,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testGt() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         GT(p.purchaseNumber, UNSIGNED(100)),
         SELECT(GT(p.purchaseNumber, UNSIGNED(100))).
@@ -146,7 +146,7 @@ public class ComparisonPredicateTest {
   @Test
   public void testGte() throws IOException, SQLException {
     final classicmodels.PurchaseDetail p = new classicmodels.PurchaseDetail();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         GTE(p.priceEach, p.quantity),
         SELECT(GTE(p.priceEach, p.quantity)).

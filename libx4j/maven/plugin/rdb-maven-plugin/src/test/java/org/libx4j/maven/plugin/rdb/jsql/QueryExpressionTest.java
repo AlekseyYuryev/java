@@ -35,7 +35,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -75,7 +75,7 @@ public class QueryExpressionTest {
   @Test
   public void testWhere() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    try (final RowIterator<? extends data.DataType<?>> rows =
+    try (final RowIterator<? extends type.DataType<?>> rows =
       SELECT(o.address1, o.latitude).
       FROM(o).
       WHERE(AND(

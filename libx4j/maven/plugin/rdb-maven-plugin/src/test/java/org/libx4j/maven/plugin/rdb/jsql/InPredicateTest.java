@@ -35,7 +35,7 @@ import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.DML.NOT;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,7 +46,7 @@ public class InPredicateTest {
   @Test
   public void testInList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         IN(p.productLine, "Ships", "Planes", "Trains"),
         SELECT(IN(p.productLine, "Ships", "Planes", "Trains")).
@@ -67,7 +67,7 @@ public class InPredicateTest {
   @Test
   public void testNotInList() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         NOT.IN(p.productLine, "Ships", "Planes", "Trains"),
         SELECT(NOT.IN(p.productLine, "Ships", "Planes", "Trains")).
@@ -88,7 +88,7 @@ public class InPredicateTest {
   @Test
   public void testInSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         IN(p.productLine, SELECT(p.productLine).FROM(p)),
         SELECT(IN(p.productLine, SELECT(p.productLine).FROM(p))).
@@ -109,7 +109,7 @@ public class InPredicateTest {
   @Test
   public void testNotInSubQuery() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<data.BOOLEAN> rows =
+    try (final RowIterator<type.BOOLEAN> rows =
       SELECT(
         NOT.IN(p.code, SELECT(p.productLine).FROM(p)),
         SELECT(NOT.IN(p.code, SELECT(p.productLine).FROM(p))).

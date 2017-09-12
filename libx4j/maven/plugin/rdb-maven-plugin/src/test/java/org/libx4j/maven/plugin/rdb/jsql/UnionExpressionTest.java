@@ -32,7 +32,7 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
 
@@ -46,7 +46,7 @@ public class UnionExpressionTest {
   public void testUnion() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<? extends data.Entity> rows =
+    try (final RowIterator<? extends type.Entity> rows =
       SELECT(p, c).
       FROM(p).
       LEFT_JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).

@@ -36,7 +36,7 @@ import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.world;
 
@@ -49,7 +49,7 @@ public class NumericValueExpressionTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         ADD(COUNT(), 5),
         SUB(COUNT(), 5),

@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -45,8 +45,8 @@ public class HavingClauseTest {
   @Test
   public void test() throws IOException, SQLException {
     final classicmodels.Product p = new classicmodels.Product();
-    final data.DECIMAL.UNSIGNED d = p.msrp.clone();
-    try (final RowIterator<data.DECIMAL.UNSIGNED> rows =
+    final type.DECIMAL.UNSIGNED d = p.msrp.clone();
+    try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
         SIN(p.msrp).AS(d),
         SELECT(SIN(p.msrp).AS(d)).

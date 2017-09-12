@@ -36,7 +36,7 @@ import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
 import org.libx4j.rdb.jsql.Select;
 
@@ -46,9 +46,9 @@ import org.libx4j.rdb.jsql.Select;
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
 public class NumericFunctionStaticTest {
-  private static Select.untyped.SELECT<data.Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
+  private static Select.untyped.SELECT<type.Subject<?>> selectVicinity(final double latitude, final double longitude, final double distance, final int limit) {
     final classicmodels.Customer c = new classicmodels.Customer();
-    final data.DECIMAL d = c.longitude.clone();
+    final type.DECIMAL d = c.longitude.clone();
 
     return SELECT(c, MUL(3959 * 2, ATAN2(
       SQRT(ADD(
@@ -73,11 +73,11 @@ public class NumericFunctionStaticTest {
 
   @Test
   public void testVicinity() throws IOException, SQLException {
-    try (final RowIterator<? extends data.Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute()) {
+    try (final RowIterator<? extends type.Subject<?>> rows = selectVicinity(37.78536811469731, -122.3931884765625, 10, 1).execute()) {
       while (rows.nextRow()) {
         final classicmodels.Customer c = (classicmodels.Customer)rows.nextEntity();
         Assert.assertEquals("Mini Wheels Co.", c.companyName.get());
-        final data.DECIMAL d = (data.DECIMAL)rows.nextEntity();
+        final type.DECIMAL d = (type.DECIMAL)rows.nextEntity();
         Assert.assertEquals(Double.valueOf(2.22069), d.get().doubleValue(), 0.00001);
       }
     }
@@ -86,7 +86,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testRound0() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<data.DOUBLE> rows =
+    try (final RowIterator<type.DOUBLE> rows =
       SELECT(
         t.doubleType,
         ROUND(t.doubleType, 0)).
@@ -102,7 +102,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testRound1() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<data.DOUBLE> rows =
+    try (final RowIterator<type.DOUBLE> rows =
       SELECT(
         t.doubleType,
         ROUND(t.doubleType, 1)).
@@ -118,7 +118,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testSign() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         SIGN(t.doubleType)).
@@ -134,7 +134,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testFloor() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         FLOOR(t.doubleType)).
@@ -150,7 +150,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testCeil() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         CEIL(t.doubleType)).
@@ -166,7 +166,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testSqrt() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         SQRT(t.doubleType)).
@@ -182,7 +182,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testSin() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         SIN(t.doubleType)).
@@ -198,7 +198,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testAsin() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         ASIN(t.doubleType)).
@@ -214,7 +214,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testCos() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         COS(t.doubleType)).
@@ -230,7 +230,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testAcos() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         ACOS(t.doubleType)).
@@ -246,7 +246,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testTan() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         TAN(t.doubleType)).
@@ -262,7 +262,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testAtan() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         ATAN(t.doubleType)).
@@ -278,7 +278,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testModInt1() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.intType,
         MOD(t.intType, 3)).
@@ -293,7 +293,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testModInt2() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.intType,
         MOD(t.intType, -3)).
@@ -309,7 +309,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testModInt3() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         t.intType,
@@ -328,7 +328,7 @@ public class NumericFunctionStaticTest {
   @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testModDouble1() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         MOD(t.doubleType, 1.2)).
@@ -345,7 +345,7 @@ public class NumericFunctionStaticTest {
   @VendorSchemaRunner.Unsupported(SQLite.class)
   public void testModDouble2() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         MOD(t.doubleType, -1.2)).
@@ -362,7 +362,7 @@ public class NumericFunctionStaticTest {
   @VendorSchemaRunner.Unsupported({SQLite.class, Oracle.class})
   public void testModDouble3() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         t.floatType,
@@ -379,7 +379,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testExp() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         EXP(MUL(t.doubleType, -1))).
@@ -395,7 +395,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testPowX3() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         POW(t.doubleType, 3)).
@@ -411,7 +411,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testPow3X() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         POW(3, MUL(t.doubleType, -1))).
@@ -427,7 +427,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testPowXX() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         t.doubleType,
@@ -444,7 +444,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLog3X() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         LOG(3, t.doubleType)).
@@ -460,7 +460,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLogX3() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         LOG(t.doubleType, 3)).
@@ -476,7 +476,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLogXX() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         t.intType,
@@ -493,7 +493,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLn() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         LN(t.doubleType)).
@@ -509,7 +509,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLog2() throws IOException, SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         LOG2(t.doubleType)).
@@ -525,7 +525,7 @@ public class NumericFunctionStaticTest {
   @Test
   public void testLog10() throws IOException,   SQLException {
     final types.Type t = new types.Type();
-    try (final RowIterator<? extends data.Numeric<?>> rows =
+    try (final RowIterator<? extends type.Numeric<?>> rows =
       SELECT(
         t.doubleType,
         LOG10(t.doubleType)).

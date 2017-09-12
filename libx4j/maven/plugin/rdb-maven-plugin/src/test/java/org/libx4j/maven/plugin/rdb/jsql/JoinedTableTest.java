@@ -34,7 +34,7 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
-import org.libx4j.rdb.jsql.data;
+import org.libx4j.rdb.jsql.type;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)
@@ -46,7 +46,7 @@ public class JoinedTableTest {
   public void testCrossJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       CROSS_JOIN(c).
@@ -60,7 +60,7 @@ public class JoinedTableTest {
   public void testNaturalJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       NATURAL_JOIN(c).
@@ -75,7 +75,7 @@ public class JoinedTableTest {
     final classicmodels.Employee e = new classicmodels.Employee();
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       JOIN(c).ON(EQ(p.customerNumber, c.customerNumber)).
@@ -90,7 +90,7 @@ public class JoinedTableTest {
   public void testLeftOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       LEFT_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -105,7 +105,7 @@ public class JoinedTableTest {
   public void testRightOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       RIGHT_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
@@ -120,7 +120,7 @@ public class JoinedTableTest {
   public void testFullOuterJoin() throws IOException, SQLException {
     final classicmodels.Purchase p = new classicmodels.Purchase();
     final classicmodels.Customer c = new classicmodels.Customer();
-    try (final RowIterator<data.INT> rows =
+    try (final RowIterator<type.INT> rows =
       SELECT(COUNT()).
       FROM(p).
       FULL_JOIN(c).ON(EQ(p.purchaseNumber, c.customerNumber)).
