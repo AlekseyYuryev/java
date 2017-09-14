@@ -21,8 +21,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.libx4j.rdb.jsql.exception.SQLExceptionCatalog;
-import org.libx4j.rdb.jsql.exception.SQLInvalidSchemaNameException;
+import org.lib4j.sql.exception.SQLExceptionCatalog;
+import org.lib4j.sql.exception.SQLInvalidSchemaNameException;
 import org.libx4j.rdb.vendor.DBVendor;
 
 public abstract class Schema {
@@ -57,9 +57,9 @@ public abstract class Schema {
   }
 
   protected static Connection getConnection(final Class<? extends Schema> schema) throws SQLException {
-    final DBConnector dataSource = DBRegistry.getDataSource(schema);
+    final Connector dataSource = Registry.getDataSource(schema);
     if (dataSource == null)
-      throw new SQLInvalidSchemaNameException("No " + DBConnector.class.getSimpleName() + " has been registered for " + schema.getName());
+      throw new SQLInvalidSchemaNameException("No " + Connector.class.getSimpleName() + " has been registered for " + schema.getName());
 
     try {
       final Connection connection = dataSource.getConnection();

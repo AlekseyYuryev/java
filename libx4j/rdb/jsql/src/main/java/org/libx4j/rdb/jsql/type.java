@@ -16,6 +16,7 @@
 
 package org.libx4j.rdb.jsql;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -39,7 +40,6 @@ import java.util.Set;
 
 import org.lib4j.lang.Classes;
 import org.lib4j.lang.Numbers;
-import org.libx4j.rdb.jsql.model.kind;
 import org.libx4j.rdb.vendor.DBVendor;
 import org.libx4j.rdb.vendor.Dialect;
 
@@ -104,8 +104,9 @@ public final class type {
       this(null, null, value, false, false, true, null, null, false, (Class<? extends DataType<T>>)value.getClass().getComponentType());
     }
 
-    public void set(final ARRAY<T> value) {
+    public final ARRAY<T> set(final ARRAY<T> value) {
       super.set(value);
+      return this;
     }
 
     @Override
@@ -148,7 +149,7 @@ public final class type {
     }
 
     @Override
-    protected DataType<?> scaleTo(final DataType<?> dataType) {
+    protected final DataType<?> scaleTo(final DataType<?> dataType) {
       throw new UnsupportedOperationException();
     }
 
@@ -164,8 +165,8 @@ public final class type {
     }
   }
 
-  public static final class BIGINT extends ExactNumeric<Long> implements kind.BIGINT<Long> {
-    public static final class UNSIGNED extends ExactNumeric<BigInteger> implements kind.BIGINT.UNSIGNED<BigInteger> {
+  public static final class BIGINT extends ExactNumeric<Long> implements kind.BIGINT {
+    public static final class UNSIGNED extends ExactNumeric<BigInteger> implements kind.BIGINT.UNSIGNED {
       protected static final Class<BigInteger> type = BigInteger.class;
 
       private final BigInteger min;
@@ -200,14 +201,17 @@ public final class type {
         set(value);
       }
 
-      public void set(final BIGINT.UNSIGNED value) {
+      public final UNSIGNED set(final BIGINT.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
+      @Override
       public final BigInteger min() {
         return min;
       }
 
+      @Override
       public final BigInteger max() {
         return max;
       }
@@ -243,7 +247,7 @@ public final class type {
       }
 
       @Override
-      protected Class<BigInteger> type() {
+      protected final Class<BigInteger> type() {
         return type;
       }
 
@@ -318,7 +322,7 @@ public final class type {
       }
 
       @Override
-      public int compareTo(final DataType<? extends Number> o) {
+      public final int compareTo(final DataType<? extends Number> o) {
         return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
       }
     }
@@ -357,14 +361,17 @@ public final class type {
       set(value);
     }
 
-    public void set(final BIGINT value) {
+    public final BIGINT set(final BIGINT value) {
       super.set(value);
+      return this;
     }
 
+    @Override
     public final Long min() {
       return min;
     }
 
+    @Override
     public final Long max() {
       return max;
     }
@@ -400,7 +407,7 @@ public final class type {
     }
 
     @Override
-    protected Class<Long> type() {
+    protected final Class<Long> type() {
       return type;
     }
 
@@ -466,28 +473,34 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends Number> o) {
+    public final int compareTo(final DataType<? extends Number> o) {
       return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
     }
   }
 
-  public static final class BINARY extends Serial<byte[]> implements kind.BINARY<byte[]> {
+  public static final class BINARY extends DataType<byte[]> implements kind.BINARY {
     protected static final Class<byte[]> type = byte[].class;
 
+    private final int length;
     private final boolean varying;
 
     protected BINARY(final Entity owner, final String name, final byte[] _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super byte[]> generateOnInsert, final GenerateOn<? super byte[]> generateOnUpdate, final boolean keyForUpdate, final int length, final boolean varying) {
-      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate, length);
+      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate);
+      checkLength(length);
+      this.length = length;
       this.varying = varying;
     }
 
     protected BINARY(final BINARY copy) {
       super(copy);
+      this.length = copy.length;
       this.varying = copy.varying;
     }
 
     public BINARY(final int length, final boolean varying) {
-      super(length);
+      super();
+      checkLength(length);
+      this.length = length;
       this.varying = varying;
     }
 
@@ -500,11 +513,21 @@ public final class type {
       set(value);
     }
 
-    public void set(final BINARY value) {
-      super.set(value);
+    protected final void checkLength(final int length) {
+      if (length <= 0 || length > 65535)
+        throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 65535] exceeded: " + length);
     }
 
-    public boolean varying() {
+    public final int length() {
+      return length;
+    }
+
+    public final BINARY set(final BINARY value) {
+      super.set(value);
+      return this;
+    }
+
+    public final boolean varying() {
       return varying;
     }
 
@@ -514,7 +537,7 @@ public final class type {
     }
 
     @Override
-    protected Class<byte[]> type() {
+    protected final Class<byte[]> type() {
       return type;
     }
 
@@ -549,8 +572,8 @@ public final class type {
 
     @Override
     protected final DataType<?> scaleTo(final DataType<?> dataType) {
-      if (dataType instanceof Serial)
-        return new BINARY(Math.max(length(), ((Serial<?>)dataType).length()));
+      if (dataType instanceof BINARY)
+        return new BINARY(Math.max(length(), ((BINARY)dataType).length()));
 
       throw new IllegalArgumentException("type." + getClass().getSimpleName() + " cannot be scaled against type." + dataType.getClass().getSimpleName());
     }
@@ -566,54 +589,38 @@ public final class type {
     }
   }
 
-  public static final class BLOB extends LargeObject<InputStream> implements kind.BLOB<InputStream> {
+  public static final class BLOB extends LargeObject<InputStream> implements kind.BLOB {
     protected static final Class<InputStream> type = InputStream.class;
 
-    private final long length;
-
     protected BLOB(final Entity owner, final String name, final InputStream _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super InputStream> generateOnInsert, final GenerateOn<? super InputStream> generateOnUpdate, final boolean keyForUpdate, final long length) {
-      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate);
-      checkLength(length);
-      this.length = (short)length;
+      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate, length);
     }
 
     protected BLOB(final BLOB copy) {
       super(copy);
-      this.length = copy.length;
     }
 
     public BLOB(final long length) {
-      super();
-      checkLength(length);
-      this.length = (short)length;
+      super(length);
     }
 
     public BLOB(final InputStream value) {
-      super();
-      this.length = 4294967296l;
+      super(4294967296l);
       set(value);
     }
 
-    public void set(final BLOB value) {
+    public final BLOB set(final BLOB value) {
       super.set(value);
-    }
-
-    protected final void checkLength(final long length) {
-      if (length <= 0 || length > 4294967295l)
-        throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 4294967295] exceeded: " + length);
-    }
-
-    public final long length() {
-      return length;
+      return this;
     }
 
     @Override
     protected final String declare(final DBVendor vendor) {
-      return vendor.getDialect().declareBlob(length);
+      return vendor.getDialect().declareBlob(length());
     }
 
     @Override
-    protected Class<InputStream> type() {
+    protected final Class<InputStream> type() {
       return type;
     }
 
@@ -656,7 +663,7 @@ public final class type {
     }
   }
 
-  public static class BOOLEAN extends Condition<Boolean> implements kind.BOOLEAN<Boolean>, Comparable<DataType<Boolean>> {
+  public static class BOOLEAN extends Condition<Boolean> implements kind.BOOLEAN, Comparable<DataType<Boolean>> {
     protected static final Class<Boolean> type = Boolean.class;
 
     protected BOOLEAN(final Entity owner, final String name, final Boolean _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super Boolean> generateOnInsert, final GenerateOn<? super Boolean> generateOnUpdate, final boolean keyForUpdate) {
@@ -676,8 +683,9 @@ public final class type {
       set(value);
     }
 
-    public void set(final BOOLEAN value) {
+    public final BOOLEAN set(final BOOLEAN value) {
       super.set(value);
+      return this;
     }
 
     @Override
@@ -686,7 +694,7 @@ public final class type {
     }
 
     @Override
-    protected Class<Boolean> type() {
+    protected final Class<Boolean> type() {
       return type;
     }
 
@@ -723,7 +731,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<Boolean> o) {
+    public final int compareTo(final DataType<Boolean> o) {
       return o == null ? this.value == null ? 0 : 1 : this.value.compareTo(o.get());
     }
 
@@ -738,7 +746,7 @@ public final class type {
     }
   }
 
-  public static final class CHAR extends Textual<String> implements kind.CHAR<String> {
+  public static final class CHAR extends Textual<String> implements kind.CHAR {
     protected static final Class<String> type = String.class;
 
     private final boolean varying;
@@ -774,8 +782,9 @@ public final class type {
       this.varying = true;
     }
 
-    public void set(final CHAR value) {
+    public final CHAR set(final CHAR value) {
       super.set(value);
+      return this;
     }
 
     protected final void checkLength(final int length) {
@@ -783,7 +792,7 @@ public final class type {
         throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 65535] exceeded: " + length);
     }
 
-    public boolean varying() {
+    public final boolean varying() {
       return varying;
     }
 
@@ -793,7 +802,7 @@ public final class type {
     }
 
     @Override
-    protected Class<String> type() {
+    protected final Class<String> type() {
       return type;
     }
 
@@ -828,54 +837,38 @@ public final class type {
     }
   }
 
-  public static final class CLOB extends LargeObject<Reader> implements kind.CLOB<Reader> {
+  public static final class CLOB extends LargeObject<Reader> implements kind.CLOB {
     protected static final Class<Reader> type = Reader.class;
 
-    private final long length;
-
     protected CLOB(final Entity owner, final String name, final Reader _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super Reader> generateOnInsert, final GenerateOn<? super Reader> generateOnUpdate, final boolean keyForUpdate, final long length) {
-      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate);
-      checkLength(length);
-      this.length = length;
+      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate, length);
     }
 
     protected CLOB(final CLOB copy) {
       super(copy);
-      this.length = copy.length;
     }
 
     public CLOB(final long length) {
-      super();
-      checkLength(length);
-      this.length = length;
+      super(length);
     }
 
     public CLOB(final Reader value) {
-      super();
-      this.length = 4294967296l;
+      super(4294967296l);
       set(value);
     }
 
-    public void set(final CLOB value) {
+    public final CLOB set(final CLOB value) {
       super.set(value);
-    }
-
-    protected final void checkLength(final long length) {
-      if (length <= 0 || length > 4294967295l)
-        throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 4294967295] exceeded: " + length);
-    }
-
-    public final long length() {
-      return length;
+      return this;
     }
 
     @Override
     protected final String declare(final DBVendor vendor) {
-      return vendor.getDialect().declareClob(length);
+      return vendor.getDialect().declareClob(length());
     }
 
     @Override
-    protected Class<Reader> type() {
+    protected final Class<Reader> type() {
       return type;
     }
 
@@ -918,7 +911,7 @@ public final class type {
     }
   }
 
-  public static final class DATE extends Temporal<LocalDate> implements kind.DATE<LocalDate> {
+  public static final class DATE extends Temporal<LocalDate> implements kind.DATE {
     protected static final Class<LocalDate> type = LocalDate.class;
 
     protected DATE(final Entity owner, final String name, final LocalDate _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super LocalDate> generateOnInsert, final GenerateOn<? super LocalDate> generateOnUpdate, final boolean keyForUpdate) {
@@ -938,8 +931,9 @@ public final class type {
       set(value);
     }
 
-    public void set(final DATE value) {
+    public final DATE set(final DATE value) {
       super.set(value);
+      return this;
     }
 
     @Override
@@ -948,7 +942,7 @@ public final class type {
     }
 
     @Override
-    protected Class<LocalDate> type() {
+    protected final Class<LocalDate> type() {
       return type;
     }
 
@@ -991,7 +985,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
+    public final int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
       if (o == null || o.value == null)
         return this.value == null ? 0 : 1;
 
@@ -1002,7 +996,7 @@ public final class type {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
       if (this == obj)
         return true;
 
@@ -1016,13 +1010,13 @@ public final class type {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       final LocalDate get = get();
       return get == null ? "NULL" : get.format(Dialect.DATE_FORMAT);
     }
   }
 
-  public static abstract class DataType<T> extends Subject<T> implements kind.DataType<T> {
+  public static abstract class DataType<T> extends type.Subject<T> implements kind.DataType<T> {
     protected static <T>void setValue(final DataType<T> dataType, final T value) {
       dataType.value = value;
     }
@@ -1107,12 +1101,13 @@ public final class type {
     protected DataType<T> indirection;
     protected boolean wasSet;
 
-    public void set(final T value) {
+    public DataType<T> set(final T value) {
       this.wasSet = true;
       this.value = value;
+      return this;
     }
 
-    protected void set(final DataType<T> indirection) {
+    protected final void set(final DataType<T> indirection) {
       this.wasSet = false;
       this.indirection = indirection;
     }
@@ -1186,7 +1181,7 @@ public final class type {
     }
   }
 
-  public static class DATETIME extends Temporal<LocalDateTime> implements kind.DATETIME<LocalDateTime> {
+  public static class DATETIME extends Temporal<LocalDateTime> implements kind.DATETIME {
     protected static final Class<LocalDateTime> type = LocalDateTime.class;
     // FIXME: Is this the correct default? MySQL says that 6 is per the SQL spec, but their own default is 0
     private static final short DEFAULT_PRECISION = 6;
@@ -1217,8 +1212,9 @@ public final class type {
       set(value);
     }
 
-    public void set(final DATETIME value) {
+    public final DATETIME set(final DATETIME value) {
       super.set(value);
+      return this;
     }
 
     public final short precision() {
@@ -1231,7 +1227,7 @@ public final class type {
     }
 
     @Override
-    protected Class<LocalDateTime> type() {
+    protected final Class<LocalDateTime> type() {
       return type;
     }
 
@@ -1274,7 +1270,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
+    public final int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
       if (o == null || o.value == null)
         return this.value == null ? 0 : 1;
 
@@ -1285,7 +1281,7 @@ public final class type {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
       if (this == obj)
         return true;
 
@@ -1299,15 +1295,16 @@ public final class type {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       final LocalDateTime get = get();
       return get == null ? "NULL" : get.format(Dialect.DATETIME_FORMAT);
     }
   }
 
-  public static final class DECIMAL extends ExactNumeric<BigDecimal> implements kind.DECIMAL<BigDecimal> {
-    public static final class UNSIGNED extends ExactNumeric<BigDecimal> implements kind.DECIMAL.UNSIGNED<BigDecimal> {
+  public static final class DECIMAL extends ExactNumeric<BigDecimal> implements kind.DECIMAL {
+    public static final class UNSIGNED extends ExactNumeric<BigDecimal> implements kind.DECIMAL.UNSIGNED {
       protected static final Class<BigDecimal> type = BigDecimal.class;
+      private static final BigDecimal maxValue = new BigDecimal("340282366920938463463374607431768211455");
 
       private final Short scale;
       private final BigDecimal min;
@@ -1348,13 +1345,14 @@ public final class type {
         set(value);
       }
 
-      public final void set(final DECIMAL value) {
+      public final UNSIGNED set(final DECIMAL.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
       private final void checkScale(final int scale) {
-        if (scale > maxScale())
-          throw new IllegalArgumentException(getShortName(getClass()) + " scale [0, " + maxScale() + "] exceeded: " + scale);
+        if (scale > maxScale)
+          throw new IllegalArgumentException(getShortName(getClass()) + " scale [0, " + maxScale + "] exceeded: " + scale);
       }
 
       @Override
@@ -1374,7 +1372,7 @@ public final class type {
 
       @Override
       protected final BigDecimal maxValue() {
-        return new BigDecimal("340282366920938463463374607431768211455");
+        return maxValue;
       }
 
       @Override
@@ -1382,14 +1380,12 @@ public final class type {
         return 39;
       }
 
-      protected static final int maxScale() {
-        return 38;
-      }
-
+      @Override
       public final BigDecimal min() {
         return min;
       }
 
+      @Override
       public final BigDecimal max() {
         return max;
       }
@@ -1463,6 +1459,9 @@ public final class type {
     }
 
     protected static final Class<BigDecimal> type = BigDecimal.class;
+    private static final BigDecimal minValue = new BigDecimal("-170141183460469231731687303715884105728");
+    private static final BigDecimal maxValue = new BigDecimal("170141183460469231731687303715884105727");
+    private static final byte maxScale = 38;
 
     private final Short scale;
     private final BigDecimal min;
@@ -1503,13 +1502,14 @@ public final class type {
       set(value);
     }
 
-    public final void set(final DECIMAL value) {
+    public final DECIMAL set(final DECIMAL value) {
       super.set(value);
+      return this;
     }
 
     private final void checkScale(final int scale) {
-      if (scale > maxScale())
-        throw new IllegalArgumentException(getShortName(getClass()) + " scale [0, " + maxScale() + "] exceeded: " + scale);
+      if (scale > maxScale)
+        throw new IllegalArgumentException(getShortName(getClass()) + " scale [0, " + maxScale + "] exceeded: " + scale);
     }
 
     @Override
@@ -1524,12 +1524,12 @@ public final class type {
 
     @Override
     protected final BigDecimal minValue() {
-      return new BigDecimal("-170141183460469231731687303715884105728");
+      return minValue;
     }
 
     @Override
     protected final BigDecimal maxValue() {
-      return new BigDecimal("170141183460469231731687303715884105727");
+      return maxValue;
     }
 
     @Override
@@ -1537,14 +1537,12 @@ public final class type {
       return 39;
     }
 
-    protected static final int maxScale() {
-      return 38;
-    }
-
+    @Override
     public final BigDecimal min() {
       return min;
     }
 
+    @Override
     public final BigDecimal max() {
       return max;
     }
@@ -1612,13 +1610,13 @@ public final class type {
     }
 
     @Override
-    public DECIMAL clone() {
+    public final DECIMAL clone() {
       return new DECIMAL(this);
     }
   }
 
-  public static class DOUBLE extends ApproxNumeric<Double> implements kind.DOUBLE<Double> {
-    public static final class UNSIGNED extends ApproxNumeric<Double> implements kind.DOUBLE.UNSIGNED<Double> {
+  public static class DOUBLE extends ApproxNumeric<Double> implements kind.DOUBLE {
+    public static final class UNSIGNED extends ApproxNumeric<Double> implements kind.DOUBLE.UNSIGNED {
       protected static final Class<Double> type = Double.class;
 
       private final Double min;
@@ -1647,8 +1645,9 @@ public final class type {
         this.max = null;
       }
 
-      public final void set(final DOUBLE.UNSIGNED value) {
+      public final UNSIGNED set(final DOUBLE.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
       @Override
@@ -1666,10 +1665,12 @@ public final class type {
         return true;
       }
 
+      @Override
       public final Double min() {
         return min;
       }
 
+      @Override
       public final Double max() {
         return max;
       }
@@ -1765,8 +1766,9 @@ public final class type {
       this.max = null;
     }
 
-    public final void set(final DOUBLE value) {
+    public final DOUBLE set(final DOUBLE value) {
       super.set(value);
+      return this;
     }
 
     @Override
@@ -1784,10 +1786,12 @@ public final class type {
       return false;
     }
 
+    @Override
     public final Double min() {
       return min;
     }
 
+    @Override
     public final Double max() {
       return max;
     }
@@ -1887,8 +1891,9 @@ public final class type {
       set(value);
     }
 
-    public void set(final ENUM<T> value) {
+    public final ENUM<T> set(final ENUM<T> value) {
       super.set(value);
+      return this;
     }
 
     @Override
@@ -1948,14 +1953,14 @@ public final class type {
     }
 
     @Override
-    protected String evaluate(final Set<Evaluable> visited) {
+    protected final String evaluate(final Set<Evaluable> visited) {
       final Enum<?> get = get();
       return get == null ? null : get.toString();
     }
   }
 
-  public static final class FLOAT extends ApproxNumeric<Float> implements kind.FLOAT<Float> {
-    public static final class UNSIGNED extends ApproxNumeric<Float> implements kind.FLOAT.UNSIGNED<Float> {
+  public static final class FLOAT extends ApproxNumeric<Float> implements kind.FLOAT {
+    public static final class UNSIGNED extends ApproxNumeric<Float> implements kind.FLOAT.UNSIGNED {
       protected static final Class<Float> type = Float.class;
 
       private final Float min;
@@ -1984,14 +1989,17 @@ public final class type {
         set(value);
       }
 
-      public final void set(final FLOAT.UNSIGNED value) {
+      public final UNSIGNED set(final FLOAT.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
+      @Override
       public final Float min() {
         return min;
       }
 
+      @Override
       public final Float max() {
         return max;
       }
@@ -2105,14 +2113,17 @@ public final class type {
       set(value);
     }
 
-    public final void set(final FLOAT value) {
+    public final FLOAT set(final FLOAT value) {
       super.set(value);
+      return this;
     }
 
+    @Override
     public final Float min() {
       return min;
     }
 
+    @Override
     public final Float max() {
       return max;
     }
@@ -2193,27 +2204,42 @@ public final class type {
     }
 
     @Override
-    public FLOAT clone() {
+    public final FLOAT clone() {
       return new FLOAT(this);
     }
   }
 
-  public static abstract class LargeObject<T> extends DataType<T> implements kind.LargeObject<T> {
-    protected LargeObject(final Entity owner, final String name, final T _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super T> generateOnInsert, final GenerateOn<? super T> generateOnUpdate, final boolean keyForUpdate) {
+  public static abstract class LargeObject<T extends Closeable> extends DataType<T> implements kind.LargeObject<T> {
+    private final long length;
+
+    protected LargeObject(final Entity owner, final String name, final T _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super T> generateOnInsert, final GenerateOn<? super T> generateOnUpdate, final boolean keyForUpdate, final long length) {
       super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate);
+      checkLength(length);
+      this.length = length;
     }
 
     protected LargeObject(final LargeObject<T> copy) {
       super(copy);
+      this.length = copy.length;
     }
 
-    protected LargeObject() {
+    protected LargeObject(final long length) {
       super();
+      this.length = length;
+    }
+
+    public final long length() {
+      return length;
+    }
+
+    private final void checkLength(final long length) {
+      if (length <= 0 || length > 4294967295l)
+        throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 4294967295] exceeded: " + length);
     }
   }
 
-  public static final class INT extends ExactNumeric<Integer> implements kind.INT<Integer> {
-    public static final class UNSIGNED extends ExactNumeric<Long> implements kind.INT.UNSIGNED<Long> {
+  public static final class INT extends ExactNumeric<Integer> implements kind.INT {
+    public static final class UNSIGNED extends ExactNumeric<Long> implements kind.INT.UNSIGNED {
       protected static final Class<Long> type = Long.class;
 
       private final Long min;
@@ -2248,14 +2274,17 @@ public final class type {
         set(value);
       }
 
-      public void set(final INT.UNSIGNED value) {
+      public final UNSIGNED set(final INT.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
+      @Override
       public final Long min() {
         return min;
       }
 
+      @Override
       public final Long max() {
         return max;
       }
@@ -2291,7 +2320,7 @@ public final class type {
       }
 
       @Override
-      protected Class<Long> type() {
+      protected final Class<Long> type() {
         return type;
       }
 
@@ -2339,7 +2368,7 @@ public final class type {
       }
 
       @Override
-      public int compareTo(final DataType<? extends Number> o) {
+      public final int compareTo(final DataType<? extends Number> o) {
         return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
       }
 
@@ -2388,14 +2417,17 @@ public final class type {
       set(value);
     }
 
-    public void set(final INT value) {
+    public final INT set(final INT value) {
       super.set(value);
+      return this;
     }
 
+    @Override
     public final Integer min() {
       return min;
     }
 
+    @Override
     public final Integer max() {
       return max;
     }
@@ -2431,7 +2463,7 @@ public final class type {
     }
 
     @Override
-    protected Class<Integer> type() {
+    protected final Class<Integer> type() {
       return type;
     }
 
@@ -2479,7 +2511,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends Number> o) {
+    public final int compareTo(final DataType<? extends Number> o) {
       return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
     }
 
@@ -2494,8 +2526,8 @@ public final class type {
     }
   }
 
-  public static final class SMALLINT extends ExactNumeric<Short> implements kind.SMALLINT<Short> {
-    public static final class UNSIGNED extends ExactNumeric<Integer> implements kind.SMALLINT.UNSIGNED<Integer> {
+  public static final class SMALLINT extends ExactNumeric<Short> implements kind.SMALLINT {
+    public static final class UNSIGNED extends ExactNumeric<Integer> implements kind.SMALLINT.UNSIGNED {
       protected static final Class<Integer> type = Integer.class;
 
       private final Integer min;
@@ -2530,14 +2562,17 @@ public final class type {
         set(value);
       }
 
-      public void set(final SMALLINT.UNSIGNED value) {
+      public final UNSIGNED set(final SMALLINT.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
+      @Override
       public final Integer min() {
         return min;
       }
 
+      @Override
       public final Integer max() {
         return max;
       }
@@ -2573,7 +2608,7 @@ public final class type {
       }
 
       @Override
-      protected Class<Integer> type() {
+      protected final Class<Integer> type() {
         return type;
       }
 
@@ -2624,7 +2659,7 @@ public final class type {
       }
 
       @Override
-      public int compareTo(final DataType<? extends Number> o) {
+      public final int compareTo(final DataType<? extends Number> o) {
         return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
       }
 
@@ -2673,14 +2708,17 @@ public final class type {
       set(value);
     }
 
-    public void set(final SMALLINT value) {
+    public final SMALLINT set(final SMALLINT value) {
       super.set(value);
+      return this;
     }
 
+    @Override
     public final Short min() {
       return min;
     }
 
+    @Override
     public final Short max() {
       return max;
     }
@@ -2716,7 +2754,7 @@ public final class type {
     }
 
     @Override
-    protected Class<Short> type() {
+    protected final Class<Short> type() {
       return type;
     }
 
@@ -2767,7 +2805,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends Number> o) {
+    public final int compareTo(final DataType<? extends Number> o) {
       return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
     }
 
@@ -2798,14 +2836,16 @@ public final class type {
     protected abstract short precision();
     protected abstract short scale();
     protected abstract boolean unsigned();
+    public abstract T min();
+    public abstract T max();
 
     @Override
-    protected Number evaluate(final Set<Evaluable> visited) {
+    protected final Number evaluate(final Set<Evaluable> visited) {
       return (Number)super.evaluate(visited);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
       if (obj == null)
         return true;
 
@@ -2814,6 +2854,55 @@ public final class type {
 
       return compareTo((Numeric<?>)obj) == 0;
     }
+  }
+
+  public static abstract class Entity extends type.Subject<Entity> implements kind.Entity<Entity>, Cloneable {
+    protected final type.DataType<?>[] column;
+    protected final type.DataType<?>[] primary;
+    private final boolean wasSelected;
+
+    protected Entity(final boolean wasSelected, final type.DataType<?>[] column, final type.DataType<?>[] primary) {
+      this.wasSelected = wasSelected;
+      this.column = column;
+      this.primary = primary;
+    }
+
+    protected Entity(final Entity entity) {
+      this.wasSelected = false;
+      this.column = entity.column.clone();
+      this.primary = entity.primary.clone();
+    }
+
+    protected Entity() {
+      this.wasSelected = false;
+      this.column = null;
+      this.primary = null;
+    }
+
+    protected final boolean wasSelected() {
+      return wasSelected;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected final Class<? extends Schema> schema() {
+      return (Class<? extends Schema>)getClass().getEnclosingClass();
+    }
+
+    @Override
+    protected final Entity evaluate(final Set<Evaluable> visited) {
+      return this;
+    }
+
+    @Override
+    protected final void compile(final Compilation compilation) throws IOException {
+      Compiler.getCompiler(compilation.vendor).compile(this, compilation);
+    }
+
+    protected abstract String name();
+    protected abstract Entity newInstance();
+
+    @Override
+    protected abstract Entity clone();
   }
 
   public static abstract class ExactNumeric<T extends Number> extends Numeric<T> implements kind.ExactNumeric<T> {
@@ -2869,46 +2958,17 @@ public final class type {
     }
 
     @Override
-    public final void set(final T value) {
+    public final ExactNumeric<T> set(final T value) {
       if (value != null)
         checkValue(value.doubleValue());
 
       super.set(value);
+      return this;
     }
   }
 
-  public static abstract class Serial<T> extends DataType<T> implements kind.Serial<T> {
-    private final int length;
-
-    protected Serial(final Entity owner, final String name, final T _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super T> generateOnInsert, final GenerateOn<? super T> generateOnUpdate, final boolean keyForUpdate, final int length) {
-      super(owner, name, _default, unique, primary, nullable, generateOnInsert, generateOnUpdate, keyForUpdate);
-      checkLength(length);
-      this.length = length;
-    }
-
-    protected Serial(final Serial<T> copy) {
-      super(copy);
-      this.length = copy.length;
-    }
-
-    protected Serial(final int length) {
-      super();
-      checkLength(length);
-      this.length = length;
-    }
-
-    protected void checkLength(final int length) {
-      if (length <= 0 || length > 65535)
-        throw new IllegalArgumentException(getShortName(getClass()) + " length [1, 65535] exceeded: " + length);
-    }
-
-    public final int length() {
-      return length;
-    }
-  }
-
-  public static final class TINYINT extends ExactNumeric<Byte> implements kind.TINYINT<Byte> {
-    public static final class UNSIGNED extends ExactNumeric<Short> implements kind.TINYINT.UNSIGNED<Short> {
+  public static final class TINYINT extends ExactNumeric<Byte> implements kind.TINYINT {
+    public static final class UNSIGNED extends ExactNumeric<Short> implements kind.TINYINT.UNSIGNED {
       protected static final Class<Short> type = Short.class;
 
       private final Short min;
@@ -2943,14 +3003,17 @@ public final class type {
         set(value);
       }
 
-      public void set(final TINYINT.UNSIGNED value) {
+      public final UNSIGNED set(final TINYINT.UNSIGNED value) {
         super.set(value);
+        return this;
       }
 
+      @Override
       public final Short min() {
         return min;
       }
 
+      @Override
       public final Short max() {
         return max;
       }
@@ -2986,7 +3049,7 @@ public final class type {
       }
 
       @Override
-      protected Class<Short> type() {
+      protected final Class<Short> type() {
         return type;
       }
 
@@ -3043,7 +3106,7 @@ public final class type {
       }
 
       @Override
-      public int compareTo(final DataType<? extends Number> o) {
+      public final int compareTo(final DataType<? extends Number> o) {
         return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
       }
 
@@ -3092,14 +3155,17 @@ public final class type {
       set(value);
     }
 
-    public void set(final TINYINT value) {
+    public final TINYINT set(final TINYINT value) {
       super.set(value);
+      return this;
     }
 
+    @Override
     public final Byte min() {
       return min;
     }
 
+    @Override
     public final Byte max() {
       return max;
     }
@@ -3135,7 +3201,7 @@ public final class type {
     }
 
     @Override
-    protected Class<Byte> type() {
+    protected final Class<Byte> type() {
       return type;
     }
 
@@ -3192,7 +3258,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends Number> o) {
+    public final int compareTo(final DataType<? extends Number> o) {
       return o == null ? 1 : value == null && o.value == null ? 0 : Double.compare(value.doubleValue(), o.value.doubleValue());
     }
 
@@ -3204,6 +3270,19 @@ public final class type {
     @Override
     public final TINYINT clone() {
       return new TINYINT(this);
+    }
+  }
+
+  public static abstract class Subject<T> extends Evaluable {
+    private Evaluable wrapper;
+
+    protected final Evaluable wrapper() {
+      return wrapper;
+    }
+
+    protected type.Subject<T> wrapper(final Evaluable wrapper) {
+      this.wrapper = wrapper;
+      return this;
     }
   }
 
@@ -3221,12 +3300,12 @@ public final class type {
     }
 
     @Override
-    protected java.time.temporal.Temporal evaluate(final Set<Evaluable> visited) {
+    protected final java.time.temporal.Temporal evaluate(final Set<Evaluable> visited) {
       return (java.time.temporal.Temporal)super.evaluate(visited);
     }
   }
 
-  public static abstract class Textual<T> extends DataType<T> implements kind.Textual<T>, Comparable<Textual<?>> {
+  public static abstract class Textual<T extends Comparable<?>> extends DataType<T> implements kind.Textual<T>, Comparable<Textual<?>> {
     private final Short length;
 
     protected Textual(final Entity owner, final String name, final T _default, final boolean unique, final boolean primary, final boolean nullable, final GenerateOn<? super T> generateOnInsert, final GenerateOn<? super T> generateOnUpdate, final boolean keyForUpdate, final int length) {
@@ -3262,7 +3341,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final Textual<?> o) {
+    public final int compareTo(final Textual<?> o) {
       if (o == null)
         return this.value == null ? 0 : 1;
 
@@ -3273,13 +3352,13 @@ public final class type {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       final T get = get();
       return name.hashCode() + (get == null ? 0 : get.toString().hashCode());
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
       if (this == obj)
         return true;
 
@@ -3292,7 +3371,7 @@ public final class type {
     }
   }
 
-  public static final class TIME extends Temporal<LocalTime> implements kind.TIME<LocalTime> {
+  public static final class TIME extends Temporal<LocalTime> implements kind.TIME {
     protected static final Class<LocalTime> type = LocalTime.class;
 
     private static final short DEFAULT_PRECISION = 6;
@@ -3323,8 +3402,9 @@ public final class type {
       set(value);
     }
 
-    public void set(final TIME value) {
+    public final TIME set(final TIME value) {
       super.set(value);
+      return this;
     }
 
     public final short precision() {
@@ -3337,7 +3417,7 @@ public final class type {
     }
 
     @Override
-    protected Class<LocalTime> type() {
+    protected final Class<LocalTime> type() {
       return type;
     }
 
@@ -3370,7 +3450,7 @@ public final class type {
     }
 
     @Override
-    public int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
+    public final int compareTo(final DataType<? extends java.time.temporal.Temporal> o) {
       if (o == null || o.value == null)
         return this.value == null ? 0 : 1;
 
@@ -3391,9 +3471,12 @@ public final class type {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       final LocalTime get = get();
       return get == null ? "NULL" : get.format(Dialect.TIME_FORMAT);
     }
+  }
+
+  private type() {
   }
 }

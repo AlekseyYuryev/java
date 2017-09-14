@@ -9,7 +9,7 @@
 
 ### Current Release and Support
 
-**0.9.7**: Derby, SQLite, MySQL, MariaDB, PostgreSQL, Oracle
+**0.9.8-SNAPSHOT**: Derby, SQLite, MySQL, MariaDB, PostgreSQL, Oracle
 
 ### Why **jSQL**?
 
@@ -63,7 +63,7 @@ Together, these two concepts provide the integrity into an otherwise non-cohesiv
   <dependency>
     <groupId>org.libx4j.rdb</groupId>
     <artifactId>rdb-jsql</artifactId>
-    <version>0.9.7</version>
+    <version>0.9.8-SNAPSHOT</version>
   </dependency>
   ```
 
@@ -73,7 +73,7 @@ Together, these two concepts provide the integrity into an otherwise non-cohesiv
   <plugin>
     <groupId>org.libx4j.maven.plugin</groupId>
     <artifactId>rdb-maven-plugin</artifactId>
-    <version>0.9.7</version>
+    <version>0.9.8-SNAPSHOT</version>
     <executions>
       <!-- [...] the ddlx <execution> is here -->
       <execution>
@@ -179,7 +179,7 @@ Together, these two concepts provide the integrity into an otherwise non-cohesiv
   <dependency>
     <groupId>org.lib4j</groupId>
     <artifactId>libx4j-dbcp</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3-SNAPSHOT</version>
   </dependency>
   ```
   
@@ -204,7 +204,7 @@ Together, these two concepts provide the integrity into an otherwise non-cohesiv
 
 ### Releases (Supported Vendors)
 
-<samp>04/23/2017</samp> **0.9.7** (Derby, SQLite, PostgreSQL, MySQL, MariaDB, **Oracle**)<br>
+<samp>04/23/2017</samp> **0.9.8-SNAPSHOT** (Derby, SQLite, PostgreSQL, MySQL, MariaDB, **Oracle**)<br>
 <samp>03/05/2017</samp> **0.9.6** (Derby, **SQLite**, PostgreSQL, MySQL, MariaDB)<br>
 <samp>02/25/2017</samp> **0.9.5** (Derby, **PostgreSQL**, **MySQL**, **MariaDB**)<br>
 <samp>10/18/2016</samp> **0.8.1** (**Derby**)<br>
@@ -536,13 +536,13 @@ Specification                                                                   
  
 This  project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details. 
 
-[libx4j-dbcp]: https://github.com/libx4j/libx4j-dbcp
 [dbcp.xsd]: https://github.com/libx4j/libx4j-dbcp/blob/master/src/main/resources/dbcp.xsd
 [ddlx-example]: https://github.com/libx4j/rdb/tree/master/ddlx#example
 [ddlx]: https://github.com/libx4j/rdb/tree/master/ddlx/
 [hospital.ddlx]: https://github.com/libx4j/rdb-maven-plugin/blob/master/src/test/resources/hospital.ddlx
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[libx4j-dbcp]: https://github.com/libx4j/libx4j-dbcp
 [maven]: https://maven.apache.org/
 [rdb-maven-plugin]: https://github.com/libx4j/rdb-maven-plugin
 

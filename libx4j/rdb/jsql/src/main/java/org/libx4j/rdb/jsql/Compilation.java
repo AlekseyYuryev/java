@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.function.Consumer;
 
 import org.lib4j.lang.IntArrayList;
@@ -51,14 +52,14 @@ final class Compilation {
   private final boolean batching;
   private Consumer<Boolean> afterExecute;
 
-  protected final Command command;
+  protected final Stack<Command> command = new Stack<Command>();
   protected final DBVendor vendor;
   protected final Compiler compiler;
 
   private boolean skipFirstColumn = false;
 
   protected Compilation(final Command command, final DBVendor vendor, final boolean prepared, final boolean batching) {
-    this.command = command;
+    this.command.add(command);
     this.vendor = vendor;
     this.prepared = prepared;
     this.batching = batching;
@@ -73,9 +74,9 @@ final class Compilation {
     this.skipFirstColumn = skipFirstColumn;
   }
 
-  private final Map<Subject<?>,Alias> aliases = new IdentityHashMap<Subject<?>,Alias>();
+  private final Map<type.Subject<?>,Alias> aliases = new IdentityHashMap<type.Subject<?>,Alias>();
 
-  protected Alias registerAlias(final Subject<?> subject) {
+  protected Alias registerAlias(final type.Subject<?> subject) {
     Alias alias = aliases.get(subject);
     if (alias == null)
       aliases.put(subject, alias = new Alias(aliases.size()));
@@ -83,7 +84,7 @@ final class Compilation {
     return alias;
   }
 
-  protected Alias getAlias(final Subject<?> subject) {
+  protected Alias getAlias(final type.Subject<?> subject) {
     return aliases.get(subject);
   }
 

@@ -16,8 +16,6 @@
 
 package org.libx4j.rdb.jsql;
 
-import org.libx4j.rdb.jsql.type.DataType;
-
 public final class UNSIGNED {
   protected static abstract class UnsignedNumber<N extends Number> extends Number {
     private static final long serialVersionUID = 7628853114521559991L;
@@ -72,7 +70,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.FLOAT.UNSIGNED.class;
     }
 
@@ -112,7 +110,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.DOUBLE.UNSIGNED.class;
     }
 
@@ -153,7 +151,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.DECIMAL.UNSIGNED.class;
     }
 
@@ -193,7 +191,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.TINYINT.UNSIGNED.class;
     }
 
@@ -233,7 +231,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.SMALLINT.UNSIGNED.class;
     }
 
@@ -273,7 +271,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.INT.UNSIGNED.class;
     }
 
@@ -314,7 +312,7 @@ public final class UNSIGNED {
     }
 
     @Override
-    protected Class<? extends DataType<?>> getTypeClass() {
+    protected Class<? extends type.DataType<?>> getTypeClass() {
       return type.BIGINT.UNSIGNED.class;
     }
 

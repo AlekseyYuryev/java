@@ -17,13 +17,11 @@
 package org.libx4j.rdb.jsql;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.time.temporal.Temporal;
 import java.util.Set;
 
 import org.lib4j.lang.Numbers;
 import org.lib4j.util.Temporals;
-import org.libx4j.rdb.jsql.model.kind;
 
 final class BetweenPredicates {
   protected static abstract class BetweenPredicate extends Predicate {
@@ -111,7 +109,7 @@ final class BetweenPredicates {
     protected final Compilable a;
     protected final Compilable b;
 
-    protected TimeBetweenPredicate(final kind.TIME<LocalTime> dataType, final kind.TIME<LocalTime> a, final kind.TIME<LocalTime> b, final boolean positive) {
+    protected TimeBetweenPredicate(final kind.TIME dataType, final kind.TIME a, final kind.TIME b, final boolean positive) {
       super(dataType, positive);
       this.a = (Compilable)a;
       this.b = (Compilable)b;

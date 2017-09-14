@@ -151,9 +151,11 @@ public class InsertTest {
   public void testInsertSelectIntoColumns() throws IOException, SQLException {
     try (final Transaction transaction = new Transaction(types.class)) {
       final types.TypeBackup b = new types.TypeBackup();
-      final types.Type t = new types.Type();
+      final types.Type t1 = new types.Type();
+      final types.Type t2 = new types.Type();
+      final types.Type t3 = new types.Type();
       DELETE(b).execute(transaction);
-      final int[] results = INSERT(b.binaryType, b.charType, b.enumType).VALUES(SELECT(t.binaryType, t.charType, t.enumType).FROM(t)).execute(transaction);
+      final int[] results = INSERT(b.binaryType, b.charType, b.enumType).VALUES(SELECT(t1.binaryType, t2.charType, t3.enumType).FROM(t1, t2, t3).WHERE(AND(EQ(t1.charType, t2.charType), EQ(t2.tinyintType, t3.tinyintType), EQ(t3.booleanType, t1.booleanType)))).execute(transaction);
       Assert.assertTrue(results[0] > 999);
 
       transaction.rollback();

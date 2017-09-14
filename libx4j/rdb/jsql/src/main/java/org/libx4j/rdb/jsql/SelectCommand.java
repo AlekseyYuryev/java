@@ -18,20 +18,21 @@ package org.libx4j.rdb.jsql;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.libx4j.rdb.jsql.Select.FROM;
-import org.libx4j.rdb.jsql.Select.GROUP_BY;
-import org.libx4j.rdb.jsql.Select.HAVING;
-import org.libx4j.rdb.jsql.Select.JOIN;
-import org.libx4j.rdb.jsql.Select.LIMIT;
-import org.libx4j.rdb.jsql.Select.OFFSET;
-import org.libx4j.rdb.jsql.Select.ON;
-import org.libx4j.rdb.jsql.Select.ORDER_BY;
-import org.libx4j.rdb.jsql.Select.SELECT;
-import org.libx4j.rdb.jsql.Select.UNION;
-import org.libx4j.rdb.jsql.Select.WHERE;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.FROM;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.GROUP_BY;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.HAVING;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.JOIN;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.LIMIT;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.OFFSET;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.ON;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.ORDER_BY;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.SELECT;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.UNION;
+import org.libx4j.rdb.jsql.SelectImpl.untyped.WHERE;
 
 final class SelectCommand extends Command {
   private final SELECT<?> select;
@@ -44,7 +45,7 @@ final class SelectCommand extends Command {
   private ORDER_BY<?> orderBy;
   private LIMIT<?> limit;
   private OFFSET<?> offset;
-  private UNION<?> union;
+  private Collection<UNION<?>> union;
   private Map<Integer,type.ENUM<?>> translateTypes;
 
   public SelectCommand(final SELECT<?> select) {
@@ -138,10 +139,13 @@ final class SelectCommand extends Command {
   }
 
   protected void add(final UNION<?> union) {
-    this.union = union;
+    if (this.union == null)
+      this.union = new ArrayList<UNION<?>>();
+
+    this.union.add(union);
   }
 
-  protected UNION<?> union() {
+  protected Collection<UNION<?>> union() {
     return union;
   }
 

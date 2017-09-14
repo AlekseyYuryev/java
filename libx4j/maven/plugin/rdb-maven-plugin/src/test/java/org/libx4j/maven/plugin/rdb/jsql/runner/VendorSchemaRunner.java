@@ -29,8 +29,8 @@ import org.junit.runners.model.InitializationError;
 import org.lib4j.lang.Arrays;
 import org.libx4j.rdb.ddlx.runner.Vendor;
 import org.libx4j.rdb.ddlx.runner.VendorRunner;
-import org.libx4j.rdb.jsql.DBConnector;
-import org.libx4j.rdb.jsql.DBRegistry;
+import org.libx4j.rdb.jsql.Connector;
+import org.libx4j.rdb.jsql.Registry;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
@@ -51,7 +51,7 @@ public class VendorSchemaRunner extends VendorRunner {
 
     if (entityClass != null) {
       for (final Class<? extends org.libx4j.rdb.jsql.Schema> schemaClass : Arrays.concat(entityClass.value(), (Class<? extends org.libx4j.rdb.jsql.Schema>)null)) {
-        DBRegistry.registerPrepared(schemaClass, new DBConnector() {
+        Registry.registerPrepared(schemaClass, new Connector() {
           @Override
           public Connection getConnection() throws SQLException {
             try {

@@ -17,17 +17,9 @@
 package org.libx4j.rdb.jsql;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Set;
 
-import org.libx4j.rdb.jsql.model.kind;
-
-public class Cast {
+public final class Cast {
   protected static final class AS extends Provision {
     protected final kind.DataType<?> dataType;
     protected final type.DataType<?> cast;
@@ -83,9 +75,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.BOOLEAN<Boolean> value;
+    private final kind.BOOLEAN value;
 
-    public BOOLEAN(final kind.BOOLEAN<Boolean> value) {
+    public BOOLEAN(final kind.BOOLEAN value) {
       this.value = value;
     }
   }
@@ -197,9 +189,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.FLOAT<Float> value;
+    private final kind.Numeric<?> value;
 
-    public FLOAT(final kind.FLOAT<Float> value) {
+    public FLOAT(final kind.FLOAT value) {
+      this.value = value;
+    }
+
+    public FLOAT(final kind.FLOAT.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -311,9 +307,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.DOUBLE<Double> value;
+    private final kind.Numeric<?> value;
 
-    public DOUBLE(final kind.DOUBLE<Double> value) {
+    public DOUBLE(final kind.DOUBLE value) {
+      this.value = value;
+    }
+
+    public DOUBLE(final kind.DOUBLE.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -437,9 +437,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.DECIMAL<BigDecimal> value;
+    private final kind.Numeric<?> value;
 
-    public DECIMAL(final kind.DECIMAL<BigDecimal> value) {
+    public DECIMAL(final kind.DECIMAL value) {
+      this.value = value;
+    }
+
+    public DECIMAL(final kind.DECIMAL.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -563,9 +567,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.TINYINT<Byte> value;
+    private final kind.Numeric<?> value;
 
-    public TINYINT(final kind.TINYINT<Byte> value) {
+    public TINYINT(final kind.TINYINT value) {
+      this.value = value;
+    }
+
+    public TINYINT(final kind.TINYINT.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -689,9 +697,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.SMALLINT<Short> value;
+    private final kind.Numeric<?> value;
 
-    public SMALLINT(final kind.SMALLINT<Short> value) {
+    public SMALLINT(final kind.SMALLINT value) {
+      this.value = value;
+    }
+
+    public SMALLINT(final kind.SMALLINT.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -815,9 +827,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.INT<Integer> value;
+    private final kind.Numeric<?> value;
 
-    public INT(final kind.INT<Integer> value) {
+    public INT(final kind.INT value) {
+      this.value = value;
+    }
+
+    public INT(final kind.INT.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -941,9 +957,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.BIGINT<Long> value;
+    private final kind.Numeric<?> value;
 
-    public BIGINT(final kind.BIGINT<Long> value) {
+    public BIGINT(final kind.BIGINT value) {
+      this.value = value;
+    }
+
+    public BIGINT(final kind.BIGINT.UNSIGNED value) {
       this.value = value;
     }
   }
@@ -1093,9 +1113,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.DATE<LocalDate> value;
+    private final kind.DATE value;
 
-    public DATE(final kind.DATE<LocalDate> value) {
+    public DATE(final kind.DATE value) {
       this.value = value;
     }
   }
@@ -1123,9 +1143,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.TIME<LocalTime> value;
+    private final kind.TIME value;
 
-    public TIME(final kind.TIME<LocalTime> value) {
+    public TIME(final kind.TIME value) {
       this.value = value;
     }
   }
@@ -1171,9 +1191,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.DATETIME<LocalDateTime> value;
+    private final kind.DATETIME value;
 
-    public DATETIME(final kind.DATETIME<LocalDateTime> value) {
+    public DATETIME(final kind.DATETIME value) {
       this.value = value;
     }
   }
@@ -1195,9 +1215,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.CLOB<Reader> value;
+    private final kind.CLOB value;
 
-    public CLOB(final kind.CLOB<Reader> value) {
+    public CLOB(final kind.CLOB value) {
       this.value = value;
     }
   }
@@ -1213,9 +1233,9 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.BLOB<InputStream> value;
+    private final kind.BLOB value;
 
-    public BLOB(final kind.BLOB<InputStream> value) {
+    public BLOB(final kind.BLOB value) {
       this.value = value;
     }
   }
@@ -1237,10 +1257,13 @@ public class Cast {
 
     public final AS AS = new AS();
 
-    private final kind.BINARY<byte[]> value;
+    private final kind.BINARY value;
 
-    public BINARY(final kind.BINARY<byte[]> value) {
+    public BINARY(final kind.BINARY value) {
       this.value = value;
     }
+  }
+
+  private Cast() {
   }
 }
