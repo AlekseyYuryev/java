@@ -31,7 +31,7 @@ public final class MojoUtil {
   }
 
   public static boolean shouldSkip(final MojoExecution mojoExecution, final boolean mavenTestSkip) {
-    if (mavenTestSkip && mojoExecution.getLifecyclePhase().contains("test"))
+    if (mavenTestSkip && mojoExecution != null && mojoExecution.getLifecyclePhase() != null && mojoExecution.getLifecyclePhase().contains("test"))
       return true;
 
     final Plugin plugin = mojoExecution.getPlugin();
