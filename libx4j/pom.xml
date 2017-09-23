@@ -694,10 +694,16 @@
       <id>maven.atlassian.com</id>
       <name>Atlassian 3rdparty</name>
       <url>https://maven.atlassian.com/3rdparty</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>maven.oracle.com</id>
       <url>https://maven.oracle.com</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
   <distributionManagement>
