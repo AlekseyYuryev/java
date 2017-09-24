@@ -150,7 +150,7 @@ public class JSObjectTest {
     logger.info(encoded);
 
     try {
-      JSObject.parse(api.Message.class, new StringReader(encoded.replace("438DA4", "XXX")));
+      JSObject.parse(api.Message.class, new StringReader(encoded.replace("438DA4", "NIOFDB")));
     }
     catch (final DecodeException e) {
       if (!e.getMessage().startsWith("\"data\" does not match pattern"))
