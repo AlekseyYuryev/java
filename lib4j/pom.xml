@@ -356,11 +356,6 @@
         <artifactId>slf4j-simple</artifactId>
         <version>1.7.25</version>
       </dependency>
-      <dependency>
-        <groupId>tyrex</groupId>
-        <artifactId>tyrex</artifactId>
-        <version>1.0.1</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   <repositories>
