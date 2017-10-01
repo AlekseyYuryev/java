@@ -28,7 +28,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.lib4j.test.JUnitUtil;
 import org.lib4j.test.MixedTest;
 import org.libx4j.maven.plugin.rdb.jsql.runner.VendorSchemaRunner;
 import org.libx4j.rdb.ddlx.runner.Derby;
@@ -45,8 +44,6 @@ import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
@@ -54,19 +51,6 @@ import org.slf4j.LoggerFactory;
 @VendorSchemaRunner.Integration({MySQL.class, PostgreSQL.class, Oracle.class})
 @Category(MixedTest.class)
 public class DateTimeValueExpressionTest {
-  private static final Logger logger = LoggerFactory.getLogger(DateTimeValueExpressionTest.class);
-
-  private static void checkDSTError(final AssertionError e) {
-    final String[] expectedActual = JUnitUtil.getExpectedActual(e);
-    final String expected = expectedActual[0];
-    final String actual = expectedActual[1];
-    if (!expected.substring(0, 12).equals(actual.substring(0, 12)) || !expected.substring(13).equals(actual.substring(13)))
-      throw e;
-
-    // FIXME: MySQL has a DST error in DATE_ADD() and DATE_SUB() (http://stackoverflow.com/questions/5748547/mysql-date-sub-date-add-that-accounts-for-dst)
-    logger.warn("DST Error");
-  }
-
   private static void testInterval(final Interval interval) throws IOException, SQLException {
     testInterval(interval, new types.Type(), null, null);
   }
