@@ -99,7 +99,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.round(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.round(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -115,7 +116,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(SafeMath.round(rows.nextEntity().get().doubleValue(), 1), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = SafeMath.round(rows.nextEntity().get().doubleValue(), 1);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -147,7 +149,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.floor(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.floor(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -163,7 +166,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.ceil(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.ceil(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -179,7 +183,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.sqrt(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.sqrt(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -195,7 +200,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.sin(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.sin(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -211,7 +217,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.asin(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.asin(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -227,7 +234,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.cos(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.cos(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -243,7 +251,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.acos(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.acos(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -259,7 +268,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.tan(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.tan(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -275,7 +285,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.atan(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.atan(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -342,7 +353,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % 1.2, rows.nextEntity().get().doubleValue(), 0.00000001);
+      final double expected = rows.nextEntity().get().doubleValue() % 1.2;
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -359,7 +371,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(rows.nextEntity().get().doubleValue() % -1.2, rows.nextEntity().get().doubleValue(), 0.00000001);
+      final double expected = rows.nextEntity().get().doubleValue() % -1.2;
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -399,7 +412,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.exp(-rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.exp(-rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -415,7 +429,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), 3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.pow(rows.nextEntity().get().doubleValue(), 3);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -431,7 +446,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(3, -rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.pow(3, -rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -448,7 +464,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.pow(rows.nextEntity().get().doubleValue(), rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.pow(rows.nextEntity().get().doubleValue(), rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -464,7 +481,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(3), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log(rows.nextEntity().get().doubleValue()) / Math.log(3);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -480,7 +498,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log(3) / Math.log(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log(3) / Math.log(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -497,7 +516,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(rows.nextEntity().get().intValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log(rows.nextEntity().get().doubleValue()) / Math.log(rows.nextEntity().get().intValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -513,7 +533,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -529,7 +550,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log(rows.nextEntity().get().doubleValue()) / Math.log(2), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log(rows.nextEntity().get().doubleValue()) / Math.log(2);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 
@@ -545,7 +567,8 @@ public class NumericFunctionStaticTest {
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
-      Assert.assertEquals(Math.log10(rows.nextEntity().get().doubleValue()), rows.nextEntity().get().doubleValue(), 0.0000000001);
+      final double expected = Math.log10(rows.nextEntity().get().doubleValue());
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
     }
   }
 }

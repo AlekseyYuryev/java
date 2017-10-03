@@ -1281,7 +1281,8 @@ public class NumericFunctionDynamicTest {
       t.doubleType.set(LOG2(t.doubleType));
 
       Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
-      Assert.assertEquals(Double.valueOf(SafeMath.log(2, clone.doubleType.get())), t.doubleType.get(), 0.00000001);
+      final double expected = Double.valueOf(SafeMath.log(2, clone.doubleType.get()));
+      Assert.assertEquals(expected, t.doubleType.get(), 10 * Math.ulp(expected));
 
       t = getNthRow(selectEntity(t, AND(
         GT(t.decimalType, 0),
