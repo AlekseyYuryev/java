@@ -139,7 +139,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.7.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -194,7 +194,10 @@
                   <integrationTest>true</integrationTest>
                 </systemPropertyVariables>
                 <includes>
+                  <include>**/Test*.java</include>
                   <include>**/*Test.java</include>
+                  <include>**/*Tests.java</include>
+                  <include>**/*TestCase.java</include>
                 </includes>
                 <groups>org.lib4j.test.IntegrationTest,org.lib4j.test.MixedTest</groups>
               </configuration>
@@ -307,54 +310,9 @@
 
       <!-- External modules -->
       <dependency>
-        <groupId>ch.obermuhlner</groupId>
-        <artifactId>big-math</artifactId>
-        <version>1.2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.2.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.7</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>4.0.0-b05</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.transaction</groupId>
-        <artifactId>jta</artifactId>
-        <version>1.1</version>
-      </dependency>
-      <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
         <version>4.12</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sf.saxon</groupId>
-        <artifactId>Saxon-HE</artifactId>
-        <version>9.7.0-14</version>
-      </dependency>
-      <dependency>
-        <groupId>org.opengis.cite.xerces</groupId>
-        <artifactId>xercesImpl-xsd11</artifactId>
-        <version>2.12-beta-r1667115</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.25</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.25</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
