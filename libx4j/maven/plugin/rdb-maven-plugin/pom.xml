@@ -189,6 +189,24 @@
           <artifactId>db2jcc_license_cu</artifactId>
           <scope>test</scope>
         </dependency>
+        <dependency>
+          <groupId>org.libx4j.rdb</groupId>
+          <artifactId>rdb-jsql</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.libx4j.rdb</groupId>
+          <artifactId>rdb-dmlx</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.libx4j.rdb</groupId>
+          <artifactId>rdb-ddlx</artifactId>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
       </dependencies>
       <repositories>
         <repository>
@@ -218,24 +236,6 @@
     <dependency>
       <groupId>org.lib4j</groupId>
       <artifactId>lib4j-sql</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.libx4j.rdb</groupId>
-      <artifactId>rdb-jsql</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.libx4j.rdb</groupId>
-      <artifactId>rdb-dmlx</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.libx4j.rdb</groupId>
-      <artifactId>rdb-ddlx</artifactId>
-      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
