@@ -364,9 +364,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.doubleType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MIN(t.doubleType)).FROM(t).WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MIN(t.doubleType)).FROM(t).WHERE(AND(GTE(t.doubleType, 0), LT(t.doubleType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 99999))).
+      WHERE(AND(GTE(t.doubleType, 0), LT(t.doubleType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -555,9 +555,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.decimalType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.decimalType)).FROM(t).WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.decimalType)).FROM(t).WHERE(AND(GTE(t.decimalType, 0), LT(t.decimalType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 99999))).
+      WHERE(AND(GTE(t.decimalType, 0), LT(t.decimalType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -1169,9 +1169,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.intType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.intType)).FROM(t).WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.intType)).FROM(t).WHERE(AND(GTE(t.intType, 0), LT(t.intType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 99999))).
+      WHERE(AND(GTE(t.intType, 0), LT(t.intType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -1374,9 +1374,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.bigintType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.bigintType)).FROM(t).WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.bigintType)).FROM(t).WHERE(AND(GTE(t.bigintType, 0), LT(t.bigintType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 99999))).
+      WHERE(AND(GTE(t.bigintType, 0), LT(t.bigintType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }

@@ -408,7 +408,7 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         EXP(MUL(t.doubleType, -1))).
       FROM(t).
-      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100000))).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -442,7 +442,7 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         POW(3, MUL(t.doubleType, -1))).
       FROM(t).
-      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100000))).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
