@@ -34,13 +34,13 @@ import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.DML.IS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.libx4j.rdb.jsql.RowIterator;
+import org.libx4j.rdb.jsql.Select;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({classicmodels.class, types.class})
@@ -349,12 +349,12 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         MOD(t.doubleType, 1.2)).
       FROM(t).
-      WHERE(IS.NOT.NULL(t.doubleType)).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       final double expected = rows.nextEntity().get().doubleValue() % 1.2;
-      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 1000);
     }
   }
 
@@ -367,12 +367,12 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         MOD(t.doubleType, -1.2)).
       FROM(t).
-      WHERE(IS.NOT.NULL(t.doubleType)).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
       final double expected = rows.nextEntity().get().doubleValue() % -1.2;
-      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 100);
+      Assert.assertEquals(expected, rows.nextEntity().get().doubleValue(), Math.ulp(expected) * 1000);
     }
   }
 
@@ -386,7 +386,7 @@ public class NumericFunctionStaticTest {
         t.floatType,
         MOD(t.doubleType, t.floatType)).
       FROM(t).
-      WHERE(AND(IS.NOT.NULL(t.doubleType), NE(t.floatType, 0))).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), GT(ABS(t.floatType), 10), LT(ABS(t.floatType), 100), GT(ABS(t.doubleType), 10), LT(ABS(t.doubleType), 100))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -408,7 +408,7 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         EXP(MUL(t.doubleType, -1))).
       FROM(t).
-      WHERE(IS.NOT.NULL(t.doubleType)).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100000))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -442,7 +442,7 @@ public class NumericFunctionStaticTest {
         t.doubleType,
         POW(3, MUL(t.doubleType, -1))).
       FROM(t).
-      WHERE(IS.NOT.NULL(t.doubleType)).
+      WHERE(AND(IS.NOT.NULL(t.doubleType), LT(ABS(t.doubleType), 100000))).
       LIMIT(1).
       execute()) {
       Assert.assertTrue(rows.nextRow());

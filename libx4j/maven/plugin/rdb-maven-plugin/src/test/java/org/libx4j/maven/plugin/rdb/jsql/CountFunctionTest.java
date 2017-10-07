@@ -32,10 +32,10 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.COUNT;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.classicmodels;
 import org.libx4j.rdb.jsql.type;
-import org.libx4j.rdb.jsql.DML.COUNT;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(classicmodels.class)

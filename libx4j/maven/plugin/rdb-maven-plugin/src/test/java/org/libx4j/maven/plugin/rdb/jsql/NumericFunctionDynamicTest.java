@@ -39,10 +39,11 @@ import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
 import org.libx4j.rdb.jsql.Condition;
 import org.libx4j.rdb.jsql.RowIterator;
+import org.libx4j.rdb.jsql.Select.untyped.FROM;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.Select.untyped.FROM;
+import org.libx4j.rdb.vendor.DBVendor;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)
@@ -108,7 +109,7 @@ public class NumericFunctionDynamicTest {
   }
 
   @Test
-  public void testSign() throws IOException, SQLException {
+  public void testSign(final DBVendor vendor) throws IOException, SQLException {
     try (final Transaction transaction = new Transaction(types.class)) {
       final types.Type t = getNthRow(selectEntity(new types.Type(), transaction), rowNum++);
       final types.Type clone = t.clone();
@@ -119,7 +120,7 @@ public class NumericFunctionDynamicTest {
       t.bigintType.set(CAST(SIGN(t.bigintType)).AS.BIGINT(t.bigintType.precision()));
       t.floatType.set(CAST(SIGN(t.floatType)).AS.FLOAT());
       t.doubleType.set(CAST(SIGN(t.doubleType)).AS.DOUBLE());
-      t.decimalType.set(CAST(SIGN(t.decimalType)).AS.DECIMAL(t.decimalType.precision(), t.decimalType.scale()));
+      t.decimalType.set(CAST(SIGN(t.decimalType)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), t.decimalType.scale()));
 
       Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
 
@@ -796,7 +797,7 @@ public class NumericFunctionDynamicTest {
       t.floatType.set(POW((float)value, t.floatType));
 
       Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
-      Assert.assertEquals(clone.floatType.get() == null ? null : (float)SafeMath.pow(value, clone.floatType.get()), t.floatType.get(), 0.0000001);
+      Assert.assertEquals(clone.floatType.get() == null ? null : (float)SafeMath.pow(value, clone.floatType.get()), t.floatType.get(), 0.000001);
 
       t = getNthRow(selectEntity(t, AND(
         GTE(t.doubleType, -1),

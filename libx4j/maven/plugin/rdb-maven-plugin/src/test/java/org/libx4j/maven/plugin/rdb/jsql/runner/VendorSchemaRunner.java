@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -31,6 +32,7 @@ import org.libx4j.rdb.ddlx.runner.Vendor;
 import org.libx4j.rdb.ddlx.runner.VendorRunner;
 import org.libx4j.rdb.jsql.Connector;
 import org.libx4j.rdb.jsql.Registry;
+import org.libx4j.rdb.vendor.DBVendor;
 
 public class VendorSchemaRunner extends VendorRunner {
   @Target({ElementType.TYPE, ElementType.METHOD})
@@ -44,20 +46,27 @@ public class VendorSchemaRunner extends VendorRunner {
   }
 
   @Override
+  protected void checkParameters(final FrameworkMethod method, final List<Throwable> errors) {
+    if (method.getMethod().getParameterTypes().length > 0 && method.getMethod().getParameterTypes()[0] != DBVendor.class)
+      errors.add(new Exception("Method " + method.getName() + " accepts a " + DBVendor.class.getName() + " parameter"));
+  }
+
+  @Override
   protected void run(final Class<? extends Vendor> vendorClass, final FrameworkMethod method, final Object test) throws Throwable {
     Schema entityClass = method.getMethod().getAnnotation(Schema.class);
     if (entityClass == null)
       entityClass = method.getMethod().getDeclaringClass().getAnnotation(Schema.class);
 
+    final Vendor vendor = getVendor(vendorClass);
     if (entityClass != null) {
       for (final Class<? extends org.libx4j.rdb.jsql.Schema> schemaClass : Arrays.concat(entityClass.value(), (Class<? extends org.libx4j.rdb.jsql.Schema>)null)) {
         Registry.registerPrepared(schemaClass, new Connector() {
           @Override
           public Connection getConnection() throws SQLException {
             try {
-              return VendorSchemaRunner.this.getConnection(vendorClass);
+              return vendor.getConnection();
             }
-            catch (final IOException | ReflectiveOperationException e) {
+            catch (final IOException e) {
               throw new SQLException(e);
             }
           }
@@ -65,9 +74,9 @@ public class VendorSchemaRunner extends VendorRunner {
       }
     }
 
-    if (method.getMethod().getParameterTypes().length > 0)
-      throw new Exception("Method " + method.getName() + " should have no parameters");
-
-    method.invokeExplosively(test);
+    if (method.getMethod().getParameterTypes().length == 1)
+      method.invokeExplosively(test, vendor.getDBVendor());
+    else
+      method.invokeExplosively(test);
   }
 }
