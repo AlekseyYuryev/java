@@ -18,26 +18,26 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>codegen</role-hint>
+      <role-hint>xjc</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>codegen</id>
+        <id>xjc</id>
         <default-phases>
-          <generate-sources>org.libx4j.maven.plugin:codegen-maven-plugin:istenum</generate-sources>
+          <generate-sources>org.lib4j.maven.plugin:xjc-maven-plugin:xjc</generate-sources>
         </default-phases>
       </configuration>
     </component>
     <component>
       <role>org.apache.maven.lifecycle.Lifecycle</role>
-      <role-hint>codegen</role-hint>
+      <role-hint>xjc</role-hint>
       <implementation>org.apache.maven.lifecycle.Lifecycle</implementation>
       <configuration>
-        <id>codegen</id>
+        <id>xjc</id>
         <phases>
-          <phase>istenum</phase>
+          <phase>xjc</phase>
         </phases>
         <default-phases>
-          <istenum>org.libx4j.maven.plugin:codegen-maven-plugin:istenum</istenum>
+          <xjc>org.lib4j.maven.plugin:xjc-maven-plugin:xjc</xjc>
         </default-phases>
       </configuration>
     </component>
