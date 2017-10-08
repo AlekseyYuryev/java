@@ -114,7 +114,6 @@
   </profiles>
   <modules>
     <module>cdm</module>
-    <module>dbcp</module>
     <module>jetty</module>
     <module>jjb</module>
     <module>maven</module>
