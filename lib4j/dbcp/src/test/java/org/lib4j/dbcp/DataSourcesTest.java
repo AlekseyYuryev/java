@@ -25,13 +25,12 @@ import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.lib4j.lang.Resources;
 import org.lib4j.dbcp.DataSources;
 
 public class DataSourcesTest {
   @Test
   public void test() throws Exception {
-    final DataSource dataSource = DataSources.createDataSource(Resources.getResource("dbcp.xml").getURL());
+    final DataSource dataSource = DataSources.createDataSource(Thread.currentThread().getContextClassLoader().getResource("dbcp.xml"));
     try (final Connection connection = dataSource.getConnection()) {
       if (connection != null) {
         try (

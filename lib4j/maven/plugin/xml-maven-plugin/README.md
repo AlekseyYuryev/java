@@ -24,9 +24,9 @@ Execution with `includes` directive.
 
 ```xml
 <plugin>
-  <groupId>org.libx4j.maven.plugin</groupId>
+  <groupId>org.lib4j.maven.plugin</groupId>
   <artifactId>xml-maven-plugin</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
   <extensions>true</extensions>
   <executions>
     <execution>
@@ -53,9 +53,9 @@ Execution with `includes` and `excludes` directives.
 
 ```xml
 <plugin>
-  <groupId>org.libx4j.maven.plugin</groupId>
+  <groupId>org.lib4j.maven.plugin</groupId>
   <artifactId>xml-maven-plugin</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
   <extensions>true</extensions>
   <executions>
     <execution>
@@ -103,9 +103,9 @@ Execution with `includes` directive.
 
 ```xml
 <plugin>
-  <groupId>org.libx4j.maven.plugin</groupId>
+  <groupId>org.lib4j.maven.plugin</groupId>
   <artifactId>xml-maven-plugin</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
   <extensions>true</extensions>
   <executions>
     <execution>

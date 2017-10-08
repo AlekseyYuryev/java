@@ -16,7 +16,10 @@
 
 package org.lib4j.dbcp;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +27,16 @@ import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.lib4j.lang.Resources;
 import org.lib4j.logging.LoggerPrintWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,18 +46,77 @@ import org.xml.sax.SAXException;
 public final class DataSources {
   private static final String INDEFINITE = "INDEFINITE";
   private static Schema schema;
-
   /**
    * Create a <code>BasicDataSource</code> given a dbcp JAXB binding.
    * <code>ClassLoader.getSystemClassLoader()</code> is used as the <code>driverClassLoader</code> parameter.
    *
    * @param dbcpXml URL of dbcp xml resource.
    * @return the <code>BasicDataSource</code> instance.
-   * @throws SQLException If a database access error occurs.
    * @throws SAXException If a XML validation error occurs.
+   * @throws SQLException If a database access error occurs.
+   * @throws IOException If an IO exception occurs.
    */
-  public static BasicDataSource createDataSource(final URL dbcpXml) throws SQLException, SAXException {
+  public static BasicDataSource createDataSource(final URL dbcpXml) throws IOException, SAXException, SQLException {
     return createDataSource(dbcpXml, ClassLoader.getSystemClassLoader());
+  }
+
+  /**
+   * Create a <code>BasicDataSource</code> given a dbcp JAXB binding.
+   *
+   * @param dbcpXml URL of dbcp xml resource.
+   * @param driverClassLoader Class loader to be used to load the JDBC driver.
+   * @return the <code>BasicDataSource</code> instance.
+   * @throws SAXException If a XML validation error occurs.
+   * @throws SQLException If a database access error occurs.
+   * @throws IOException If an IO exception occurs.
+   */
+  public static BasicDataSource createDataSource(final URL dbcpXml, final ClassLoader driverClassLoader) throws IOException, SAXException, SQLException {
+    try {
+      final Unmarshaller unmarshaller = JAXBContext.newInstance(Dbcp.class).createUnmarshaller();
+      unmarshaller.setSchema(DataSources.schema == null ? DataSources.schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(Thread.currentThread().getContextClassLoader().getResource("dbcp.xsd")) : DataSources.schema);
+
+      try (final InputStream in = dbcpXml.openStream()) {
+        final JAXBElement<Dbcp> element = unmarshaller.unmarshal(XMLInputFactory.newInstance().createXMLStreamReader(in), Dbcp.class);
+        return createDataSource(element.getValue(), driverClassLoader);
+      }
+    }
+    catch (final FactoryConfigurationError e) {
+      throw new UnsupportedOperationException(e);
+    }
+    catch (final JAXBException | XMLStreamException e) {
+      throw new SAXException(e);
+    }
+  }
+
+
+  /**
+   * Create a <code>BasicDataSource</code> given a list of dbcp XSB bindings.
+   * <code>ClassLoader.getSystemClassLoader()</code> is used as the <code>driverClassLoader</code> parameter.
+   *
+   * @param dbcp JAXB dbcp binding.
+   * @param name The name of the pool to create. (The name is declared in the list of <code>dbcps</code>).
+   * @return the <code>BasicDataSource</code> instance.
+   * @throws SQLException If a database access error occurs.
+   */
+  public static BasicDataSource createDataSource(final List<Dbcp> dbcps, final String name) throws SQLException {
+    return createDataSource(dbcps, name, ClassLoader.getSystemClassLoader());
+  }
+
+  /**
+   * Create a <code>BasicDataSource</code> given a list of dbcp XSB bindings.
+   *
+   * @param dbcp JAXB dbcp binding.
+   * @param name The name of the pool to create. (The name is declared in the list of <code>dbcps</code>).
+   * @param driverClassLoader Class loader to be used to load the JDBC driver.
+   * @return the <code>BasicDataSource</code> instance.
+   * @throws SQLException If a database access error occurs.
+   */
+  public static BasicDataSource createDataSource(final List<Dbcp> dbcps, final String name, final ClassLoader driverClassLoader) throws SQLException {
+    for (final Dbcp dbcp : dbcps)
+      if (name.equals(dbcp.getName()))
+        return createDataSource(dbcp, driverClassLoader);
+
+    return null;
   }
 
   /**
@@ -63,26 +128,6 @@ public final class DataSources {
    */
   public static BasicDataSource createDataSource(final Dbcp dbcp) throws SQLException {
     return createDataSource(dbcp, ClassLoader.getSystemClassLoader());
-  }
-
-  /**
-   * Create a <code>BasicDataSource</code> given a dbcp JAXB binding.
-   *
-   * @param dbcpXml URL of dbcp xml resource.
-   * @param driverClassLoader Class loader to be used to load the JDBC driver.
-   * @return the <code>BasicDataSource</code> instance.
-   * @throws SQLException If a database access error occurs.
-   * @throws SAXException If a XML validation error occurs.
-   */
-  public static BasicDataSource createDataSource(final URL dbcpXml, final ClassLoader driverClassLoader) throws SQLException, SAXException {
-    try {
-      final Unmarshaller unmarshaller = JAXBContext.newInstance(Dbcp.class).createUnmarshaller();
-      unmarshaller.setSchema(DataSources.schema == null ? DataSources.schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(Resources.getResource("dbcp.xsd").getURL()) : DataSources.schema);
-      return createDataSource((Dbcp)unmarshaller.unmarshal(dbcpXml), driverClassLoader);
-    }
-    catch (final JAXBException e) {
-      throw new SAXException(e);
-    }
   }
 
   /**
@@ -117,8 +162,20 @@ public final class DataSources {
     if (_default != null && _default.queryTimeout != null)
       dataSource.setDefaultQueryTimeout(_default.queryTimeout);
 
-    if (_default != null && _default.transactionIsolation != null)
-      dataSource.setDefaultTransactionIsolation(_default.transactionIsolation.getConstant());
+    if (_default != null && _default.transactionIsolation != null) {
+      if ("NONE".equals(_default.transactionIsolation))
+        dataSource.setDefaultTransactionIsolation(Connection.TRANSACTION_NONE);
+      else if ("READ_COMMITTED".equals(_default.transactionIsolation))
+        dataSource.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+      else if ("READ_UNCOMMITTED".equals(_default.transactionIsolation))
+        dataSource.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+      else if ("REPEATABLE_READ".equals(_default.transactionIsolation))
+        dataSource.setDefaultTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+      else if ("SERIALIZABLE".equals(_default.transactionIsolation))
+        dataSource.setDefaultTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+      else
+        throw new UnsupportedOperationException("Unsupported transaction isolation: " + _default.transactionIsolation);
+    }
 
     final Dbcp.Connection connection = dbcp.connection;
     if (connection != null) {
@@ -150,9 +207,9 @@ public final class DataSources {
     }
 
     final Dbcp.Pool pool = dbcp.pool;
-    if (pool == null || pool.queue == null || pool.queue == Dbcp.Pool.Queue.lifo)
+    if (pool == null || pool.queue == null || "lifo".equals(pool.queue))
       dataSource.setLifo(true);
-    else if (pool.queue == Dbcp.Pool.Queue.fifo)
+    else if ("fifo".equals(pool.queue))
       dataSource.setLifo(false);
     else
       throw new UnsupportedOperationException("Unsupported queue spec: " + pool.queue);
@@ -163,9 +220,9 @@ public final class DataSources {
     dataSource.setEnableAutoCommitOnReturn(_default == null || pool.enableAutoCommitOnReturn == null || pool.enableAutoCommitOnReturn);
     dataSource.setRollbackOnReturn(pool == null || pool.rollbackOnReturn == null || pool.rollbackOnReturn);
     if (pool != null && pool.removeAbandoned != null) {
-      if (pool.removeAbandoned.on == Dbcp.Pool.RemoveAbandoned.On.borrow)
+      if ("borrow".equals(pool.removeAbandoned.on))
         dataSource.setRemoveAbandonedOnBorrow(true);
-      else if (pool.removeAbandoned.on == Dbcp.Pool.RemoveAbandoned.On.maintenance)
+      else if ("maintenance".equals(pool.removeAbandoned.on))
         dataSource.setRemoveAbandonedOnMaintenance(true);
       else
         throw new UnsupportedOperationException("Unsupported remove abandoned spec: " + pool.removeAbandoned.on);
@@ -204,8 +261,8 @@ public final class DataSources {
       final Logger logger = LoggerFactory.getLogger(DataSources.class);
       final LoggerPrintWriter loggerPrintWriter = new LoggerPrintWriter(logger, Level.valueOf(logging.level.toString()));
       dataSource.setLogWriter(loggerPrintWriter);
-      dataSource.setLogExpiredConnections(logging.logExpiredConnections != null && logging.logExpiredConnections);
-      if (logging.logAbandoned != null && logging.logAbandoned) {
+      dataSource.setLogExpiredConnections(logging.logExpiredConnections);
+      if (logging.logAbandoned) {
         dataSource.setAbandonedLogWriter(loggerPrintWriter);
         dataSource.setLogAbandoned(true);
       }

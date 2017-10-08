@@ -5,7 +5,7 @@
 
 ### Introduction
 
-The `dbcp-maven-archetype` archetype is a quick-start example of how to use the [`libx4j-dbcp`][libx4j-dbcp] library.
+The `dbcp-maven-archetype` archetype is a quick-start example of how to use the [`lib4j-dbcp`][lib4j-dbcp] library.
 
 ### Usage Overview
 
@@ -14,7 +14,7 @@ To use the archetype, execute the following:
   ```tcsh
   mvn archetype:generate \
   -DgroupId=com.mycompany.app -DartifactId=my-app \
-  -DarchetypeGroupId=org.libx4j.maven.archetype -DarchetypeArtifactId=dbcp-maven-archetype \
+  -DarchetypeGroupId=org.lib4j.maven.archetype -DarchetypeArtifactId=dbcp-maven-archetype \
   -DarchetypeCatalog=http://mvn.repo.lib4j.org -DinteractiveMode=false
   ```
 
@@ -22,5 +22,5 @@ To use the archetype, execute the following:
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
-[libx4j-dbcp]: https://github.com/libx4j/libx4j-dbcp
+[lib4j-dbcp]: https://github.com/lib4j/lib4j-dbcp
 [mvn-archetype]: https://img.shields.io/badge/mvn-archetype-yellow.svg

@@ -30,17 +30,13 @@
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <modules>
-    <module>cert-maven-plugin</module>
-    <module>codegen-maven-plugin</module>
     <module>jjb-maven-plugin</module>
     <module>rdb-maven-plugin</module>
-    <module>version-maven-plugin</module>
-    <module>xml-maven-plugin</module>
     <module>xsb-maven-plugin</module>
   </modules>
   <dependencies>
     <dependency>
-      <groupId>org.libx4j.maven</groupId>
+      <groupId>org.lib4j.maven</groupId>
       <artifactId>maven-common</artifactId>
     </dependency>
     <dependency>

@@ -51,7 +51,7 @@ public final class ValidatorMojo extends XmlMojo {
           try {
             getLog().info("   Validating: " + fileName);
 
-            Validator.validate(file, offline);
+            Validator.validate(file.toURI().toURL(), offline);
             if (!recordFile.createNewFile())
               recordFile.setLastModified(file.lastModified());
           }

@@ -33,11 +33,20 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>xjc-maven-plugin</artifactId>
+        <configuration>
+          <sources>
+            <source>src/main/resources/dbcp.xsd</source>
+          </sources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
-    <dependency>
-      <groupId>org.lib4j</groupId>
-      <artifactId>lib4j-lang</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-dbcp2</artifactId>
@@ -48,6 +57,10 @@
       <artifactId>derby</artifactId>
       <version>10.13.1.1</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.lib4j</groupId>
+      <artifactId>lib4j-logging</artifactId>
     </dependency>
     <dependency>
       <groupId>org.lib4j</groupId>

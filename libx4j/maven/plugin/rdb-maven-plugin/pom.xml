@@ -17,7 +17,7 @@
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd http://maven.libx4j.org/common/manifest.xsd http://maven.libx4j.org/common/manifest.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd http://maven.lib4j.org/common/manifest.xsd http://maven.lib4j.org/common/manifest.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.libx4j.maven</groupId>
@@ -61,10 +61,6 @@
                 <phase>process-classes</phase>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.libx4j.maven.plugin</groupId>
-            <artifactId>xml-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
@@ -121,7 +117,7 @@
                   <goal>jsql</goal>
                 </goals>
                 <configuration>
-                  <manifest xmlns="http://maven.libx4j.org/common/manifest.xsd">
+                  <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
                     <destdir>generated-test-sources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/survey.ddlx</resource>
@@ -137,7 +133,7 @@
                 </goals>
                 <configuration>
                   <vendor>MySQL</vendor>
-                  <manifest xmlns="http://maven.libx4j.org/common/manifest.xsd">
+                  <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
                     <destdir>generated-test-resources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/library.ddlx</resource>
@@ -153,7 +149,7 @@
                 </goals>
                 <configuration>
                   <vendor>MySQL</vendor>
-                  <manifest xmlns="http://maven.libx4j.org/common/manifest.xsd">
+                  <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
                     <destdir>generated-test-resources/rdb</destdir>
                     <resources>
                       <resource>src/test/resources/hospital.ddlx</resource>

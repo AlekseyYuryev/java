@@ -43,13 +43,17 @@
   </properties>
   <modules>
     <module>algo</module>
+    <module>cli</module>
+    <module>dbcp</module>
     <module>exec</module>
+    <module>expect</module>
     <module>formatter</module>
     <module>io</module>
     <module>jci</module>
     <module>lang</module>
     <module>logging</module>
     <module>math</module>
+    <module>maven</module>
     <module>measure</module>
     <module>net</module>
     <module>pipeline</module>
@@ -204,6 +208,69 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>xjc-maven-plugin</artifactId>
+          <version>0.8.0-SNAPSHOT</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>xjc</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <enableIntrospection>true</enableIntrospection>
+            <extension>true</extension>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>xml-maven-plugin</artifactId>
+          <version>2.0.4-SNAPSHOT</version>
+          <executions>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <phase>generate-sources</phase>
+              <configuration>
+                <includes>
+                  <include>src/main/**/*.ddlx</include>
+                  <include>src/main/**/*.dmlx</include>
+                  <include>src/main/**/*.jsonx</include>
+                  <include>src/main/**/*.xml</include>
+                  <include>src/main/**/*.xsd</include>
+                  <!--include>src/main/**/*.xsl</include-->
+                </includes>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <phase>generate-test-sources</phase>
+              <configuration>
+                <includes>
+                  <include>src/test/**/*.ddlx</include>
+                  <include>src/test/**/*.dmlx</include>
+                  <include>src/test/**/*.jsonx</include>
+                  <include>src/test/**/*.xml</include>
+                  <include>src/test/**/*.xsd</include>
+                  <!--include>src/main/**/*.xsl</include-->
+                </includes>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -307,7 +374,42 @@
         <artifactId>lib4j-xml</artifactId>
         <version>1.0.3-SNAPSHOT</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.lib4j.maven</groupId>
+        <artifactId>maven-common</artifactId>
+        <version>1.0.3-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.archetype</groupId>
+        <artifactId>cli-maven-archetype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.archetype</groupId>
+        <artifactId>dbcp-maven-archetype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>cert-maven-plugin</artifactId>
+        <version>1.0.5-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>codegen-maven-plugin</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>version-maven-plugin</artifactId>
+        <version>0.1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>2.0.4-SNAPSHOT</version>
+      </dependency>
+      
       <!-- External modules -->
       <dependency>
         <artifactId>junit</artifactId>

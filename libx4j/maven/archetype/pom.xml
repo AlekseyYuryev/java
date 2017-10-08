@@ -30,16 +30,6 @@
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <modules>
-    <module>cli-maven-archetype</module>
-    <module>dbcp-maven-archetype</module>
     <module>rdb-maven-archetype</module>
   </modules>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.libx4j.maven.plugin</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>

@@ -17,7 +17,6 @@
 package org.libx4j.dbcp;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -94,38 +93,38 @@ public final class DataSources {
       throw new IllegalArgumentException("Missing required value for '/dbcp:jdbc/dbcp:driverClassName'");
 
     final Dbcp jaxbDbcp = new Dbcp();
-    jaxbDbcp.jdbc = new Dbcp.Jdbc();
-    jaxbDbcp.jdbc.driverClassName = jdbc._driverClassName(0).text();
-    jaxbDbcp.jdbc.url = jdbc._url(0).text();
-    jaxbDbcp.jdbc.username = jdbc._username(0).text();
-    jaxbDbcp.jdbc.password = jdbc._password(0).text();
+    jaxbDbcp.setJdbc(new Dbcp.Jdbc());
+    jaxbDbcp.getJdbc().setDriverClassName(jdbc._driverClassName(0).text());
+    jaxbDbcp.getJdbc().setUrl(jdbc._url(0).text());
+    jaxbDbcp.getJdbc().setUsername(jdbc._username(0).text());
+    jaxbDbcp.getJdbc().setPassword(jdbc._password(0).text());
 
     final dbcp_dbcp._default _default = dbcp._default(0);
     if (!_default.isNull()) {
-      jaxbDbcp._default = new Dbcp.Default();
+      jaxbDbcp.setDefault(new Dbcp.Default());
       if (!_default._catalog(0).isNull())
-        jaxbDbcp._default.catalog = _default._catalog(0).text();
+        jaxbDbcp.getDefault().setCatalog(_default._catalog(0).text());
 
       if (!_default._autoCommit(0).isNull())
-        jaxbDbcp._default.autoCommit = _default._autoCommit(0).text();
+        jaxbDbcp.getDefault().setAutoCommit(_default._autoCommit(0).text());
 
       if (!_default._readOnly(0).isNull())
-        jaxbDbcp._default.readOnly = _default._readOnly(0).text();
+        jaxbDbcp.getDefault().setReadOnly(_default._readOnly(0).text());
 
       if (!_default._queryTimeout(0).isNull())
-        jaxbDbcp._default.queryTimeout = _default._queryTimeout(0).text();
+        jaxbDbcp.getDefault().setQueryTimeout(_default._queryTimeout(0).text());
 
       if (!_default._transactionIsolation(0).isNull()) {
         if (dbcp_dbcp._default._transactionIsolation.NONE.text().equals(_default._transactionIsolation(0).text()))
-          jaxbDbcp._default.transactionIsolation = Dbcp.Default.TransactionIsolation.NONE;
+          jaxbDbcp.getDefault().setTransactionIsolation("NONE");
         else if (dbcp_dbcp._default._transactionIsolation.READ_5FCOMMITTED.text().equals(_default._transactionIsolation(0).text()))
-          jaxbDbcp._default.transactionIsolation = Dbcp.Default.TransactionIsolation.READ_COMMITTED;
+          jaxbDbcp.getDefault().setTransactionIsolation("READ_COMMITTED");
         else if (dbcp_dbcp._default._transactionIsolation.READ_5FUNCOMMITTED.text().equals(_default._transactionIsolation(0).text()))
-          jaxbDbcp._default.transactionIsolation = Dbcp.Default.TransactionIsolation.READ_UNCOMMITTED;
+          jaxbDbcp.getDefault().setTransactionIsolation("READ_UNCOMMITTED");
         else if (dbcp_dbcp._default._transactionIsolation.REPEATABLE_5FREAD.text().equals(_default._transactionIsolation(0).text()))
-          jaxbDbcp._default.transactionIsolation = Dbcp.Default.TransactionIsolation.REPEATABLE_READ;
+          jaxbDbcp.getDefault().setTransactionIsolation("REPEATABLE_READ");
         else if (dbcp_dbcp._default._transactionIsolation.SERIALIZABLE.text().equals(_default._transactionIsolation(0).text()))
-          jaxbDbcp._default.transactionIsolation = Dbcp.Default.TransactionIsolation.SERIALIZABLE;
+          jaxbDbcp.getDefault().setTransactionIsolation("SERIALIZABLE");
         else
           throw new UnsupportedOperationException("Unsupported transaction isolation: " + _default._transactionIsolation(0).text());
       }
@@ -133,129 +132,131 @@ public final class DataSources {
 
     final dbcp_dbcp._connection connection = dbcp._connection(0);
     if (!connection.isNull()) {
-      jaxbDbcp.connection = new Dbcp.Connection();
+      jaxbDbcp.setConnection(new Dbcp.Connection());
       if (!connection._properties(0).isNull()) {
-        jaxbDbcp.connection.properties = new Dbcp.Connection.Properties();
-        jaxbDbcp.connection.properties.property = new ArrayList<Dbcp.Connection.Properties.Property>();
+        jaxbDbcp.getConnection().setProperties(new Dbcp.Connection.Properties());
         for (final dbcp_dbcp._connection._properties._property property : connection._properties(0)._property())
-          if (property._name$() != null && property._name$().text() != null && property._value$() != null && property._value$().text() != null)
-            jaxbDbcp.connection.properties.property.add(new Dbcp.Connection.Properties.Property(property._name$().text(), property._value$().text()));
+          if (property._name$() != null && property._name$().text() != null && property._value$() != null && property._value$().text() != null) {
+            final Dbcp.Connection.Properties.Property prop = new Dbcp.Connection.Properties.Property();
+            prop.setName(property._name$().text());
+            prop.setValue(property._value$().text());
+            jaxbDbcp.getConnection().getProperties().getProperty().add(prop);
+          }
       }
 
       if (!connection._initSqls(0).isNull()) {
-        jaxbDbcp.connection.initSqls = new Dbcp.Connection.InitSqls();
-        jaxbDbcp.connection.initSqls.initSql = new ArrayList<String>();
+        jaxbDbcp.getConnection().setInitSqls(new Dbcp.Connection.InitSqls());
         for (final $dt_stringNonEmpty initSql : connection._initSqls(0)._initSql())
-          jaxbDbcp.connection.initSqls.initSql.add(initSql.text());
+          jaxbDbcp.getConnection().getInitSqls().getInitSql().add(initSql.text());
       }
     }
 
     final dbcp_dbcp._size size = dbcp._size(0);
     if (!size.isNull()) {
-      jaxbDbcp.size = new Dbcp.Size();
+      jaxbDbcp.setSize(new Dbcp.Size());
       if (!size._initialSize(0).isNull())
-        jaxbDbcp.size.initialSize = size._initialSize(0).text().intValue();
+        jaxbDbcp.getSize().setInitialSize(size._initialSize(0).text().intValue());
 
       if (!size._maxTotal(0).isNull())
-        jaxbDbcp.size.maxTotal = size._maxTotal(0).text();
+        jaxbDbcp.getSize().setMaxTotal(size._maxTotal(0).text());
 
       if (!size._maxIdle(0).isNull())
-        jaxbDbcp.size.maxIdle = size._maxIdle(0).text();
+        jaxbDbcp.getSize().setMaxIdle(size._maxIdle(0).text());
 
       if (!size._minIdle(0).isNull())
-        jaxbDbcp.size.minIdle = size._minIdle(0).text();
+        jaxbDbcp.getSize().setMinIdle(size._minIdle(0).text());
 
       if (!size._maxOpenPreparedStatements(0).isNull())
-        jaxbDbcp.size.maxOpenPreparedStatements = size._maxOpenPreparedStatements(0).text();
+        jaxbDbcp.getSize().setMaxOpenPreparedStatements(size._maxOpenPreparedStatements(0).text());
     }
 
     final dbcp_dbcp._pool pool = dbcp._pool(0);
     if (!pool.isNull()) {
-      jaxbDbcp.pool = new Dbcp.Pool();
+      jaxbDbcp.setPool(new Dbcp.Pool());
       if (!pool._queue(0).isNull())
-        jaxbDbcp.pool.queue = Dbcp.Pool.Queue.valueOf(pool._queue(0).text());
+        jaxbDbcp.getPool().setQueue(pool._queue(0).text());
 
       if (!pool._cacheState(0).isNull())
-        jaxbDbcp.pool.cacheState = pool._cacheState(0).text();
+        jaxbDbcp.getPool().setCacheState(pool._cacheState(0).text());
 
       if (!pool._maxWait(0).isNull())
-        jaxbDbcp.pool.maxWait = pool._maxWait(0).text();
+        jaxbDbcp.getPool().setMaxWait(pool._maxWait(0).text());
 
       if (!pool._maxConnectionLifetime(0).isNull())
-        jaxbDbcp.pool.maxConnectionLifetime = pool._maxConnectionLifetime(0).text();
+        jaxbDbcp.getPool().setMaxConnectionLifetime(pool._maxConnectionLifetime(0).text());
 
       if (!pool._enableAutoCommitOnReturn(0).isNull())
-        jaxbDbcp.pool.enableAutoCommitOnReturn = pool._enableAutoCommitOnReturn(0).text();
+        jaxbDbcp.getPool().setEnableAutoCommitOnReturn(pool._enableAutoCommitOnReturn(0).text());
 
       if (!pool._rollbackOnReturn(0).isNull())
-        jaxbDbcp.pool.rollbackOnReturn = pool._rollbackOnReturn(0).text();
+        jaxbDbcp.getPool().setRollbackOnReturn(pool._rollbackOnReturn(0).text());
 
       if (!pool._enableAutoCommitOnReturn(0).isNull())
-        jaxbDbcp.pool.enableAutoCommitOnReturn = pool._enableAutoCommitOnReturn(0).text();
+        jaxbDbcp.getPool().setEnableAutoCommitOnReturn(pool._enableAutoCommitOnReturn(0).text());
 
       if (!pool._removeAbandoned(0).isNull()) {
-        jaxbDbcp.pool.removeAbandoned = new Dbcp.Pool.RemoveAbandoned();
-        jaxbDbcp.pool.removeAbandoned.on = Dbcp.Pool.RemoveAbandoned.On.valueOf(pool._removeAbandoned(0)._on$().text());
-        jaxbDbcp.pool.removeAbandoned.timeout = pool._removeAbandoned(0)._timeout$().text();
+        jaxbDbcp.getPool().setRemoveAbandoned(new Dbcp.Pool.RemoveAbandoned());
+        jaxbDbcp.getPool().getRemoveAbandoned().setOn(pool._removeAbandoned(0)._on$().text());
+        jaxbDbcp.getPool().getRemoveAbandoned().setTimeout(pool._removeAbandoned(0)._timeout$().text());
       }
 
       if (!pool._abandonedUsageTracking(0).isNull())
-        jaxbDbcp.pool.abandonedUsageTracking = pool._abandonedUsageTracking(0).text();
+        jaxbDbcp.getPool().setAbandonedUsageTracking(pool._abandonedUsageTracking(0).text());
 
       if (!pool._allowAccessToUnderlyingConnection(0).isNull())
-        jaxbDbcp.pool.allowAccessToUnderlyingConnection = pool._allowAccessToUnderlyingConnection(0).text();
+        jaxbDbcp.getPool().setAllowAccessToUnderlyingConnection(pool._allowAccessToUnderlyingConnection(0).text());
 
       final dbcp_dbcp._pool._eviction eviction = pool._eviction(0);
       if (!eviction.isNull()) {
-        jaxbDbcp.pool.eviction = new Dbcp.Pool.Eviction();
+        jaxbDbcp.getPool().setEviction(new Dbcp.Pool.Eviction());
         if (!eviction._timeBetweenRuns(0).isNull())
-          jaxbDbcp.pool.eviction.timeBetweenRuns = eviction._timeBetweenRuns(0).text();
+          jaxbDbcp.getPool().getEviction().setTimeBetweenRuns(eviction._timeBetweenRuns(0).text());
 
         if (!eviction._numTestsPerRun(0).isNull())
-          jaxbDbcp.pool.eviction.numTestsPerRun = eviction._numTestsPerRun(0).text();
+          jaxbDbcp.getPool().getEviction().setNumTestsPerRun(eviction._numTestsPerRun(0).text());
 
         if (!eviction._minIdleTime(0).isNull())
-          jaxbDbcp.pool.eviction.minIdleTime = eviction._minIdleTime(0).text();
+          jaxbDbcp.getPool().getEviction().setMinIdleTime(eviction._minIdleTime(0).text());
 
         if (!eviction._softMinIdleTime(0).isNull())
-          jaxbDbcp.pool.eviction.softMinIdleTime = eviction._softMinIdleTime(0).text();
+          jaxbDbcp.getPool().getEviction().setSoftMinIdleTime(eviction._softMinIdleTime(0).text());
 
         if (!eviction._policyClassName(0).isNull())
-          jaxbDbcp.pool.eviction.policyClassName = eviction._policyClassName(0).text();
+          jaxbDbcp.getPool().getEviction().setPolicyClassName(eviction._policyClassName(0).text());
       }
     }
 
     final dbcp_dbcp._validation validation = dbcp._validation(0);
     if (!validation.isNull()) {
-      jaxbDbcp.validation = new Dbcp.Validation();
+      jaxbDbcp.setValidation(new Dbcp.Validation());
       if (!validation._query(0).isNull())
-        jaxbDbcp.validation.query = validation._query(0).text();
+        jaxbDbcp.getValidation().setQuery(validation._query(0).text());
 
       if (!validation._testOnBorrow(0).isNull())
-        jaxbDbcp.validation.testOnBorrow = validation._testOnBorrow(0).text();
+        jaxbDbcp.getValidation().setTestOnBorrow(validation._testOnBorrow(0).text());
 
       if (!validation._testOnReturn(0).isNull())
-        jaxbDbcp.validation.testOnReturn = validation._testOnReturn(0).text();
+        jaxbDbcp.getValidation().setTestOnReturn(validation._testOnReturn(0).text());
 
       if (!validation._testWhileIdle(0).isNull())
-        jaxbDbcp.validation.testWhileIdle = validation._testWhileIdle(0).text();
+        jaxbDbcp.getValidation().setTestWhileIdle(validation._testWhileIdle(0).text());
 
       if (!validation._fastFail(0).isNull()) {
-        jaxbDbcp.validation.fastFail = new Dbcp.Validation.FastFail();
+        jaxbDbcp.getValidation().setFastFail(new Dbcp.Validation.FastFail());
         if (!validation._fastFail(0)._disconnectionSqlCodes(0).isNull())
-          jaxbDbcp.validation.fastFail.disconnectionSqlCodes = validation._fastFail(0)._disconnectionSqlCodes(0).text();
+          jaxbDbcp.getValidation().getFastFail().setDisconnectionSqlCodes(validation._fastFail(0)._disconnectionSqlCodes(0).text());
       }
     }
 
     final dbcp_dbcp._logging logging = dbcp._logging(0);
     if (!logging.isNull()) {
-      jaxbDbcp.logging = new Dbcp.Logging();
-      jaxbDbcp.logging.level = Dbcp.Logging.Level.valueOf(logging._level(0).text());
+      jaxbDbcp.setLogging(new Dbcp.Logging());
+      jaxbDbcp.getLogging().setLevel(logging._level(0).text());
       if (!logging._logExpiredConnections(0).isNull())
-        jaxbDbcp.logging.logExpiredConnections = logging._logExpiredConnections(0).text();
+        jaxbDbcp.getLogging().setLogExpiredConnections(logging._logExpiredConnections(0).text());
 
       if (!logging._logAbandoned(0).isNull())
-        jaxbDbcp.logging.logAbandoned = logging._logAbandoned(0).text();
+        jaxbDbcp.getLogging().setLogAbandoned(logging._logAbandoned(0).text());
     }
 
     return org.lib4j.dbcp.DataSources.createDataSource(jaxbDbcp);

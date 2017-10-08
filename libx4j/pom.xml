@@ -113,10 +113,8 @@
     </profile>
   </profiles>
   <modules>
-    <module>cli</module>
     <module>cdm</module>
     <module>dbcp</module>
-    <module>expect</module>
     <module>jetty</module>
     <module>jjb</module>
     <module>maven</module>
@@ -164,11 +162,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.libx4j.maven.plugin</groupId>
+          <groupId>org.lib4j.maven.plugin</groupId>
           <artifactId>version-maven-plugin</artifactId>
           <version>0.1.2-SNAPSHOT</version>
           <configuration>
@@ -176,7 +178,7 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.libx4j.maven.plugin</groupId>
+          <groupId>org.lib4j.maven.plugin</groupId>
           <artifactId>xml-maven-plugin</artifactId>
           <version>2.0.4-SNAPSHOT</version>
           <executions>
@@ -290,7 +292,7 @@
           </executions>
         </plugin>
         <plugin>
-          <groupId>org.libx4j.maven.plugin</groupId>
+          <groupId>org.lib4j.maven.plugin</groupId>
           <artifactId>codegen-maven-plugin</artifactId>
           <version>1.0.2-SNAPSHOT</version>
           <executions>
@@ -467,9 +469,14 @@
         <version>0.0.7-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.libx4j</groupId>
-        <artifactId>libx4j-cli</artifactId>
+        <groupId>org.lib4j</groupId>
+        <artifactId>lib4j-cli</artifactId>
         <version>2.1.6-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j</groupId>
+        <artifactId>lib4j-dbcp</artifactId>
+        <version>2.0.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.libx4j</groupId>
@@ -498,12 +505,17 @@
         <type>test-jar</type>
       </dependency>
       <dependency>
-        <groupId>org.libx4j.maven.archetype</groupId>
+        <groupId>org.lib4j.maven</groupId>
+        <artifactId>maven-common</artifactId>
+        <version>1.0.3-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.archetype</groupId>
         <artifactId>cli-maven-archetype</artifactId>
         <version>1.0</version>
       </dependency>
       <dependency>
-        <groupId>org.libx4j.maven.archetype</groupId>
+        <groupId>org.lib4j.maven.archetype</groupId>
         <artifactId>dbcp-maven-archetype</artifactId>
         <version>1.0</version>
       </dependency>
@@ -513,24 +525,24 @@
         <version>1.0</version>
       </dependency>
       <dependency>
-        <groupId>org.libx4j.maven</groupId>
-        <artifactId>maven-common</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.libx4j.maven.plugin</groupId>
+        <groupId>org.lib4j.maven.plugin</groupId>
         <artifactId>cert-maven-plugin</artifactId>
         <version>1.0.5-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.libx4j.maven.plugin</groupId>
+        <groupId>org.lib4j.maven.plugin</groupId>
         <artifactId>codegen-maven-plugin</artifactId>
         <version>1.0.2-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.libx4j.maven.plugin</groupId>
+        <groupId>org.lib4j.maven.plugin</groupId>
         <artifactId>version-maven-plugin</artifactId>
         <version>0.1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>2.0.4-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.libx4j.maven.plugin</groupId>
@@ -541,11 +553,6 @@
         <groupId>org.libx4j.maven.plugin</groupId>
         <artifactId>jjb-maven-plugin</artifactId>
         <version>0.9.7-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.libx4j.maven.plugin</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-        <version>2.0.4-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.libx4j.maven.plugin</groupId>
