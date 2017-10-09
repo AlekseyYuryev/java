@@ -34,6 +34,7 @@ CohesionFirst™ is an engineering approach that guides engineers to do more qua
 * [rdb-maven-plugin][rdb-maven-plugin] - Maven plugin to execute [RDB][rdb] code generator.
 * [jjb-maven-plugin][jjb-maven-plugin] - Maven plugin to execute [jJB][jjb] code generator.
 * [xml-maven-plugin][xml-maven-plugin] - Maven plugin to execute XML tasks, such as `validate`.
+* [xjc-maven-plugin][xjc-maven-plugin] - Maven plugin to execute the Java XML Binding Compiler.
 * [xsb-maven-plugin][xsb-maven-plugin] - Maven plugin to execute [XSB][xsb] code generator.
 
 #### **Maven Archetypes**
@@ -68,6 +69,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [SevaSafris]: https://github.com/SevaSafris
 [version-maven-plugin]: https://github.com/lib4j/version-maven-plugin
 [xml-maven-plugin]: https://github.com/lib4j/xml-maven-plugin
+[xjc-maven-plugin]: https://github.com/lib4j/xjc-maven-plugin
 [xrs]: https://github.com/libx4j/xrs
 [xsb-maven-plugin]: https://github.com/libx4j/xsb-maven-plugin
 [xsb]: https://github.com/libx4j/xsb
