@@ -379,6 +379,11 @@
       </dependency>
       <dependency>
         <groupId>org.lib4j</groupId>
+        <artifactId>lib4j-cli</artifactId>
+        <version>2.1.6-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j</groupId>
         <artifactId>lib4j-dbcp</artifactId>
         <version>2.0.3-SNAPSHOT</version>
       </dependency>
@@ -466,21 +471,6 @@
         <groupId>org.libx4j</groupId>
         <artifactId>libx4j-cdm</artifactId>
         <version>0.0.7-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.lib4j</groupId>
-        <artifactId>lib4j-cli</artifactId>
-        <version>2.1.6-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.lib4j</groupId>
-        <artifactId>lib4j-dbcp</artifactId>
-        <version>2.0.3-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.libx4j</groupId>
-        <artifactId>libx4j-dbcp</artifactId>
-        <version>2.0.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.libx4j.jjb</groupId>

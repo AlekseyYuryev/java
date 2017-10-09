@@ -104,18 +104,21 @@
             <artifactId>jjb-maven-plugin</artifactId>
             <executions>
               <execution>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
                 <phase>generate-test-sources</phase>
-                <configuration>
-                  <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
-                    <destdir>generated-test-sources/jjb</destdir>
-                    <resources>
-                      <resource>src/test/resources/json.jsonx</resource>
-                      <resource>src/test/resources/type.jsonx</resource>
-                    </resources>
-                  </manifest>
-                </configuration>
               </execution>
             </executions>
+            <configuration>
+              <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
+                <destdir>generated-test-sources/jjb</destdir>
+                <resources>
+                  <resource>src/test/resources/json.jsonx</resource>
+                  <resource>src/test/resources/type.jsonx</resource>
+                </resources>
+              </manifest>
+            </configuration>
           </plugin>
         </plugins>
       </build>

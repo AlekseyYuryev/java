@@ -215,6 +215,11 @@
         </plugin>
         <plugin>
           <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>codegen-maven-plugin</artifactId>
+          <version>1.0.2-SNAPSHOT</version>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
           <artifactId>xjc-maven-plugin</artifactId>
           <version>0.8.0-SNAPSHOT</version>
           <executions>
