@@ -32,12 +32,12 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.IS;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.Transaction;
 import org.libx4j.rdb.jsql.classicmodels;
+import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.DML.IS;
-import org.libx4j.rdb.jsql.type.CHAR;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema({types.class, classicmodels.class})
@@ -48,7 +48,7 @@ public class StringValueExpressionTest {
   @Test
   public void testConcatStatic() throws IOException, SQLException {
     final classicmodels.Office o = new classicmodels.Office();
-    try (final RowIterator<CHAR> rows =
+    try (final RowIterator<type.CHAR> rows =
       SELECT(
         // Char/Enum
         CONCAT(o.city, o.country),
@@ -180,6 +180,48 @@ public class StringValueExpressionTest {
 
       Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
       Assert.assertEquals(clone.charType.get() + clone.enumType.get(), t.charType.get());
+
+      transaction.rollback();
+    }
+  }
+
+  @Test
+  public void testChangeCaseStatic() throws IOException, SQLException {
+    final classicmodels.Office o = new classicmodels.Office();
+    try (final RowIterator<type.CHAR> rows =
+      SELECT(
+        LOWER(o.city),
+        UPPER(o.city),
+        LOWER("CITY"),
+        UPPER("city")).
+      FROM(o).
+      execute()) {
+      Assert.assertTrue(rows.nextRow());
+
+      Assert.assertEquals("san francisco", rows.nextEntity().get());
+      Assert.assertEquals("SAN FRANCISCO", rows.nextEntity().get());
+      Assert.assertEquals("city", rows.nextEntity().get());
+      Assert.assertEquals("CITY", rows.nextEntity().get());
+    }
+  }
+
+  @Test
+  public void testChangeCaseDynamic() throws IOException, SQLException {
+    try (final Transaction transaction = new Transaction(types.class)) {
+      types.Type t = new types.Type();
+      t = NumericFunctionDynamicTest.getNthRow(NumericFunctionDynamicTest.selectEntity(t, IS.NOT.NULL(t.charType), transaction), 0);
+
+      final types.Type clone = t.clone();
+
+      t.charType.set(LOWER(t.charType));
+
+      Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
+      Assert.assertEquals(clone.charType.get().toLowerCase(), t.charType.get());
+
+      t.charType.set(UPPER(t.charType));
+
+      Assert.assertArrayEquals(new int[] {1}, UPDATE(t).execute(transaction));
+      Assert.assertEquals(clone.charType.get().toUpperCase(), t.charType.get());
 
       transaction.rollback();
     }

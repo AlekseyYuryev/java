@@ -52,17 +52,9 @@ public final class SourceFormat {
     FormatModule.restetDepth();
 
     String formated = "";
-    try {
-      StringTokenizer stringTokenizer = new StringTokenizer(unformated, "\t\n\r\f");
-      String token = null;
-      while (stringTokenizer.hasMoreTokens()) {
-        token = stringTokenizer.nextToken();
-        formated = modules(formated, token);
-      }
-    }
-    catch (final Exception e) {
-      throw new FormatError(e);
-    }
+    final StringTokenizer stringTokenizer = new StringTokenizer(unformated, "\t\n\r\f");
+    while (stringTokenizer.hasMoreTokens())
+      formated = modules(formated, stringTokenizer.nextToken());
 
     return formated;
   }

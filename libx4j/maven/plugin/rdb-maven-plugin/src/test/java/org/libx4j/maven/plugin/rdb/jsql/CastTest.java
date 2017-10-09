@@ -32,10 +32,11 @@ import org.libx4j.rdb.ddlx.runner.MySQL;
 import org.libx4j.rdb.ddlx.runner.Oracle;
 import org.libx4j.rdb.ddlx.runner.PostgreSQL;
 import org.libx4j.rdb.ddlx.runner.SQLite;
+import org.libx4j.rdb.jsql.DML.NOT;
+import org.libx4j.rdb.vendor.DBVendor;
 import org.libx4j.rdb.jsql.RowIterator;
 import org.libx4j.rdb.jsql.type;
 import org.libx4j.rdb.jsql.types;
-import org.libx4j.rdb.jsql.DML.NOT;
 
 @RunWith(VendorSchemaRunner.class)
 @VendorSchemaRunner.Schema(types.class)
@@ -111,12 +112,12 @@ public class CastTest {
   }
 
   @Test
-  public void testFloatToDecimal() throws IOException, SQLException {
+  public void testFloatToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.floatType).AS.DECIMAL(31, 10),
-        CAST(SELECT(t.floatType).FROM(t).LIMIT(1)).AS.DECIMAL(31, 10)).
+        CAST(t.floatType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(t.floatType).FROM(t).LIMIT(1)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -124,12 +125,12 @@ public class CastTest {
   }
 
   @Test
-  public void testFloatToDecimalUnsigned() throws IOException, SQLException {
+  public void testFloatToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.floatType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(MAX(t.floatType)).FROM(t).WHERE(GTE(t.floatType, 0))).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.floatType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MAX(t.floatType)).FROM(t).WHERE(GTE(t.floatType, 0))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.floatType, 0)).
       execute()) {
@@ -289,12 +290,12 @@ public class CastTest {
   }
 
   @Test
-  public void testDoubleToDecimal() throws IOException, SQLException {
+  public void testDoubleToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.doubleType).AS.DECIMAL(31, 10),
-        CAST(SELECT(AVG(t.doubleType)).FROM(t)).AS.DECIMAL(31, 10)).
+        CAST(t.doubleType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(AVG(t.doubleType)).FROM(t)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -302,12 +303,12 @@ public class CastTest {
   }
 
   @Test
-  public void testDoubleToDecimalUnsigned() throws IOException, SQLException {
+  public void testDoubleToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.doubleType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(MAX(t.doubleType)).FROM(t).WHERE(GTE(t.doubleType, 0))).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.doubleType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MAX(t.doubleType)).FROM(t).WHERE(GTE(t.doubleType, 0))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.doubleType, 0)).
       execute()) {
@@ -363,9 +364,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.doubleType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MIN(t.doubleType)).FROM(t).WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MIN(t.doubleType)).FROM(t).WHERE(AND(GTE(t.doubleType, 0), LT(t.doubleType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.doubleType, 0), LTE(t.doubleType, 99999))).
+      WHERE(AND(GTE(t.doubleType, 0), LT(t.doubleType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -480,12 +481,12 @@ public class CastTest {
   }
 
   @Test
-  public void testDecimalToDecimal() throws IOException, SQLException {
+  public void testDecimalToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.decimalType).AS.DECIMAL(31, 10),
-        CAST(SELECT(MIN(t.decimalType)).FROM(t)).AS.DECIMAL(31, 10)).
+        CAST(t.decimalType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MIN(t.decimalType)).FROM(t)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -493,12 +494,12 @@ public class CastTest {
   }
 
   @Test
-  public void testDecimalToDecimalUnsigned() throws IOException, SQLException {
+  public void testDecimalToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.decimalType).AS.UNSIGNED(31, 10),
-        CAST(SELECT(AVG(t.decimalType)).FROM(t).WHERE(GTE(t.decimalType, 0))).AS.UNSIGNED(31, 10)).
+        CAST(t.decimalType).AS.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(AVG(t.decimalType)).FROM(t).WHERE(GTE(t.decimalType, 0))).AS.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.decimalType, 0)).
       execute()) {
@@ -554,9 +555,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.decimalType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.decimalType)).FROM(t).WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.decimalType)).FROM(t).WHERE(AND(GTE(t.decimalType, 0), LT(t.decimalType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.decimalType, 0), LTE(t.decimalType, 99999))).
+      WHERE(AND(GTE(t.decimalType, 0), LT(t.decimalType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -686,12 +687,12 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToDecimal() throws IOException, SQLException {
+  public void testSmallIntToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.tinyintType).AS.DECIMAL(31, 10),
-        CAST(SELECT(MIN(t.tinyintType)).FROM(t)).AS.DECIMAL(31, 10)).
+        CAST(t.tinyintType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MIN(t.tinyintType)).FROM(t)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -699,12 +700,12 @@ public class CastTest {
   }
 
   @Test
-  public void testSmallIntToDecimalUnsigned() throws IOException, SQLException {
+  public void testSmallIntToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.tinyintType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(AVG(t.tinyintType)).FROM(t).WHERE(GTE(t.tinyintType, 0))).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.tinyintType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(AVG(t.tinyintType)).FROM(t).WHERE(GTE(t.tinyintType, 0))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.tinyintType, 0)).
       execute()) {
@@ -890,12 +891,12 @@ public class CastTest {
   }
 
   @Test
-  public void testMediumIntToDecimal() throws IOException, SQLException {
+  public void testMediumIntToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.smallintType).AS.DECIMAL(31, 10),
-        CAST(SELECT(MIN(t.smallintType)).FROM(t)).AS.DECIMAL(31, 10)).
+        CAST(t.smallintType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MIN(t.smallintType)).FROM(t)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -903,12 +904,12 @@ public class CastTest {
   }
 
   @Test
-  public void testMediumIntToDecimalUnsigned() throws IOException, SQLException {
+  public void testMediumIntToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.smallintType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(AVG(t.smallintType)).FROM(t).WHERE(GTE(t.tinyintType, 0))).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.smallintType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(AVG(t.smallintType)).FROM(t).WHERE(GTE(t.tinyintType, 0))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.tinyintType, 0)).
       execute()) {
@@ -1094,12 +1095,12 @@ public class CastTest {
   }
 
   @Test
-  public void testIntToDecimal() throws IOException, SQLException {
+  public void testIntToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.intType).AS.DECIMAL(31, 10),
-        CAST(SELECT(MIN(t.intType)).FROM(t)).AS.DECIMAL(31, 10)).
+        CAST(t.intType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(MIN(t.intType)).FROM(t)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       execute()) {
       Assert.assertTrue(rows.nextRow());
@@ -1107,12 +1108,12 @@ public class CastTest {
   }
 
   @Test
-  public void testIntToDecimalUnsigned() throws IOException, SQLException {
+  public void testIntToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.intType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(AVG(t.intType)).FROM(t).WHERE(GTE(t.intType, 0))).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.intType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(AVG(t.intType)).FROM(t).WHERE(GTE(t.intType, 0))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(GTE(t.intType, 0)).
       execute()) {
@@ -1168,9 +1169,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.intType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.intType)).FROM(t).WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.intType)).FROM(t).WHERE(AND(GTE(t.intType, 0), LT(t.intType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.intType, 0), LTE(t.intType, 99999))).
+      WHERE(AND(GTE(t.intType, 0), LT(t.intType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -1298,12 +1299,12 @@ public class CastTest {
   }
 
   @Test
-  public void testBigIntToDecimal() throws IOException, SQLException {
+  public void testBigIntToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.bigintType).AS.DECIMAL(20, 5),
-        CAST(SELECT(MIN(t.bigintType)).FROM(t).WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GT(t.bigintType, Integer.MIN_VALUE)))).AS.DECIMAL(20, 5)).
+        CAST(t.bigintType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 5),
+        CAST(SELECT(MIN(t.bigintType)).FROM(t).WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GT(t.bigintType, Integer.MIN_VALUE)))).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 5)).
       FROM(t).
       WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GT(t.bigintType, Integer.MIN_VALUE))).
       execute()) {
@@ -1312,12 +1313,12 @@ public class CastTest {
   }
 
   @Test
-  public void testBigIntToDecimalUnsigned() throws IOException, SQLException {
+  public void testBigIntToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.bigintType).AS.DECIMAL.UNSIGNED(20, 5),
-        CAST(SELECT(AVG(t.bigintType)).FROM(t).WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GTE(t.bigintType, 0)))).AS.DECIMAL.UNSIGNED(20, 5)).
+        CAST(t.bigintType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 5),
+        CAST(SELECT(AVG(t.bigintType)).FROM(t).WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GTE(t.bigintType, 0)))).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 5)).
       FROM(t).
       WHERE(AND(LT(t.bigintType, Integer.MAX_VALUE), GTE(t.bigintType, 0))).
       execute()) {
@@ -1373,9 +1374,9 @@ public class CastTest {
     try (final RowIterator<type.SMALLINT.UNSIGNED> rows =
       SELECT(
         CAST(t.bigintType).AS.SMALLINT.UNSIGNED(5),
-        CAST(SELECT(MAX(t.bigintType)).FROM(t).WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 99999)))).AS.SMALLINT.UNSIGNED(5)).
+        CAST(SELECT(MAX(t.bigintType)).FROM(t).WHERE(AND(GTE(t.bigintType, 0), LT(t.bigintType, Short.MAX_VALUE)))).AS.SMALLINT.UNSIGNED(5)).
       FROM(t).
-      WHERE(AND(GTE(t.bigintType, 0), LTE(t.bigintType, 99999))).
+      WHERE(AND(GTE(t.bigintType, 0), LT(t.bigintType, Short.MAX_VALUE))).
       execute()) {
       Assert.assertTrue(rows.nextRow());
     }
@@ -1449,12 +1450,12 @@ public class CastTest {
   }
 
   @Test
-  public void testCharToDecimal() throws IOException, SQLException {
+  public void testCharToDecimal(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL> rows =
       SELECT(
-        CAST(t.charType).AS.DECIMAL(31, 10),
-        CAST(SELECT(t.charType).FROM(t).WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).LIMIT(1)).AS.DECIMAL(31, 10)).
+        CAST(t.charType).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(t.charType).FROM(t).WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).LIMIT(1)).AS.DECIMAL(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {
@@ -1463,12 +1464,12 @@ public class CastTest {
   }
 
   @Test
-  public void testCharToDecimalUnsigned() throws IOException, SQLException {
+  public void testCharToDecimalUnsigned(final DBVendor vendor) throws IOException, SQLException {
     final types.Type t = new types.Type();
     try (final RowIterator<type.DECIMAL.UNSIGNED> rows =
       SELECT(
-        CAST(t.charType).AS.DECIMAL.UNSIGNED(31, 10),
-        CAST(SELECT(t.charType).FROM(t).WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).LIMIT(1)).AS.DECIMAL.UNSIGNED(31, 10)).
+        CAST(t.charType).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10),
+        CAST(SELECT(t.charType).FROM(t).WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).LIMIT(1)).AS.DECIMAL.UNSIGNED(vendor.getDialect().decimalMaxPrecision(), 10)).
       FROM(t).
       WHERE(AND(LIKE(t.charType, "%1%"), NOT.LIKE(t.charType, "-%"), NOT.LIKE(t.charType, "%-%"), NOT.LIKE(t.charType, "%:%"))).
       execute()) {

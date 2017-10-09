@@ -59,13 +59,17 @@ public abstract class Schema {
   protected static Connection getConnection(final Class<? extends Schema> schema) throws SQLException {
     final Connector dataSource = Registry.getDataSource(schema);
     if (dataSource == null)
-      throw new SQLInvalidSchemaNameException("No " + Connector.class.getSimpleName() + " has been registered for " + schema.getName());
+      throw new SQLInvalidSchemaNameException("No " + Connector.class.getSimpleName() + " has been registered for " + (schema == null ? null : schema.getName()));
 
     try {
       final Connection connection = dataSource.getConnection();
       if (!inited.contains(schema)) {
-        Compiler.getCompiler(getDBVendor(connection)).onRegister(connection);
-        inited.add(schema);
+        synchronized (schema != null ? schema : inited) {
+         if (!inited.contains(schema)) {
+           Compiler.getCompiler(getDBVendor(connection)).onRegister(connection);
+           inited.add(schema);
+         }
+        }
       }
 
       return connection;

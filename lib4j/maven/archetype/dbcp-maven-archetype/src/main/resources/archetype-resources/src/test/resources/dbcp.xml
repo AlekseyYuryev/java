@@ -1,0 +1,36 @@
+<dbcp name="example"
+  xmlns="http://lib4j.org/dbcp.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://lib4j.org/dbcp.xsd http://lib4j.org/dbcp.xsd">
+  <jdbc>
+    <url>jdbc:postgresql://localhost/example</url>
+    <driverClassName>org.postgresql.Driver</driverClassName>
+    <username>example</username>
+    <password>example</password>
+  </jdbc>
+  <default>
+    <autoCommit>true</autoCommit>
+    <readOnly>false</readOnly>
+    <transactionIsolation>READ_UNCOMMITTED</transactionIsolation>
+  </default>
+  <size>
+    <initialSize>0</initialSize>
+    <maxTotal>16</maxTotal>
+    <maxIdle>16</maxIdle>
+    <minIdle>0</minIdle>
+  </size>
+  <pool>
+    <maxWait>1000</maxWait>
+    <removeAbandoned on="borrow" timeout="300"/>
+    <eviction>
+      <timeBetweenRuns>300000</timeBetweenRuns>
+      <numTestsPerRun>3</numTestsPerRun>
+      <minIdleTime>1800000</minIdleTime>
+    </eviction>
+  </pool>
+  <logging>
+    <level>INFO</level>
+    <logExpiredConnections>true</logExpiredConnections>
+    <logAbandoned>true</logAbandoned>
+  </logging>
+</dbcp>

@@ -43,14 +43,17 @@
   </properties>
   <modules>
     <module>algo</module>
+    <module>cli</module>
+    <module>dbcp</module>
     <module>exec</module>
+    <module>expect</module>
     <module>formatter</module>
     <module>io</module>
     <module>jci</module>
-    <module>jndi</module>
     <module>lang</module>
     <module>logging</module>
     <module>math</module>
+    <module>maven</module>
     <module>measure</module>
     <module>net</module>
     <module>pipeline</module>
@@ -76,6 +79,22 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <activation>
+        <jdk>(,1.9)</jdk>
+      </activation>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.6.0</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
     </profile>
   </profiles>
   <build>
@@ -124,7 +143,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.7.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -157,7 +176,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.20</version>
+          <version>2.20.1</version>
           <configuration>
             <trimStackTrace>false</trimStackTrace>
             <excludedGroups>org.lib4j.test.IntegrationTest</excludedGroups>
@@ -166,7 +185,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.20</version>
+          <version>2.20.1</version>
           <executions>
             <execution>
               <id>integration-test</id>
@@ -179,9 +198,80 @@
                   <integrationTest>true</integrationTest>
                 </systemPropertyVariables>
                 <includes>
+                  <include>**/Test*.java</include>
                   <include>**/*Test.java</include>
+                  <include>**/*Tests.java</include>
+                  <include>**/*TestCase.java</include>
                 </includes>
                 <groups>org.lib4j.test.IntegrationTest,org.lib4j.test.MixedTest</groups>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>codegen-maven-plugin</artifactId>
+          <version>1.0.2-SNAPSHOT</version>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>xjc-maven-plugin</artifactId>
+          <version>0.8.0-SNAPSHOT</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>xjc</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <enableIntrospection>true</enableIntrospection>
+            <extension>true</extension>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.lib4j.maven.plugin</groupId>
+          <artifactId>xml-maven-plugin</artifactId>
+          <version>2.0.4-SNAPSHOT</version>
+          <executions>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <phase>generate-sources</phase>
+              <configuration>
+                <includes>
+                  <include>src/main/**/*.ddlx</include>
+                  <include>src/main/**/*.dmlx</include>
+                  <include>src/main/**/*.jsonx</include>
+                  <include>src/main/**/*.xml</include>
+                  <include>src/main/**/*.xsd</include>
+                  <!--include>src/main/**/*.xsl</include-->
+                </includes>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+              <phase>generate-test-sources</phase>
+              <configuration>
+                <includes>
+                  <include>src/test/**/*.ddlx</include>
+                  <include>src/test/**/*.dmlx</include>
+                  <include>src/test/**/*.jsonx</include>
+                  <include>src/test/**/*.xml</include>
+                  <include>src/test/**/*.xsd</include>
+                  <!--include>src/main/**/*.xsl</include-->
+                </includes>
               </configuration>
             </execution>
           </executions>
@@ -289,69 +379,47 @@
         <artifactId>lib4j-xml</artifactId>
         <version>1.0.3-SNAPSHOT</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.lib4j.maven</groupId>
+        <artifactId>maven-common</artifactId>
+        <version>1.0.3-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.archetype</groupId>
+        <artifactId>cli-maven-archetype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.archetype</groupId>
+        <artifactId>dbcp-maven-archetype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>cert-maven-plugin</artifactId>
+        <version>1.0.5-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>codegen-maven-plugin</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>version-maven-plugin</artifactId>
+        <version>0.1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.lib4j.maven.plugin</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>2.0.4-SNAPSHOT</version>
+      </dependency>
+      
       <!-- External modules -->
-      <dependency>
-        <groupId>ch.obermuhlner</groupId>
-        <artifactId>big-math</artifactId>
-        <version>1.2.1</version>
-      </dependency>
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.2.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun</groupId>
-        <artifactId>tools</artifactId>
-        <version>1.6.0</version>
-        <scope>system</scope>
-        <systemPath>${java.home}/../lib/tools.jar</systemPath>
-      </dependency>
-      <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.7</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>4.0.0-b05</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.transaction</groupId>
-        <artifactId>jta</artifactId>
-        <version>1.1</version>
-      </dependency>
       <dependency>
         <artifactId>junit</artifactId>
         <groupId>junit</groupId>
         <version>4.12</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sf.saxon</groupId>
-        <artifactId>Saxon-HE</artifactId>
-        <version>9.7.0-14</version>
-      </dependency>
-      <dependency>
-        <groupId>org.opengis.cite.xerces</groupId>
-        <artifactId>xercesImpl-xsd11</artifactId>
-        <version>2.12-beta-r1667115</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.25</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.25</version>
-      </dependency>
-      <dependency>
-        <groupId>tyrex</groupId>
-        <artifactId>tyrex</artifactId>
-        <version>1.0.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

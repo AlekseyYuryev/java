@@ -17,6 +17,7 @@
 package org.lib4j.lang;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 
 import org.junit.Assert;
@@ -28,12 +29,14 @@ public class ResourcesTest {
 
   static {
     try {
-      if (System.getProperty("os.name").contains("Mac"))
+      if ("9".equals(System.getProperty("java.specification.version")))
+        RT_JAR = new File("/java.base");
+      else if (System.getProperty("os.name").contains("Mac"))
         RT_JAR = new File(JAVA_HOME, "../jre/lib/rt.jar").getCanonicalFile();
       else
         RT_JAR = new File(JAVA_HOME, "lib/rt.jar");
     }
-    catch (final Exception e) {
+    catch (final IOException e) {
       throw new ExceptionInInitializerError(e);
     }
   }
@@ -63,7 +66,7 @@ public class ResourcesTest {
       Assert.assertNull(Resources.getResources(null));
       Assert.fail("Expected NPE");
     }
-    catch (final Exception e) {
+    catch (final NullPointerException e) {
     }
 
     final Enumeration<Resource> resources = Resources.getResources("META-INF");

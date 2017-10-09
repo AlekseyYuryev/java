@@ -19,7 +19,6 @@ package org.libx4j.rdb.dmlx;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +26,6 @@ import java.util.Iterator;
 
 import javax.xml.transform.TransformerException;
 
-import org.lib4j.lang.ClassLoaders;
 import org.lib4j.lang.Resources;
 import org.libx4j.rdb.dmlx.xe.$dmlx_binary;
 import org.libx4j.rdb.dmlx.xe.$dmlx_blob;
@@ -164,7 +162,6 @@ public final class Datas {
   public static void createXSD(final URL ddlxFile, final File xsdFile) throws IOException, TransformerException {
     xsdFile.getParentFile().mkdirs();
     org.lib4j.xml.transform.Transformer.transform(Resources.getResource("dmlx.xsl").getURL(), ddlxFile, xsdFile);
-    ClassLoaders.addURL((URLClassLoader)ClassLoader.getSystemClassLoader(), xsdFile.getParentFile().toURI().toURL());
   }
 
   private Datas() {

@@ -21,6 +21,8 @@ import java.util.function.Function;
 import org.lib4j.util.IndirectDigraph;
 
 class StrictDigraph<T,R> extends IndirectDigraph<T,R> {
+  private static final long serialVersionUID = 4143833580153219718L;
+
   private final String selfLinkErrorPrefix;
 
   public StrictDigraph(final String selfLinkErrorPrefix, final Function<T,R> reference) {

@@ -1,0 +1,84 @@
+<!--
+  Copyright (c) 2008 lib4j
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  
+  You should have received a copy of The MIT License (MIT) along with this
+  program. If not, see <http://opensource.org/licenses/MIT/>.
+-->
+<dbcp
+  name="test"
+  xmlns="http://lib4j.org/dbcp.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://lib4j.org/dbcp.xsd ../../main/resources/dbcp.xsd">
+  <jdbc>
+    <url>jdbc:derby:memory:test;create=true</url>
+    <driverClassName>org.apache.derby.jdbc.EmbeddedDriver</driverClassName>
+    <username>test</username>
+    <password>test</password>
+  </jdbc>
+  <default>
+    <catalog>catalog</catalog>
+    <autoCommit>true</autoCommit>
+    <readOnly>false</readOnly>
+    <queryTimeout>300000</queryTimeout>
+    <transactionIsolation>READ_UNCOMMITTED</transactionIsolation>
+  </default>
+  <connection>
+    <properties>
+      <property name="prop1" value="value1"/>
+      <property name="prop2" value="value2"/>
+    </properties>
+    <initSqls>
+      <initSql>SELECT 1 FROM SYSIBM.SYSDUMMY1</initSql>
+      <initSql>SELECT 1 FROM SYSIBM.SYSDUMMY1</initSql>
+    </initSqls>
+  </connection>
+  <size>
+    <initialSize>0</initialSize>
+    <maxTotal>8</maxTotal>
+    <maxIdle>8</maxIdle>
+    <minIdle>0</minIdle>
+    <maxOpenPreparedStatements>INDEFINITE</maxOpenPreparedStatements>
+  </size>
+  <pool>
+    <queue>lifo</queue>
+    <cacheState>false</cacheState>
+    <maxWait>INDEFINITE</maxWait>
+    <maxConnectionLifetime>INDEFINITE</maxConnectionLifetime>
+    <enableAutoCommitOnReturn>true</enableAutoCommitOnReturn>
+    <rollbackOnReturn>true</rollbackOnReturn>
+    <removeAbandoned on="maintenance" timeout="300"/>
+    <abandonedUsageTracking>true</abandonedUsageTracking>
+    <allowAccessToUnderlyingConnection>false</allowAccessToUnderlyingConnection>
+    <eviction>
+      <timeBetweenRuns>300000</timeBetweenRuns>
+      <numTestsPerRun>3</numTestsPerRun>
+      <minIdleTime>1800000</minIdleTime>
+      <softMinIdleTime>INDEFINITE</softMinIdleTime>
+      <policyClassName>org.lib4j.dbcp.MockEvictionPolicy</policyClassName>
+    </eviction>
+  </pool>
+  <validation>
+    <query>SELECT 1 FROM SYSIBM.SYSDUMMY1</query>
+    <testOnBorrow>false</testOnBorrow>
+    <testOnReturn>false</testOnReturn>
+    <testWhileIdle>false</testWhileIdle>
+    <fastFail>
+      <disconnectionSqlCodes>42X01 42X02 42X03</disconnectionSqlCodes>
+    </fastFail>
+  </validation>
+  <logging>
+    <level>INFO</level>
+    <logExpiredConnections>true</logExpiredConnections>
+    <logAbandoned>true</logAbandoned>
+  </logging>
+</dbcp>

@@ -17,6 +17,7 @@
 package org.libx4j.rdb.ddlx;
 
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,7 +28,6 @@ import java.util.Set;
 
 import org.lib4j.lang.Numbers;
 import org.lib4j.lang.PackageLoader;
-import org.lib4j.lang.PackageNotFoundException;
 import org.libx4j.rdb.ddlx.xe.$ddlx_bigint;
 import org.libx4j.rdb.ddlx.xe.$ddlx_binary;
 import org.libx4j.rdb.ddlx.xe.$ddlx_blob;
@@ -69,7 +69,7 @@ abstract class Compiler {
         }
       }
     }
-    catch (final PackageNotFoundException | ReflectiveOperationException e) {
+    catch (final ReflectiveOperationException e) {
       throw new ExceptionInInitializerError(e);
     }
   }
@@ -124,19 +124,19 @@ abstract class Compiler {
     ddl.append(column._name$().text()).append(" ");
     if (column instanceof $ddlx_char) {
       final $ddlx_char type = ($ddlx_char)column;
-      ddl.append(getVendor().getDialect().declareChar(type._varying$().text(), type._length$().text()));
-    }
-    else if (column instanceof $ddlx_clob) {
-      final $ddlx_clob type = ($ddlx_clob)column;
-      ddl.append(getVendor().getDialect().declareClob(type._length$().text()));
+      ddl.append(getVendor().getDialect().compileChar(type._varying$().text(), type._length$().text()));
     }
     else if (column instanceof $ddlx_binary) {
       final $ddlx_binary type = ($ddlx_binary)column;
-      ddl.append(getVendor().getDialect().declareBinary(type._varying$().text(), type._length$().text()));
+      ddl.append(getVendor().getDialect().compileBinary(type._varying$().text(), type._length$().text()));
     }
     else if (column instanceof $ddlx_blob) {
       final $ddlx_blob type = ($ddlx_blob)column;
-      ddl.append(getVendor().getDialect().declareBlob(type._length$().text()));
+      ddl.append(getVendor().getDialect().compileBlob(type._length$().text()));
+    }
+    else if (column instanceof $ddlx_clob) {
+      final $ddlx_clob type = ($ddlx_clob)column;
+      ddl.append(getVendor().getDialect().compileClob(type._length$().text()));
     }
     else if (column instanceof $ddlx_integer) {
       ddl.append(createIntegerColumn(($ddlx_integer)column));
@@ -147,18 +147,18 @@ abstract class Compiler {
     }
     else if (column instanceof $ddlx_decimal) {
       final $ddlx_decimal type = ($ddlx_decimal)column;
-      ddl.append(getVendor().getDialect().declareDecimal(type._precision$().text().shortValue(), type._scale$().text().shortValue(), type._unsigned$().text()));
+      ddl.append(getVendor().getDialect().declareDecimal(type._precision$().text(), type._scale$().text(), type._unsigned$().text()));
     }
     else if (column instanceof $ddlx_date) {
       ddl.append(getVendor().getDialect().declareDate());
     }
     else if (column instanceof $ddlx_time) {
       final $ddlx_time type = ($ddlx_time)column;
-      ddl.append(getVendor().getDialect().declareTime(type._precision$().text().shortValue()));
+      ddl.append(getVendor().getDialect().declareTime(type._precision$().text()));
     }
     else if (column instanceof $ddlx_dateTime) {
       final $ddlx_dateTime type = ($ddlx_dateTime)column;
-      ddl.append(getVendor().getDialect().declareDateTime(type._precision$().text().shortValue()));
+      ddl.append(getVendor().getDialect().declareDateTime(type._precision$().text()));
     }
     else if (column instanceof $ddlx_boolean) {
       ddl.append(getVendor().getDialect().declareBoolean());
@@ -188,25 +188,22 @@ abstract class Compiler {
   protected String createIntegerColumn(final $ddlx_integer column) {
     if (column instanceof $ddlx_tinyint) {
       final $ddlx_tinyint type = ($ddlx_tinyint)column;
-      return getVendor().getDialect().declareInt8(type._precision$().text().shortValue(), type._unsigned$().text());
+      return getVendor().getDialect().compileInt8(type._precision$().text(), type._unsigned$().text());
     }
 
     if (column instanceof $ddlx_smallint) {
       final $ddlx_smallint type = ($ddlx_smallint)column;
-      return getVendor().getDialect().declareInt16(type._precision$().text().shortValue(), type._unsigned$().text());
+      return getVendor().getDialect().compileInt16(type._precision$().text(), type._unsigned$().text());
     }
 
     if (column instanceof $ddlx_int) {
       final $ddlx_int type = ($ddlx_int)column;
-      return getVendor().getDialect().declareInt32(type._precision$().text().shortValue(), type._unsigned$().text());
+      return getVendor().getDialect().compileInt32(type._precision$().text(), type._unsigned$().text());
     }
 
     if (column instanceof $ddlx_bigint) {
       final $ddlx_bigint type = ($ddlx_bigint)column;
-      if (!type._unsigned$().text() && type._precision$().text().intValue() > 19)
-        throw new IllegalArgumentException("BIGINT maximum precision [0, 19] exceeded: " + type._precision$().text().intValue());
-
-      return getVendor().getDialect().declareInt64(type._precision$().text().shortValue(), type._unsigned$().text());
+      return getVendor().getDialect().compileInt64(type._precision$().text(), type._unsigned$().text());
     }
 
     throw new UnsupportedOperationException("Unsupported type: " + column.getClass().getName());
@@ -531,12 +528,20 @@ abstract class Compiler {
     return new DropStatement("DROP INDEX IF EXISTS " + indexName);
   }
 
-  private static void checkNumericDefault(final $ddlx_column type, final String defalt, final boolean positive, final Integer precision, final boolean unsigned) {
+  private static void checkNumericDefault(final DBVendor vendor, final $ddlx_column type, final Number defaultValue, final boolean positive, final Short precision, final boolean unsigned) {
     if (!positive && unsigned)
-      throw new IllegalArgumentException(type.name().getPrefix() + ":" + type.name().getLocalPart() + " column '" + type._name$().text() + "' DEFAULT " + defalt + " is negative, but type is declared UNSIGNED");
+      throw new IllegalArgumentException(type.name().getPrefix() + ":" + type.name().getLocalPart() + " column '" + type._name$().text() + "' DEFAULT " + defaultValue + " is negative, but type is declared UNSIGNED");
 
-    if (precision != null && defalt.toString().length() > precision)
-      throw new IllegalArgumentException(type.name().getPrefix() + ":" + type.name().getLocalPart() + " column '" + type._name$().text() + "' DEFAULT " + defalt + " is longer than declared PRECISION " + precision + ")");
+    if (type instanceof $ddlx_bigint) {
+      final BigInteger maxValue = vendor.getDialect().allowsUnsignedNumeric() ? BigInteger.valueOf(2).pow(8 * 8) : BigInteger.valueOf(2).pow(8 * 8).divide(BigInteger.valueOf(2));
+      if (((BigInteger)defaultValue).compareTo(maxValue) >= 0)
+        throw new IllegalArgumentException(type.name().getPrefix() + ":" + type.name().getLocalPart() + " column '" + type._name$().text() + "' DEFAULT " + defaultValue + " is larger than the maximum value of " + maxValue.subtract(BigInteger.ONE) + " allowed by " + vendor);
+    }
+    else if (type instanceof $ddlx_decimal) {
+      final BigDecimal defaultDecimal = (BigDecimal)defaultValue;
+      if (defaultDecimal.precision() > precision)
+        throw new IllegalArgumentException(type.name().getPrefix() + ":" + type.name().getLocalPart() + " column '" + type._name$().text() + "' DEFAULT " + defaultValue + " is longer than declared PRECISION " + precision);
+    }
   }
 
   protected String $default(final $ddlx_table table, final $ddlx_column column) {
@@ -564,30 +569,30 @@ abstract class Compiler {
 
     if (column instanceof $ddlx_integer) {
       final BigInteger defalt;
-      final Integer precision;
+      final Byte precision;
       final boolean unsigned;
       if (column instanceof $ddlx_tinyint) {
         final $ddlx_tinyint type = ($ddlx_tinyint)column;
         defalt = type._default$().text();
-        precision = type._precision$().text().intValue();
+        precision = type._precision$().text();
         unsigned = type._unsigned$().text();
       }
       else if (column instanceof $ddlx_smallint) {
         final $ddlx_smallint type = ($ddlx_smallint)column;
         defalt = type._default$().text();
-        precision = type._precision$().text().intValue();
+        precision = type._precision$().text();
         unsigned = type._unsigned$().text();
       }
       else if (column instanceof $ddlx_int) {
         final $ddlx_int type = ($ddlx_int)column;
         defalt = type._default$().text();
-        precision = type._precision$().text().intValue();
+        precision = type._precision$().text();
         unsigned = type._unsigned$().text();
       }
       else if (column instanceof $ddlx_bigint) {
         final $ddlx_bigint type = ($ddlx_bigint)column;
         defalt = type._default$().text();
-        precision = type._precision$().text().intValue();
+        precision = type._precision$().text();
         unsigned = type._unsigned$().text();
       }
       else {
@@ -597,7 +602,7 @@ abstract class Compiler {
       if (defalt == null)
         return null;
 
-      checkNumericDefault(column, defalt.toString(), defalt.compareTo(BigInteger.ZERO) >= 0, precision, unsigned);
+      checkNumericDefault(getVendor(), column, defalt, defalt.compareTo(BigInteger.ZERO) >= 0, precision.shortValue(), unsigned);
       return String.valueOf(defalt);
     }
 
@@ -606,7 +611,7 @@ abstract class Compiler {
       if (type._default$().isNull())
         return null;
 
-      checkNumericDefault(type, type._default$().text().toString(), type._default$().text().doubleValue() > 0, null, type._unsigned$().text());
+      checkNumericDefault(getVendor(), type, type._default$().text(), type._default$().text() > 0, null, type._unsigned$().text());
       return type._default$().text().toString();
     }
 
@@ -615,7 +620,7 @@ abstract class Compiler {
       if (type._default$().isNull())
         return null;
 
-      checkNumericDefault(type, type._default$().text().toString(), type._default$().text().doubleValue() > 0, type._precision$().text().intValue(), type._unsigned$().text());
+      checkNumericDefault(getVendor(), type, type._default$().text(), type._default$().text().doubleValue() > 0, type._precision$().text(), type._unsigned$().text());
       return type._default$().text().toString();
     }
 

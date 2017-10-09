@@ -16,55 +16,6 @@
 
 package org.libx4j.jjb.generator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
-import org.lib4j.jci.CompilationException;
-import org.lib4j.jci.JavaCompiler;
-import org.lib4j.lang.Arrays;
-import org.lib4j.lang.ClassLoaders;
-import org.lib4j.lang.Resources;
-import org.lib4j.lang.Strings;
-import org.lib4j.util.Collections;
-import org.lib4j.xml.XMLException;
-import org.lib4j.xml.XMLText;
-import org.lib4j.xml.dom.DOMStyle;
-import org.lib4j.xml.dom.DOMs;
-import org.libx4j.jjb.jsonx.xe.$jsonx_array;
-import org.libx4j.jjb.jsonx.xe.$jsonx_boolean;
-import org.libx4j.jjb.jsonx.xe.$jsonx_element;
-import org.libx4j.jjb.jsonx.xe.$jsonx_number;
-import org.libx4j.jjb.jsonx.xe.$jsonx_number._form$;
-import org.libx4j.jjb.jsonx.xe.$jsonx_object;
-import org.libx4j.jjb.jsonx.xe.$jsonx_property;
-import org.libx4j.jjb.jsonx.xe.$jsonx_string;
-import org.libx4j.jjb.jsonx.xe.jsonx_jsonx;
-import org.libx4j.jjb.jsonx.xe.jsonx_jsonx;
-import org.libx4j.jjb.runtime.Binding;
-import org.libx4j.jjb.runtime.Cardinality;
-import org.libx4j.jjb.runtime.EncodeException;
-import org.libx4j.jjb.runtime.JSArray;
-import org.libx4j.jjb.runtime.JSBundle;
-import org.libx4j.jjb.runtime.JSObject;
-import org.libx4j.jjb.runtime.Property;
-import org.libx4j.jjb.runtime.validator.NumberValidator;
-import org.libx4j.jjb.runtime.validator.StringValidator;
-import org.libx4j.xsb.runtime.Bindings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class Generator {
 //  private static final Logger logger = LoggerFactory.getLogger(Generator.class);
 //
