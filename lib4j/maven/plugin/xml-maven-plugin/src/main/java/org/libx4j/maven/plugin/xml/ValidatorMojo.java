@@ -43,7 +43,7 @@ public final class ValidatorMojo extends XmlMojo {
       //log.info("Resource directory: " + entry.getKey().getAbsolutePath());
       for (final File file : files) {
         final File recordFile = new File(recordDir, file.getName());
-        final String fileName = Files.relativePath(getLocalDir().getAbsoluteFile(), file.getAbsoluteFile());
+        final String fileName = Files.relativePath(CWD, file.getAbsoluteFile());
         if (recordFile.exists() && recordFile.lastModified() >= file.lastModified() && recordFile.lastModified() < file.lastModified() + Dates.MILLISECONDS_IN_DAY) {
           getLog().info("Pre-validated: " + fileName);
         }

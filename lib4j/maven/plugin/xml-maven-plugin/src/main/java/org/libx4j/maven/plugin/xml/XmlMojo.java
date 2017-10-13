@@ -36,6 +36,8 @@ import org.libx4j.maven.common.MojoUtil;
 
 @Mojo(name = "xml")
 public abstract class XmlMojo extends AbstractMojo {
+  protected static final File CWD = new File("").getAbsoluteFile();
+
   private static final String delimeter = "://";
 
   private static void convertToRegex(final List<String> list) {
