@@ -35,7 +35,7 @@ public final class URLs {
     if (path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
       return true;
 
-    if (path.startsWith("file:/"))
+    if (path.startsWith("file:/") || path.startsWith("jar:file:/"))
       return true;
 
     return path.matches("^([a-zA-Z0-9]+:)?//.*$");
